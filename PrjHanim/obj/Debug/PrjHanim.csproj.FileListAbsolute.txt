@@ -1,1 +1,14 @@
 D:\gitwork\hanim\hanim\PrjHanim\bin\Debug\PrjHikariwoAnim.exe.config
+D:\gitwork\hanim\hanim\PrjHanim\bin\Debug\PrjHikariwoAnim.exe
+D:\gitwork\hanim\hanim\PrjHanim\bin\Debug\PrjHikariwoAnim.pdb
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHanim.csprojResolveAssemblyReference.cache
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormAttribute.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormCell.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormImageCut.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormImageList.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormControl.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.FormMain.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.Properties.Resources.resources
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHanim.csproj.GenerateResource.Cache
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.exe
+D:\gitwork\hanim\hanim\PrjHanim\obj\Debug\PrjHikariwoAnim.pdb

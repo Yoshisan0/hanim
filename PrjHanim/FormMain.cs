@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Reflection;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -61,6 +62,8 @@ namespace PrjHikariwoAnim
         public FormMain()
         {
             InitializeComponent();
+            //panel_PreView.DoubleBuuferd = true;
+            panel_PreView.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_PreView,new object[] { true });
         }
 
         public void AttributeUpdate()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Reflection;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,7 @@ namespace PrjHikariwoAnim
         {
             mFormMain = form;
             InitializeComponent();
+            panel_Time.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_Time,new object[] { true });
         }
 
         private void FormControl_Load(object sender, EventArgs e)
