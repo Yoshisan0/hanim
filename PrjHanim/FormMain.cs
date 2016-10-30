@@ -221,7 +221,18 @@ namespace PrjHikariwoAnim
             if (mNowSelectIndex != null) panel_PreView.Refresh();
         }
 
-
+        private void button_BackColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdg = new ColorDialog();
+            if (cdg.ShowDialog() == DialogResult.OK)
+            {
+                Button b = (Button)sender;
+                b.BackColor = cdg.Color;
+                panel_PreView.BackColor = cdg.Color;
+            }
+            cdg.Dispose();
+            panel_PreView.Refresh();
+        }
         private void Button_Color_Click(object sender, EventArgs e)
         {
             ColorDialog cdg = new ColorDialog();
@@ -761,6 +772,7 @@ namespace PrjHikariwoAnim
 
             }
         }
+
 
         private void BottonTest_Click(object sender, EventArgs e)
         {

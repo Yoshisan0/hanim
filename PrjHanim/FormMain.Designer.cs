@@ -70,6 +70,7 @@
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.button_CrossColor = new System.Windows.Forms.Button();
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
+            this.button_BackColor = new System.Windows.Forms.Button();
             this.panel_ProjectTree_base = new System.Windows.Forms.Panel();
             this.panel_Project_Bottom = new System.Windows.Forms.Panel();
             this.botton_Test = new System.Windows.Forms.Button();
@@ -79,7 +80,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button_BackColor = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -166,20 +166,20 @@
             // ToolStripMenuItem_New
             // 
             this.ToolStripMenuItem_New.Name = "ToolStripMenuItem_New";
-            this.ToolStripMenuItem_New.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_New.Size = new System.Drawing.Size(150, 22);
             this.ToolStripMenuItem_New.Text = "新規プロジェクト";
             // 
             // ToolStripMenuItem_Load
             // 
             this.ToolStripMenuItem_Load.Name = "ToolStripMenuItem_Load";
-            this.ToolStripMenuItem_Load.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Load.Size = new System.Drawing.Size(150, 22);
             this.ToolStripMenuItem_Load.Text = "プロジェクト読込";
             this.ToolStripMenuItem_Load.Click += new System.EventHandler(this.LoadProject_Click);
             // 
             // ToolStripMenuItem_Save
             // 
             this.ToolStripMenuItem_Save.Name = "ToolStripMenuItem_Save";
-            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(150, 22);
             this.ToolStripMenuItem_Save.Text = "プロジェクト保存";
             this.ToolStripMenuItem_Save.Click += new System.EventHandler(this.SaveProject_Click);
             // 
@@ -190,25 +190,25 @@
             this.ToolStripMenuItem_ExpCellList,
             this.ToolStripMenuItem_ExpNowAttribute});
             this.ToolStripMenuItem_exports.Name = "ToolStripMenuItem_exports";
-            this.ToolStripMenuItem_exports.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_exports.Size = new System.Drawing.Size(150, 22);
             this.ToolStripMenuItem_exports.Text = "Exports";
             // 
             // ToolStripMenuItem_ExpNowFrame
             // 
             this.ToolStripMenuItem_ExpNowFrame.Name = "ToolStripMenuItem_ExpNowFrame";
-            this.ToolStripMenuItem_ExpNowFrame.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpNowFrame.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpNowFrame.Text = "NowFrame";
             // 
             // ToolStripMenuItem_ExpCellList
             // 
             this.ToolStripMenuItem_ExpCellList.Name = "ToolStripMenuItem_ExpCellList";
-            this.ToolStripMenuItem_ExpCellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpCellList.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpCellList.Text = "CellList";
             // 
             // ToolStripMenuItem_ExpNowAttribute
             // 
             this.ToolStripMenuItem_ExpNowAttribute.Name = "ToolStripMenuItem_ExpNowAttribute";
-            this.ToolStripMenuItem_ExpNowAttribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpNowAttribute.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpNowAttribute.Text = "NowAttribute";
             // 
             // ウインドウToolStripMenuItem
@@ -226,7 +226,7 @@
             // 
             this.ToolStripMenuItem_ImageList.CheckOnClick = true;
             this.ToolStripMenuItem_ImageList.Name = "ToolStripMenuItem_ImageList";
-            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_ImageList.Text = "ImageList";
             this.ToolStripMenuItem_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
             // 
@@ -234,7 +234,7 @@
             // 
             this.ToolStripMenuItem_Control.CheckOnClick = true;
             this.ToolStripMenuItem_Control.Name = "ToolStripMenuItem_Control";
-            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_Control.Text = "Control";
             this.ToolStripMenuItem_Control.Click += new System.EventHandler(this.TSMenu_Control_Click);
             // 
@@ -242,14 +242,14 @@
             // 
             this.ToolStripMenuItem_Attribute.CheckOnClick = true;
             this.ToolStripMenuItem_Attribute.Name = "ToolStripMenuItem_Attribute";
-            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_Attribute.Text = "Attribute";
             this.ToolStripMenuItem_Attribute.Click += new System.EventHandler(this.TSMenu_Attribute_Click);
             // 
             // ToolStripMenuItem_CellList
             // 
             this.ToolStripMenuItem_CellList.Name = "ToolStripMenuItem_CellList";
-            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_CellList.Text = "CellList";
             this.ToolStripMenuItem_CellList.Click += new System.EventHandler(this.TSMenu_CellList_Click);
             // 
@@ -495,6 +495,18 @@
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
             this.checkBox_CrossBar.Click += new System.EventHandler(this.CrossBarCheck_Click);
             // 
+            // button_BackColor
+            // 
+            this.button_BackColor.BackColor = System.Drawing.Color.Black;
+            this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_BackColor.Location = new System.Drawing.Point(0, 0);
+            this.button_BackColor.Name = "button_BackColor";
+            this.button_BackColor.Size = new System.Drawing.Size(30, 30);
+            this.button_BackColor.TabIndex = 9;
+            this.button_BackColor.UseVisualStyleBackColor = false;
+            this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
+            // 
             // panel_ProjectTree_base
             // 
             this.panel_ProjectTree_base.BackColor = System.Drawing.Color.Black;
@@ -614,17 +626,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // button_BackColor
-            // 
-            this.button_BackColor.BackColor = System.Drawing.Color.Black;
-            this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_BackColor.Location = new System.Drawing.Point(0, 0);
-            this.button_BackColor.Name = "button_BackColor";
-            this.button_BackColor.Size = new System.Drawing.Size(30, 30);
-            this.button_BackColor.TabIndex = 9;
-            this.button_BackColor.UseVisualStyleBackColor = false;
             // 
             // FormMain
             // 
