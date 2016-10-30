@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6FC49AF6-1A54-42D8-96A8-3B68D095F601}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrjHikariwoAnim</RootNamespace>
+    <AssemblyName>PrjHikariwoAnim</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>hanimL.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AtributeBase.cs" />
+    <Compile Include="ClsImage.cs" />
+    <Compile Include="ClsPath.cs" />
+    <Compile Include="ClsTool.cs" />
+    <Compile Include="ClsWin32.cs" />
+    <Compile Include="FormAttribute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAttribute.Designer.cs">
+      <DependentUpon>FormAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCell.Designer.cs">
+      <DependentUpon>FormCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormImageCut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImageCut.Designer.cs">
+      <DependentUpon>FormImageCut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormImageList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImageList.Designer.cs">
+      <DependentUpon>FormImageList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormControl.Designer.cs">
+      <DependentUpon>FormControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeLine.cs" />
+    <Compile Include="ImageManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAttribute.resx">
+      <DependentUpon>FormAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCell.resx">
+      <DependentUpon>FormCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImageCut.resx">
+      <DependentUpon>FormImageCut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImageList.resx">
+      <DependentUpon>FormImageList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormControl.resx">
+      <DependentUpon>FormControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\Blank.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\LineMarker.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\circle.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\cross.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\down.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\folder.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\fowred.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\fowred2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\grid.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\left.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\lock.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\magnet.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\magnet2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\open.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\play.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\playstop.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\prev.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\prev2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\right.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\stop.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\up.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\hanimL.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glyp\property.PNG" />
+    <None Include="glyp\partslist.PNG" />
+    <None Include="glyp\control.PNG" />
+    <None Include="glyp\alingment.PNG" />
+    <None Include="glyp\unSee.PNG" />
+    <None Include="glyp\unLock.PNG" />
+    <None Include="glyp\see.PNG" />
+    <None Include="glyp\locked.PNG" />
+    <Content Include="hanimL.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

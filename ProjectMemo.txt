@@ -1,0 +1,38 @@
+データ基本構造
+
+ImageManager
+{
+/*
+	プロジェクトで使うイメージリスト
+	重複ファイルは登録されない
+	パスと検索用のファイル名を記録しIDで管理
+*/
+	// member:
+	List<ImageInfo> Info;
+	List<Cell> CellList;
+	// method:
+	int SetImage(string Path)
+	int GetFromName(string Name)
+	int GetFromPath(string Path)
+	bool Remove(int ID)
+	bool Remove(string Filename)
+
+	System.Image GetImage_FromID(int ID)
+	
+	Save(string Finename);
+	Load(String Finename);
+}
+class ImageInfo
+{
+	string Path;//With out Filename
+	string FileName;
+	string Name;//With out Extis
+}
+
+//イメージリスト中のどれかの画像の一部の範囲
+ Cell
+ {
+	intImageID;//どの画像の
+	Rectangle;//どの部分か
+ }
+
