@@ -148,19 +148,19 @@ namespace PrjHikariwoAnim
         }
         private void CB_ImageList_CheckedChanged(object sender, EventArgs e)
         {
-            if (mFormImageList != null) mFormImageList.Visible = CB_ImageList.Checked;
+            if (mFormImageList != null) mFormImageList.Visible = checkBox_ImageList.Checked;
         }
         private void CB_Control_CheckedChanged(object sender, EventArgs e)
         {
-            if(mFormControl!=null) mFormControl.Visible = CB_Control.Checked;
+            if(mFormControl!=null) mFormControl.Visible = checkBox_Control.Checked;
         }
         private void CB_Attribute_CheckedChanged(object sender, EventArgs e)
         {
-            if(mFormAttribute!=null) mFormAttribute.Visible = CB_Attribute.Checked;
+            if(mFormAttribute!=null) mFormAttribute.Visible = checkBox_Attribute.Checked;
         }
         private void CB_CellList_CheckedChanged(object sender, EventArgs e)
         {
-            if(mFormCell!=null) mFormCell.Visible = CB_CellList.Checked;
+            if(mFormCell!=null) mFormCell.Visible = checkBox_CellList.Checked;
         }
         private void Botton_AlingForm_Click(object sender, EventArgs e)
         {
@@ -218,7 +218,7 @@ namespace PrjHikariwoAnim
             //SelectElements
             //TagとElements.Nameが合致するものを選択
             mNowSelectIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
-            if (mNowSelectIndex != null) PanelPreView.Refresh();
+            if (mNowSelectIndex != null) panel_PreView.Refresh();
         }
 
 
@@ -231,11 +231,11 @@ namespace PrjHikariwoAnim
                 b.BackColor = cdg.Color;
             }
             cdg.Dispose();
-            PanelPreView.Refresh();
+            panel_PreView.Refresh();
         }
         private void CrossBarCheck_Click(object sender, EventArgs e)
         {
-            PanelPreView.Refresh();
+            panel_PreView.Refresh();
         }
         private void timerMain_Tick(object sender, EventArgs e)
         {
@@ -266,18 +266,18 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            this.TSmenu_ImageList.Checked = (this.mFormImageList != null);
-            this.TSmenu_Control.Checked   = (this.mFormControl   != null);
-            this.TSmenu_Attribute.Checked = (this.mFormAttribute != null);
+            this.ToolStripMenuItem_ImageList.Checked = (this.mFormImageList != null);
+            this.ToolStripMenuItem_Control.Checked   = (this.mFormControl   != null);
+            this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
         }
 
         private void ZoomLevel_ValueChanged(object sender, EventArgs e)
         {
-            PanelPreView.Refresh();
+            panel_PreView.Refresh();
         }
         private void FormMain_Resize(object sender, EventArgs e)
         {
-            PanelPreView.Refresh();
+            panel_PreView.Refresh();
         }
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -294,15 +294,15 @@ namespace PrjHikariwoAnim
 
             //画像で背景fill
             //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
-            float zoom = ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
             if (zoom < 0.2) zoom = 0.2f;//下限を(0.2)1/5とする
-            float grid = (float)Num_Grid.Value;
+            float grid = (float)numericUpDown_Grid.Value;
 
-            e.Graphics.TranslateTransform(  PanelPreView.Width/2 -PanelPreView.Width/2*zoom,
-                                            PanelPreView.Height/2 -PanelPreView.Height/2*zoom);
+            e.Graphics.TranslateTransform(  panel_PreView.Width/2 -panel_PreView.Width/2*zoom,
+                                            panel_PreView.Height/2 -panel_PreView.Height/2*zoom);
             e.Graphics.ScaleTransform(zoom, zoom);
             //GridBar
-            if (GridCheck.Checked)
+            if (checkBox_GridCheck.Checked)
             {
                 //スクリーン中心点にあわせるよ
                 // V
@@ -319,15 +319,15 @@ namespace PrjHikariwoAnim
 
                 //Grid Draw
                 // V
-                var p1 = new Pen(GridColor.BackColor);
-                for (float cnt = ((float)PanelPreView.Width / 2) % (grid ); cnt < PanelPreView.Width; cnt += (grid))
+                var p1 = new Pen(button_GridColor.BackColor);
+                for (float cnt = ((float)panel_PreView.Width / 2) % (grid ); cnt < panel_PreView.Width; cnt += (grid))
                 {
-                    e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, PanelPreView.Height);
+                    e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, panel_PreView.Height);
                 }
                 //H
-                for (float cnt = ((float)(PanelPreView.Height / 2) % (grid )); cnt < PanelPreView.Height; cnt += (grid))
+                for (float cnt = ((float)(panel_PreView.Height / 2) % (grid )); cnt < panel_PreView.Height; cnt += (grid))
                 {
-                    e.Graphics.DrawLine(p1, 0.0f, cnt, PanelPreView.Width, cnt);
+                    e.Graphics.DrawLine(p1, 0.0f, cnt, panel_PreView.Width, cnt);
                 }
             }
 
@@ -340,11 +340,11 @@ namespace PrjHikariwoAnim
             }
             e.Graphics.Transform = back;
             //CrossBar スクリーン移動時は原点に沿う形に
-            if(CrossBarCheck.Checked)
+            if(checkBox_CrossBar.Checked)
             {
-                var p1 = new Pen(CrossColor.BackColor);
-                e.Graphics.DrawLine(p1,PanelPreView.Width / 2, 0, PanelPreView.Width/2, PanelPreView.Height);//V
-                e.Graphics.DrawLine(p1, 0, PanelPreView.Height/2, PanelPreView.Width,PanelPreView.Height/2);//H
+                var p1 = new Pen(button_CrossColor.BackColor);
+                e.Graphics.DrawLine(p1,panel_PreView.Width / 2, 0, panel_PreView.Width/2, panel_PreView.Height);//V
+                e.Graphics.DrawLine(p1, 0, panel_PreView.Height/2, panel_PreView.Width,panel_PreView.Height/2);//H
             }
             
         }        
@@ -354,10 +354,10 @@ namespace PrjHikariwoAnim
             //なんだか遅いなぁ・・ちらつくなぁ・・
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
-            float zoom = ZoomLevel.Value / mParZOOM;
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
             if (zoom < 0.2) zoom = 0.2f;
-            int vcx = mScreenScroll.X + PanelPreView.Width  / 2 ;//ViewCenter X
-            int vcy = mScreenScroll.Y + PanelPreView.Height / 2 ;//ViewCenter Y
+            int vcx = mScreenScroll.X + panel_PreView.Width  / 2 ;//ViewCenter X
+            int vcy = mScreenScroll.Y + panel_PreView.Height / 2 ;//ViewCenter Y
 
             FRAME frm = TimeLine.EditFrame;
 
@@ -433,8 +433,8 @@ namespace PrjHikariwoAnim
 
         private void PanelPreView_DragDrop(object sender, DragEventArgs e)
         {
-            float zoom = ZoomLevel.Value / mParZOOM;
-            Point sPos = PanelPreView.PointToClient(new Point(e.X, e.Y));
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
             //PNGファイル直受け入れ
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -478,7 +478,7 @@ namespace PrjHikariwoAnim
                 CELL work = (CELL)e.Data.GetData(typeof(CELL));
                 ImageMan.AddCell(work);//画像登録
 
-                Point a = PanelPreView.PointToClient(new Point(e.X, e.Y));
+                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
                 AddElements(work, a.X, a.Y);
                 e.Effect = DragDropEffects.Copy;
             }
@@ -487,7 +487,7 @@ namespace PrjHikariwoAnim
             if ( e.Data.GetType()==typeof(Image))
             { e.Effect = DragDropEffects.Copy; }            
 
-            PanelPreView.Refresh();
+            panel_PreView.Refresh();
         }
 
         /// <summary>
@@ -507,8 +507,8 @@ namespace PrjHikariwoAnim
             elem.Tag = elem.GetHashCode();
 
             //センターからの距離に変換
-            x -= PanelPreView.Width  / 2;
-            y -= PanelPreView.Height / 2;
+            x -= panel_PreView.Width  / 2;
+            y -= panel_PreView.Height / 2;
             //さらに画像サイズ半分シフトして画像中心をセンターに
             x -= elem.Atr.Width  / 2;
             y -= elem.Atr.Height / 2;
@@ -615,18 +615,18 @@ namespace PrjHikariwoAnim
 
                 }
                 mFormAttribute.SetAllParam(nowEle.Atr);
-                PanelPreView.Refresh();
+                panel_PreView.Refresh();
             }
             else
             {
                 //画面の拡大縮小
                 if (mWheelDelta > 0)
                 {
-                    if(ZoomLevel.Value > ZoomLevel.Minimum) ZoomLevel.Value -= mWheelDelta;
+                    if(HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
                 }
                 else
                 {
-                    if (ZoomLevel.Value < ZoomLevel.Maximum) ZoomLevel.Value -= mWheelDelta;
+                    if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
                 }
                   
                 mWheelDelta = 0;
@@ -644,14 +644,14 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
             //e.X,Yからステージ上の座標にする
-            float zoom = ZoomLevel.Value / mParZOOM;
-            float stPosX = ((e.X -(PanelPreView.Width  / 2)) / zoom);
-            float stPosY = ((e.Y -(PanelPreView.Height / 2)) / zoom);
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            float stPosX = ((e.X -(panel_PreView.Width  / 2)) / zoom);
+            float stPosY = ((e.Y -(panel_PreView.Height / 2)) / zoom);
 
             //Item選択中なら移動変形処理等の準備
             if (e.Button == MouseButtons.Left)
             {
-                mMouseDownPoint = new Point(e.X-(PanelPreView.Width/2),e.Y-(PanelPreView.Height/2));
+                mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
 
                 //アイテム検索
                 mNowSelectIndex = TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true);
@@ -662,15 +662,15 @@ namespace PrjHikariwoAnim
                     mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
                 }
                 mMouseLDown = true;                
-                PanelPreView.Refresh();
+                panel_PreView.Refresh();
             }
         }
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
         {
-            float zoom = ZoomLevel.Value / mParZOOM;
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
             //e.X,Yからステージ上の座標にする
-            float stPosX = (e.X - (PanelPreView.Width  / 2)) / zoom;
-            float stPosY = (e.Y - (PanelPreView.Height / 2)) / zoom;
+            float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
+            float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
             if (mNowSelectIndex != null)
             {
@@ -715,10 +715,10 @@ namespace PrjHikariwoAnim
                     {
                         //アイテム選択が無い場合のLドラッグはステージのXYスクロール
                         mDragState = DragState.Scroll;
-                        mScreenScroll.X = (e.X - (PanelPreView.Width / 2)) - mMouseDownPoint.X;
-                        mScreenScroll.Y = (e.Y - (PanelPreView.Height / 2)) - mMouseDownPoint.Y;
+                        mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
+                        mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
                     }
-                    PanelPreView.Refresh();
+                    panel_PreView.Refresh();
                 }
             }
             StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}]";

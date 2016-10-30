@@ -40,53 +40,54 @@
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
-            this.PanelPreView = new System.Windows.Forms.Panel();
+            this.panel_PreView = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新規プロジェクトToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.プロジェクトの読込ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.プロジェクト保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nowFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cellListToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.nowAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_New = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Load = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_exports = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_ExpNowFrame = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_ExpCellList = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_ExpNowAttribute = new System.Windows.Forms.ToolStripMenuItem();
             this.ウインドウToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSmenu_ImageList = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSmenu_Control = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSmenu_Attribute = new System.Windows.Forms.ToolStripMenuItem();
-            this.cellListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PanelToolBase = new System.Windows.Forms.Panel();
+            this.ToolStripMenuItem_ImageList = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Control = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Attribute = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_CellList = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.AlingForm = new System.Windows.Forms.Button();
-            this.CB_CellList = new System.Windows.Forms.CheckBox();
-            this.CB_Attribute = new System.Windows.Forms.CheckBox();
-            this.CB_Control = new System.Windows.Forms.CheckBox();
-            this.CB_ImageList = new System.Windows.Forms.CheckBox();
+            this.button_AlingForm = new System.Windows.Forms.Button();
+            this.checkBox_CellList = new System.Windows.Forms.CheckBox();
+            this.checkBox_Attribute = new System.Windows.Forms.CheckBox();
+            this.checkBox_Control = new System.Windows.Forms.CheckBox();
+            this.checkBox_ImageList = new System.Windows.Forms.CheckBox();
             this.Spaceer1 = new System.Windows.Forms.Panel();
-            this.SnapCheck = new System.Windows.Forms.CheckBox();
-            this.ZoomLevel = new System.Windows.Forms.HScrollBar();
-            this.Num_Grid = new System.Windows.Forms.NumericUpDown();
-            this.GridColor = new System.Windows.Forms.Button();
-            this.GridCheck = new System.Windows.Forms.CheckBox();
-            this.CrossColor = new System.Windows.Forms.Button();
-            this.CrossBarCheck = new System.Windows.Forms.CheckBox();
+            this.checkBox_Snap = new System.Windows.Forms.CheckBox();
+            this.HScrollBar_ZoomLevel = new System.Windows.Forms.HScrollBar();
+            this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
+            this.button_GridColor = new System.Windows.Forms.Button();
+            this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
+            this.button_CrossColor = new System.Windows.Forms.Button();
+            this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
             this.panel_ProjectTree_base = new System.Windows.Forms.Panel();
             this.panel_Project_Bottom = new System.Windows.Forms.Panel();
-            this.BottonTest = new System.Windows.Forms.Button();
+            this.botton_Test = new System.Windows.Forms.Button();
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
-            this.Panel_ProjectTopBase = new System.Windows.Forms.Panel();
+            this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.button_BackColor = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.PanelToolBase.SuspendLayout();
+            this.panel_ToolBase.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Num_Grid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).BeginInit();
             this.panel_ProjectTree_base.SuspendLayout();
             this.panel_Project_Bottom.SuspendLayout();
-            this.Panel_ProjectTopBase.SuspendLayout();
+            this.panel_ProjectTopBase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -98,9 +99,9 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabel,
             this.StatusLabel2});
-            this.statusStrip.Location = new System.Drawing.Point(0, 389);
+            this.statusStrip.Location = new System.Drawing.Point(0, 503);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(656, 22);
+            this.statusStrip.Size = new System.Drawing.Size(943, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -121,24 +122,24 @@
             this.timerMain.Enabled = true;
             this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
             // 
-            // PanelPreView
+            // panel_PreView
             // 
-            this.PanelPreView.AllowDrop = true;
-            this.PanelPreView.BackColor = System.Drawing.Color.Black;
-            this.PanelPreView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelPreView.Location = new System.Drawing.Point(0, 30);
-            this.PanelPreView.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelPreView.Name = "PanelPreView";
-            this.PanelPreView.Size = new System.Drawing.Size(523, 335);
-            this.PanelPreView.TabIndex = 2;
-            this.PanelPreView.DragDrop += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragDrop);
-            this.PanelPreView.DragEnter += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragEnter);
-            this.PanelPreView.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelPreView_Paint);
-            this.PanelPreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseDown);
-            this.PanelPreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseMove);
-            this.PanelPreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseUp);
-            this.PanelPreView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseWheel);
-            this.PanelPreView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PanelPreView_PreviewKeyDown);
+            this.panel_PreView.AllowDrop = true;
+            this.panel_PreView.BackColor = System.Drawing.Color.Black;
+            this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
+            this.panel_PreView.Margin = new System.Windows.Forms.Padding(0);
+            this.panel_PreView.Name = "panel_PreView";
+            this.panel_PreView.Size = new System.Drawing.Size(754, 449);
+            this.panel_PreView.TabIndex = 2;
+            this.panel_PreView.DragDrop += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragDrop);
+            this.panel_PreView.DragEnter += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragEnter);
+            this.panel_PreView.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelPreView_Paint);
+            this.panel_PreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseDown);
+            this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseMove);
+            this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseUp);
+            this.panel_PreView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseWheel);
+            this.panel_PreView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PanelPreView_PreviewKeyDown);
             // 
             // menuStrip1
             // 
@@ -147,226 +148,227 @@
             this.ウインドウToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(656, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(943, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // ファイルToolStripMenuItem
             // 
             this.ファイルToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新規プロジェクトToolStripMenuItem,
-            this.プロジェクトの読込ToolStripMenuItem,
-            this.プロジェクト保存ToolStripMenuItem,
-            this.exportsToolStripMenuItem});
+            this.ToolStripMenuItem_New,
+            this.ToolStripMenuItem_Load,
+            this.ToolStripMenuItem_Save,
+            this.ToolStripMenuItem_exports});
             this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
             this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.ファイルToolStripMenuItem.Text = "ファイル";
             // 
-            // 新規プロジェクトToolStripMenuItem
+            // ToolStripMenuItem_New
             // 
-            this.新規プロジェクトToolStripMenuItem.Name = "新規プロジェクトToolStripMenuItem";
-            this.新規プロジェクトToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.新規プロジェクトToolStripMenuItem.Text = "新規プロジェクト";
+            this.ToolStripMenuItem_New.Name = "ToolStripMenuItem_New";
+            this.ToolStripMenuItem_New.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_New.Text = "新規プロジェクト";
             // 
-            // プロジェクトの読込ToolStripMenuItem
+            // ToolStripMenuItem_Load
             // 
-            this.プロジェクトの読込ToolStripMenuItem.Name = "プロジェクトの読込ToolStripMenuItem";
-            this.プロジェクトの読込ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.プロジェクトの読込ToolStripMenuItem.Text = "プロジェクト読込";
-            this.プロジェクトの読込ToolStripMenuItem.Click += new System.EventHandler(this.LoadProject_Click);
+            this.ToolStripMenuItem_Load.Name = "ToolStripMenuItem_Load";
+            this.ToolStripMenuItem_Load.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Load.Text = "プロジェクト読込";
+            this.ToolStripMenuItem_Load.Click += new System.EventHandler(this.LoadProject_Click);
             // 
-            // プロジェクト保存ToolStripMenuItem
+            // ToolStripMenuItem_Save
             // 
-            this.プロジェクト保存ToolStripMenuItem.Name = "プロジェクト保存ToolStripMenuItem";
-            this.プロジェクト保存ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.プロジェクト保存ToolStripMenuItem.Text = "プロジェクト保存";
-            this.プロジェクト保存ToolStripMenuItem.Click += new System.EventHandler(this.SaveProject_Click);
+            this.ToolStripMenuItem_Save.Name = "ToolStripMenuItem_Save";
+            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Save.Text = "プロジェクト保存";
+            this.ToolStripMenuItem_Save.Click += new System.EventHandler(this.SaveProject_Click);
             // 
-            // exportsToolStripMenuItem
+            // ToolStripMenuItem_exports
             // 
-            this.exportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nowFrameToolStripMenuItem,
-            this.cellListToolStripMenuItem1,
-            this.nowAttributeToolStripMenuItem});
-            this.exportsToolStripMenuItem.Name = "exportsToolStripMenuItem";
-            this.exportsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.exportsToolStripMenuItem.Text = "Exports";
+            this.ToolStripMenuItem_exports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_ExpNowFrame,
+            this.ToolStripMenuItem_ExpCellList,
+            this.ToolStripMenuItem_ExpNowAttribute});
+            this.ToolStripMenuItem_exports.Name = "ToolStripMenuItem_exports";
+            this.ToolStripMenuItem_exports.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_exports.Text = "Exports";
             // 
-            // nowFrameToolStripMenuItem
+            // ToolStripMenuItem_ExpNowFrame
             // 
-            this.nowFrameToolStripMenuItem.Name = "nowFrameToolStripMenuItem";
-            this.nowFrameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.nowFrameToolStripMenuItem.Text = "NowFrame";
+            this.ToolStripMenuItem_ExpNowFrame.Name = "ToolStripMenuItem_ExpNowFrame";
+            this.ToolStripMenuItem_ExpNowFrame.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpNowFrame.Text = "NowFrame";
             // 
-            // cellListToolStripMenuItem1
+            // ToolStripMenuItem_ExpCellList
             // 
-            this.cellListToolStripMenuItem1.Name = "cellListToolStripMenuItem1";
-            this.cellListToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
-            this.cellListToolStripMenuItem1.Text = "CellList";
+            this.ToolStripMenuItem_ExpCellList.Name = "ToolStripMenuItem_ExpCellList";
+            this.ToolStripMenuItem_ExpCellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpCellList.Text = "CellList";
             // 
-            // nowAttributeToolStripMenuItem
+            // ToolStripMenuItem_ExpNowAttribute
             // 
-            this.nowAttributeToolStripMenuItem.Name = "nowAttributeToolStripMenuItem";
-            this.nowAttributeToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.nowAttributeToolStripMenuItem.Text = "NowAttribute";
+            this.ToolStripMenuItem_ExpNowAttribute.Name = "ToolStripMenuItem_ExpNowAttribute";
+            this.ToolStripMenuItem_ExpNowAttribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpNowAttribute.Text = "NowAttribute";
             // 
             // ウインドウToolStripMenuItem
             // 
             this.ウインドウToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSmenu_ImageList,
-            this.TSmenu_Control,
-            this.TSmenu_Attribute,
-            this.cellListToolStripMenuItem});
+            this.ToolStripMenuItem_ImageList,
+            this.ToolStripMenuItem_Control,
+            this.ToolStripMenuItem_Attribute,
+            this.ToolStripMenuItem_CellList});
             this.ウインドウToolStripMenuItem.Name = "ウインドウToolStripMenuItem";
             this.ウインドウToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.ウインドウToolStripMenuItem.Text = "ウインドウ";
             // 
-            // TSmenu_ImageList
+            // ToolStripMenuItem_ImageList
             // 
-            this.TSmenu_ImageList.CheckOnClick = true;
-            this.TSmenu_ImageList.Name = "TSmenu_ImageList";
-            this.TSmenu_ImageList.Size = new System.Drawing.Size(124, 22);
-            this.TSmenu_ImageList.Text = "ImageList";
-            this.TSmenu_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
+            this.ToolStripMenuItem_ImageList.CheckOnClick = true;
+            this.ToolStripMenuItem_ImageList.Name = "ToolStripMenuItem_ImageList";
+            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ImageList.Text = "ImageList";
+            this.ToolStripMenuItem_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
             // 
-            // TSmenu_Control
+            // ToolStripMenuItem_Control
             // 
-            this.TSmenu_Control.CheckOnClick = true;
-            this.TSmenu_Control.Name = "TSmenu_Control";
-            this.TSmenu_Control.Size = new System.Drawing.Size(124, 22);
-            this.TSmenu_Control.Text = "Control";
-            this.TSmenu_Control.Click += new System.EventHandler(this.TSMenu_Control_Click);
+            this.ToolStripMenuItem_Control.CheckOnClick = true;
+            this.ToolStripMenuItem_Control.Name = "ToolStripMenuItem_Control";
+            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Control.Text = "Control";
+            this.ToolStripMenuItem_Control.Click += new System.EventHandler(this.TSMenu_Control_Click);
             // 
-            // TSmenu_Attribute
+            // ToolStripMenuItem_Attribute
             // 
-            this.TSmenu_Attribute.CheckOnClick = true;
-            this.TSmenu_Attribute.Name = "TSmenu_Attribute";
-            this.TSmenu_Attribute.Size = new System.Drawing.Size(124, 22);
-            this.TSmenu_Attribute.Text = "Attribute";
-            this.TSmenu_Attribute.Click += new System.EventHandler(this.TSMenu_Attribute_Click);
+            this.ToolStripMenuItem_Attribute.CheckOnClick = true;
+            this.ToolStripMenuItem_Attribute.Name = "ToolStripMenuItem_Attribute";
+            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Attribute.Text = "Attribute";
+            this.ToolStripMenuItem_Attribute.Click += new System.EventHandler(this.TSMenu_Attribute_Click);
             // 
-            // cellListToolStripMenuItem
+            // ToolStripMenuItem_CellList
             // 
-            this.cellListToolStripMenuItem.Name = "cellListToolStripMenuItem";
-            this.cellListToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.cellListToolStripMenuItem.Text = "CellList";
-            this.cellListToolStripMenuItem.Click += new System.EventHandler(this.TSMenu_CellList_Click);
+            this.ToolStripMenuItem_CellList.Name = "ToolStripMenuItem_CellList";
+            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_CellList.Text = "CellList";
+            this.ToolStripMenuItem_CellList.Click += new System.EventHandler(this.TSMenu_CellList_Click);
             // 
-            // PanelToolBase
+            // panel_ToolBase
             // 
-            this.PanelToolBase.BackColor = System.Drawing.SystemColors.Control;
-            this.PanelToolBase.Controls.Add(this.panel1);
-            this.PanelToolBase.Controls.Add(this.SnapCheck);
-            this.PanelToolBase.Controls.Add(this.ZoomLevel);
-            this.PanelToolBase.Controls.Add(this.Num_Grid);
-            this.PanelToolBase.Controls.Add(this.GridColor);
-            this.PanelToolBase.Controls.Add(this.GridCheck);
-            this.PanelToolBase.Controls.Add(this.CrossColor);
-            this.PanelToolBase.Controls.Add(this.CrossBarCheck);
-            this.PanelToolBase.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelToolBase.Location = new System.Drawing.Point(0, 0);
-            this.PanelToolBase.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelToolBase.Name = "PanelToolBase";
-            this.PanelToolBase.Size = new System.Drawing.Size(523, 30);
-            this.PanelToolBase.TabIndex = 4;
+            this.panel_ToolBase.BackColor = System.Drawing.SystemColors.Control;
+            this.panel_ToolBase.Controls.Add(this.panel1);
+            this.panel_ToolBase.Controls.Add(this.checkBox_Snap);
+            this.panel_ToolBase.Controls.Add(this.HScrollBar_ZoomLevel);
+            this.panel_ToolBase.Controls.Add(this.numericUpDown_Grid);
+            this.panel_ToolBase.Controls.Add(this.button_GridColor);
+            this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
+            this.panel_ToolBase.Controls.Add(this.button_CrossColor);
+            this.panel_ToolBase.Controls.Add(this.checkBox_CrossBar);
+            this.panel_ToolBase.Controls.Add(this.button_BackColor);
+            this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
+            this.panel_ToolBase.Margin = new System.Windows.Forms.Padding(0);
+            this.panel_ToolBase.Name = "panel_ToolBase";
+            this.panel_ToolBase.Size = new System.Drawing.Size(754, 30);
+            this.panel_ToolBase.TabIndex = 4;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.AlingForm);
-            this.panel1.Controls.Add(this.CB_CellList);
-            this.panel1.Controls.Add(this.CB_Attribute);
-            this.panel1.Controls.Add(this.CB_Control);
-            this.panel1.Controls.Add(this.CB_ImageList);
+            this.panel1.Controls.Add(this.button_AlingForm);
+            this.panel1.Controls.Add(this.checkBox_CellList);
+            this.panel1.Controls.Add(this.checkBox_Attribute);
+            this.panel1.Controls.Add(this.checkBox_Control);
+            this.panel1.Controls.Add(this.checkBox_ImageList);
             this.panel1.Controls.Add(this.Spaceer1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(191, 0);
+            this.panel1.Location = new System.Drawing.Point(221, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(171, 30);
             this.panel1.TabIndex = 8;
             // 
-            // AlingForm
+            // button_AlingForm
             // 
-            this.AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
-            this.AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
-            this.AlingForm.Location = new System.Drawing.Point(130, 0);
-            this.AlingForm.Margin = new System.Windows.Forms.Padding(0);
-            this.AlingForm.Name = "AlingForm";
-            this.AlingForm.Size = new System.Drawing.Size(30, 30);
-            this.AlingForm.TabIndex = 5;
-            this.AlingForm.UseVisualStyleBackColor = true;
-            this.AlingForm.Click += new System.EventHandler(this.Botton_AlingForm_Click);
+            this.button_AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
+            this.button_AlingForm.Location = new System.Drawing.Point(130, 0);
+            this.button_AlingForm.Margin = new System.Windows.Forms.Padding(0);
+            this.button_AlingForm.Name = "button_AlingForm";
+            this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
+            this.button_AlingForm.TabIndex = 5;
+            this.button_AlingForm.UseVisualStyleBackColor = true;
+            this.button_AlingForm.Click += new System.EventHandler(this.Botton_AlingForm_Click);
             // 
-            // CB_CellList
+            // checkBox_CellList
             // 
-            this.CB_CellList.Appearance = System.Windows.Forms.Appearance.Button;
-            this.CB_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.CB_CellList.Checked = true;
-            this.CB_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_CellList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CB_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CB_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.CB_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
-            this.CB_CellList.Location = new System.Drawing.Point(100, 0);
-            this.CB_CellList.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_CellList.Name = "CB_CellList";
-            this.CB_CellList.Size = new System.Drawing.Size(30, 30);
-            this.CB_CellList.TabIndex = 4;
-            this.CB_CellList.UseVisualStyleBackColor = false;
-            this.CB_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
+            this.checkBox_CellList.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_CellList.Checked = true;
+            this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
+            this.checkBox_CellList.Location = new System.Drawing.Point(100, 0);
+            this.checkBox_CellList.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_CellList.Name = "checkBox_CellList";
+            this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_CellList.TabIndex = 4;
+            this.checkBox_CellList.UseVisualStyleBackColor = false;
+            this.checkBox_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
             // 
-            // CB_Attribute
+            // checkBox_Attribute
             // 
-            this.CB_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
-            this.CB_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.CB_Attribute.Checked = true;
-            this.CB_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CB_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CB_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.CB_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
-            this.CB_Attribute.Location = new System.Drawing.Point(70, 0);
-            this.CB_Attribute.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Attribute.Name = "CB_Attribute";
-            this.CB_Attribute.Size = new System.Drawing.Size(30, 30);
-            this.CB_Attribute.TabIndex = 3;
-            this.CB_Attribute.UseVisualStyleBackColor = false;
-            this.CB_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
+            this.checkBox_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_Attribute.Checked = true;
+            this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
+            this.checkBox_Attribute.Location = new System.Drawing.Point(70, 0);
+            this.checkBox_Attribute.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Attribute.Name = "checkBox_Attribute";
+            this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Attribute.TabIndex = 3;
+            this.checkBox_Attribute.UseVisualStyleBackColor = false;
+            this.checkBox_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
             // 
-            // CB_Control
+            // checkBox_Control
             // 
-            this.CB_Control.Appearance = System.Windows.Forms.Appearance.Button;
-            this.CB_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.CB_Control.Checked = true;
-            this.CB_Control.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_Control.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CB_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CB_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.CB_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
-            this.CB_Control.Location = new System.Drawing.Point(40, 0);
-            this.CB_Control.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Control.Name = "CB_Control";
-            this.CB_Control.Size = new System.Drawing.Size(30, 30);
-            this.CB_Control.TabIndex = 2;
-            this.CB_Control.UseVisualStyleBackColor = false;
-            this.CB_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
+            this.checkBox_Control.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_Control.Checked = true;
+            this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
+            this.checkBox_Control.Location = new System.Drawing.Point(40, 0);
+            this.checkBox_Control.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Control.Name = "checkBox_Control";
+            this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Control.TabIndex = 2;
+            this.checkBox_Control.UseVisualStyleBackColor = false;
+            this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
             // 
-            // CB_ImageList
+            // checkBox_ImageList
             // 
-            this.CB_ImageList.Appearance = System.Windows.Forms.Appearance.Button;
-            this.CB_ImageList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.CB_ImageList.Checked = true;
-            this.CB_ImageList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_ImageList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CB_ImageList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CB_ImageList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.CB_ImageList.Location = new System.Drawing.Point(10, 0);
-            this.CB_ImageList.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_ImageList.Name = "CB_ImageList";
-            this.CB_ImageList.Size = new System.Drawing.Size(30, 30);
-            this.CB_ImageList.TabIndex = 0;
-            this.CB_ImageList.Text = "絵";
-            this.CB_ImageList.UseVisualStyleBackColor = false;
-            this.CB_ImageList.CheckedChanged += new System.EventHandler(this.CB_ImageList_CheckedChanged);
+            this.checkBox_ImageList.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_ImageList.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_ImageList.Checked = true;
+            this.checkBox_ImageList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ImageList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_ImageList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_ImageList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_ImageList.Location = new System.Drawing.Point(10, 0);
+            this.checkBox_ImageList.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_ImageList.Name = "checkBox_ImageList";
+            this.checkBox_ImageList.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_ImageList.TabIndex = 0;
+            this.checkBox_ImageList.Text = "絵";
+            this.checkBox_ImageList.UseVisualStyleBackColor = false;
+            this.checkBox_ImageList.CheckedChanged += new System.EventHandler(this.CB_ImageList_CheckedChanged);
             // 
             // Spaceer1
             // 
@@ -376,155 +378,155 @@
             this.Spaceer1.Size = new System.Drawing.Size(10, 30);
             this.Spaceer1.TabIndex = 1;
             // 
-            // SnapCheck
+            // checkBox_Snap
             // 
-            this.SnapCheck.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SnapCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.SnapCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
-            this.SnapCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.SnapCheck.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SnapCheck.Location = new System.Drawing.Point(161, 0);
-            this.SnapCheck.Margin = new System.Windows.Forms.Padding(0);
-            this.SnapCheck.Name = "SnapCheck";
-            this.SnapCheck.Size = new System.Drawing.Size(30, 30);
-            this.SnapCheck.TabIndex = 7;
-            this.SnapCheck.UseVisualStyleBackColor = false;
+            this.checkBox_Snap.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Snap.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_Snap.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
+            this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Snap.Location = new System.Drawing.Point(191, 0);
+            this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Snap.Name = "checkBox_Snap";
+            this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Snap.TabIndex = 7;
+            this.checkBox_Snap.UseVisualStyleBackColor = false;
             // 
-            // ZoomLevel
+            // HScrollBar_ZoomLevel
             // 
-            this.ZoomLevel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ZoomLevel.LargeChange = 1;
-            this.ZoomLevel.Location = new System.Drawing.Point(443, 0);
-            this.ZoomLevel.Maximum = 80;
-            this.ZoomLevel.Minimum = 2;
-            this.ZoomLevel.Name = "ZoomLevel";
-            this.ZoomLevel.Size = new System.Drawing.Size(80, 30);
-            this.ZoomLevel.TabIndex = 6;
-            this.ZoomLevel.Value = 10;
-            this.ZoomLevel.ValueChanged += new System.EventHandler(this.ZoomLevel_ValueChanged);
+            this.HScrollBar_ZoomLevel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.HScrollBar_ZoomLevel.LargeChange = 1;
+            this.HScrollBar_ZoomLevel.Location = new System.Drawing.Point(674, 0);
+            this.HScrollBar_ZoomLevel.Maximum = 80;
+            this.HScrollBar_ZoomLevel.Minimum = 2;
+            this.HScrollBar_ZoomLevel.Name = "HScrollBar_ZoomLevel";
+            this.HScrollBar_ZoomLevel.Size = new System.Drawing.Size(80, 30);
+            this.HScrollBar_ZoomLevel.TabIndex = 6;
+            this.HScrollBar_ZoomLevel.Value = 10;
+            this.HScrollBar_ZoomLevel.ValueChanged += new System.EventHandler(this.ZoomLevel_ValueChanged);
             // 
-            // Num_Grid
+            // numericUpDown_Grid
             // 
-            this.Num_Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Num_Grid.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Num_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Num_Grid.Location = new System.Drawing.Point(120, 0);
-            this.Num_Grid.Margin = new System.Windows.Forms.Padding(0);
-            this.Num_Grid.Maximum = new decimal(new int[] {
+            this.numericUpDown_Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown_Grid.Dock = System.Windows.Forms.DockStyle.Left;
+            this.numericUpDown_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.numericUpDown_Grid.Location = new System.Drawing.Point(150, 0);
+            this.numericUpDown_Grid.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDown_Grid.Maximum = new decimal(new int[] {
             32,
             0,
             0,
             0});
-            this.Num_Grid.Minimum = new decimal(new int[] {
+            this.numericUpDown_Grid.Minimum = new decimal(new int[] {
             8,
             0,
             0,
             0});
-            this.Num_Grid.Name = "Num_Grid";
-            this.Num_Grid.Size = new System.Drawing.Size(41, 27);
-            this.Num_Grid.TabIndex = 3;
-            this.Num_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.Num_Grid.Value = new decimal(new int[] {
+            this.numericUpDown_Grid.Name = "numericUpDown_Grid";
+            this.numericUpDown_Grid.Size = new System.Drawing.Size(41, 27);
+            this.numericUpDown_Grid.TabIndex = 3;
+            this.numericUpDown_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown_Grid.Value = new decimal(new int[] {
             10,
             0,
             0,
             0});
             // 
-            // GridColor
+            // button_GridColor
             // 
-            this.GridColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.GridColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.GridColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GridColor.Location = new System.Drawing.Point(90, 0);
-            this.GridColor.Name = "GridColor";
-            this.GridColor.Size = new System.Drawing.Size(30, 30);
-            this.GridColor.TabIndex = 5;
-            this.GridColor.UseVisualStyleBackColor = false;
-            this.GridColor.Click += new System.EventHandler(this.Button_Color_Click);
+            this.button_GridColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_GridColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_GridColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_GridColor.Location = new System.Drawing.Point(120, 0);
+            this.button_GridColor.Name = "button_GridColor";
+            this.button_GridColor.Size = new System.Drawing.Size(30, 30);
+            this.button_GridColor.TabIndex = 5;
+            this.button_GridColor.UseVisualStyleBackColor = false;
+            this.button_GridColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
-            // GridCheck
+            // checkBox_GridCheck
             // 
-            this.GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
-            this.GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
-            this.GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.GridCheck.Checked = true;
-            this.GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
-            this.GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GridCheck.Location = new System.Drawing.Point(60, 0);
-            this.GridCheck.Margin = new System.Windows.Forms.Padding(0);
-            this.GridCheck.Name = "GridCheck";
-            this.GridCheck.Size = new System.Drawing.Size(30, 30);
-            this.GridCheck.TabIndex = 2;
-            this.GridCheck.UseVisualStyleBackColor = false;
-            this.GridCheck.Click += new System.EventHandler(this.CrossBarCheck_Click);
+            this.checkBox_GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
+            this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_GridCheck.Checked = true;
+            this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_GridCheck.Location = new System.Drawing.Point(90, 0);
+            this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_GridCheck.Name = "checkBox_GridCheck";
+            this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_GridCheck.TabIndex = 2;
+            this.checkBox_GridCheck.UseVisualStyleBackColor = false;
+            this.checkBox_GridCheck.Click += new System.EventHandler(this.CrossBarCheck_Click);
             // 
-            // CrossColor
+            // button_CrossColor
             // 
-            this.CrossColor.BackColor = System.Drawing.Color.DarkRed;
-            this.CrossColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CrossColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CrossColor.Location = new System.Drawing.Point(30, 0);
-            this.CrossColor.Name = "CrossColor";
-            this.CrossColor.Size = new System.Drawing.Size(30, 30);
-            this.CrossColor.TabIndex = 4;
-            this.CrossColor.UseVisualStyleBackColor = false;
-            this.CrossColor.Click += new System.EventHandler(this.Button_Color_Click);
+            this.button_CrossColor.BackColor = System.Drawing.Color.DarkRed;
+            this.button_CrossColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_CrossColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_CrossColor.Location = new System.Drawing.Point(60, 0);
+            this.button_CrossColor.Name = "button_CrossColor";
+            this.button_CrossColor.Size = new System.Drawing.Size(30, 30);
+            this.button_CrossColor.TabIndex = 4;
+            this.button_CrossColor.UseVisualStyleBackColor = false;
+            this.button_CrossColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
-            // CrossBarCheck
+            // checkBox_CrossBar
             // 
-            this.CrossBarCheck.Appearance = System.Windows.Forms.Appearance.Button;
-            this.CrossBarCheck.AutoSize = true;
-            this.CrossBarCheck.BackColor = System.Drawing.Color.Black;
-            this.CrossBarCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.CrossBarCheck.Checked = true;
-            this.CrossBarCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CrossBarCheck.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CrossBarCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CrossBarCheck.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
-            this.CrossBarCheck.Location = new System.Drawing.Point(0, 0);
-            this.CrossBarCheck.Margin = new System.Windows.Forms.Padding(0);
-            this.CrossBarCheck.Name = "CrossBarCheck";
-            this.CrossBarCheck.Size = new System.Drawing.Size(30, 30);
-            this.CrossBarCheck.TabIndex = 1;
-            this.CrossBarCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.CrossBarCheck.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.CrossBarCheck.UseVisualStyleBackColor = false;
-            this.CrossBarCheck.Click += new System.EventHandler(this.CrossBarCheck_Click);
+            this.checkBox_CrossBar.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_CrossBar.AutoSize = true;
+            this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
+            this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_CrossBar.Checked = true;
+            this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
+            this.checkBox_CrossBar.Location = new System.Drawing.Point(30, 0);
+            this.checkBox_CrossBar.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_CrossBar.Name = "checkBox_CrossBar";
+            this.checkBox_CrossBar.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_CrossBar.TabIndex = 1;
+            this.checkBox_CrossBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.checkBox_CrossBar.UseVisualStyleBackColor = false;
+            this.checkBox_CrossBar.Click += new System.EventHandler(this.CrossBarCheck_Click);
             // 
             // panel_ProjectTree_base
             // 
             this.panel_ProjectTree_base.BackColor = System.Drawing.Color.Black;
             this.panel_ProjectTree_base.Controls.Add(this.panel_Project_Bottom);
             this.panel_ProjectTree_base.Controls.Add(this.treeView_Project);
-            this.panel_ProjectTree_base.Controls.Add(this.Panel_ProjectTopBase);
+            this.panel_ProjectTree_base.Controls.Add(this.panel_ProjectTopBase);
             this.panel_ProjectTree_base.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_ProjectTree_base.Location = new System.Drawing.Point(0, 0);
             this.panel_ProjectTree_base.Name = "panel_ProjectTree_base";
-            this.panel_ProjectTree_base.Size = new System.Drawing.Size(129, 365);
+            this.panel_ProjectTree_base.Size = new System.Drawing.Size(185, 479);
             this.panel_ProjectTree_base.TabIndex = 5;
             // 
             // panel_Project_Bottom
             // 
             this.panel_Project_Bottom.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panel_Project_Bottom.Controls.Add(this.BottonTest);
+            this.panel_Project_Bottom.Controls.Add(this.botton_Test);
             this.panel_Project_Bottom.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel_Project_Bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_Project_Bottom.Location = new System.Drawing.Point(0, 231);
+            this.panel_Project_Bottom.Location = new System.Drawing.Point(0, 345);
             this.panel_Project_Bottom.Name = "panel_Project_Bottom";
-            this.panel_Project_Bottom.Size = new System.Drawing.Size(129, 134);
+            this.panel_Project_Bottom.Size = new System.Drawing.Size(185, 134);
             this.panel_Project_Bottom.TabIndex = 2;
             // 
-            // BottonTest
+            // botton_Test
             // 
-            this.BottonTest.Location = new System.Drawing.Point(3, 3);
-            this.BottonTest.Name = "BottonTest";
-            this.BottonTest.Size = new System.Drawing.Size(78, 23);
-            this.BottonTest.TabIndex = 0;
-            this.BottonTest.Text = "Img+Test";
-            this.BottonTest.UseVisualStyleBackColor = true;
-            this.BottonTest.Click += new System.EventHandler(this.BottonTest_Click);
+            this.botton_Test.Location = new System.Drawing.Point(3, 3);
+            this.botton_Test.Name = "botton_Test";
+            this.botton_Test.Size = new System.Drawing.Size(78, 23);
+            this.botton_Test.TabIndex = 0;
+            this.botton_Test.Text = "Img+Test";
+            this.botton_Test.UseVisualStyleBackColor = true;
+            this.botton_Test.Click += new System.EventHandler(this.BottonTest_Click);
             // 
             // treeView_Project
             // 
@@ -555,7 +557,7 @@
             treeNode4});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowRootLines = false;
-            this.treeView_Project.Size = new System.Drawing.Size(129, 335);
+            this.treeView_Project.Size = new System.Drawing.Size(185, 449);
             this.treeView_Project.TabIndex = 1;
             this.treeView_Project.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_Project_AfterLabelEdit);
             this.treeView_Project.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Project_NodeMouseClick);
@@ -570,14 +572,14 @@
             this.imageList_Thumb.Images.SetKeyName(3, "elements.PNG");
             this.imageList_Thumb.Images.SetKeyName(4, "elements2.PNG");
             // 
-            // Panel_ProjectTopBase
+            // panel_ProjectTopBase
             // 
-            this.Panel_ProjectTopBase.Controls.Add(this.button1);
-            this.Panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
-            this.Panel_ProjectTopBase.Name = "Panel_ProjectTopBase";
-            this.Panel_ProjectTopBase.Size = new System.Drawing.Size(129, 30);
-            this.Panel_ProjectTopBase.TabIndex = 0;
+            this.panel_ProjectTopBase.Controls.Add(this.button1);
+            this.panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
+            this.panel_ProjectTopBase.Name = "panel_ProjectTopBase";
+            this.panel_ProjectTopBase.Size = new System.Drawing.Size(185, 30);
+            this.panel_ProjectTopBase.TabIndex = 0;
             // 
             // button1
             // 
@@ -601,10 +603,10 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.PanelPreView);
-            this.splitContainer1.Panel2.Controls.Add(this.PanelToolBase);
-            this.splitContainer1.Size = new System.Drawing.Size(656, 365);
-            this.splitContainer1.SplitterDistance = 129;
+            this.splitContainer1.Panel2.Controls.Add(this.panel_PreView);
+            this.splitContainer1.Panel2.Controls.Add(this.panel_ToolBase);
+            this.splitContainer1.Size = new System.Drawing.Size(943, 479);
+            this.splitContainer1.SplitterDistance = 185;
             this.splitContainer1.TabIndex = 6;
             // 
             // SubMenu_Prpject
@@ -613,11 +615,22 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // button_BackColor
+            // 
+            this.button_BackColor.BackColor = System.Drawing.Color.Black;
+            this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_BackColor.Location = new System.Drawing.Point(0, 0);
+            this.button_BackColor.Name = "button_BackColor";
+            this.button_BackColor.Size = new System.Drawing.Size(30, 30);
+            this.button_BackColor.TabIndex = 9;
+            this.button_BackColor.UseVisualStyleBackColor = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 411);
+            this.ClientSize = new System.Drawing.Size(943, 525);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
@@ -638,13 +651,13 @@
             this.statusStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.PanelToolBase.ResumeLayout(false);
-            this.PanelToolBase.PerformLayout();
+            this.panel_ToolBase.ResumeLayout(false);
+            this.panel_ToolBase.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Num_Grid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).EndInit();
             this.panel_ProjectTree_base.ResumeLayout(false);
             this.panel_Project_Bottom.ResumeLayout(false);
-            this.Panel_ProjectTopBase.ResumeLayout(false);
+            this.panel_ProjectTopBase.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -657,47 +670,48 @@
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.Timer timerMain;
-        private System.Windows.Forms.Panel PanelPreView;
+        private System.Windows.Forms.Panel panel_PreView;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ウインドウToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem TSmenu_ImageList;
-        private System.Windows.Forms.ToolStripMenuItem TSmenu_Control;
-        private System.Windows.Forms.ToolStripMenuItem TSmenu_Attribute;
-        private System.Windows.Forms.Panel PanelToolBase;
-        private System.Windows.Forms.CheckBox SnapCheck;
-        private System.Windows.Forms.HScrollBar ZoomLevel;
-        private System.Windows.Forms.NumericUpDown Num_Grid;
-        private System.Windows.Forms.Button GridColor;
-        private System.Windows.Forms.CheckBox GridCheck;
-        private System.Windows.Forms.Button CrossColor;
-        private System.Windows.Forms.CheckBox CrossBarCheck;
-        private System.Windows.Forms.ToolStripMenuItem cellListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ImageList;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Control;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Attribute;
+        private System.Windows.Forms.Panel panel_ToolBase;
+        private System.Windows.Forms.CheckBox checkBox_Snap;
+        private System.Windows.Forms.HScrollBar HScrollBar_ZoomLevel;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Grid;
+        private System.Windows.Forms.Button button_GridColor;
+        private System.Windows.Forms.CheckBox checkBox_GridCheck;
+        private System.Windows.Forms.Button button_CrossColor;
+        private System.Windows.Forms.CheckBox checkBox_CrossBar;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_CellList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel Spaceer1;
-        private System.Windows.Forms.Button AlingForm;
+        private System.Windows.Forms.Button button_AlingForm;
         private System.Windows.Forms.Panel panel_ProjectTree_base;
         private System.Windows.Forms.Panel panel_Project_Bottom;
         private System.Windows.Forms.TreeView treeView_Project;
-        private System.Windows.Forms.Panel Panel_ProjectTopBase;
+        private System.Windows.Forms.Panel panel_ProjectTopBase;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ContextMenuStrip SubMenu_Prpject;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 新規プロジェクトToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem プロジェクトの読込ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem プロジェクト保存ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_New;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Load;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Save;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
-        private System.Windows.Forms.Button BottonTest;
+        private System.Windows.Forms.Button botton_Test;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel2;
         private System.Windows.Forms.ImageList imageList_Thumb;
-        private System.Windows.Forms.ToolStripMenuItem exportsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nowFrameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cellListToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem nowAttributeToolStripMenuItem;
-        public System.Windows.Forms.CheckBox CB_CellList;
-        public System.Windows.Forms.CheckBox CB_Attribute;
-        public System.Windows.Forms.CheckBox CB_Control;
-        public System.Windows.Forms.CheckBox CB_ImageList;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_exports;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExpNowFrame;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExpCellList;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ExpNowAttribute;
+        public System.Windows.Forms.CheckBox checkBox_CellList;
+        public System.Windows.Forms.CheckBox checkBox_Attribute;
+        public System.Windows.Forms.CheckBox checkBox_Control;
+        public System.Windows.Forms.CheckBox checkBox_ImageList;
+        private System.Windows.Forms.Button button_BackColor;
     }
 }
 

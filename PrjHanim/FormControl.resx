@@ -145,7 +145,7 @@
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="ButtonFore.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="button_Fore.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB+AJ
         GAA0Dh6/ctMAAADMSURBVEhLtczLCQNBEAPRDdH55+IPGHp5ox0LH+yDGqEq+rjdjr/mfZ6P+9MM/LTv
@@ -154,7 +154,7 @@
         bTcy+0UQtj0jt18EYdszcvsCBW3fRce+QEHbd9Gxb+Xf5ThemTjcBZY76F4AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="ButtonPlay.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="button_Play.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB+AJ
         GAA5BqXKhKwAAACzSURBVEhL1Y1BCsQwDAPzxP7/L7tdGlARztik2fbQw4QgyVLbtvYo/dm/nz0aFUfe
@@ -163,7 +163,7 @@
         Cs1ARZk+HN9Laz8qmdPORlAFfwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="ButtonPrev.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="button_Prev.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB+AJ
         GAAzMwmWqAUAAADNSURBVEhLtYtBasRAEMT8xP3/Xza7jEHQpXSBD8lBpq3SXK/X9a/cn8/P+3Pw3aBx

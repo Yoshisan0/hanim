@@ -33,9 +33,9 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.panel_Control = new System.Windows.Forms.Panel();
             this.TreeHeader = new System.Windows.Forms.Panel();
-            this.ItemRemove = new System.Windows.Forms.Button();
-            this.ItemDown = new System.Windows.Forms.Button();
-            this.ItemUp = new System.Windows.Forms.Button();
+            this.button_ItemRemove = new System.Windows.Forms.Button();
+            this.button_ItemDown = new System.Windows.Forms.Button();
+            this.button_ItemUp = new System.Windows.Forms.Button();
             this.SubMenuTimeLine = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.キーフレーム追加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,13 +51,13 @@
             this.再生ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MediaBase = new System.Windows.Forms.Panel();
-            this.ButtonFore = new System.Windows.Forms.Button();
-            this.ButtonPlay = new System.Windows.Forms.Button();
-            this.ButtonPrev = new System.Windows.Forms.Button();
+            this.button_Fore = new System.Windows.Forms.Button();
+            this.button_Play = new System.Windows.Forms.Button();
+            this.button_Prev = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.NowFlame = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_NowFlame = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.MaxFrame = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -68,8 +68,8 @@
             this.SubMenuTimeLine.SuspendLayout();
             this.MediaBase.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NowFlame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxFrame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NowFlame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFrame)).BeginInit();
             this.Panel_LineControl_Base.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,48 +127,48 @@
             // TreeHeader
             // 
             this.TreeHeader.BackColor = System.Drawing.Color.MidnightBlue;
-            this.TreeHeader.Controls.Add(this.ItemRemove);
-            this.TreeHeader.Controls.Add(this.ItemDown);
-            this.TreeHeader.Controls.Add(this.ItemUp);
+            this.TreeHeader.Controls.Add(this.button_ItemRemove);
+            this.TreeHeader.Controls.Add(this.button_ItemDown);
+            this.TreeHeader.Controls.Add(this.button_ItemUp);
             this.TreeHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.TreeHeader.Location = new System.Drawing.Point(0, 0);
             this.TreeHeader.Name = "TreeHeader";
             this.TreeHeader.Size = new System.Drawing.Size(143, 20);
             this.TreeHeader.TabIndex = 2;
             // 
-            // ItemRemove
+            // button_ItemRemove
             // 
-            this.ItemRemove.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ItemRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ItemRemove.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ItemRemove.Location = new System.Drawing.Point(54, 0);
-            this.ItemRemove.Name = "ItemRemove";
-            this.ItemRemove.Size = new System.Drawing.Size(27, 20);
-            this.ItemRemove.TabIndex = 4;
-            this.ItemRemove.Text = "🚮";
-            this.ItemRemove.UseVisualStyleBackColor = true;
+            this.button_ItemRemove.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ItemRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ItemRemove.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_ItemRemove.Location = new System.Drawing.Point(54, 0);
+            this.button_ItemRemove.Name = "button_ItemRemove";
+            this.button_ItemRemove.Size = new System.Drawing.Size(27, 20);
+            this.button_ItemRemove.TabIndex = 4;
+            this.button_ItemRemove.Text = "🚮";
+            this.button_ItemRemove.UseVisualStyleBackColor = true;
             // 
-            // ItemDown
+            // button_ItemDown
             // 
-            this.ItemDown.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ItemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ItemDown.Location = new System.Drawing.Point(27, 0);
-            this.ItemDown.Name = "ItemDown";
-            this.ItemDown.Size = new System.Drawing.Size(27, 20);
-            this.ItemDown.TabIndex = 3;
-            this.ItemDown.Text = "▽";
-            this.ItemDown.UseVisualStyleBackColor = true;
+            this.button_ItemDown.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ItemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ItemDown.Location = new System.Drawing.Point(27, 0);
+            this.button_ItemDown.Name = "button_ItemDown";
+            this.button_ItemDown.Size = new System.Drawing.Size(27, 20);
+            this.button_ItemDown.TabIndex = 3;
+            this.button_ItemDown.Text = "▽";
+            this.button_ItemDown.UseVisualStyleBackColor = true;
             // 
-            // ItemUp
+            // button_ItemUp
             // 
-            this.ItemUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ItemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ItemUp.Location = new System.Drawing.Point(0, 0);
-            this.ItemUp.Name = "ItemUp";
-            this.ItemUp.Size = new System.Drawing.Size(27, 20);
-            this.ItemUp.TabIndex = 2;
-            this.ItemUp.Text = "△";
-            this.ItemUp.UseVisualStyleBackColor = true;
+            this.button_ItemUp.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ItemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ItemUp.Location = new System.Drawing.Point(0, 0);
+            this.button_ItemUp.Name = "button_ItemUp";
+            this.button_ItemUp.Size = new System.Drawing.Size(27, 20);
+            this.button_ItemUp.TabIndex = 2;
+            this.button_ItemUp.Text = "△";
+            this.button_ItemUp.UseVisualStyleBackColor = true;
             // 
             // SubMenuTimeLine
             // 
@@ -182,53 +182,53 @@
             this.上書き貼付けToolStripMenuItem,
             this.挿入貼付けToolStripMenuItem});
             this.SubMenuTimeLine.Name = "SubMenuTimeLine";
-            this.SubMenuTimeLine.Size = new System.Drawing.Size(153, 186);
+            this.SubMenuTimeLine.Size = new System.Drawing.Size(149, 164);
             // 
             // キーフレーム追加ToolStripMenuItem
             // 
             this.キーフレーム追加ToolStripMenuItem.Name = "キーフレーム追加ToolStripMenuItem";
-            this.キーフレーム追加ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.キーフレーム追加ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.キーフレーム追加ToolStripMenuItem.Text = "キーフレーム登録";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem1.Text = "フレーム削除";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem2.Text = "フレーム挿入";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // 切り取りToolStripMenuItem
             // 
             this.切り取りToolStripMenuItem.Name = "切り取りToolStripMenuItem";
-            this.切り取りToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.切り取りToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.切り取りToolStripMenuItem.Text = "切取(X)";
             // 
             // コピーToolStripMenuItem
             // 
             this.コピーToolStripMenuItem.Name = "コピーToolStripMenuItem";
-            this.コピーToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.コピーToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.コピーToolStripMenuItem.Text = "コピー(C)";
             // 
             // 上書き貼付けToolStripMenuItem
             // 
             this.上書き貼付けToolStripMenuItem.Name = "上書き貼付けToolStripMenuItem";
-            this.上書き貼付けToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.上書き貼付けToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.上書き貼付けToolStripMenuItem.Text = "貼付上書(V)";
             // 
             // 挿入貼付けToolStripMenuItem
             // 
             this.挿入貼付けToolStripMenuItem.Name = "挿入貼付けToolStripMenuItem";
-            this.挿入貼付けToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.挿入貼付けToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.挿入貼付けToolStripMenuItem.Text = "貼付挿入(B)";
             // 
             // panel_Time
@@ -282,83 +282,83 @@
             // 
             // MediaBase
             // 
-            this.MediaBase.Controls.Add(this.ButtonFore);
-            this.MediaBase.Controls.Add(this.ButtonPlay);
-            this.MediaBase.Controls.Add(this.ButtonPrev);
+            this.MediaBase.Controls.Add(this.button_Fore);
+            this.MediaBase.Controls.Add(this.button_Play);
+            this.MediaBase.Controls.Add(this.button_Prev);
             this.MediaBase.Dock = System.Windows.Forms.DockStyle.Left;
             this.MediaBase.Location = new System.Drawing.Point(152, 0);
             this.MediaBase.Name = "MediaBase";
             this.MediaBase.Size = new System.Drawing.Size(122, 27);
             this.MediaBase.TabIndex = 12;
             // 
-            // ButtonFore
+            // button_Fore
             // 
-            this.ButtonFore.BackColor = System.Drawing.Color.DarkGray;
-            this.ButtonFore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ButtonFore.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonFore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFore.Image = ((System.Drawing.Image)(resources.GetObject("ButtonFore.Image")));
-            this.ButtonFore.Location = new System.Drawing.Point(73, 0);
-            this.ButtonFore.Margin = new System.Windows.Forms.Padding(0);
-            this.ButtonFore.Name = "ButtonFore";
-            this.ButtonFore.Size = new System.Drawing.Size(36, 27);
-            this.ButtonFore.TabIndex = 5;
-            this.ButtonFore.UseVisualStyleBackColor = false;
-            this.ButtonFore.Click += new System.EventHandler(this.ButtonFore_Click);
+            this.button_Fore.BackColor = System.Drawing.Color.DarkGray;
+            this.button_Fore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button_Fore.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Fore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Fore.Image = ((System.Drawing.Image)(resources.GetObject("button_Fore.Image")));
+            this.button_Fore.Location = new System.Drawing.Point(73, 0);
+            this.button_Fore.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Fore.Name = "button_Fore";
+            this.button_Fore.Size = new System.Drawing.Size(36, 27);
+            this.button_Fore.TabIndex = 5;
+            this.button_Fore.UseVisualStyleBackColor = false;
+            this.button_Fore.Click += new System.EventHandler(this.ButtonFore_Click);
             // 
-            // ButtonPlay
+            // button_Play
             // 
-            this.ButtonPlay.BackColor = System.Drawing.Color.OliveDrab;
-            this.ButtonPlay.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonPlay.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPlay.Image")));
-            this.ButtonPlay.Location = new System.Drawing.Point(31, 0);
-            this.ButtonPlay.Margin = new System.Windows.Forms.Padding(0);
-            this.ButtonPlay.Name = "ButtonPlay";
-            this.ButtonPlay.Size = new System.Drawing.Size(42, 27);
-            this.ButtonPlay.TabIndex = 3;
-            this.ButtonPlay.UseVisualStyleBackColor = false;
+            this.button_Play.BackColor = System.Drawing.Color.OliveDrab;
+            this.button_Play.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Play.Image = ((System.Drawing.Image)(resources.GetObject("button_Play.Image")));
+            this.button_Play.Location = new System.Drawing.Point(31, 0);
+            this.button_Play.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Play.Name = "button_Play";
+            this.button_Play.Size = new System.Drawing.Size(42, 27);
+            this.button_Play.TabIndex = 3;
+            this.button_Play.UseVisualStyleBackColor = false;
             // 
-            // ButtonPrev
+            // button_Prev
             // 
-            this.ButtonPrev.BackColor = System.Drawing.Color.DarkGray;
-            this.ButtonPrev.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ButtonPrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonPrev.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPrev.Image")));
-            this.ButtonPrev.Location = new System.Drawing.Point(0, 0);
-            this.ButtonPrev.Margin = new System.Windows.Forms.Padding(0);
-            this.ButtonPrev.Name = "ButtonPrev";
-            this.ButtonPrev.Size = new System.Drawing.Size(31, 27);
-            this.ButtonPrev.TabIndex = 0;
-            this.ButtonPrev.UseVisualStyleBackColor = false;
-            this.ButtonPrev.Click += new System.EventHandler(this.ButtonPrev_Click);
+            this.button_Prev.BackColor = System.Drawing.Color.DarkGray;
+            this.button_Prev.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Prev.Image = ((System.Drawing.Image)(resources.GetObject("button_Prev.Image")));
+            this.button_Prev.Location = new System.Drawing.Point(0, 0);
+            this.button_Prev.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Prev.Name = "button_Prev";
+            this.button_Prev.Size = new System.Drawing.Size(31, 27);
+            this.button_Prev.TabIndex = 0;
+            this.button_Prev.UseVisualStyleBackColor = false;
+            this.button_Prev.Click += new System.EventHandler(this.ButtonPrev_Click);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DimGray;
-            this.panel2.Controls.Add(this.NowFlame);
+            this.panel2.Controls.Add(this.numericUpDown_NowFlame);
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.MaxFrame);
+            this.panel2.Controls.Add(this.numericUpDown_MaxFrame);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(466, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(145, 27);
             this.panel2.TabIndex = 13;
             // 
-            // NowFlame
+            // numericUpDown_NowFlame
             // 
-            this.NowFlame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.NowFlame.Location = new System.Drawing.Point(3, 3);
-            this.NowFlame.Maximum = new decimal(new int[] {
+            this.numericUpDown_NowFlame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.numericUpDown_NowFlame.Location = new System.Drawing.Point(3, 3);
+            this.numericUpDown_NowFlame.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.NowFlame.Name = "NowFlame";
-            this.NowFlame.Size = new System.Drawing.Size(52, 23);
-            this.NowFlame.TabIndex = 14;
-            this.NowFlame.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.NowFlame.ValueChanged += new System.EventHandler(this.NowFrame_ValueChanged);
+            this.numericUpDown_NowFlame.Name = "numericUpDown_NowFlame";
+            this.numericUpDown_NowFlame.Size = new System.Drawing.Size(52, 23);
+            this.numericUpDown_NowFlame.TabIndex = 14;
+            this.numericUpDown_NowFlame.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown_NowFlame.ValueChanged += new System.EventHandler(this.NowFrame_ValueChanged);
             // 
             // label2
             // 
@@ -372,30 +372,30 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "/";
             // 
-            // MaxFrame
+            // numericUpDown_MaxFrame
             // 
-            this.MaxFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.MaxFrame.Location = new System.Drawing.Point(83, 3);
-            this.MaxFrame.Maximum = new decimal(new int[] {
+            this.numericUpDown_MaxFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.numericUpDown_MaxFrame.Location = new System.Drawing.Point(83, 3);
+            this.numericUpDown_MaxFrame.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.MaxFrame.Minimum = new decimal(new int[] {
+            this.numericUpDown_MaxFrame.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.MaxFrame.Name = "MaxFrame";
-            this.MaxFrame.Size = new System.Drawing.Size(52, 23);
-            this.MaxFrame.TabIndex = 10;
-            this.MaxFrame.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MaxFrame.Value = new decimal(new int[] {
+            this.numericUpDown_MaxFrame.Name = "numericUpDown_MaxFrame";
+            this.numericUpDown_MaxFrame.Size = new System.Drawing.Size(52, 23);
+            this.numericUpDown_MaxFrame.TabIndex = 10;
+            this.numericUpDown_MaxFrame.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown_MaxFrame.Value = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.MaxFrame.ValueChanged += new System.EventHandler(this.MaxFrame_ValueChanged);
+            this.numericUpDown_MaxFrame.ValueChanged += new System.EventHandler(this.MaxFrame_ValueChanged);
             // 
             // Panel_LineControl_Base
             // 
@@ -447,8 +447,8 @@
             this.MediaBase.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NowFlame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxFrame)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NowFlame)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFrame)).EndInit();
             this.Panel_LineControl_Base.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -464,20 +464,20 @@
         private System.Windows.Forms.Panel panel_Control;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel MediaBase;
-        private System.Windows.Forms.Button ButtonFore;
-        private System.Windows.Forms.Button ButtonPlay;
-        private System.Windows.Forms.Button ButtonPrev;
+        private System.Windows.Forms.Button button_Fore;
+        private System.Windows.Forms.Button button_Play;
+        private System.Windows.Forms.Button button_Prev;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.NumericUpDown NowFlame;
+        private System.Windows.Forms.NumericUpDown numericUpDown_NowFlame;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown MaxFrame;
+        private System.Windows.Forms.NumericUpDown numericUpDown_MaxFrame;
         private System.Windows.Forms.Panel Panel_LineControl_Base;
         private System.Windows.Forms.Panel TreeHeader;
         private System.Windows.Forms.Panel LineHeader;
-        private System.Windows.Forms.Button ItemDown;
-        private System.Windows.Forms.Button ItemUp;
+        private System.Windows.Forms.Button button_ItemDown;
+        private System.Windows.Forms.Button button_ItemUp;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button ItemRemove;
+        private System.Windows.Forms.Button button_ItemRemove;
         private System.Windows.Forms.ContextMenuStrip SubMenuTimeLine;
         private System.Windows.Forms.ToolStripMenuItem キーフレーム追加ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;

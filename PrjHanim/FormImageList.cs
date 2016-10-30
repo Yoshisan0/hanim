@@ -458,7 +458,7 @@ namespace PrjHikariwoAnim
 
         private void View_Checked_Changed(object sender, EventArgs e)
         {
-            if (botton_View.Checked)
+            if (checkBox_View.Checked)
             { listView.View = View.LargeIcon ; }
             else
             { listView.View = View.Details; }

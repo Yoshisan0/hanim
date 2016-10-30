@@ -158,8 +158,8 @@ namespace PrjHikariwoAnim
             //以下、グリッド表示処理
             if (this.checkBox_Grid.Checked)
             {
-                int inGridX = (int)UD_DivX.Value;
-                int inGridY = (int)UD_DivY.Value;
+                int inGridX = (int)numericUpDown_DivX.Value;
+                int inGridY = (int)numericUpDown_DivY.Value;
 
                 int inCnt, inMax = this.mImage.Width / inGridX;
                 for (inCnt = 1; inCnt < inMax; inCnt++)
@@ -189,8 +189,8 @@ namespace PrjHikariwoAnim
             Point stPos = this.panel_Image.PointToClient(Cursor.Position);
             if (this.checkBox_Magnet.Checked)
             {
-                double doValX = (double)UD_DivX.Value * this.mMag;
-                double doValY = (double)UD_DivY.Value * this.mMag;
+                double doValX = (double)numericUpDown_DivX.Value * this.mMag;
+                double doValY = (double)numericUpDown_DivY.Value * this.mMag;
 
                 stPos.X = (int)Math.Round((decimal)(stPos.X / doValX)) * (int)doValX;
                 stPos.Y = (int)Math.Round((decimal)(stPos.Y / doValY)) * (int)doValY;
@@ -264,8 +264,8 @@ namespace PrjHikariwoAnim
                             Point stPos = this.panel_Image.PointToClient(Cursor.Position);
                             if (this.checkBox_Magnet.Checked)
                             {
-                                double doValX = (double)UD_DivX.Value * this.mMag;
-                                double doValY = (double)UD_DivY.Value * this.mMag;
+                                double doValX = (double)numericUpDown_DivX.Value * this.mMag;
+                                double doValY = (double)numericUpDown_DivY.Value * this.mMag;
 
                                 stPos.X = (int)Math.Round((decimal)(stPos.X / doValX)) * (int)doValX;
                                 stPos.Y = (int)Math.Round((decimal)(stPos.Y / doValY)) * (int)doValY;
@@ -418,8 +418,8 @@ namespace PrjHikariwoAnim
         private void button_Divid_Click(object sender, EventArgs e)
         {
             //等間隔分割
-            int dx = (int)UD_DivX.Value;
-            int dy = (int)UD_DivY.Value;
+            int dx = (int)numericUpDown_DivX.Value;
+            int dy = (int)numericUpDown_DivY.Value;
 
             for (int cy=0;cy<(mImage.Height/dy);cy++)
             {

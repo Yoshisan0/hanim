@@ -40,7 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.label = new System.Windows.Forms.Label();
-            this.botton_View = new System.Windows.Forms.CheckBox();
+            this.checkBox_View = new System.Windows.Forms.CheckBox();
             this.button_OpenMyDoc = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -147,18 +147,18 @@
             this.label.TabIndex = 5;
             this.label.Text = "label2";
             // 
-            // botton_View
+            // checkBox_View
             // 
-            this.botton_View.Appearance = System.Windows.Forms.Appearance.Button;
-            this.botton_View.AutoSize = true;
-            this.botton_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.botton_View.Location = new System.Drawing.Point(352, 4);
-            this.botton_View.Name = "botton_View";
-            this.botton_View.Size = new System.Drawing.Size(40, 22);
-            this.botton_View.TabIndex = 6;
-            this.botton_View.Text = "View";
-            this.botton_View.UseVisualStyleBackColor = true;
-            this.botton_View.CheckedChanged += new System.EventHandler(this.View_Checked_Changed);
+            this.checkBox_View.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_View.AutoSize = true;
+            this.checkBox_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_View.Location = new System.Drawing.Point(352, 4);
+            this.checkBox_View.Name = "checkBox_View";
+            this.checkBox_View.Size = new System.Drawing.Size(40, 22);
+            this.checkBox_View.TabIndex = 6;
+            this.checkBox_View.Text = "View";
+            this.checkBox_View.UseVisualStyleBackColor = true;
+            this.checkBox_View.CheckedChanged += new System.EventHandler(this.View_Checked_Changed);
             // 
             // button_OpenMyDoc
             // 
@@ -178,7 +178,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 451);
             this.Controls.Add(this.button_OpenMyDoc);
-            this.Controls.Add(this.botton_View);
+            this.Controls.Add(this.checkBox_View);
             this.Controls.Add(this.label);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView);
@@ -211,7 +211,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.Label label;
-        private System.Windows.Forms.CheckBox botton_View;
+        private System.Windows.Forms.CheckBox checkBox_View;
         private System.Windows.Forms.Button button_OpenMyDoc;
     }
 }

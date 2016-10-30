@@ -33,7 +33,7 @@
             this.panel_Image = new System.Windows.Forms.Panel();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.PanelMenu = new System.Windows.Forms.Panel();
+            this.panel_Menu = new System.Windows.Forms.Panel();
             this.button_Divid = new System.Windows.Forms.Button();
             this.button_Cut = new System.Windows.Forms.Button();
             this.GridMenuBase = new System.Windows.Forms.Panel();
@@ -43,26 +43,26 @@
             this.panel_ColorRect = new System.Windows.Forms.Panel();
             this.comboBox_Mag = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.UD_DivY = new System.Windows.Forms.NumericUpDown();
-            this.UD_DivX = new System.Windows.Forms.NumericUpDown();
+            this.label_Y = new System.Windows.Forms.Label();
+            this.label_X = new System.Windows.Forms.Label();
+            this.numericUpDown_DivY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_DivX = new System.Windows.Forms.NumericUpDown();
             this.checkBox_Magnet = new System.Windows.Forms.CheckBox();
             this.splitContainerBase = new System.Windows.Forms.SplitContainer();
             this.panel_CellList = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_CellSave = new System.Windows.Forms.Button();
             this.button_Clear = new System.Windows.Forms.Button();
             this.button_CellDelete = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button_Cancel = new System.Windows.Forms.Button();
             this.button_OK = new System.Windows.Forms.Button();
-            this.CellSave = new System.Windows.Forms.Button();
             this.panel.SuspendLayout();
-            this.PanelMenu.SuspendLayout();
+            this.panel_Menu.SuspendLayout();
             this.GridMenuBase.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_DivY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_DivX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DivY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DivX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerBase)).BeginInit();
             this.splitContainerBase.Panel1.SuspendLayout();
             this.splitContainerBase.Panel2.SuspendLayout();
@@ -111,18 +111,18 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(611, 0);
             this.flowLayoutPanel1.TabIndex = 17;
             // 
-            // PanelMenu
+            // panel_Menu
             // 
-            this.PanelMenu.Controls.Add(this.button_Divid);
-            this.PanelMenu.Controls.Add(this.button_Cut);
-            this.PanelMenu.Controls.Add(this.GridMenuBase);
-            this.PanelMenu.Controls.Add(this.panel1);
-            this.PanelMenu.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelMenu.Location = new System.Drawing.Point(0, 0);
-            this.PanelMenu.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelMenu.Name = "PanelMenu";
-            this.PanelMenu.Size = new System.Drawing.Size(611, 32);
-            this.PanelMenu.TabIndex = 1;
+            this.panel_Menu.Controls.Add(this.button_Divid);
+            this.panel_Menu.Controls.Add(this.button_Cut);
+            this.panel_Menu.Controls.Add(this.GridMenuBase);
+            this.panel_Menu.Controls.Add(this.panel1);
+            this.panel_Menu.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_Menu.Location = new System.Drawing.Point(0, 0);
+            this.panel_Menu.Margin = new System.Windows.Forms.Padding(0);
+            this.panel_Menu.Name = "panel_Menu";
+            this.panel_Menu.Size = new System.Drawing.Size(611, 32);
+            this.panel_Menu.TabIndex = 1;
             // 
             // button_Divid
             // 
@@ -228,10 +228,10 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.UD_DivY);
-            this.panel1.Controls.Add(this.UD_DivX);
+            this.panel1.Controls.Add(this.label_Y);
+            this.panel1.Controls.Add(this.label_X);
+            this.panel1.Controls.Add(this.numericUpDown_DivY);
+            this.panel1.Controls.Add(this.numericUpDown_DivX);
             this.panel1.Controls.Add(this.checkBox_Magnet);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -240,77 +240,77 @@
             this.panel1.Size = new System.Drawing.Size(175, 32);
             this.panel1.TabIndex = 28;
             // 
-            // label3
+            // label_Y
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(108, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 16);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "Y:";
+            this.label_Y.AutoSize = true;
+            this.label_Y.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label_Y.Location = new System.Drawing.Point(108, 7);
+            this.label_Y.Name = "label_Y";
+            this.label_Y.Size = new System.Drawing.Size(20, 16);
+            this.label_Y.TabIndex = 20;
+            this.label_Y.Text = "Y:";
             // 
-            // label1
+            // label_X
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(34, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 16);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "X:";
+            this.label_X.AutoSize = true;
+            this.label_X.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label_X.Location = new System.Drawing.Point(34, 7);
+            this.label_X.Name = "label_X";
+            this.label_X.Size = new System.Drawing.Size(21, 16);
+            this.label_X.TabIndex = 19;
+            this.label_X.Text = "X:";
             // 
-            // UD_DivY
+            // numericUpDown_DivY
             // 
-            this.UD_DivY.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UD_DivY.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UD_DivY.Location = new System.Drawing.Point(129, 4);
-            this.UD_DivY.Maximum = new decimal(new int[] {
+            this.numericUpDown_DivY.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown_DivY.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.numericUpDown_DivY.Location = new System.Drawing.Point(129, 4);
+            this.numericUpDown_DivY.Maximum = new decimal(new int[] {
             256,
             0,
             0,
             0});
-            this.UD_DivY.Minimum = new decimal(new int[] {
+            this.numericUpDown_DivY.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.UD_DivY.Name = "UD_DivY";
-            this.UD_DivY.Size = new System.Drawing.Size(40, 22);
-            this.UD_DivY.TabIndex = 18;
-            this.UD_DivY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UD_DivY.Value = new decimal(new int[] {
+            this.numericUpDown_DivY.Name = "numericUpDown_DivY";
+            this.numericUpDown_DivY.Size = new System.Drawing.Size(40, 22);
+            this.numericUpDown_DivY.TabIndex = 18;
+            this.numericUpDown_DivY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown_DivY.Value = new decimal(new int[] {
             8,
             0,
             0,
             0});
-            this.UD_DivY.ValueChanged += new System.EventHandler(this.UD_DivXY_ValueChanged);
+            this.numericUpDown_DivY.ValueChanged += new System.EventHandler(this.UD_DivXY_ValueChanged);
             // 
-            // UD_DivX
+            // numericUpDown_DivX
             // 
-            this.UD_DivX.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UD_DivX.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UD_DivX.Location = new System.Drawing.Point(54, 4);
-            this.UD_DivX.Maximum = new decimal(new int[] {
+            this.numericUpDown_DivX.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown_DivX.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.numericUpDown_DivX.Location = new System.Drawing.Point(54, 4);
+            this.numericUpDown_DivX.Maximum = new decimal(new int[] {
             256,
             0,
             0,
             0});
-            this.UD_DivX.Minimum = new decimal(new int[] {
+            this.numericUpDown_DivX.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.UD_DivX.Name = "UD_DivX";
-            this.UD_DivX.Size = new System.Drawing.Size(49, 22);
-            this.UD_DivX.TabIndex = 17;
-            this.UD_DivX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UD_DivX.Value = new decimal(new int[] {
+            this.numericUpDown_DivX.Name = "numericUpDown_DivX";
+            this.numericUpDown_DivX.Size = new System.Drawing.Size(49, 22);
+            this.numericUpDown_DivX.TabIndex = 17;
+            this.numericUpDown_DivX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown_DivX.Value = new decimal(new int[] {
             8,
             0,
             0,
             0});
-            this.UD_DivX.ValueChanged += new System.EventHandler(this.UD_DivXY_ValueChanged);
+            this.numericUpDown_DivX.ValueChanged += new System.EventHandler(this.UD_DivXY_ValueChanged);
             // 
             // checkBox_Magnet
             // 
@@ -360,7 +360,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.CellSave);
+            this.panel2.Controls.Add(this.button_CellSave);
             this.panel2.Controls.Add(this.button_Clear);
             this.panel2.Controls.Add(this.button_CellDelete);
             this.panel2.Controls.Add(this.panel3);
@@ -369,6 +369,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(611, 30);
             this.panel2.TabIndex = 6;
+            // 
+            // button_CellSave
+            // 
+            this.button_CellSave.Location = new System.Drawing.Point(166, 3);
+            this.button_CellSave.Name = "button_CellSave";
+            this.button_CellSave.Size = new System.Drawing.Size(75, 23);
+            this.button_CellSave.TabIndex = 3;
+            this.button_CellSave.Text = "CellSave";
+            this.button_CellSave.UseVisualStyleBackColor = true;
+            this.button_CellSave.Click += new System.EventHandler(this.CellSave_Click);
             // 
             // button_Clear
             // 
@@ -420,16 +430,6 @@
             this.button_OK.Text = "Add OK";
             this.button_OK.UseVisualStyleBackColor = true;
             // 
-            // CellSave
-            // 
-            this.CellSave.Location = new System.Drawing.Point(166, 3);
-            this.CellSave.Name = "CellSave";
-            this.CellSave.Size = new System.Drawing.Size(75, 23);
-            this.CellSave.TabIndex = 3;
-            this.CellSave.Text = "CellSave";
-            this.CellSave.UseVisualStyleBackColor = true;
-            this.CellSave.Click += new System.EventHandler(this.CellSave_Click);
-            // 
             // FormImageCut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -437,7 +437,7 @@
             this.ClientSize = new System.Drawing.Size(611, 321);
             this.Controls.Add(this.splitContainerBase);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.PanelMenu);
+            this.Controls.Add(this.panel_Menu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.KeyPreview = true;
             this.Name = "FormImageCut";
@@ -446,13 +446,13 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormImageCut_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormImageCut_KeyUp);
             this.panel.ResumeLayout(false);
-            this.PanelMenu.ResumeLayout(false);
+            this.panel_Menu.ResumeLayout(false);
             this.GridMenuBase.ResumeLayout(false);
             this.GridMenuBase.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_DivY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UD_DivX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DivY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DivX)).EndInit();
             this.splitContainerBase.Panel1.ResumeLayout(false);
             this.splitContainerBase.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerBase)).EndInit();
@@ -469,7 +469,7 @@
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.Panel panel_Image;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Panel PanelMenu;
+        private System.Windows.Forms.Panel panel_Menu;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox checkBox_Magnet;
         private System.Windows.Forms.Button button_Cut;
@@ -486,12 +486,12 @@
         private System.Windows.Forms.Button button_OK;
         private System.Windows.Forms.Button button_CellDelete;
         private System.Windows.Forms.Panel panel_CellList;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown UD_DivY;
-        private System.Windows.Forms.NumericUpDown UD_DivX;
+        private System.Windows.Forms.Label label_Y;
+        private System.Windows.Forms.Label label_X;
+        private System.Windows.Forms.NumericUpDown numericUpDown_DivY;
+        private System.Windows.Forms.NumericUpDown numericUpDown_DivX;
         private System.Windows.Forms.Button button_Divid;
         private System.Windows.Forms.Button button_Clear;
-        private System.Windows.Forms.Button CellSave;
+        private System.Windows.Forms.Button button_CellSave;
     }
 }

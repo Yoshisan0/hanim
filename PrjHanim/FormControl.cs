@@ -71,7 +71,7 @@ namespace PrjHikariwoAnim
         private void FormControl_Load(object sender, EventArgs e)
         {
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
-            this.panel_Time.Width = TIME_CELL_WIDTH * (int)MaxFrame.Value;
+            this.panel_Time.Width = TIME_CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height =HEAD_HEIGHT*5;          
         }
 
@@ -137,7 +137,7 @@ namespace PrjHikariwoAnim
         }
         private void MaxFrame_ValueChanged(object sender, EventArgs e)
         {
-            int inWidth = (int)this.MaxFrame.Value * FormControl.TIME_CELL_WIDTH + 1;
+            int inWidth = (int)this.numericUpDown_MaxFrame.Value * FormControl.TIME_CELL_WIDTH + 1;
             this.panel_Time.Width = inWidth;
 
             this.panel_Time.Refresh();
@@ -157,11 +157,11 @@ namespace PrjHikariwoAnim
         }
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
-            NowFlame.Value = 0;
+            numericUpDown_NowFlame.Value = 0;
         }
         private void ButtonFore_Click(object sender, EventArgs e)
         {
-            NowFlame.Value = MaxFrame.Value;
+            numericUpDown_NowFlame.Value = numericUpDown_MaxFrame.Value;
         }
         private void LineHeader_Paint(object sender, PaintEventArgs e)
         {
@@ -180,7 +180,7 @@ namespace PrjHikariwoAnim
                 }
             }
             //NowPotision 矢印
-            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(TIME_CELL_WIDTH * (int)NowFlame.Value + (TIME_CELL_WIDTH / 2) - 4, 2));
+            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(TIME_CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (TIME_CELL_WIDTH / 2) - 4, 2));
         }
 
         //Left  Paine
@@ -293,9 +293,9 @@ namespace PrjHikariwoAnim
             int cy = e.Y / TIME_CELL_HEIGHT;
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
-            if (cx <= MaxFrame.Value)
+            if (cx <= numericUpDown_MaxFrame.Value)
             {
-                NowFlame.Value = cx;
+                numericUpDown_NowFlame.Value = cx;
                 mSelect_Pos_Start.X = cx;
                 mSelect_Pos_Start.Y = cy;
 
@@ -350,9 +350,9 @@ namespace PrjHikariwoAnim
                 int cy = e.Y / TIME_CELL_HEIGHT;
                 //注:範囲指定時は考慮
                 //クリックフレームを現在のフレームに指定
-                if (cx <= MaxFrame.Value)
+                if (cx <= numericUpDown_MaxFrame.Value)
                 {
-                    NowFlame.Value = cx;
+                    numericUpDown_NowFlame.Value = cx;
                     mSelect_Pos_End.X = cx;
                     mSelect_Pos_End.Y = cy;
                 }
@@ -366,7 +366,7 @@ namespace PrjHikariwoAnim
             //TimeLine
             int inWidth = this.panel_Time.Width;
             int inHeight = this.panel_Time.Height;
-            int inFrame = (int)this.MaxFrame.Value;
+            int inFrame = (int)this.numericUpDown_MaxFrame.Value;
             int CellWidth = TIME_CELL_WIDTH;
             int CellHeight = TIME_CELL_HEIGHT;
             int inCnt, inMax = 5;
@@ -407,7 +407,7 @@ namespace PrjHikariwoAnim
                 //5の倍数の時(グレイ)
                 if (inCnt % 5 == 0) pen = Pens.DarkGreen;
                 //現在のフレームの時(赤)
-                if (inCnt == NowFlame.Value)
+                if (inCnt == numericUpDown_NowFlame.Value)
                 {
                     SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Red));
                     e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
@@ -446,7 +446,7 @@ namespace PrjHikariwoAnim
             //タイムライン上ダブルクリックは KeyFrame作成
             int pos = e.X / TIME_CELL_WIDTH;
             //フレーム範囲チェック
-            if (pos >= MaxFrame.Value) return;
+            if (pos >= numericUpDown_MaxFrame.Value) return;
 
             FRAME newframe = mTimeLine.EditFrame.Clone();
             newframe.FrameNum = pos;
@@ -462,7 +462,7 @@ namespace PrjHikariwoAnim
             //Closeキャンセルして非表示にするだけ
             e.Cancel = true;
             //this.Visible = false; //自身で消さなくても下の操作で消える
-            mFormMain.CB_Control.Checked = false;
+            mFormMain.checkBox_Control.Checked = false;
         }
     }
 }

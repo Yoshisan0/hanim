@@ -222,7 +222,7 @@ namespace PrjHikariwoAnim
         {
             e.Cancel = true;
             this.Visible = false;
-            mFormMain.CB_CellList.Checked = false;            
+            mFormMain.checkBox_CellList.Checked = false;            
         }
     }
 }
