@@ -12,6 +12,7 @@ namespace PrjHikariwoAnim
 {
     public class ClsTool
     {
+        public int hogehoge;
         public static Hashtable mTblImage; //キーはstringのMD5 値はClsImage
 
         public static void Init()
