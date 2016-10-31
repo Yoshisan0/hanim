@@ -404,18 +404,18 @@
             // 
             this.UDnumRZ.DecimalPlaces = 3;
             this.UDnumRZ.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRZ.Increment = new decimal(new int[] {
-            1019924768,
-            57145,
-            0,
-            1048576});
             this.UDnumRZ.Location = new System.Drawing.Point(150, 104);
             this.UDnumRZ.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRZ.Maximum = new decimal(new int[] {
-            360,
+            2147483647,
             0,
             0,
             0});
+            this.UDnumRZ.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
             this.UDnumRZ.Name = "UDnumRZ";
             this.UDnumRZ.Size = new System.Drawing.Size(70, 23);
             this.UDnumRZ.TabIndex = 40;
@@ -426,18 +426,18 @@
             // 
             this.UDnumRY.DecimalPlaces = 3;
             this.UDnumRY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRY.Increment = new decimal(new int[] {
-            1019924768,
-            57145,
-            0,
-            1048576});
             this.UDnumRY.Location = new System.Drawing.Point(150, 79);
             this.UDnumRY.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRY.Maximum = new decimal(new int[] {
-            360,
+            2147483647,
             0,
             0,
             0});
+            this.UDnumRY.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
             this.UDnumRY.Name = "UDnumRY";
             this.UDnumRY.Size = new System.Drawing.Size(70, 23);
             this.UDnumRY.TabIndex = 41;
@@ -448,18 +448,18 @@
             // 
             this.UDnumRX.DecimalPlaces = 3;
             this.UDnumRX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRX.Increment = new decimal(new int[] {
-            1019924768,
-            57145,
-            0,
-            1048576});
             this.UDnumRX.Location = new System.Drawing.Point(150, 54);
             this.UDnumRX.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRX.Maximum = new decimal(new int[] {
-            360,
+            2147483647,
             0,
             0,
             0});
+            this.UDnumRX.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
             this.UDnumRX.Name = "UDnumRX";
             this.UDnumRX.Size = new System.Drawing.Size(70, 23);
             this.UDnumRX.TabIndex = 42;

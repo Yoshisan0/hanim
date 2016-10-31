@@ -69,7 +69,7 @@ namespace PrjHikariwoAnim
         {
             //以下、初期化処理
             this.DialogResult = DialogResult.None;
-
+            if (ImageManager == null) ImageManager = new ImageManagerBase();
             this.comboBox_Mag.SelectedIndex = 0;
             this.panel_Image.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, this.panel_Image, new object[] { true });
         }
@@ -357,7 +357,7 @@ namespace PrjHikariwoAnim
             if(ImageManager.CellList.Count <= 0) return;
 
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-            //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
+            //サムネイル表示はセレクトの関係から縦横固定サイズが望ましい
 
             for(int cy =0 ; cy< cvy; cy++)
             {
@@ -371,6 +371,7 @@ namespace PrjHikariwoAnim
                             Console.Out.Write("CellImage is Null");
                             return;
                         }
+                        //Thumbnail Resize
                         float rw = bSize / src.Width;
                         float rh = bSize / src.Height;
                         float rf = Math.Min(rw, rh);
@@ -389,11 +390,9 @@ namespace PrjHikariwoAnim
                         }
                     }
                     cnt++;
-
                 }
             }
         }
-
         private void panel_CellList_MouseUp(object sender, MouseEventArgs e)
         {
             //Cell Select
@@ -414,7 +413,6 @@ namespace PrjHikariwoAnim
             ImageManager.RemoveSelectedCell();
             splitContainerBase.Refresh();
         }
-
         private void button_Divid_Click(object sender, EventArgs e)
         {
             //等間隔分割
@@ -432,20 +430,19 @@ namespace PrjHikariwoAnim
                     ImageManager.AddCellFromImage(mImage, c);                   
                 }
             }
-            //panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth)) * mThumsWidth;
-            splitContainerBase.Panel2.Refresh();
             mPosStart = new Point(0, 0);
             mPosEnd = new Point(dx, dy);//仮
 
+            panel_CellList.Width = splitContainerBase.ClientSize.Width;
+            panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth) + 1) * mThumsWidth;
+            //splitContainerBase.Refresh();
         }
-
         private void button_Clear_Click(object sender, EventArgs e)
         {
             //全セルの削除
             ImageManager.CellList.Clear();
             splitContainerBase.Refresh();
         }
-
         private void CellSave_Click(object sender, EventArgs e)
         {
             if(ImageManager.CellCount() >0)
@@ -458,6 +455,14 @@ namespace PrjHikariwoAnim
                     //ImageManager.CellList[0].ToXMLFile(sd.FileName);
                 }
             }
+        }
+
+        private void splitContainerBase_Panel2_Resize(object sender, EventArgs e)
+        {
+            if (ImageManager==null) return;
+            panel_CellList.Width = splitContainerBase.ClientSize.Width;
+            panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
+            splitContainerBase.Refresh();
         }
     }
 }

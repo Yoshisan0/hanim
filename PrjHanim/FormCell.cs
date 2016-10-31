@@ -32,12 +32,12 @@ namespace PrjHikariwoAnim
             IM = new ImageManagerBase();
             mFormMain = form;
         }
-
-        private void CloseWindow_Click(object sender, EventArgs e)
+        private void FormCell_FormClosing(object sender, FormClosingEventArgs e)
         {
+            e.Cancel = true;
             this.Visible = false;
+            mFormMain.checkBox_CellList.Checked = false;
         }
-
         private void FormCell_DragEnter(object sender, DragEventArgs e)
         {
             //受け入れ準備
@@ -136,13 +136,11 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.None;
             }
         }
-
         private void FormCell_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) m_isMouseLDown = true;
             this.mMouseDownPoint = e.Location; //new Point(e.X, e.Y);
         }
-
         private void FormCell_MouseMove(object sender, MouseEventArgs e)
         {
             if (mMouseDownPoint != Point.Empty || m_isMouseLDown)
@@ -218,11 +216,5 @@ namespace PrjHikariwoAnim
             }
         }
 
-        private void FormCell_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            this.Visible = false;
-            mFormMain.checkBox_CellList.Checked = false;            
-        }
     }
 }

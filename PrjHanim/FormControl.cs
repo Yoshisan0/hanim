@@ -254,7 +254,7 @@ namespace PrjHikariwoAnim
                 if (ele.Select)
                 {
                     //選択中Elementsの背景強調
-                    sb = new SolidBrush(Color.FromArgb(64,Color.Green));
+                    sb = new SolidBrush(Color.FromArgb(128,Color.Green));
                     e.Graphics.FillRectangle(sb, 0, inCnt * TIME_CELL_HEIGHT, panel_Control.Width, TIME_CELL_HEIGHT - 1);
                 }
                 //ステートマーク 目,鍵
@@ -395,7 +395,8 @@ namespace PrjHikariwoAnim
                 }
                 if (ele.Select)
                 {
-                    sb = new SolidBrush(Color.FromArgb(64, Color.Green));
+                    //選択色
+                    sb = new SolidBrush(Color.FromArgb(128, Color.Green));
                     e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
                 }
             }
@@ -404,7 +405,7 @@ namespace PrjHikariwoAnim
 
             for (inCnt = 0; inCnt < inFrame; inCnt++)
             {
-                var pen = Pens.CadetBlue;
+                Pen pen = new Pen( Color.FromArgb(255,40,40,40));// Pens.DimGray;
 
                 //5の倍数の時(グレイ)
                 if (inCnt % 5 == 0) pen = Pens.DarkGreen;

@@ -445,65 +445,6 @@ namespace PrjHikariwoAnim
 
         }
 
-        private void PanelPreView_DragDrop(object sender, DragEventArgs e)
-        {
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
-            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
-            //PNGファイル直受け入れ
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                //1画像 1CELL 1Element
-                //File
-                string[] AllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-                foreach(string str in AllPaths)
-                {
-                    string ext = System.IO.Path.GetExtension(str).ToLower();
-                    if (ext==".png")
-                    {
-                        CELL c = new CELL();
-                        c.FromPngFile(str);
-                        ImageMan.AddCell(c);
-                        AddElements(c, sPos.X, sPos.Y);
-                    }
-                }
-                e.Effect = DragDropEffects.Copy;
-            }
-
-            //ListViewItem受け入れ
-            if ( e.Data.GetDataPresent(typeof(ListViewItem)))
-            {
-                ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
-                //Cellの登録 Image Item
-                CELL work = new CELL();
-                work.Img =(Bitmap) lvi.ImageList.Images[lvi.ImageIndex];
-                //画像そのままならこれでいいが一部切り抜きとなると変更
-                // ！！！どうやらオリジナル画像でなくサムネらしい！！！
-                work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
-                ImageMan.AddCell(work);//画像登録
-                
-                AddElements(work, sPos.X, sPos.Y);
-                e.Effect = DragDropEffects.Copy;
-            }
-
-            //CELL 受け入れ
-            if (e.Data.GetType() == typeof(CELL))
-            {
-                //Store Cell Item
-                CELL work = (CELL)e.Data.GetData(typeof(CELL));
-                ImageMan.AddCell(work);//画像登録
-
-                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                AddElements(work, a.X, a.Y);
-                e.Effect = DragDropEffects.Copy;
-            }
-            if(e.Data.GetType()==typeof(ELEMENTS))
-            { e.Effect = DragDropEffects.Copy; }
-            if ( e.Data.GetType()==typeof(Image))
-            { e.Effect = DragDropEffects.Copy; }            
-
-            panel_PreView.Refresh();
-        }
-
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
@@ -574,6 +515,76 @@ namespace PrjHikariwoAnim
 
         }
 
+        /// <summary>
+        /// ドラッグアンドドロップ処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PanelPreView_DragDrop(object sender, DragEventArgs e)
+        {
+            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
+            //PNGファイル直受け入れ
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //1画像 1CELL 1Element
+                //File
+                string[] AllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string str in AllPaths)
+                {
+                    string ext = System.IO.Path.GetExtension(str).ToLower();
+                    if (ext == ".png")
+                    {
+                        CELL c = new CELL();
+                        c.FromPngFile(str);
+                        ImageMan.AddCell(c);
+                        AddElements(c, sPos.X, sPos.Y);
+                        //ImageListへ登録と更新
+                        mFormImageList.AddItem(str);
+                        mFormImageList.Refresh();
+                        //CellListの表示更新
+                        mFormCell.Refresh();
+                    }
+                }
+                e.Effect = DragDropEffects.Copy;
+            }
+
+            //ListViewItem受け入れ
+            if (e.Data.GetDataPresent(typeof(ListViewItem)))
+            {
+                ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
+                //Cellの登録 Image Item
+                CELL work = new CELL();
+                work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
+                //画像そのままならこれでいいが一部切り抜きとなると変更
+                // ！！！どうやらオリジナル画像でなくサムネらしい！！！
+                //必要なのはmFormImagelist.mListImageの中身っぽい？
+                
+                work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
+                ImageMan.AddCell(work);//画像サイズ登録実画像はいずこ！
+
+                AddElements(work, sPos.X, sPos.Y);
+                e.Effect = DragDropEffects.Copy;
+            }
+
+            //CELL 受け入れ
+            if (e.Data.GetType() == typeof(CELL))
+            {
+                //Store Cell Item
+                CELL work = (CELL)e.Data.GetData(typeof(CELL));
+                ImageMan.AddCell(work);//画像登録
+
+                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                AddElements(work, a.X, a.Y);
+                e.Effect = DragDropEffects.Copy;
+            }
+            if (e.Data.GetType() == typeof(ELEMENTS))
+            { e.Effect = DragDropEffects.Copy; }
+            if (e.Data.GetType() == typeof(Image))
+            { e.Effect = DragDropEffects.Copy; }
+
+            panel_PreView.Refresh();
+        }
         private void button1_MotionAdd_Click(object sender, EventArgs e)
         {
             AddMotion("NewMotion");
@@ -697,7 +708,7 @@ namespace PrjHikariwoAnim
                         //+CTRL マウスでの回転 左周りにしかなってない
                         if (mKeysSP == Keys.Control)
                         {
-                            float w = nowEle.Atr.Radius.X + mMouseDownShift.X;
+                            float w = nowEle.Atr.Radius.X + mMouseDownShift.X/4f;
                             if(w > 360)
                             {
                                 nowEle.Atr.Radius.X = w % 360;
@@ -708,7 +719,7 @@ namespace PrjHikariwoAnim
                             }
                             else
                             {
-                                nowEle.Atr.Radius.X += mMouseDownShift.X;
+                                nowEle.Atr.Radius.X += mMouseDownShift.X/4f;
                             }
 
                             //w = nowEle.Atr.Radius.Y + mMouseDownShift.Y;

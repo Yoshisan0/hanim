@@ -19,7 +19,7 @@ namespace PrjHikariwoAnim
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
         private bool m_isMouseLDown;    //左クリック押し下げ中
 
-        public ImageManagerBase IM;
+        //public ImageManagerBase IM;
 
         public FormImageList()
         {
@@ -31,7 +31,6 @@ namespace PrjHikariwoAnim
             this.mListImage = new ArrayList();
             this.mMouseDownPoint = Point.Empty;
         }
-
         private void FormImageList_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(ListViewItem[])))
@@ -78,7 +77,6 @@ namespace PrjHikariwoAnim
                 }
             }
         }
-
         private void FormImageList_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -115,15 +113,43 @@ namespace PrjHikariwoAnim
                 }
             }
         }
+        /// <summary>
+        /// OpenFileDialog(png)
+        /// </summary>
+        /// <param name="path">InitalDirectory</param>
+        private void AddImage(string path)
+        {
+            OpenFileDialog clDialog = new OpenFileDialog();
+            clDialog.FileName = "";
+            clDialog.InitialDirectory = path;
+            clDialog.Filter = "PNGファイル(*.png)|*.png|すべてのファイル(*.*)|*.*";
+            clDialog.FilterIndex = 0;
+            clDialog.Title = "png ファイルを選択してください";
+            clDialog.RestoreDirectory = true;
+            clDialog.Multiselect = true;
+            if (clDialog.ShowDialog() != DialogResult.OK) return;
 
-        private void AddItem(string clPath)
+            int inCnt, inMax = clDialog.FileNames.Length;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                string clPath = clDialog.FileNames[inCnt];
+                bool isChk = this.ChkImageFile(clPath);
+                if (!isChk) continue;
+
+                this.AddItem(clPath);
+            }
+        }
+        /// <summary>
+        /// ファイル名(PNGチェック済)を登録する
+        /// </summary>
+        /// <param name="clPath"></param>
+        public void AddItem(string clPath)
         {
             Image clImage = Bitmap.FromFile(clPath);
             byte[] pchBuffer = ClsTool.ImageToByteArray(clImage);
             string clMD5 = ClsTool.GetMD5FromMemory(pchBuffer);
             this.AddItem(clPath, clMD5, clImage);
         }
-
         private void AddItem(string clPath, string clMD5, Image clImage)
         {
             //以下、MD5重複チェック処理
@@ -165,7 +191,6 @@ namespace PrjHikariwoAnim
 
             this.listView.Items.Add(clItem);
         }
-
         private void ResizeImage(Image clImageSrc, ref Image clImageBig, ref Image clImageSmall)
         {
             Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);
@@ -218,7 +243,11 @@ namespace PrjHikariwoAnim
                 g.DrawImage(clImageSrc, stRectDst, stRectSrc, GraphicsUnit.Pixel);
             }
         }
-
+        /// <summary>
+        /// ファイルがPNGファイルであるか確認する
+        /// </summary>
+        /// <param name="clPath"></param>
+        /// <returns></returns>
         private bool ChkImageFile(string clPath)
         {
             try
@@ -235,7 +264,6 @@ namespace PrjHikariwoAnim
             {
                 return (false);
             }
-
             return (true);
         }
 
@@ -243,33 +271,6 @@ namespace PrjHikariwoAnim
         {
             AddImage(ClsPath.GetPath());
         }
-        /// <summary>
-        /// OpenFileDialog(png)
-        /// </summary>
-        /// <param name="path">InitalDirectory</param>
-        private void AddImage(string path)
-        {
-            OpenFileDialog clDialog = new OpenFileDialog();
-            clDialog.FileName = "";
-            clDialog.InitialDirectory = path;
-            clDialog.Filter = "PNGファイル(*.png)|*.png|すべてのファイル(*.*)|*.*";
-            clDialog.FilterIndex = 0;
-            clDialog.Title = "png ファイルを選択してください";
-            clDialog.RestoreDirectory = true;
-            clDialog.Multiselect = true;
-            if (clDialog.ShowDialog() != DialogResult.OK) return;
-
-            int inCnt, inMax = clDialog.FileNames.Length;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                string clPath = clDialog.FileNames[inCnt];
-                bool isChk = this.ChkImageFile(clPath);
-                if (!isChk) continue;
-
-                this.AddItem(clPath);
-            }
-        }
-
         private void button_Delete_Click(object sender, EventArgs e)
         {
             if (this.listView.SelectedIndices.Count != 1) return;
@@ -284,7 +285,6 @@ namespace PrjHikariwoAnim
                 this.listView.Items[inCnt].ImageIndex = inCnt;
             }
         }
-
         private void button_Cut_Click(object sender, EventArgs e)
         {
             if (this.listView.SelectedIndices.Count != 1) return;
@@ -292,7 +292,6 @@ namespace PrjHikariwoAnim
             int inIndex = this.listView.SelectedIndices[0];
             this.CutImage(inIndex);
         }
-
         private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (this.listView.SelectedIndices.Count != 1) return;
@@ -301,7 +300,12 @@ namespace PrjHikariwoAnim
             this.CutImage(inIndex);
         }
 
-        //指定サイズで元画像を全分割:9/19:amami この処理はFormCutのほうがいいか9/28
+        /// <summary>
+        /// 指定画像を指定サイズで全分割(ImageCutの方で行うので未使用)
+        /// </summary>
+        /// <param name="inIndex">画像番号</param>
+        /// <param name="w">幅</param>
+        /// <param name="h">高</param>
         private void DvideImage(int inIndex,int w,int h)
         {
             if (w < 1 || h < 1) return;
@@ -317,6 +321,10 @@ namespace PrjHikariwoAnim
                 }
             }      
         }
+        /// <summary>
+        /// 指定画像をFormImageCutに送り切出し処理を行う(1部品限定)
+        /// </summary>
+        /// <param name="inIndex"></param>
         private void CutImage(int inIndex)
         {
             string clPath = this.listView.Items[inIndex].SubItems[1].Text;
@@ -388,7 +396,6 @@ namespace PrjHikariwoAnim
 //            ClsWin32.ImageList_DragEnter(pinDesktopWindow, Cursor.Position.X, Cursor.Position.Y);
 
         }
-
         private void listView_MouseMove(object sender, MouseEventArgs e)
         {
             if (mMouseDownPoint != Point.Empty || m_isMouseLDown)
@@ -433,7 +440,6 @@ namespace PrjHikariwoAnim
             mouseDownPoint = Point.Empty; 
  */
         }
-
         private void listView_MouseUp(object sender, MouseEventArgs e)
         {
             m_isMouseLDown = false;
@@ -447,7 +453,6 @@ namespace PrjHikariwoAnim
 
             Console.WriteLine("MouseUp");
         }
-
         private void timerMain_Tick(object sender, EventArgs e)
         {
             if (this.mMouseDownPoint != Point.Empty)
@@ -455,7 +460,6 @@ namespace PrjHikariwoAnim
                 ClsWin32.ImageList_DragMove(Cursor.Position.X, Cursor.Position.Y);
             }
         }
-
         private void View_Checked_Changed(object sender, EventArgs e)
         {
             if (checkBox_View.Checked)
