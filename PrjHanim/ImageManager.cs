@@ -33,7 +33,7 @@ namespace PrjHikariwoAnim
         }
         public bool SetImage(string Path)
         {
-            Image img;
+//          Image img;
             ImageInfo info = new ImageInfo(Path);  
 
             Info.Add(info);
