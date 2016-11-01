@@ -380,10 +380,13 @@ namespace PrjHikariwoAnim
             }
             
         }        
-
+        /// <summary>
+        /// 1エレメント描画処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="g"></param>
         private void DrawParts(object sender, Graphics g)
         {
-            //なんだか遅いなぁ・・ちらつくなぁ・・
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
@@ -396,6 +399,7 @@ namespace PrjHikariwoAnim
             for(int cnt=0; cnt< frm.ElementsCount;cnt++)
             {                
                 ELEMENTS e = frm.GetElement(cnt);
+                
                 AttributeBase atr = e.Atr;
                 Matrix Back = g.Transform;
                 Matrix MatObj = new Matrix();
@@ -444,7 +448,7 @@ namespace PrjHikariwoAnim
                     g.DrawRectangle(Pens.DarkCyan, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx-1,vsy-1);
                 }
                 
-                //test Hit範囲をボックス描画
+                //test Hit範囲をボックス描画 
                 /*
                  g.DrawRectangle(Pens.Aqua,  (-(atr.Width *atr.Scale.X)/2 * atr.Scale.X),
                                             (-(atr.Height *atr.Scale.Y)/2 * atr.Scale.Y),
@@ -456,7 +460,12 @@ namespace PrjHikariwoAnim
                 //Cuurent Draw Grip
             }
         }
-        private void GripDraw(AttributeBase atr,Graphics g)
+        /// <summary>
+        /// 補助ラインやセンター等のサポート部の描画
+        /// </summary>
+        /// <param name="atr"></param>
+        /// <param name="g"></param>
+        private void GripDraw(ELEMENTS elem,Graphics g)
         {
             //アイテム操作ハンドル　中心点とオブジェの４点rectと角度
             //LineColor GripColor RadiusColor

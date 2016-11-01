@@ -560,8 +560,10 @@ namespace PrjHikariwoAnim
     {
         public enum TYPE {Master,Child,Joint,Effec,Accessory,FX }
         TYPE Type;
-        public bool isSelect;
-        public bool isOpenAtr;
+        public bool isVisible;//表示非表示(目)
+        public bool isLocked;//ロック状態(鍵)
+        public bool isSelect;//選択状態
+        public bool isOpenAtr;//属性開閉状態(+-)
         public string Name;
         public object Tag; //認識ID
         public int Value;

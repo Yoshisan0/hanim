@@ -201,9 +201,9 @@ namespace PrjHikariwoAnim
                 mSelectElements = work;
 
                 //Click Eye
-                if (e.X < 16) { ele.Atr.Visible = !ele.Atr.Visible; }
+                if (e.X < 16) { ele.isVisible = !ele.isVisible; }
                 //Click Locked
-                if (e.X > 16 && e.X < 32) { ele.Atr.Enable = !ele.Atr.Enable; }
+                if (e.X > 16 && e.X < 32) { ele.isLocked = !ele.isLocked; }
                 //Attribute Open
                 if (e.X > 32 && e.X < 48) { ele.isOpenAtr = !ele.isOpenAtr; }
                 //SelectElements
@@ -257,8 +257,8 @@ namespace PrjHikariwoAnim
                     sb = new SolidBrush(Color.FromArgb(128,Color.Green));
                     e.Graphics.FillRectangle(sb, 0, inCnt * TIME_CELL_HEIGHT, panel_Control.Width, TIME_CELL_HEIGHT - 1);
                 }
-                //ステートマーク 目,鍵
-                if (ele.Atr.Visible)
+                //ステートマーク 目
+                if (ele.isVisible)
                 {
                     e.Graphics.DrawImage(Properties.Resources.see, 2, inCnt * TIME_CELL_HEIGHT);
                 }
@@ -266,8 +266,8 @@ namespace PrjHikariwoAnim
                 {
                     e.Graphics.DrawImage(Properties.Resources.unSee, 2, inCnt * TIME_CELL_HEIGHT);
                 }
-                //ステートマーク 目,鍵
-                if (ele.Atr.Enable)
+                //ステートマーク 鍵
+                if (ele.isLocked)
                 {
                     e.Graphics.DrawImage(Properties.Resources.locked, 2+16, inCnt * TIME_CELL_HEIGHT);
                 }
