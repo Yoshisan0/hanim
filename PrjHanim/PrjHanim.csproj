@@ -50,9 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtributeBase.cs" />
+    <Compile Include="ClsData.cs" />
     <Compile Include="ClsImage.cs" />
     <Compile Include="ClsPath.cs" />
-    <Compile Include="ClsTool.cs" />
+    <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsWin32.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>
@@ -122,7 +123,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

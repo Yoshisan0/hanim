@@ -146,8 +146,8 @@ namespace PrjHikariwoAnim
         public void AddItem(string clPath)
         {
             Image clImage = Bitmap.FromFile(clPath);
-            byte[] pchBuffer = ClsTool.ImageToByteArray(clImage);
-            string clMD5 = ClsTool.GetMD5FromMemory(pchBuffer);
+            byte[] pchBuffer = ClsSystem.ImageToByteArray(clImage);
+            string clMD5 = ClsSystem.GetMD5FromMemory(pchBuffer);
             this.AddItem(clPath, clMD5, clImage);
         }
         private void AddItem(string clPath, string clMD5, Image clImage)
@@ -164,7 +164,7 @@ namespace PrjHikariwoAnim
             Image clImageSmall = null;
             this.ResizeImage(clImage, ref clImageBig, ref clImageSmall);
 
-            bool isExist = ClsTool.mTblImage.ContainsKey(clMD5);
+            bool isExist = ClsSystem.mTblImage.ContainsKey(clMD5);
             if (!isExist)
             {
                 ClsImage clImageData = new ClsImage();
@@ -172,7 +172,7 @@ namespace PrjHikariwoAnim
                 clImageData.Big = clImageBig;
                 clImageData.Small = clImageSmall;
 
-                ClsTool.mTblImage.Add(clMD5, clImageData);
+                ClsSystem.mTblImage.Add(clMD5, clImageData);
             }
 
             //以下、アイテム追加処理
@@ -353,8 +353,8 @@ namespace PrjHikariwoAnim
             }
 
             //以下、ハッシュ値を取得する処理
-            byte[] pchBuffer = ClsTool.ImageToByteArray(clImageDst);
-            string clMD5 = ClsTool.GetMD5FromMemory(pchBuffer);
+            byte[] pchBuffer = ClsSystem.ImageToByteArray(clImageDst);
+            string clMD5 = ClsSystem.GetMD5FromMemory(pchBuffer);
 
             //以下、アイテム追加処理
             this.AddItem(path + Environment.NewLine + "cut " + stRectSrc.ToString(), clMD5, clImageDst);
