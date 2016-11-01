@@ -444,11 +444,11 @@ namespace PrjHikariwoAnim
                     //Hits
                     ret = cnt;
                 }
-                else { mFrame[cnt].Select = false; }
+                else { mFrame[cnt].isSelect = false; }
             }
             if(ret !=null)
             {
-                mFrame[(int)ret].Select = true;
+                mFrame[(int)ret].isSelect = true;
             }
             return ret;
         }
@@ -476,14 +476,14 @@ namespace PrjHikariwoAnim
                 {
                     if (!multi)
                     {
-                        mFrame[cnt].Select = false;
+                        mFrame[cnt].isSelect = false;
                     }
 
                 }
             }
             if (ret != null)
             {
-                mFrame[(int)ret].Select = true;
+                mFrame[(int)ret].isSelect = true;
             }
             return ret;
 
@@ -560,7 +560,8 @@ namespace PrjHikariwoAnim
     {
         public enum TYPE {Master,Child,Joint,Effec,Accessory,FX }
         TYPE Type;
-        public bool Select;
+        public bool isSelect;
+        public bool isOpenAtr;
         public string Name;
         public object Tag; //認識ID
         public int Value;
@@ -572,19 +573,22 @@ namespace PrjHikariwoAnim
 
         public ELEMENTS()
         {
-            Select = false;
+            isSelect = false;
+            isOpenAtr = false;
             Atr = new AttributeBase();
         }
         public ELEMENTS(object tag,string name)
         {
-            Select = false;
+            isSelect = false;
+            isOpenAtr = false;
             Tag = tag;
             Name = name;
             Atr = new AttributeBase();
         }
         public ELEMENTS(ELEMENTS elm)
         {
-            Select = false;
+            isSelect = false;
+            isOpenAtr = false;
             Name = elm.Name;
             Tag = elm.Tag;
             Value = elm.Value;

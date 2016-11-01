@@ -215,14 +215,17 @@ namespace PrjHikariwoAnim
             //ReName MotionName
             if (e.Node.ImageIndex == 2)
             {
-                mNowMotionName = e.Node.Text;
+                mNowMotionName = e.Label;
             }
 
             //ReName ElementsName
             if (e.Node.ImageIndex == 4)
             {
-                TimeLine.EditFrame.RenameElements(e.Node.Tag, e.Node.Text);
+                //e.Label:新Text e.node.TExt:旧Text
+                TimeLine.EditFrame.RenameElements(e.Node.Tag, e.Label);
+                mFormControl.Refresh();
             }
+            
         }
         private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -436,7 +439,7 @@ namespace PrjHikariwoAnim
                 g.DrawImage(c.Img, -(atr.Width *atr.Scale.X ) / 2, -(atr.Height*atr.Scale.Y ) / 2, vsx, vsy);
 
                 //Selected DrawBounds
-                if (e.Select)
+                if (e.isSelect)
                 {
                     g.DrawRectangle(Pens.DarkCyan, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx-1,vsy-1);
                 }

@@ -47,7 +47,6 @@
             this.挿入貼付けToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_Time = new System.Windows.Forms.Panel();
             this.LineHeader = new System.Windows.Forms.Panel();
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.再生ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MediaBase = new System.Windows.Forms.Panel();
@@ -78,7 +77,7 @@
             this.splitContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer.Location = new System.Drawing.Point(0, 51);
+            this.splitContainer.Location = new System.Drawing.Point(0, 27);
             this.splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -101,7 +100,7 @@
             this.splitContainer.Panel2.Controls.Add(this.LineHeader);
             this.splitContainer.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainer_Panel2_Scroll);
             this.splitContainer.Panel2MinSize = 48;
-            this.splitContainer.Size = new System.Drawing.Size(611, 124);
+            this.splitContainer.Size = new System.Drawing.Size(611, 154);
             this.splitContainer.SplitterDistance = 145;
             this.splitContainer.TabIndex = 0;
             // 
@@ -115,7 +114,7 @@
             this.panel_Control.Location = new System.Drawing.Point(0, 20);
             this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Control.Name = "panel_Control";
-            this.panel_Control.Size = new System.Drawing.Size(143, 102);
+            this.panel_Control.Size = new System.Drawing.Size(143, 132);
             this.panel_Control.TabIndex = 1;
             this.panel_Control.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_Control_DragDrop);
             this.panel_Control.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Control_Paint);
@@ -258,14 +257,6 @@
             this.LineHeader.TabIndex = 1;
             this.LineHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.LineHeader_Paint);
             // 
-            // menuStrip
-            // 
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(611, 24);
-            this.menuStrip.TabIndex = 1;
-            this.menuStrip.Text = "menuStrip1";
-            // 
             // 再生ToolStripMenuItem
             // 
             this.再生ToolStripMenuItem.Name = "再生ToolStripMenuItem";
@@ -274,10 +265,11 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 175);
+            this.panel1.Location = new System.Drawing.Point(0, 181);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(611, 31);
+            this.panel1.Size = new System.Drawing.Size(611, 25);
             this.panel1.TabIndex = 5;
             // 
             // MediaBase
@@ -404,7 +396,7 @@
             this.Panel_LineControl_Base.Controls.Add(this.MediaBase);
             this.Panel_LineControl_Base.Controls.Add(this.panel3);
             this.Panel_LineControl_Base.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Panel_LineControl_Base.Location = new System.Drawing.Point(0, 24);
+            this.Panel_LineControl_Base.Location = new System.Drawing.Point(0, 0);
             this.Panel_LineControl_Base.Name = "Panel_LineControl_Base";
             this.Panel_LineControl_Base.Size = new System.Drawing.Size(611, 27);
             this.Panel_LineControl_Base.TabIndex = 6;
@@ -425,10 +417,8 @@
             this.ClientSize = new System.Drawing.Size(611, 206);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.Panel_LineControl_Base);
-            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(16, 118);
@@ -451,14 +441,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFrame)).EndInit();
             this.Panel_LineControl_Base.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer;
-        private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem 再生ToolStripMenuItem;
         private System.Windows.Forms.Panel panel_Time;
         private System.Windows.Forms.Panel panel_Control;

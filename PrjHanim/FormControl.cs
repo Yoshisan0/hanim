@@ -198,16 +198,16 @@ namespace PrjHikariwoAnim
             if (work < mTimeLine.EditFrame.ElementsCount)
             {
                 ELEMENTS ele = mTimeLine.EditFrame.GetElement(work);
-                ele.Select = !ele.Select;
                 mSelectElements = work;
 
-                if (e.X < 32)
-                {
-                    //Click Eye
-                    if (e.X < 16) { ele.Atr.Visible = !ele.Atr.Visible; }
-                    //Click Locked
-                    if (e.X > 16) { ele.Atr.Enable = !ele.Atr.Enable; }
-                }
+                //Click Eye
+                if (e.X < 16) { ele.Atr.Visible = !ele.Atr.Visible; }
+                //Click Locked
+                if (e.X > 16 && e.X < 32) { ele.Atr.Enable = !ele.Atr.Enable; }
+                //Attribute Open
+                if (e.X > 32 && e.X < 48) { ele.isOpenAtr = !ele.isOpenAtr; }
+                //SelectElements
+                if (e.X > 48) { ele.isSelect = !ele.isSelect; }
 
                 panel_Control.Refresh();
                 panel_Time.Refresh();
@@ -251,7 +251,7 @@ namespace PrjHikariwoAnim
                     sb = new SolidBrush(Color.FromArgb(0xff, 30, 30, 40));
                     e.Graphics.FillRectangle(sb, 0, inCnt * TIME_CELL_HEIGHT, panel_Control.Width, TIME_CELL_HEIGHT - 1);
                 }
-                if (ele.Select)
+                if (ele.isSelect)
                 {
                     //選択中Elementsの背景強調
                     sb = new SolidBrush(Color.FromArgb(128,Color.Green));
@@ -269,16 +269,25 @@ namespace PrjHikariwoAnim
                 //ステートマーク 目,鍵
                 if (ele.Atr.Enable)
                 {
-                    e.Graphics.DrawImage(Properties.Resources.locked, 18, inCnt * TIME_CELL_HEIGHT);
+                    e.Graphics.DrawImage(Properties.Resources.locked, 2+16, inCnt * TIME_CELL_HEIGHT);
                 }
                 else
                 {
-                    e.Graphics.DrawImage(Properties.Resources.unLock, 18, inCnt * TIME_CELL_HEIGHT);
+                    e.Graphics.DrawImage(Properties.Resources.unLock, 2+16, inCnt * TIME_CELL_HEIGHT);
+                }
+                //ステートマーク 属性開閉
+                if (ele.isOpenAtr)
+                {
+                    e.Graphics.DrawImage(Properties.Resources.minus, 2+32, inCnt * TIME_CELL_HEIGHT);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(Properties.Resources.plus, 2+32, inCnt * TIME_CELL_HEIGHT);
                 }
                 //以下、名前描画処理
                 if (!string.IsNullOrEmpty(ele.Name))
                 {
-                    e.Graphics.DrawString(ele.Name, mFont, Brushes.White, 48, inCnt * TIME_CELL_HEIGHT);
+                    e.Graphics.DrawString(ele.Name, mFont, Brushes.White, 2+48, inCnt * TIME_CELL_HEIGHT);
                 }
             }
 
@@ -393,7 +402,7 @@ namespace PrjHikariwoAnim
                 {
                     e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
                 }
-                if (ele.Select)
+                if (ele.isSelect)
                 {
                     //選択色
                     sb = new SolidBrush(Color.FromArgb(128, Color.Green));
