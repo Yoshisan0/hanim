@@ -203,6 +203,10 @@
     <None Include="glyp\hanimL.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\plus.PNG" />
+    <None Include="Resources\minus.PNG" />
+    <None Include="Resources\checkA2.PNG" />
+    <None Include="Resources\checkA1.PNG" />
     <None Include="glyp\property.PNG" />
     <None Include="glyp\partslist.PNG" />
     <None Include="glyp\control.PNG" />
