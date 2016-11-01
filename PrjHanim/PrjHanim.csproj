@@ -215,6 +215,12 @@
     <None Include="glyp\unLock.PNG" />
     <None Include="glyp\see.PNG" />
     <None Include="glyp\locked.PNG" />
+    <None Include="glyp\burger.PNG" />
+    <None Include="glyp\checkA1.PNG" />
+    <None Include="glyp\checkA2.PNG" />
+    <None Include="glyp\minus.PNG" />
+    <None Include="glyp\period.PNG" />
+    <None Include="glyp\plus.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

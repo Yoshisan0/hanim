@@ -93,6 +93,16 @@ namespace PrjHikariwoAnim.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap burger {
+            get {
+                object obj = ResourceManager.GetObject("burger", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap checkA1 {
             get {
                 object obj = ResourceManager.GetObject("checkA1", resourceCulture);
@@ -276,6 +286,16 @@ namespace PrjHikariwoAnim.Properties {
         internal static System.Drawing.Bitmap partslist {
             get {
                 object obj = ResourceManager.GetObject("partslist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap period {
+            get {
+                object obj = ResourceManager.GetObject("period", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
