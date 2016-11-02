@@ -56,6 +56,7 @@
             this.ToolStripMenuItem_Attribute = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CellList = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
+            this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_AlingForm = new System.Windows.Forms.Button();
             this.checkBox_CellList = new System.Windows.Forms.CheckBox();
@@ -80,6 +81,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -256,6 +258,7 @@
             // panel_ToolBase
             // 
             this.panel_ToolBase.BackColor = System.Drawing.SystemColors.Control;
+            this.panel_ToolBase.Controls.Add(this.checkBox_Helper);
             this.panel_ToolBase.Controls.Add(this.panel1);
             this.panel_ToolBase.Controls.Add(this.checkBox_Snap);
             this.panel_ToolBase.Controls.Add(this.HScrollBar_ZoomLevel);
@@ -271,6 +274,22 @@
             this.panel_ToolBase.Name = "panel_ToolBase";
             this.panel_ToolBase.Size = new System.Drawing.Size(754, 30);
             this.panel_ToolBase.TabIndex = 4;
+            // 
+            // checkBox_Helper
+            // 
+            this.checkBox_Helper.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Helper.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
+            this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Helper.Location = new System.Drawing.Point(392, 0);
+            this.checkBox_Helper.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Helper.Name = "checkBox_Helper";
+            this.checkBox_Helper.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Helper.TabIndex = 10;
+            this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
+            this.checkBox_Helper.UseVisualStyleBackColor = false;
+            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
             // 
             // panel1
             // 
@@ -295,6 +314,7 @@
             this.button_AlingForm.Name = "button_AlingForm";
             this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
             this.button_AlingForm.TabIndex = 5;
+            this.toolTipMain.SetToolTip(this.button_AlingForm, "フォームの整列");
             this.button_AlingForm.UseVisualStyleBackColor = true;
             this.button_AlingForm.Click += new System.EventHandler(this.Botton_AlingForm_Click);
             // 
@@ -313,6 +333,7 @@
             this.checkBox_CellList.Name = "checkBox_CellList";
             this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
             this.checkBox_CellList.TabIndex = 4;
+            this.toolTipMain.SetToolTip(this.checkBox_CellList, "セルフォーム表示");
             this.checkBox_CellList.UseVisualStyleBackColor = false;
             this.checkBox_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
             // 
@@ -331,6 +352,7 @@
             this.checkBox_Attribute.Name = "checkBox_Attribute";
             this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Attribute.TabIndex = 3;
+            this.toolTipMain.SetToolTip(this.checkBox_Attribute, "プロパティフォーム表示");
             this.checkBox_Attribute.UseVisualStyleBackColor = false;
             this.checkBox_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
             // 
@@ -349,6 +371,7 @@
             this.checkBox_Control.Name = "checkBox_Control";
             this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Control.TabIndex = 2;
+            this.toolTipMain.SetToolTip(this.checkBox_Control, "コントロールフォーム表示");
             this.checkBox_Control.UseVisualStyleBackColor = false;
             this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
             // 
@@ -367,6 +390,7 @@
             this.checkBox_ImageList.Size = new System.Drawing.Size(30, 30);
             this.checkBox_ImageList.TabIndex = 0;
             this.checkBox_ImageList.Text = "絵";
+            this.toolTipMain.SetToolTip(this.checkBox_ImageList, "イメージフォーム表示");
             this.checkBox_ImageList.UseVisualStyleBackColor = false;
             this.checkBox_ImageList.CheckedChanged += new System.EventHandler(this.CB_ImageList_CheckedChanged);
             // 
@@ -390,6 +414,7 @@
             this.checkBox_Snap.Name = "checkBox_Snap";
             this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Snap.TabIndex = 7;
+            this.toolTipMain.SetToolTip(this.checkBox_Snap, "スナップ");
             this.checkBox_Snap.UseVisualStyleBackColor = false;
             // 
             // HScrollBar_ZoomLevel
@@ -426,6 +451,7 @@
             this.numericUpDown_Grid.Size = new System.Drawing.Size(41, 27);
             this.numericUpDown_Grid.TabIndex = 3;
             this.numericUpDown_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTipMain.SetToolTip(this.numericUpDown_Grid, "グリッドサイズ");
             this.numericUpDown_Grid.Value = new decimal(new int[] {
             10,
             0,
@@ -441,6 +467,7 @@
             this.button_GridColor.Name = "button_GridColor";
             this.button_GridColor.Size = new System.Drawing.Size(30, 30);
             this.button_GridColor.TabIndex = 5;
+            this.toolTipMain.SetToolTip(this.button_GridColor, "グリッドカラー");
             this.button_GridColor.UseVisualStyleBackColor = false;
             this.button_GridColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
@@ -459,8 +486,9 @@
             this.checkBox_GridCheck.Name = "checkBox_GridCheck";
             this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
             this.checkBox_GridCheck.TabIndex = 2;
+            this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
-            this.checkBox_GridCheck.Click += new System.EventHandler(this.CrossBarCheck_Click);
+            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
             // 
             // button_CrossColor
             // 
@@ -471,6 +499,7 @@
             this.button_CrossColor.Name = "button_CrossColor";
             this.button_CrossColor.Size = new System.Drawing.Size(30, 30);
             this.button_CrossColor.TabIndex = 4;
+            this.toolTipMain.SetToolTip(this.button_CrossColor, "クロスバーカラー");
             this.button_CrossColor.UseVisualStyleBackColor = false;
             this.button_CrossColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
@@ -492,8 +521,9 @@
             this.checkBox_CrossBar.TabIndex = 1;
             this.checkBox_CrossBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
-            this.checkBox_CrossBar.Click += new System.EventHandler(this.CrossBarCheck_Click);
+            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
             // 
             // button_BackColor
             // 
@@ -504,6 +534,7 @@
             this.button_BackColor.Name = "button_BackColor";
             this.button_BackColor.Size = new System.Drawing.Size(30, 30);
             this.button_BackColor.TabIndex = 9;
+            this.toolTipMain.SetToolTip(this.button_BackColor, "背景色");
             this.button_BackColor.UseVisualStyleBackColor = false;
             this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
@@ -713,6 +744,8 @@
         public System.Windows.Forms.CheckBox checkBox_Control;
         public System.Windows.Forms.CheckBox checkBox_ImageList;
         private System.Windows.Forms.Button button_BackColor;
+        private System.Windows.Forms.CheckBox checkBox_Helper;
+        private System.Windows.Forms.ToolTip toolTipMain;
     }
 }
 

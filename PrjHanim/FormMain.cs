@@ -265,7 +265,7 @@ namespace PrjHikariwoAnim
             cdg.Dispose();
             panel_PreView.Refresh();
         }
-        private void CrossBarCheck_Click(object sender, EventArgs e)
+        private void CheckButton_Changed(object sender, EventArgs e)
         {
             panel_PreView.Refresh();
         }
@@ -390,35 +390,46 @@ namespace PrjHikariwoAnim
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
-            if (zoom < 0.2) zoom = 0.2f;
+            if (zoom < 0.2) zoom = 0.2f;//縮小Zoom制限 制限しないと0除算エラー
+            
+            //View Center X,Y
             int vcx = mScreenScroll.X + panel_PreView.Width  / 2 ;//ViewCenter X
             int vcy = mScreenScroll.Y + panel_PreView.Height / 2 ;//ViewCenter Y
 
             FRAME frm = TimeLine.EditFrame;
 
-            for(int cnt=0; cnt< frm.ElementsCount;cnt++)
-            {                
+            for (int cnt = 0; cnt < frm.ElementsCount; cnt++)
+            {
                 ELEMENTS e = frm.GetElement(cnt);
-                
                 AttributeBase atr = e.Atr;
-                Matrix Back = g.Transform;
-                Matrix MatObj = new Matrix();
 
-                float vsx = atr.Width * atr.Scale.X;//* zoom;//SizeX
+                Matrix Back = g.Transform;
+                Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
+
+                //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
+
+                //スケールにあわせた部品の大きさを算出
+                float vsx = atr.Width  * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
                 float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
 
+                //パーツの中心点
+                float pcx = atr.Position.X + atr.Offset.X;
+                float pcy = atr.Position.X + atr.Offset.X;
+
+                //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
                 CELL c = ImageMan.GetCellFromHash(atr.CellID);
-                if (c == null) { Console.WriteLine("Image:null");return; }
+                if (c == null) { Console.WriteLine("Image:null"); return; }
 
                 //原点を部品中心に
                 //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
                 //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
 
 
-                //平行移動
-                g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X),vcy + (atr.Position.Y * atr.Scale.Y));
+                //中心に平行移動
+                g.TranslateTransform(vcx + atr.Position.X+atr.Offset.X, vcy + atr.Position.Y+atr.Offset.Y);
                 //回転角指定
                 g.RotateTransform(atr.Radius.X);
+                
                 //スケーリング調
                 g.ScaleTransform(atr.Scale.X, atr.Scale.X);
                 //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
@@ -440,14 +451,22 @@ namespace PrjHikariwoAnim
                 //g.Transform = MatObj;
 
                 //Draw
-                g.DrawImage(c.Img, -(atr.Width *atr.Scale.X ) / 2, -(atr.Height*atr.Scale.Y ) / 2, vsx, vsy);
+                g.DrawImage(c.Img, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx, vsy);
 
-                //Selected DrawBounds
-                if (e.isSelect)
+                //Draw Helper
+                if (checkBox_Helper.Checked)
                 {
-                    g.DrawRectangle(Pens.DarkCyan, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx-1,vsy-1);
-                }
+                    //中心点やその他のサポート表示
+                    //CenterPosition
+                    g.DrawEllipse(Pens.OrangeRed,-4,-4, 8, 8);
                 
+                    //Selected DrawBounds
+                    if (e.isSelect)
+                    {
+                        g.DrawRectangle(Pens.DarkCyan, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+                    }
+                }
+
                 //test Hit範囲をボックス描画 
                 /*
                  g.DrawRectangle(Pens.Aqua,  (-(atr.Width *atr.Scale.X)/2 * atr.Scale.X),
@@ -460,17 +479,7 @@ namespace PrjHikariwoAnim
                 //Cuurent Draw Grip
             }
         }
-        /// <summary>
-        /// 補助ラインやセンター等のサポート部の描画
-        /// </summary>
-        /// <param name="atr"></param>
-        /// <param name="g"></param>
-        private void GripDraw(ELEMENTS elem,Graphics g)
-        {
-            //アイテム操作ハンドル　中心点とオブジェの４点rectと角度
-            //LineColor GripColor RadiusColor
 
-        }
 
         /// <summary>
         /// CellからElementを作成し追加
