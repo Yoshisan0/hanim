@@ -15,10 +15,10 @@ namespace PrjHikariwoAnim
         //一時記録用
         //AllSet,AllGet時に更新
         private AttributeBase ValuesPool;
-        private bool Locked;//外部からパラメータ変更中にロック
+        private bool isLocked;//パラメータ変更中にロック
         private FormMain mFormMain;
 
-        public bool ParamChanged;//パラメータ変更があった時True 読み出し後False
+        public bool isChanged;//パラメータ変更があった時True 読み出し後False
 
         public FormAttribute(FormMain form)
         {
@@ -32,7 +32,8 @@ namespace PrjHikariwoAnim
         /// <param name="atr"></param>
         public void SetAllParam(AttributeBase atr)
         {
-            Locked = true;
+            //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
+            isLocked = true;
             ValuesPool = atr;
 
             UDnumX.Value = (int)atr.Position.X;
@@ -72,48 +73,56 @@ namespace PrjHikariwoAnim
 
             UserText.Text = atr.Text;
 
-            Locked = false;
+            //変更完了
+            isLocked = false;
         }
 
         /// <summary>
         /// フォーム上パラメータを取得します
         /// </summary>
         /// <param name="atr">参照</param>
-        public void GetAllParam(ref AttributeBase atr)
+        public AttributeBase GetAllParam(ref AttributeBase atr)
         {
-            //AttributeBase ret = new AttributeBase();
-            atr.Position.X = (int)UDnumX.Value;
-            atr.Position.Y = (int)UDnumY.Value;
-            //ret.Position.Z = Decimal.ToInt32(UDnumZ.Value);
-
-            atr.Radius.X = (float)UDnumRX.Value;
-            atr.Radius.Y = (float)UDnumRY.Value;
-            atr.Radius.Z = (float)UDnumRZ.Value;
-
-            atr.Scale.X = (float)UDnumSX.Value;
-            atr.Scale.Y = (float)UDnumSY.Value;
-            //ret.Scale.Z = (float)UDnumSZ.Value;
-
-            atr.FlipH = checkFlipH.Checked;
-            atr.FlipV = checkFlipV.Checked;
-
-            //ret.Enable = checkEnable.Checked;
-            atr.Visible = checkVisible.Checked;
-
-            atr.Transparency = (int)UDnumT.Value;
-
-            if (ColorCode.Text != "")
+            isLocked = true;
+            //パラメータ手動変更があった時のみ取得出来る
+            if (isChanged)
             {
-                atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
+                //AttributeBase atr = new AttributeBase();
+                atr.Position.X = (int)UDnumX.Value;
+                atr.Position.Y = (int)UDnumY.Value;
+                //ret.Position.Z = Decimal.ToInt32(UDnumZ.Value);
+
+                atr.Radius.X = (float)UDnumRX.Value;
+                atr.Radius.Y = (float)UDnumRY.Value;
+                atr.Radius.Z = (float)UDnumRZ.Value;
+
+                atr.Scale.X = (float)UDnumSX.Value;
+                atr.Scale.Y = (float)UDnumSY.Value;
+                //ret.Scale.Z = (float)UDnumSZ.Value;
+
+                atr.FlipH = checkFlipH.Checked;
+                atr.FlipV = checkFlipV.Checked;
+
+                //ret.Enable = checkEnable.Checked;
+                atr.Visible = checkVisible.Checked;
+
+                atr.Transparency = (int)UDnumT.Value;
+
+                if (ColorCode.Text != "")
+                {
+                    atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
+                }
+                atr.Offset.X = (int)UDnumXoff.Value;
+                atr.Offset.Y = (int)UDnumYoff.Value;
+                //ret.Offset.Z = (int)UDnumZoff.Value;
+
+                atr.Text = UserText.Text;
+
+                ValuesPool = atr;
+                isLocked = false;
+                isChanged = false;
             }
-            atr.Offset.X = (int)UDnumXoff.Value;
-            atr.Offset.Y = (int)UDnumYoff.Value;
-            //ret.Offset.Z = (int)UDnumZoff.Value;
-
-            atr.Text = UserText.Text;
-
-            ValuesPool = atr;
-            //return ret;
+            return atr;
         }
 
         private void ColorCode_TextChanged(object sender, EventArgs e)
@@ -143,14 +152,14 @@ namespace PrjHikariwoAnim
         {
             //チェックボックス系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if(!Locked) ParamChanged = true;mFormMain.AttributeUpdate();
+            if(!isLocked) isChanged = true;mFormMain.AttributeUpdate();
         }
 
         private void UDnumYoff_ValueChanged(object sender, EventArgs e)
         {
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if(!Locked) ParamChanged = true;mFormMain.AttributeUpdate();
+            if(!isLocked) isChanged = true;mFormMain.AttributeUpdate();
         }
     }
 }

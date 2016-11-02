@@ -404,6 +404,7 @@ namespace PrjHikariwoAnim
         {
             if (mFrame == null) return null;
             if (index < 0) return null;
+            if (mFrame.Count==0) return null;
             if (index > mFrame.Count) return null;
             return mFrame[index];
         }
@@ -560,9 +561,9 @@ namespace PrjHikariwoAnim
     {
         public enum TYPE {Master,Child,Joint,Effec,Accessory,FX }
         TYPE Type;
-        public bool isVisible;//表示非表示(目)
-        public bool isLocked;//ロック状態(鍵)
-        public bool isSelect;//選択状態
+        public bool isVisible=true;//表示非表示(目)
+        public bool isLocked=false;//ロック状態(鍵)
+        public bool isSelect=false;//選択状態
         public bool isOpenAtr;//属性開閉状態(+-)
         public string Name;
         public object Tag; //認識ID
@@ -575,12 +576,16 @@ namespace PrjHikariwoAnim
 
         public ELEMENTS()
         {
+            isVisible = true;
+            isLocked = false;
             isSelect = false;
             isOpenAtr = false;
             Atr = new AttributeBase();
         }
         public ELEMENTS(object tag,string name)
         {
+            isVisible = true;
+            isLocked = false;
             isSelect = false;
             isOpenAtr = false;
             Tag = tag;

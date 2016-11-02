@@ -51,9 +51,9 @@ namespace PrjHikariwoAnim
         private int mSelectElements;
         private Point mSelect_Pos_Start;
         private Point mSelect_Pos_End;
-        private bool mMouseDownL;
-        private bool mMouseDownR;
-        private bool mMouseDownM;
+        private bool mMouseDownL=false;
+        private bool mMouseDownR=false;
+        private bool mMouseDownM=false;
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
@@ -67,6 +67,7 @@ namespace PrjHikariwoAnim
         {
             mFormMain = form;
             InitializeComponent();
+            //ダブルバッファ強制有効化
             panel_Time.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_Time,new object[] { true });
         }
 

@@ -68,10 +68,15 @@ namespace PrjHikariwoAnim
 
         public void AttributeUpdate()
         {
-            //パラメータ変更通知
-            mFormAttribute.ParamChanged = false;
+            //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
-            //みじｓ
+            //エディット中アイテムにパラメータ再取得
+            ELEMENTS e = TimeLine.EditFrame.GetElement(TimeLine.EditFrame.ActiveIndex);
+            if(e!=null)
+            {
+                mFormAttribute.GetAllParam(ref e.Atr);
+                panel_PreView.Refresh();
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -451,7 +456,7 @@ namespace PrjHikariwoAnim
                 //g.Transform = MatObj;
 
                 //Draw
-                g.DrawImage(c.Img, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx, vsy);
+                g.DrawImage(c.Img,atr.Offset.X -(atr.Width * atr.Scale.X) / 2,atr.Offset.Y -(atr.Height * atr.Scale.Y) / 2, vsx, vsy);
 
                 //Draw Helper
                 if (checkBox_Helper.Checked)
@@ -463,7 +468,7 @@ namespace PrjHikariwoAnim
                     //Selected DrawBounds
                     if (e.isSelect)
                     {
-                        g.DrawRectangle(Pens.DarkCyan, -(atr.Width * atr.Scale.X) / 2, -(atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+                        g.DrawRectangle(Pens.DarkCyan,atr.Offset.X -(atr.Width * atr.Scale.X) / 2,atr.Offset.Y -(atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
                     }
                 }
 

@@ -68,8 +68,8 @@ namespace PrjHikariwoAnim
         [DataMember]
         public string Text;//UserData
 
-        private Matrix DrawMatrix;
-        private PointF[] DrawPointF3;
+        private Matrix DrawMatrix;//描画用マトリックス
+        private PointF[] DrawPointF3;//描画用座標配列
 
         //method
         public AttributeBase()
