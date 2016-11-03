@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtributeBase.cs" />
-    <Compile Include="ClsData.cs" />
     <Compile Include="ClsImage.cs" />
     <Compile Include="ClsPath.cs" />
     <Compile Include="ClsSystem.cs" />

@@ -26,60 +26,180 @@ namespace PrjHikariwoAnim.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point FormMainLocate {
+        public global::System.Drawing.Point Location_FormMain {
             get {
-                return ((global::System.Drawing.Point)(this["FormMainLocate"]));
+                return ((global::System.Drawing.Point)(this["Location_FormMain"]));
             }
             set {
-                this["FormMainLocate"] = value;
+                this["Location_FormMain"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point FormAttributeLocate {
+        public global::System.Drawing.Point Location_FormAttribute {
             get {
-                return ((global::System.Drawing.Point)(this["FormAttributeLocate"]));
+                return ((global::System.Drawing.Point)(this["Location_FormAttribute"]));
             }
             set {
-                this["FormAttributeLocate"] = value;
+                this["Location_FormAttribute"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point FormControlLocate {
+        public global::System.Drawing.Point Location_FormControl {
             get {
-                return ((global::System.Drawing.Point)(this["FormControlLocate"]));
+                return ((global::System.Drawing.Point)(this["Location_FormControl"]));
             }
             set {
-                this["FormControlLocate"] = value;
+                this["Location_FormControl"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point FormImageCutLocate {
+        public global::System.Drawing.Point Location_FormImageCut {
             get {
-                return ((global::System.Drawing.Point)(this["FormImageCutLocate"]));
+                return ((global::System.Drawing.Point)(this["Location_FormImageCut"]));
             }
             set {
-                this["FormImageCutLocate"] = value;
+                this["Location_FormImageCut"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point FormImageList {
+        public global::System.Drawing.Point Location_FormImageList {
             get {
-                return ((global::System.Drawing.Point)(this["FormImageList"]));
+                return ((global::System.Drawing.Point)(this["Location_FormImageList"]));
             }
             set {
-                this["FormImageList"] = value;
+                this["Location_FormImageList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color BackColor_ColorBack {
+            get {
+                return ((global::System.Drawing.Color)(this["BackColor_ColorBack"]));
+            }
+            set {
+                this["BackColor_ColorBack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkGreen")]
+        public global::System.Drawing.Color BackColor_ColorGrid {
+            get {
+                return ((global::System.Drawing.Color)(this["BackColor_ColorGrid"]));
+            }
+            set {
+                this["BackColor_ColorGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color BackColor_ColorCross {
+            get {
+                return ((global::System.Drawing.Color)(this["BackColor_ColorCross"]));
+            }
+            set {
+                this["BackColor_ColorCross"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_DrawGird {
+            get {
+                return ((bool)(this["Checked_DrawGird"]));
+            }
+            set {
+                this["Checked_DrawGird"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_DrawCross {
+            get {
+                return ((bool)(this["Checked_DrawCross"]));
+            }
+            set {
+                this["Checked_DrawCross"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public decimal Value_WidthGrid {
+            get {
+                return ((decimal)(this["Value_WidthGrid"]));
+            }
+            set {
+                this["Value_WidthGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_GridSnap {
+            get {
+                return ((bool)(this["Checked_GridSnap"]));
+            }
+            set {
+                this["Checked_GridSnap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_ImageList {
+            get {
+                return ((bool)(this["Checked_ImageList"]));
+            }
+            set {
+                this["Checked_ImageList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_Control {
+            get {
+                return ((bool)(this["Checked_Control"]));
+            }
+            set {
+                this["Checked_Control"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_Attribute {
+            get {
+                return ((bool)(this["Checked_Attribute"]));
+            }
+            set {
+                this["Checked_Attribute"] = value;
             }
         }
     }

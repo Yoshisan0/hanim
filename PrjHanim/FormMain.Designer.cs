@@ -340,8 +340,9 @@
             // 
             this.checkBox_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Attribute.Checked = true;
+            this.checkBox_Attribute.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Attribute;
             this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Attribute.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Attribute", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -359,8 +360,9 @@
             // 
             this.checkBox_Control.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Control.Checked = true;
+            this.checkBox_Control.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Control;
             this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Control.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Control", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -378,8 +380,9 @@
             // 
             this.checkBox_ImageList.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_ImageList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_ImageList.Checked = true;
+            this.checkBox_ImageList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_ImageList;
             this.checkBox_ImageList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ImageList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_ImageList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_ImageList.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_ImageList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_ImageList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -407,6 +410,9 @@
             this.checkBox_Snap.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_Snap.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
             this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_Snap.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_GridSnap;
+            this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Snap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_GridSnap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Snap.Location = new System.Drawing.Point(191, 0);
             this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
@@ -432,6 +438,7 @@
             // numericUpDown_Grid
             // 
             this.numericUpDown_Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown_Grid.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::PrjHikariwoAnim.Properties.Settings.Default, "Value_WidthGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown_Grid.Dock = System.Windows.Forms.DockStyle.Left;
             this.numericUpDown_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.numericUpDown_Grid.Location = new System.Drawing.Point(150, 0);
@@ -451,15 +458,12 @@
             this.numericUpDown_Grid.TabIndex = 3;
             this.numericUpDown_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTipMain.SetToolTip(this.numericUpDown_Grid, "グリッドサイズ");
-            this.numericUpDown_Grid.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            this.numericUpDown_Grid.Value = global::PrjHikariwoAnim.Properties.Settings.Default.Value_WidthGrid;
             // 
             // button_GridColor
             // 
-            this.button_GridColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_GridColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorGrid;
+            this.button_GridColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.button_GridColor.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_GridColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_GridColor.Location = new System.Drawing.Point(120, 0);
@@ -476,8 +480,9 @@
             this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
             this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_GridCheck.Checked = true;
+            this.checkBox_GridCheck.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawGird;
             this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawGird", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_GridCheck.Location = new System.Drawing.Point(90, 0);
@@ -491,7 +496,8 @@
             // 
             // button_CrossColor
             // 
-            this.button_CrossColor.BackColor = System.Drawing.Color.DarkRed;
+            this.button_CrossColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorCross;
+            this.button_CrossColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.button_CrossColor.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_CrossColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_CrossColor.Location = new System.Drawing.Point(60, 0);
@@ -508,8 +514,9 @@
             this.checkBox_CrossBar.AutoSize = true;
             this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
             this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_CrossBar.Checked = true;
+            this.checkBox_CrossBar.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawCross;
             this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CrossBar.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
@@ -526,7 +533,8 @@
             // 
             // button_BackColor
             // 
-            this.button_BackColor.BackColor = System.Drawing.Color.Black;
+            this.button_BackColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorBack;
+            this.button_BackColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorBack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_BackColor.Location = new System.Drawing.Point(0, 0);
@@ -666,13 +674,14 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::PrjHikariwoAnim.Properties.Settings.Default, "FormMainLocate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::PrjHikariwoAnim.Properties.Settings.Default, "Location_FormMain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.FormMainLocate;
+            this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.Location_FormMain;
             this.Name = "FormMain";
-            this.Text = "PrjHikariwoAnim";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "hanim";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
