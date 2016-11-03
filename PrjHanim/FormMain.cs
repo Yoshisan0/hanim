@@ -47,7 +47,8 @@ namespace PrjHikariwoAnim
         private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
-        private int? mNowSelectIndex = null;
+        //編集中の選択中エレメントのインデックス
+        private int? mNowElementsIndex = null;
         private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
@@ -71,7 +72,7 @@ namespace PrjHikariwoAnim
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
             //エディット中アイテムにパラメータ再取得
-            ELEMENTS e = TimeLine.EditFrame.GetElement(TimeLine.EditFrame.ActiveIndex);
+            ELEMENTS e = TimeLine.EditFrame.GetElement(mNowElementsIndex);
             if(e!=null)
             {
                 mFormAttribute.GetAllParam(ref e.Atr);
@@ -243,8 +244,8 @@ namespace PrjHikariwoAnim
             }
             //SelectElements
             //TagとElements.Nameが合致するものを選択
-            mNowSelectIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
-            if (mNowSelectIndex != null) panel_PreView.Refresh();
+            mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
+            if (mNowElementsIndex != null) panel_PreView.Refresh();
         }
 
         private void button_BackColor_Click(object sender, EventArgs e)
@@ -681,9 +682,9 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
-            if (mNowSelectIndex != null)
+            if (mNowElementsIndex != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
                 //アイテム選択中のホイール操作
                 if (mKeysSP == Keys.Shift)
                 {
@@ -754,15 +755,18 @@ namespace PrjHikariwoAnim
                 mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
 
                 //アイテム検索
-                mNowSelectIndex = TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true);
-                if (mNowSelectIndex != null)
+                SetNowElementsIndex(TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true));
+                if (mNowElementsIndex != null)
                 {
-                    ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                    ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
+                    
                     mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
                     mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
                 }
                 mMouseLDown = true;                
                 panel_PreView.Refresh();
+                panel_ProjectTree_base.Refresh();
+                mFormControl.Refresh();
             }
         }
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
@@ -772,9 +776,9 @@ namespace PrjHikariwoAnim
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
-            if (mNowSelectIndex != null)
+            if (mNowElementsIndex != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
                 //移動処理
                 if (mMouseLDown)
                 {
@@ -822,7 +826,7 @@ namespace PrjHikariwoAnim
                 }
             }
             StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}]";
-            StatusLabel2.Text = $" [Select:{mNowSelectIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+            StatusLabel2.Text = $" [Select:{mNowElementsIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -830,8 +834,8 @@ namespace PrjHikariwoAnim
             //部品選択中か確認
 
             //GetElement
-            if (mNowSelectIndex == null) return;
-            ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+            if (mNowElementsIndex == null) return;
+            ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
 
             //カーソル
             if (e.KeyData == Keys.Shift)
@@ -861,8 +865,36 @@ namespace PrjHikariwoAnim
 
             }
         }
+        /// <summary>
+        /// エディット中の選択エレメントをインデックス指定と関連画面更新
+        /// </summary>
+        /// <param name="ElementsIndex"></param>
+        public void SetNowElementsIndex(int? ElementsIndex)
+        {
+            //これ　mNowSelectIndexのSetterにするべきか
 
-
+            //現在の選択と違う物であれば変更を行う
+            if (ElementsIndex == null) return;
+            if (mNowElementsIndex != ElementsIndex)
+            {
+                //現在の選択を解除
+                if (mNowElementsIndex != null)
+                {
+                    TimeLine.EditFrame.GetElement(mNowElementsIndex).isSelect = false;
+                }
+                //更新
+                mNowElementsIndex = ElementsIndex;
+                //新規選択を有効
+                ELEMENTS elm = TimeLine.EditFrame.GetElement(ElementsIndex);
+                elm.isSelect = true;
+                //各種リフレッシュ
+                panel_PreView.Refresh();                
+                panel_ProjectTree_base.Refresh();
+                mFormAttribute.SetAllParam(elm.Atr);
+                mFormAttribute.Refresh();
+                mFormControl.Refresh();
+            }
+        }
         private void BottonTest_Click(object sender, EventArgs e)
         {
             // testCode

@@ -152,6 +152,8 @@ namespace PrjHikariwoAnim
                 ColorPanel.BackColor = dlg.Color;
                 ColorCode.Tag = dlg.Color.ToArgb();
                 ColorCode.Text = $"{dlg.Color.ToArgb():X8}";//ARGB
+                //この代入ではバリデードが発生しないらしく更新通知
+                if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
                 //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6
             }
         }

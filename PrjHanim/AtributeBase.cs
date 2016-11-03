@@ -70,6 +70,8 @@ namespace PrjHikariwoAnim
         [DataMember]
         public int Color;
         [DataMember]
+        public int ColorWeight;
+        [DataMember]
         public string Text;//UserData
 
         private Matrix DrawMatrix;//描画用マトリックス
@@ -84,7 +86,7 @@ namespace PrjHikariwoAnim
             Offset   = new Vector3(0,0,0);
             Transparency = 255;
             Color = -1;//White 0xFFFFFFFF
-
+            ColorWeight = 255;
             Enable   = true;
             Visible  = true;
             Colition = true;
@@ -112,11 +114,14 @@ namespace PrjHikariwoAnim
             Height = src.Height;
             FlipH = src.FlipH;
             FlipV = src.FlipV;
+            isTransparrency = src.isTransparrency;
             Transparency = src.Transparency;
             Enable = src.Enable;
             Visible = src.Visible;
             Colition = src.Colition;
             Color = src.Color;
+            ColorWeight = src.ColorWeight;
+            isColor = src.isColor;
             Text = src.Text;
         }
         public AttributeBase Copy(AttributeBase src)
