@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +14,20 @@ namespace PrjHikariwoAnim
 {
     public class ClsSystem
     {
-        public static ClsData mData;
         public static Hashtable mTblImage; //キーはstringのMD5 値はClsImage
 
         public static void Init()
         {
-            //以下、保存データ読み込み処理
-            ClsSystem.mData = new ClsData();
-            ClsSystem.mData.Load();
-
             //以下、イメージテーブル作成処理
             ClsSystem.mTblImage = new Hashtable();
+        }
+
+        public static string GetPath(string clFileName)
+        {
+            Assembly clAssembly = Assembly.GetExecutingAssembly();
+            string clPath = Path.GetDirectoryName(clAssembly.Location);
+            clPath = Path.Combine(clPath, clFileName);
+            return (clPath);
         }
 
         public static string GetMD5FromFile(string clPath)

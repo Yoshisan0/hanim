@@ -84,19 +84,6 @@ namespace PrjHikariwoAnim
             //以下、システム初期化処理
             ClsSystem.Init();
 
-            //以下、コンポーネント初期化処理
-            this.button_BackColor.BackColor = ClsSystem.mData.mColorBack;
-            this.checkBox_CrossBar.Checked = ClsSystem.mData.mDrawCross;
-            this.button_CrossColor.BackColor = ClsSystem.mData.mColorCross;
-            this.checkBox_GridCheck.Checked = ClsSystem.mData.mDrawGrid;
-            this.button_GridColor.BackColor = ClsSystem.mData.mColorGrid;
-            this.numericUpDown_Grid.Value = ClsSystem.mData.mWidthGrid;
-            this.checkBox_Snap.Checked = ClsSystem.mData.mGridSnap;
-            this.checkBox_ImageList.Checked = ClsSystem.mData.mViewImageList;
-            this.checkBox_Control.Checked = ClsSystem.mData.mViewControl;
-            this.checkBox_Attribute.Checked = ClsSystem.mData.mViewAttribute;
-            this.checkBox_CellList.Checked = ClsSystem.mData.mViewCellList;
-
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
             mScreenScroll = new Point(0, 0);
@@ -319,7 +306,21 @@ namespace PrjHikariwoAnim
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Properties.Settings.Default["FormMainLocate"] = this.Location;
+            Properties.Settings.Default["Location_FormMain"] = this.Location;
+//            Properties.Settings.Default["Location_FormAttribute"] = value;
+//            Properties.Settings.Default["Location_FormControl"] = value;
+//            Properties.Settings.Default["Location_FormImageCut"] = value;
+//            Properties.Settings.Default["Location_FormImageList"] = value;
+            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
+            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
+            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
+            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
+            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
+            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
+            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
+            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
             Properties.Settings.Default.Save();
         }
 

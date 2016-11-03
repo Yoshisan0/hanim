@@ -189,6 +189,7 @@
             this.MaximizeBox = false;
             this.Name = "FormImageList";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "イメージリスト";
             this.Load += new System.EventHandler(this.FormImageList_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormImageList_DragDrop);
