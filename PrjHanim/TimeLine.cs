@@ -321,7 +321,7 @@ namespace PrjHikariwoAnim
     {
         //Frame:ELEMENTSの塊
         List<ELEMENTS> mFrame;//部品格納リスト
-        public int ActiveIndex;
+        public int? ActiveIndex;
         
         public string Text;//フレーム毎に設定したいコマンドやコメント等
         public enum TYPE {KeyFrame,Control }
@@ -400,13 +400,14 @@ namespace PrjHikariwoAnim
         }
 
         public int ElementsCount { get{return mFrame.Count(); } }
-        public ELEMENTS GetElement(int index)
+        public ELEMENTS GetElement(int? index)
         {
+            if (index == null) return null;
             if (mFrame == null) return null;
             if (index < 0) return null;
             if (mFrame.Count==0) return null;
             if (index > mFrame.Count) return null;
-            return mFrame[index];
+            return mFrame[(int)index];
         }
         public ELEMENTS GetElementsFromName(string name)
         {
@@ -479,7 +480,6 @@ namespace PrjHikariwoAnim
                     {
                         mFrame[cnt].isSelect = false;
                     }
-
                 }
             }
             if (ret != null)
@@ -487,7 +487,6 @@ namespace PrjHikariwoAnim
                 mFrame[(int)ret].isSelect = true;
             }
             return ret;
-
         }
         public bool SetElements(int index,ELEMENTS e)
         {

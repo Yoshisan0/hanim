@@ -47,7 +47,8 @@ namespace PrjHikariwoAnim
         private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
-        private int? mNowSelectIndex = null;
+        //編集中の選択中エレメントのインデックス
+        private int? mNowElementsIndex = null;
         private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
@@ -71,7 +72,7 @@ namespace PrjHikariwoAnim
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
             //エディット中アイテムにパラメータ再取得
-            ELEMENTS e = TimeLine.EditFrame.GetElement(TimeLine.EditFrame.ActiveIndex);
+            ELEMENTS e = TimeLine.EditFrame.GetElement(mNowElementsIndex);
             if(e!=null)
             {
                 mFormAttribute.GetAllParam(ref e.Atr);
@@ -230,8 +231,8 @@ namespace PrjHikariwoAnim
             }
             //SelectElements
             //TagとElements.Nameが合致するものを選択
-            mNowSelectIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
-            if (mNowSelectIndex != null) panel_PreView.Refresh();
+            mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
+            if (mNowElementsIndex != null) panel_PreView.Refresh();
         }
 
         private void button_BackColor_Click(object sender, EventArgs e)
@@ -415,12 +416,39 @@ namespace PrjHikariwoAnim
                 //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
 
                 //スケールにあわせた部品の大きさを算出
-                float vsx = atr.Width  * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+                float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
                 float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
 
                 //パーツの中心点
                 float pcx = atr.Position.X + atr.Offset.X;
                 float pcy = atr.Position.X + atr.Offset.X;
+                Color Col = Color.FromArgb(atr.Color);
+                
+                //半透明用カラーマトリックス作成
+                System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
+                if (atr.isColor)
+                {
+                    colmat.Matrix00 = Col.R / 255f;//Red
+                    colmat.Matrix11 = Col.G / 255f;//Green
+                    colmat.Matrix22 = Col.B / 255f;//Blue
+                }
+                else
+                {
+                    colmat.Matrix00 = 1;//Red
+                    colmat.Matrix11 = 1;//Green
+                    colmat.Matrix22 = 1;//Blue
+                }
+                if (atr.isTransparrency)
+                {
+                    colmat.Matrix33 = atr.Transparency / 255f;
+                }else
+                {
+                    colmat.Matrix33 = 1;
+                }
+                colmat.Matrix44 = 1;//w
+                System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
+                ia.SetColorMatrix(colmat);
+
 
                 //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
                 CELL c = ImageMan.GetCellFromHash(atr.CellID);
@@ -432,10 +460,10 @@ namespace PrjHikariwoAnim
 
 
                 //中心に平行移動
-                g.TranslateTransform(vcx + atr.Position.X+atr.Offset.X, vcy + atr.Position.Y+atr.Offset.Y);
+                g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
                 //回転角指定
                 g.RotateTransform(atr.Radius.X);
-                
+
                 //スケーリング調
                 g.ScaleTransform(atr.Scale.X, atr.Scale.X);
                 //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
@@ -457,8 +485,15 @@ namespace PrjHikariwoAnim
                 //g.Transform = MatObj;
 
                 //Draw
-                g.DrawImage(c.Img,atr.Offset.X -(atr.Width * atr.Scale.X) / 2,atr.Offset.Y -(atr.Height * atr.Scale.Y) / 2, vsx, vsy);
-
+                if (atr.isTransparrency || atr.isColor)
+                {
+                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
+                }
+                else
+                { 
+                    //透明化カラー補正なし
+                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
+                }
                 //Draw Helper
                 if (checkBox_Helper.Checked)
                 {
@@ -648,9 +683,9 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
-            if (mNowSelectIndex != null)
+            if (mNowElementsIndex != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
                 //アイテム選択中のホイール操作
                 if (mKeysSP == Keys.Shift)
                 {
@@ -721,15 +756,18 @@ namespace PrjHikariwoAnim
                 mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
 
                 //アイテム検索
-                mNowSelectIndex = TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true);
-                if (mNowSelectIndex != null)
+                SetNowElementsIndex(TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true));
+                if (mNowElementsIndex != null)
                 {
-                    ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                    ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
+                    
                     mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
                     mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
                 }
                 mMouseLDown = true;                
                 panel_PreView.Refresh();
+                panel_ProjectTree_base.Refresh();
+                mFormControl.Refresh();
             }
         }
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
@@ -739,9 +777,9 @@ namespace PrjHikariwoAnim
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
-            if (mNowSelectIndex != null)
+            if (mNowElementsIndex != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
                 //移動処理
                 if (mMouseLDown)
                 {
@@ -789,7 +827,7 @@ namespace PrjHikariwoAnim
                 }
             }
             StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}]";
-            StatusLabel2.Text = $" [Select:{mNowSelectIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+            StatusLabel2.Text = $" [Select:{mNowElementsIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -797,8 +835,8 @@ namespace PrjHikariwoAnim
             //部品選択中か確認
 
             //GetElement
-            if (mNowSelectIndex == null) return;
-            ELEMENTS nowEle = TimeLine.EditFrame.GetElement((int)mNowSelectIndex);
+            if (mNowElementsIndex == null) return;
+            ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
 
             //カーソル
             if (e.KeyData == Keys.Shift)
@@ -828,8 +866,36 @@ namespace PrjHikariwoAnim
 
             }
         }
+        /// <summary>
+        /// エディット中の選択エレメントをインデックス指定と関連画面更新
+        /// </summary>
+        /// <param name="ElementsIndex"></param>
+        public void SetNowElementsIndex(int? ElementsIndex)
+        {
+            //これ　mNowSelectIndexのSetterにするべきか
 
-
+            //現在の選択と違う物であれば変更を行う
+            if (ElementsIndex == null) return;
+            if (mNowElementsIndex != ElementsIndex)
+            {
+                //現在の選択を解除
+                if (mNowElementsIndex != null)
+                {
+                    TimeLine.EditFrame.GetElement(mNowElementsIndex).isSelect = false;
+                }
+                //更新
+                mNowElementsIndex = ElementsIndex;
+                //新規選択を有効
+                ELEMENTS elm = TimeLine.EditFrame.GetElement(ElementsIndex);
+                elm.isSelect = true;
+                //各種リフレッシュ
+                panel_PreView.Refresh();                
+                panel_ProjectTree_base.Refresh();
+                mFormAttribute.SetAllParam(elm.Atr);
+                mFormAttribute.Refresh();
+                mFormControl.Refresh();
+            }
+        }
         private void BottonTest_Click(object sender, EventArgs e)
         {
             // testCode

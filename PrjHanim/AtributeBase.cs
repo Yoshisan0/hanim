@@ -56,6 +56,8 @@ namespace PrjHikariwoAnim
         [DataMember]
         public bool FlipV;//FlipV
         [DataMember]
+        public bool isTransparrency;//透明有効化フラグ
+        [DataMember]
         public int Transparency;//0-255
         [DataMember]
         public bool Enable;//有効無効
@@ -64,7 +66,11 @@ namespace PrjHikariwoAnim
         [DataMember]
         public bool Colition;//Hit判定があるかどうか
         [DataMember]
+        public bool isColor;//カラー有効化フラグ
+        [DataMember]
         public int Color;
+        [DataMember]
+        public int ColorWeight;
         [DataMember]
         public string Text;//UserData
 
@@ -78,7 +84,9 @@ namespace PrjHikariwoAnim
             Radius   = new Vector3(0,0,0);
             Scale    = new Vector3(1,1,1);
             Offset   = new Vector3(0,0,0);
-
+            Transparency = 255;
+            Color = -1;//White 0xFFFFFFFF
+            ColorWeight = 255;
             Enable   = true;
             Visible  = true;
             Colition = true;
@@ -106,11 +114,14 @@ namespace PrjHikariwoAnim
             Height = src.Height;
             FlipH = src.FlipH;
             FlipV = src.FlipV;
+            isTransparrency = src.isTransparrency;
             Transparency = src.Transparency;
             Enable = src.Enable;
             Visible = src.Visible;
             Colition = src.Colition;
             Color = src.Color;
+            ColorWeight = src.ColorWeight;
+            isColor = src.isColor;
             Text = src.Text;
         }
         public AttributeBase Copy(AttributeBase src)

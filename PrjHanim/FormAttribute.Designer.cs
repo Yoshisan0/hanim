@@ -57,6 +57,7 @@
             this.UserText = new System.Windows.Forms.TextBox();
             this.ColorCode = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
+            this.UDnumColWeight = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -68,6 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UDnumY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumX)).BeginInit();
             this.panel_Attribute_Base.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UDnumColWeight)).BeginInit();
             this.SuspendLayout();
             // 
             // checkT
@@ -143,7 +145,7 @@
             // 
             this.checkXoff.AutoSize = true;
             this.checkXoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkXoff.Location = new System.Drawing.Point(6, 305);
+            this.checkXoff.Location = new System.Drawing.Point(5, 333);
             this.checkXoff.Margin = new System.Windows.Forms.Padding(0);
             this.checkXoff.Name = "checkXoff";
             this.checkXoff.Size = new System.Drawing.Size(125, 20);
@@ -156,7 +158,7 @@
             // 
             this.checkYoff.AutoSize = true;
             this.checkYoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkYoff.Location = new System.Drawing.Point(6, 330);
+            this.checkYoff.Location = new System.Drawing.Point(5, 358);
             this.checkYoff.Margin = new System.Windows.Forms.Padding(0);
             this.checkYoff.Name = "checkYoff";
             this.checkYoff.Size = new System.Drawing.Size(125, 20);
@@ -169,12 +171,12 @@
             // 
             this.checkUserText.AutoSize = true;
             this.checkUserText.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkUserText.Location = new System.Drawing.Point(6, 355);
+            this.checkUserText.Location = new System.Drawing.Point(5, 381);
             this.checkUserText.Margin = new System.Windows.Forms.Padding(0);
             this.checkUserText.Name = "checkUserText";
-            this.checkUserText.Size = new System.Drawing.Size(116, 20);
+            this.checkUserText.Size = new System.Drawing.Size(163, 20);
             this.checkUserText.TabIndex = 24;
-            this.checkUserText.Text = "ユーザーデータ";
+            this.checkUserText.Text = "ユーザーデータ(TEXT)";
             this.checkUserText.UseVisualStyleBackColor = true;
             this.checkUserText.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -276,7 +278,7 @@
             // UDnumYoff
             // 
             this.UDnumYoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumYoff.Location = new System.Drawing.Point(150, 329);
+            this.UDnumYoff.Location = new System.Drawing.Point(150, 358);
             this.UDnumYoff.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumYoff.Maximum = new decimal(new int[] {
             2147483647,
@@ -302,7 +304,7 @@
             // UDnumXoff
             // 
             this.UDnumXoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumXoff.Location = new System.Drawing.Point(150, 304);
+            this.UDnumXoff.Location = new System.Drawing.Point(150, 333);
             this.UDnumXoff.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumXoff.Maximum = new decimal(new int[] {
             2147483647,
@@ -512,7 +514,7 @@
             // 
             this.ColorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ColorPanel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ColorPanel.Location = new System.Drawing.Point(121, 279);
+            this.ColorPanel.Location = new System.Drawing.Point(64, 277);
             this.ColorPanel.Margin = new System.Windows.Forms.Padding(0);
             this.ColorPanel.Name = "ColorPanel";
             this.ColorPanel.Size = new System.Drawing.Size(29, 23);
@@ -522,25 +524,27 @@
             // UserText
             // 
             this.UserText.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UserText.Location = new System.Drawing.Point(150, 355);
+            this.UserText.Location = new System.Drawing.Point(5, 401);
             this.UserText.Margin = new System.Windows.Forms.Padding(0);
+            this.UserText.Multiline = true;
             this.UserText.Name = "UserText";
-            this.UserText.Size = new System.Drawing.Size(70, 23);
+            this.UserText.Size = new System.Drawing.Size(215, 133);
             this.UserText.TabIndex = 47;
             // 
             // ColorCode
             // 
             this.ColorCode.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ColorCode.Location = new System.Drawing.Point(150, 279);
+            this.ColorCode.Location = new System.Drawing.Point(93, 277);
             this.ColorCode.Margin = new System.Windows.Forms.Padding(0);
             this.ColorCode.Name = "ColorCode";
-            this.ColorCode.Size = new System.Drawing.Size(70, 23);
+            this.ColorCode.Size = new System.Drawing.Size(75, 23);
             this.ColorCode.TabIndex = 48;
             this.ColorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ColorCode.TextChanged += new System.EventHandler(this.ColorCode_TextChanged);
             // 
             // panel_Attribute_Base
             // 
+            this.panel_Attribute_Base.Controls.Add(this.UDnumColWeight);
             this.panel_Attribute_Base.Controls.Add(this.ColorCode);
             this.panel_Attribute_Base.Controls.Add(this.UserText);
             this.panel_Attribute_Base.Controls.Add(this.ColorPanel);
@@ -572,14 +576,34 @@
             this.panel_Attribute_Base.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Attribute_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_Attribute_Base.Name = "panel_Attribute_Base";
-            this.panel_Attribute_Base.Size = new System.Drawing.Size(226, 384);
+            this.panel_Attribute_Base.Size = new System.Drawing.Size(226, 543);
             this.panel_Attribute_Base.TabIndex = 49;
+            // 
+            // UDnumColWeight
+            // 
+            this.UDnumColWeight.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.UDnumColWeight.Location = new System.Drawing.Point(168, 277);
+            this.UDnumColWeight.Margin = new System.Windows.Forms.Padding(0);
+            this.UDnumColWeight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.UDnumColWeight.Name = "UDnumColWeight";
+            this.UDnumColWeight.Size = new System.Drawing.Size(52, 23);
+            this.UDnumColWeight.TabIndex = 49;
+            this.UDnumColWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UDnumColWeight.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             // 
             // FormAttribute
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(226, 384);
+            this.ClientSize = new System.Drawing.Size(226, 543);
             this.ControlBox = false;
             this.Controls.Add(this.panel_Attribute_Base);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -598,6 +622,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UDnumX)).EndInit();
             this.panel_Attribute_Base.ResumeLayout(false);
             this.panel_Attribute_Base.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UDnumColWeight)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -633,5 +658,6 @@
         private System.Windows.Forms.TextBox UserText;
         private System.Windows.Forms.TextBox ColorCode;
         private System.Windows.Forms.Panel panel_Attribute_Base;
+        private System.Windows.Forms.NumericUpDown UDnumColWeight;
     }
 }
