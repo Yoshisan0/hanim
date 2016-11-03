@@ -56,6 +56,8 @@ namespace PrjHikariwoAnim
         [DataMember]
         public bool FlipV;//FlipV
         [DataMember]
+        public bool isTransparrency;//透明有効化フラグ
+        [DataMember]
         public int Transparency;//0-255
         [DataMember]
         public bool Enable;//有効無効
@@ -63,6 +65,8 @@ namespace PrjHikariwoAnim
         public bool Visible;//みえるかどうか
         [DataMember]
         public bool Colition;//Hit判定があるかどうか
+        [DataMember]
+        public bool isColor;//カラー有効化フラグ
         [DataMember]
         public int Color;
         [DataMember]
@@ -78,6 +82,8 @@ namespace PrjHikariwoAnim
             Radius   = new Vector3(0,0,0);
             Scale    = new Vector3(1,1,1);
             Offset   = new Vector3(0,0,0);
+            Transparency = 255;
+            Color = -1;//White 0xFFFFFFFF
 
             Enable   = true;
             Visible  = true;

@@ -414,12 +414,39 @@ namespace PrjHikariwoAnim
                 //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
 
                 //スケールにあわせた部品の大きさを算出
-                float vsx = atr.Width  * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+                float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
                 float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
 
                 //パーツの中心点
                 float pcx = atr.Position.X + atr.Offset.X;
                 float pcy = atr.Position.X + atr.Offset.X;
+                Color Col = Color.FromArgb(atr.Color);
+                
+                //半透明用カラーマトリックス作成
+                System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
+                if (atr.isColor)
+                {
+                    colmat.Matrix00 = Col.R / 255f;//Red
+                    colmat.Matrix11 = Col.G / 255f;//Green
+                    colmat.Matrix22 = Col.B / 255f;//Blue
+                }
+                else
+                {
+                    colmat.Matrix00 = 1;//Red
+                    colmat.Matrix11 = 1;//Green
+                    colmat.Matrix22 = 1;//Blue
+                }
+                if (atr.isTransparrency)
+                {
+                    colmat.Matrix33 = atr.Transparency / 255f;
+                }else
+                {
+                    colmat.Matrix33 = 1;
+                }
+                colmat.Matrix44 = 1;//w
+                System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
+                ia.SetColorMatrix(colmat);
+
 
                 //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
                 CELL c = ImageMan.GetCellFromHash(atr.CellID);
@@ -431,10 +458,10 @@ namespace PrjHikariwoAnim
 
 
                 //中心に平行移動
-                g.TranslateTransform(vcx + atr.Position.X+atr.Offset.X, vcy + atr.Position.Y+atr.Offset.Y);
+                g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
                 //回転角指定
                 g.RotateTransform(atr.Radius.X);
-                
+
                 //スケーリング調
                 g.ScaleTransform(atr.Scale.X, atr.Scale.X);
                 //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
@@ -456,8 +483,15 @@ namespace PrjHikariwoAnim
                 //g.Transform = MatObj;
 
                 //Draw
-                g.DrawImage(c.Img,atr.Offset.X -(atr.Width * atr.Scale.X) / 2,atr.Offset.Y -(atr.Height * atr.Scale.Y) / 2, vsx, vsy);
-
+                if (atr.isTransparrency || atr.isColor)
+                {
+                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
+                }
+                else
+                { 
+                    //透明化カラー補正なし
+                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
+                }
                 //Draw Helper
                 if (checkBox_Helper.Checked)
                 {

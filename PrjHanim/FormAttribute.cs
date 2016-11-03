@@ -64,8 +64,12 @@ namespace PrjHikariwoAnim
             //checkEnable.Checked = atr.Enable;
             checkVisible.Checked = atr.Visible;
 
+            checkT.Checked = atr.isTransparrency;
             UDnumT.Value = atr.Transparency;
+
+            checkColor.Checked = atr.isColor;
             ColorCode.Text = $"{atr.Color:X8}";
+            ColorCode.Tag = atr.Color;
 
             UDnumXoff.Value = (int)atr.Offset.X;
             UDnumYoff.Value = (int)atr.Offset.Y;
@@ -83,7 +87,7 @@ namespace PrjHikariwoAnim
         /// <param name="atr">参照</param>
         public AttributeBase GetAllParam(ref AttributeBase atr)
         {
-            isLocked = true;
+            //isLocked = true;
             //パラメータ手動変更があった時のみ取得出来る
             if (isChanged)
             {
@@ -106,11 +110,14 @@ namespace PrjHikariwoAnim
                 //ret.Enable = checkEnable.Checked;
                 atr.Visible = checkVisible.Checked;
 
+                atr.isTransparrency = checkT.Checked;
                 atr.Transparency = (int)UDnumT.Value;
 
+                atr.isColor = checkColor.Checked;
+                if (ColorCode.Tag != null) atr.Color = (int)ColorCode.Tag;
                 if (ColorCode.Text != "")
-                {
-                    atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
+                { 
+                    //atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
                 }
                 atr.Offset.X = (int)UDnumXoff.Value;
                 atr.Offset.Y = (int)UDnumYoff.Value;
@@ -143,6 +150,7 @@ namespace PrjHikariwoAnim
             if(dlg.ShowDialog()==DialogResult.OK)
             {
                 ColorPanel.BackColor = dlg.Color;
+                ColorCode.Tag = dlg.Color.ToArgb();
                 ColorCode.Text = $"{dlg.Color.ToArgb():X8}";//ARGB
                 //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6
             }
@@ -152,14 +160,14 @@ namespace PrjHikariwoAnim
         {
             //チェックボックス系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if(!isLocked) isChanged = true;mFormMain.AttributeUpdate();
+            if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
         }
 
         private void UDnumYoff_ValueChanged(object sender, EventArgs e)
         {
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if(!isLocked) isChanged = true;mFormMain.AttributeUpdate();
+            if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
         }
     }
 }
