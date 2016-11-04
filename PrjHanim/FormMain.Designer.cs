@@ -72,9 +72,6 @@
             this.button_CrossColor = new System.Windows.Forms.Button();
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
             this.button_BackColor = new System.Windows.Forms.Button();
-            this.panel_ProjectTree_base = new System.Windows.Forms.Panel();
-            this.panel_Project_Bottom = new System.Windows.Forms.Panel();
-            this.botton_Test = new System.Windows.Forms.Button();
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
@@ -82,18 +79,21 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).BeginInit();
-            this.panel_ProjectTree_base.SuspendLayout();
-            this.panel_Project_Bottom.SuspendLayout();
             this.panel_ProjectTopBase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).BeginInit();
+            this.splitContainerLeft.Panel1.SuspendLayout();
+            this.splitContainerLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -545,39 +545,6 @@
             this.button_BackColor.UseVisualStyleBackColor = false;
             this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
-            // panel_ProjectTree_base
-            // 
-            this.panel_ProjectTree_base.BackColor = System.Drawing.Color.Black;
-            this.panel_ProjectTree_base.Controls.Add(this.panel_Project_Bottom);
-            this.panel_ProjectTree_base.Controls.Add(this.treeView_Project);
-            this.panel_ProjectTree_base.Controls.Add(this.panel_ProjectTopBase);
-            this.panel_ProjectTree_base.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_ProjectTree_base.Location = new System.Drawing.Point(0, 0);
-            this.panel_ProjectTree_base.Name = "panel_ProjectTree_base";
-            this.panel_ProjectTree_base.Size = new System.Drawing.Size(185, 479);
-            this.panel_ProjectTree_base.TabIndex = 5;
-            // 
-            // panel_Project_Bottom
-            // 
-            this.panel_Project_Bottom.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panel_Project_Bottom.Controls.Add(this.botton_Test);
-            this.panel_Project_Bottom.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel_Project_Bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_Project_Bottom.Location = new System.Drawing.Point(0, 298);
-            this.panel_Project_Bottom.Name = "panel_Project_Bottom";
-            this.panel_Project_Bottom.Size = new System.Drawing.Size(185, 181);
-            this.panel_Project_Bottom.TabIndex = 2;
-            // 
-            // botton_Test
-            // 
-            this.botton_Test.Location = new System.Drawing.Point(3, 3);
-            this.botton_Test.Name = "botton_Test";
-            this.botton_Test.Size = new System.Drawing.Size(78, 23);
-            this.botton_Test.TabIndex = 0;
-            this.botton_Test.Text = "Img+Test";
-            this.botton_Test.UseVisualStyleBackColor = true;
-            this.botton_Test.Click += new System.EventHandler(this.BottonTest_Click);
-            // 
             // treeView_Project
             // 
             this.treeView_Project.BackColor = System.Drawing.Color.Black;
@@ -589,7 +556,7 @@
             this.treeView_Project.ImageIndex = 0;
             this.treeView_Project.ImageList = this.imageList_Thumb;
             this.treeView_Project.LabelEdit = true;
-            this.treeView_Project.Location = new System.Drawing.Point(0, 30);
+            this.treeView_Project.Location = new System.Drawing.Point(0, 18);
             this.treeView_Project.Name = "treeView_Project";
             treeNode1.Name = "Images";
             treeNode1.Text = "Images";
@@ -608,7 +575,7 @@
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
-            this.treeView_Project.Size = new System.Drawing.Size(185, 449);
+            this.treeView_Project.Size = new System.Drawing.Size(185, 182);
             this.treeView_Project.TabIndex = 1;
             this.treeView_Project.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_Project_AfterLabelEdit);
             this.treeView_Project.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Project_NodeMouseClick);
@@ -625,16 +592,18 @@
             // 
             // panel_ProjectTopBase
             // 
+            this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel_ProjectTopBase.Controls.Add(this.label1);
             this.panel_ProjectTopBase.Controls.Add(this.button1);
             this.panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ProjectTopBase.Name = "panel_ProjectTopBase";
-            this.panel_ProjectTopBase.Size = new System.Drawing.Size(185, 30);
+            this.panel_ProjectTopBase.Size = new System.Drawing.Size(185, 18);
             this.panel_ProjectTopBase.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(3, 6);
+            this.button1.Location = new System.Drawing.Point(126, 1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(55, 20);
             this.button1.TabIndex = 0;
@@ -650,7 +619,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.panel_ProjectTree_base);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainerLeft);
             // 
             // splitContainer1.Panel2
             // 
@@ -665,6 +634,34 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
+            // 
+            // splitContainerLeft
+            // 
+            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainerLeft.Name = "splitContainerLeft";
+            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerLeft.Panel1
+            // 
+            this.splitContainerLeft.Panel1.Controls.Add(this.treeView_Project);
+            this.splitContainerLeft.Panel1.Controls.Add(this.panel_ProjectTopBase);
+            this.splitContainerLeft.Size = new System.Drawing.Size(185, 479);
+            this.splitContainerLeft.SplitterDistance = 200;
+            this.splitContainerLeft.SplitterWidth = 2;
+            this.splitContainerLeft.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(10, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "MotionList";
             // 
             // FormMain
             // 
@@ -696,13 +693,15 @@
             this.panel_ToolBase.PerformLayout();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).EndInit();
-            this.panel_ProjectTree_base.ResumeLayout(false);
-            this.panel_Project_Bottom.ResumeLayout(false);
             this.panel_ProjectTopBase.ResumeLayout(false);
+            this.panel_ProjectTopBase.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainerLeft.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).EndInit();
+            this.splitContainerLeft.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -729,8 +728,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel Spaceer1;
         private System.Windows.Forms.Button button_AlingForm;
-        private System.Windows.Forms.Panel panel_ProjectTree_base;
-        private System.Windows.Forms.Panel panel_Project_Bottom;
         private System.Windows.Forms.TreeView treeView_Project;
         private System.Windows.Forms.Panel panel_ProjectTopBase;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -741,7 +738,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Load;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Save;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
-        private System.Windows.Forms.Button botton_Test;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel2;
         private System.Windows.Forms.ImageList imageList_Thumb;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_exports;
@@ -755,6 +751,8 @@
         private System.Windows.Forms.Button button_BackColor;
         private System.Windows.Forms.CheckBox checkBox_Helper;
         private System.Windows.Forms.ToolTip toolTipMain;
+        private System.Windows.Forms.SplitContainer splitContainerLeft;
+        private System.Windows.Forms.Label label1;
     }
 }
 

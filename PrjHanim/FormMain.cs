@@ -335,7 +335,10 @@ namespace PrjHikariwoAnim
             e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
             e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
         }
-        private void treeView_Project_Update()
+        /// <summary>
+        /// treeView_Project更新
+        /// </summary>
+        public void treeView_Project_Update()
         {
             //現在のMotionNodeを探す モーション名決め打ちなので将来略
             //TreeNode tn = treeView_Project.Nodes["Motion"];
@@ -348,11 +351,11 @@ namespace PrjHikariwoAnim
                 if (tn == null) continue;
                 if (elm.isSelect)
                 {
-                    tn.ImageIndex = 3;
+                    tn.ImageIndex = 3;//選択中
                 }
                 else
                 {
-                    tn.ImageIndex = 4;
+                    tn.ImageIndex = 4;//非選択
                 }               
             }
 
@@ -789,7 +792,7 @@ namespace PrjHikariwoAnim
                 }
                 mMouseLDown = true;                
                 panel_PreView.Refresh();
-                panel_ProjectTree_base.Refresh();
+                treeView_Project.Refresh();
                 mFormControl.Refresh();
             }
         }
