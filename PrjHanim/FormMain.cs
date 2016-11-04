@@ -197,6 +197,94 @@ namespace PrjHikariwoAnim
             mKeys = Keys.None;
             mKeysSP = Keys.None;
         }
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            panel_PreView.Refresh();
+        }
+        /// 終了処理
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default["Location_FormMain"] = this.Location;
+            //            Properties.Settings.Default["Location_FormAttribute"] = value;
+            //            Properties.Settings.Default["Location_FormControl"] = value;
+            //            Properties.Settings.Default["Location_FormImageCut"] = value;
+            //            Properties.Settings.Default["Location_FormImageList"] = value;
+            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
+            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
+            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
+            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
+            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
+            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
+            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
+            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
+            Properties.Settings.Default.Save();
+        }
+        private void button_BackColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdg = new ColorDialog();
+            if (cdg.ShowDialog() == DialogResult.OK)
+            {
+                Button b = (Button)sender;
+                b.BackColor = cdg.Color;
+                panel_PreView.BackColor = cdg.Color;
+            }
+            cdg.Dispose();
+            panel_PreView.Refresh();
+        }
+        private void Button_Color_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdg = new ColorDialog();
+            if (cdg.ShowDialog() == DialogResult.OK)
+            {
+                Button b = (Button)sender;
+                b.BackColor = cdg.Color;
+            }
+            cdg.Dispose();
+            panel_PreView.Refresh();
+        }
+        private void CheckButton_Changed(object sender, EventArgs e)
+        {
+            panel_PreView.Refresh();
+        }
+        private void timerMain_Tick(object sender, EventArgs e)
+        {
+            if (this.mFormImageList != null)
+            {
+                if (this.mFormImageList.IsDisposed)
+                {
+                    this.mFormImageList.Dispose();
+                    this.mFormImageList = null;
+                }
+            }
+
+            if (this.mFormControl != null)
+            {
+                if (this.mFormControl.IsDisposed)
+                {
+                    this.mFormControl.Dispose();
+                    this.mFormControl = null;
+                }
+            }
+
+            if (this.mFormAttribute != null)
+            {
+                if (this.mFormAttribute.IsDisposed)
+                {
+                    this.mFormAttribute.Dispose();
+                    this.mFormAttribute = null;
+                }
+            }
+
+            this.ToolStripMenuItem_ImageList.Checked = (this.mFormImageList != null);
+            this.ToolStripMenuItem_Control.Checked = (this.mFormControl != null);
+            this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
+        }
+        private void ZoomLevel_ValueChanged(object sender, EventArgs e)
+        {
+            panel_PreView.Refresh();
+        }
 
         //TreeView_Project
         private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
@@ -250,7 +338,24 @@ namespace PrjHikariwoAnim
         private void treeView_Project_Update()
         {
             //現在のMotionNodeを探す モーション名決め打ちなので将来略
-            TreeNode tn = treeView_Project.Nodes["Motion"];
+            //TreeNode tn = treeView_Project.Nodes["Motion"];
+            //TreeViewて複数選択できないじゃーん！！！！
+            //Add Editing AllElements
+            for(int cnt=0;cnt<TimeLine.EditFrame.ElementsCount;cnt++)
+            {
+                ELEMENTS elm = TimeLine.EditFrame.GetElement(cnt);
+                TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.Name];
+                if (tn == null) continue;
+                if (elm.isSelect)
+                {
+                    tn.ImageIndex = 3;
+                }
+                else
+                {
+                    tn.ImageIndex = 4;
+                }               
+            }
+
 
         }
         /// <summary>
@@ -319,97 +424,7 @@ namespace PrjHikariwoAnim
             //モーションである事を示すタグを付加する？
         }
 
-
-        private void button_BackColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-                panel_PreView.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
-        }
-        private void Button_Color_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
-        }
-        private void CheckButton_Changed(object sender, EventArgs e)
-        {
-            panel_PreView.Refresh();
-        }
-        private void timerMain_Tick(object sender, EventArgs e)
-        {
-            if (this.mFormImageList != null)
-            {
-                if (this.mFormImageList.IsDisposed)
-                {
-                    this.mFormImageList.Dispose();
-                    this.mFormImageList = null;
-                }
-            }
-
-            if (this.mFormControl != null)
-            {
-                if (this.mFormControl.IsDisposed)
-                {
-                    this.mFormControl.Dispose();
-                    this.mFormControl = null;
-                }
-            }
-
-            if (this.mFormAttribute != null)
-            {
-                if (this.mFormAttribute.IsDisposed)
-                {
-                    this.mFormAttribute.Dispose();
-                    this.mFormAttribute = null;
-                }
-            }
-
-            this.ToolStripMenuItem_ImageList.Checked = (this.mFormImageList != null);
-            this.ToolStripMenuItem_Control.Checked   = (this.mFormControl   != null);
-            this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
-        }
-
-        private void ZoomLevel_ValueChanged(object sender, EventArgs e)
-        {
-            panel_PreView.Refresh();
-        }
-        private void FormMain_Resize(object sender, EventArgs e)
-        {
-            panel_PreView.Refresh();
-        }
-        /// 終了処理
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Properties.Settings.Default["Location_FormMain"] = this.Location;
-//            Properties.Settings.Default["Location_FormAttribute"] = value;
-//            Properties.Settings.Default["Location_FormControl"] = value;
-//            Properties.Settings.Default["Location_FormImageCut"] = value;
-//            Properties.Settings.Default["Location_FormImageList"] = value;
-            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
-            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
-            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
-            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
-            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
-            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
-            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
-            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
-            Properties.Settings.Default.Save();
-        }
-
+        //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
             //以下、拡大してボケないようにする処理
@@ -605,11 +620,6 @@ namespace PrjHikariwoAnim
                 //Cuurent Draw Grip
             }
         }
-
-
-
-
-
         /// <summary>
         /// ドラッグアンドドロップ処理
         /// </summary>
@@ -902,8 +912,9 @@ namespace PrjHikariwoAnim
                 ELEMENTS elm = TimeLine.EditFrame.GetElement(ElementsIndex);
                 elm.isSelect = true;
                 //各種リフレッシュ
-                panel_PreView.Refresh();                
-                panel_ProjectTree_base.Refresh();
+                panel_PreView.Refresh();
+                treeView_Project_Update();                
+                treeView_Project.Refresh();
                 mFormAttribute.SetAllParam(elm.Atr);
                 mFormAttribute.Refresh();
                 mFormControl.Refresh();
@@ -920,7 +931,6 @@ namespace PrjHikariwoAnim
                 FormImageCut fc = new FormImageCut(img,fd.FileName);
             }
         }
-
 
     }
 }

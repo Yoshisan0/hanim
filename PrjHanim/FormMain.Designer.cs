@@ -606,6 +606,7 @@
             treeNode3,
             treeNode4});
             this.treeView_Project.SelectedImageIndex = 0;
+            this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
             this.treeView_Project.Size = new System.Drawing.Size(185, 449);
             this.treeView_Project.TabIndex = 1;
