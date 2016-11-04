@@ -198,6 +198,7 @@ namespace PrjHikariwoAnim
             mKeysSP = Keys.None;
         }
 
+        //TreeView_Project
         private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             //ReName ProjectName
@@ -234,7 +235,7 @@ namespace PrjHikariwoAnim
             mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
             if (mNowElementsIndex != null) panel_PreView.Refresh();
         }
-        private void TreeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             //未使用 将来的に使うかもしれない
             //TreeViewのDrawNodeを変更しデザイナーcs側でイベントに登録して使う
@@ -246,6 +247,78 @@ namespace PrjHikariwoAnim
             e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
             e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
         }
+        private void treeView_Project_Update()
+        {
+            //現在のMotionNodeを探す モーション名決め打ちなので将来略
+            TreeNode tn = treeView_Project.Nodes["Motion"];
+
+        }
+        /// <summary>
+        /// CellからElementを作成し追加
+        /// </summary>
+        /// <param name="work"></param>
+        /// <param name="x">クリック座標(Cliant)</param>
+        /// <param name="y">クリック座標(Cliant)</param>
+        private void treeView_Project_AddElements(CELL work, int x, int y)
+        {
+            //アイテムの登録
+            ELEMENTS elem = new ELEMENTS();
+            elem.Atr = new AttributeBase();
+            elem.Atr.CellID = work.GetHashCode();
+            elem.Atr.Width = work.Img.Width;
+            elem.Atr.Height = work.Img.Height;
+            elem.Tag = elem.GetHashCode();
+
+            //センターからの距離に変換
+            x -= panel_PreView.Width / 2;
+            y -= panel_PreView.Height / 2;
+            //さらに画像サイズ半分シフトして画像中心をセンターに
+            x -= elem.Atr.Width / 2;
+            y -= elem.Atr.Height / 2;
+
+            elem.Atr.Position = new Vector3(x, y, 0);
+            elem.Name = elem.GetHashCode().ToString("X8");//仮名
+
+            //Show - Attribute
+            mFormAttribute.SetAllParam(elem.Atr);
+
+            TimeLine.EditFrame.AddElements(elem);//Elements登録
+            TimeLine.Store();//
+            // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
+
+            //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
+            TreeNode selNode = treeView_Project.Nodes["Motion"];
+            selNode.Nodes.Add(elem.Name, elem.Name);
+            selNode.Expand();
+            selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
+            selNode.Nodes[elem.Name].ImageIndex = 4;
+            selNode.Nodes[elem.Name].SelectedImageIndex = 3;
+
+            //Control更新
+            mFormControl.Refresh();
+
+        }
+        private void treeView_Project_RemoveElements(string name)
+        {
+            //Elements選択中のDelキー
+        }
+        private void treeView_Project_AddMotion(string name)
+        {
+            treeView_Project.SelectedNode = treeView_Project.TopNode;
+            TreeNode tn = treeView_Project.Nodes.Add(name);
+            tn.ImageIndex = 2;
+            tn.SelectedImageIndex = 2;
+            tn.Tag = 1;//仮番号
+
+        }
+        private void treeView_Project_RemoveMotion(string name)
+        { }
+        private void button1_MotionAdd_Click(object sender, EventArgs e)
+        {
+            treeView_Project_AddMotion("NewMotion");
+            //モーションである事を示すタグを付加する？
+        }
+
 
         private void button_BackColor_Click(object sender, EventArgs e)
         {
@@ -387,7 +460,7 @@ namespace PrjHikariwoAnim
             Matrix back = e.Graphics.Transform;
             if (TimeLine.EditFrame != null)
             {
-                DrawParts(sender, e.Graphics);
+                PanelPreview_Paint_DrawParts(sender, e.Graphics);
             }
             e.Graphics.Transform = back;
             //CrossBar スクリーン移動時は原点に沿う形に
@@ -404,7 +477,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="g"></param>
-        private void DrawParts(object sender, Graphics g)
+        private void PanelPreview_Paint_DrawParts(object sender, Graphics g)
         {
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
@@ -534,75 +607,8 @@ namespace PrjHikariwoAnim
         }
 
 
-        /// <summary>
-        /// CellからElementを作成し追加
-        /// </summary>
-        /// <param name="work"></param>
-        /// <param name="x">クリック座標(Cliant)</param>
-        /// <param name="y">クリック座標(Cliant)</param>
-        private void AddElements(CELL work,int x,int y)
-        {
-            //アイテムの登録
-            ELEMENTS elem = new ELEMENTS();
-            elem.Atr = new AttributeBase();
-            elem.Atr.CellID = work.GetHashCode();
-            elem.Atr.Width  = work.Img.Width;
-            elem.Atr.Height = work.Img.Height;
-            elem.Tag = elem.GetHashCode();
 
-            //センターからの距離に変換
-            x -= panel_PreView.Width  / 2;
-            y -= panel_PreView.Height / 2;
-            //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= elem.Atr.Width  / 2;
-            y -= elem.Atr.Height / 2;
 
-            elem.Atr.Position = new Vector3(x,y,0);
-            elem.Name = elem.GetHashCode().ToString("X8");//仮名
-            
-            //Show - Attribute
-            mFormAttribute.SetAllParam(elem.Atr);
-
-            TimeLine.EditFrame.AddElements(elem);//Elements登録
-            TimeLine.Store();//
-            // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
-
-            //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
-            TreeNode selNode = treeView_Project.Nodes["Motion"];
-            selNode.Nodes.Add(elem.Name,elem.Name);
-            selNode.Expand();
-            selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-            selNode.Nodes[elem.Name].ImageIndex = 4;
-            selNode.Nodes[elem.Name].SelectedImageIndex = 3;
-
-            //Control更新
-            mFormControl.Refresh();
-
-        }
-        private void RemoveElements(string name)
-        {
-            //Elements選択中のDelキー
-        }
-        //ProjectTree
-        private void AddMotion(string name)
-        {
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(name);
-            tn.ImageIndex = 2;
-            tn.SelectedImageIndex = 2;
-            tn.Tag = 1;//仮番号
-            
-        }
-        private void RemoveMotion(string name)
-        { }
-        private void UpdateTree()
-        {
-            //プロジェクト全体情報からTreeを作成
-            //Image情報収集
-            //CELL情報収集
-            //Elements情報収集
-
-        }
 
         /// <summary>
         /// ドラッグアンドドロップ処理
@@ -627,7 +633,7 @@ namespace PrjHikariwoAnim
                         CELL c = new CELL();
                         c.FromPngFile(str);
                         ImageMan.AddCell(c);
-                        AddElements(c, sPos.X, sPos.Y);
+                        treeView_Project_AddElements(c, sPos.X, sPos.Y);
                         //ImageListへ登録と更新
                         mFormImageList.AddItem(str);
                         mFormImageList.Refresh();
@@ -652,7 +658,7 @@ namespace PrjHikariwoAnim
                 work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
                 ImageMan.AddCell(work);//画像サイズ登録実画像はいずこ！
 
-                AddElements(work, sPos.X, sPos.Y);
+                treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
@@ -664,7 +670,7 @@ namespace PrjHikariwoAnim
                 ImageMan.AddCell(work);//画像登録
 
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                AddElements(work, a.X, a.Y);
+                treeView_Project_AddElements(work, a.X, a.Y);
                 e.Effect = DragDropEffects.Copy;
             }
             if (e.Data.GetType() == typeof(ELEMENTS))
@@ -673,11 +679,6 @@ namespace PrjHikariwoAnim
             { e.Effect = DragDropEffects.Copy; }
 
             panel_PreView.Refresh();
-        }
-        private void button1_MotionAdd_Click(object sender, EventArgs e)
-        {
-            AddMotion("NewMotion");
-            //モーションである事を示すタグを付加する？
         }
         private void PanelPreView_DragEnter(object sender, DragEventArgs e)
         {
