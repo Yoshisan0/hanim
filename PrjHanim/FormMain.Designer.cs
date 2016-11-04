@@ -278,7 +278,7 @@
             // 
             this.checkBox_Helper.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_Helper.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
+            this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.period;
             this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Helper.Location = new System.Drawing.Point(392, 0);
@@ -563,9 +563,9 @@
             this.panel_Project_Bottom.Controls.Add(this.botton_Test);
             this.panel_Project_Bottom.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel_Project_Bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_Project_Bottom.Location = new System.Drawing.Point(0, 345);
+            this.panel_Project_Bottom.Location = new System.Drawing.Point(0, 298);
             this.panel_Project_Bottom.Name = "panel_Project_Bottom";
-            this.panel_Project_Bottom.Size = new System.Drawing.Size(185, 134);
+            this.panel_Project_Bottom.Size = new System.Drawing.Size(185, 181);
             this.panel_Project_Bottom.TabIndex = 2;
             // 
             // botton_Test

@@ -234,6 +234,18 @@ namespace PrjHikariwoAnim
             mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
             if (mNowElementsIndex != null) panel_PreView.Refresh();
         }
+        private void TreeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            //未使用 将来的に使うかもしれない
+            //TreeViewのDrawNodeを変更しデザイナーcs側でイベントに登録して使う
+            //カスタム(TreeView.DrawMode=OwnerDrawAll)描画
+            //ノード単位の自前描画
+            //BG
+            e.Graphics.FillRectangle(Brushes.Black, e.Bounds.Location.X, e.Bounds.Location.Y, e.Bounds.Width, e.Bounds.Height);
+            //Icon
+            e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
+            e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
+        }
 
         private void button_BackColor_Click(object sender, EventArgs e)
         {
@@ -896,6 +908,7 @@ namespace PrjHikariwoAnim
                 mFormControl.Refresh();
             }
         }
+
         private void BottonTest_Click(object sender, EventArgs e)
         {
             // testCode
