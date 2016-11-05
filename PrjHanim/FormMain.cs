@@ -924,6 +924,11 @@ namespace PrjHikariwoAnim
             }
         }
 
+        private void panel_ProjectTopBase_Click(object sender, EventArgs e)
+        {
+            treeView_Project.Visible = !treeView_Project.Visible;
+        }
+
         private void BottonTest_Click(object sender, EventArgs e)
         {
             // testCode
