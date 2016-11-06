@@ -549,6 +549,7 @@
             // 
             // treeView_Project
             // 
+            this.treeView_Project.AllowDrop = true;
             this.treeView_Project.BackColor = System.Drawing.Color.Black;
             this.treeView_Project.Dock = System.Windows.Forms.DockStyle.Top;
             this.treeView_Project.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -581,7 +582,10 @@
             this.treeView_Project.Size = new System.Drawing.Size(139, 200);
             this.treeView_Project.TabIndex = 1;
             this.treeView_Project.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_Project_AfterLabelEdit);
+            this.treeView_Project.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_Project_ItemDrag);
             this.treeView_Project.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Project_NodeMouseClick);
+            this.treeView_Project.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_Project_DragDrop);
+            this.treeView_Project.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView_Project_DragOver);
             // 
             // imageList_Thumb
             // 

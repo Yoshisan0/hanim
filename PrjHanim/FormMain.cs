@@ -59,7 +59,6 @@ namespace PrjHikariwoAnim
         private ImageManagerBase ImageMan;
         public TIMELINEbase TimeLine;
 
-
         public FormMain()
         {
             InitializeComponent();
@@ -196,6 +195,14 @@ namespace PrjHikariwoAnim
         {
             mKeys = Keys.None;
             mKeysSP = Keys.None;
+
+            if (e.KeyData == Keys.Delete)
+            {
+                //Element Remove
+                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
+                panel_PreView.Refresh();
+                treeView_Project_Update();
+            }
         }
         private void FormMain_Resize(object sender, EventArgs e)
         {
@@ -421,10 +428,104 @@ namespace PrjHikariwoAnim
         }
         private void treeView_Project_RemoveMotion(string name)
         { }
+        private void treeView_Project_DragDrop(object sender, DragEventArgs e)
+        {
+            //ドロップされたデータがTreeNodeか調べる
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                TreeView tv = (TreeView)sender;
+                //元ノード取得
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //ドロップ先のTreeNodeを取得する
+                TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //Motionのみの移動に限定する
+                if (dest !=null && dest.Parent !=null && src.Parent != null && IsMotionNode(src) && IsMotionNode(dest))
+                {
+                    //マウス下のNodeがドロップ先として適切か調べる
+                    if (dest != null && dest != src && !IsChildNode(src, dest))
+                    {
+                        //ドロップされたNodeのコピーを作成
+                        TreeNode cln = (TreeNode)src.Clone();
+                        dest.Nodes.Add(cln);
+                        dest.Expand();
+                        tv.SelectedNode = cln;
+                    } else e.Effect = DragDropEffects.None;
+                }else e.Effect = DragDropEffects.None;
+            } else e.Effect = DragDropEffects.None;
+        }
+        /// <summary>
+        /// あるTreeNodeが別のTreeNodeの子ノードか調べる
+        /// </summary>
+        /// <param name="parentNode">親ノードか調べるTreeNode</param>
+        /// <param name="childNode">子ノードか調べるTreeNode</param>
+        /// <returns>子ノードの時はTrue</returns>
+        private static bool IsChildNode(TreeNode parentNode, TreeNode childNode)
+        {
+            if (childNode.Parent == parentNode) return true;
+            else if (childNode.Parent != null)  return IsChildNode(parentNode, childNode.Parent);
+            else return false;
+        }
+        private static bool IsMotionNode(TreeNode src,string name="Motion")
+        {
+            if (src.Name == name) return true; //それ自体がモーション
+            else if(src.Parent!=null)return IsMotionNode(src.Parent, name);
+            else return false;
+        }  
+
+        private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //ドラッグ開始
+            TreeView tv = (TreeView)sender;
+            tv.SelectedNode = (TreeNode)e.Item;
+            tv.Focus();
+            //ノードのドラッグを開始する
+            DragDropEffects dde = tv.DoDragDrop(e.Item, DragDropEffects.All);
+            //移動した時は、ドラッグしたノードを削除する
+            if ((dde & DragDropEffects.Move) == DragDropEffects.Move)
+            {
+                tv.Nodes.Remove((TreeNode)e.Item);
+            }
+        }
+        private void treeView_Project_DragOver(object sender, DragEventArgs e)
+        {
+            //TreeNodeか確認
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                //CtrlKey(8)== Copy / nonkey==Move
+                if ((e.KeyState & 8) == 8 && (e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) { e.Effect = DragDropEffects.Copy; }
+                else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) { e.Effect = DragDropEffects.Move; }
+                else { e.Effect = DragDropEffects.None; }
+            }
+            else
+                //TreeNodeでなければ受け入れない
+                e.Effect = DragDropEffects.None;
+
+            //マウス下のNodeを選択する
+            if (e.Effect != DragDropEffects.None)
+            {
+                TreeView tv = (TreeView)sender;
+                //マウスのあるNodeを取得する
+                TreeNode dst = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //ドラッグされているNodeを取得する
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //マウス下のNodeがドロップ先として適切か調べる
+                if (dst != null && dst != src && !IsChildNode(src, dst))
+                {
+                    //Nodeを選択する
+                    if (dst.IsSelected == false) tv.SelectedNode = dst;
+                }
+                else e.Effect = DragDropEffects.None;
+            }
+        }
         private void button1_MotionAdd_Click(object sender, EventArgs e)
         {
             treeView_Project_AddMotion("NewMotion");
             //モーションである事を示すタグを付加する？
+        }
+        private void panel_ProjectTopBase_Click(object sender, EventArgs e)
+        {
+            //ProjectPaineの開閉(おまけ)
+            treeView_Project.Visible = !treeView_Project.Visible;
         }
 
         //PanelPreView周り
@@ -858,6 +959,8 @@ namespace PrjHikariwoAnim
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //previewKey
+            //なぜかイベント発生しない？なんだろ？
+            //メインフォームのほうが優先されるらしい keyPreview=True
             //部品選択中か確認
 
             //GetElement
@@ -890,6 +993,11 @@ namespace PrjHikariwoAnim
             if(e.KeyData == Keys.Control)
             {
 
+            }
+            if(e.KeyData==Keys.Delete)
+            {
+                //Element Remove
+                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
             }
         }
         /// <summary>
@@ -924,10 +1032,7 @@ namespace PrjHikariwoAnim
             }
         }
 
-        private void panel_ProjectTopBase_Click(object sender, EventArgs e)
-        {
-            treeView_Project.Visible = !treeView_Project.Visible;
-        }
+
 
         private void BottonTest_Click(object sender, EventArgs e)
         {
