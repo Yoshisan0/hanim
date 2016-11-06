@@ -445,9 +445,15 @@ namespace PrjHikariwoAnim
                     TreeNode cln = (TreeNode)src.Clone();
                     dest.Nodes.Add(cln);
                     dest.Expand();
-                    tv.SelectedNode = cln;                    
+                    tv.SelectedNode = cln;
+                    //構造をTimelineに反映させる
+                    //src to dest
+                    if (TimeLine.EditFrame.Move(src.Name, dest.Name) == false) { Console.WriteLine("Elements move False"); };
+                                      
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
+
+
         }
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる

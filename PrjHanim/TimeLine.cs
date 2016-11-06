@@ -414,6 +414,10 @@ namespace PrjHikariwoAnim
             ELEMENTS ret = mFrame.Find( (ELEMENTS e )=> e.Name ==name);
             return ret;
         }
+        public int GetIndex(string name)
+        {
+            return mFrame.FindIndex((ELEMENTS e) => e.Name == name);
+        }
         public ELEMENTS GetElementsFromHash(int hash)
         {
             ELEMENTS ret = mFrame.Find((ELEMENTS e) => e.GetHashCode() == hash);
@@ -520,7 +524,30 @@ namespace PrjHikariwoAnim
         {
             if(index>0||index<mFrame.Count) mFrame.RemoveAt(index);
         }
-
+        /// <summary>
+        /// srcNameのエレメントをdestNameのエレメント直後に移動
+        /// </summary>
+        /// <param name="srcName"></param>
+        /// <param name="destName"></param>
+        /// <returns></returns>
+        public bool Move(string srcName,string destName)
+        {
+            int srcIdx = GetIndex(srcName);
+            int dstIdx = GetIndex(destName);
+            if (srcIdx <= 0 || dstIdx <= 0) return false;
+            Move(srcIdx, dstIdx);
+            return true;
+        }
+        public bool Move(int src,int dest)
+        {
+            //移動し削除
+            ELEMENTS e = mFrame[src];
+            //挿入
+            if (src > dest) mFrame.RemoveAt(src);//dest以降なら先に削除
+            mFrame.Insert(dest, e);
+            if (dest < src) mFrame.RemoveAt(src);//dest以前なら後で削除
+            return true;
+        }
 
         /// <summary>
         /// 全体フィット表示する為に全ての部品が収まるサイズを返す
