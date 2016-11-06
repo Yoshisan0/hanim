@@ -59,7 +59,6 @@ namespace PrjHikariwoAnim
         private ImageManagerBase ImageMan;
         public TIMELINEbase TimeLine;
 
-
         public FormMain()
         {
             InitializeComponent();
@@ -196,45 +195,39 @@ namespace PrjHikariwoAnim
         {
             mKeys = Keys.None;
             mKeysSP = Keys.None;
-        }
 
-        private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+            if (e.KeyData == Keys.Delete)
+            {
+                //Element Remove
+                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
+                panel_PreView.Refresh();
+                treeView_Project_Update();
+            }
+        }
+        private void FormMain_Resize(object sender, EventArgs e)
         {
-            //ReName ProjectName
-            if (e.Node.ImageIndex == 0)
-            {
-            }
-
-            //ReName MotionName
-            if (e.Node.ImageIndex == 2)
-            {
-                mNowMotionName = e.Label;
-            }
-
-            //ReName ElementsName
-            if (e.Node.ImageIndex == 4)
-            {
-                //e.Label:新Text e.node.TExt:旧Text
-                TimeLine.EditFrame.RenameElements(e.Node.Tag, e.Label);
-                mFormControl.Refresh();
-            }
-            
+            panel_PreView.Refresh();
         }
-        private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        /// 終了処理
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //ノードがエレメントかどうか確認する
-            //nodeのimageindexから判別する？
-            //Motionノードクリックされたらモーション切り替えを行う(将来)
-            //Select Motion
-            if (e.Node.ImageIndex == 2)
-            {
-            }
-            //SelectElements
-            //TagとElements.Nameが合致するものを選択
-            mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
-            if (mNowElementsIndex != null) panel_PreView.Refresh();
+            Properties.Settings.Default["Location_FormMain"] = this.Location;
+            //            Properties.Settings.Default["Location_FormAttribute"] = value;
+            //            Properties.Settings.Default["Location_FormControl"] = value;
+            //            Properties.Settings.Default["Location_FormImageCut"] = value;
+            //            Properties.Settings.Default["Location_FormImageList"] = value;
+            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
+            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
+            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
+            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
+            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
+            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
+            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
+            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
+            Properties.Settings.Default.Save();
         }
-
         private void button_BackColor_Click(object sender, EventArgs e)
         {
             ColorDialog cdg = new ColorDialog();
@@ -292,39 +285,250 @@ namespace PrjHikariwoAnim
             }
 
             this.ToolStripMenuItem_ImageList.Checked = (this.mFormImageList != null);
-            this.ToolStripMenuItem_Control.Checked   = (this.mFormControl   != null);
+            this.ToolStripMenuItem_Control.Checked = (this.mFormControl != null);
             this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
         }
-
         private void ZoomLevel_ValueChanged(object sender, EventArgs e)
         {
             panel_PreView.Refresh();
         }
-        private void FormMain_Resize(object sender, EventArgs e)
+
+        //TreeView_Project
+        private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            panel_PreView.Refresh();
+            //ReName ProjectName
+            if (e.Node.ImageIndex == 0)
+            {
+            }
+
+            //ReName MotionName
+            if (e.Node.ImageIndex == 2)
+            {
+                mNowMotionName = e.Label;
+            }
+
+            //ReName ElementsName
+            if (e.Node.ImageIndex == 4)
+            {
+                //e.Label:新Text e.node.TExt:旧Text
+                TimeLine.EditFrame.RenameElements(e.Node.Tag, e.Label);
+                mFormControl.Refresh();
+            }
+            
         }
-        /// 終了処理
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            Properties.Settings.Default["Location_FormMain"] = this.Location;
-//            Properties.Settings.Default["Location_FormAttribute"] = value;
-//            Properties.Settings.Default["Location_FormControl"] = value;
-//            Properties.Settings.Default["Location_FormImageCut"] = value;
-//            Properties.Settings.Default["Location_FormImageList"] = value;
-            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
-            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
-            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
-            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
-            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
-            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
-            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
-            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
-            Properties.Settings.Default.Save();
+            //ノードがエレメントかどうか確認する
+            //nodeのimageindexから判別する？
+            //Motionノードクリックされたらモーション切り替えを行う(将来)
+            //Select Motion
+            if (e.Node.ImageIndex == 2)
+            {
+            }
+            //SelectElements
+            //TagとElements.Nameが合致するものを選択
+            mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
+            if (mNowElementsIndex != null) panel_PreView.Refresh();
+        }
+        private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            //未使用 将来的に使うかもしれない
+            //TreeViewのDrawNodeを変更しデザイナーcs側でイベントに登録して使う
+            //カスタム(TreeView.DrawMode=OwnerDrawAll)描画
+            //ノード単位の自前描画
+            //BG
+            e.Graphics.FillRectangle(Brushes.Black, e.Bounds.Location.X, e.Bounds.Location.Y, e.Bounds.Width, e.Bounds.Height);
+            //Icon
+            e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
+            e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
+        }
+        /// <summary>
+        /// treeView_Project更新
+        /// </summary>
+        public void treeView_Project_Update()
+        {
+            //現在のMotionNodeを探す モーション名決め打ちなので将来略
+            //TreeNode tn = treeView_Project.Nodes["Motion"];
+            //TreeViewて複数選択できないじゃーん！！！！
+            //Add Editing AllElements
+            for(int cnt=0;cnt<TimeLine.EditFrame.ElementsCount;cnt++)
+            {
+                ELEMENTS elm = TimeLine.EditFrame.GetElement(cnt);
+                TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.Name];
+                if (tn == null) continue;
+                if (elm.isSelect)
+                {
+                    tn.ImageIndex = 3;//選択中
+                }
+                else
+                {
+                    tn.ImageIndex = 4;//非選択
+                }               
+            }
+
+
+        }
+        /// <summary>
+        /// CellからElementを作成し追加
+        /// </summary>
+        /// <param name="work"></param>
+        /// <param name="x">クリック座標(Cliant)</param>
+        /// <param name="y">クリック座標(Cliant)</param>
+        private void treeView_Project_AddElements(CELL work, int x, int y)
+        {
+            //アイテムの登録
+            ELEMENTS elem = new ELEMENTS();
+            elem.Atr = new AttributeBase();
+            elem.Atr.CellID = work.GetHashCode();
+            elem.Atr.Width = work.Img.Width;
+            elem.Atr.Height = work.Img.Height;
+            elem.Tag = elem.GetHashCode();
+
+            //センターからの距離に変換
+            x -= panel_PreView.Width / 2;
+            y -= panel_PreView.Height / 2;
+            //さらに画像サイズ半分シフトして画像中心をセンターに
+            x -= elem.Atr.Width / 2;
+            y -= elem.Atr.Height / 2;
+
+            elem.Atr.Position = new Vector3(x, y, 0);
+            elem.Name = elem.GetHashCode().ToString("X8");//仮名
+
+            //Show - Attribute
+            mFormAttribute.SetAllParam(elem.Atr);
+
+            TimeLine.EditFrame.AddElements(elem);//Elements登録
+            TimeLine.Store();//
+            // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
+
+            //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
+            TreeNode selNode = treeView_Project.Nodes["Motion"];
+            selNode.Nodes.Add(elem.Name, elem.Name);
+            selNode.Expand();
+            selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
+            selNode.Nodes[elem.Name].ImageIndex = 4;
+            selNode.Nodes[elem.Name].SelectedImageIndex = 3;
+
+            //Control更新
+            mFormControl.Refresh();
+
+        }
+        private void treeView_Project_RemoveElements(string name)
+        {
+            //Elements選択中のDelキー
+        }
+        private void treeView_Project_AddMotion(string name)
+        {
+            treeView_Project.SelectedNode = treeView_Project.TopNode;
+            TreeNode tn = treeView_Project.Nodes.Add(name);
+            tn.ImageIndex = 2;
+            tn.SelectedImageIndex = 2;
+            tn.Tag = 1;//仮番号
+
+        }
+        private void treeView_Project_RemoveMotion(string name)
+        { }
+        private void treeView_Project_DragDrop(object sender, DragEventArgs e)
+        {
+            //ドロップされたデータがTreeNodeか調べる
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                TreeView tv = (TreeView)sender;
+                //元ノード取得
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //ドロップ先のTreeNodeを取得する
+                TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //Motionのみの移動に限定する
+                if (dest !=null && dest.Parent !=null && src.Parent != null && IsMotionNode(src) && IsMotionNode(dest))
+                {
+                    //マウス下のNodeがドロップ先として適切か調べる
+                    if (dest != null && dest != src && !IsChildNode(src, dest))
+                    {
+                        //ドロップされたNodeのコピーを作成
+                        TreeNode cln = (TreeNode)src.Clone();
+                        dest.Nodes.Add(cln);
+                        dest.Expand();
+                        tv.SelectedNode = cln;
+                    } else e.Effect = DragDropEffects.None;
+                }else e.Effect = DragDropEffects.None;
+            } else e.Effect = DragDropEffects.None;
+        }
+        /// <summary>
+        /// あるTreeNodeが別のTreeNodeの子ノードか調べる
+        /// </summary>
+        /// <param name="parentNode">親ノードか調べるTreeNode</param>
+        /// <param name="childNode">子ノードか調べるTreeNode</param>
+        /// <returns>子ノードの時はTrue</returns>
+        private static bool IsChildNode(TreeNode parentNode, TreeNode childNode)
+        {
+            if (childNode.Parent == parentNode) return true;
+            else if (childNode.Parent != null)  return IsChildNode(parentNode, childNode.Parent);
+            else return false;
+        }
+        private static bool IsMotionNode(TreeNode src,string name="Motion")
+        {
+            if (src.Name == name) return true; //それ自体がモーション
+            else if(src.Parent!=null)return IsMotionNode(src.Parent, name);
+            else return false;
+        }  
+
+        private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //ドラッグ開始
+            TreeView tv = (TreeView)sender;
+            tv.SelectedNode = (TreeNode)e.Item;
+            tv.Focus();
+            //ノードのドラッグを開始する
+            DragDropEffects dde = tv.DoDragDrop(e.Item, DragDropEffects.All);
+            //移動した時は、ドラッグしたノードを削除する
+            if ((dde & DragDropEffects.Move) == DragDropEffects.Move)
+            {
+                tv.Nodes.Remove((TreeNode)e.Item);
+            }
+        }
+        private void treeView_Project_DragOver(object sender, DragEventArgs e)
+        {
+            //TreeNodeか確認
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                //CtrlKey(8)== Copy / nonkey==Move
+                if ((e.KeyState & 8) == 8 && (e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) { e.Effect = DragDropEffects.Copy; }
+                else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) { e.Effect = DragDropEffects.Move; }
+                else { e.Effect = DragDropEffects.None; }
+            }
+            else
+                //TreeNodeでなければ受け入れない
+                e.Effect = DragDropEffects.None;
+
+            //マウス下のNodeを選択する
+            if (e.Effect != DragDropEffects.None)
+            {
+                TreeView tv = (TreeView)sender;
+                //マウスのあるNodeを取得する
+                TreeNode dst = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //ドラッグされているNodeを取得する
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //マウス下のNodeがドロップ先として適切か調べる
+                if (dst != null && dst != src && !IsChildNode(src, dst))
+                {
+                    //Nodeを選択する
+                    if (dst.IsSelected == false) tv.SelectedNode = dst;
+                }
+                else e.Effect = DragDropEffects.None;
+            }
+        }
+        private void button1_MotionAdd_Click(object sender, EventArgs e)
+        {
+            treeView_Project_AddMotion("NewMotion");
+            //モーションである事を示すタグを付加する？
+        }
+        private void panel_ProjectTopBase_Click(object sender, EventArgs e)
+        {
+            //ProjectPaineの開閉(おまけ)
+            treeView_Project.Visible = !treeView_Project.Visible;
         }
 
+        //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
             //以下、拡大してボケないようにする処理
@@ -375,7 +579,7 @@ namespace PrjHikariwoAnim
             Matrix back = e.Graphics.Transform;
             if (TimeLine.EditFrame != null)
             {
-                DrawParts(sender, e.Graphics);
+                PanelPreview_Paint_DrawParts(sender, e.Graphics);
             }
             e.Graphics.Transform = back;
             //CrossBar スクリーン移動時は原点に沿う形に
@@ -392,7 +596,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="g"></param>
-        private void DrawParts(object sender, Graphics g)
+        private void PanelPreview_Paint_DrawParts(object sender, Graphics g)
         {
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
@@ -520,78 +724,6 @@ namespace PrjHikariwoAnim
                 //Cuurent Draw Grip
             }
         }
-
-
-        /// <summary>
-        /// CellからElementを作成し追加
-        /// </summary>
-        /// <param name="work"></param>
-        /// <param name="x">クリック座標(Cliant)</param>
-        /// <param name="y">クリック座標(Cliant)</param>
-        private void AddElements(CELL work,int x,int y)
-        {
-            //アイテムの登録
-            ELEMENTS elem = new ELEMENTS();
-            elem.Atr = new AttributeBase();
-            elem.Atr.CellID = work.GetHashCode();
-            elem.Atr.Width  = work.Img.Width;
-            elem.Atr.Height = work.Img.Height;
-            elem.Tag = elem.GetHashCode();
-
-            //センターからの距離に変換
-            x -= panel_PreView.Width  / 2;
-            y -= panel_PreView.Height / 2;
-            //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= elem.Atr.Width  / 2;
-            y -= elem.Atr.Height / 2;
-
-            elem.Atr.Position = new Vector3(x,y,0);
-            elem.Name = elem.GetHashCode().ToString("X8");//仮名
-            
-            //Show - Attribute
-            mFormAttribute.SetAllParam(elem.Atr);
-
-            TimeLine.EditFrame.AddElements(elem);//Elements登録
-            TimeLine.Store();//
-            // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
-
-            //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
-            TreeNode selNode = treeView_Project.Nodes["Motion"];
-            selNode.Nodes.Add(elem.Name,elem.Name);
-            selNode.Expand();
-            selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-            selNode.Nodes[elem.Name].ImageIndex = 4;
-            selNode.Nodes[elem.Name].SelectedImageIndex = 3;
-
-            //Control更新
-            mFormControl.Refresh();
-
-        }
-        private void RemoveElements(string name)
-        {
-            //Elements選択中のDelキー
-        }
-        //ProjectTree
-        private void AddMotion(string name)
-        {
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(name);
-            tn.ImageIndex = 2;
-            tn.SelectedImageIndex = 2;
-            tn.Tag = 1;//仮番号
-            
-        }
-        private void RemoveMotion(string name)
-        { }
-        private void UpdateTree()
-        {
-            //プロジェクト全体情報からTreeを作成
-            //Image情報収集
-            //CELL情報収集
-            //Elements情報収集
-
-        }
-
         /// <summary>
         /// ドラッグアンドドロップ処理
         /// </summary>
@@ -615,7 +747,7 @@ namespace PrjHikariwoAnim
                         CELL c = new CELL();
                         c.FromPngFile(str);
                         ImageMan.AddCell(c);
-                        AddElements(c, sPos.X, sPos.Y);
+                        treeView_Project_AddElements(c, sPos.X, sPos.Y);
                         //ImageListへ登録と更新
                         mFormImageList.AddItem(str);
                         mFormImageList.Refresh();
@@ -640,7 +772,7 @@ namespace PrjHikariwoAnim
                 work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
                 ImageMan.AddCell(work);//画像サイズ登録実画像はいずこ！
 
-                AddElements(work, sPos.X, sPos.Y);
+                treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
@@ -652,7 +784,7 @@ namespace PrjHikariwoAnim
                 ImageMan.AddCell(work);//画像登録
 
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                AddElements(work, a.X, a.Y);
+                treeView_Project_AddElements(work, a.X, a.Y);
                 e.Effect = DragDropEffects.Copy;
             }
             if (e.Data.GetType() == typeof(ELEMENTS))
@@ -661,11 +793,6 @@ namespace PrjHikariwoAnim
             { e.Effect = DragDropEffects.Copy; }
 
             panel_PreView.Refresh();
-        }
-        private void button1_MotionAdd_Click(object sender, EventArgs e)
-        {
-            AddMotion("NewMotion");
-            //モーションである事を示すタグを付加する？
         }
         private void PanelPreView_DragEnter(object sender, DragEventArgs e)
         {
@@ -766,7 +893,7 @@ namespace PrjHikariwoAnim
                 }
                 mMouseLDown = true;                
                 panel_PreView.Refresh();
-                panel_ProjectTree_base.Refresh();
+                treeView_Project.Refresh();
                 mFormControl.Refresh();
             }
         }
@@ -832,6 +959,8 @@ namespace PrjHikariwoAnim
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //previewKey
+            //なぜかイベント発生しない？なんだろ？
+            //メインフォームのほうが優先されるらしい keyPreview=True
             //部品選択中か確認
 
             //GetElement
@@ -865,6 +994,11 @@ namespace PrjHikariwoAnim
             {
 
             }
+            if(e.KeyData==Keys.Delete)
+            {
+                //Element Remove
+                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
+            }
         }
         /// <summary>
         /// エディット中の選択エレメントをインデックス指定と関連画面更新
@@ -889,13 +1023,17 @@ namespace PrjHikariwoAnim
                 ELEMENTS elm = TimeLine.EditFrame.GetElement(ElementsIndex);
                 elm.isSelect = true;
                 //各種リフレッシュ
-                panel_PreView.Refresh();                
-                panel_ProjectTree_base.Refresh();
+                panel_PreView.Refresh();
+                treeView_Project_Update();                
+                treeView_Project.Refresh();
                 mFormAttribute.SetAllParam(elm.Atr);
                 mFormAttribute.Refresh();
                 mFormControl.Refresh();
             }
         }
+
+
+
         private void BottonTest_Click(object sender, EventArgs e)
         {
             // testCode
@@ -906,7 +1044,6 @@ namespace PrjHikariwoAnim
                 FormImageCut fc = new FormImageCut(img,fd.FileName);
             }
         }
-
 
     }
 }

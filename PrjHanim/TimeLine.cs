@@ -406,7 +406,7 @@ namespace PrjHikariwoAnim
             if (mFrame == null) return null;
             if (index < 0) return null;
             if (mFrame.Count==0) return null;
-            if (index > mFrame.Count) return null;
+            if (index >= mFrame.Count) return null;
             return mFrame[(int)index];
         }
         public ELEMENTS GetElementsFromName(string name)
@@ -516,7 +516,10 @@ namespace PrjHikariwoAnim
         {
             mFrame.Add(e);
         }
-        public void Remove(ELEMENTS e) { }
+        public void Remove(int index)
+        {
+            if(index>0||index<mFrame.Count) mFrame.RemoveAt(index);
+        }
 
 
         /// <summary>

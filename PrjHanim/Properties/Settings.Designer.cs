@@ -109,7 +109,7 @@ namespace PrjHikariwoAnim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkRed")]
         public global::System.Drawing.Color BackColor_ColorCross {
             get {
                 return ((global::System.Drawing.Color)(this["BackColor_ColorCross"]));

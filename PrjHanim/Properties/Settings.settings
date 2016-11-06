@@ -24,7 +24,7 @@
       <Value Profile="(Default)">DarkGreen</Value>
     </Setting>
     <Setting Name="BackColor_ColorCross" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Red</Value>
+      <Value Profile="(Default)">DarkRed</Value>
     </Setting>
     <Setting Name="Checked_DrawGird" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
