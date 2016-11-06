@@ -439,17 +439,13 @@ namespace PrjHikariwoAnim
                 //ドロップ先のTreeNodeを取得する
                 TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
                 //Motionのみの移動に限定する
-                if (dest !=null && dest.Parent !=null && src.Parent != null && IsMotionNode(src) && IsMotionNode(dest))
+                if (dest !=null && dest.Parent !=null && src.Parent !=null && dest !=src && IsMotionNode(src) && IsMotionNode(dest) && !IsChildNode(src,dest))
                 {
-                    //マウス下のNodeがドロップ先として適切か調べる
-                    if (dest != null && dest != src && !IsChildNode(src, dest))
-                    {
-                        //ドロップされたNodeのコピーを作成
-                        TreeNode cln = (TreeNode)src.Clone();
-                        dest.Nodes.Add(cln);
-                        dest.Expand();
-                        tv.SelectedNode = cln;
-                    } else e.Effect = DragDropEffects.None;
+                    //ドロップされたNodeのコピーを作成
+                    TreeNode cln = (TreeNode)src.Clone();
+                    dest.Nodes.Add(cln);
+                    dest.Expand();
+                    tv.SelectedNode = cln;                    
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
         }
