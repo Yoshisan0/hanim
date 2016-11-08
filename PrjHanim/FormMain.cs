@@ -47,8 +47,10 @@ namespace PrjHikariwoAnim
         private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
-        //編集中の選択中エレメントのインデックス
+        //編集中の選択中エレメントのインデックス 非選択=null
+        //これはTimeLine内に移動させたいなぁ 
         private int? mNowElementsIndex = null;
+        
         private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 

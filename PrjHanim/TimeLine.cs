@@ -31,10 +31,10 @@ namespace PrjHikariwoAnim
         public FRAME EditFrame;
         public string Name;//Project Name
 
-        private int mCurrentIndex;//
-
         public List<FRAME> gmTimeLine;
 
+        //
+        private int mCurrentFrameIndex;//
         //init
         public TIMELINEbase()
         {
@@ -46,8 +46,8 @@ namespace PrjHikariwoAnim
 
         //フレーム移動系
         public void Top() { ToIndex(0); }
-        public void PrevKey() { ToIndex(mCurrentIndex-1); }
-        public void NextKey() { ToIndex(mCurrentIndex+1); }
+        public void PrevKey() { ToIndex(mCurrentFrameIndex-1); }
+        public void NextKey() { ToIndex(mCurrentFrameIndex+1); }
         public void End() { ToIndex(gmTimeLine.Count); }
         /// <summary>
         /// インデックスでのフレーム移動
@@ -62,7 +62,7 @@ namespace PrjHikariwoAnim
             //Now -> Store
             //CurrentFrame -> EditFrame 
             EditFrame =new FRAME(gmTimeLine[x]);
-            mCurrentIndex = x;
+            mCurrentFrameIndex = x;
         }
         /// <summary>
         /// フレーム指定での移動　実フレームが存在しない時はFalse
@@ -81,7 +81,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void StoreNowFrame()
         {
-            gmTimeLine[mCurrentIndex] = EditFrame;
+            gmTimeLine[mCurrentFrameIndex] = EditFrame;
         }
         /// <summary>
         /// フレームオブジェクトを追加(同フレームは上書き)
@@ -97,7 +97,7 @@ namespace PrjHikariwoAnim
             {
                 //上書き
                 gmTimeLine[(int)res] = f;
-                mCurrentIndex = (int)res;
+                mCurrentFrameIndex = (int)res;
             }
             else
             {
@@ -109,19 +109,19 @@ namespace PrjHikariwoAnim
                 {
                     //未発見 最後尾追加
                     gmTimeLine.Add(f);
-                    mCurrentIndex = gmTimeLine.Count-1;
+                    mCurrentFrameIndex = gmTimeLine.Count-1;
                 }
                 else
                 {
                     //pos直前に追加
                     gmTimeLine.Insert((int)pos+1,f);
-                    mCurrentIndex = pos + 1;
+                    mCurrentFrameIndex = pos + 1;
                 }
             }
         }
         //現在編集中のフレームを戻す
         //NowFrameに変更等加える操作の最後には呼ぶように!
-        public void Store() { gmTimeLine[mCurrentIndex] = EditFrame; }
+        public void Store() { gmTimeLine[mCurrentFrameIndex] = EditFrame; }
         /// <summary>
         /// Index直前に挿入
         /// </summary>
@@ -131,7 +131,7 @@ namespace PrjHikariwoAnim
         {
             //現在のフレームを戻す
             //Store();
-            gmTimeLine[mCurrentIndex] = EditFrame;
+            gmTimeLine[mCurrentFrameIndex] = EditFrame;
             gmTimeLine.Insert(index, f);
         }
         public void RemoveFrameNum(int FrameNum)
@@ -321,13 +321,12 @@ namespace PrjHikariwoAnim
     {
         //Frame:ELEMENTSの塊
         List<ELEMENTS> mFrame;//部品格納リスト
-        public int? ActiveIndex;
+        public int? ActiveIndex;//これを NowElementsIndexとしたいな
         
         public string Text;//フレーム毎に設定したいコマンドやコメント等
         public enum TYPE {KeyFrame,Control }
         public TYPE Type;//Type Role
-        public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)
-        
+        public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)        
 
         //init
         public FRAME()
