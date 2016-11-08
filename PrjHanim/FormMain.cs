@@ -42,8 +42,8 @@ namespace PrjHikariwoAnim
         private Point mMouseDownShift;
         private Point mScreenScroll;
         private bool mMouseLDown = false;//L
-        private bool mMouseRDown = false;//R
-        private bool mMouseMDown = false;//M
+        //private bool mMouseRDown = false;//R
+        //private bool mMouseMDown = false;//M
         private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
@@ -868,8 +868,8 @@ namespace PrjHikariwoAnim
         {
             //releaseMouse
             mMouseLDown = false;
-            mMouseMDown = false;
-            mMouseRDown = false;
+            //mMouseMDown = false;
+            //mMouseRDown = false;
             mDragState = DragState.none;
         }
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)

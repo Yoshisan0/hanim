@@ -52,8 +52,8 @@ namespace PrjHikariwoAnim
         private Point mSelect_Pos_Start;
         private Point mSelect_Pos_End;
         private bool mMouseDownL=false;
-        private bool mMouseDownR=false;
-        private bool mMouseDownM=false;
+        //private bool mMouseDownR=false;
+        //private bool mMouseDownM=false;
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
@@ -346,8 +346,8 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_End.X = 0;
                 mSelect_Pos_End.Y = 0;
             }
-            if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
-            if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
+            //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
+            //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
             mSelect_Pos_Start.X = e.X / TIME_CELL_WIDTH;
             mSelect_Pos_Start.Y = e.Y / TIME_CELL_HEIGHT;
 
@@ -370,8 +370,8 @@ namespace PrjHikariwoAnim
                 }
             }
             mMouseDownL = false;
-            mMouseDownR = false;
-            mMouseDownM = false;
+            //mMouseDownR = false;
+            //mMouseDownM = false;
         }
         private void panel_Time_Paint(object sender, PaintEventArgs e)
         {
