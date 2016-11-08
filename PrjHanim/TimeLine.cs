@@ -400,6 +400,19 @@ namespace PrjHikariwoAnim
         }
 
         public int ElementsCount { get{return mFrame.Count(); } }
+        /// <summary>
+        /// nameで検索しIndexを返す
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>-1:見つからない場合</returns>
+        public int GetIndexFromName(string name)
+        {
+            return mFrame.FindIndex((ELEMENTS e) => e.Name == name);
+        }
+        public int GetIndexFromHash(int hash)
+        {
+            return mFrame.FindIndex((ELEMENTS e) => e.GetHashCode() == hash);
+        }
         public ELEMENTS GetElement(int? index)
         {
             if (index == null) return null;
@@ -413,10 +426,6 @@ namespace PrjHikariwoAnim
         {
             ELEMENTS ret = mFrame.Find( (ELEMENTS e )=> e.Name ==name);
             return ret;
-        }
-        public int GetIndex(string name)
-        {
-            return mFrame.FindIndex((ELEMENTS e) => e.Name == name);
         }
         public ELEMENTS GetElementsFromHash(int hash)
         {
@@ -532,14 +541,13 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public bool Move(string srcName,string destName)
         {
-            int srcIdx = GetIndex(srcName);
-            int dstIdx = GetIndex(destName);
-            if (srcIdx <= 0 || dstIdx <= 0) return false;
-            Move(srcIdx, dstIdx);
-            return true;
+            int srcIdx = GetIndexFromName(srcName);
+            int dstIdx = GetIndexFromName(destName);
+            return Move(srcIdx, dstIdx);
         }
         public bool Move(int src,int dest)
         {
+            if (src <= 0 || dest <= 0) return false;//Check
             //移動し削除
             ELEMENTS e = mFrame[src];
             //挿入
@@ -555,6 +563,7 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public Rectangle GetRectAll()
         {
+            //ElementsAll SelectedOnly ChildOnly等を引数で指定する？
             Rectangle retRect = new Rectangle();
             for(int cnt=0;cnt<mFrame.Count;cnt++)
             {
@@ -588,11 +597,11 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ELEMENTS
     {
-        public enum TYPE {Master,Child,Joint,Effec,Accessory,FX }
-        TYPE Type;
-        public bool isVisible=true;//表示非表示(目)
-        public bool isLocked=false;//ロック状態(鍵)
-        public bool isSelect=false;//選択状態
+        public enum ELEMENTSTYPE { Master, Child, Joint, Effec, Accessory, FX }
+        public ELEMENTSTYPE Type;
+        public bool isVisible = true;//表示非表示(目)
+        public bool isLocked = false;//ロック状態(鍵)
+        public bool isSelect = false;//選択状態
         public bool isOpenAtr;//属性開閉状態(+-)
         public string Name;
         public object Tag; //認識ID
@@ -611,7 +620,7 @@ namespace PrjHikariwoAnim
             isOpenAtr = false;
             Atr = new AttributeBase();
         }
-        public ELEMENTS(object tag,string name)
+        public ELEMENTS(object tag, string name)
         {
             isVisible = true;
             isLocked = false;
@@ -632,7 +641,7 @@ namespace PrjHikariwoAnim
             Parent = elm.Parent;
             Child = elm.Child;
             Next = elm.Next;
-            Prev = elm.Prev;              
+            Prev = elm.Prev;
         }
         public ELEMENTS Clone()
         {
@@ -656,5 +665,21 @@ namespace PrjHikariwoAnim
             return Encoding.UTF8.GetString(ms.ToArray());
         }
     }
+
+    public class subParam
+    {
+        //アニメーション等で利用するためのサブパラメータ
+        //ELEMENTSレベルとフレームレベルで使うきがする
+        //どのパラメータを利用するか　その重み　のデータ
+
+        //補完タイプ
+        public enum CompletionType { NONE, LINEAR, ELMINATE, BEJUE, AMPLIFICATION, ATTENUATION }
+
+        public CompletionType Style = CompletionType.NONE;//補完タイプ
+        public double MasterWeight;//必要かなぁ
+        public bool IsPosition;//うーん
+        //色　どうすっかなぁ
+    }
+    
 
 }
