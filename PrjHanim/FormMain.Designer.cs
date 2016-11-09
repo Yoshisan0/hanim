@@ -76,12 +76,12 @@
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
+            this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
-            this.label_Project = new System.Windows.Forms.Label();
-            this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -323,8 +323,9 @@
             // 
             this.checkBox_CellList.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_CellList.Checked = true;
+            this.checkBox_CellList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_CellList;
             this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CellList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_CellList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -622,6 +623,19 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_MotionAdd_Click);
             // 
+            // label_Project
+            // 
+            this.label_Project.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label_Project.AutoSize = true;
+            this.label_Project.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label_Project.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label_Project.Location = new System.Drawing.Point(10, 4);
+            this.label_Project.Margin = new System.Windows.Forms.Padding(0);
+            this.label_Project.Name = "label_Project";
+            this.label_Project.Size = new System.Drawing.Size(48, 12);
+            this.label_Project.TabIndex = 1;
+            this.label_Project.Text = "Project";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -642,12 +656,6 @@
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 6;
             // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
             // splitContainerLeft
             // 
             this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -664,19 +672,6 @@
             this.splitContainerLeft.SplitterWidth = 2;
             this.splitContainerLeft.TabIndex = 2;
             // 
-            // label_Project
-            // 
-            this.label_Project.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label_Project.AutoSize = true;
-            this.label_Project.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_Project.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label_Project.Location = new System.Drawing.Point(10, 4);
-            this.label_Project.Margin = new System.Windows.Forms.Padding(0);
-            this.label_Project.Name = "label_Project";
-            this.label_Project.Size = new System.Drawing.Size(48, 12);
-            this.label_Project.TabIndex = 1;
-            this.label_Project.Text = "Project";
-            // 
             // panel_MotionList_Base
             // 
             this.panel_MotionList_Base.AutoSize = true;
@@ -688,6 +683,12 @@
             this.panel_MotionList_Base.Name = "panel_MotionList_Base";
             this.panel_MotionList_Base.Size = new System.Drawing.Size(139, 220);
             this.panel_MotionList_Base.TabIndex = 2;
+            // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 

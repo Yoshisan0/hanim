@@ -202,5 +202,17 @@ namespace PrjHikariwoAnim.Properties {
                 this["Checked_Attribute"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Checked_CellList {
+            get {
+                return ((bool)(this["Checked_CellList"]));
+            }
+            set {
+                this["Checked_CellList"] = value;
+            }
+        }
     }
 }

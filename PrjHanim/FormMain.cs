@@ -114,7 +114,13 @@ namespace PrjHikariwoAnim
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
             this.SetStyle(ControlStyles.Opaque, true);
-        }
+
+            //以下、各フォーム表示・非表示処理
+            if (mFormImageList != null) mFormImageList.Visible = checkBox_ImageList.Checked;
+            if (mFormControl != null) mFormControl.Visible = checkBox_Control.Checked;
+            if (mFormAttribute != null) mFormAttribute.Visible = checkBox_Attribute.Checked;
+            if (mFormCell != null) mFormCell.Visible = checkBox_CellList.Checked;
+    }
         private void LoadProject_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
