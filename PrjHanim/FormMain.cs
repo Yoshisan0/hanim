@@ -42,13 +42,15 @@ namespace PrjHikariwoAnim
         private Point mMouseDownShift;
         private Point mScreenScroll;
         private bool mMouseLDown = false;//L
-        private bool mMouseRDown = false;//R
-        private bool mMouseMDown = false;//M
+        //private bool mMouseRDown = false;//R
+        //private bool mMouseMDown = false;//M
         private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
-        //編集中の選択中エレメントのインデックス
+        //編集中の選択中エレメントのインデックス 非選択=null
+        //これはTimeLine内に移動させたいなぁ 
         private int? mNowElementsIndex = null;
+        
         private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
@@ -439,19 +441,21 @@ namespace PrjHikariwoAnim
                 //ドロップ先のTreeNodeを取得する
                 TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
                 //Motionのみの移動に限定する
-                if (dest !=null && dest.Parent !=null && src.Parent != null && IsMotionNode(src) && IsMotionNode(dest))
+                if (dest !=null && dest.Parent !=null && src.Parent !=null && dest !=src && IsMotionNode(src) && IsMotionNode(dest) && !IsChildNode(src,dest))
                 {
-                    //マウス下のNodeがドロップ先として適切か調べる
-                    if (dest != null && dest != src && !IsChildNode(src, dest))
-                    {
-                        //ドロップされたNodeのコピーを作成
-                        TreeNode cln = (TreeNode)src.Clone();
-                        dest.Nodes.Add(cln);
-                        dest.Expand();
-                        tv.SelectedNode = cln;
-                    } else e.Effect = DragDropEffects.None;
+                    //ドロップされたNodeのコピーを作成
+                    TreeNode cln = (TreeNode)src.Clone();
+                    dest.Nodes.Add(cln);
+                    dest.Expand();
+                    tv.SelectedNode = cln;
+                    //構造をTimelineに反映させる
+                    //src to dest
+                    if (TimeLine.EditFrame.Move(src.Name, dest.Name) == false) { Console.WriteLine("Elements move False"); };
+                                      
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
+
+
         }
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる
@@ -866,8 +870,8 @@ namespace PrjHikariwoAnim
         {
             //releaseMouse
             mMouseLDown = false;
-            mMouseMDown = false;
-            mMouseRDown = false;
+            //mMouseMDown = false;
+            //mMouseRDown = false;
             mDragState = DragState.none;
         }
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)

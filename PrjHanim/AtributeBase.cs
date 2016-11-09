@@ -70,7 +70,7 @@ namespace PrjHikariwoAnim
         [DataMember]
         public int Color;
         [DataMember]
-        public int ColorWeight;
+        public double ColorWeight;
         [DataMember]
         public string Text;//UserData
 
@@ -325,6 +325,11 @@ namespace PrjHikariwoAnim
             if (f == 0) return v1;
             return new Vector3(v1.X/f,v1.Y/f,v1.Z/f);
         }
+        public static Vector3 operator /(Vector3 v1,double d)
+        {
+            if (d == 0) return v1;
+            return new Vector3((float)(v1.X / d), (float)(v1.Y / d),(float) (v1.Z / d));
+        }
         public static Vector3 operator *(Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
@@ -333,12 +338,17 @@ namespace PrjHikariwoAnim
         {
             return new Vector3(v1.X * f, v1.Y * f, v1.Z * f);
         }
+        public static Vector3 operator *(Vector3 v1, double d)
+        {
+            return new Vector3((float)(v1.X * d),(float) (v1.Y * d), (float)(v1.Z * d));
+        }
         public static float Angle(Vector3 v1,Vector3 v2)
         {
             double fs = Math.Sqrt(v1.Length() * v2.Length());
             if(fs != 0f)return 0;
             return (float)Math.Acos(v1.Dot(v1,v2) / fs);
         }
+
         //
         public void Set(float x,float y,float z)
         {
@@ -427,7 +437,7 @@ namespace PrjHikariwoAnim
         }
 
         //2点間線形補完Linear(rate 0-1)
-        public static Vector3 Linear(Vector3 v1,Vector3 v2,float rate)
+        public static Vector3 Linear(Vector3 v1,Vector3 v2,double rate)
         {
             Vector3 ret = new Vector3();
             if (rate < 0.0f) rate = 0.0f;
@@ -437,7 +447,7 @@ namespace PrjHikariwoAnim
             return ret;
         }
         //3次補完 Lerp
-        public static Vector3 Lerp(Vector3 v1, Vector3 v2, float rate)
+        public static Vector3 Lerp(Vector3 v1, Vector3 v2, double rate)
         {
             Vector3 ret = new Vector3();
             if (rate < 0.0f) rate = 0.0f;

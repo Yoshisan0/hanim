@@ -31,10 +31,10 @@ namespace PrjHikariwoAnim
         public FRAME EditFrame;
         public string Name;//Project Name
 
-        private int mCurrentIndex;//
-
         public List<FRAME> gmTimeLine;
 
+        //
+        private int mCurrentFrameIndex;//
         //init
         public TIMELINEbase()
         {
@@ -46,8 +46,8 @@ namespace PrjHikariwoAnim
 
         //フレーム移動系
         public void Top() { ToIndex(0); }
-        public void PrevKey() { ToIndex(mCurrentIndex-1); }
-        public void NextKey() { ToIndex(mCurrentIndex+1); }
+        public void PrevKey() { ToIndex(mCurrentFrameIndex-1); }
+        public void NextKey() { ToIndex(mCurrentFrameIndex+1); }
         public void End() { ToIndex(gmTimeLine.Count); }
         /// <summary>
         /// インデックスでのフレーム移動
@@ -62,7 +62,7 @@ namespace PrjHikariwoAnim
             //Now -> Store
             //CurrentFrame -> EditFrame 
             EditFrame =new FRAME(gmTimeLine[x]);
-            mCurrentIndex = x;
+            mCurrentFrameIndex = x;
         }
         /// <summary>
         /// フレーム指定での移動　実フレームが存在しない時はFalse
@@ -81,7 +81,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void StoreNowFrame()
         {
-            gmTimeLine[mCurrentIndex] = EditFrame;
+            gmTimeLine[mCurrentFrameIndex] = EditFrame;
         }
         /// <summary>
         /// フレームオブジェクトを追加(同フレームは上書き)
@@ -97,7 +97,7 @@ namespace PrjHikariwoAnim
             {
                 //上書き
                 gmTimeLine[(int)res] = f;
-                mCurrentIndex = (int)res;
+                mCurrentFrameIndex = (int)res;
             }
             else
             {
@@ -109,19 +109,19 @@ namespace PrjHikariwoAnim
                 {
                     //未発見 最後尾追加
                     gmTimeLine.Add(f);
-                    mCurrentIndex = gmTimeLine.Count-1;
+                    mCurrentFrameIndex = gmTimeLine.Count-1;
                 }
                 else
                 {
                     //pos直前に追加
                     gmTimeLine.Insert((int)pos+1,f);
-                    mCurrentIndex = pos + 1;
+                    mCurrentFrameIndex = pos + 1;
                 }
             }
         }
         //現在編集中のフレームを戻す
         //NowFrameに変更等加える操作の最後には呼ぶように!
-        public void Store() { gmTimeLine[mCurrentIndex] = EditFrame; }
+        public void Store() { gmTimeLine[mCurrentFrameIndex] = EditFrame; }
         /// <summary>
         /// Index直前に挿入
         /// </summary>
@@ -131,7 +131,7 @@ namespace PrjHikariwoAnim
         {
             //現在のフレームを戻す
             //Store();
-            gmTimeLine[mCurrentIndex] = EditFrame;
+            gmTimeLine[mCurrentFrameIndex] = EditFrame;
             gmTimeLine.Insert(index, f);
         }
         public void RemoveFrameNum(int FrameNum)
@@ -321,13 +321,12 @@ namespace PrjHikariwoAnim
     {
         //Frame:ELEMENTSの塊
         List<ELEMENTS> mFrame;//部品格納リスト
-        public int? ActiveIndex;
+        public int? ActiveIndex;//これを NowElementsIndexとしたいな
         
         public string Text;//フレーム毎に設定したいコマンドやコメント等
         public enum TYPE {KeyFrame,Control }
         public TYPE Type;//Type Role
-        public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)
-        
+        public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)        
 
         //init
         public FRAME()
@@ -400,6 +399,19 @@ namespace PrjHikariwoAnim
         }
 
         public int ElementsCount { get{return mFrame.Count(); } }
+        /// <summary>
+        /// nameで検索しIndexを返す
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>-1:見つからない場合</returns>
+        public int GetIndexFromName(string name)
+        {
+            return mFrame.FindIndex((ELEMENTS e) => e.Name == name);
+        }
+        public int GetIndexFromHash(int hash)
+        {
+            return mFrame.FindIndex((ELEMENTS e) => e.GetHashCode() == hash);
+        }
         public ELEMENTS GetElement(int? index)
         {
             if (index == null) return null;
@@ -520,7 +532,29 @@ namespace PrjHikariwoAnim
         {
             if(index>0||index<mFrame.Count) mFrame.RemoveAt(index);
         }
-
+        /// <summary>
+        /// srcNameのエレメントをdestNameのエレメント直後に移動
+        /// </summary>
+        /// <param name="srcName"></param>
+        /// <param name="destName"></param>
+        /// <returns></returns>
+        public bool Move(string srcName,string destName)
+        {
+            int srcIdx = GetIndexFromName(srcName);
+            int dstIdx = GetIndexFromName(destName);
+            return Move(srcIdx, dstIdx);
+        }
+        public bool Move(int src,int dest)
+        {
+            if (src <= 0 || dest <= 0) return false;//Check
+            //移動し削除
+            ELEMENTS e = mFrame[src];
+            //挿入
+            if (src > dest) mFrame.RemoveAt(src);//dest以降なら先に削除
+            mFrame.Insert(dest, e);
+            if (dest < src) mFrame.RemoveAt(src);//dest以前なら後で削除
+            return true;
+        }
 
         /// <summary>
         /// 全体フィット表示する為に全ての部品が収まるサイズを返す
@@ -528,6 +562,7 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public Rectangle GetRectAll()
         {
+            //ElementsAll SelectedOnly ChildOnly等を引数で指定する？
             Rectangle retRect = new Rectangle();
             for(int cnt=0;cnt<mFrame.Count;cnt++)
             {
@@ -561,11 +596,11 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ELEMENTS
     {
-        public enum TYPE {Master,Child,Joint,Effec,Accessory,FX }
-        TYPE Type;
-        public bool isVisible=true;//表示非表示(目)
-        public bool isLocked=false;//ロック状態(鍵)
-        public bool isSelect=false;//選択状態
+        public enum ELEMENTSTYPE { Master, Child, Joint, Effec, Accessory, FX }
+        public ELEMENTSTYPE Type;
+        public bool isVisible = true;//表示非表示(目)
+        public bool isLocked = false;//ロック状態(鍵)
+        public bool isSelect = false;//選択状態
         public bool isOpenAtr;//属性開閉状態(+-)
         public string Name;
         public object Tag; //認識ID
@@ -584,7 +619,7 @@ namespace PrjHikariwoAnim
             isOpenAtr = false;
             Atr = new AttributeBase();
         }
-        public ELEMENTS(object tag,string name)
+        public ELEMENTS(object tag, string name)
         {
             isVisible = true;
             isLocked = false;
@@ -605,7 +640,7 @@ namespace PrjHikariwoAnim
             Parent = elm.Parent;
             Child = elm.Child;
             Next = elm.Next;
-            Prev = elm.Prev;              
+            Prev = elm.Prev;
         }
         public ELEMENTS Clone()
         {
@@ -629,5 +664,21 @@ namespace PrjHikariwoAnim
             return Encoding.UTF8.GetString(ms.ToArray());
         }
     }
+
+    public class subParam
+    {
+        //アニメーション等で利用するためのサブパラメータ
+        //ELEMENTSレベルとフレームレベルで使うきがする
+        //どのパラメータを利用するか　その重み　のデータ
+
+        //補完タイプ
+        public enum CompletionType { NONE, LINEAR, ELMINATE, BEJUE, AMPLIFICATION, ATTENUATION }
+
+        public CompletionType Style = CompletionType.NONE;//補完タイプ
+        public double MasterWeight;//必要かなぁ
+        public bool IsPosition;//うーん
+        //色　どうすっかなぁ
+    }
+    
 
 }
