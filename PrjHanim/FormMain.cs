@@ -850,8 +850,6 @@ namespace PrjHikariwoAnim
                     {
                         nowEle.Atr.Radius.X += mWheelDelta;
                     }
-
-
                 }
                 mFormAttribute.SetAllParam(nowEle.Atr);
                 panel_PreView.Refresh();

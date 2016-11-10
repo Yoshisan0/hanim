@@ -456,6 +456,7 @@ namespace PrjHikariwoAnim
         {
             //奥から探して最後に見つかった物(手前にあるもの)をセレクト
             int? ret = null;
+            //
             for (int cnt =0; cnt < mFrame.Count; cnt++)
             {
                 if(mFrame[cnt].Atr.IsHit(x, y))
