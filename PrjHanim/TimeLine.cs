@@ -431,6 +431,11 @@ namespace PrjHikariwoAnim
             ELEMENTS ret = mFrame.Find((ELEMENTS e) => e.GetHashCode() == hash);
             return ret;
         }
+        public ELEMENTS GetActiveElements()
+        {
+            if (ActiveIndex == null) return null;
+            return mFrame[(int)ActiveIndex];
+        }
         public void RenameElements(object hash,string newName)
         {
             if (hash == null) return;
@@ -463,6 +468,7 @@ namespace PrjHikariwoAnim
             if(ret !=null)
             {
                 mFrame[(int)ret].isSelect = true;
+                ActiveIndex = ret;
             }
             return ret;
         }
@@ -497,6 +503,7 @@ namespace PrjHikariwoAnim
             if (ret != null)
             {
                 mFrame[(int)ret].isSelect = true;
+                ActiveIndex = ret;
             }
             return ret;
         }

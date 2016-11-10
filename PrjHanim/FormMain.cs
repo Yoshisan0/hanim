@@ -48,8 +48,8 @@ namespace PrjHikariwoAnim
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
         //編集中の選択中エレメントのインデックス 非選択=null
-        //これはTimeLine内に移動させたいなぁ 
-        private int? mNowElementsIndex = null;
+        //これはTimeLine内のFrameあたりに移動させたいなぁ 11/11移動
+        //private int? mNowElementsIndex = null;
         
         private string mNowMotionName;//選択中モーション名
 
@@ -73,7 +73,7 @@ namespace PrjHikariwoAnim
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
             //エディット中アイテムにパラメータ再取得
-            ELEMENTS e = TimeLine.EditFrame.GetElement(mNowElementsIndex);
+            ELEMENTS e = TimeLine.EditFrame.GetActiveElements();
             if(e!=null)
             {
                 mFormAttribute.GetAllParam(ref e.Atr);
@@ -207,7 +207,7 @@ namespace PrjHikariwoAnim
             if (e.KeyData == Keys.Delete)
             {
                 //Element Remove
-                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
+                TimeLine.EditFrame.Remove((int)TimeLine.EditFrame.ActiveIndex);
                 panel_PreView.Refresh();
                 treeView_Project_Update();
             }
@@ -219,22 +219,22 @@ namespace PrjHikariwoAnim
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Properties.Settings.Default["Location_FormMain"] = this.Location;
+            Properties.Settings.Default["Location_FormMain"]    = this.Location;
             //            Properties.Settings.Default["Location_FormAttribute"] = value;
             //            Properties.Settings.Default["Location_FormControl"] = value;
             //            Properties.Settings.Default["Location_FormImageCut"] = value;
             //            Properties.Settings.Default["Location_FormImageList"] = value;
-            Properties.Settings.Default["BackColor_ColorBack"] = this.button_BackColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorGrid"] = this.button_GridColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorBack"]  = this.button_BackColor.BackColor;
+            Properties.Settings.Default["BackColor_ColorGrid"]  = this.button_GridColor.BackColor;
             Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
-            Properties.Settings.Default["Checked_DrawGird"] = this.checkBox_GridCheck.Checked;
-            Properties.Settings.Default["Checked_DrawCross"] = this.checkBox_CrossBar.Checked;
-            Properties.Settings.Default["Value_WidthGrid"] = this.numericUpDown_Grid.Value;
-            Properties.Settings.Default["Checked_GridSnap"] = this.checkBox_Snap.Checked;
-            Properties.Settings.Default["Checked_ImageList"] = this.checkBox_ImageList.Checked;
-            Properties.Settings.Default["Checked_Control"] = this.checkBox_Control.Checked;
-            Properties.Settings.Default["Checked_Attribute"] = this.checkBox_Attribute.Checked;
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default["Checked_DrawGird"]     = this.checkBox_GridCheck.Checked;
+            Properties.Settings.Default["Checked_DrawCross"]    = this.checkBox_CrossBar.Checked;
+            Properties.Settings.Default["Value_WidthGrid"]      = this.numericUpDown_Grid.Value;
+            Properties.Settings.Default["Checked_GridSnap"]     = this.checkBox_Snap.Checked;
+            Properties.Settings.Default["Checked_ImageList"]    = this.checkBox_ImageList.Checked;
+            Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
+            Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
+            Properties.Settings.Default.Save();//<-基本的にはバインドされたものはここで自動セーブ
         }
         private void button_BackColor_Click(object sender, EventArgs e)
         {
@@ -335,8 +335,8 @@ namespace PrjHikariwoAnim
             }
             //SelectElements
             //TagとElements.Nameが合致するものを選択
-            mNowElementsIndex = TimeLine.EditFrame.SelectElement(e.Node.Tag);
-            if (mNowElementsIndex != null) panel_PreView.Refresh();
+            TimeLine.EditFrame.SelectElement(e.Node.Tag);
+            if (TimeLine.EditFrame.ActiveIndex != null) panel_PreView.Refresh();
         }
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
@@ -820,9 +820,9 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
-            if (mNowElementsIndex != null)
+            if (TimeLine.EditFrame.ActiveIndex != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
+                ELEMENTS nowEle = TimeLine.EditFrame.GetActiveElements();
                 //アイテム選択中のホイール操作
                 if (mKeysSP == Keys.Shift)
                 {
@@ -894,10 +894,9 @@ namespace PrjHikariwoAnim
 
                 //アイテム検索
                 SetNowElementsIndex(TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true));
-                if (mNowElementsIndex != null)
-                {
-                    ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
-                    
+                ELEMENTS nowEle = TimeLine.EditFrame.GetActiveElements();
+                if (nowEle != null)
+                {              
                     mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
                     mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
                 }
@@ -914,9 +913,9 @@ namespace PrjHikariwoAnim
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
-            if (mNowElementsIndex != null)
+            ELEMENTS nowEle = TimeLine.EditFrame.GetActiveElements();
+            if (nowEle != null)
             {
-                ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
                 //移動処理
                 if (mMouseLDown)
                 {
@@ -964,7 +963,7 @@ namespace PrjHikariwoAnim
                 }
             }
             StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}]";
-            StatusLabel2.Text = $" [Select:{mNowElementsIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+            StatusLabel2.Text = $" [Select:{TimeLine.EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -974,8 +973,8 @@ namespace PrjHikariwoAnim
             //部品選択中か確認
 
             //GetElement
-            if (mNowElementsIndex == null) return;
-            ELEMENTS nowEle = TimeLine.EditFrame.GetElement(mNowElementsIndex);
+            ELEMENTS nowEle = TimeLine.EditFrame.GetActiveElements();
+            if (nowEle == null) return;
 
             //カーソル
             if (e.KeyData == Keys.Shift)
@@ -1007,7 +1006,7 @@ namespace PrjHikariwoAnim
             if(e.KeyData==Keys.Delete)
             {
                 //Element Remove
-                TimeLine.EditFrame.Remove((int)mNowElementsIndex);
+                TimeLine.EditFrame.Remove((int)TimeLine.EditFrame.ActiveIndex);
             }
         }
         /// <summary>
@@ -1020,29 +1019,29 @@ namespace PrjHikariwoAnim
 
             //現在の選択と違う物であれば変更を行う
             if (ElementsIndex == null) return;
-            if (mNowElementsIndex != ElementsIndex)
+            int? idx = TimeLine.EditFrame.ActiveIndex;
+            if (idx != ElementsIndex)
             {
                 //現在の選択を解除
-                if (mNowElementsIndex != null)
+                ELEMENTS elem = TimeLine.EditFrame.GetActiveElements();
+                if (elem != null)
                 {
-                    TimeLine.EditFrame.GetElement(mNowElementsIndex).isSelect = false;
+                    elem.isSelect = false;
                 }
                 //更新
-                mNowElementsIndex = ElementsIndex;
+                TimeLine.EditFrame.ActiveIndex = ElementsIndex;
                 //新規選択を有効
-                ELEMENTS elm = TimeLine.EditFrame.GetElement(ElementsIndex);
-                elm.isSelect = true;
+                elem = TimeLine.EditFrame.GetActiveElements();
+                elem.isSelect = true;
                 //各種リフレッシュ
                 panel_PreView.Refresh();
                 treeView_Project_Update();                
                 treeView_Project.Refresh();
-                mFormAttribute.SetAllParam(elm.Atr);
+                mFormAttribute.SetAllParam(elem.Atr);
                 mFormAttribute.Refresh();
                 mFormControl.Refresh();
             }
         }
-
-
 
         private void BottonTest_Click(object sender, EventArgs e)
         {
