@@ -106,6 +106,7 @@ namespace PrjHikariwoAnim
             mFormControl.mTimeLine = TimeLine;//ControlFormに通達
             //Ver2
             mFormCell = new FormCell(this);
+            //mFormCell.Owner = this;
             mFormCell.IM = ImageMan;
             mFormCell.Show();
 
