@@ -128,7 +128,8 @@
             // panel_PreView
             // 
             this.panel_PreView.AllowDrop = true;
-            this.panel_PreView.BackColor = System.Drawing.Color.Black;
+            this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorBack;
+            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorBack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_PreView.Location = new System.Drawing.Point(0, 30);
             this.panel_PreView.Margin = new System.Windows.Forms.Padding(0);
