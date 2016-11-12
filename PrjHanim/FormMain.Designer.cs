@@ -56,21 +56,13 @@
             this.ToolStripMenuItem_Attribute = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CellList = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
-            this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button_AlingForm = new System.Windows.Forms.Button();
-            this.checkBox_CellList = new System.Windows.Forms.CheckBox();
-            this.checkBox_Attribute = new System.Windows.Forms.CheckBox();
-            this.checkBox_Control = new System.Windows.Forms.CheckBox();
             this.checkBox_ImageList = new System.Windows.Forms.CheckBox();
             this.Spaceer1 = new System.Windows.Forms.Panel();
-            this.checkBox_Snap = new System.Windows.Forms.CheckBox();
             this.HScrollBar_ZoomLevel = new System.Windows.Forms.HScrollBar();
             this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
             this.button_GridColor = new System.Windows.Forms.Button();
-            this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.button_CrossColor = new System.Windows.Forms.Button();
-            this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
             this.button_BackColor = new System.Windows.Forms.Button();
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
@@ -82,6 +74,17 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBox_Helper = new System.Windows.Forms.CheckBox();
+            this.button_AlingForm = new System.Windows.Forms.Button();
+            this.checkBox_CellList = new System.Windows.Forms.CheckBox();
+            this.checkBox_Attribute = new System.Windows.Forms.CheckBox();
+            this.checkBox_Control = new System.Windows.Forms.CheckBox();
+            this.checkBox_Snap = new System.Windows.Forms.CheckBox();
+            this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
+            this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
+            this.よしさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.あまみさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -149,7 +152,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルToolStripMenuItem,
-            this.ウインドウToolStripMenuItem});
+            this.ウインドウToolStripMenuItem,
+            this.あまみさんテストToolStripMenuItem,
+            this.よしさんテストToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(712, 24);
@@ -277,22 +282,6 @@
             this.panel_ToolBase.Size = new System.Drawing.Size(570, 30);
             this.panel_ToolBase.TabIndex = 4;
             // 
-            // checkBox_Helper
-            // 
-            this.checkBox_Helper.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_Helper.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.period;
-            this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Helper.Location = new System.Drawing.Point(392, 0);
-            this.checkBox_Helper.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_Helper.Name = "checkBox_Helper";
-            this.checkBox_Helper.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_Helper.TabIndex = 10;
-            this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
-            this.checkBox_Helper.UseVisualStyleBackColor = false;
-            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button_AlingForm);
@@ -306,79 +295,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(171, 30);
             this.panel1.TabIndex = 8;
-            // 
-            // button_AlingForm
-            // 
-            this.button_AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
-            this.button_AlingForm.Location = new System.Drawing.Point(130, 0);
-            this.button_AlingForm.Margin = new System.Windows.Forms.Padding(0);
-            this.button_AlingForm.Name = "button_AlingForm";
-            this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
-            this.button_AlingForm.TabIndex = 5;
-            this.toolTipMain.SetToolTip(this.button_AlingForm, "フォームの整列");
-            this.button_AlingForm.UseVisualStyleBackColor = true;
-            this.button_AlingForm.Click += new System.EventHandler(this.Botton_AlingForm_Click);
-            // 
-            // checkBox_CellList
-            // 
-            this.checkBox_CellList.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_CellList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_CellList;
-            this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CellList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_CellList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
-            this.checkBox_CellList.Location = new System.Drawing.Point(100, 0);
-            this.checkBox_CellList.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_CellList.Name = "checkBox_CellList";
-            this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_CellList.TabIndex = 4;
-            this.toolTipMain.SetToolTip(this.checkBox_CellList, "セルフォーム表示");
-            this.checkBox_CellList.UseVisualStyleBackColor = false;
-            this.checkBox_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
-            // 
-            // checkBox_Attribute
-            // 
-            this.checkBox_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Attribute.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Attribute;
-            this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Attribute.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Attribute", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
-            this.checkBox_Attribute.Location = new System.Drawing.Point(70, 0);
-            this.checkBox_Attribute.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_Attribute.Name = "checkBox_Attribute";
-            this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_Attribute.TabIndex = 3;
-            this.toolTipMain.SetToolTip(this.checkBox_Attribute, "プロパティフォーム表示");
-            this.checkBox_Attribute.UseVisualStyleBackColor = false;
-            this.checkBox_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
-            // 
-            // checkBox_Control
-            // 
-            this.checkBox_Control.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Control.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Control;
-            this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Control.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Control", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
-            this.checkBox_Control.Location = new System.Drawing.Point(40, 0);
-            this.checkBox_Control.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_Control.Name = "checkBox_Control";
-            this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_Control.TabIndex = 2;
-            this.toolTipMain.SetToolTip(this.checkBox_Control, "コントロールフォーム表示");
-            this.checkBox_Control.UseVisualStyleBackColor = false;
-            this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
             // 
             // checkBox_ImageList
             // 
@@ -407,24 +323,6 @@
             this.Spaceer1.Name = "Spaceer1";
             this.Spaceer1.Size = new System.Drawing.Size(10, 30);
             this.Spaceer1.TabIndex = 1;
-            // 
-            // checkBox_Snap
-            // 
-            this.checkBox_Snap.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_Snap.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.checkBox_Snap.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
-            this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_Snap.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_GridSnap;
-            this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Snap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_GridSnap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Snap.Location = new System.Drawing.Point(191, 0);
-            this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_Snap.Name = "checkBox_Snap";
-            this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_Snap.TabIndex = 7;
-            this.toolTipMain.SetToolTip(this.checkBox_Snap, "スナップ");
-            this.checkBox_Snap.UseVisualStyleBackColor = false;
             // 
             // HScrollBar_ZoomLevel
             // 
@@ -478,26 +376,6 @@
             this.button_GridColor.UseVisualStyleBackColor = false;
             this.button_GridColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
-            // checkBox_GridCheck
-            // 
-            this.checkBox_GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
-            this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_GridCheck.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawGird;
-            this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawGird", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_GridCheck.Location = new System.Drawing.Point(90, 0);
-            this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_GridCheck.Name = "checkBox_GridCheck";
-            this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_GridCheck.TabIndex = 2;
-            this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
-            this.checkBox_GridCheck.UseVisualStyleBackColor = false;
-            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
-            // 
             // button_CrossColor
             // 
             this.button_CrossColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorCross;
@@ -511,29 +389,6 @@
             this.toolTipMain.SetToolTip(this.button_CrossColor, "クロスバーカラー");
             this.button_CrossColor.UseVisualStyleBackColor = false;
             this.button_CrossColor.Click += new System.EventHandler(this.Button_Color_Click);
-            // 
-            // checkBox_CrossBar
-            // 
-            this.checkBox_CrossBar.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_CrossBar.AutoSize = true;
-            this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
-            this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_CrossBar.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawCross;
-            this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CrossBar.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
-            this.checkBox_CrossBar.Location = new System.Drawing.Point(30, 0);
-            this.checkBox_CrossBar.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_CrossBar.Name = "checkBox_CrossBar";
-            this.checkBox_CrossBar.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_CrossBar.TabIndex = 1;
-            this.checkBox_CrossBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
-            this.checkBox_CrossBar.UseVisualStyleBackColor = false;
-            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
             // 
             // button_BackColor
             // 
@@ -691,6 +546,177 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // checkBox_Helper
+            // 
+            this.checkBox_Helper.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Helper.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.period;
+            this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Helper.Location = new System.Drawing.Point(392, 0);
+            this.checkBox_Helper.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Helper.Name = "checkBox_Helper";
+            this.checkBox_Helper.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Helper.TabIndex = 10;
+            this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
+            this.checkBox_Helper.UseVisualStyleBackColor = false;
+            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
+            // 
+            // button_AlingForm
+            // 
+            this.button_AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
+            this.button_AlingForm.Location = new System.Drawing.Point(130, 0);
+            this.button_AlingForm.Margin = new System.Windows.Forms.Padding(0);
+            this.button_AlingForm.Name = "button_AlingForm";
+            this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
+            this.button_AlingForm.TabIndex = 5;
+            this.toolTipMain.SetToolTip(this.button_AlingForm, "フォームの整列");
+            this.button_AlingForm.UseVisualStyleBackColor = true;
+            this.button_AlingForm.Click += new System.EventHandler(this.Botton_AlingForm_Click);
+            // 
+            // checkBox_CellList
+            // 
+            this.checkBox_CellList.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_CellList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_CellList;
+            this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CellList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_CellList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
+            this.checkBox_CellList.Location = new System.Drawing.Point(100, 0);
+            this.checkBox_CellList.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_CellList.Name = "checkBox_CellList";
+            this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_CellList.TabIndex = 4;
+            this.toolTipMain.SetToolTip(this.checkBox_CellList, "セルフォーム表示");
+            this.checkBox_CellList.UseVisualStyleBackColor = false;
+            this.checkBox_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
+            // 
+            // checkBox_Attribute
+            // 
+            this.checkBox_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_Attribute.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Attribute;
+            this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Attribute.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Attribute", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
+            this.checkBox_Attribute.Location = new System.Drawing.Point(70, 0);
+            this.checkBox_Attribute.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Attribute.Name = "checkBox_Attribute";
+            this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Attribute.TabIndex = 3;
+            this.toolTipMain.SetToolTip(this.checkBox_Attribute, "プロパティフォーム表示");
+            this.checkBox_Attribute.UseVisualStyleBackColor = false;
+            this.checkBox_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
+            // 
+            // checkBox_Control
+            // 
+            this.checkBox_Control.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.checkBox_Control.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Control;
+            this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Control.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Control", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
+            this.checkBox_Control.Location = new System.Drawing.Point(40, 0);
+            this.checkBox_Control.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Control.Name = "checkBox_Control";
+            this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Control.TabIndex = 2;
+            this.toolTipMain.SetToolTip(this.checkBox_Control, "コントロールフォーム表示");
+            this.checkBox_Control.UseVisualStyleBackColor = false;
+            this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
+            // 
+            // checkBox_Snap
+            // 
+            this.checkBox_Snap.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_Snap.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_Snap.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
+            this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_Snap.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_GridSnap;
+            this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Snap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_GridSnap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_Snap.Location = new System.Drawing.Point(191, 0);
+            this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Snap.Name = "checkBox_Snap";
+            this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_Snap.TabIndex = 7;
+            this.toolTipMain.SetToolTip(this.checkBox_Snap, "スナップ");
+            this.checkBox_Snap.UseVisualStyleBackColor = false;
+            // 
+            // checkBox_GridCheck
+            // 
+            this.checkBox_GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
+            this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_GridCheck.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawGird;
+            this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawGird", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_GridCheck.Location = new System.Drawing.Point(90, 0);
+            this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_GridCheck.Name = "checkBox_GridCheck";
+            this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_GridCheck.TabIndex = 2;
+            this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
+            this.checkBox_GridCheck.UseVisualStyleBackColor = false;
+            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
+            // 
+            // checkBox_CrossBar
+            // 
+            this.checkBox_CrossBar.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_CrossBar.AutoSize = true;
+            this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
+            this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_CrossBar.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawCross;
+            this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CrossBar.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
+            this.checkBox_CrossBar.Location = new System.Drawing.Point(30, 0);
+            this.checkBox_CrossBar.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_CrossBar.Name = "checkBox_CrossBar";
+            this.checkBox_CrossBar.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_CrossBar.TabIndex = 1;
+            this.checkBox_CrossBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
+            this.checkBox_CrossBar.UseVisualStyleBackColor = false;
+            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
+            // 
+            // よしさんテストToolStripMenuItem
+            // 
+            this.よしさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_DebugGraph});
+            this.よしさんテストToolStripMenuItem.Name = "よしさんテストToolStripMenuItem";
+            this.よしさんテストToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.よしさんテストToolStripMenuItem.Text = "よしさんテスト";
+            // 
+            // ToolStripMenuItem_DebugGraph
+            // 
+            this.ToolStripMenuItem_DebugGraph.Name = "ToolStripMenuItem_DebugGraph";
+            this.ToolStripMenuItem_DebugGraph.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_DebugGraph.Text = "グラフ１";
+            this.ToolStripMenuItem_DebugGraph.Click += new System.EventHandler(this.ToolStripMenuItem_DebugGraph_Click);
+            // 
+            // あまみさんテストToolStripMenuItem
+            // 
+            this.あまみさんテストToolStripMenuItem.Name = "あまみさんテストToolStripMenuItem";
+            this.あまみさんテストToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.あまみさんテストToolStripMenuItem.Text = "あまみさんテスト";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -785,6 +811,9 @@
         private System.Windows.Forms.SplitContainer splitContainerLeft;
         private System.Windows.Forms.Label label_Project;
         private System.Windows.Forms.Panel panel_MotionList_Base;
+        private System.Windows.Forms.ToolStripMenuItem よしさんテストToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugGraph;
+        private System.Windows.Forms.ToolStripMenuItem あまみさんテストToolStripMenuItem;
     }
 }
 

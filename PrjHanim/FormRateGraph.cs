@@ -9,16 +9,16 @@ using System.Windows.Forms;
 
 namespace PrjHikariwoAnim
 {
-    public partial class FormCurve : Form
+    public partial class FormRateGraph : Form
     {
-        public FormCurve()
+        public FormRateGraph()
         {
             InitializeComponent();
         }
 
         private void panel_Paint(object sender, PaintEventArgs e)
         {
-
+            e.Graphics.Clear(Color.Black);
         }
     }
 }

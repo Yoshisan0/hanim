@@ -1,6 +1,6 @@
 ﻿namespace PrjHikariwoAnim
 {
-    partial class FormCurve
+    partial class FormRateGraph
     {
         /// <summary>
         /// Required designer variable.
@@ -36,18 +36,18 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(654, 442);
+            this.panel1.Size = new System.Drawing.Size(597, 471);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
             // 
-            // FormCurve
+            // FormRateGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 442);
+            this.ClientSize = new System.Drawing.Size(597, 471);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "FormCurve";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Name = "FormRateGraph";
             this.Text = "レートグラフ";
             this.TopMost = true;
             this.ResumeLayout(false);
