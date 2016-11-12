@@ -604,12 +604,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(226, 543);
-            this.ControlBox = false;
             this.Controls.Add(this.panel_Attribute_Base);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAttribute";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "アトリビュート";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAttribute_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).EndInit();

@@ -14,6 +14,7 @@ namespace PrjHikariwoAnim
 {
     public partial class FormImageCut : Form
     {
+        private FormMain mFormMain = null;
         private bool mRectStart;
         private bool mRectEnd;
         private Point mPosStart;    //左上のポジション
@@ -43,13 +44,14 @@ namespace PrjHikariwoAnim
             return (stRect);
         }
 
-        public FormImageCut(Image clImage, string fullpath)
+        public FormImageCut(FormMain form, Image clImage, string fullpath)
         {
             mImagePath = fullpath;
             InitializeComponent();
             ImageManager = new ImageManagerBase();
 
             //以下、初期化処理
+            this.mFormMain = form;
             this.mRectStart = false;
             this.mRectEnd = false;
             this.mPosStart = new Point();
@@ -62,7 +64,6 @@ namespace PrjHikariwoAnim
             this.mPenGrid = new Pen(Color.Silver);
             this.mBrushRectColor = Color.FromArgb(128, Color.Lime.R, Color.Lime.G, Color.Lime.B);
             this.mBrushRect = new SolidBrush(this.mBrushRectColor);
-
         }
 
         private void FormImageCut_Load(object sender, EventArgs e)
@@ -463,6 +464,15 @@ namespace PrjHikariwoAnim
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
             panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
             splitContainerBase.Refresh();
+        }
+
+        private void FormImageCut_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Closeキャンセルして非表示にするだけ
+            e.Cancel = true;
+
+            //this.Visible = false; //自身で消さなくても下の操作で消える
+            this.mFormMain.checkBox_Control.Checked = false;
         }
     }
 }

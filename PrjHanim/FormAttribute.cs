@@ -171,5 +171,14 @@ namespace PrjHikariwoAnim
             //any Param Update どれかのチェックが変更された通知をメインに送る
             if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
         }
+
+        private void FormAttribute_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Closeキャンセルして非表示にするだけ
+            e.Cancel = true;
+
+            //this.Visible = false; //自身で消さなくても下の操作で消える
+            this.mFormMain.checkBox_Attribute.Checked = false;
+        }
     }
 }

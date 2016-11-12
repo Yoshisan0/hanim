@@ -443,6 +443,7 @@
             this.Name = "FormImageCut";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "イメージカッター";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormImageCut_FormClosing);
             this.Load += new System.EventHandler(this.FormImageCut_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormImageCut_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormImageCut_KeyUp);

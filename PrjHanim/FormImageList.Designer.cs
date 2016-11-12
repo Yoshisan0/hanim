@@ -191,6 +191,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "イメージリスト";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormImageList_FormClosing);
             this.Load += new System.EventHandler(this.FormImageList_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormImageList_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormImageList_DragEnter);

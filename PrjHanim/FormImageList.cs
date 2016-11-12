@@ -15,15 +15,19 @@ namespace PrjHikariwoAnim
 {
     public partial class FormImageList : Form
     {
+        private FormMain mFormMain = null;
         private ArrayList mListImage;   //イメージリスト
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
         private bool m_isMouseLDown;    //左クリック押し下げ中
 
         //public ImageManagerBase IM;
 
-        public FormImageList()
+        public FormImageList(FormMain form)
         {
             InitializeComponent();
+
+            //以下、初期化処理
+            this.mFormMain = form;
         }
 
         private void FormImageList_Load(object sender, EventArgs e)
@@ -330,7 +334,7 @@ namespace PrjHikariwoAnim
             string clPath = this.listView.Items[inIndex].SubItems[1].Text;
             Image clImageSrc = this.mListImage[inIndex] as Image;
 
-            FormImageCut clFormImageCut = new FormImageCut(clImageSrc,clPath);
+            FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clImageSrc,clPath);
             DialogResult enResult = clFormImageCut.ShowDialog();
             if (enResult == DialogResult.OK)
             {
@@ -471,6 +475,15 @@ namespace PrjHikariwoAnim
         private void button_OpenMyDoc_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(System.Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments));
+        }
+
+        private void FormImageList_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Closeキャンセルして非表示にするだけ
+            e.Cancel = true;
+
+            //this.Visible = false; //自身で消さなくても下の操作で消える
+            this.mFormMain.checkBox_ImageList.Checked = false;
         }
     }
 }

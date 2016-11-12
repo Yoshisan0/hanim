@@ -93,7 +93,7 @@ namespace PrjHikariwoAnim
             ImageMan = new ImageManagerBase();
             TimeLine = new TIMELINEbase();
 
-            this.mFormImageList = new FormImageList();
+            this.mFormImageList = new FormImageList(this);
             this.mFormImageList.Show();
 
             this.mFormControl = new FormControl(this);
@@ -146,7 +146,7 @@ namespace PrjHikariwoAnim
         {
             if (this.mFormImageList == null)
             {
-                this.mFormImageList = new FormImageList();
+                this.mFormImageList = new FormImageList(this);
                 this.mFormImageList.Show();
             }
             else
@@ -1049,7 +1049,7 @@ namespace PrjHikariwoAnim
             if (fd.ShowDialog() == DialogResult.OK)
             {
                 Image img = new Bitmap(fd.FileName);                
-                FormImageCut fc = new FormImageCut(img,fd.FileName);
+                FormImageCut fc = new FormImageCut(this, img,fd.FileName);
             }
         }
 

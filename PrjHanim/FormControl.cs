@@ -474,8 +474,9 @@ namespace PrjHikariwoAnim
         {
             //Closeキャンセルして非表示にするだけ
             e.Cancel = true;
+
             //this.Visible = false; //自身で消さなくても下の操作で消える
-            mFormMain.checkBox_Control.Checked = false;
+            this.mFormMain.checkBox_Control.Checked = false;
         }
     }
 }
