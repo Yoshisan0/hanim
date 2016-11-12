@@ -20,5 +20,18 @@ namespace PrjHikariwoAnim
         {
             e.Graphics.Clear(Color.Black);
         }
+
+        private void button_BackColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog cdg = new ColorDialog();
+            if (cdg.ShowDialog() == DialogResult.OK)
+            {
+                Button b = (Button)sender;
+                b.BackColor = cdg.Color;
+                panel_PreView.BackColor = cdg.Color;
+            }
+            cdg.Dispose();
+            panel_PreView.Refresh();
+        }
     }
 }

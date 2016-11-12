@@ -28,72 +28,63 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.panel_PreView = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.button_BackColor = new System.Windows.Forms.Button();
+            this.panel_ToolBase.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.panel_ToolBase);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel_PreView);
-            this.splitContainer1.Size = new System.Drawing.Size(688, 464);
-            this.splitContainer1.SplitterDistance = 229;
-            this.splitContainer1.TabIndex = 0;
             // 
             // panel_ToolBase
             // 
-            this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_ToolBase.Controls.Add(this.button_BackColor);
+            this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ToolBase.Name = "panel_ToolBase";
-            this.panel_ToolBase.Size = new System.Drawing.Size(688, 229);
-            this.panel_ToolBase.TabIndex = 0;
+            this.panel_ToolBase.Size = new System.Drawing.Size(688, 30);
+            this.panel_ToolBase.TabIndex = 1;
             // 
             // panel_PreView
             // 
-            this.panel_PreView.BackColor = System.Drawing.Color.Black;
+            this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
+            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_PreView.Location = new System.Drawing.Point(0, 0);
+            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
             this.panel_PreView.Name = "panel_PreView";
-            this.panel_PreView.Size = new System.Drawing.Size(688, 231);
+            this.panel_PreView.Size = new System.Drawing.Size(688, 434);
             this.panel_PreView.TabIndex = 0;
+            // 
+            // button_BackColor
+            // 
+            this.button_BackColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
+            this.button_BackColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_BackColor.Location = new System.Drawing.Point(0, 0);
+            this.button_BackColor.Name = "button_BackColor";
+            this.button_BackColor.Size = new System.Drawing.Size(30, 30);
+            this.button_BackColor.TabIndex = 14;
+            this.button_BackColor.UseVisualStyleBackColor = false;
+            this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
             // FormRateGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 464);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel_PreView);
+            this.Controls.Add(this.panel_ToolBase);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormRateGraph";
             this.Text = "レートグラフ";
             this.TopMost = true;
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.panel_ToolBase.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Panel panel_ToolBase;
         private System.Windows.Forms.Panel panel_PreView;
+        private System.Windows.Forms.Panel panel_ToolBase;
+        private System.Windows.Forms.Button button_BackColor;
     }
 }

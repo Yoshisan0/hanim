@@ -50,5 +50,8 @@
     <Setting Name="Checked_CellList" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="FormRateGraph_BackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

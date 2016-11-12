@@ -214,5 +214,17 @@ namespace PrjHikariwoAnim.Properties {
                 this["Checked_CellList"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color FormRateGraph_BackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["FormRateGraph_BackColor"]));
+            }
+            set {
+                this["FormRateGraph_BackColor"] = value;
+            }
+        }
     }
 }

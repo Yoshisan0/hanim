@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Images");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Cells");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Motion", 2, 2);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Motion", 2, 2);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -590,20 +590,20 @@
             this.treeView_Project.Location = new System.Drawing.Point(0, 20);
             this.treeView_Project.Margin = new System.Windows.Forms.Padding(0);
             this.treeView_Project.Name = "treeView_Project";
-            treeNode5.Name = "Images";
-            treeNode5.Text = "Images";
-            treeNode6.Name = "Cells";
-            treeNode6.Text = "Cells";
-            treeNode7.Name = "ProjectName";
-            treeNode7.Text = "Project";
-            treeNode8.ImageIndex = 2;
-            treeNode8.Name = "Motion";
-            treeNode8.SelectedImageIndex = 2;
-            treeNode8.Tag = "1";
-            treeNode8.Text = "Motion";
+            treeNode1.Name = "Images";
+            treeNode1.Text = "Images";
+            treeNode2.Name = "Cells";
+            treeNode2.Text = "Cells";
+            treeNode3.Name = "ProjectName";
+            treeNode3.Text = "Project";
+            treeNode4.ImageIndex = 2;
+            treeNode4.Name = "Motion";
+            treeNode4.SelectedImageIndex = 2;
+            treeNode4.Tag = "1";
+            treeNode4.Text = "Motion";
             this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode3,
+            treeNode4});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
