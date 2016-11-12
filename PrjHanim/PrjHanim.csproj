@@ -66,6 +66,12 @@
     <Compile Include="FormCell.Designer.cs">
       <DependentUpon>FormCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRateGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRateGraph.Designer.cs">
+      <DependentUpon>FormRateGraph.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormImageCut.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCell.resx">
       <DependentUpon>FormCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRateGraph.resx">
+      <DependentUpon>FormRateGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormImageCut.resx">
       <DependentUpon>FormImageCut.cs</DependentUpon>
