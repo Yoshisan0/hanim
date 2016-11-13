@@ -729,7 +729,6 @@
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::PrjHikariwoAnim.Properties.Settings.Default, "Location_FormMain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.Location_FormMain;
             this.Name = "FormMain";
@@ -816,4 +815,5 @@
         private System.Windows.Forms.ToolStripMenuItem あまみさんテストToolStripMenuItem;
     }
 }
+
 
