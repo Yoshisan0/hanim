@@ -145,90 +145,90 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\Blank.PNG" />
+    <None Include="glyph\Blank.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\LineMarker.PNG" />
+    <None Include="glyph\LineMarker.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\circle.PNG" />
+    <None Include="glyph\circle.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\cross.PNG" />
+    <None Include="glyph\cross.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\down.PNG" />
+    <None Include="glyph\down.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\folder.PNG" />
+    <None Include="glyph\folder.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\fowred.PNG" />
+    <None Include="glyph\fowred.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\fowred2.PNG" />
+    <None Include="glyph\fowred2.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\grid.PNG" />
+    <None Include="glyph\grid.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\left.PNG" />
+    <None Include="glyph\left.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\lock.PNG" />
+    <None Include="glyph\lock.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\magnet.PNG" />
+    <None Include="glyph\magnet.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\magnet2.PNG" />
+    <None Include="glyph\magnet2.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\open.PNG" />
+    <None Include="glyph\open.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\play.PNG" />
+    <None Include="glyph\play.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\playstop.PNG" />
+    <None Include="glyph\playstop.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\prev.PNG" />
+    <None Include="glyph\prev.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\prev2.PNG" />
+    <None Include="glyph\prev2.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\right.PNG" />
+    <None Include="glyph\right.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\stop.PNG" />
+    <None Include="glyph\stop.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\up.PNG" />
+    <None Include="glyph\up.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glyp\hanimL.PNG" />
+    <None Include="glyph\hanimL.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\plus.PNG" />
     <None Include="Resources\minus.PNG" />
     <None Include="Resources\checkA2.PNG" />
     <None Include="Resources\checkA1.PNG" />
-    <None Include="glyp\property.PNG" />
-    <None Include="glyp\partslist.PNG" />
-    <None Include="glyp\control.PNG" />
-    <None Include="glyp\alingment.PNG" />
-    <None Include="glyp\unSee.PNG" />
-    <None Include="glyp\unLock.PNG" />
-    <None Include="glyp\see.PNG" />
-    <None Include="glyp\locked.PNG" />
-    <None Include="glyp\burger.PNG" />
-    <None Include="glyp\checkA1.PNG" />
-    <None Include="glyp\checkA2.PNG" />
-    <None Include="glyp\minus.PNG" />
-    <None Include="glyp\period.PNG" />
-    <None Include="glyp\plus.PNG" />
+    <None Include="glyph\property.PNG" />
+    <None Include="glyph\partslist.PNG" />
+    <None Include="glyph\control.PNG" />
+    <None Include="glyph\alingment.PNG" />
+    <None Include="glyph\unSee.PNG" />
+    <None Include="glyph\unLock.PNG" />
+    <None Include="glyph\see.PNG" />
+    <None Include="glyph\locked.PNG" />
+    <None Include="glyph\burger.PNG" />
+    <None Include="glyph\checkA1.PNG" />
+    <None Include="glyph\checkA2.PNG" />
+    <None Include="glyph\minus.PNG" />
+    <None Include="glyph\period.PNG" />
+    <None Include="glyph\plus.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
