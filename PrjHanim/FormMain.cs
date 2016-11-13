@@ -1014,10 +1014,12 @@ namespace PrjHikariwoAnim
         /// <param name="ElementsIndex"></param>
         public void SetNowElementsIndex(int? ElementsIndex)
         {
-            //これ　mNowSelectIndexのSetterにするべきか
-
             //現在の選択と違う物であれば変更を行う
-            if (ElementsIndex == null) return;
+            if (ElementsIndex == null)
+            {
+                TimeLine.EditFrame.ActiveIndex=null;//無選択に
+                return;
+            }
             int? idx = TimeLine.EditFrame.ActiveIndex;
             if (idx != ElementsIndex)
             {
