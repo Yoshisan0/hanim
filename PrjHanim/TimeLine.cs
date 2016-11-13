@@ -321,7 +321,7 @@ namespace PrjHikariwoAnim
     {
         //Frame:ELEMENTSの塊
         List<ELEMENTS> mFrame;//部品格納リスト
-        public int? ActiveIndex;//これを NowElementsIndexとしたいな
+        public int? ActiveIndex;//操作対象
         
         public string Text;//フレーム毎に設定したいコマンドやコメント等
         public enum TYPE {KeyFrame,Control }
@@ -611,11 +611,11 @@ namespace PrjHikariwoAnim
         public bool isSelect = false;//選択状態
         public bool isOpenAtr;//属性開閉状態(+-)
         public string Name;
-        public object Tag; //認識ID
+        public object Tag; //認識ID object.hash
         public int Value;
         public AttributeBase Atr;//継承のほうがいいのかなぁ・・
-        public AttributeBase Parent;//未使用参照
-        public AttributeBase[] Child;//未使用参照
+        public AttributeBase Parent;//親:未使用参照
+        public AttributeBase[] Child;//子:未使用参照
         public AttributeBase Next;//未使用参照
         public AttributeBase Prev;//未使用参照
 
@@ -673,19 +673,21 @@ namespace PrjHikariwoAnim
         }
     }
 
-    public class subParam
+    public class RATEbase
     {
         //アニメーション等で利用するためのサブパラメータ
         //ELEMENTSレベルとフレームレベルで使うきがする
         //どのパラメータを利用するか　その重み　のデータ
+        //基本的に0～1の値を取りパラメータの種類で意味付けが変わる
+        //
 
         //補完タイプ
         public enum CompletionType { NONE, LINEAR, ELMINATE, BEJUE, AMPLIFICATION, ATTENUATION }
 
         public CompletionType Style = CompletionType.NONE;//補完タイプ
-        public double MasterWeight;//必要かなぁ
+        public double MasterVolume;//必要かなぁ
         public bool IsPosition;//うーん
-        //色　どうすっかなぁ
+        //色　どうすっかなぁ 1パラメータで
     }
     
 
