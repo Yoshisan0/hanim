@@ -1060,7 +1060,7 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void ToolStripMenuItem_DebugGraph_Click(object sender, EventArgs e)
         {
-            FormRateGraph clFormRateGraph = new FormRateGraph();
+            FormRateGraph clFormRateGraph = new FormRateGraph(10);
             clFormRateGraph.Show();
         }
     }

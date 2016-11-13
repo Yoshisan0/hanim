@@ -53,5 +53,14 @@
     <Setting Name="FormRateGraph_BackColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
+    <Setting Name="FormRateGraph_GraphColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Green</Value>
+    </Setting>
+    <Setting Name="FormRateGraph_DrawGrid" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FormRateGraph_ColorGrid" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">MidnightBlue</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

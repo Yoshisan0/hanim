@@ -30,17 +30,23 @@
         {
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.panel_PreView = new System.Windows.Forms.Panel();
+            this.button_GridColor = new System.Windows.Forms.Button();
+            this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
+            this.button_GraphColor = new System.Windows.Forms.Button();
             this.button_BackColor = new System.Windows.Forms.Button();
             this.panel_ToolBase.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_ToolBase
             // 
+            this.panel_ToolBase.Controls.Add(this.button_GridColor);
+            this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
+            this.panel_ToolBase.Controls.Add(this.button_GraphColor);
             this.panel_ToolBase.Controls.Add(this.button_BackColor);
             this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ToolBase.Name = "panel_ToolBase";
-            this.panel_ToolBase.Size = new System.Drawing.Size(688, 30);
+            this.panel_ToolBase.Size = new System.Drawing.Size(540, 30);
             this.panel_ToolBase.TabIndex = 1;
             // 
             // panel_PreView
@@ -50,8 +56,56 @@
             this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_PreView.Location = new System.Drawing.Point(0, 30);
             this.panel_PreView.Name = "panel_PreView";
-            this.panel_PreView.Size = new System.Drawing.Size(688, 434);
+            this.panel_PreView.Size = new System.Drawing.Size(540, 540);
             this.panel_PreView.TabIndex = 0;
+            this.panel_PreView.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_PreView_Paint);
+            this.panel_PreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseDown);
+            this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseMove);
+            this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseUp);
+            // 
+            // button_GridColor
+            // 
+            this.button_GridColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_ColorGrid;
+            this.button_GridColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_ColorGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button_GridColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_GridColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_GridColor.Location = new System.Drawing.Point(90, 0);
+            this.button_GridColor.Name = "button_GridColor";
+            this.button_GridColor.Size = new System.Drawing.Size(30, 30);
+            this.button_GridColor.TabIndex = 17;
+            this.button_GridColor.UseVisualStyleBackColor = false;
+            this.button_GridColor.Click += new System.EventHandler(this.button_GridColor_Click);
+            // 
+            // checkBox_GridCheck
+            // 
+            this.checkBox_GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
+            this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_GridCheck.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_DrawGrid;
+            this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_DrawGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_GridCheck.Location = new System.Drawing.Point(60, 0);
+            this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_GridCheck.Name = "checkBox_GridCheck";
+            this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
+            this.checkBox_GridCheck.TabIndex = 16;
+            this.checkBox_GridCheck.UseVisualStyleBackColor = false;
+            // 
+            // button_GraphColor
+            // 
+            this.button_GraphColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_GraphColor;
+            this.button_GraphColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_GraphColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.button_GraphColor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_GraphColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_GraphColor.Location = new System.Drawing.Point(30, 0);
+            this.button_GraphColor.Name = "button_GraphColor";
+            this.button_GraphColor.Size = new System.Drawing.Size(30, 30);
+            this.button_GraphColor.TabIndex = 15;
+            this.button_GraphColor.UseVisualStyleBackColor = false;
+            this.button_GraphColor.Click += new System.EventHandler(this.button_GraphColor_Click);
             // 
             // button_BackColor
             // 
@@ -70,13 +124,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(688, 464);
+            this.ClientSize = new System.Drawing.Size(540, 570);
             this.Controls.Add(this.panel_PreView);
             this.Controls.Add(this.panel_ToolBase);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormRateGraph";
             this.Text = "レートグラフ";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.FormRateGraph_Load);
+            this.Resize += new System.EventHandler(this.FormRateGraph_Resize);
             this.panel_ToolBase.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -86,5 +142,8 @@
         private System.Windows.Forms.Panel panel_PreView;
         private System.Windows.Forms.Panel panel_ToolBase;
         private System.Windows.Forms.Button button_BackColor;
+        private System.Windows.Forms.Button button_GraphColor;
+        private System.Windows.Forms.Button button_GridColor;
+        private System.Windows.Forms.CheckBox checkBox_GridCheck;
     }
 }

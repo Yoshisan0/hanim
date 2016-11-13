@@ -226,5 +226,41 @@ namespace PrjHikariwoAnim.Properties {
                 this["FormRateGraph_BackColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
+        public global::System.Drawing.Color FormRateGraph_GraphColor {
+            get {
+                return ((global::System.Drawing.Color)(this["FormRateGraph_GraphColor"]));
+            }
+            set {
+                this["FormRateGraph_GraphColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FormRateGraph_DrawGrid {
+            get {
+                return ((bool)(this["FormRateGraph_DrawGrid"]));
+            }
+            set {
+                this["FormRateGraph_DrawGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MidnightBlue")]
+        public global::System.Drawing.Color FormRateGraph_ColorGrid {
+            get {
+                return ((global::System.Drawing.Color)(this["FormRateGraph_ColorGrid"]));
+            }
+            set {
+                this["FormRateGraph_ColorGrid"] = value;
+            }
+        }
     }
 }
