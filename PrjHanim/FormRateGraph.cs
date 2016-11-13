@@ -13,20 +13,20 @@ namespace PrjHikariwoAnim
     public partial class FormRateGraph : Form
     {
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
-        private bool mPush;
-        private int mGridWidth;
-        private Pen mPen;
-        private Pen mPenGrid;
-        private Vector3[] mListPos;
-        private Vector3[] mListVec;
-        private int mGripNo;    //掴んでいるポイントの番号(-1:掴んでいない 0～2:番号)
+        private bool mPush;         //マウスを押しているかどうかのフラグ
+        private int mGridWidth;     //縦ラインの分割数
+        private Pen mPen;           //ラインのペン
+        private Pen mPenGrid;       //グリッドのペン
+        private Vector3[] mListPos; //ポイントのリスト
+        private Vector3[] mListVec; //ベクトルのリスト
+        private int mGripNo;        //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
 
         public FormRateGraph(int inGridWidth)
         {
             InitializeComponent();
 
             //以下、初期化処理
-            this.mGripNo = -1;
+            this.mGripNo = 0;
             this.mGridWidth = inGridWidth;
 
             //panel_PreView.DoubleBuuferd = true;
@@ -35,7 +35,7 @@ namespace PrjHikariwoAnim
 
         private void FormRateGraph_Load(object sender, EventArgs e)
         {
-            this.mPen = new Pen(this.button_GraphColor.BackColor, 2.0f);
+            this.mPen = new Pen(this.button_GraphColor.BackColor);
             this.mPenGrid = new Pen(this.button_GridColor.BackColor);
 
             this.mListPos = new Vector3[3];
@@ -44,9 +44,9 @@ namespace PrjHikariwoAnim
             this.mListPos[2] = new Vector3(1.0f, 0.0f, 0.0f);
 
             this.mListVec = new Vector3[3];
-            this.mListVec[0] = new Vector3(0.0f, 0.0f, 0.0f);
-            this.mListVec[1] = new Vector3(0.0f, 0.0f, 0.0f);
-            this.mListVec[2] = new Vector3(0.0f, 0.0f, 0.0f);
+            this.mListVec[0] = new Vector3(0.08f, -0.08f, 0.0f);
+            this.mListVec[1] = new Vector3(0.08f, -0.08f, 0.0f);
+            this.mListVec[2] = new Vector3(0.08f, -0.08f, 0.0f);
 
             this.panel_PreView.Refresh();
         }
@@ -101,6 +101,33 @@ namespace PrjHikariwoAnim
             this.panel_PreView.Refresh();
         }
 
+        /// <summary>
+        /// 矢印描画処理
+        /// </summary>
+        /// <param name="g">グラフィックス</param>
+        /// <param name="clPenCircle">円のペン</param>
+        /// <param name="flX">Ｘ座標(0.0～1.0)</param>
+        /// <param name="flY">Ｙ座標(0.0～1.0)</param>
+        /// <param name="flVecX">ベクトルＸ(0.0～1.0)</param>
+        /// <param name="flVecY">ベクトルＹ(0.0～1.0)</param>
+        private void DrawArrow(Graphics g, Pen clPenCircle, float flX, float flY, float flVecX, float flVecY)
+        {
+            //以下、矢印描画処理
+            float flX0 = flX * this.panel_PreView.Width;
+            float flY0 = flY * this.panel_PreView.Height;
+            float flX1 = flX0 + flVecX * this.panel_PreView.Width;
+            float flY1 = flY0 + flVecY * this.panel_PreView.Height;
+            g.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+
+            //以下、矢印先の円を描画する処理
+            this.DrawCircle(g, clPenCircle, flX1, flY1);
+        }
+
+        private void DrawCircle(Graphics g, Pen clPen, float flX, float flY)
+        {
+            g.DrawEllipse(clPen, flX - FormRateGraph.SIZE_ELLIPSE / 2, flY - FormRateGraph.SIZE_ELLIPSE / 2, FormRateGraph.SIZE_ELLIPSE, FormRateGraph.SIZE_ELLIPSE);
+        }
+
         private void panel_PreView_Paint(object sender, PaintEventArgs e)
         {
             int inCnt;
@@ -142,7 +169,32 @@ namespace PrjHikariwoAnim
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
             float flY = this.mListPos[1].Y * this.panel_PreView.Height;
             Pen clPen = (this.mGripNo == 1) ? Pens.Red : this.mPen;
-            e.Graphics.DrawEllipse(clPen, flX - FormRateGraph.SIZE_ELLIPSE / 2, flY - FormRateGraph.SIZE_ELLIPSE / 2, FormRateGraph.SIZE_ELLIPSE, FormRateGraph.SIZE_ELLIPSE);
+            this.DrawCircle(e.Graphics, clPen, flX, flY);
+
+            //以下、ベクトル描画処理
+            clPen = (this.mGripNo == 2) ? Pens.Red : this.mPen;
+            this.DrawArrow(e.Graphics, clPen, this.mListPos[0].X, this.mListPos[0].Y, this.mListVec[0].X, this.mListVec[0].Y);
+            clPen = (this.mGripNo == 3) ? Pens.Red : this.mPen;
+            this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, this.mListVec[1].X, this.mListVec[1].Y);
+            clPen = (this.mGripNo == 4) ? Pens.Red : this.mPen;
+            this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, -this.mListVec[1].X, -this.mListVec[1].Y);
+            clPen = (this.mGripNo == 5) ? Pens.Red : this.mPen;
+            this.DrawArrow(e.Graphics, clPen, this.mListPos[2].X, this.mListPos[2].Y, -this.mListVec[2].X, -this.mListVec[2].Y);
+        }
+
+        /// <summary>
+        /// ポイントと円のあたり判定
+        /// </summary>
+        /// <param name="flPointX">ポイントのＸ座標</param>
+        /// <param name="flPointY">ポイントのＹ座標</param>
+        /// <param name="flCircleX">円のＸ座標</param>
+        /// <param name="flCircleY">円のＹ座標</param>
+        /// <param name="flR">円の半径</param>
+        /// <returns>結果フラグ</returns>
+        private bool IsHitPointAndCircle(float flPointX, float flPointY, float flCircleX, float flCircleY, float flR)
+        {
+            float flLen = (float)Math.Sqrt((flPointX - flCircleX) * (flPointX - flCircleX) + (flPointY - flCircleY) * (flPointY - flCircleY));
+            return (flLen < flR);
         }
 
         private void panel_PreView_MouseDown(object sender, MouseEventArgs e)
@@ -150,16 +202,52 @@ namespace PrjHikariwoAnim
             if (e.Button == MouseButtons.Left)
             {
                 this.mPush = true;
+                this.mGripNo = 0;
 
-                //以下、グリップ処理
-                this.mGripNo = -1;
+                //0:掴んでいない
+                //1:中間ポイント
+                //2:始点のベクトル
+                //3:中間点のベクトル
+                //4:中間点の左下ベクトル
+                //5:終点の左下ベクトル
+
+                //以下、中間点チェック処理
                 float flX = this.mListPos[1].X * this.panel_PreView.Width;
                 float flY = this.mListPos[1].Y * this.panel_PreView.Height;
-                float flLen = (float)Math.Sqrt((e.X - flX) * (e.X - flX) + (e.Y - flY) * (e.Y - flY));
-                if (flLen < FormRateGraph.SIZE_ELLIPSE / 2)
-                {
-                    this.mGripNo = 1;
-                }
+                bool isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                if (isHit) this.mGripNo = 1;
+
+                //以下、始点のベクトルチェック処理
+                flX = this.mListPos[0].X * this.panel_PreView.Width;
+                flY = this.mListPos[0].Y * this.panel_PreView.Height;
+                flX += this.mListVec[0].X * this.panel_PreView.Width;
+                flY += this.mListVec[0].Y * this.panel_PreView.Height;
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                if (isHit) this.mGripNo = 2;
+
+                //以下、中間点のベクトルチェック処理
+                flX = this.mListPos[1].X * this.panel_PreView.Width;
+                flY = this.mListPos[1].Y * this.panel_PreView.Height;
+                flX += this.mListVec[1].X * this.panel_PreView.Width;
+                flY += this.mListVec[1].Y * this.panel_PreView.Height;
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                if (isHit) this.mGripNo = 3;
+
+                //以下、中間点の左下ベクトルチェック処理
+                flX = this.mListPos[1].X * this.panel_PreView.Width;
+                flY = this.mListPos[1].Y * this.panel_PreView.Height;
+                flX += -this.mListVec[1].X * this.panel_PreView.Width;
+                flY += -this.mListVec[1].Y * this.panel_PreView.Height;
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                if (isHit) this.mGripNo = 4;
+
+                //以下、終点の左下ベクトルチェック処理
+                flX = this.mListPos[2].X * this.panel_PreView.Width;
+                flY = this.mListPos[2].Y * this.panel_PreView.Height;
+                flX += -this.mListVec[2].X * this.panel_PreView.Width;
+                flY += -this.mListVec[2].Y * this.panel_PreView.Height;
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                if (isHit) this.mGripNo = 5;
 
                 this.panel_PreView.Refresh();
             }
@@ -169,20 +257,49 @@ namespace PrjHikariwoAnim
         {
             if (!this.mPush) return;
 
-            if (this.mGripNo == 1)
+            switch (this.mGripNo)
             {
-                int inX = e.X;
-                int inY = e.Y;
-                if (inX < 0) inX = 0;
-                if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
-                if (inY < 0) inY = 0;
-                if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
+            case 1:
+                {
+                    int inX = e.X;
+                    int inY = e.Y;
+                    if (inX < 0) inX = 0;
+                    if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
+                    if (inY < 0) inY = 0;
+                    if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
 
-                this.mListPos[this.mGripNo].X = (float)inX / this.panel_PreView.Width;
-                this.mListPos[this.mGripNo].Y = (float)inY / this.panel_PreView.Height;
+                    this.mListPos[this.mGripNo].X = (float)inX / this.panel_PreView.Width;
+                    this.mListPos[this.mGripNo].Y = (float)inY / this.panel_PreView.Height;
+                }
+                break;
+            case 2: //始点のベクトル
+                {
+                    int inX = e.X;
+                    int inY = e.Y;
+                    if (inX < 0) inX = 0;
+                    if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
+                    if (inY < 0) inY = 0;
+                    if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
 
-                this.panel_PreView.Refresh();
+                    this.mListVec[0].X = (float)(inX - this.panel_PreView.Width) / this.panel_PreView.Width;
+                    this.mListVec[0].Y = (float)(inY - this.panel_PreView.Height) / this.panel_PreView.Height;
+                }
+                break;
+            case 3: //中間点のベクトル
+                {
+                }
+                break;
+            case 4: //中間点の左下ベクトル
+                {
+                }
+                break;
+            case 5: //終点の左下ベクトル
+                {
+                }
+                break;
             }
+
+            this.panel_PreView.Refresh();
         }
 
         private void panel_PreView_MouseUp(object sender, MouseEventArgs e)
@@ -190,7 +307,7 @@ namespace PrjHikariwoAnim
             if (e.Button == MouseButtons.Left)
             {
                 this.mPush = false;
-                this.mGripNo = -1;
+                this.mGripNo = 0;
 
                 this.panel_PreView.Refresh();
             }
