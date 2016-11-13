@@ -43,7 +43,7 @@ namespace PrjHikariwoAnim
             this.mListPos[1] = new Vector3(0.5f, 0.5f, 0.0f);
             this.mListPos[2] = new Vector3(1.0f, 0.0f, 0.0f);
 
-            this.mListVec = new Vector3[3];
+            this.mListVec = new Vector3[4];
             this.mListVec[0] = new Vector3(0.08f, -0.08f, 0.0f);
             this.mListVec[1] = new Vector3(0.08f, -0.08f, 0.0f);
             this.mListVec[2] = new Vector3(0.08f, -0.08f, 0.0f);
@@ -257,44 +257,52 @@ namespace PrjHikariwoAnim
         {
             if (!this.mPush) return;
 
+            int inX = e.X;
+            int inY = e.Y;
+
+            if (inX < 0) inX = 0;
+            if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
+            if (inY < 0) inY = 0;
+            if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
+
             switch (this.mGripNo)
             {
             case 1:
                 {
-                    int inX = e.X;
-                    int inY = e.Y;
-                    if (inX < 0) inX = 0;
-                    if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
-                    if (inY < 0) inY = 0;
-                    if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
-
-                    this.mListPos[this.mGripNo].X = (float)inX / this.panel_PreView.Width;
-                    this.mListPos[this.mGripNo].Y = (float)inY / this.panel_PreView.Height;
+                    this.mListPos[1].X = (float)inX / this.panel_PreView.Width;
+                    this.mListPos[1].Y = (float)inY / this.panel_PreView.Height;
                 }
                 break;
             case 2: //始点のベクトル
                 {
-                    int inX = e.X;
-                    int inY = e.Y;
-                    if (inX < 0) inX = 0;
-                    if (inX > this.panel_PreView.Width) inX = this.panel_PreView.Width;
-                    if (inY < 0) inY = 0;
-                    if (inY > this.panel_PreView.Height) inY = this.panel_PreView.Height;
-
-                    this.mListVec[0].X = (float)(inX - this.panel_PreView.Width) / this.panel_PreView.Width;
+                    this.mListVec[0].X = (float)inX / this.panel_PreView.Width;
                     this.mListVec[0].Y = (float)(inY - this.panel_PreView.Height) / this.panel_PreView.Height;
                 }
                 break;
             case 3: //中間点のベクトル
                 {
+                    float flBaseX = this.mListPos[1].X * this.panel_PreView.Width;
+                    float flBaseY = this.mListPos[1].Y * this.panel_PreView.Height;
+                    this.mListVec[1].X = (float)(inX - flBaseX) / this.panel_PreView.Width;
+                    this.mListVec[1].Y = (float)(inY - flBaseY) / this.panel_PreView.Height;
+
+                    if (this.mListVec[1].X < 0.0f) this.mListVec[1].X = 0.0f;
                 }
                 break;
             case 4: //中間点の左下ベクトル
                 {
+                    float flBaseX = this.mListPos[1].X * this.panel_PreView.Width;
+                    float flBaseY = this.mListPos[1].Y * this.panel_PreView.Height;
+                    this.mListVec[1].X = -(float)(inX - flBaseX) / this.panel_PreView.Width;
+                    this.mListVec[1].Y = -(float)(inY - flBaseY) / this.panel_PreView.Height;
+
+                    if (this.mListVec[1].X < 0.0f) this.mListVec[1].X = 0.0f;
                 }
                 break;
             case 5: //終点の左下ベクトル
                 {
+                    this.mListVec[2].X = -(float)(inX - this.panel_PreView.Width) / this.panel_PreView.Width;
+                    this.mListVec[2].Y = -(float)inY / this.panel_PreView.Height;
                 }
                 break;
             }
