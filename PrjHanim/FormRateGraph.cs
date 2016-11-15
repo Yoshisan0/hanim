@@ -155,15 +155,35 @@ namespace PrjHikariwoAnim
             //以下、ライン描画処理
             float flX0 = this.mListPos[0].X * this.panel_PreView.Width;
             float flY0 = this.mListPos[0].Y * this.panel_PreView.Height;
-            float flX1 = this.mListPos[1].X * this.panel_PreView.Width;
-            float flY1 = this.mListPos[1].Y * this.panel_PreView.Height;
-            e.Graphics.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+            ClsMoveHermite clMoveHermite = new ClsMoveHermite(this.mListPos[0].Y, 0.0, this.mListPos[1].Y, 0.0);
+            double doPosX, doSpan = this.mListPos[1].X * 0.005;
+            for (doPosX = doSpan; doPosX < this.mListPos[1].X; doPosX += doSpan)
+            {
+                double doPosY = clMoveHermite.Exec(doPosX / this.mListPos[1].X);
+                float flX1 = (float)doPosX * this.panel_PreView.Width;
+                float flY1 = (float)doPosY * this.panel_PreView.Height;
+
+                e.Graphics.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+
+                flX0 = flX1;
+                flY0 = flY1;
+            }
 
             flX0 = this.mListPos[1].X * this.panel_PreView.Width;
             flY0 = this.mListPos[1].Y * this.panel_PreView.Height;
-            flX1 = this.mListPos[2].X * this.panel_PreView.Width;
-            flY1 = this.mListPos[2].Y * this.panel_PreView.Height;
-            e.Graphics.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+            clMoveHermite = new ClsMoveHermite(this.mListPos[1].Y, 0.0, this.mListPos[2].Y, 0.0);
+            doSpan = (this.mListPos[2].X - this.mListPos[1].X) * 0.005;
+            for (doPosX = doSpan; doPosX < this.mListPos[2].X - this.mListPos[1].X; doPosX += doSpan)
+            {
+                double doPosY = clMoveHermite.Exec(doPosX / (this.mListPos[2].X - this.mListPos[1].X));
+                float flX1 = (float)(this.mListPos[1].X + doPosX) * this.panel_PreView.Width;
+                float flY1 = (float)doPosY * this.panel_PreView.Height;
+
+                e.Graphics.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+
+                flX0 = flX1;
+                flY0 = flY1;
+            }
 
             //以下、ポイント描画処理
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
