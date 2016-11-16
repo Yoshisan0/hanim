@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
@@ -39,7 +38,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timerMain = new System.Windows.Forms.Timer(this.components);
+            this.timerMain = new System.Windows.Forms.Timer();
             this.panel_PreView = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,15 +75,15 @@
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
             this.button_BackColor = new System.Windows.Forms.Button();
             this.treeView_Project = new System.Windows.Forms.TreeView();
-            this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
+            this.imageList_Thumb = new System.Windows.Forms.ImageList();
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
-            this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip();
+            this.toolTipMain = new System.Windows.Forms.ToolTip();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();

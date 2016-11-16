@@ -588,7 +588,6 @@ namespace PrjHikariwoAnim
                 y += s.Height;
                 retRect.Width  = (retRect.Width  < x) ? retRect.Width  : x;
                 retRect.Height = (retRect.Height < y) ? retRect.Height : y;
-
             }
             return retRect;
         }
