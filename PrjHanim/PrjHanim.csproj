@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AtributeBase.cs" />
     <Compile Include="ClsImage.cs" />
-    <Compile Include="ClsMoveHermite.cs" />
     <Compile Include="ClsPath.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsWin32.cs" />

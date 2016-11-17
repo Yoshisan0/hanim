@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -153,9 +154,33 @@ namespace PrjHikariwoAnim
             }
 
             //以下、ライン描画処理
+
+
+            //曲線が通過する点の配列を作成する。最低でも3つ以上の点が必要。
+            Point point1 = new Point((int)(this.mListPos[0].X * this.panel_PreView.Width), (int)(this.mListPos[0].Y * this.panel_PreView.Height));
+            Point point2 = new Point((int)(this.mListPos[1].X * this.panel_PreView.Width), (int)(this.mListPos[1].Y * this.panel_PreView.Height));
+            Point point3 = new Point((int)(this.mListPos[2].X * this.panel_PreView.Width), (int)(this.mListPos[2].Y * this.panel_PreView.Height));
+            Point[] curvePoints = { point1, point2, point3 };
+
+            //幅3の青色のPenオブジェクトを作成
+            Pen bluePen = new Pen(Color.Blue, 3);
+            //テンション0.5（既定値）のカーディナルスプラインを描画
+            e.Graphics.DrawCurve(bluePen, curvePoints, 0.5F);
+
+            //幅3の赤色のPenオブジェクトを作成
+            Pen redPen = new Pen(Color.Red, 3);
+            //テンション1のカーディナルスプラインを描画
+            e.Graphics.DrawCurve(redPen, curvePoints, 1);
+
+            //リソースを解放する
+            bluePen.Dispose();
+            redPen.Dispose();
+
+
+/*
             float flX0 = this.mListPos[0].X * this.panel_PreView.Width;
             float flY0 = this.mListPos[0].Y * this.panel_PreView.Height;
-            ClsMoveHermite clMoveHermite = new ClsMoveHermite(this.mListPos[0].Y, 0.0, this.mListPos[1].Y, 0.0);
+            ClsMoveHermite clMoveHermite = new ClsMoveHermite(this.mListPos[0].Y, this.mListVec[0].Y, this.mListPos[1].Y, 0.0);
             double doPosX, doSpan = this.mListPos[1].X * 0.005;
             for (doPosX = doSpan; doPosX < this.mListPos[1].X; doPosX += doSpan)
             {
@@ -184,6 +209,7 @@ namespace PrjHikariwoAnim
                 flX0 = flX1;
                 flY0 = flY1;
             }
+*/
 
             //以下、ポイント描画処理
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
