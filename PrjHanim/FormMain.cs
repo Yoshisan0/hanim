@@ -457,6 +457,11 @@ namespace PrjHikariwoAnim
                     tv.SelectedNode = cln;
                     //構造をTimelineに反映させる
                     //src to dest
+                    //destの種類に応じて親になるか子になるか振分
+                    //ルート->親
+                    //
+                    //別バーツの上
+
                     if (TimeLine.EditFrame.Move(src.Name, dest.Name) == false) { Console.WriteLine("Elements move False"); };
                                       
                 }else e.Effect = DragDropEffects.None;
@@ -476,6 +481,12 @@ namespace PrjHikariwoAnim
             else if (childNode.Parent != null)  return IsChildNode(parentNode, childNode.Parent);
             else return false;
         }
+        /// <summary>
+        /// ノードが指定の名前を含むか(親を遡り)確認する
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static bool IsMotionNode(TreeNode src,string name="Motion")
         {
             if (src.Name == name) return true; //それ自体がモーション
