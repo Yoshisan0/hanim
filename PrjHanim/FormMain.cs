@@ -612,7 +612,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawLine(p1, 0, panel_PreView.Height/2, panel_PreView.Width,panel_PreView.Height/2);//H
             }
             
-        }        
+        }
         /// <summary>
         /// 1エレメント描画処理
         /// </summary>
@@ -624,10 +624,10 @@ namespace PrjHikariwoAnim
             //StageInfomation
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
             if (zoom < 0.2) zoom = 0.2f;//縮小Zoom制限 制限しないと0除算エラー
-            
+
             //View Center X,Y
-            int vcx = mScreenScroll.X + panel_PreView.Width  / 2 ;//ViewCenter X
-            int vcy = mScreenScroll.Y + panel_PreView.Height / 2 ;//ViewCenter Y
+            int vcx = mScreenScroll.X + panel_PreView.Width / 2;//ViewCenter X
+            int vcy = mScreenScroll.Y + panel_PreView.Height / 2;//ViewCenter Y
 
             FRAME frm = TimeLine.EditFrame;
 
@@ -649,14 +649,14 @@ namespace PrjHikariwoAnim
                 float pcx = atr.Position.X + atr.Offset.X;
                 float pcy = atr.Position.X + atr.Offset.X;
                 Color Col = Color.FromArgb(atr.Color);
-                
+
                 //カラーマトリックス作成
                 System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
                 if (atr.isColor)
                 {
-                    colmat.Matrix00 = (float)(Col.R * (atr.ColorRate/100f));//Red  Col.R * Col.Rate
-                    colmat.Matrix11 = (float)(Col.G * (atr.ColorRate/100f));//Green
-                    colmat.Matrix22 = (float)(Col.B * (atr.ColorRate/100f));//Blue
+                    colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
+                    colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
+                    colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
                 }
                 else
                 {
@@ -666,8 +666,9 @@ namespace PrjHikariwoAnim
                 }
                 if (atr.isTransparrency)
                 {
-                    colmat.Matrix33 = (atr.Transparency /100f);
-                }else
+                    colmat.Matrix33 = (atr.Transparency / 100f);
+                }
+                else
                 {
                     colmat.Matrix33 = 1;
                 }
@@ -716,7 +717,7 @@ namespace PrjHikariwoAnim
                     g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
                 }
                 else
-                { 
+                {
                     //透明化カラー補正なし
                     g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
                 }
@@ -725,22 +726,24 @@ namespace PrjHikariwoAnim
                 {
                     //中心点やその他のサポート表示
                     //CenterPosition
-                    g.DrawEllipse(Pens.OrangeRed,-4,-4, 8, 8);
-                
+                    g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
+
                     //Selected DrawBounds
                     if (e.isSelect)
                     {
-                        g.DrawRectangle(Pens.DarkCyan,atr.Offset.X -(atr.Width * atr.Scale.X) / 2,atr.Offset.Y -(atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+                        g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
                     }
+                    //test Hit範囲をボックス描画
+                    //ElementsType
+                    if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
+                    {
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 * atr.Scale.X),(-(atr.Height * atr.Scale.Y) / 2 * atr.Scale.Y), vsx - 1, vsy - 1);
+                    }
+                    if(e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
+                    {
+                        g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 * atr.Scale.X), (-(atr.Height * atr.Scale.Y) / 2 * atr.Scale.Y), vsx - 1, vsy - 1);
+                    }                
                 }
-
-                //test Hit範囲をボックス描画 
-                /*
-                 g.DrawRectangle(Pens.Aqua,  (-(atr.Width *atr.Scale.X)/2 * atr.Scale.X),
-                                            (-(atr.Height *atr.Scale.Y)/2 * atr.Scale.Y),
-                                            vsx - 1, vsy - 1);
-                */
-
                 g.Transform = Back;//restore Matrix
 
                 //Cuurent Draw Grip
