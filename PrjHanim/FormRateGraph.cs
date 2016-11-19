@@ -156,31 +156,38 @@ namespace PrjHikariwoAnim
             //以下、ライン描画処理
 
 
-            //曲線が通過する点の配列を作成する。最低でも3つ以上の点が必要。
-            Point point1 = new Point((int)(this.mListPos[0].X * this.panel_PreView.Width), (int)(this.mListPos[0].Y * this.panel_PreView.Height));
-            Point point2 = new Point((int)(this.mListPos[1].X * this.panel_PreView.Width), (int)(this.mListPos[1].Y * this.panel_PreView.Height));
-            Point point3 = new Point((int)(this.mListPos[2].X * this.panel_PreView.Width), (int)(this.mListPos[2].Y * this.panel_PreView.Height));
-            Point[] curvePoints = { point1, point2, point3 };
+            //ベジエ曲線の形状を決定する点
+            int inPosX0 = (int)(this.mListPos[0].X * this.panel_PreView.Width);
+            int inPosY0 = (int)(this.mListPos[0].Y * this.panel_PreView.Height);
+            int inPosX1 = (int)(this.mListPos[1].X * this.panel_PreView.Width);
+            int inPosY1 = (int)(this.mListPos[1].Y * this.panel_PreView.Height);
+            int inPosX2 = (int)(this.mListPos[2].X * this.panel_PreView.Width);
+            int inPosY2 = (int)(this.mListPos[2].Y * this.panel_PreView.Height);
+            int inVecX0 = inPosX0 + (int)(this.mListVec[0].X * this.panel_PreView.Width);
+            int inVecY0 = inPosY0 + (int)(this.mListVec[0].Y * this.panel_PreView.Height);
+            int inVecX1 = inPosX1 - (int)(this.mListVec[1].X * this.panel_PreView.Width);
+            int inVecY1 = inPosY1 - (int)(this.mListVec[1].Y * this.panel_PreView.Height);
+            int inVecX2 = inPosX1 + (int)(this.mListVec[1].X * this.panel_PreView.Width);
+            int inVecY2 = inPosY1 + (int)(this.mListVec[1].Y * this.panel_PreView.Height);
+            int inVecX3 = inPosX2 - (int)(this.mListVec[2].X * this.panel_PreView.Width);
+            int inVecY3 = inPosY2 - (int)(this.mListVec[2].Y * this.panel_PreView.Height);
+            Point stPos0 = new Point(inPosX0, inPosY0);
+            Point stVec0 = new Point(inVecX0, inVecY0);
+            Point stVec1 = new Point(inVecX1, inVecY1);
+            Point stPos1 = new Point(inPosX1, inPosY1);
+            Point stVec2 = new Point(inVecX2, inVecY2);
+            Point stVec3 = new Point(inVecX3, inVecY3);
+            Point stPos2 = new Point(inPosX2, inPosY2);
+            Point[] pclListPos = { stPos0, stVec0, stVec1, stPos1, stVec2, stVec3, stPos2 };
 
-            //幅3の青色のPenオブジェクトを作成
-            Pen bluePen = new Pen(Color.Blue, 3);
-            //テンション0.5（既定値）のカーディナルスプラインを描画
-            e.Graphics.DrawCurve(bluePen, curvePoints, 0.5F);
+            //ベジエスプラインを描画する
+            e.Graphics.DrawBeziers(this.mPen, pclListPos);
 
-            //幅3の赤色のPenオブジェクトを作成
-            Pen redPen = new Pen(Color.Red, 3);
-            //テンション1のカーディナルスプラインを描画
-            e.Graphics.DrawCurve(redPen, curvePoints, 1);
-
-            //リソースを解放する
-            bluePen.Dispose();
-            redPen.Dispose();
-
-
-/*
+            /*
+            //以下、ライン描画処理
             float flX0 = this.mListPos[0].X * this.panel_PreView.Width;
             float flY0 = this.mListPos[0].Y * this.panel_PreView.Height;
-            ClsMoveHermite clMoveHermite = new ClsMoveHermite(this.mListPos[0].Y, this.mListVec[0].Y, this.mListPos[1].Y, 0.0);
+            ClsMoveHermite clMoveHermite = new ClsMoveHermite(this.mListPos[0].Y, this.mListVec[0].Y * 2.0, this.mListPos[1].Y, this.mListVec[1].Y * 2.0);
             double doPosX, doSpan = this.mListPos[1].X * 0.005;
             for (doPosX = doSpan; doPosX < this.mListPos[1].X; doPosX += doSpan)
             {
@@ -196,7 +203,7 @@ namespace PrjHikariwoAnim
 
             flX0 = this.mListPos[1].X * this.panel_PreView.Width;
             flY0 = this.mListPos[1].Y * this.panel_PreView.Height;
-            clMoveHermite = new ClsMoveHermite(this.mListPos[1].Y, 0.0, this.mListPos[2].Y, 0.0);
+            clMoveHermite = new ClsMoveHermite(this.mListPos[1].Y, this.mListVec[1].Y * 2.0, this.mListPos[2].Y, this.mListVec[2].Y * 2.0);
             doSpan = (this.mListPos[2].X - this.mListPos[1].X) * 0.005;
             for (doPosX = doSpan; doPosX < this.mListPos[2].X - this.mListPos[1].X; doPosX += doSpan)
             {
@@ -209,7 +216,7 @@ namespace PrjHikariwoAnim
                 flX0 = flX1;
                 flY0 = flY1;
             }
-*/
+            */
 
             //以下、ポイント描画処理
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
