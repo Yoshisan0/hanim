@@ -71,6 +71,8 @@ namespace PrjHikariwoAnim
             ColorCode.Text = $"{atr.Color:X8}";
             ColorCode.Tag = atr.Color;
 
+            UDnumColRate.Value = (decimal)atr.ColorRate;
+
             UDnumXoff.Value = (int)atr.Offset.X;
             UDnumYoff.Value = (int)atr.Offset.Y;
             //UDnumZoff.Value = (int)atr.Offset.Z;
@@ -119,6 +121,8 @@ namespace PrjHikariwoAnim
                 { 
                     //atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
                 }
+                atr.ColorRate = (int)UDnumColRate.Value;
+
                 atr.Offset.X = (int)UDnumXoff.Value;
                 atr.Offset.Y = (int)UDnumYoff.Value;
                 //ret.Offset.Z = (int)UDnumZoff.Value;
@@ -165,7 +169,7 @@ namespace PrjHikariwoAnim
             if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
         }
 
-        private void UDnumYoff_ValueChanged(object sender, EventArgs e)
+        private void UDnum_ValueChanged(object sender, EventArgs e)
         {
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る

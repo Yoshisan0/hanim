@@ -650,13 +650,13 @@ namespace PrjHikariwoAnim
                 float pcy = atr.Position.X + atr.Offset.X;
                 Color Col = Color.FromArgb(atr.Color);
                 
-                //半透明用カラーマトリックス作成
+                //カラーマトリックス作成
                 System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
                 if (atr.isColor)
                 {
-                    colmat.Matrix00 = Col.R / 255f;//Red
-                    colmat.Matrix11 = Col.G / 255f;//Green
-                    colmat.Matrix22 = Col.B / 255f;//Blue
+                    colmat.Matrix00 = (float)(Col.R * (atr.ColorRate/100f));//Red  Col.R * Col.Rate
+                    colmat.Matrix11 = (float)(Col.G * (atr.ColorRate/100f));//Green
+                    colmat.Matrix22 = (float)(Col.B * (atr.ColorRate/100f));//Blue
                 }
                 else
                 {
@@ -666,7 +666,7 @@ namespace PrjHikariwoAnim
                 }
                 if (atr.isTransparrency)
                 {
-                    colmat.Matrix33 = atr.Transparency / 255f;
+                    colmat.Matrix33 = (atr.Transparency /100f);
                 }else
                 {
                     colmat.Matrix33 = 1;

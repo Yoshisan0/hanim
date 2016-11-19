@@ -603,8 +603,10 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ELEMENTS
     {
-        public enum ELEMENTSTYPE { Master, Child, Joint, Effec, Accessory, FX }
-        public ELEMENTSTYPE Type;
+        public enum ELEMENTSTYPE { Image , Shape , Joint , Effect , Accessory, FX }
+        public ELEMENTSTYPE Type;//Default Image
+        public enum ELEMENTSSTYLE { Rect , Circle , Point }
+        public ELEMENTSSTYLE Style;//Default Rect
         public bool isVisible = true;//表示非表示(目)
         public bool isLocked = false;//ロック状態(鍵)
         public bool isSelect = false;//選択状態

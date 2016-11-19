@@ -57,7 +57,7 @@
             this.UserText = new System.Windows.Forms.TextBox();
             this.ColorCode = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
-            this.UDnumColWeight = new System.Windows.Forms.NumericUpDown();
+            this.UDnumColRate = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -69,7 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UDnumY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumX)).BeginInit();
             this.panel_Attribute_Base.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UDnumColWeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDnumColRate)).BeginInit();
             this.SuspendLayout();
             // 
             // checkT
@@ -299,7 +299,7 @@
             0,
             0,
             65536});
-            this.UDnumYoff.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumYoff.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumXoff
             // 
@@ -325,28 +325,23 @@
             0,
             0,
             65536});
-            this.UDnumXoff.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumXoff.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumT
             // 
             this.UDnumT.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UDnumT.Location = new System.Drawing.Point(150, 179);
             this.UDnumT.Margin = new System.Windows.Forms.Padding(0);
-            this.UDnumT.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
             this.UDnumT.Name = "UDnumT";
             this.UDnumT.Size = new System.Drawing.Size(70, 23);
             this.UDnumT.TabIndex = 37;
             this.UDnumT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.UDnumT.Value = new decimal(new int[] {
-            255,
+            100,
             0,
             0,
             0});
-            this.UDnumT.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumT.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumSY
             // 
@@ -373,7 +368,7 @@
             0,
             0,
             0});
-            this.UDnumSY.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumSY.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumSX
             // 
@@ -400,7 +395,7 @@
             0,
             0,
             0});
-            this.UDnumSX.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumSX.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumRZ
             // 
@@ -422,7 +417,7 @@
             this.UDnumRZ.Size = new System.Drawing.Size(70, 23);
             this.UDnumRZ.TabIndex = 40;
             this.UDnumRZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumRZ.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumRZ.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumRY
             // 
@@ -444,7 +439,7 @@
             this.UDnumRY.Size = new System.Drawing.Size(70, 23);
             this.UDnumRY.TabIndex = 41;
             this.UDnumRY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumRY.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumRY.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumRX
             // 
@@ -466,7 +461,7 @@
             this.UDnumRX.Size = new System.Drawing.Size(70, 23);
             this.UDnumRX.TabIndex = 42;
             this.UDnumRX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumRX.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumRX.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumY
             // 
@@ -487,7 +482,7 @@
             this.UDnumY.Size = new System.Drawing.Size(70, 23);
             this.UDnumY.TabIndex = 43;
             this.UDnumY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumY.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumY.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // UDnumX
             // 
@@ -508,7 +503,7 @@
             this.UDnumX.Size = new System.Drawing.Size(70, 23);
             this.UDnumX.TabIndex = 44;
             this.UDnumX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumX.ValueChanged += new System.EventHandler(this.UDnumYoff_ValueChanged);
+            this.UDnumX.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // ColorPanel
             // 
@@ -544,7 +539,7 @@
             // 
             // panel_Attribute_Base
             // 
-            this.panel_Attribute_Base.Controls.Add(this.UDnumColWeight);
+            this.panel_Attribute_Base.Controls.Add(this.UDnumColRate);
             this.panel_Attribute_Base.Controls.Add(this.ColorCode);
             this.panel_Attribute_Base.Controls.Add(this.UserText);
             this.panel_Attribute_Base.Controls.Add(this.ColorPanel);
@@ -579,25 +574,21 @@
             this.panel_Attribute_Base.Size = new System.Drawing.Size(226, 543);
             this.panel_Attribute_Base.TabIndex = 49;
             // 
-            // UDnumColWeight
+            // UDnumColRate
             // 
-            this.UDnumColWeight.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumColWeight.Location = new System.Drawing.Point(168, 277);
-            this.UDnumColWeight.Margin = new System.Windows.Forms.Padding(0);
-            this.UDnumColWeight.Maximum = new decimal(new int[] {
-            255,
+            this.UDnumColRate.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.UDnumColRate.Location = new System.Drawing.Point(168, 277);
+            this.UDnumColRate.Margin = new System.Windows.Forms.Padding(0);
+            this.UDnumColRate.Name = "UDnumColRate";
+            this.UDnumColRate.Size = new System.Drawing.Size(52, 23);
+            this.UDnumColRate.TabIndex = 49;
+            this.UDnumColRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UDnumColRate.Value = new decimal(new int[] {
+            100,
             0,
             0,
             0});
-            this.UDnumColWeight.Name = "UDnumColWeight";
-            this.UDnumColWeight.Size = new System.Drawing.Size(52, 23);
-            this.UDnumColWeight.TabIndex = 49;
-            this.UDnumColWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UDnumColWeight.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
+            this.UDnumColRate.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
             // FormAttribute
             // 
@@ -622,7 +613,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UDnumX)).EndInit();
             this.panel_Attribute_Base.ResumeLayout(false);
             this.panel_Attribute_Base.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UDnumColWeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UDnumColRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -658,6 +649,6 @@
         private System.Windows.Forms.TextBox UserText;
         private System.Windows.Forms.TextBox ColorCode;
         private System.Windows.Forms.Panel panel_Attribute_Base;
-        private System.Windows.Forms.NumericUpDown UDnumColWeight;
+        private System.Windows.Forms.NumericUpDown UDnumColRate;
     }
 }

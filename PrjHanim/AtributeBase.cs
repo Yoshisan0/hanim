@@ -22,9 +22,15 @@ namespace PrjHikariwoAnim
     ///</summary>
     public class AttributeBase
     {
-        //enum ImageType { Origin, Cut };
-        //enum ItemType { Image, Joint, Bone };
-        //enum Style { Line, Rect, Circle, Cube, Triangle };
+        //public enum ImageType { Origin, Cut };
+        //public enum ObjectType { Image, Joint, Bone };
+        //public enum Style { Line, Rect, Circle, Cube, Triangle };
+        
+        //Rect 回転影響無視の純粋なサイズ
+        //Box 回転の影響を受ける(対応はソフト次第)
+        //Circle 円形(正円)
+        //楕円
+        //public enum CollisionStyle {Rect, Box,Circle,ellipse};//collision
 
         //位置情報クラスベース
         //親子関係や付随する上位情報は継承先か管理クラスで行う
@@ -58,19 +64,19 @@ namespace PrjHikariwoAnim
         [DataMember]
         public bool isTransparrency;//透明有効化フラグ
         [DataMember]
-        public int Transparency;//0-255
+        public int Transparency;//0-100%
         [DataMember]
         public bool Enable;//有効無効
         [DataMember]
         public bool Visible;//みえるかどうか
         [DataMember]
-        public bool Colition;//Hit判定があるかどうか
+        public bool Collision;//Hit判定があるかどうか
         [DataMember]
         public bool isColor;//カラー有効化フラグ
         [DataMember]
         public int Color;
         [DataMember]
-        public double ColorWeight;
+        public int ColorRate;//0-100%
         [DataMember]
         public string Text;//UserData
 
@@ -84,12 +90,12 @@ namespace PrjHikariwoAnim
             Radius   = new Vector3(0,0,0);
             Scale    = new Vector3(1,1,1);
             Offset   = new Vector3(0,0,0);
-            Transparency = 255;
+            Transparency = 100;
             Color = -1;//White 0xFFFFFFFF
-            ColorWeight = 255;
+            ColorRate = 100;
             Enable   = true;
             Visible  = true;
-            Colition = true;
+            Collision = true;
 
         }
         public AttributeBase(AttributeBase src)
@@ -118,9 +124,9 @@ namespace PrjHikariwoAnim
             Transparency = src.Transparency;
             Enable = src.Enable;
             Visible = src.Visible;
-            Colition = src.Colition;
+            Collision = src.Collision;
             Color = src.Color;
-            ColorWeight = src.ColorWeight;
+            ColorRate = src.ColorRate;
             isColor = src.isColor;
             Text = src.Text;
         }
@@ -158,7 +164,7 @@ namespace PrjHikariwoAnim
         {
             //回転考慮せず
             if (!Enable) return false;
-            if (!Colition) return false;
+            if (!Collision) return false;
             if (px < (Position.X - ((Width * Scale.X) / 2))*Scale.X) return false;
             if (px > (Position.X + ((Width * Scale.X) / 2))*Scale.X) return false;
             if (py < (Position.Y - ((Height* Scale.Y) / 2))*Scale.Y) return false;
