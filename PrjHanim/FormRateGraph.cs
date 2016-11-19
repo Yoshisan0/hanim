@@ -16,11 +16,16 @@ namespace PrjHikariwoAnim
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
         private bool mPush;         //マウスを押しているかどうかのフラグ
         private int mGridWidth;     //縦ラインの分割数
-        private Pen mPen;           //ラインのペン
+        private Pen mPenRed;        //ラインのペン
+        private Pen mPen0;          //ラインのペン
+        private Pen mPen1;          //ラインのペン
         private Pen mPenGrid;       //グリッドのペン
         private Vector3[] mListPos; //ポイントのリスト
         private Vector3[] mListVec; //ベクトルのリスト
         private int mGripNo;        //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
+        private Bitmap mImage0;     //イメージ
+        private Bitmap mImage1;     //イメージ
+        private bool mChange;       //変更フラグ
 
         public FormRateGraph(int inGridWidth)
         {
@@ -36,7 +41,9 @@ namespace PrjHikariwoAnim
 
         private void FormRateGraph_Load(object sender, EventArgs e)
         {
-            this.mPen = new Pen(this.button_GraphColor.BackColor);
+            this.mPenRed = new Pen(Color.Red, 0.5f);
+            this.mPen0 = new Pen(this.button_GraphColor.BackColor);
+            this.mPen1 = new Pen(this.button_GraphColor.BackColor, 2.0f);
             this.mPenGrid = new Pen(this.button_GridColor.BackColor);
 
             this.mListPos = new Vector3[3];
@@ -48,6 +55,10 @@ namespace PrjHikariwoAnim
             this.mListVec[0] = new Vector3(0.08f, -0.08f, 0.0f);
             this.mListVec[1] = new Vector3(0.08f, -0.08f, 0.0f);
             this.mListVec[2] = new Vector3(0.08f, -0.08f, 0.0f);
+
+            this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+            this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+            this.mChange = true;
 
             this.panel_PreView.Refresh();
         }
@@ -75,9 +86,11 @@ namespace PrjHikariwoAnim
                 Button b = (Button)sender;
                 b.BackColor = cdg.Color;
 
-                this.mPen = new Pen(this.button_GraphColor.BackColor);
+                this.mPen0 = new Pen(this.button_GraphColor.BackColor);
             }
             cdg.Dispose();
+
+            this.mChange = true;
 
             this.panel_PreView.Refresh();
         }
@@ -99,6 +112,11 @@ namespace PrjHikariwoAnim
 
         private void FormRateGraph_Resize(object sender, EventArgs e)
         {
+            this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+            this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+
+            this.mChange = true;
+
             this.panel_PreView.Refresh();
         }
 
@@ -118,7 +136,7 @@ namespace PrjHikariwoAnim
             float flY0 = flY * this.panel_PreView.Height;
             float flX1 = flX0 + flVecX * this.panel_PreView.Width;
             float flY1 = flY0 + flVecY * this.panel_PreView.Height;
-            g.DrawLine(this.mPen, flX0, flY0, flX1, flY1);
+            g.DrawLine(this.mPen0, flX0, flY0, flX1, flY1);
 
             //以下、矢印先の円を描画する処理
             this.DrawCircle(g, clPenCircle, flX1, flY1);
@@ -127,6 +145,34 @@ namespace PrjHikariwoAnim
         private void DrawCircle(Graphics g, Pen clPen, float flX, float flY)
         {
             g.DrawEllipse(clPen, flX - FormRateGraph.SIZE_ELLIPSE / 2, flY - FormRateGraph.SIZE_ELLIPSE / 2, FormRateGraph.SIZE_ELLIPSE, FormRateGraph.SIZE_ELLIPSE);
+        }
+
+        private void MakeImage()
+        {
+            using (Graphics g = Graphics.FromImage(this.mImage1))
+            {
+                g.Clear(Color.Transparent);
+
+                int inWidth = this.mImage0.Width;
+                int inHeight = this.mImage0.Height;
+                int inOldX = 0;
+                int inOldY = inHeight;
+                int inX, inY;
+                for (inX = 0; inX < inWidth; inX++)
+                {
+                    for (inY = 0; inY < inHeight; inY++)
+                    {
+                        Color stColor = this.mImage0.GetPixel(inX, inY);
+                        if (stColor.A <= 0) continue;
+
+                        g.DrawLine(this.mPen1, inOldX, inOldY, inX, inY);
+
+                        inOldX = inX;
+                        inOldY = inY;
+                        break;
+                    }
+                }
+            }
         }
 
         private void panel_PreView_Paint(object sender, PaintEventArgs e)
@@ -154,9 +200,6 @@ namespace PrjHikariwoAnim
             }
 
             //以下、ライン描画処理
-
-
-            //ベジエ曲線の形状を決定する点
             int inPosX0 = (int)(this.mListPos[0].X * this.panel_PreView.Width);
             int inPosY0 = (int)(this.mListPos[0].Y * this.panel_PreView.Height);
             int inPosX1 = (int)(this.mListPos[1].X * this.panel_PreView.Width);
@@ -180,8 +223,20 @@ namespace PrjHikariwoAnim
             Point stPos2 = new Point(inPosX2, inPosY2);
             Point[] pclListPos = { stPos0, stVec0, stVec1, stPos1, stVec2, stVec3, stPos2 };
 
-            //ベジエスプラインを描画する
-            e.Graphics.DrawBeziers(this.mPen, pclListPos);
+            using (Graphics g = Graphics.FromImage(this.mImage0))
+            {
+                g.Clear(Color.Transparent);
+                g.DrawBeziers(this.mPenRed, pclListPos);
+            }
+
+            e.Graphics.DrawImage(this.mImage0, 0, 0);
+
+            if (this.mChange)
+            {
+                this.mChange = false;
+                MakeImage();
+            }
+            e.Graphics.DrawImage(this.mImage1, 0, 0);
 
             /*
             //以下、ライン描画処理
@@ -221,17 +276,17 @@ namespace PrjHikariwoAnim
             //以下、ポイント描画処理
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
             float flY = this.mListPos[1].Y * this.panel_PreView.Height;
-            Pen clPen = (this.mGripNo == 1) ? Pens.Red : this.mPen;
+            Pen clPen = (this.mGripNo == 1) ? Pens.Red : this.mPen0;
             this.DrawCircle(e.Graphics, clPen, flX, flY);
 
             //以下、ベクトル描画処理
-            clPen = (this.mGripNo == 2) ? Pens.Red : this.mPen;
+            clPen = (this.mGripNo == 2) ? Pens.Red : this.mPen0;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[0].X, this.mListPos[0].Y, this.mListVec[0].X, this.mListVec[0].Y);
-            clPen = (this.mGripNo == 3) ? Pens.Red : this.mPen;
+            clPen = (this.mGripNo == 3) ? Pens.Red : this.mPen0;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, this.mListVec[1].X, this.mListVec[1].Y);
-            clPen = (this.mGripNo == 4) ? Pens.Red : this.mPen;
+            clPen = (this.mGripNo == 4) ? Pens.Red : this.mPen0;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, -this.mListVec[1].X, -this.mListVec[1].Y);
-            clPen = (this.mGripNo == 5) ? Pens.Red : this.mPen;
+            clPen = (this.mGripNo == 5) ? Pens.Red : this.mPen0;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[2].X, this.mListPos[2].Y, -this.mListVec[2].X, -this.mListVec[2].Y);
         }
 
@@ -359,6 +414,8 @@ namespace PrjHikariwoAnim
                 }
                 break;
             }
+
+            this.mChange = true;
 
             this.panel_PreView.Refresh();
         }
