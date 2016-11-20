@@ -155,13 +155,17 @@ namespace PrjHikariwoAnim
 
                 int inWidth = this.mImage0.Width;
                 int inHeight = this.mImage0.Height;
+                float flSpanX = inWidth * 0.01f;
                 int inOldX = 0;
                 int inOldY = inHeight;
-                int inX, inY;
-                for (inX = 0; inX < inWidth; inX++)
+                float flX;
+                int inY;
+                for (flX = 0.0f; flX < inWidth; flX += flSpanX)
                 {
                     for (inY = 0; inY < inHeight; inY++)
                     {
+                        int inX = (int)flX;
+
                         Color stColor = this.mImage0.GetPixel(inX, inY);
                         if (stColor.A <= 0) continue;
 
@@ -429,6 +433,30 @@ namespace PrjHikariwoAnim
 
                 this.panel_PreView.Refresh();
             }
+        }
+
+        private void button_Rate1_Click(object sender, EventArgs e)
+        {
+            this.mListPos[0].X = 0.0f;
+            this.mListPos[0].Y = 1.0f;
+            this.mListPos[1].X = 0.5f;
+            this.mListPos[1].Y = 0.5f;
+            this.mListPos[2].X = 1.0f;
+            this.mListPos[2].Y = 0.0f;
+
+            this.mChange = true;
+
+            this.panel_PreView.Refresh();
+        }
+
+        private void button_Rate2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Rate3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

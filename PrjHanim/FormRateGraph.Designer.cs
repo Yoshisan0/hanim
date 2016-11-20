@@ -29,16 +29,22 @@
         private void InitializeComponent()
         {
             this.panel_ToolBase = new System.Windows.Forms.Panel();
+            this.button_Rate3 = new System.Windows.Forms.Button();
+            this.button_Rate2 = new System.Windows.Forms.Button();
+            this.button_Rate1 = new System.Windows.Forms.Button();
+            this.panel_PreView = new System.Windows.Forms.Panel();
             this.button_GridColor = new System.Windows.Forms.Button();
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.button_GraphColor = new System.Windows.Forms.Button();
             this.button_BackColor = new System.Windows.Forms.Button();
-            this.panel_PreView = new System.Windows.Forms.Panel();
             this.panel_ToolBase.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_ToolBase
             // 
+            this.panel_ToolBase.Controls.Add(this.button_Rate3);
+            this.panel_ToolBase.Controls.Add(this.button_Rate2);
+            this.panel_ToolBase.Controls.Add(this.button_Rate1);
             this.panel_ToolBase.Controls.Add(this.button_GridColor);
             this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
             this.panel_ToolBase.Controls.Add(this.button_GraphColor);
@@ -48,6 +54,59 @@
             this.panel_ToolBase.Name = "panel_ToolBase";
             this.panel_ToolBase.Size = new System.Drawing.Size(540, 30);
             this.panel_ToolBase.TabIndex = 1;
+            // 
+            // button_Rate3
+            // 
+            this.button_Rate3.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Rate3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Rate3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+//          this.button_Rate3.Image = global::PrjHikariwoAnim.Properties.Resources.rate3;
+            this.button_Rate3.Location = new System.Drawing.Point(180, 0);
+            this.button_Rate3.Name = "button_Rate3";
+            this.button_Rate3.Size = new System.Drawing.Size(30, 30);
+            this.button_Rate3.TabIndex = 20;
+            this.button_Rate3.UseVisualStyleBackColor = false;
+            this.button_Rate3.Click += new System.EventHandler(this.button_Rate3_Click);
+            // 
+            // button_Rate2
+            // 
+            this.button_Rate2.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Rate2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Rate2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+//          this.button_Rate2.Image = global::PrjHikariwoAnim.Properties.Resources.rate2;
+            this.button_Rate2.Location = new System.Drawing.Point(150, 0);
+            this.button_Rate2.Name = "button_Rate2";
+            this.button_Rate2.Size = new System.Drawing.Size(30, 30);
+            this.button_Rate2.TabIndex = 19;
+            this.button_Rate2.UseVisualStyleBackColor = false;
+            this.button_Rate2.Click += new System.EventHandler(this.button_Rate2_Click);
+            // 
+            // button_Rate1
+            // 
+            this.button_Rate1.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Rate1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Rate1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+//          this.button_Rate1.Image = global::PrjHikariwoAnim.Properties.Resources.rate1;
+            this.button_Rate1.Location = new System.Drawing.Point(120, 0);
+            this.button_Rate1.Name = "button_Rate1";
+            this.button_Rate1.Size = new System.Drawing.Size(30, 30);
+            this.button_Rate1.TabIndex = 18;
+            this.button_Rate1.UseVisualStyleBackColor = false;
+            this.button_Rate1.Click += new System.EventHandler(this.button_Rate1_Click);
+            // 
+            // panel_PreView
+            // 
+            this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
+            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
+            this.panel_PreView.Name = "panel_PreView";
+            this.panel_PreView.Size = new System.Drawing.Size(540, 540);
+            this.panel_PreView.TabIndex = 0;
+            this.panel_PreView.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_PreView_Paint);
+            this.panel_PreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseDown);
+            this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseMove);
+            this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseUp);
             // 
             // button_GridColor
             // 
@@ -106,20 +165,6 @@
             this.button_BackColor.UseVisualStyleBackColor = false;
             this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
-            // panel_PreView
-            // 
-            this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
-            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
-            this.panel_PreView.Name = "panel_PreView";
-            this.panel_PreView.Size = new System.Drawing.Size(540, 540);
-            this.panel_PreView.TabIndex = 0;
-            this.panel_PreView.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_PreView_Paint);
-            this.panel_PreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseDown);
-            this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseMove);
-            this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseUp);
-            // 
             // FormRateGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -145,5 +190,8 @@
         private System.Windows.Forms.Button button_GraphColor;
         private System.Windows.Forms.Button button_GridColor;
         private System.Windows.Forms.CheckBox checkBox_GridCheck;
+        private System.Windows.Forms.Button button_Rate1;
+        private System.Windows.Forms.Button button_Rate2;
+        private System.Windows.Forms.Button button_Rate3;
     }
 }

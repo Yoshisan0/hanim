@@ -227,6 +227,9 @@
     <None Include="glyph\minus.PNG" />
     <None Include="glyph\period.PNG" />
     <None Include="glyph\plus.PNG" />
+    <None Include="glyph\rate1.PNG" />
+    <None Include="glyph\rate2.PNG" />
+    <None Include="glyph\rate3.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
