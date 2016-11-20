@@ -54,7 +54,7 @@
             this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ToolBase.Name = "panel_ToolBase";
-            this.panel_ToolBase.Size = new System.Drawing.Size(540, 30);
+            this.panel_ToolBase.Size = new System.Drawing.Size(552, 30);
             this.panel_ToolBase.TabIndex = 1;
             // 
             // button_Rate3
@@ -163,10 +163,12 @@
             // 
             // panel_PreView
             // 
+            this.panel_PreView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
             this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
+            this.panel_PreView.Location = new System.Drawing.Point(6, 36);
             this.panel_PreView.Name = "panel_PreView";
             this.panel_PreView.Size = new System.Drawing.Size(540, 540);
             this.panel_PreView.TabIndex = 0;
@@ -179,7 +181,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 570);
+            this.ClientSize = new System.Drawing.Size(552, 582);
             this.Controls.Add(this.panel_PreView);
             this.Controls.Add(this.panel_ToolBase);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
