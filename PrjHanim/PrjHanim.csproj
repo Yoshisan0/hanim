@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AtributeBase.cs" />
     <Compile Include="ClsImage.cs" />
-    <Compile Include="ClsMoveHermite.cs" />
     <Compile Include="ClsPath.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsWin32.cs" />
@@ -97,7 +96,11 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TimeLine.cs" />
     <Compile Include="ImageManager.cs" />
     <Compile Include="Program.cs" />
@@ -126,6 +129,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />

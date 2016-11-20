@@ -13,6 +13,18 @@ namespace PrjHikariwoAnim
 {
     public partial class FormRateGraph : Form
     {
+        private static float POS_X0 = 0.0f;
+        private static float POS_Y0 = 1.0f;
+        private static float POS_X1 = 0.5f;
+        private static float POS_Y1 = 0.5f;
+        private static float POS_X2 = 1.0f;
+        private static float POS_Y2 = 0.0f;
+        private static float VEC_X0 = 0.08f;
+        private static float VEC_Y0 = -0.08f;
+        private static float VEC_X1 = 0.08f;
+        private static float VEC_Y1 = -0.08f;
+        private static float VEC_X2 = 0.08f;
+        private static float VEC_Y2 = -0.08f;
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
         private bool mPush;         //マウスを押しているかどうかのフラグ
         private int mGridWidth;     //縦ラインの分割数
@@ -47,14 +59,14 @@ namespace PrjHikariwoAnim
             this.mPenGrid = new Pen(this.button_GridColor.BackColor);
 
             this.mListPos = new Vector3[3];
-            this.mListPos[0] = new Vector3(0.0f, 1.0f, 0.0f);
-            this.mListPos[1] = new Vector3(0.5f, 0.5f, 0.0f);
-            this.mListPos[2] = new Vector3(1.0f, 0.0f, 0.0f);
+            this.mListPos[0] = new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f);
+            this.mListPos[1] = new Vector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f);
+            this.mListPos[2] = new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f);
 
             this.mListVec = new Vector3[4];
-            this.mListVec[0] = new Vector3(0.08f, -0.08f, 0.0f);
-            this.mListVec[1] = new Vector3(0.08f, -0.08f, 0.0f);
-            this.mListVec[2] = new Vector3(0.08f, -0.08f, 0.0f);
+            this.mListVec[0] = new Vector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f);
+            this.mListVec[1] = new Vector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f);
+            this.mListVec[2] = new Vector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f);
 
             this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
             this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
@@ -437,12 +449,19 @@ namespace PrjHikariwoAnim
 
         private void button_Rate1_Click(object sender, EventArgs e)
         {
-            this.mListPos[0].X = 0.0f;
-            this.mListPos[0].Y = 1.0f;
-            this.mListPos[1].X = 0.5f;
-            this.mListPos[1].Y = 0.5f;
-            this.mListPos[2].X = 1.0f;
-            this.mListPos[2].Y = 0.0f;
+            this.mListPos[0].X = FormRateGraph.POS_X0;
+            this.mListPos[0].Y = FormRateGraph.POS_Y0;
+            this.mListPos[1].X = FormRateGraph.POS_X1;
+            this.mListPos[1].Y = FormRateGraph.POS_Y1;
+            this.mListPos[2].X = FormRateGraph.POS_X2;
+            this.mListPos[2].Y = FormRateGraph.POS_Y2;
+
+            this.mListVec[0].X = FormRateGraph.VEC_X0;
+            this.mListVec[0].Y = FormRateGraph.VEC_Y0;
+            this.mListVec[1].X = FormRateGraph.VEC_X1;
+            this.mListVec[1].Y = FormRateGraph.VEC_Y1;
+            this.mListVec[2].X = FormRateGraph.VEC_X2;
+            this.mListVec[2].Y = FormRateGraph.VEC_Y2;
 
             this.mChange = true;
 
@@ -451,12 +470,44 @@ namespace PrjHikariwoAnim
 
         private void button_Rate2_Click(object sender, EventArgs e)
         {
+            this.mListPos[0].X = FormRateGraph.POS_X0;
+            this.mListPos[0].Y = FormRateGraph.POS_Y0;
+            this.mListPos[1].X = 1.0f - (float)(1.0f / Math.Sqrt(2.0f));
+            this.mListPos[1].Y = 1.0f - (float)(1.0f / Math.Sqrt(2.0f));
+            this.mListPos[2].X = FormRateGraph.POS_X2;
+            this.mListPos[2].Y = FormRateGraph.POS_Y2;
 
+            this.mListVec[0].X = 0.0f;
+            this.mListVec[0].Y = -0.305f;
+            this.mListVec[1].X = 0.155f;
+            this.mListVec[1].Y = -0.155f;
+            this.mListVec[2].X = 0.305f;
+            this.mListVec[2].Y = 0.0f;
+
+            this.mChange = true;
+
+            this.panel_PreView.Refresh();
         }
 
         private void button_Rate3_Click(object sender, EventArgs e)
         {
+            this.mListPos[0].X = FormRateGraph.POS_X0;
+            this.mListPos[0].Y = FormRateGraph.POS_Y0;
+            this.mListPos[1].X = (float)(1.0f / Math.Sqrt(2.0f));
+            this.mListPos[1].Y = (float)(1.0f / Math.Sqrt(2.0f));
+            this.mListPos[2].X = FormRateGraph.POS_X2;
+            this.mListPos[2].Y = FormRateGraph.POS_Y2;
 
+            this.mListVec[0].X = 0.305f;
+            this.mListVec[0].Y = 0.0f;
+            this.mListVec[1].X = 0.155f;
+            this.mListVec[1].Y = -0.155f;
+            this.mListVec[2].X = 0.0f;
+            this.mListVec[2].Y = -0.305f;
+
+            this.mChange = true;
+
+            this.panel_PreView.Refresh();
         }
     }
 }

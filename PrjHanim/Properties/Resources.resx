@@ -226,4 +226,13 @@
   <data name="up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\glyph\up.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="rate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\glyph\rate1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rate2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\glyph\rate2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rate3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\glyph\rate3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
