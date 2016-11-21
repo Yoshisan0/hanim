@@ -54,13 +54,16 @@
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="FormRateGraph_GraphColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Green</Value>
+      <Value Profile="(Default)">DeepSkyBlue</Value>
     </Setting>
     <Setting Name="FormRateGraph_DrawGrid" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FormRateGraph_ColorGrid" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">MidnightBlue</Value>
+      <Value Profile="(Default)">DarkGreen</Value>
+    </Setting>
+    <Setting Name="FormRateGraph_LineColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Lime</Value>
     </Setting>
   </Settings>
 </SettingsFile>
