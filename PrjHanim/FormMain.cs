@@ -458,9 +458,15 @@ namespace PrjHikariwoAnim
                     //構造をTimelineに反映させる
                     //src to dest
                     //destの種類に応じて親になるか子になるか振分
-                    //ルート->親
-                    //
-                    //別バーツの上
+                    //ルート -> 同レベルの前へ移動
+                    if(dest.Parent==null)
+                    {
+
+                    }
+                    //１つ上がルート ->　同レベルの次へ移動
+                    //上記以外 -> 対象の子へ移動
+                    //※対象がイメージタイプでは無い場合どうするか？
+                    
 
                     if (TimeLine.EditFrame.Move(src.Name, dest.Name) == false) { Console.WriteLine("Elements move False"); };
                                       
@@ -569,19 +575,6 @@ namespace PrjHikariwoAnim
             //GridBar
             if (checkBox_GridCheck.Checked)
             {
-                //スクリーン中心点にあわせるよ
-                // V
-                /*var p1 = new Pen(GridColor.BackColor);
-                for (float cnt = (((float)PanelPreView.Width / 2) % (grid * zoom)); cnt < PanelPreView.Width; cnt += (grid * zoom))
-                {
-                    e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, PanelPreView.Height);
-                }
-                //H
-                for (float cnt = ((float)(PanelPreView.Height / 2) % (grid * zoom)); cnt < PanelPreView.Height; cnt += (grid * zoom))
-                {
-                    e.Graphics.DrawLine(p1, 0.0f, cnt, PanelPreView.Width, cnt);
-                }*/
-
                 //Grid Draw
                 // V
                 var p1 = new Pen(button_GridColor.BackColor);
@@ -676,7 +669,6 @@ namespace PrjHikariwoAnim
                 System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
                 ia.SetColorMatrix(colmat);
 
-
                 //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
                 CELL c = ImageMan.GetCellFromHash(atr.CellID);
                 if (c == null) { Console.WriteLine("Image:null"); return; }
@@ -684,7 +676,6 @@ namespace PrjHikariwoAnim
                 //原点を部品中心に
                 //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
                 //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
-
 
                 //中心に平行移動
                 g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);

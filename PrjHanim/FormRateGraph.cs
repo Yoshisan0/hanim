@@ -526,5 +526,10 @@ namespace PrjHikariwoAnim
 
             this.panel_PreView.Refresh();
         }
+
+        private void checkBox_GridCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            this.panel_PreView.Refresh();
+        }
     }
 }

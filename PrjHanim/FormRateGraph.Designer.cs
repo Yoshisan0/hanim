@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.button_Rate3 = new System.Windows.Forms.Button();
             this.button_Rate2 = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@
             this.button_GraphColor = new System.Windows.Forms.Button();
             this.button_BackColor = new System.Windows.Forms.Button();
             this.panel_PreView = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel_ToolBase.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +71,7 @@
             this.button_Rate3.Name = "button_Rate3";
             this.button_Rate3.Size = new System.Drawing.Size(30, 30);
             this.button_Rate3.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.button_Rate3, "定型加速");
             this.button_Rate3.UseVisualStyleBackColor = false;
             this.button_Rate3.Click += new System.EventHandler(this.button_Rate3_Click);
             // 
@@ -82,6 +85,7 @@
             this.button_Rate2.Name = "button_Rate2";
             this.button_Rate2.Size = new System.Drawing.Size(30, 30);
             this.button_Rate2.TabIndex = 31;
+            this.toolTip1.SetToolTip(this.button_Rate2, "定型減速");
             this.button_Rate2.UseVisualStyleBackColor = false;
             this.button_Rate2.Click += new System.EventHandler(this.button_Rate2_Click);
             // 
@@ -95,6 +99,7 @@
             this.button_Rate1.Name = "button_Rate1";
             this.button_Rate1.Size = new System.Drawing.Size(30, 30);
             this.button_Rate1.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.button_Rate1, "定型直線");
             this.button_Rate1.UseVisualStyleBackColor = false;
             this.button_Rate1.Click += new System.EventHandler(this.button_Rate1_Click);
             // 
@@ -116,6 +121,7 @@
             this.button_GridColor.Name = "button_GridColor";
             this.button_GridColor.Size = new System.Drawing.Size(30, 30);
             this.button_GridColor.TabIndex = 28;
+            this.toolTip1.SetToolTip(this.button_GridColor, "グリッド色");
             this.button_GridColor.UseVisualStyleBackColor = false;
             this.button_GridColor.Click += new System.EventHandler(this.button_GridColor_Click);
             // 
@@ -135,7 +141,9 @@
             this.checkBox_GridCheck.Name = "checkBox_GridCheck";
             this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
             this.checkBox_GridCheck.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.checkBox_GridCheck, "グリッドオンオフ");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
+            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.checkBox_GridCheck_CheckedChanged);
             // 
             // button_LineColor
             // 
@@ -147,6 +155,7 @@
             this.button_LineColor.Name = "button_LineColor";
             this.button_LineColor.Size = new System.Drawing.Size(30, 30);
             this.button_LineColor.TabIndex = 26;
+            this.toolTip1.SetToolTip(this.button_LineColor, "ライン色");
             this.button_LineColor.UseVisualStyleBackColor = false;
             this.button_LineColor.Click += new System.EventHandler(this.button_LineColor_Click);
             // 
@@ -160,6 +169,7 @@
             this.button_GraphColor.Name = "button_GraphColor";
             this.button_GraphColor.Size = new System.Drawing.Size(30, 30);
             this.button_GraphColor.TabIndex = 15;
+            this.toolTip1.SetToolTip(this.button_GraphColor, "グリップ色");
             this.button_GraphColor.UseVisualStyleBackColor = false;
             this.button_GraphColor.Click += new System.EventHandler(this.button_GraphColor_Click);
             // 
@@ -173,6 +183,7 @@
             this.button_BackColor.Name = "button_BackColor";
             this.button_BackColor.Size = new System.Drawing.Size(30, 30);
             this.button_BackColor.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.button_BackColor, "背景色");
             this.button_BackColor.UseVisualStyleBackColor = false;
             this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
@@ -222,5 +233,6 @@
         private System.Windows.Forms.Button button_GridColor;
         private System.Windows.Forms.CheckBox checkBox_GridCheck;
         private System.Windows.Forms.Button button_LineColor;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
