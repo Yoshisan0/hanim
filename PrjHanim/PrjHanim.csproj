@@ -54,6 +54,7 @@
     <Compile Include="ClsPath.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsWin32.cs" />
+    <Compile Include="EnmParam.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>
     </Compile>

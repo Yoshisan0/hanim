@@ -42,12 +42,17 @@ namespace PrjHikariwoAnim
         private Bitmap mImage0;     //イメージ
         private Bitmap mImage1;     //イメージ
         private bool mChange;       //変更フラグ
+        private FormMain mFormMain; //メインフォーム
+        private EnmParam mParam;    //パラメーター種別
 
-        public FormRateGraph(int inGridWidth)
+        public FormRateGraph(FormMain clForm, EnmParam enParam, int inGridWidth)
         {
             InitializeComponent();
 
             //以下、初期化処理
+            this.mFormMain = clForm;
+            this.mParam = enParam;
+            this.Text = "レートグラフ " + enParam;
             this.mGripNo = 0;
             this.mGridWidth = inGridWidth;
 

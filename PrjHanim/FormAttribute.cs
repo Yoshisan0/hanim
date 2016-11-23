@@ -23,7 +23,7 @@ namespace PrjHikariwoAnim
         public FormAttribute(FormMain form)
         {
             InitializeComponent();
-            mFormMain = form;
+            this.mFormMain = form;
         }
 
         /// <summary>
@@ -39,9 +39,7 @@ namespace PrjHikariwoAnim
             UDnumX.Value = (int)atr.Position.X;
             UDnumY.Value = (int)atr.Position.Y;
             //UDnumZ.Value =(int)atr.Position.Z;
-            UDnumRX.Value = (decimal)atr.Radius.X;
-            UDnumRY.Value = (decimal)atr.Radius.Y;
-            UDnumRZ.Value = (decimal)atr.Radius.Z;
+            UDnumRot.Value = (decimal)atr.Radius.Z;
 
             UDnumSX.Value = (decimal)atr.Scale.X;
             UDnumSY.Value = (decimal)atr.Scale.Y;
@@ -51,9 +49,7 @@ namespace PrjHikariwoAnim
             checkY.Checked = atr.isY;
             //checkZ.Checked = atr.isZ;
 
-            checkRX.Checked = atr.isRX;
-            checkRY.Checked = atr.isRY;
-            checkRZ.Checked = atr.isRZ;
+            checkRot.Checked = atr.isRZ;
 
             checkSX.Checked = atr.isSX;
             checkSY.Checked = atr.isSY;
@@ -98,9 +94,7 @@ namespace PrjHikariwoAnim
                 atr.Position.Y = (int)UDnumY.Value;
                 //ret.Position.Z = Decimal.ToInt32(UDnumZ.Value);
 
-                atr.Radius.X = (float)UDnumRX.Value;
-                atr.Radius.Y = (float)UDnumRY.Value;
-                atr.Radius.Z = (float)UDnumRZ.Value;
+                atr.Radius.Z = (float)UDnumRot.Value;
 
                 atr.Scale.X = (float)UDnumSX.Value;
                 atr.Scale.Y = (float)UDnumSY.Value;
@@ -187,67 +181,55 @@ namespace PrjHikariwoAnim
 
         private void button_X_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.POSITION_X, 10);
             clForm.Show();
         }
 
         private void button_Y_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.POSITION_Y, 10);
             clForm.Show();
         }
 
         private void button_RX_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
-            clForm.Show();
-        }
-
-        private void button_RY_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(10);
-            clForm.Show();
-        }
-
-        private void button_RZ_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.ROTATION, 10);
             clForm.Show();
         }
 
         private void button_SX_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_X, 10);
             clForm.Show();
         }
 
         private void button_SY_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_Y, 10);
             clForm.Show();
         }
 
         private void button_T_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.TRANS, 10);
             clForm.Show();
         }
 
         private void button_Color_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.COLOR, 10);
             clForm.Show();
         }
 
         private void button_Xoff_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_X, 10);
             clForm.Show();
         }
 
         private void button_Yoff_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(10);
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_Y, 10);
             clForm.Show();
         }
     }
