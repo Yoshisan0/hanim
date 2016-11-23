@@ -13,6 +13,8 @@ namespace PrjHikariwoAnim
 {
     public partial class FormRateGraph : Form
     {
+        private static int ICON_WIDTH = 32;
+        private static int ICON_HEIGHT = 32;
         private static float POS_X0 = 0.0f;
         private static float POS_Y0 = 1.0f;
         private static float POS_X1 = 0.5f;
@@ -25,7 +27,9 @@ namespace PrjHikariwoAnim
         private static float VEC_Y1 = -0.08f;
         private static float VEC_X2 = 0.08f;
         private static float VEC_Y2 = -0.08f;
+        private static int SPAN_X = 256;
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
+
         private bool mPush;         //マウスを押しているかどうかのフラグ
         private int mGridWidth;     //縦ラインの分割数
         private Pen mPenRed;        //赤いラインのペン
@@ -49,6 +53,75 @@ namespace PrjHikariwoAnim
 
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
+        }
+
+        public byte[] GetRate()
+        {
+            byte[] puchRate = new byte[FormRateGraph.SPAN_X];
+
+            //以下、重みリスト作成処理
+            int inWidth = this.mImage0.Width;
+            int inHeight = this.mImage0.Height;
+            float flSpanX = (float)inWidth / FormRateGraph.SPAN_X;
+            float flX;
+            int inY;
+
+            for (flX = 0.0f; flX < inWidth; flX += flSpanX)
+            {
+                for (inY = 0; inY < inHeight; inY++)
+                {
+                    int inX = (int)flX;
+
+                    Color stColor = this.mImage0.GetPixel(inX, inY);
+                    if (stColor.A <= 0) continue;
+
+                    int inIndex = (int)((float)inX / inWidth * FormRateGraph.SPAN_X);
+                    puchRate[inIndex] = (byte)((float)inY / inHeight * 255);
+                    break;
+                }
+            }
+
+            return (puchRate);
+        }
+
+        public Bitmap GetIconImage()
+        {
+            Bitmap clIconImage = new Bitmap(FormRateGraph.ICON_WIDTH, FormRateGraph.ICON_HEIGHT);
+
+            //以下、アイコン作成処理
+            using (Graphics g = Graphics.FromImage(clIconImage))
+            {
+                g.Clear(Color.Transparent);
+
+                int inWidth = this.mImage0.Width;
+                int inHeight = this.mImage0.Height;
+                float flSpanX = (float)inWidth / FormRateGraph.ICON_WIDTH;
+                int inXOld = 0;
+                int inYOld = FormRateGraph.ICON_HEIGHT;
+                float flX;
+                int inY;
+
+                for (flX = 0.0f; flX < inWidth; flX += flSpanX)
+                {
+                    for (inY = 0; inY < inHeight; inY++)
+                    {
+                        int inX = (int)flX;
+
+                        Color stColor = this.mImage0.GetPixel(inX, inY);
+                        if (stColor.A <= 0) continue;
+
+                        int inXTmp = (int)((float)inX / inWidth * FormRateGraph.ICON_WIDTH);
+                        int inYTmp = (int)((float)inY / inHeight * FormRateGraph.ICON_HEIGHT);
+                        g.DrawLine(this.mPenLine, inXOld, inYOld, inXTmp, inYTmp);
+
+                        inXOld = inXTmp;
+                        inYOld = inYTmp;
+                        break;
+                    }
+                }
+            }
+
+            return (clIconImage);
         }
 
         private void FormRateGraph_Load(object sender, EventArgs e)
@@ -185,10 +258,11 @@ namespace PrjHikariwoAnim
                 int inWidth = this.mImage0.Width;
                 int inHeight = this.mImage0.Height;
                 float flSpanX = inWidth * 0.01f;
-                int inOldX = 0;
-                int inOldY = inHeight;
+                int inXOld = 0;
+                int inYOld = inHeight;
                 float flX;
                 int inY;
+
                 for (flX = 0.0f; flX < inWidth; flX += flSpanX)
                 {
                     for (inY = 0; inY < inHeight; inY++)
@@ -198,10 +272,10 @@ namespace PrjHikariwoAnim
                         Color stColor = this.mImage0.GetPixel(inX, inY);
                         if (stColor.A <= 0) continue;
 
-                        g.DrawLine(this.mPenLine, inOldX, inOldY, inX, inY);
+                        g.DrawLine(this.mPenLine, inXOld, inYOld, inX, inY);
 
-                        inOldX = inX;
-                        inOldY = inY;
+                        inXOld = inX;
+                        inYOld = inY;
                         break;
                     }
                 }
