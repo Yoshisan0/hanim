@@ -184,5 +184,71 @@ namespace PrjHikariwoAnim
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
+
+        private void button_X_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_Y_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_RX_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_RY_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_RZ_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_SX_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_SY_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_T_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_Color_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_Xoff_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
+
+        private void button_Yoff_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(10);
+            clForm.Show();
+        }
     }
 }

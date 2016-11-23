@@ -58,6 +58,17 @@
             this.ColorCode = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
             this.UDnumColRate = new System.Windows.Forms.NumericUpDown();
+            this.button_X = new System.Windows.Forms.Button();
+            this.button_Y = new System.Windows.Forms.Button();
+            this.button_RX = new System.Windows.Forms.Button();
+            this.button_RY = new System.Windows.Forms.Button();
+            this.button_RZ = new System.Windows.Forms.Button();
+            this.button_SX = new System.Windows.Forms.Button();
+            this.button_SY = new System.Windows.Forms.Button();
+            this.button_T = new System.Windows.Forms.Button();
+            this.button_Color = new System.Windows.Forms.Button();
+            this.button_Xoff = new System.Windows.Forms.Button();
+            this.button_Yoff = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -277,8 +288,9 @@
             // 
             // UDnumYoff
             // 
+            this.UDnumYoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumYoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumYoff.Location = new System.Drawing.Point(150, 358);
+            this.UDnumYoff.Location = new System.Drawing.Point(156, 357);
             this.UDnumYoff.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumYoff.Maximum = new decimal(new int[] {
             2147483647,
@@ -303,8 +315,9 @@
             // 
             // UDnumXoff
             // 
+            this.UDnumXoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumXoff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumXoff.Location = new System.Drawing.Point(150, 333);
+            this.UDnumXoff.Location = new System.Drawing.Point(156, 332);
             this.UDnumXoff.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumXoff.Maximum = new decimal(new int[] {
             2147483647,
@@ -329,8 +342,9 @@
             // 
             // UDnumT
             // 
+            this.UDnumT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumT.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumT.Location = new System.Drawing.Point(150, 179);
+            this.UDnumT.Location = new System.Drawing.Point(156, 179);
             this.UDnumT.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumT.Name = "UDnumT";
             this.UDnumT.Size = new System.Drawing.Size(70, 23);
@@ -345,6 +359,7 @@
             // 
             // UDnumSY
             // 
+            this.UDnumSY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumSY.DecimalPlaces = 3;
             this.UDnumSY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UDnumSY.Increment = new decimal(new int[] {
@@ -352,7 +367,7 @@
             0,
             0,
             131072});
-            this.UDnumSY.Location = new System.Drawing.Point(150, 154);
+            this.UDnumSY.Location = new System.Drawing.Point(156, 154);
             this.UDnumSY.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumSY.Maximum = new decimal(new int[] {
             255,
@@ -372,6 +387,7 @@
             // 
             // UDnumSX
             // 
+            this.UDnumSX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumSX.DecimalPlaces = 3;
             this.UDnumSX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UDnumSX.Increment = new decimal(new int[] {
@@ -379,7 +395,7 @@
             0,
             0,
             131072});
-            this.UDnumSX.Location = new System.Drawing.Point(150, 129);
+            this.UDnumSX.Location = new System.Drawing.Point(156, 129);
             this.UDnumSX.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumSX.Maximum = new decimal(new int[] {
             255,
@@ -399,9 +415,10 @@
             // 
             // UDnumRZ
             // 
+            this.UDnumRZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumRZ.DecimalPlaces = 3;
             this.UDnumRZ.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRZ.Location = new System.Drawing.Point(150, 104);
+            this.UDnumRZ.Location = new System.Drawing.Point(156, 104);
             this.UDnumRZ.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRZ.Maximum = new decimal(new int[] {
             2147483647,
@@ -421,9 +438,10 @@
             // 
             // UDnumRY
             // 
+            this.UDnumRY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumRY.DecimalPlaces = 3;
             this.UDnumRY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRY.Location = new System.Drawing.Point(150, 79);
+            this.UDnumRY.Location = new System.Drawing.Point(156, 79);
             this.UDnumRY.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRY.Maximum = new decimal(new int[] {
             2147483647,
@@ -443,9 +461,10 @@
             // 
             // UDnumRX
             // 
+            this.UDnumRX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumRX.DecimalPlaces = 3;
             this.UDnumRX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumRX.Location = new System.Drawing.Point(150, 54);
+            this.UDnumRX.Location = new System.Drawing.Point(156, 54);
             this.UDnumRX.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumRX.Maximum = new decimal(new int[] {
             2147483647,
@@ -465,8 +484,9 @@
             // 
             // UDnumY
             // 
+            this.UDnumY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumY.Location = new System.Drawing.Point(150, 29);
+            this.UDnumY.Location = new System.Drawing.Point(156, 29);
             this.UDnumY.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumY.Maximum = new decimal(new int[] {
             2147483647,
@@ -486,8 +506,9 @@
             // 
             // UDnumX
             // 
+            this.UDnumX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumX.Location = new System.Drawing.Point(150, 4);
+            this.UDnumX.Location = new System.Drawing.Point(156, 4);
             this.UDnumX.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumX.Maximum = new decimal(new int[] {
             2147483647,
@@ -507,9 +528,10 @@
             // 
             // ColorPanel
             // 
+            this.ColorPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ColorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ColorPanel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ColorPanel.Location = new System.Drawing.Point(64, 277);
+            this.ColorPanel.Location = new System.Drawing.Point(70, 278);
             this.ColorPanel.Margin = new System.Windows.Forms.Padding(0);
             this.ColorPanel.Name = "ColorPanel";
             this.ColorPanel.Size = new System.Drawing.Size(29, 23);
@@ -518,18 +540,22 @@
             // 
             // UserText
             // 
+            this.UserText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.UserText.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UserText.Location = new System.Drawing.Point(5, 401);
             this.UserText.Margin = new System.Windows.Forms.Padding(0);
             this.UserText.Multiline = true;
             this.UserText.Name = "UserText";
-            this.UserText.Size = new System.Drawing.Size(215, 133);
+            this.UserText.Size = new System.Drawing.Size(245, 133);
             this.UserText.TabIndex = 47;
             // 
             // ColorCode
             // 
+            this.ColorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ColorCode.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ColorCode.Location = new System.Drawing.Point(93, 277);
+            this.ColorCode.Location = new System.Drawing.Point(99, 278);
             this.ColorCode.Margin = new System.Windows.Forms.Padding(0);
             this.ColorCode.Name = "ColorCode";
             this.ColorCode.Size = new System.Drawing.Size(75, 23);
@@ -539,6 +565,17 @@
             // 
             // panel_Attribute_Base
             // 
+            this.panel_Attribute_Base.Controls.Add(this.button_Yoff);
+            this.panel_Attribute_Base.Controls.Add(this.button_Xoff);
+            this.panel_Attribute_Base.Controls.Add(this.button_Color);
+            this.panel_Attribute_Base.Controls.Add(this.button_T);
+            this.panel_Attribute_Base.Controls.Add(this.button_SY);
+            this.panel_Attribute_Base.Controls.Add(this.button_SX);
+            this.panel_Attribute_Base.Controls.Add(this.button_RZ);
+            this.panel_Attribute_Base.Controls.Add(this.button_RY);
+            this.panel_Attribute_Base.Controls.Add(this.button_RX);
+            this.panel_Attribute_Base.Controls.Add(this.button_Y);
+            this.panel_Attribute_Base.Controls.Add(this.button_X);
             this.panel_Attribute_Base.Controls.Add(this.UDnumColRate);
             this.panel_Attribute_Base.Controls.Add(this.ColorCode);
             this.panel_Attribute_Base.Controls.Add(this.UserText);
@@ -571,13 +608,14 @@
             this.panel_Attribute_Base.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Attribute_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_Attribute_Base.Name = "panel_Attribute_Base";
-            this.panel_Attribute_Base.Size = new System.Drawing.Size(226, 543);
+            this.panel_Attribute_Base.Size = new System.Drawing.Size(256, 543);
             this.panel_Attribute_Base.TabIndex = 49;
             // 
             // UDnumColRate
             // 
+            this.UDnumColRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UDnumColRate.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumColRate.Location = new System.Drawing.Point(168, 277);
+            this.UDnumColRate.Location = new System.Drawing.Point(174, 278);
             this.UDnumColRate.Margin = new System.Windows.Forms.Padding(0);
             this.UDnumColRate.Name = "UDnumColRate";
             this.UDnumColRate.Size = new System.Drawing.Size(52, 23);
@@ -590,11 +628,121 @@
             0});
             this.UDnumColRate.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
             // 
+            // button_X
+            // 
+            this.button_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_X.Location = new System.Drawing.Point(229, 5);
+            this.button_X.Name = "button_X";
+            this.button_X.Size = new System.Drawing.Size(23, 23);
+            this.button_X.TabIndex = 50;
+            this.button_X.UseVisualStyleBackColor = true;
+            this.button_X.Click += new System.EventHandler(this.button_X_Click);
+            // 
+            // button_Y
+            // 
+            this.button_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Y.Location = new System.Drawing.Point(229, 30);
+            this.button_Y.Name = "button_Y";
+            this.button_Y.Size = new System.Drawing.Size(23, 23);
+            this.button_Y.TabIndex = 51;
+            this.button_Y.UseVisualStyleBackColor = true;
+            this.button_Y.Click += new System.EventHandler(this.button_Y_Click);
+            // 
+            // button_RX
+            // 
+            this.button_RX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RX.Location = new System.Drawing.Point(229, 55);
+            this.button_RX.Name = "button_RX";
+            this.button_RX.Size = new System.Drawing.Size(23, 23);
+            this.button_RX.TabIndex = 52;
+            this.button_RX.UseVisualStyleBackColor = true;
+            this.button_RX.Click += new System.EventHandler(this.button_RX_Click);
+            // 
+            // button_RY
+            // 
+            this.button_RY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RY.Location = new System.Drawing.Point(229, 80);
+            this.button_RY.Name = "button_RY";
+            this.button_RY.Size = new System.Drawing.Size(23, 23);
+            this.button_RY.TabIndex = 53;
+            this.button_RY.UseVisualStyleBackColor = true;
+            this.button_RY.Click += new System.EventHandler(this.button_RY_Click);
+            // 
+            // button_RZ
+            // 
+            this.button_RZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RZ.Location = new System.Drawing.Point(229, 105);
+            this.button_RZ.Name = "button_RZ";
+            this.button_RZ.Size = new System.Drawing.Size(23, 23);
+            this.button_RZ.TabIndex = 54;
+            this.button_RZ.UseVisualStyleBackColor = true;
+            this.button_RZ.Click += new System.EventHandler(this.button_RZ_Click);
+            // 
+            // button_SX
+            // 
+            this.button_SX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SX.Location = new System.Drawing.Point(229, 130);
+            this.button_SX.Name = "button_SX";
+            this.button_SX.Size = new System.Drawing.Size(23, 23);
+            this.button_SX.TabIndex = 55;
+            this.button_SX.UseVisualStyleBackColor = true;
+            this.button_SX.Click += new System.EventHandler(this.button_SX_Click);
+            // 
+            // button_SY
+            // 
+            this.button_SY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SY.Location = new System.Drawing.Point(229, 155);
+            this.button_SY.Name = "button_SY";
+            this.button_SY.Size = new System.Drawing.Size(23, 23);
+            this.button_SY.TabIndex = 56;
+            this.button_SY.UseVisualStyleBackColor = true;
+            this.button_SY.Click += new System.EventHandler(this.button_SY_Click);
+            // 
+            // button_T
+            // 
+            this.button_T.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_T.Location = new System.Drawing.Point(229, 180);
+            this.button_T.Name = "button_T";
+            this.button_T.Size = new System.Drawing.Size(23, 23);
+            this.button_T.TabIndex = 57;
+            this.button_T.UseVisualStyleBackColor = true;
+            this.button_T.Click += new System.EventHandler(this.button_T_Click);
+            // 
+            // button_Color
+            // 
+            this.button_Color.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Color.Location = new System.Drawing.Point(229, 277);
+            this.button_Color.Name = "button_Color";
+            this.button_Color.Size = new System.Drawing.Size(23, 23);
+            this.button_Color.TabIndex = 58;
+            this.button_Color.UseVisualStyleBackColor = true;
+            this.button_Color.Click += new System.EventHandler(this.button_Color_Click);
+            // 
+            // button_Xoff
+            // 
+            this.button_Xoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Xoff.Location = new System.Drawing.Point(229, 331);
+            this.button_Xoff.Name = "button_Xoff";
+            this.button_Xoff.Size = new System.Drawing.Size(23, 23);
+            this.button_Xoff.TabIndex = 59;
+            this.button_Xoff.UseVisualStyleBackColor = true;
+            this.button_Xoff.Click += new System.EventHandler(this.button_Xoff_Click);
+            // 
+            // button_Yoff
+            // 
+            this.button_Yoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Yoff.Location = new System.Drawing.Point(229, 356);
+            this.button_Yoff.Name = "button_Yoff";
+            this.button_Yoff.Size = new System.Drawing.Size(23, 23);
+            this.button_Yoff.TabIndex = 60;
+            this.button_Yoff.UseVisualStyleBackColor = true;
+            this.button_Yoff.Click += new System.EventHandler(this.button_Yoff_Click);
+            // 
             // FormAttribute
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(226, 543);
+            this.ClientSize = new System.Drawing.Size(256, 543);
             this.Controls.Add(this.panel_Attribute_Base);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAttribute";
@@ -650,5 +798,16 @@
         private System.Windows.Forms.TextBox ColorCode;
         private System.Windows.Forms.Panel panel_Attribute_Base;
         private System.Windows.Forms.NumericUpDown UDnumColRate;
+        private System.Windows.Forms.Button button_Yoff;
+        private System.Windows.Forms.Button button_Xoff;
+        private System.Windows.Forms.Button button_Color;
+        private System.Windows.Forms.Button button_T;
+        private System.Windows.Forms.Button button_SY;
+        private System.Windows.Forms.Button button_SX;
+        private System.Windows.Forms.Button button_RZ;
+        private System.Windows.Forms.Button button_RY;
+        private System.Windows.Forms.Button button_RX;
+        private System.Windows.Forms.Button button_Y;
+        private System.Windows.Forms.Button button_X;
     }
 }
