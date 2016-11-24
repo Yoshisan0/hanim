@@ -96,8 +96,8 @@ namespace PrjHikariwoAnim
             Enable   = true;
             Visible  = true;
             Collision = true;
-
         }
+
         public AttributeBase(AttributeBase src)
         {
             //return (AttributeBase)MemberwiseClone();
