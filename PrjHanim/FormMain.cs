@@ -468,7 +468,7 @@ namespace PrjHikariwoAnim
                     //※対象がイメージタイプでは無い場合どうするか？
                     
 
-                    if (TimeLine.EditFrame.Move(src.Name, dest.Name) == false) { Console.WriteLine("Elements move False"); };
+                    if (TimeLine.EditFrame.Move(src.Name, dest.Name,true) == false) { Console.WriteLine("Elements move False"); };
                                       
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
@@ -680,7 +680,7 @@ namespace PrjHikariwoAnim
                 //中心に平行移動
                 g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
                 //回転角指定
-                g.RotateTransform(atr.Radius.X);
+                g.RotateTransform(atr.Radius.Z);
 
                 //スケーリング調
                 g.ScaleTransform(atr.Scale.X, atr.Scale.X);
@@ -843,18 +843,18 @@ namespace PrjHikariwoAnim
                     //Ctrl+Wheel 回転 1度単位
                     mDragState = DragState.Angle;
 
-                    float w = nowEle.Atr.Radius.X + mWheelDelta;
+                    float w = nowEle.Atr.Radius.Z+ mWheelDelta;
                     if (w >= 360)
                     {
-                        nowEle.Atr.Radius.X = w % 360;
+                        nowEle.Atr.Radius.Z = w % 360;
                     }
                     else if (w < 0)
                     {
-                        nowEle.Atr.Radius.X = 360 - (float)Math.Acos(w % 360);
+                        nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
                     }
                     else
                     {
-                        nowEle.Atr.Radius.X += mWheelDelta;
+                        nowEle.Atr.Radius.Z += mWheelDelta;
                     }
                 }
                 mFormAttribute.SetAllParam(nowEle.Atr);
@@ -928,32 +928,49 @@ namespace PrjHikariwoAnim
                         //+CTRL マウスでの回転 左周りにしかなってない
                         if (mKeysSP == Keys.Control)
                         {
-                            float w = nowEle.Atr.Radius.X + mMouseDownShift.X/4f;
-                            if(w > 360)
+                            int w=mMouseDownShift.X/4;
+                            if (w < 0)
                             {
-                                nowEle.Atr.Radius.X = w % 360;
-                            }
-                            else if(w<0)
-                            {
-                                nowEle.Atr.Radius.X = 360- (w % 360);
+                                //右回転
+                                w = 360 - (w%360) ;
+                                nowEle.Atr.Radius.Z -= w;
                             }
                             else
                             {
-                                nowEle.Atr.Radius.X += mMouseDownShift.X/4f;
+                                //左回転
+                                w %= 360;
+                                nowEle.Atr.Radius.Z += w;
                             }
+                            
+                            //nowEle.Atr.Radius.Z += w;
+                            /*
+                             * if(w > 360)
+                            {
+                                nowEle.Atr.Radius.Z = w % 360;
+                            }
+                            else if(w<0)
+                            {
+                                nowEle.Atr.Radius.Z = 360- (w % 360);
+                            }
+                            else
+                            {
+                                nowEle.Atr.Radius.Z += mMouseDownShift.X/4f;
+                            }
+                            */
 
                             //w = nowEle.Atr.Radius.Y + mMouseDownShift.Y;
                             //nowEle.Atr.Radius.Y = (w > 360) ? w - 360 : 360 - w;
-                            //シフトキーも押されていればZ回転 等(将来)
+                            //別キーも押されていれば別軸回転 等(将来)
                         }
                         //if( mKeysSP==Keys.Alt) //将来用
                         else
                         { 
+                            //移動
                             //差分加算
                             mDragState = DragState.Move;
                             nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
                             nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
-                            mFormAttribute.SetAllParam(nowEle.Atr);
+                            //mFormAttribute.SetAllParam(nowEle.Atr);
                         }                        
                     }
                     else
@@ -963,6 +980,7 @@ namespace PrjHikariwoAnim
                         mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
                         mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
                     }
+                    mFormAttribute.SetAllParam(nowEle.Atr);
                     panel_PreView.Refresh();
                 }
             }

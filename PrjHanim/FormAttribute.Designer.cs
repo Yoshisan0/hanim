@@ -57,18 +57,18 @@
             this.UserText = new System.Windows.Forms.TextBox();
             this.ColorCode = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
-            this.UDnumColRate = new System.Windows.Forms.NumericUpDown();
-            this.button_X = new System.Windows.Forms.Button();
-            this.button_Y = new System.Windows.Forms.Button();
-            this.button_RX = new System.Windows.Forms.Button();
-            this.button_RY = new System.Windows.Forms.Button();
-            this.button_RZ = new System.Windows.Forms.Button();
-            this.button_SX = new System.Windows.Forms.Button();
-            this.button_SY = new System.Windows.Forms.Button();
-            this.button_T = new System.Windows.Forms.Button();
-            this.button_Color = new System.Windows.Forms.Button();
-            this.button_Xoff = new System.Windows.Forms.Button();
             this.button_Yoff = new System.Windows.Forms.Button();
+            this.button_Xoff = new System.Windows.Forms.Button();
+            this.button_Color = new System.Windows.Forms.Button();
+            this.button_T = new System.Windows.Forms.Button();
+            this.button_SY = new System.Windows.Forms.Button();
+            this.button_SX = new System.Windows.Forms.Button();
+            this.button_RZ = new System.Windows.Forms.Button();
+            this.button_RY = new System.Windows.Forms.Button();
+            this.button_RX = new System.Windows.Forms.Button();
+            this.button_Y = new System.Windows.Forms.Button();
+            this.button_X = new System.Windows.Forms.Button();
+            this.UDnumColRate = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -611,6 +611,116 @@
             this.panel_Attribute_Base.Size = new System.Drawing.Size(256, 543);
             this.panel_Attribute_Base.TabIndex = 49;
             // 
+            // button_Yoff
+            // 
+            this.button_Yoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Yoff.Location = new System.Drawing.Point(229, 356);
+            this.button_Yoff.Name = "button_Yoff";
+            this.button_Yoff.Size = new System.Drawing.Size(23, 23);
+            this.button_Yoff.TabIndex = 60;
+            this.button_Yoff.UseVisualStyleBackColor = true;
+            this.button_Yoff.Click += new System.EventHandler(this.button_Yoff_Click);
+            // 
+            // button_Xoff
+            // 
+            this.button_Xoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Xoff.Location = new System.Drawing.Point(229, 331);
+            this.button_Xoff.Name = "button_Xoff";
+            this.button_Xoff.Size = new System.Drawing.Size(23, 23);
+            this.button_Xoff.TabIndex = 59;
+            this.button_Xoff.UseVisualStyleBackColor = true;
+            this.button_Xoff.Click += new System.EventHandler(this.button_Xoff_Click);
+            // 
+            // button_Color
+            // 
+            this.button_Color.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Color.Location = new System.Drawing.Point(229, 277);
+            this.button_Color.Name = "button_Color";
+            this.button_Color.Size = new System.Drawing.Size(23, 23);
+            this.button_Color.TabIndex = 58;
+            this.button_Color.UseVisualStyleBackColor = true;
+            this.button_Color.Click += new System.EventHandler(this.button_Color_Click);
+            // 
+            // button_T
+            // 
+            this.button_T.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_T.Location = new System.Drawing.Point(229, 180);
+            this.button_T.Name = "button_T";
+            this.button_T.Size = new System.Drawing.Size(23, 23);
+            this.button_T.TabIndex = 57;
+            this.button_T.UseVisualStyleBackColor = true;
+            this.button_T.Click += new System.EventHandler(this.button_T_Click);
+            // 
+            // button_SY
+            // 
+            this.button_SY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SY.Location = new System.Drawing.Point(229, 155);
+            this.button_SY.Name = "button_SY";
+            this.button_SY.Size = new System.Drawing.Size(23, 23);
+            this.button_SY.TabIndex = 56;
+            this.button_SY.UseVisualStyleBackColor = true;
+            this.button_SY.Click += new System.EventHandler(this.button_SY_Click);
+            // 
+            // button_SX
+            // 
+            this.button_SX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SX.Location = new System.Drawing.Point(229, 130);
+            this.button_SX.Name = "button_SX";
+            this.button_SX.Size = new System.Drawing.Size(23, 23);
+            this.button_SX.TabIndex = 55;
+            this.button_SX.UseVisualStyleBackColor = true;
+            this.button_SX.Click += new System.EventHandler(this.button_SX_Click);
+            // 
+            // button_RZ
+            // 
+            this.button_RZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RZ.Location = new System.Drawing.Point(229, 105);
+            this.button_RZ.Name = "button_RZ";
+            this.button_RZ.Size = new System.Drawing.Size(23, 23);
+            this.button_RZ.TabIndex = 54;
+            this.button_RZ.UseVisualStyleBackColor = true;
+            this.button_RZ.Click += new System.EventHandler(this.button_RZ_Click);
+            // 
+            // button_RY
+            // 
+            this.button_RY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RY.Location = new System.Drawing.Point(229, 80);
+            this.button_RY.Name = "button_RY";
+            this.button_RY.Size = new System.Drawing.Size(23, 23);
+            this.button_RY.TabIndex = 53;
+            this.button_RY.UseVisualStyleBackColor = true;
+            this.button_RY.Click += new System.EventHandler(this.button_RY_Click);
+            // 
+            // button_RX
+            // 
+            this.button_RX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RX.Location = new System.Drawing.Point(229, 55);
+            this.button_RX.Name = "button_RX";
+            this.button_RX.Size = new System.Drawing.Size(23, 23);
+            this.button_RX.TabIndex = 52;
+            this.button_RX.UseVisualStyleBackColor = true;
+            this.button_RX.Click += new System.EventHandler(this.button_RX_Click);
+            // 
+            // button_Y
+            // 
+            this.button_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Y.Location = new System.Drawing.Point(229, 30);
+            this.button_Y.Name = "button_Y";
+            this.button_Y.Size = new System.Drawing.Size(23, 23);
+            this.button_Y.TabIndex = 51;
+            this.button_Y.UseVisualStyleBackColor = true;
+            this.button_Y.Click += new System.EventHandler(this.button_Y_Click);
+            // 
+            // button_X
+            // 
+            this.button_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_X.Location = new System.Drawing.Point(229, 5);
+            this.button_X.Name = "button_X";
+            this.button_X.Size = new System.Drawing.Size(23, 23);
+            this.button_X.TabIndex = 50;
+            this.button_X.UseVisualStyleBackColor = true;
+            this.button_X.Click += new System.EventHandler(this.button_X_Click);
+            // 
             // UDnumColRate
             // 
             this.UDnumColRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -627,116 +737,6 @@
             0,
             0});
             this.UDnumColRate.ValueChanged += new System.EventHandler(this.UDnum_ValueChanged);
-            // 
-            // button_X
-            // 
-            this.button_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_X.Location = new System.Drawing.Point(229, 5);
-            this.button_X.Name = "button_X";
-            this.button_X.Size = new System.Drawing.Size(23, 23);
-            this.button_X.TabIndex = 50;
-            this.button_X.UseVisualStyleBackColor = true;
-            this.button_X.Click += new System.EventHandler(this.button_X_Click);
-            // 
-            // button_Y
-            // 
-            this.button_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Y.Location = new System.Drawing.Point(229, 30);
-            this.button_Y.Name = "button_Y";
-            this.button_Y.Size = new System.Drawing.Size(23, 23);
-            this.button_Y.TabIndex = 51;
-            this.button_Y.UseVisualStyleBackColor = true;
-            this.button_Y.Click += new System.EventHandler(this.button_Y_Click);
-            // 
-            // button_RX
-            // 
-            this.button_RX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_RX.Location = new System.Drawing.Point(229, 55);
-            this.button_RX.Name = "button_RX";
-            this.button_RX.Size = new System.Drawing.Size(23, 23);
-            this.button_RX.TabIndex = 52;
-            this.button_RX.UseVisualStyleBackColor = true;
-            this.button_RX.Click += new System.EventHandler(this.button_RX_Click);
-            // 
-            // button_RY
-            // 
-            this.button_RY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_RY.Location = new System.Drawing.Point(229, 80);
-            this.button_RY.Name = "button_RY";
-            this.button_RY.Size = new System.Drawing.Size(23, 23);
-            this.button_RY.TabIndex = 53;
-            this.button_RY.UseVisualStyleBackColor = true;
-            this.button_RY.Click += new System.EventHandler(this.button_RY_Click);
-            // 
-            // button_RZ
-            // 
-            this.button_RZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_RZ.Location = new System.Drawing.Point(229, 105);
-            this.button_RZ.Name = "button_RZ";
-            this.button_RZ.Size = new System.Drawing.Size(23, 23);
-            this.button_RZ.TabIndex = 54;
-            this.button_RZ.UseVisualStyleBackColor = true;
-            this.button_RZ.Click += new System.EventHandler(this.button_RZ_Click);
-            // 
-            // button_SX
-            // 
-            this.button_SX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SX.Location = new System.Drawing.Point(229, 130);
-            this.button_SX.Name = "button_SX";
-            this.button_SX.Size = new System.Drawing.Size(23, 23);
-            this.button_SX.TabIndex = 55;
-            this.button_SX.UseVisualStyleBackColor = true;
-            this.button_SX.Click += new System.EventHandler(this.button_SX_Click);
-            // 
-            // button_SY
-            // 
-            this.button_SY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SY.Location = new System.Drawing.Point(229, 155);
-            this.button_SY.Name = "button_SY";
-            this.button_SY.Size = new System.Drawing.Size(23, 23);
-            this.button_SY.TabIndex = 56;
-            this.button_SY.UseVisualStyleBackColor = true;
-            this.button_SY.Click += new System.EventHandler(this.button_SY_Click);
-            // 
-            // button_T
-            // 
-            this.button_T.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_T.Location = new System.Drawing.Point(229, 180);
-            this.button_T.Name = "button_T";
-            this.button_T.Size = new System.Drawing.Size(23, 23);
-            this.button_T.TabIndex = 57;
-            this.button_T.UseVisualStyleBackColor = true;
-            this.button_T.Click += new System.EventHandler(this.button_T_Click);
-            // 
-            // button_Color
-            // 
-            this.button_Color.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Color.Location = new System.Drawing.Point(229, 277);
-            this.button_Color.Name = "button_Color";
-            this.button_Color.Size = new System.Drawing.Size(23, 23);
-            this.button_Color.TabIndex = 58;
-            this.button_Color.UseVisualStyleBackColor = true;
-            this.button_Color.Click += new System.EventHandler(this.button_Color_Click);
-            // 
-            // button_Xoff
-            // 
-            this.button_Xoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Xoff.Location = new System.Drawing.Point(229, 331);
-            this.button_Xoff.Name = "button_Xoff";
-            this.button_Xoff.Size = new System.Drawing.Size(23, 23);
-            this.button_Xoff.TabIndex = 59;
-            this.button_Xoff.UseVisualStyleBackColor = true;
-            this.button_Xoff.Click += new System.EventHandler(this.button_Xoff_Click);
-            // 
-            // button_Yoff
-            // 
-            this.button_Yoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Yoff.Location = new System.Drawing.Point(229, 356);
-            this.button_Yoff.Name = "button_Yoff";
-            this.button_Yoff.Size = new System.Drawing.Size(23, 23);
-            this.button_Yoff.TabIndex = 60;
-            this.button_Yoff.UseVisualStyleBackColor = true;
-            this.button_Yoff.Click += new System.EventHandler(this.button_Yoff_Click);
             // 
             // FormAttribute
             // 

@@ -543,26 +543,29 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// srcNameのエレメントをdestNameのエレメント直後に移動
         /// </summary>
-        /// <param name="srcName"></param>
-        /// <param name="destName"></param>
+        /// <param name="srcName">soruce</param>
+        /// <param name="destName">dest</param>
+        /// <param name="isMove">MoveかCopyか</param>
         /// <returns></returns>
-        public bool Move(string srcName,string destName)
+        public bool Move(string srcName,string destName,bool isMove)
         {
             int srcIdx = GetIndexFromName(srcName);
             int dstIdx = GetIndexFromName(destName);
-            return Move(srcIdx, dstIdx);
+            return Move(srcIdx, dstIdx,isMove);
         }
-        public bool Move(int src,int dest)
+        public bool Move(int src,int dest,bool isMove)
         {
             if (src <= 0 || dest <= 0) return false;//Check
             //移動し削除
             ELEMENTS e = mFrame[src];
             //挿入
-            if (src > dest) mFrame.RemoveAt(src);//dest以降なら先に削除
+            if (src > dest && isMove) mFrame.RemoveAt(src);//dest以降なら先に削除
             mFrame.Insert(dest, e);
-            if (dest < src) mFrame.RemoveAt(src);//dest以前なら後で削除
+            if (dest < src && isMove) mFrame.RemoveAt(src);//dest以前なら後で削除
             return true;
         }
+        public void MoveToChild(int src,int dest) { }
+        public void MoveToRoot(int src,int dest) { }
 
         /// <summary>
         /// 全体フィット表示する為に全ての部品が収まるサイズを返す
@@ -592,7 +595,7 @@ namespace PrjHikariwoAnim
             return retRect;
         }
         
-        public void MoveDown() { }
+        
 
     }
 
