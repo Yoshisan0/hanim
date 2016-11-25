@@ -728,11 +728,11 @@ namespace PrjHikariwoAnim
                     //ElementsType
                     if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
                     {
-                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 * atr.Scale.X),(-(atr.Height * atr.Scale.Y) / 2 * atr.Scale.Y), vsx - 1, vsy - 1);
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 ),(-(atr.Height * atr.Scale.Y) / 2 ), vsx - 1, vsy - 1);
                     }
                     if(e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
                     {
-                        g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 * atr.Scale.X), (-(atr.Height * atr.Scale.Y) / 2 * atr.Scale.Y), vsx - 1, vsy - 1);
+                        g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 ), (-(atr.Height * atr.Scale.Y) / 2 ), vsx - 1, vsy - 1);
                     }                
                 }
                 g.Transform = Back;//restore Matrix
@@ -850,7 +850,8 @@ namespace PrjHikariwoAnim
                     }
                     else if (w < 0)
                     {
-                        nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
+                        //nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
+                        nowEle.Atr.Radius.Z = (w % 360)+360;
                     }
                     else
                     {
@@ -891,7 +892,7 @@ namespace PrjHikariwoAnim
             float stPosX = ((e.X -(panel_PreView.Width  / 2)) / zoom);
             float stPosY = ((e.Y -(panel_PreView.Height / 2)) / zoom);
 
-            //Item選択中なら移動変形処理等の準備
+            
             if (e.Button == MouseButtons.Left)
             {
                 mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
@@ -899,6 +900,7 @@ namespace PrjHikariwoAnim
                 //アイテム検索
                 SetNowElementsIndex(TimeLine.EditFrame.SelectElement((int)stPosX,(int)stPosY, true));
                 ELEMENTS nowEle = TimeLine.EditFrame.GetActiveElements();
+                //Item選択中なら移動変形処理等の準備
                 if (nowEle != null)
                 {              
                     mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
@@ -928,38 +930,19 @@ namespace PrjHikariwoAnim
                         //+CTRL マウスでの回転 左周りにしかなってない
                         if (mKeysSP == Keys.Control)
                         {
-                            int w=mMouseDownShift.X/4;
+                            int w=(int)nowEle.Atr.Radius.Z+ ((int)stPosX- mMouseDownPoint.X )/4;
                             if (w < 0)
                             {
                                 //右回転
-                                w = 360 - (w%360) ;
-                                nowEle.Atr.Radius.Z -= w;
+                                w = 360 + (w%360) ;
+                                nowEle.Atr.Radius.Z = w;
                             }
                             else
                             {
                                 //左回転
                                 w %= 360;
-                                nowEle.Atr.Radius.Z += w;
+                                nowEle.Atr.Radius.Z = w;
                             }
-                            
-                            //nowEle.Atr.Radius.Z += w;
-                            /*
-                             * if(w > 360)
-                            {
-                                nowEle.Atr.Radius.Z = w % 360;
-                            }
-                            else if(w<0)
-                            {
-                                nowEle.Atr.Radius.Z = 360- (w % 360);
-                            }
-                            else
-                            {
-                                nowEle.Atr.Radius.Z += mMouseDownShift.X/4f;
-                            }
-                            */
-
-                            //w = nowEle.Atr.Radius.Y + mMouseDownShift.Y;
-                            //nowEle.Atr.Radius.Y = (w > 360) ? w - 360 : 360 - w;
                             //別キーも押されていれば別軸回転 等(将来)
                         }
                         //if( mKeysSP==Keys.Alt) //将来用
@@ -984,7 +967,7 @@ namespace PrjHikariwoAnim
                     panel_PreView.Refresh();
                 }
             }
-            StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}]";
+            StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
             StatusLabel2.Text = $" [Select:{TimeLine.EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

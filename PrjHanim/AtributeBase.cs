@@ -165,10 +165,10 @@ namespace PrjHikariwoAnim
             //回転考慮せず
             if (!Enable) return false;
             if (!Collision) return false;
-            if (px < (Position.X - ((Width * Scale.X) / 2))*Scale.X) return false;
-            if (px > (Position.X + ((Width * Scale.X) / 2))*Scale.X) return false;
-            if (py < (Position.Y - ((Height* Scale.Y) / 2))*Scale.Y) return false;
-            if (py > (Position.Y + ((Height* Scale.Y) / 2))*Scale.Y) return false;
+            if (px < (Position.X - ((Width / 2)*Scale.X))) return false;
+            if (px > (Position.X + ((Width / 2)*Scale.X))) return false;
+            if (py < (Position.Y - ((Height / 2)*Scale.Y))) return false;
+            if (py > (Position.Y + ((Height / 2)*Scale.Y))) return false;
             return true;
         }
         /// <summary>

@@ -39,6 +39,9 @@ namespace PrjHikariwoAnim
             UDnumX.Value = (int)atr.Position.X;
             UDnumY.Value = (int)atr.Position.Y;
             //UDnumZ.Value =(int)atr.Position.Z;
+
+            //UDnumRotX.Value = (decimal)atr.Radius.X;
+            //UDnumRotY.Value = (decimal)atr.Radius.Y;
             UDnumRot.Value = (decimal)atr.Radius.Z;
 
             UDnumSX.Value = (decimal)atr.Scale.X;
@@ -94,6 +97,8 @@ namespace PrjHikariwoAnim
                 atr.Position.Y = (int)UDnumY.Value;
                 //ret.Position.Z = Decimal.ToInt32(UDnumZ.Value);
 
+                //atr.Radius.X = (float)UDnumRotX.Value;
+                //atr.Radius.Y = (float)UDnumRotY.Value;
                 atr.Radius.Z = (float)UDnumRot.Value;
 
                 atr.Scale.X = (float)UDnumSX.Value;
