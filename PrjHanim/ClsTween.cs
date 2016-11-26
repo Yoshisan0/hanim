@@ -13,6 +13,14 @@ namespace PrjHikariwoAnim
         public Vector3 mPos;
         public Vector3[] mListVec;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="enParam">種別</param>
+        /// <param name="inFrmStart">開始フレーム</param>
+        /// <param name="inFrmEnd">終了フレーム</param>
+        /// <param name="clPos">座標</param>
+        /// <param name="pclVec">各ベクトル</param>
         public ClsTween(EnmParam enParam, int inFrmStart, int inFrmEnd, Vector3 clPos, Vector3[] pclVec)
         {
             this.mParam = enParam;

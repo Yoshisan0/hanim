@@ -38,6 +38,7 @@ namespace PrjHikariwoAnim
         private Pen mPenGraph;      //ベクトルのペン
         private Pen mPenLine;       //ラインのペン
         private Pen mPenGrid;       //グリッドのペン
+        private Pen mPenCurrent;    //カレントフレームのペン
         private Vector3[] mListPos; //ポイントのリスト
         private Vector3[] mListVec; //ベクトルのリスト
         private int mGripNo;        //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
@@ -89,8 +90,8 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
-        /// <param name="clPos">中心座標</param>
-        /// <param name="pclVec">各ベクトル</param>
+        /// <param name="clPos">中心座標(0.0～1.0)</param>
+        /// <param name="pclVec">各ベクトル(0.0～1.0)</param>
         public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclVec)
         {
             InitializeComponent();
@@ -185,77 +186,72 @@ namespace PrjHikariwoAnim
         private void FormRateGraph_Load(object sender, EventArgs e)
         {
             this.mPenRed = new Pen(Color.Red, 0.5f);
-            this.mPenGraph = new Pen(this.button_GraphColor.BackColor);
-            this.mPenLine = new Pen(this.button_LineColor.BackColor, 2.0f);
-            this.mPenGrid = new Pen(this.button_GridColor.BackColor);
+            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
+            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
+            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
+            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
 
             this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
             this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
-            this.mChange = true;
-
-            this.panel_PreView.Refresh();
-        }
-
-        private void button_BackColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-
-                this.panel_PreView.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-
-            this.panel_PreView.Refresh();
-        }
-
-        private void button_LineColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-
-                this.mPenLine = new Pen(this.button_LineColor.BackColor, 2.0f);
-
-                this.mChange = true;
-            }
-            cdg.Dispose();
-
-            this.panel_PreView.Refresh();
-        }
-
-        private void button_GraphColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-
-                this.mPenGraph = new Pen(this.button_GraphColor.BackColor);
-            }
-            cdg.Dispose();
 
             this.mChange = true;
+            this.panel_PreView.Refresh();
+        }
+
+        private void SetColor(Button clButton)
+        {
+            using (ColorDialog clColorDialog = new ColorDialog())
+            {
+                if (clColorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    clButton.BackColor = clColorDialog.Color;
+                }
+            }
+        }
+
+        private void button_ColorBack_Click(object sender, EventArgs e)
+        {
+            this.SetColor(sender as Button);
+
+            this.panel_PreView.BackColor = this.button_ColorBack.BackColor;
 
             this.panel_PreView.Refresh();
         }
 
-        private void button_GridColor_Click(object sender, EventArgs e)
+        private void button_ColorLine_Click(object sender, EventArgs e)
         {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
+            this.SetColor(sender as Button);
 
-                this.mPenGrid = new Pen(this.button_GridColor.BackColor);
-            }
-            cdg.Dispose();
+            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
+
+            this.mChange = true;
+            this.panel_PreView.Refresh();
+        }
+
+        private void button_ColorGraph_Click(object sender, EventArgs e)
+        {
+            this.SetColor(sender as Button);
+
+            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
+
+            this.mChange = true;
+            this.panel_PreView.Refresh();
+        }
+
+        private void button_ColorGrid_Click(object sender, EventArgs e)
+        {
+            this.SetColor(sender as Button);
+
+            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
+
+            this.panel_PreView.Refresh();
+        }
+
+        private void button_ColorCurrent_Click(object sender, EventArgs e)
+        {
+            this.SetColor(sender as Button);
+
+            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
 
             this.panel_PreView.Refresh();
         }
@@ -266,7 +262,6 @@ namespace PrjHikariwoAnim
             this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
 
             this.mChange = true;
-
             this.panel_PreView.Refresh();
         }
 
@@ -335,7 +330,7 @@ namespace PrjHikariwoAnim
             int inCnt;
 
             //以下、背景クリア処理
-            e.Graphics.Clear(this.button_BackColor.BackColor);
+            e.Graphics.Clear(this.button_ColorBack.BackColor);
 
             //以下、グリッド描画処理
             if (this.checkBox_GridCheck.Checked) {
@@ -346,7 +341,14 @@ namespace PrjHikariwoAnim
                 float flSpan = (float)this.panel_PreView.Width / inFrmCount;
                 for (inCnt = 1; inCnt < inFrmCount; inCnt++)
                 {
-                    e.Graphics.DrawLine(this.mPenGrid, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
+                    if (inCnt == this.mFrmCurrent)
+                    {
+                        e.Graphics.DrawLine(this.mPenCurrent, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawLine(this.mPenGrid, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
+                    }
                 }
 
                 //以下、横ライン描画処理
