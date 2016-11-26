@@ -28,6 +28,7 @@ namespace PrjHikariwoAnim
         private static float VEC_X2 = 0.08f;        //終了座標のベクトルＸ
         private static float VEC_Y2 = -0.08f;       //終了座標のベクトルＹ
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
+        private static int MAX_X = 256;             //保存用データの長さ
 
         private bool mPush;         //マウスを押しているかどうかのフラグ
         private int mFrmStart;      //開始フレーム
@@ -117,6 +118,17 @@ namespace PrjHikariwoAnim
 
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
+        }
+
+        /// <summary>
+        /// トゥイーン情報を出力用データに変換する処理
+        /// </summary>
+        /// <param name="clTween">トゥイーン情報</param>
+        /// <returns>出力用データ</returns>
+        public static byte[] CreateSaveData(ClsTween clTween)
+        {
+            byte[] puchRate = new byte[FormRateGraph.MAX_X];
+            return (puchRate);
         }
 
         /// <summary>
