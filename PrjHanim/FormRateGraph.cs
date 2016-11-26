@@ -27,7 +27,7 @@ namespace PrjHikariwoAnim
         private static float VEC_Y1 = -0.08f;
         private static float VEC_X2 = 0.08f;
         private static float VEC_Y2 = -0.08f;
-        private static int SPAN_X = 256;
+        private static int MAX_X = 256;
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
 
         private bool mPush;         //マウスを押しているかどうかのフラグ
@@ -60,14 +60,48 @@ namespace PrjHikariwoAnim
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
         }
 
+        public static Bitmap CreateImageFromRate(byte[] puchRate)
+        {
+            Pen clPen = new Pen(Color.Green);
+            Bitmap clIconImage = new Bitmap(FormRateGraph.ICON_WIDTH, FormRateGraph.ICON_HEIGHT);
+
+            //以下、アイコン作成処理
+            using (Graphics g = Graphics.FromImage(clIconImage))
+            {
+                g.Clear(Color.Transparent);
+
+                int inWidth = FormRateGraph.MAX_X;
+                int inHeight = byte.MaxValue;
+                float flSpanX = (float)FormRateGraph.MAX_X / FormRateGraph.ICON_WIDTH;
+                int inXOld = 0;
+                int inYOld = FormRateGraph.ICON_HEIGHT;
+                float flX;
+
+                for (flX = 0.0f; flX < inWidth; flX += flSpanX)
+                {
+                    int inX = (int)flX;
+                    int inY = (int)puchRate[inX];
+
+                    int inXTmp = (int)((float)inX / inWidth * FormRateGraph.ICON_WIDTH);
+                    int inYTmp = (int)((float)inY / inHeight * FormRateGraph.ICON_HEIGHT);
+                    g.DrawLine(clPen, inXOld, inYOld, inXTmp, inYTmp);
+
+                    inXOld = inXTmp;
+                    inYOld = inYTmp;
+                }
+            }
+
+            return (clIconImage);
+        }
+
         public byte[] GetRate()
         {
-            byte[] puchRate = new byte[FormRateGraph.SPAN_X];
+            byte[] puchRate = new byte[FormRateGraph.MAX_X];
 
             //以下、重みリスト作成処理
             int inWidth = this.mImage0.Width;
             int inHeight = this.mImage0.Height;
-            float flSpanX = (float)inWidth / FormRateGraph.SPAN_X;
+            float flSpanX = (float)inWidth / FormRateGraph.MAX_X;
             float flX;
             int inY;
 
@@ -80,53 +114,13 @@ namespace PrjHikariwoAnim
                     Color stColor = this.mImage0.GetPixel(inX, inY);
                     if (stColor.A <= 0) continue;
 
-                    int inIndex = (int)((float)inX / inWidth * FormRateGraph.SPAN_X);
+                    int inIndex = (int)((float)inX / inWidth * FormRateGraph.MAX_X);
                     puchRate[inIndex] = (byte)((float)inY / inHeight * 255);
                     break;
                 }
             }
 
             return (puchRate);
-        }
-
-        public Bitmap GetIconImage()
-        {
-            Bitmap clIconImage = new Bitmap(FormRateGraph.ICON_WIDTH, FormRateGraph.ICON_HEIGHT);
-
-            //以下、アイコン作成処理
-            using (Graphics g = Graphics.FromImage(clIconImage))
-            {
-                g.Clear(Color.Transparent);
-
-                int inWidth = this.mImage0.Width;
-                int inHeight = this.mImage0.Height;
-                float flSpanX = (float)inWidth / FormRateGraph.ICON_WIDTH;
-                int inXOld = 0;
-                int inYOld = FormRateGraph.ICON_HEIGHT;
-                float flX;
-                int inY;
-
-                for (flX = 0.0f; flX < inWidth; flX += flSpanX)
-                {
-                    for (inY = 0; inY < inHeight; inY++)
-                    {
-                        int inX = (int)flX;
-
-                        Color stColor = this.mImage0.GetPixel(inX, inY);
-                        if (stColor.A <= 0) continue;
-
-                        int inXTmp = (int)((float)inX / inWidth * FormRateGraph.ICON_WIDTH);
-                        int inYTmp = (int)((float)inY / inHeight * FormRateGraph.ICON_HEIGHT);
-                        g.DrawLine(this.mPenLine, inXOld, inYOld, inXTmp, inYTmp);
-
-                        inXOld = inXTmp;
-                        inYOld = inYTmp;
-                        break;
-                    }
-                }
-            }
-
-            return (clIconImage);
         }
 
         private void FormRateGraph_Load(object sender, EventArgs e)
