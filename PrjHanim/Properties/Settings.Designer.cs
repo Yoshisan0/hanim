@@ -274,5 +274,17 @@ namespace PrjHikariwoAnim.Properties {
                 this["FormRateGraph_LineColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color FormRateGraph_ColorCurrent {
+            get {
+                return ((global::System.Drawing.Color)(this["FormRateGraph_ColorCurrent"]));
+            }
+            set {
+                this["FormRateGraph_ColorCurrent"] = value;
+            }
+        }
     }
 }
