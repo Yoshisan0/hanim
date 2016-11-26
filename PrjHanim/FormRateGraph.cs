@@ -123,6 +123,19 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// フレーム情報の設定
+        /// </summary>
+        /// <param name="inFrmStart">開始フレーム</param>
+        /// <param name="inFrmEnd">終了フレーム</param>
+        /// <param name="inFrmCurrent">カレントフレーム</param>
+        public void SetFrame(int inFrmStart, int inFrmEnd, int inFrmCurrent)
+        {
+            this.mFrmStart = inFrmStart;
+            this.mFrmEnd = inFrmEnd;
+            this.mFrmCurrent = inFrmCurrent;
+        }
+
+        /// <summary>
         /// トゥイーン情報を出力用データに変換する処理
         /// </summary>
         /// <param name="clTween">トゥイーン情報</param>
