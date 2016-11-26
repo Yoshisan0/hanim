@@ -123,7 +123,7 @@
             this.button_ColorCurrent.Name = "button_ColorCurrent";
             this.button_ColorCurrent.Size = new System.Drawing.Size(30, 30);
             this.button_ColorCurrent.TabIndex = 33;
-            this.toolTip1.SetToolTip(this.button_ColorCurrent, "グリッド色");
+            this.toolTip1.SetToolTip(this.button_ColorCurrent, "カレントフレーム色");
             this.button_ColorCurrent.UseVisualStyleBackColor = false;
             this.button_ColorCurrent.Click += new System.EventHandler(this.button_ColorCurrent_Click);
             // 

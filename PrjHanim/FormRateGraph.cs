@@ -55,7 +55,8 @@ namespace PrjHikariwoAnim
         /// <param name="enParam">種別</param>
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd)
+        /// <param name="inFrmCurrent">カレントフレーム</param>
+        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
         {
             InitializeComponent();
 
@@ -66,7 +67,7 @@ namespace PrjHikariwoAnim
             this.mParam = enParam;
             this.mFrmStart = inFrmStart;
             this.mFrmEnd = inFrmEnd;
-            this.mFrmCurrent = 0;
+            this.mFrmCurrent = inFrmCurrent;
 
             this.mListPos = new Vector3[3];
             this.mListPos[0] = new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f);
@@ -142,7 +143,7 @@ namespace PrjHikariwoAnim
             Pen clPen = new Pen(Color.Green);
             Bitmap clIconImage = new Bitmap(FormRateGraph.ICON_WIDTH, FormRateGraph.ICON_HEIGHT);
 
-/*
+            /*
             //以下、アイコン作成処理
             using (Graphics g = Graphics.FromImage(clIconImage))
             {
@@ -168,7 +169,7 @@ namespace PrjHikariwoAnim
                     inYOld = inYTmp;
                 }
             }
-*/
+            */
 
             return (clIconImage);
         }
@@ -337,11 +338,12 @@ namespace PrjHikariwoAnim
                 //以下、縦ライン描画処理
                 int inFrmCount = this.mFrmEnd - this.mFrmStart;
                 if (inFrmCount < 0) inFrmCount = 1;
+                int inFrmCurrent = this.mFrmCurrent - this.mFrmStart;
 
                 float flSpan = (float)this.panel_PreView.Width / inFrmCount;
                 for (inCnt = 1; inCnt < inFrmCount; inCnt++)
                 {
-                    if (inCnt == this.mFrmCurrent)
+                    if (inCnt == inFrmCurrent)
                     {
                         e.Graphics.DrawLine(this.mPenCurrent, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
                     }
