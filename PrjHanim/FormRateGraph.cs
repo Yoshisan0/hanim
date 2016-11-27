@@ -90,8 +90,8 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
-        /// <param name="pclVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclVec)
+        /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
+        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
         {
             InitializeComponent();
 
@@ -113,7 +113,7 @@ namespace PrjHikariwoAnim
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                this.mListVec[inCnt] = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, pclVec[inCnt].Z);
+                this.mListVec[inCnt] = new Vector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z);
             }
 
             //panel_PreView.DoubleBuuferd = true;
