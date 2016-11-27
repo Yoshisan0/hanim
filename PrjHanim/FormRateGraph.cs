@@ -121,6 +121,31 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 重みを返す処理
+        /// </summary>
+        /// <param name="clTween">トゥイーン情報</param>
+        /// <param name="puchRate">重みリスト</param>
+        /// <param name="inFrmCurrent">カレントフレーム</param>
+        /// <returns>重み(0.0～1.0)</returns>
+        public static float GetRate(ClsTween clTween, byte[] puchRate, int inFrmCurrent)
+        {
+            if (clTween == null) return (0.0f);
+            if (puchRate == null)
+            {
+                puchRate = FormRateGraph.CreateSaveData(clTween);
+                if (puchRate == null) return (0.0f);
+            }
+            if (!(clTween.mFrmStart <= inFrmCurrent && inFrmCurrent <= clTween.mFrmEnd)) return (0.0f);
+
+            float flFrmSize = clTween.mFrmEnd - clTween.mFrmStart;
+            inFrmCurrent -= clTween.mFrmStart;
+            byte uchRate = (byte)((float)inFrmCurrent / flFrmSize * puchRate.Length);
+            float flRate = (float)uchRate / byte.MaxValue;
+
+            return (flRate);
+        }
+
+        /// <summary>
         /// フレーム情報の設定
         /// </summary>
         /// <param name="inFrmStart">開始フレーム</param>
@@ -140,6 +165,8 @@ namespace PrjHikariwoAnim
         /// <returns>出力用データ</returns>
         public static byte[] CreateSaveData(ClsTween clTween)
         {
+            if (clTween == null) return (null);
+
             byte[] puchRate = new byte[FormRateGraph.MAX_X];
 
             int inWidth = FormRateGraph.MAX_X;

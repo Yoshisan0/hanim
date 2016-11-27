@@ -184,6 +184,8 @@ namespace PrjHikariwoAnim
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
 
+        FRAME test = null;
+
         private void button_X_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.POSITION_X, 10, 20, 15);

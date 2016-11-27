@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsTween
     {
         public EnmParam mParam;
@@ -35,6 +36,16 @@ namespace PrjHikariwoAnim
             {
                 this.mListVec[inCnt] = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
             }
+        }
+
+        /// <summary>
+        /// クローン処理
+        /// </summary>
+        /// <returns>トゥイーン情報</returns>
+        public ClsTween Clone()
+        {
+            ClsTween clTween = new ClsTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mPos, this.mListVec);
+            return (clTween);
         }
     }
 }

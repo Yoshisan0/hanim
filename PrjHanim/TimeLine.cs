@@ -328,14 +328,22 @@ namespace PrjHikariwoAnim
         public TYPE Type;//Type Role
         public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)        
 
+        public ClsTween mTween; //トゥイーン情報（存在しない場合はnull）
+
         //init
         public FRAME()
         {
-            mFrame = new List<ELEMENTS>();
+            this.mFrame = new List<ELEMENTS>();
+            this.mTween = null;
         }
+
         public FRAME(FRAME f)
         {
-            mFrame = new List<ELEMENTS>();
+            this.mFrame = new List<ELEMENTS>();
+            this.mTween = null;
+            if (f.mTween != null) {
+                this.mTween = f.mTween.Clone();
+            }
             ActiveIndex = f.ActiveIndex;
             Text = f.Text;
             Type = f.Type;
@@ -351,6 +359,13 @@ namespace PrjHikariwoAnim
         {
             //参照以外のコピー
             FRAME f = new FRAME();
+
+            //以下、トゥイーン情報コピー処理
+            if (this.mTween != null)
+            {
+                f.mTween = this.mTween.Clone();
+            }
+
             //必要な参照を個別でコピーする
             for(int cnt=0;cnt<this.mFrame.Count;cnt++)
             {
@@ -358,6 +373,18 @@ namespace PrjHikariwoAnim
             }
             //f.mFrame = this.mFrame.ToList();
             return f;
+        }
+        //Copy
+        public void Copy(FRAME f)
+        {
+            this.mFrame = f.mFrame;             //部品格納リスト
+            this.ActiveIndex = f.ActiveIndex;   //操作対象
+
+            this.Text = f.Text;                 //フレーム毎に設定したいコマンドやコメント等
+            this.Type = f.Type;                 //Type Role
+            this.FrameNum = f.FrameNum;         //自身のフレーム番号(配列indexとは一致しない事に注意)        
+
+            this.mTween = f.mTween;             //トゥイーン情報（存在しない場合はnull）
         }
         //SaveLoad
         public void SaveToFile(string fullPath)
@@ -371,6 +398,12 @@ namespace PrjHikariwoAnim
             DataContractSerializer serializer = new DataContractSerializer(typeof(FRAME));
             serializer.WriteObject(stm, this);
         }
+        public void ExportHAnim(string fullPath)
+        {
+//よろしこ
+            byte[] puchRate = FormRateGraph.CreateSaveData(this.mTween);    //←puchRateこれをエクスポートして欲しい
+                                                                            //　this.mTweenはエクスポートして欲しくない
+        }
         public void LoadFromFile(string fullPath)
         {
             FileStream stm = new FileStream(fullPath, FileMode.Open);
@@ -382,6 +415,7 @@ namespace PrjHikariwoAnim
         {
             DataContractSerializer serializer = new DataContractSerializer(typeof(FRAME));
             FRAME a = (FRAME)serializer.ReadObject(stm);
+            this.Copy(a);
         }
         public string ToJson()
         {
