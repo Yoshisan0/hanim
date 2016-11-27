@@ -13,8 +13,6 @@ namespace PrjHikariwoAnim
 {
     public partial class FormRateGraph : Form
     {
-        private static int ICON_WIDTH = 32;         //アイコンの幅
-        private static int ICON_HEIGHT = 32;        //アイコンの高さ
         private static float POS_X0 = 0.0f;         //開始座標Ｘ
         private static float POS_Y0 = 1.0f;         //開始座標Ｙ
         private static float POS_X1 = 0.5f;         //中心座標Ｘ
@@ -143,6 +141,25 @@ namespace PrjHikariwoAnim
         public static byte[] CreateSaveData(ClsTween clTween)
         {
             byte[] puchRate = new byte[FormRateGraph.MAX_X];
+
+            int inWidth = FormRateGraph.MAX_X;
+            int inHeight = byte.MaxValue;
+            Bitmap clImage = FormRateGraph.CreateImage(clTween, inWidth, inHeight);
+
+            //以下、出力用データ作成処理
+            int inX, inY;
+            for (inX = 0; inX < inWidth; inX ++)
+            {
+                for (inY = 0; inY < inHeight; inY ++)
+                {
+                    Color stColor = clImage.GetPixel(inX, inY);
+                    if (stColor.A!= 0) continue;
+
+                    puchRate[inX] = (byte)inY;
+                    break;
+                }
+            }
+
             return (puchRate);
         }
 
@@ -150,41 +167,49 @@ namespace PrjHikariwoAnim
         /// トゥイーン情報をアイコン画像に変換する処理
         /// </summary>
         /// <param name="clTween">トゥイーン情報</param>
-        /// <returns>アイコン画像</returns>
-        public static Bitmap CreateImageFromRate(ClsTween clTween)
+        /// <param name="inWidth">イメージ幅</param>
+        /// <param name="inHeight">イメージ高さ</param>
+        /// <returns>画像</returns>
+        public static Bitmap CreateImage(ClsTween clTween, int inWidth, int inHeight)
         {
             Pen clPen = new Pen(Color.Green);
-            Bitmap clIconImage = new Bitmap(FormRateGraph.ICON_WIDTH, FormRateGraph.ICON_HEIGHT);
+            Bitmap clImage = new Bitmap(inWidth, inHeight);
 
-            /*
-            //以下、アイコン作成処理
-            using (Graphics g = Graphics.FromImage(clIconImage))
+            //以下、ペン作成処理
+            Pen stPen = new Pen(Color.Red);
+
+            //以下、ライン作成処理 
+            int inPosX0 = (int)(FormRateGraph.POS_X0 * inWidth);
+            int inPosY0 = (int)(FormRateGraph.POS_Y0 * inHeight);
+            int inPosX1 = (int)(clTween.mPos.X * inWidth);
+            int inPosY1 = (int)(clTween.mPos.Y * inHeight);
+            int inPosX2 = (int)(FormRateGraph.POS_X2 * inWidth);
+            int inPosY2 = (int)(FormRateGraph.POS_Y2 * inHeight);
+            int inVecX0 = inPosX0 + (int)(clTween.mListVec[0].X * inWidth);
+            int inVecY0 = inPosY0 + (int)(clTween.mListVec[0].Y * inHeight);
+            int inVecX1 = inPosX1 - (int)(clTween.mListVec[1].X * inWidth);
+            int inVecY1 = inPosY1 - (int)(clTween.mListVec[1].Y * inHeight);
+            int inVecX2 = inPosX1 + (int)(clTween.mListVec[1].X * inWidth);
+            int inVecY2 = inPosY1 + (int)(clTween.mListVec[1].Y * inHeight);
+            int inVecX3 = inPosX2 - (int)(clTween.mListVec[2].X * inWidth);
+            int inVecY3 = inPosY2 - (int)(clTween.mListVec[2].Y * inHeight);
+            Point stPos0 = new Point(inPosX0, inPosY0);
+            Point stVec0 = new Point(inVecX0, inVecY0);
+            Point stVec1 = new Point(inVecX1, inVecY1);
+            Point stPos1 = new Point(inPosX1, inPosY1);
+            Point stVec2 = new Point(inVecX2, inVecY2);
+            Point stVec3 = new Point(inVecX3, inVecY3);
+            Point stPos2 = new Point(inPosX2, inPosY2);
+            Point[] pclListPos = { stPos0, stVec0, stVec1, stPos1, stVec2, stVec3, stPos2 };
+
+            //以下、画像作成処理
+            using (Graphics g = Graphics.FromImage(clImage))
             {
                 g.Clear(Color.Transparent);
-
-                int inWidth = FormRateGraph.MAX_X;
-                int inHeight = byte.MaxValue;
-                float flSpanX = (float)FormRateGraph.MAX_X / FormRateGraph.ICON_WIDTH;
-                int inXOld = 0;
-                int inYOld = FormRateGraph.ICON_HEIGHT;
-                float flX;
-
-                for (flX = 0.0f; flX < inWidth; flX += flSpanX)
-                {
-                    int inX = (int)flX;
-                    int inY = (int)puchRate[inX];
-
-                    int inXTmp = (int)((float)inX / inWidth * FormRateGraph.ICON_WIDTH);
-                    int inYTmp = (int)((float)inY / inHeight * FormRateGraph.ICON_HEIGHT);
-                    g.DrawLine(clPen, inXOld, inYOld, inXTmp, inYTmp);
-
-                    inXOld = inXTmp;
-                    inYOld = inYTmp;
-                }
+                g.DrawBeziers(stPen, pclListPos);
             }
-            */
 
-            return (clIconImage);
+            return (clImage);
         }
 
         /// <summary>

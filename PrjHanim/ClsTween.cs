@@ -29,6 +29,7 @@ namespace PrjHikariwoAnim
 
             this.mPos = new Vector3(clPos.X, clPos.Y, 0.0f);
 
+            this.mListVec = new Vector3[3];
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
