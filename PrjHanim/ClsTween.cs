@@ -8,6 +8,28 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsTween
     {
+        //TweenのParamなので所在を明確にする為ここに移動しました amami 11/27
+        //どのパラメータに対してかの指定
+        //UserDataはStringやで
+        public enum EnmParam
+        {
+            NONE = 0,
+
+            POSITION_X,
+            POSITION_Y,
+            ROTATION,
+            SCALE_X,
+            SCALE_Y,
+            TRANS,
+            FLIP_H,
+            FLIP_V,
+            VISIBLE,
+            COLOR,
+            OFFSET_X,
+            OFFSET_Y,
+            USERDATA,
+        }
+
         public EnmParam mParam;
         public int mFrmStart;
         public int mFrmEnd;

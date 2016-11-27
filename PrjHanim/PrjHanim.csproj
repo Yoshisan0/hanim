@@ -55,7 +55,6 @@
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsTween.cs" />
     <Compile Include="ClsWin32.cs" />
-    <Compile Include="EnmParam.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
