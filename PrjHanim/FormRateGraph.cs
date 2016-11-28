@@ -44,7 +44,7 @@ namespace PrjHikariwoAnim
         private Bitmap mImage1;     //イメージ
         private bool mChange;       //変更フラグ
         private FormMain mFormMain; //メインフォーム
-        private EnmParam mParam;    //パラメーター種別
+        private ClsTween.EnmParam mParam;    //パラメーター種別
 
         /// <summary>
         /// コンストラクタ
@@ -54,7 +54,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
+        public FormRateGraph(FormMain clForm, ClsTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
         {
             InitializeComponent();
 
@@ -91,7 +91,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
+        public FormRateGraph(FormMain clForm, ClsTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
         {
             InitializeComponent();
 
