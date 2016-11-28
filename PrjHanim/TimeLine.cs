@@ -249,6 +249,17 @@ namespace PrjHikariwoAnim
             TIMELINEbase tl = (TIMELINEbase) serializer.ReadObject(stm);
         }
 
+        //Hikariwo用Export
+        public void ExportHAnim(string fullPath)
+        {
+            //よろしこ
+            FileStream fs = new FileStream(fullPath, FileMode.Create);
+            //SaveToStream(fs);
+            gmTimeLine[0].ExportHAnimFrame(fs);
+
+            fs.Close();                                                                            //　this.mTweenはエクスポートして欲しくない
+        }
+
         //操作系関数
 
         /// <summary>
@@ -398,12 +409,14 @@ namespace PrjHikariwoAnim
             DataContractSerializer serializer = new DataContractSerializer(typeof(FRAME));
             serializer.WriteObject(stm, this);
         }
-        public void ExportHAnim(string fullPath)
+
+        public void ExportHAnimFrame(Stream stm)
         {
-//よろしこ
+            //Hikariwo用フレーム書込み
             byte[] puchRate = FormRateGraph.CreateSaveData(this.mTween);    //←puchRateこれをエクスポートして欲しい
-                                                                            //　this.mTweenはエクスポートして欲しくない
+            //stm.Write(puchRate, 0, puchRate.Length);
         }
+
         public void LoadFromFile(string fullPath)
         {
             FileStream stm = new FileStream(fullPath, FileMode.Open);
@@ -628,9 +641,6 @@ namespace PrjHikariwoAnim
             }
             return retRect;
         }
-        
-        
-
     }
 
     /// <summary>

@@ -186,7 +186,6 @@ namespace PrjHikariwoAnim
                     break;
                 }
             }
-
             return (puchRate);
         }
 
