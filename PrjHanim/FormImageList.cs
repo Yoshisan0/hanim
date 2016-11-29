@@ -182,7 +182,7 @@ namespace PrjHikariwoAnim
             //以下、アイテム追加処理
             int inIndexImage = this.imageList.Images.Count;
             this.mListImage.Add(clImage);
-            this.imageList.Images.Add(clImageBig);
+            this.imageList.Images.Add(clImage);
 
             string[] pclCells = new string[3];
             pclCells[0] = null;

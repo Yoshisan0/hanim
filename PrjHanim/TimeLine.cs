@@ -413,7 +413,7 @@ namespace PrjHikariwoAnim
         public void ExportHAnimFrame(Stream stm)
         {
             //Hikariwo用フレーム書込み 形式は何がいいのか・・
-            //
+            //mTween のかわりに以下のバイト列を記録
             byte[] puchRate = FormRateGraph.CreateSaveData(this.mTween);    //←puchRateこれをエクスポートして欲しい
             //stm.Write(puchRate, 0, puchRate.Length);
         }

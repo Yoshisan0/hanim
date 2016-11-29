@@ -468,11 +468,13 @@ namespace PrjHikariwoAnim
 
         private void FormImageCut_FormClosing(object sender, FormClosingEventArgs e)
         {
+            /*
             //Closeキャンセルして非表示にするだけ
             e.Cancel = true;
 
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_Control.Checked = false;
+            */
         }
     }
 }
