@@ -39,7 +39,6 @@
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
-            this.label = new System.Windows.Forms.Label();
             this.checkBox_View = new System.Windows.Forms.CheckBox();
             this.button_OpenMyDoc = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -139,21 +138,12 @@
             this.timerMain.Enabled = true;
             this.timerMain.Interval = 16;
             // 
-            // label
-            // 
-            this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(247, 9);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(35, 12);
-            this.label.TabIndex = 5;
-            this.label.Text = "label2";
-            // 
             // checkBox_View
             // 
             this.checkBox_View.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_View.AutoSize = true;
             this.checkBox_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_View.Location = new System.Drawing.Point(352, 4);
+            this.checkBox_View.Location = new System.Drawing.Point(247, 4);
             this.checkBox_View.Name = "checkBox_View";
             this.checkBox_View.Size = new System.Drawing.Size(40, 22);
             this.checkBox_View.TabIndex = 6;
@@ -180,7 +170,6 @@
             this.ClientSize = new System.Drawing.Size(502, 451);
             this.Controls.Add(this.button_OpenMyDoc);
             this.Controls.Add(this.checkBox_View);
-            this.Controls.Add(this.label);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.button_Cut);
@@ -210,11 +199,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timerMain;
-        private System.Windows.Forms.Label label;
         private System.Windows.Forms.CheckBox checkBox_View;
         private System.Windows.Forms.Button button_OpenMyDoc;
+        private System.Windows.Forms.ImageList imageList;
     }
 }

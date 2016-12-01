@@ -286,5 +286,17 @@ namespace PrjHikariwoAnim.Properties {
                 this["FormRateGraph_ColorCurrent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastImageDirectory {
+            get {
+                return ((string)(this["LastImageDirectory"]));
+            }
+            set {
+                this["LastImageDirectory"] = value;
+            }
+        }
     }
 }

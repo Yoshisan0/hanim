@@ -125,13 +125,14 @@ namespace PrjHikariwoAnim
         {
             OpenFileDialog clDialog = new OpenFileDialog();
             clDialog.FileName = "";
-            clDialog.InitialDirectory = path;
+            clDialog.InitialDirectory = (string)Properties.Settings.Default["LastImageDirectory"];
             clDialog.Filter = "PNGファイル(*.png)|*.png|すべてのファイル(*.*)|*.*";
             clDialog.FilterIndex = 0;
             clDialog.Title = "png ファイルを選択してください";
             clDialog.RestoreDirectory = true;
             clDialog.Multiselect = true;
             if (clDialog.ShowDialog() != DialogResult.OK) return;
+            Properties.Settings.Default["LastImageDirectory"] = Path.GetDirectoryName(clDialog.FileName);
 
             int inCnt, inMax = clDialog.FileNames.Length;
             for (inCnt = 0; inCnt < inMax; inCnt++)
@@ -272,7 +273,7 @@ namespace PrjHikariwoAnim
         }
 
         private void button_Add_Click(object sender, EventArgs e)
-        {
+        {             
             AddImage(ClsPath.GetPath());
         }
         private void button_Delete_Click(object sender, EventArgs e)

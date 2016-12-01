@@ -64,7 +64,7 @@ namespace PrjHikariwoAnim
             //CellListの該当も削除するか悩む
             return true;
         }
-        public Image GetImage_FromID(int ID)
+        public Image GetImageFromID(int ID)
         {
             return Info[ID].ImageOrg;
         }

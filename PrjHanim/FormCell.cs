@@ -16,12 +16,10 @@ namespace PrjHikariwoAnim
     {
         //このフォームはセル画像情報を管理しとりだすだけで
         //操作等はしないほうがいいかもしれないので少し考え直し
-
         
-        public ImageManagerBase IM ;
+        public ImageManagerBase ImageMan ;
 
-        private int mTumsSize=64;
-
+        private int mTumsSize=64;//Thumbnailサイズ
         private FormMain mFormMain;
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
         private bool m_isMouseLDown;    //左クリック押し下げ中
@@ -29,7 +27,7 @@ namespace PrjHikariwoAnim
         public FormCell(FormMain form)
         {
             InitializeComponent();
-            IM = new ImageManagerBase();
+            ImageMan = new ImageManagerBase();
             mFormMain = form;
         }
         private void FormCell_DragEnter(object sender, DragEventArgs e)
@@ -40,38 +38,6 @@ namespace PrjHikariwoAnim
             {
                 e.Effect = DragDropEffects.Copy;
             }
-            /*
-            bool isSuccess = false;
-            string[] pclAllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string clPathTmp1 in pclAllPaths)
-            {
-                if (Directory.Exists(clPathTmp1))
-                {
-                    string[] pclFilePaths = System.IO.Directory.GetFiles(clPathTmp1, "*.*", SearchOption.AllDirectories);
-                    foreach (string clPathTmp2 in pclFilePaths)
-                    {
-                        bool isChk = this.ChkImageFile(clPathTmp2);
-                        if (!isChk) continue;
-                        isSuccess = true;
-                    }
-                }
-                else if (File.Exists(clPathTmp1))
-                {
-                    bool isChk = this.ChkImageFile(clPathTmp1);
-                    if (!isChk) continue;
-                    isSuccess = true;
-                }
-            }
-
-            if (isSuccess)
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-            */
         }
         private bool ChkImageFile(string clPath)
         {
@@ -89,45 +55,30 @@ namespace PrjHikariwoAnim
             {
                 return (false);
             }
-
             return (true);
         }
         private void FormCell_DragDrop(object sender, DragEventArgs e)
         {
-            //File受け入れ
-            bool isSuccess = false;
-            string[] pclAllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string clPathTmp1 in pclAllPaths)
+            //PNGファイル直受け入れ
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                if (Directory.Exists(clPathTmp1))
+                //1画像 1CELL 1Element
+                //File
+                string[] AllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string str in AllPaths)
                 {
-                    string[] pclFilePaths = Directory.GetFiles(clPathTmp1, "*.*", SearchOption.AllDirectories);
-                    foreach (string clPathTmp2 in pclFilePaths)
+                    string ext = System.IO.Path.GetExtension(str).ToLower();
+                    if (ext == ".png")
                     {
-                        bool isChk = this.ChkImageFile(clPathTmp2);
-                        if (!isChk) continue;
-
-                       IM.SetImage (clPathTmp2);
-                        isSuccess = true;
+                        CELL c = new CELL();
+                        c.FromPngFile(str);
+                        ImageMan.AddCell(c);
+                        //ImageListへ登録と更新
+                        //CellListの表示更新
+                        Refresh();
                     }
                 }
-                else if (File.Exists(clPathTmp1))
-                {
-                    bool isChk = this.ChkImageFile(clPathTmp1);
-                    if (!isChk) continue;
-
-                    IM.SetImage(clPathTmp1);
-                    isSuccess = true;
-                }
-            }
-
-            if (isSuccess)
-            {
                 e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
             }
         }
         private void FormCell_MouseDown(object sender, MouseEventArgs e)
@@ -150,9 +101,9 @@ namespace PrjHikariwoAnim
                 {
                     //ドラッグ開始
                     int sellectIndex = (e.Y / mTumsSize);
-                    if (sellectIndex < IM.CellList.Count)
+                    if (sellectIndex < ImageMan.CellList.Count)
                     {                        
-                        panel2.DoDragDrop(IM.CellList[sellectIndex], DragDropEffects.Copy);
+                        panel2.DoDragDrop(ImageMan.CellList[sellectIndex], DragDropEffects.Copy);
                     }
                 }
             }
@@ -178,11 +129,11 @@ namespace PrjHikariwoAnim
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
 
-            if (IM.CellList.Count <= 0) return;
+            if (ImageMan.CellList.Count <= 0) return;
 
-            while (drawPos < panel2.Height && cnt < IM.CellList.Count)
+            while (drawPos < panel2.Height && cnt < ImageMan.CellList.Count)
             {
-                Image src = IM.CellList[cnt].Img;
+                Image src = ImageMan.CellList[cnt].Img;
                 if (src == null)
                 {
                     Console.Out.Write("CellImage is Null");
@@ -197,7 +148,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
-                if (IM.CellList[cnt].Selected)
+                if (ImageMan.CellList[cnt].Selected)
                 {
                     e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(0,drawPos, bSize - 1, bSize - 1));
                 }

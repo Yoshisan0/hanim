@@ -107,7 +107,7 @@ namespace PrjHikariwoAnim
             //Ver2
             mFormCell = new FormCell(this);
             //mFormCell.Owner = this;
-            mFormCell.IM = ImageMan;
+            mFormCell.ImageMan = ImageMan;
             mFormCell.Show();
 
             AlingForms();
@@ -780,6 +780,7 @@ namespace PrjHikariwoAnim
                 ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
                 //Cellの登録 Image Item
                 CELL work = new CELL();
+                
                 work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
                 //画像そのままならこれでいいが一部切り抜きとなると変更
                 // ！！！どうやらオリジナル画像でなくサムネらしい！！！
