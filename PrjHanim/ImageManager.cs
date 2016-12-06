@@ -110,13 +110,13 @@ namespace PrjHikariwoAnim
         /// <param name="cell">Rectangle</param> 
         public void AddCellFromID(CELL a)
         {
-            if (a.ImageID > CellList.Count)
+            if (a.SrcID > CellList.Count)
             {
                 Console.Out.WriteLine("[ImageID]OutofRange");
                 return;
             }
             //Cellにイメージ格納
-            Bitmap srcBmp = new Bitmap(CellList[a.ImageID].Img);
+            Bitmap srcBmp = new Bitmap(CellList[a.SrcID].Img);
             Bitmap dstBmp = srcBmp.Clone(a.Rect, srcBmp.PixelFormat);
             a.Img = dstBmp;
             CellList.Add(a);//追加
@@ -165,7 +165,7 @@ namespace PrjHikariwoAnim
             //
             for(int cnt=CellList.Count;cnt > 0;cnt--)
             {
-                if(CellList[cnt].ImageID == imgID)
+                if(CellList[cnt].SrcID == imgID)
                 {
                     CellList.RemoveAt(cnt);
                 }
@@ -198,7 +198,7 @@ namespace PrjHikariwoAnim
         }
         public CELL GetCellFromImageID(int ID)
         {
-            return  CellList.Find((CELL c) =>(c.ImageID==ID));
+            return  CellList.Find((CELL c) =>(c.SrcID==ID));
         }
         public CELL GetCellFromHash(int ID)
         {
@@ -242,25 +242,34 @@ namespace PrjHikariwoAnim
         public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
         public int ID;//識別コード(hash?)
         public string Name;
-        public int ImageID;//どの画像の (自身がオリジナルの場合:0)
+        public int SrcID;//どの画像の (自身がオリジナルの場合:0)
 	    public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         public Bitmap Img;//汎用性と速度の為ここでも保持
 
         public CELL()
         {
-            ImageID = 0;
+            SrcID = 0;
             Name = "Noname";
             Rect = new Rectangle(0, 0, 0, 0);
         }
         public CELL(CELL a)
         {
-            ImageID = a.ImageID;
+            SrcID = a.SrcID;
             Rect = a.Rect;
         }
-        public CELL(int id,Rectangle rect)
+        /// <summary>
+        /// 既存CellIDの一部を登録
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rect"></param>
+        public CELL(CELL srcCell,Rectangle rect)
         {
-            ImageID = id;
+            SrcID = srcCell.ID;
+            Name = "Parts";
             Rect = rect;
+            //切り抜いてimageを登録
+            Bitmap dst = srcCell.Img.Clone(rect,srcCell.Img.PixelFormat);
+            Img = dst;
         }
 
         /// <summary>
@@ -280,7 +289,7 @@ namespace PrjHikariwoAnim
         {
             Bitmap work = new Bitmap(path);//FileLockの可能性？
             Img = work;
-            ImageID = this.GetHashCode();
+            SrcID = this.GetHashCode();
             Rect = new Rectangle(0, 0, work.Width, work.Height);
             Name = System.IO.Path.GetFileNameWithoutExtension(path);
             return this; 
@@ -289,7 +298,7 @@ namespace PrjHikariwoAnim
         {
                 bw.Write(ID);
                 bw.Write(Name);
-                bw.Write(ImageID);//hashの重複あり得る？ならLoad時再割り当てするか？
+                bw.Write(SrcID);//hashの重複あり得る？ならLoad時再割り当てするか？
                 bw.Write(Rect.X);
                 bw.Write(Rect.Y);
                 bw.Write(Rect.Width);
@@ -301,7 +310,7 @@ namespace PrjHikariwoAnim
             StreamReader sw = new StreamReader(stm);
             int.TryParse(sw.ReadLine(),out ID);
             Name = sw.ReadLine();
-            int.TryParse(sw.ReadLine(),out ImageID);
+            int.TryParse(sw.ReadLine(),out SrcID);
             int work;
             int.TryParse(sw.ReadLine(), out work);
             Rect.X = work;
