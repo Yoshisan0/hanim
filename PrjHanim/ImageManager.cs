@@ -19,7 +19,6 @@ namespace PrjHikariwoAnim
             CellとImage分離するか悩む
         */
         // member:
-        List<ImageInfo> Info;
 
         //CellのGetSetは遠回しになるのでCellList自体を公開
         //取扱い注意
@@ -28,81 +27,81 @@ namespace PrjHikariwoAnim
         // method:
         public ImageManagerBase()
         {
-            Info = new List<ImageInfo>();
             CellList = new List<CELL>();
-        }
-        public bool SetImage(string Path)
-        {
-//          Image img;
-            ImageInfo info = new ImageInfo(Path);  
-
-            Info.Add(info);
-            return true;
         }
 
         //Image
-        public int GetFromFileName(string FileName)
+        public int GetIndexFromPath(string fullPath)
         {
-            return Info.FindIndex( (ImageInfo f ) => (f.FileName == FileName) );
-        }
-        public int GetFromPath(string fullPath)
-        {
-            return Info.FindIndex((ImageInfo f) => (f.FullPath == fullPath));
+            return CellList.FindIndex((CELL f) => (f.Path == fullPath));
         }
         public bool Remove(int ID)
         {
-            if (ID >= Info.Count) return false;
-            Info.RemoveAt(ID);
+            if (ID >= CellList.Count) return false;
+            CellList.RemoveAt(ID);
             //CellListの該当も自動削除するか悩む
+
             return true;
         }
-        public bool Remove(string Filename)
+        public bool Remove(string path)
         {
-            var s = GetFromPath(Filename);
+            var s = GetIndexFromPath(path);
             if (s < 0) return false;
-            Info.RemoveAt(s);
+            CellList.RemoveAt(s);
             //CellListの該当も削除するか悩む
             return true;
         }
         public Image GetImageFromID(int ID)
         {
-            return Info[ID].ImageOrg;
+            return CellList[ID].Img;
         }
-        public void SaveImageInfo(string FileName)
+        public void SaveToFile(string FileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(ImageInfo));
             //UTF-8 BOM無し
-            StreamWriter sw = new StreamWriter(FileName, false, new UTF8Encoding(false));
-            serializer.Serialize(sw,Info);
-            sw.Close();
+            using (Stream stm = new FileStream(FileName, FileMode.Create))
+            using (BinaryWriter bw = new BinaryWriter(stm, new UTF8Encoding(false)))
+            {
+                //serializer.Serialize(sw, CellList);
+                //案の定シリアライズ失敗する
+                //ストリームに直書きするかぁ・・
+                bw.Write(CellList.Count);//Cell数
+
+                foreach (CELL c in CellList)
+                {
+                    c.BinaryToStream(bw);
+                }
+                //sw.Close();
+            
+            //stm.Close();
+            }
+
         }
-        public void LoadImageInfo(string FileName)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(IList<ImageInfo>));
-            //UTF-8 BOM無し
-            StreamReader sw = new StreamReader(FileName, new UTF8Encoding(false));
-            Info = (List<ImageInfo>) serializer.Deserialize(sw);
-            sw.Close();
-        }
-        public void SaveImageCellList(string FileName)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(ImageInfo));
-            //UTF-8 BOM無し
-            StreamWriter sw = new StreamWriter(FileName, false, new UTF8Encoding(false));
-            serializer.Serialize(sw, Info);
-            sw.Close();
-        }
-        public void LoadImageCellList(string FileName)
+        public void LoadFromFile(string FileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(IList<CELL>));
             //UTF-8 BOM無し
-            StreamReader sw = new StreamReader(FileName, new UTF8Encoding(false));
-            CellList = (List<CELL>)serializer.Deserialize(sw);
-            sw.Close();
+            Stream stm = new  FileStream(FileName, FileMode.Open);
+            StreamReader sr = new StreamReader(FileName, new UTF8Encoding(false));
+            //CellList = (List<CELL>)serializer.Deserialize(sw);
+            string wstr = sr.ReadLine();
+            int cnt;
+            if(int.TryParse(wstr,out cnt))
+            {
+                for (int mcnt = 0; mcnt < cnt;mcnt++)
+                {
+                    CELL c = new CELL();
+                    c.BinaryFromStream(stm);//エラーチェックはあとで
+                    CellList.Add(c);
+                }
+            }
+
+            sr.Close();
         }
 
         public void AddCell(CELL c)
         {
+            
             CellList.Add(c);
         }
         /// <summary>
@@ -111,13 +110,13 @@ namespace PrjHikariwoAnim
         /// <param name="cell">Rectangle</param> 
         public void AddCellFromID(CELL a)
         {
-            if (a.ImageID > Info.Count)
+            if (a.ImageID > CellList.Count)
             {
                 Console.Out.WriteLine("[ImageID]OutofRange");
                 return;
             }
             //Cellにイメージ格納
-            Bitmap srcBmp = new Bitmap(Info[a.ImageID].ImageOrg);
+            Bitmap srcBmp = new Bitmap(CellList[a.ImageID].Img);
             Bitmap dstBmp = srcBmp.Clone(a.Rect, srcBmp.PixelFormat);
             a.Img = dstBmp;
             CellList.Add(a);//追加
@@ -129,11 +128,33 @@ namespace PrjHikariwoAnim
         /// <param name="cell">Rectangle</param>
         public void AddCellFromImage(Image img,CELL cell)
         {
+            //重複チェック
             Bitmap srcBmp = new Bitmap(img);
             //Rectangle srcRect = new Rectangle(cell.Rect.Left,cell.Rect.Top,(cell.Rect.Right-cell.Rect.Left)-1,(cell.Rect.Bottom-cell.Rect.Top)-1); 
             Bitmap dstBmp = srcBmp.Clone(cell.Rect, srcBmp.PixelFormat);
             cell.Img = dstBmp;
             CellList.Add(cell);//追加
+        }
+
+        /// <summary>
+        /// PNGファイルから読み込みCELLを作成
+        /// 既存CELLがあればその番号を返す
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns>CellIndex</returns>
+        public int AddCellFromPNG(string path)
+        {
+            //既存チェック
+            int idx = GetIndexFromPath(path);
+            if(idx<=0)
+            {
+                //it's new
+                CELL c = new CELL();
+                c.FromPngFile(path);
+                CellList.Add(c);
+                idx = CellList.Count;
+            }
+            return idx;
         }
         public void RemoveCell(int index)
         {
@@ -196,6 +217,11 @@ namespace PrjHikariwoAnim
 
         public Image ImageOrg;
 
+        public ImageInfo() { }
+        /// <summary>
+        /// fullpPathから各要素を分解し格納
+        /// </summary>
+        /// <param name="fullPath"></param>
         public ImageInfo(string fullPath)
         {
             using (FileStream fs = File.OpenRead(fullPath))
@@ -213,15 +239,17 @@ namespace PrjHikariwoAnim
     public class CELL
     {
         public bool Selected;
+        public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
         public int ID;//識別コード(hash?)
         public string Name;
-        public int ImageID;//どの画像の
-	    public Rectangle Rect;//どの部分か
+        public int ImageID;//どの画像の (自身がオリジナルの場合:0)
+	    public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         public Bitmap Img;//汎用性と速度の為ここでも保持
 
         public CELL()
         {
             ImageID = 0;
+            Name = "Noname";
             Rect = new Rectangle(0, 0, 0, 0);
         }
         public CELL(CELL a)
@@ -235,37 +263,40 @@ namespace PrjHikariwoAnim
             Rect = rect;
         }
 
-        public void ToFile(string fname)
+        /// <summary>
+        /// *Cell単体を出力する必要がある場合のみ使用
+        /// </summary>
+        /// <param name="fname"></param>
+        public void ToBinaryFile(string fname)
         {
-            FileStream fs = new FileStream(fname,FileMode.Create);
-            ToStream(fs);
+            FileStream fs = new FileStream(fname, FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            BinaryToStream(bw);
             fs.Close();
         }
+        //事前にImageManagerレベルで重複チェックすること
+        //通常はImagemanager.AddPngFileを使う事！
         public CELL FromPngFile(string path)
         {
-            Bitmap work = new Bitmap(path);
+            Bitmap work = new Bitmap(path);//FileLockの可能性？
             Img = work;
             ImageID = this.GetHashCode();
             Rect = new Rectangle(0, 0, work.Width, work.Height);
             Name = System.IO.Path.GetFileNameWithoutExtension(path);
             return this; 
         }
-        public void ToStream(Stream stm)
+        public void BinaryToStream(BinaryWriter bw)
         {
-            StreamWriter sw = new StreamWriter(stm);
-            sw.WriteLine(ID);
-            sw.WriteLine(Name);
-            sw.WriteLine(ImageID);
-            sw.WriteLine(Rect.X);
-            sw.WriteLine(Rect.Y);
-            sw.WriteLine(Rect.Width);
-            sw.WriteLine(Rect.Height);
-
-            //Byte[] buff;
-            Img.Save(stm, System.Drawing.Imaging.ImageFormat.Png);
-            sw.Close();
+                bw.Write(ID);
+                bw.Write(Name);
+                bw.Write(ImageID);//hashの重複あり得る？ならLoad時再割り当てするか？
+                bw.Write(Rect.X);
+                bw.Write(Rect.Y);
+                bw.Write(Rect.Width);
+                bw.Write(Rect.Height);
+                Img.Save(bw.BaseStream, System.Drawing.Imaging.ImageFormat.Png);         
         }
-        public void FromStream(Stream stm)
+        public void BinaryFromStream(Stream stm)
         {
             StreamReader sw = new StreamReader(stm);
             int.TryParse(sw.ReadLine(),out ID);

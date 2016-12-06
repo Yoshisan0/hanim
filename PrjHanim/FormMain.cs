@@ -794,12 +794,12 @@ namespace PrjHikariwoAnim
             }
 
             //CELL 受け入れ
-            if (e.Data.GetType() == typeof(CELL))
+            if (e.Data.GetDataPresent(typeof(CELL)))
             {
                 //Store Cell Item
                 CELL work = (CELL)e.Data.GetData(typeof(CELL));
                 ImageMan.AddCell(work);//画像登録
-
+                //PreViewに配置し更新
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
                 treeView_Project_AddElements(work, a.X, a.Y);
                 e.Effect = DragDropEffects.Copy;
@@ -1060,6 +1060,12 @@ namespace PrjHikariwoAnim
                 Image img = new Bitmap(fd.FileName);                
                 FormImageCut fc = new FormImageCut(this, img,fd.FileName);
             }
+        }
+
+        //test
+        private void writeImageListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImageMan.SaveToFile("ImageTest");
         }
 
         /// <summary>

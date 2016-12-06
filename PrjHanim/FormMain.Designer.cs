@@ -85,6 +85,8 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -264,6 +266,9 @@
             // 
             // あまみさんテストToolStripMenuItem
             // 
+            this.あまみさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.writeImageListToolStripMenuItem,
+            this.readImageListToolStripMenuItem});
             this.あまみさんテストToolStripMenuItem.Name = "あまみさんテストToolStripMenuItem";
             this.あまみさんテストToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.あまみさんテストToolStripMenuItem.Text = "あまみさんテスト";
@@ -717,6 +722,19 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // writeImageListToolStripMenuItem
+            // 
+            this.writeImageListToolStripMenuItem.Name = "writeImageListToolStripMenuItem";
+            this.writeImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.writeImageListToolStripMenuItem.Text = "WriteImageList";
+            this.writeImageListToolStripMenuItem.Click += new System.EventHandler(this.writeImageListToolStripMenuItem_Click);
+            // 
+            // readImageListToolStripMenuItem
+            // 
+            this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
+            this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.readImageListToolStripMenuItem.Text = "ReadImageList";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -813,6 +831,8 @@
         private System.Windows.Forms.ToolStripMenuItem よしさんテストToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugGraph;
         private System.Windows.Forms.ToolStripMenuItem あまみさんテストToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem writeImageListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem readImageListToolStripMenuItem;
     }
 }
 
