@@ -75,6 +75,7 @@ namespace PrjHikariwoAnim
             
             //stm.Close();
             }
+            CellList[0].ToXMLFile(FileName + ".xml");
 
         }
         public void LoadFromFile(string FileName)
@@ -245,6 +246,7 @@ namespace PrjHikariwoAnim
         public int SrcID;//どの画像の (自身がオリジナルの場合:0)
 	    public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         public Bitmap Img;//汎用性と速度の為ここでも保持
+        public string ImgStrBase64;//XML JSON用テスト
 
         public CELL()
         {
@@ -282,6 +284,7 @@ namespace PrjHikariwoAnim
             BinaryWriter bw = new BinaryWriter(fs);
             BinaryToStream(bw);
             fs.Close();
+            
         }
         //事前にImageManagerレベルで重複チェックすること
         //通常はImagemanager.AddPngFileを使う事！
@@ -329,6 +332,7 @@ namespace PrjHikariwoAnim
 
         public void ToXMLFile(string fname)
         {
+            ImgStrBase64 = ImageToBase64(Img); 
             FileStream fs = new FileStream(fname, FileMode.Create);
             ToStreamXML(fs);
             fs.Close();
@@ -338,6 +342,22 @@ namespace PrjHikariwoAnim
             //bitmapはシリアライズされない
             XmlSerializer xs = new XmlSerializer(typeof(CELL));
             xs.Serialize(stm, this);
+        }
+        public string ImageToBase64(Image img)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, img.RawFormat);
+                byte[] imgByte = ms.ToArray();
+                return Convert.ToBase64String(imgByte); 
+            }
+        }
+        public Image ImageFromBase64(string strBase64)
+        {
+            byte[] imgByte = Convert.FromBase64String(strBase64);
+            MemoryStream ms = new MemoryStream(imgByte, 0, imgByte.Length);
+            Image img = Image.FromStream(ms);
+            return Img;
         }
     }
 
