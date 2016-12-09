@@ -60,5 +60,22 @@ namespace PrjHikariwoAnim
             byte[] pchBuffer = (byte[])clImgConv.ConvertTo(clImage, typeof(byte[]));
             return (pchBuffer);
         }
+
+        public static string ImageToBase64(Image img)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, img.RawFormat);
+                byte[] imgByte = ms.ToArray();
+                return Convert.ToBase64String(imgByte);
+            }
+        }
+        public static Bitmap ImageFromBase64(string strBase64)
+        {
+            byte[] imgByte = Convert.FromBase64String(strBase64);
+            MemoryStream ms = new MemoryStream(imgByte, 0, imgByte.Length);
+            Bitmap img = (Bitmap)Image.FromStream(ms);
+            return img;
+        }
     }
 }

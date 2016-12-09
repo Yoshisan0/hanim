@@ -332,7 +332,7 @@ namespace PrjHikariwoAnim
 
         public void ToXMLFile(string fname)
         {
-            ImgStrBase64 = ImageToBase64(Img); 
+            ImgStrBase64 = ClsSystem.ImageToBase64(Img); 
             FileStream fs = new FileStream(fname, FileMode.Create);
             ToStreamXML(fs);
             fs.Close();
@@ -342,23 +342,10 @@ namespace PrjHikariwoAnim
             //bitmapはシリアライズされない
             XmlSerializer xs = new XmlSerializer(typeof(CELL));
             xs.Serialize(stm, this);
+            //imgを元に戻す
+            this.Img = ClsSystem.ImageFromBase64(this.ImgStrBase64);
         }
-        public string ImageToBase64(Image img)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                img.Save(ms, img.RawFormat);
-                byte[] imgByte = ms.ToArray();
-                return Convert.ToBase64String(imgByte); 
-            }
-        }
-        public Image ImageFromBase64(string strBase64)
-        {
-            byte[] imgByte = Convert.FromBase64String(strBase64);
-            MemoryStream ms = new MemoryStream(imgByte, 0, imgByte.Length);
-            Image img = Image.FromStream(ms);
-            return Img;
-        }
+
     }
 
 }
