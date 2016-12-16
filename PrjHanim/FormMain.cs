@@ -1072,5 +1072,10 @@ namespace PrjHikariwoAnim
             FormRateGraph clFormRateGraph = new FormRateGraph(this, ClsTween.EnmParam.POSITION_X, 10, 20, 15);
             clFormRateGraph.Show();
         }
+
+        private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
