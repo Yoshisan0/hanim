@@ -452,7 +452,7 @@ namespace PrjHikariwoAnim
                 sd.DefaultExt = "cell";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
-                    ImageManager.CellList[0].ToFile(sd.FileName);
+                    ImageManager.CellList[0].ToBinaryFile(sd.FileName);
                     //ImageManager.CellList[0].ToXMLFile(sd.FileName);
                 }
             }

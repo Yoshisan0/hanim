@@ -37,6 +37,8 @@ namespace PrjHikariwoAnim
         }
         private void FormImageList_DragEnter(object sender, DragEventArgs e)
         {
+            
+            /*
             if (e.Data.GetDataPresent(typeof(ListViewItem[])))
             {
                 //この処理が無いと、ドラッグ＆ドロップ開始早々絵が表示されない
@@ -45,7 +47,9 @@ namespace PrjHikariwoAnim
 
                 e.Effect = DragDropEffects.None;
             }
-            else if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            else
+            */
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 bool isSuccess = false;
                 string[] pclAllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
