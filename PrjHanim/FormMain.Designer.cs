@@ -56,8 +56,11 @@
             this.ToolStripMenuItem_Attribute = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CellList = new System.Windows.Forms.ToolStripMenuItem();
             this.あまみさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.よしさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugExport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -85,8 +88,7 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -273,10 +275,25 @@
             this.あまみさんテストToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.あまみさんテストToolStripMenuItem.Text = "あまみさんテスト";
             // 
+            // writeImageListToolStripMenuItem
+            // 
+            this.writeImageListToolStripMenuItem.Name = "writeImageListToolStripMenuItem";
+            this.writeImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.writeImageListToolStripMenuItem.Text = "WriteImageList";
+            this.writeImageListToolStripMenuItem.Click += new System.EventHandler(this.writeImageListToolStripMenuItem_Click);
+            // 
+            // readImageListToolStripMenuItem
+            // 
+            this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
+            this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.readImageListToolStripMenuItem.Text = "ReadImageList";
+            // 
             // よしさんテストToolStripMenuItem
             // 
             this.よしさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_DebugGraph});
+            this.ToolStripMenuItem_DebugGraph,
+            this.ToolStripMenuItem_DebugRootOpen,
+            this.ToolStripMenuItem_DebugExport});
             this.よしさんテストToolStripMenuItem.Name = "よしさんテストToolStripMenuItem";
             this.よしさんテストToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.よしさんテストToolStripMenuItem.Text = "よしさんテスト";
@@ -284,9 +301,16 @@
             // ToolStripMenuItem_DebugGraph
             // 
             this.ToolStripMenuItem_DebugGraph.Name = "ToolStripMenuItem_DebugGraph";
-            this.ToolStripMenuItem_DebugGraph.Size = new System.Drawing.Size(111, 22);
+            this.ToolStripMenuItem_DebugGraph.Size = new System.Drawing.Size(175, 22);
             this.ToolStripMenuItem_DebugGraph.Text = "グラフ１";
             this.ToolStripMenuItem_DebugGraph.Click += new System.EventHandler(this.ToolStripMenuItem_DebugGraph_Click);
+            // 
+            // ToolStripMenuItem_DebugExport
+            // 
+            this.ToolStripMenuItem_DebugExport.Name = "ToolStripMenuItem_DebugExport";
+            this.ToolStripMenuItem_DebugExport.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugExport.Text = "エクスポートテスト";
+            this.ToolStripMenuItem_DebugExport.Click += new System.EventHandler(this.ToolStripMenuItem_DebugExport_Click);
             // 
             // panel_ToolBase
             // 
@@ -722,18 +746,12 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
-            // writeImageListToolStripMenuItem
+            // ToolStripMenuItem_DebugRootOpen
             // 
-            this.writeImageListToolStripMenuItem.Name = "writeImageListToolStripMenuItem";
-            this.writeImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.writeImageListToolStripMenuItem.Text = "WriteImageList";
-            this.writeImageListToolStripMenuItem.Click += new System.EventHandler(this.writeImageListToolStripMenuItem_Click);
-            // 
-            // readImageListToolStripMenuItem
-            // 
-            this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
-            this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.readImageListToolStripMenuItem.Text = "ReadImageList";
+            this.ToolStripMenuItem_DebugRootOpen.Name = "ToolStripMenuItem_DebugRootOpen";
+            this.ToolStripMenuItem_DebugRootOpen.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugRootOpen.Text = "exeのルートパスを開く";
+            this.ToolStripMenuItem_DebugRootOpen.Click += new System.EventHandler(this.ToolStripMenuItem_DebugRootOpen_Click);
             // 
             // FormMain
             // 
@@ -833,6 +851,8 @@
         private System.Windows.Forms.ToolStripMenuItem あまみさんテストToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeImageListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readImageListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugExport;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugRootOpen;
     }
 }
 

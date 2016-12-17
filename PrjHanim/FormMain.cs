@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
 
 namespace PrjHikariwoAnim
 {
@@ -1079,9 +1081,17 @@ namespace PrjHikariwoAnim
             clFormRateGraph.Show();
         }
 
+        private void ToolStripMenuItem_DebugRootOpen_Click(object sender, EventArgs e)
+        {
+            string clPath = ClsPath.GetPath();
+            Process.Start(clPath);
+        }
+
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
-
+            string clPath = ClsPath.GetPath();
+            string clPathFile = Path.Combine(clPath, "よしさんデバッグ用ファイル.txt");
+            this.TimeLine.ExportHAnim(clPathFile);
         }
     }
 }
