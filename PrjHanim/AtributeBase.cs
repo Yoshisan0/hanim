@@ -130,6 +130,36 @@ namespace PrjHikariwoAnim
             isColor = src.isColor;
             Text = src.Text;
         }
+        public Dictionary<string, object> Export()
+        {
+            Dictionary<string, object> clDic = new Dictionary<string, object>();
+            clDic["cid"] = this.CellID;
+            clDic["val"] = this.Value;
+            if (this.isX) clDic["x"] = this.Position.X;
+            if (this.isY) clDic["y"] = this.Position.Y;
+            if (this.isZ) clDic["z"] = this.Position.Z;
+            if (this.isRX) clDic["rx"] = this.Radius.X;
+            if (this.isRY) clDic["ry"] = this.Radius.Y;
+            if (this.isRZ) clDic["rz"] = this.Radius.Z;
+            if (this.isSX) clDic["sx"] = this.Scale.X;
+            if (this.isSY) clDic["sy"] = this.Scale.Y;
+            if (this.isSZ) clDic["sz"] = this.Scale.Z;
+            clDic["ox"] = this.Offset.X;
+            clDic["oy"] = this.Offset.Y;
+            clDic["w"] = this.Width;
+            clDic["h"] = this.Height;
+            clDic["fh"] = this.FlipH;
+            clDic["fv"] = this.FlipV;
+            if (this.isTransparrency) clDic["ts"] = this.Transparency;
+            clDic["ebl"] = this.Enable;
+            clDic["vis"] = this.Visible;
+            clDic["cll"] = this.Collision;
+            if (this.isColor) clDic["c"] = this.Color;
+            clDic["cr"] = this.ColorRate;
+            clDic["tex"] = this.Text;
+
+            return (clDic);
+        }
         public AttributeBase Copy(AttributeBase src)
         {
             return (AttributeBase)MemberwiseClone();

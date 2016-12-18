@@ -705,31 +705,7 @@ namespace PrjHikariwoAnim
         public Dictionary<string, object> Export()
         {
             Dictionary<string, object> clDic = new Dictionary<string, object>();
-            clDic["cid"] = this.Atr.CellID;
-            clDic["val"] = this.Atr.Value;
-            if (this.Atr.isX) clDic["x"] = this.Atr.Position.X;
-            if (this.Atr.isY) clDic["y"] = this.Atr.Position.Y;
-            if (this.Atr.isZ) clDic["z"] = this.Atr.Position.Z;
-            if (this.Atr.isRX) clDic["rx"] = this.Atr.Radius.X;
-            if (this.Atr.isRY) clDic["ry"] = this.Atr.Radius.Y;
-            if (this.Atr.isRZ) clDic["rz"] = this.Atr.Radius.Z;
-            if (this.Atr.isSX) clDic["sx"] = this.Atr.Scale.X;
-            if (this.Atr.isSY) clDic["sy"] = this.Atr.Scale.Y;
-            if (this.Atr.isSZ) clDic["sz"] = this.Atr.Scale.Z;
-            clDic["ox"] = this.Atr.Offset.X;
-            clDic["oy"] = this.Atr.Offset.Y;
-            clDic["w"] = this.Atr.Width;
-            clDic["h"] = this.Atr.Height;
-            clDic["fh"] = this.Atr.FlipH;
-            clDic["fv"] = this.Atr.FlipV;
-            if (this.Atr.isTransparrency) clDic["ts"] = this.Atr.Transparency;
-            clDic["ebl"] = this.Atr.Enable;
-            clDic["vis"] = this.Atr.Visible;
-            clDic["cll"] = this.Atr.Collision;
-            if (this.Atr.isColor) clDic["c"] = this.Atr.Color;
-            clDic["cr"] = this.Atr.ColorRate;
-            clDic["tex"] = this.Atr.Text;
-
+            clDic["Atr_0"] = this.Atr.Export();
             return (clDic);
         }
 

@@ -1110,7 +1110,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 FRAME clFrame = this.TimeLine.gmTimeLine[inCnt];
-                clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメかも）としたい
+                clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメ＞＜）としたい
             }
 
             //以下、DictionaryをJson形式に変換する処理
