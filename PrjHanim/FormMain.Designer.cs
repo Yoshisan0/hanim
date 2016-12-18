@@ -60,6 +60,7 @@
             this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.よしさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugExport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
@@ -88,7 +89,6 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -304,6 +304,13 @@
             this.ToolStripMenuItem_DebugGraph.Size = new System.Drawing.Size(175, 22);
             this.ToolStripMenuItem_DebugGraph.Text = "グラフ１";
             this.ToolStripMenuItem_DebugGraph.Click += new System.EventHandler(this.ToolStripMenuItem_DebugGraph_Click);
+            // 
+            // ToolStripMenuItem_DebugRootOpen
+            // 
+            this.ToolStripMenuItem_DebugRootOpen.Name = "ToolStripMenuItem_DebugRootOpen";
+            this.ToolStripMenuItem_DebugRootOpen.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugRootOpen.Text = "exeのルートパスを開く";
+            this.ToolStripMenuItem_DebugRootOpen.Click += new System.EventHandler(this.ToolStripMenuItem_DebugRootOpen_Click);
             // 
             // ToolStripMenuItem_DebugExport
             // 
@@ -745,13 +752,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // ToolStripMenuItem_DebugRootOpen
-            // 
-            this.ToolStripMenuItem_DebugRootOpen.Name = "ToolStripMenuItem_DebugRootOpen";
-            this.ToolStripMenuItem_DebugRootOpen.Size = new System.Drawing.Size(175, 22);
-            this.ToolStripMenuItem_DebugRootOpen.Text = "exeのルートパスを開く";
-            this.ToolStripMenuItem_DebugRootOpen.Click += new System.EventHandler(this.ToolStripMenuItem_DebugRootOpen_Click);
             // 
             // FormMain
             // 
