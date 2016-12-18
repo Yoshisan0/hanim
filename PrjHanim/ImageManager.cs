@@ -274,6 +274,22 @@ namespace PrjHikariwoAnim
             Img = dst;
         }
 
+        public Dictionary<string, object> Export()
+        {
+            Dictionary<string, object> clDic = new Dictionary<string, object>();
+            clDic["id"] = this.ID;
+            clDic["nm"] = this.Name;
+            clDic["sel"] = this.Selected;
+            clDic["sid"] = this.SrcID;
+            clDic["x"] = this.Rect.X;
+            clDic["y"] = this.Rect.Y;   //上下ひっくり返さないとダメかも？
+            clDic["w"] = this.Rect.Width;
+            clDic["h"] = this.Rect.Height;
+            clDic["img"] = this.ImgStrBase64;
+
+            return (clDic);
+        }
+
         /// <summary>
         /// *Cell単体を出力する必要がある場合のみ使用
         /// </summary>

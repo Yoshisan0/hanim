@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.Serialization.Json;
 
 namespace PrjHikariwoAnim
 {
@@ -1089,9 +1090,39 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
+            Dictionary<string, object> clDicFile = new Dictionary<string, object>();
+
+            //以下、ファイル情報出力処理
+            clDicFile["ver"] = "0.0.1";
+            clDicFile["hogehoge"] = 99;
+
+            //以下、イメージ出力処理
+            int inCnt, inMax = this.ImageMan.CellList.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                CELL clCell = this.ImageMan.CellList[inCnt];
+                string clKey = clCell.ID.ToString();
+                clDicFile[clKey] = clCell.Export();
+            }
+
+            //以下、アニメ出力処理
+            inMax = this.TimeLine.gmTimeLine.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                FRAME clFrame = this.TimeLine.gmTimeLine[inCnt];
+                clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメかも）としたい
+            }
+
+            //以下、Dictionaryをjson化する処理（これだとダメ）
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Dictionary<string, object>));
+            MemoryStream ms = new MemoryStream();
+            serializer.WriteObject(ms, clDicFile);
+            string clJson = Encoding.UTF8.GetString(ms.ToArray());
+
+            //以下、ファイル出力処理
             string clPath = ClsPath.GetPath();
             string clPathFile = Path.Combine(clPath, "よしさんデバッグ用ファイル.txt");
-            this.TimeLine.ExportHAnim(clPathFile);
+            File.WriteAllText(clPathFile, clJson);
         }
     }
 }

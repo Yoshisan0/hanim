@@ -249,17 +249,6 @@ namespace PrjHikariwoAnim
             TIMELINEbase tl = (TIMELINEbase) serializer.ReadObject(stm);
         }
 
-        //Hikariwo用Export
-        public void ExportHAnim(string fullPath)
-        {
-            //よろしこ
-            FileStream fs = new FileStream(fullPath, FileMode.Create);
-            //SaveToStream(fs);
-            gmTimeLine[0].ExportHAnimFrame(fs);
-
-            fs.Close();                                                                            //　this.mTweenはエクスポートして欲しくない
-        }
-
         //操作系関数
 
         /// <summary>
@@ -410,12 +399,25 @@ namespace PrjHikariwoAnim
             serializer.WriteObject(stm, this);
         }
 
-        public void ExportHAnimFrame(Stream stm)
+        public Dictionary<string, object> Export()
         {
-            //Hikariwo用フレーム書込み 形式は何がいいのか・・
-            //mTween のかわりに以下のバイト列を記録
-            byte[] puchRate = FormRateGraph.CreateSaveData(this.mTween);    //←puchRateこれをエクスポートして欲しい
-            //stm.Write(puchRate, 0, puchRate.Length);
+            Dictionary<string, object> clDic = new Dictionary<string, object>();
+            int inCnt, inMax = this.mFrame.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++) {
+                ELEMENTS clElement = this.mFrame[inCnt];
+                clDic["elm_" + inCnt] = clElement.Export();
+            }
+            clDic["idx"] = this.ActiveIndex;
+            clDic["txt"] = this.Text;
+            clDic["type"] = this.Type.ToString();
+            clDic["num"] = this.FrameNum;
+            if (this.mTween != null)
+            {
+                byte[] puchData = FormRateGraph.CreateSaveData(this.mTween);
+                clDic["twn"] = Convert.ToBase64String(puchData);
+            }
+
+            return (clDic);
         }
 
         public void LoadFromFile(string fullPath)
@@ -699,6 +701,38 @@ namespace PrjHikariwoAnim
             Next = elm.Next;
             Prev = elm.Prev;
         }
+
+        public Dictionary<string, object> Export()
+        {
+            Dictionary<string, object> clDic = new Dictionary<string, object>();
+            clDic["cid"] = this.Atr.CellID;
+            clDic["val"] = this.Atr.Value;
+            if (this.Atr.isX) clDic["x"] = this.Atr.Position.X;
+            if (this.Atr.isY) clDic["y"] = this.Atr.Position.Y;
+            if (this.Atr.isZ) clDic["z"] = this.Atr.Position.Z;
+            if (this.Atr.isRX) clDic["rx"] = this.Atr.Radius.X;
+            if (this.Atr.isRY) clDic["ry"] = this.Atr.Radius.Y;
+            if (this.Atr.isRZ) clDic["rz"] = this.Atr.Radius.Z;
+            if (this.Atr.isSX) clDic["sx"] = this.Atr.Scale.X;
+            if (this.Atr.isSY) clDic["sy"] = this.Atr.Scale.Y;
+            if (this.Atr.isSZ) clDic["sz"] = this.Atr.Scale.Z;
+            clDic["ox"] = this.Atr.Offset.X;
+            clDic["oy"] = this.Atr.Offset.Y;
+            clDic["w"] = this.Atr.Width;
+            clDic["h"] = this.Atr.Height;
+            clDic["fh"] = this.Atr.FlipH;
+            clDic["fv"] = this.Atr.FlipV;
+            if (this.Atr.isTransparrency) clDic["ts"] = this.Atr.Transparency;
+            clDic["ebl"] = this.Atr.Enable;
+            clDic["vis"] = this.Atr.Visible;
+            clDic["cll"] = this.Atr.Collision;
+            if (this.Atr.isColor) clDic["c"] = this.Atr.Color;
+            clDic["cr"] = this.Atr.ColorRate;
+            clDic["tex"] = this.Atr.Text;
+
+            return (clDic);
+        }
+
         public ELEMENTS Clone()
         {
             ELEMENTS retEle = new ELEMENTS();
