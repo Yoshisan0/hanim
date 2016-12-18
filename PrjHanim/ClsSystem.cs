@@ -77,5 +77,44 @@ namespace PrjHikariwoAnim
             Bitmap img = (Bitmap)Image.FromStream(ms);
             return img;
         }
+
+        public static string DictionaryToString(Dictionary<string, object> clDic)
+        {
+            string clJsonData = "";
+
+            clJsonData += "{";
+
+            int inCnt = 0;
+            int inMax = clDic.Keys.Count;
+            foreach (string clKey in clDic.Keys)
+            {
+                object clVal = clDic[clKey] as object;
+                if (clVal is Dictionary<string, object>)
+                {
+                    clJsonData += "\"" + clKey + "\":";
+                    clJsonData += DictionaryToString(clVal as Dictionary<string, object>);
+                }
+                else if (clVal is string)
+                {
+                    clJsonData += "\"" + clKey + "\":\"" + clVal + "\"";
+                }
+                else if (clVal is int?)
+                {
+                    if (clVal == null) clVal = 0;
+                    clJsonData += "\"" + clKey + "\":" + clVal;
+                }
+                else
+                {
+                    clJsonData += "\"" + clKey + "\":" + clVal;
+                }
+
+                inCnt++;
+                if (inCnt < inMax) clJsonData += ",";
+            }
+
+            clJsonData += "}";
+
+            return (clJsonData);
+        }
     }
 }

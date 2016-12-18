@@ -407,8 +407,8 @@ namespace PrjHikariwoAnim
                 ELEMENTS clElement = this.mFrame[inCnt];
                 clDic["elm_" + inCnt] = clElement.Export();
             }
-            clDic["idx"] = this.ActiveIndex;
-            clDic["txt"] = this.Text;
+            clDic["idx"] = (this.ActiveIndex== null) ? 0 : this.ActiveIndex;
+            clDic["txt"] = (this.Text== null) ? "" : this.Text;
             clDic["type"] = this.Type.ToString();
             clDic["num"] = this.FrameNum;
             if (this.mTween != null)

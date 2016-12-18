@@ -1113,16 +1113,13 @@ namespace PrjHikariwoAnim
                 clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメかも）としたい
             }
 
-            //以下、Dictionaryをjson化する処理（これだとダメ）
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Dictionary<string, object>));
-            MemoryStream ms = new MemoryStream();
-            serializer.WriteObject(ms, clDicFile);
-            string clJson = Encoding.UTF8.GetString(ms.ToArray());
+            //以下、DictionaryをJson形式に変換する処理
+            string clJsonData = ClsSystem.DictionaryToString(clDicFile);
 
             //以下、ファイル出力処理
             string clPath = ClsPath.GetPath();
             string clPathFile = Path.Combine(clPath, "よしさんデバッグ用ファイル.txt");
-            File.WriteAllText(clPathFile, clJson);
+            File.WriteAllText(clPathFile, clJsonData);
         }
     }
 }
