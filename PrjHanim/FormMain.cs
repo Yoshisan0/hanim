@@ -62,6 +62,8 @@ namespace PrjHikariwoAnim
         private Point PreViewCenter;//PanelPreView Centerセンターポジション
         
         private ImageManagerBase ImageMan;
+
+        public int mEditMotionIndex;
         public TIMELINEbase TimeLine;   //←これをList<Motion>に修正する事になる？
 
         public FormMain()
