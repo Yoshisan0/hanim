@@ -57,7 +57,7 @@ namespace PrjHikariwoAnim
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
-        public TIMELINEbase mTimeLine = null;
+        public Motion mTimeLine = null;
         private FormMain mFormMain = null;
          
         private Font mFont = null;

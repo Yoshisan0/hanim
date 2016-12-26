@@ -18,7 +18,7 @@ namespace PrjHikariwoAnim
     /// ELEMENTS<ATRIBUTEbase>
     /// </summary>
     [Serializable]
-    public class TIMELINEbase
+    public class Motion
     {
         //Frameの増減やコピー削除
         //Frame間補完 Completion(補完) Interpolation(次元補完)
@@ -36,7 +36,7 @@ namespace PrjHikariwoAnim
         //
         private int mCurrentFrameIndex;//
         //init
-        public TIMELINEbase()
+        public Motion()
         {
             EditFrame = new FRAME();
             gmTimeLine = new List<FRAME>();
@@ -234,7 +234,7 @@ namespace PrjHikariwoAnim
         }
         public void SaveToStream(Stream stm)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(TIMELINEbase));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(Motion));
             serializer.WriteObject(stm, this);
         }
         public void LoadFromFile(string fullPath)
@@ -245,8 +245,8 @@ namespace PrjHikariwoAnim
         }
         public void LoadFromStream(Stream stm)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(TIMELINEbase));
-            TIMELINEbase tl = (TIMELINEbase) serializer.ReadObject(stm);
+            DataContractSerializer serializer = new DataContractSerializer(typeof(Motion));
+            Motion tl = (Motion) serializer.ReadObject(stm);
         }
 
         //操作系関数

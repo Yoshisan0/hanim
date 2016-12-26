@@ -64,7 +64,7 @@ namespace PrjHikariwoAnim
         private ImageManagerBase ImageMan;
 
         public int mEditMotionIndex;
-        public TIMELINEbase TimeLine;   //←これをList<Motion>に修正する事になる？
+        public Motion TimeLine;   //←これをList<Motion>に修正する事になる？
 
         public FormMain()
         {
@@ -96,7 +96,7 @@ namespace PrjHikariwoAnim
             mScreenScroll = new Point(0, 0);
 
             ImageMan = new ImageManagerBase();
-            TimeLine = new TIMELINEbase();
+            TimeLine = new Motion();
 
             this.mFormImageList = new FormImageList(this);
             this.mFormImageList.Show();
