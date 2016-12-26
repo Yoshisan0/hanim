@@ -57,11 +57,10 @@ namespace PrjHikariwoAnim
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
-        public Motion mTimeLine = null;
+        public Motion mMotion = null;
         private FormMain mFormMain = null;
-         
-        private Font mFont = null;
 
+        private Font mFont = null;
 
         public FormControl(FormMain form)
         {
@@ -196,9 +195,9 @@ namespace PrjHikariwoAnim
             //Item選択
             var work = e.Y / TIME_CELL_HEIGHT;
             //Item最大数を確認
-            if (work < mTimeLine.EditFrame.ElementsCount)
+            if (work < mMotion.EditFrame.ElementsCount)
             {
-                ELEMENTS ele = mTimeLine.EditFrame.GetElement(work);
+                ELEMENTS ele = mMotion.EditFrame.GetElement(work);
                 mSelectElements = work;
 
                 //Click Eye
@@ -239,11 +238,11 @@ namespace PrjHikariwoAnim
             int inY = TIME_CELL_HEIGHT;
             //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
-            int inMax = mTimeLine.EditFrame.ElementsCount;
+            int inMax = mMotion.EditFrame.ElementsCount;
 
             for (int inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ELEMENTS ele = mTimeLine.EditFrame.GetElement(inCnt);
+                ELEMENTS ele = mMotion.EditFrame.GetElement(inCnt);
                 SolidBrush sb= new SolidBrush(Color.Black);
                 if (ele == null) continue;
                 //背景塗り
@@ -312,10 +311,10 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_Start.Y = cy;
 
                 //既存フレームがあればMainPreviewに表示
-                if (!mTimeLine.ToFrame(cx))
+                if (!mMotion.ToFrame(cx))
                 {
                     //無ければ前後フレームから補完を行う
-                    mTimeLine.Completion(cx);
+                    mMotion.Completion(cx);
                 }
                 mFormMain.Refresh();
             }          
@@ -390,14 +389,14 @@ namespace PrjHikariwoAnim
 
             //e.Graphics.DrawLine(Pens.Black, 0, CellHeight, inWidth - 1, CellHeight);
 
-            if (mTimeLine == null) return;
-            inMax = mTimeLine.EditFrame.ElementsCount;//現在フレームのElements数
+            if (mMotion == null) return;
+            inMax = mMotion.EditFrame.ElementsCount;//現在フレームのElements数
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Gray));
                 //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
                 //選択中Elementsの背景強調
-                ELEMENTS ele= mTimeLine.EditFrame.GetElement(inCnt);
+                ELEMENTS ele= mMotion.EditFrame.GetElement(inCnt);
 
                 if ((inCnt % 2) != 0)
                 {
@@ -429,7 +428,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawLine(pen, inCnt * CellWidth, 0, inCnt * CellWidth, inHeight);
 
                 //Draw FRAMEtype
-                FRAME frm = mTimeLine.GetFrame(inCnt);
+                FRAME frm = mMotion.GetFrame(inCnt);
                 if(frm!=null)
                 {
                     if(frm.Type == FRAME.TYPE.KeyFrame)
@@ -461,10 +460,10 @@ namespace PrjHikariwoAnim
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
 
-            FRAME newframe = mTimeLine.EditFrame.Clone();
+            FRAME newframe = mMotion.EditFrame.Clone();
             newframe.FrameNum = pos;
             newframe.Type = FRAME.TYPE.KeyFrame;
-            mTimeLine.AddFrame(newframe);
+            mMotion.AddFrame(newframe);
             //表示更新
             panel_Time.Refresh();
             mFormMain.Refresh();            

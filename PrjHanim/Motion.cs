@@ -35,9 +35,12 @@ namespace PrjHikariwoAnim
 
         //
         private int mCurrentFrameIndex;//
+
         //init
-        public Motion()
+        public Motion(string clMotionName)
         {
+            this.Name = clMotionName;   //モーション名
+
             EditFrame = new FRAME();
             gmTimeLine = new List<FRAME>();
             gmTimeLine.Add(EditFrame);
