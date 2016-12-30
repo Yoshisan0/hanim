@@ -34,7 +34,6 @@
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Motion", 2, 2);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -648,14 +647,8 @@
             treeNode2.Text = "Cells";
             treeNode3.Name = "ProjectName";
             treeNode3.Text = "Project";
-            treeNode4.ImageIndex = 2;
-            treeNode4.Name = "Motion";
-            treeNode4.SelectedImageIndex = 2;
-            treeNode4.Tag = "1";
-            treeNode4.Text = "Motion";
             this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode3});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
