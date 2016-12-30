@@ -89,6 +89,8 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -171,29 +173,31 @@
             this.ToolStripMenuItem_New,
             this.ToolStripMenuItem_Load,
             this.ToolStripMenuItem_Save,
+            this.ToolStripMenuItem_SaveAs,
+            this.toolStripSeparator1,
             this.ToolStripMenuItem_exports});
             this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
-            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.ファイルToolStripMenuItem.Text = "ファイル";
+            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.ファイルToolStripMenuItem.Text = "File(&F)";
             // 
             // ToolStripMenuItem_New
             // 
             this.ToolStripMenuItem_New.Name = "ToolStripMenuItem_New";
-            this.ToolStripMenuItem_New.Size = new System.Drawing.Size(150, 22);
-            this.ToolStripMenuItem_New.Text = "新規プロジェクト";
+            this.ToolStripMenuItem_New.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_New.Text = "New Project (&N)";
             // 
             // ToolStripMenuItem_Load
             // 
             this.ToolStripMenuItem_Load.Name = "ToolStripMenuItem_Load";
-            this.ToolStripMenuItem_Load.Size = new System.Drawing.Size(150, 22);
-            this.ToolStripMenuItem_Load.Text = "プロジェクト読込";
+            this.ToolStripMenuItem_Load.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Load.Text = "Open Project (&O)";
             this.ToolStripMenuItem_Load.Click += new System.EventHandler(this.LoadProject_Click);
             // 
             // ToolStripMenuItem_Save
             // 
             this.ToolStripMenuItem_Save.Name = "ToolStripMenuItem_Save";
-            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(150, 22);
-            this.ToolStripMenuItem_Save.Text = "プロジェクト保存";
+            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Save.Text = "Save Project (&S)";
             this.ToolStripMenuItem_Save.Click += new System.EventHandler(this.SaveProject_Click);
             // 
             // ToolStripMenuItem_exports
@@ -203,8 +207,8 @@
             this.ToolStripMenuItem_ExpCellList,
             this.ToolStripMenuItem_ExpNowAttribute});
             this.ToolStripMenuItem_exports.Name = "ToolStripMenuItem_exports";
-            this.ToolStripMenuItem_exports.Size = new System.Drawing.Size(150, 22);
-            this.ToolStripMenuItem_exports.Text = "Exports";
+            this.ToolStripMenuItem_exports.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_exports.Text = "Exports (&E)";
             // 
             // ToolStripMenuItem_ExpNowFrame
             // 
@@ -232,38 +236,38 @@
             this.ToolStripMenuItem_Attribute,
             this.ToolStripMenuItem_CellList});
             this.ウインドウToolStripMenuItem.Name = "ウインドウToolStripMenuItem";
-            this.ウインドウToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.ウインドウToolStripMenuItem.Text = "ウインドウ";
+            this.ウインドウToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.ウインドウToolStripMenuItem.Text = "Window(&W)";
             // 
             // ToolStripMenuItem_ImageList
             // 
             this.ToolStripMenuItem_ImageList.CheckOnClick = true;
             this.ToolStripMenuItem_ImageList.Name = "ToolStripMenuItem_ImageList";
-            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_ImageList.Text = "ImageList";
+            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ImageList.Text = "ImageList (&I)";
             this.ToolStripMenuItem_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
             // 
             // ToolStripMenuItem_Control
             // 
             this.ToolStripMenuItem_Control.CheckOnClick = true;
             this.ToolStripMenuItem_Control.Name = "ToolStripMenuItem_Control";
-            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_Control.Text = "Control";
+            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Control.Text = "Control (&C)";
             this.ToolStripMenuItem_Control.Click += new System.EventHandler(this.TSMenu_Control_Click);
             // 
             // ToolStripMenuItem_Attribute
             // 
             this.ToolStripMenuItem_Attribute.CheckOnClick = true;
             this.ToolStripMenuItem_Attribute.Name = "ToolStripMenuItem_Attribute";
-            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_Attribute.Text = "Attribute";
+            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Attribute.Text = "Attribute (&A)";
             this.ToolStripMenuItem_Attribute.Click += new System.EventHandler(this.TSMenu_Attribute_Click);
             // 
             // ToolStripMenuItem_CellList
             // 
             this.ToolStripMenuItem_CellList.Name = "ToolStripMenuItem_CellList";
-            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_CellList.Text = "CellList";
+            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_CellList.Text = "CellList (&L)";
             this.ToolStripMenuItem_CellList.Click += new System.EventHandler(this.TSMenu_CellList_Click);
             // 
             // あまみさんテストToolStripMenuItem
@@ -753,6 +757,17 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // ToolStripMenuItem_SaveAs
+            // 
+            this.ToolStripMenuItem_SaveAs.Name = "ToolStripMenuItem_SaveAs";
+            this.ToolStripMenuItem_SaveAs.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_SaveAs.Text = "Save Project as... (&A)";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -853,6 +868,8 @@
         private System.Windows.Forms.ToolStripMenuItem readImageListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugExport;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugRootOpen;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
