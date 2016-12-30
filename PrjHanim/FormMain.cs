@@ -62,7 +62,9 @@ namespace PrjHikariwoAnim
         private Point PreViewCenter;//PanelPreView Centerセンターポジション
         
         private ImageManagerBase ImageMan;
-        public List<Motion> mListMotion;
+
+        private int mEditMotionIndex;       //現在編集中のモーションインデックス
+        private List<Motion> mListMotion;    //モーションリスト（clTreeNode.Indexと合わない場合は辞書型にする）
 
         public FormMain()
         {
@@ -78,12 +80,14 @@ namespace PrjHikariwoAnim
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
             //エディット中アイテムにパラメータ再取得
-            int inIndex = this.GetMotionSelectedIndex();
-            ELEMENTS e = this.mListMotion[inIndex].EditFrame.GetActiveElements();
-            if(e!=null)
+            if (this.mEditMotionIndex >= 0)
             {
-                mFormAttribute.GetAllParam(ref e.Atr);
-                panel_PreView.Refresh();
+                ELEMENTS e = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
+                if (e != null)
+                {
+                    mFormAttribute.GetAllParam(ref e.Atr);
+                    panel_PreView.Refresh();
+                }
             }
         }
 
@@ -97,6 +101,7 @@ namespace PrjHikariwoAnim
             mScreenScroll = new Point(0, 0);
 
             ImageMan = new ImageManagerBase();
+            this.mEditMotionIndex = -1;
             this.mListMotion = new List<Motion>();
             Motion clMotion = new Motion("Motion");
             this.mListMotion.Add(clMotion);
@@ -136,8 +141,10 @@ namespace PrjHikariwoAnim
             ofd.DefaultExt = ".hap";
             if (ofd.ShowDialog()==DialogResult.OK)
             {
-                int inIndex = this.GetMotionSelectedIndex();
-                this.mListMotion[inIndex].LoadFromFile(ofd.FileName);
+                if (this.mEditMotionIndex >= 0)
+                {
+                    this.mListMotion[this.mEditMotionIndex].LoadFromFile(ofd.FileName);
+                }
             }
             ofd.Dispose();
         }
@@ -147,8 +154,10 @@ namespace PrjHikariwoAnim
             sfd.DefaultExt = ".hap";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                int inIndex = this.GetMotionSelectedIndex();
-                this.mListMotion[inIndex].SaveToFile(sfd.FileName);
+                if (this.mEditMotionIndex >= 0)
+                {
+                    this.mListMotion[this.mEditMotionIndex].SaveToFile(sfd.FileName);
+                }
             }
             sfd.Dispose();
         }
@@ -218,10 +227,13 @@ namespace PrjHikariwoAnim
             if (e.KeyData == Keys.Delete)
             {
                 //Element Remove
-                int inIndex = this.GetMotionSelectedIndex();
-                this.mListMotion[inIndex].EditFrame.Remove((int)this.mListMotion[inIndex].EditFrame.ActiveIndex);
-                panel_PreView.Refresh();
-                treeView_Project_Update();
+                if (this.mEditMotionIndex >= 0)
+                {
+                    int inActiveIndex = (int)this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex;
+                    this.mListMotion[this.mEditMotionIndex].EditFrame.Remove(inActiveIndex);
+                    panel_PreView.Refresh();
+                    treeView_Project_Update();
+                }
             }
         }
         private void FormMain_Resize(object sender, EventArgs e)
@@ -331,9 +343,11 @@ namespace PrjHikariwoAnim
             if (e.Node.ImageIndex == 4)
             {
                 //e.Label:新Text e.node.TExt:旧Text
-                int inIndex = this.GetMotionSelectedIndex();
-                this.mListMotion[inIndex].EditFrame.RenameElements(e.Node.Tag, e.Label);
-                mFormControl.Refresh();
+                if (this.mEditMotionIndex >= 0)
+                {
+                    this.mListMotion[this.mEditMotionIndex].EditFrame.RenameElements(e.Node.Tag, e.Label);
+                    mFormControl.Refresh();
+                }
             }
             
         }
@@ -346,11 +360,14 @@ namespace PrjHikariwoAnim
             if (e.Node.ImageIndex == 2)
             {
             }
+
+/*
             //SelectElements
             //TagとElements.Nameが合致するものを選択
             int inIndex = this.GetMotionSelectedIndex();
             this.mListMotion[inIndex].EditFrame.SelectElement(e.Node.Tag);
             if (this.mListMotion[inIndex].EditFrame.ActiveIndex != null) panel_PreView.Refresh();
+*/
         }
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
@@ -373,20 +390,22 @@ namespace PrjHikariwoAnim
             //TreeNode tn = treeView_Project.Nodes["Motion"];
             //TreeViewて複数選択できないじゃーん！！！！
             //Add Editing AllElements
-            int inIndex = this.GetMotionSelectedIndex();
-            for(int cnt=0;cnt< this.mListMotion[inIndex].EditFrame.ElementsCount;cnt++)
+            if (this.mEditMotionIndex >= 0)
             {
-                ELEMENTS elm = this.mListMotion[inIndex].EditFrame.GetElement(cnt);
-                TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.Name];
-                if (tn == null) continue;
-                if (elm.isSelect)
+                for (int cnt = 0; cnt < this.mListMotion[this.mEditMotionIndex].EditFrame.ElementsCount; cnt++)
                 {
-                    tn.ImageIndex = 3;//選択中
+                    ELEMENTS elm = this.mListMotion[this.mEditMotionIndex].EditFrame.GetElement(cnt);
+                    TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.Name];
+                    if (tn == null) continue;
+                    if (elm.isSelect)
+                    {
+                        tn.ImageIndex = 3;//選択中
+                    }
+                    else
+                    {
+                        tn.ImageIndex = 4;//非選択
+                    }
                 }
-                else
-                {
-                    tn.ImageIndex = 4;//非選択
-                }               
             }
 
 
@@ -420,10 +439,12 @@ namespace PrjHikariwoAnim
             //Show - Attribute
             mFormAttribute.SetAllParam(elem.Atr);
 
-            int inIndex = this.GetMotionSelectedIndex();
-            this.mListMotion[inIndex].EditFrame.AddElements(elem);//Elements登録
-            this.mListMotion[inIndex].Store();//
-            // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
+            if (this.mEditMotionIndex >= 0)
+            {
+                this.mListMotion[this.mEditMotionIndex].EditFrame.AddElements(elem);//Elements登録
+                this.mListMotion[this.mEditMotionIndex].Store();//
+                // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
+            }
 
             //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
             TreeNode selNode = treeView_Project.Nodes["Motion"];
@@ -456,7 +477,16 @@ namespace PrjHikariwoAnim
 
         private int GetMotionSelectedIndex()
         {
-            return (0);
+            TreeNode clTreeNode = this.treeView_Project.TopNode;
+            while (clTreeNode != null) {
+                if (clTreeNode.IsSelected)
+                {
+                    return (clTreeNode.Index);
+                }
+                clTreeNode = clTreeNode.NextNode;
+            }
+
+            return (-1);
         }
 
         private void treeView_Project_RemoveMotion(string name)
@@ -492,8 +522,12 @@ namespace PrjHikariwoAnim
                     //上記以外 -> 対象の子へ移動
                     //※対象がイメージタイプでは無い場合どうするか？
 
-                    int inIndex = this.GetMotionSelectedIndex();
-                    if (this.mListMotion[inIndex].EditFrame.Move(src.Name, dest.Name,true) == false) { Console.WriteLine("Elements move False"); };
+                    if (this.mEditMotionIndex >= 0)
+                    {
+                        if (this.mListMotion[this.mEditMotionIndex].EditFrame.Move(src.Name, dest.Name, true) == false) {
+                            Console.WriteLine("Elements move False");
+                        }
+                    }
                                       
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
@@ -570,11 +604,23 @@ namespace PrjHikariwoAnim
                 else e.Effect = DragDropEffects.None;
             }
         }
-        private void button1_MotionAdd_Click(object sender, EventArgs e)
+
+        private void button_SelectMotion_Click(object sender, EventArgs e)
+        {
+            //ここで現在編集中のモーションを自動で保存する？
+
+            //現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
+
+            //以下、モーションインデックス変更処理
+            this.mEditMotionIndex = this.GetMotionSelectedIndex();
+        }
+
+        private void button_MotionNew_Click(object sender, EventArgs e)
         {
             treeView_Project_AddMotion("NewMotion");
             //モーションである事を示すタグを付加する？
         }
+
         private void panel_ProjectTopBase_Click(object sender, EventArgs e)
         {
             //ProjectPaineの開閉(おまけ)
@@ -617,10 +663,12 @@ namespace PrjHikariwoAnim
             // 各種Itemの描画処理
             // DrawItems
             Matrix back = e.Graphics.Transform;
-            int inIndex = this.GetMotionSelectedIndex();
-            if (this.mListMotion[inIndex].EditFrame != null)
+            if (this.mEditMotionIndex >= 0)
             {
-                PanelPreview_Paint_DrawParts(sender, e.Graphics);
+                if (this.mListMotion[this.mEditMotionIndex].EditFrame != null)
+                {
+                    PanelPreview_Paint_DrawParts(sender, e.Graphics);
+                }
             }
             e.Graphics.Transform = back;
             //CrossBar スクリーン移動時は原点に沿う形に
@@ -648,123 +696,124 @@ namespace PrjHikariwoAnim
             int vcx = mScreenScroll.X + panel_PreView.Width / 2;//ViewCenter X
             int vcy = mScreenScroll.Y + panel_PreView.Height / 2;//ViewCenter Y
 
-            int inIndex = this.GetMotionSelectedIndex();
-            FRAME frm = this.mListMotion[inIndex].EditFrame;
-
-            for (int cnt = 0; cnt < frm.ElementsCount; cnt++)
+            if (this.mEditMotionIndex >= 0)
             {
-                ELEMENTS e = frm.GetElement(cnt);
-                AttributeBase atr = e.Atr;
-
-                Matrix Back = g.Transform;
-                Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
-
-                //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
-
-                //スケールにあわせた部品の大きさを算出
-                float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
-                float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
-
-                //パーツの中心点
-                float pcx = atr.Position.X + atr.Offset.X;
-                float pcy = atr.Position.X + atr.Offset.X;
-                Color Col = Color.FromArgb(atr.Color);
-
-                //カラーマトリックス作成
-                System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
-                if (atr.isColor)
+                FRAME frm = this.mListMotion[this.mEditMotionIndex].EditFrame;
+                for (int cnt = 0; cnt < frm.ElementsCount; cnt++)
                 {
-                    colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
-                    colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
-                    colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
-                }
-                else
-                {
-                    colmat.Matrix00 = 1;//Red
-                    colmat.Matrix11 = 1;//Green
-                    colmat.Matrix22 = 1;//Blue
-                }
-                if (atr.isTransparrency)
-                {
-                    colmat.Matrix33 = (atr.Transparency / 100f);
-                }
-                else
-                {
-                    colmat.Matrix33 = 1;
-                }
-                colmat.Matrix44 = 1;//w
-                System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
-                ia.SetColorMatrix(colmat);
+                    ELEMENTS e = frm.GetElement(cnt);
+                    AttributeBase atr = e.Atr;
 
-                //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-                CELL c = ImageMan.GetCellFromHash(atr.CellID);
-                if (c == null) { Console.WriteLine("Image:null"); return; }
+                    Matrix Back = g.Transform;
+                    Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
 
-                //原点を部品中心に
-                //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
-                //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
+                    //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
 
-                //中心に平行移動
-                g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
-                //回転角指定
-                g.RotateTransform(atr.Radius.Z);
+                    //スケールにあわせた部品の大きさを算出
+                    float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+                    float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
 
-                //スケーリング調
-                g.ScaleTransform(atr.Scale.X, atr.Scale.X);
-                //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
+                    //パーツの中心点
+                    float pcx = atr.Position.X + atr.Offset.X;
+                    float pcy = atr.Position.X + atr.Offset.X;
+                    Color Col = Color.FromArgb(atr.Color);
 
-                //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
-                //MatObj.Translate(0, 0);
-                //MatObj.Scale(atr.Scale.X,atr.Scale.Y,MatrixOrder.Append);
-                //MatObj.Rotate(atr.Radius.X,MatrixOrder.Append);
-                //MatObj.Translate((vcx + atr.Position.X + (atr.Width / 2)) * atr.Scale.Y, (vcy + atr.Position.Y + (atr.Height / 2)) * atr.Scale.Y,MatrixOrder.Append);
-
-                //g.TranslateTransform(vcx, vcy);
-                //描画
-                /*
-                g.DrawImage(c.Img,
-                    -(atr.Width  * atr.Scale.X * zoom )/2,
-                    -(atr.Height * atr.Scale.Y * zoom )/2,
-                    vsx,vsy);*/
-                //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
-                //g.Transform = MatObj;
-
-                //Draw
-                if (atr.isTransparrency || atr.isColor)
-                {
-                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
-                }
-                else
-                {
-                    //透明化カラー補正なし
-                    g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
-                }
-                //Draw Helper
-                if (checkBox_Helper.Checked)
-                {
-                    //中心点やその他のサポート表示
-                    //CenterPosition
-                    g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
-
-                    //Selected DrawBounds
-                    if (e.isSelect)
+                    //カラーマトリックス作成
+                    System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
+                    if (atr.isColor)
                     {
-                        g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+                        colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
+                        colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
+                        colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
                     }
-                    //test Hit範囲をボックス描画
-                    //ElementsType
-                    if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
+                    else
                     {
-                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 ),(-(atr.Height * atr.Scale.Y) / 2 ), vsx - 1, vsy - 1);
+                        colmat.Matrix00 = 1;//Red
+                        colmat.Matrix11 = 1;//Green
+                        colmat.Matrix22 = 1;//Blue
                     }
-                    if(e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
+                    if (atr.isTransparrency)
                     {
-                        g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2 ), (-(atr.Height * atr.Scale.Y) / 2 ), vsx - 1, vsy - 1);
-                    }                
-                }
-                g.Transform = Back;//restore Matrix
+                        colmat.Matrix33 = (atr.Transparency / 100f);
+                    }
+                    else
+                    {
+                        colmat.Matrix33 = 1;
+                    }
+                    colmat.Matrix44 = 1;//w
+                    System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
+                    ia.SetColorMatrix(colmat);
 
-                //Cuurent Draw Grip
+                    //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
+                    CELL c = ImageMan.GetCellFromHash(atr.CellID);
+                    if (c == null) { Console.WriteLine("Image:null"); return; }
+
+                    //原点を部品中心に
+                    //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
+                    //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
+
+                    //中心に平行移動
+                    g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
+                    //回転角指定
+                    g.RotateTransform(atr.Radius.Z);
+
+                    //スケーリング調
+                    g.ScaleTransform(atr.Scale.X, atr.Scale.X);
+                    //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
+
+                    //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
+                    //MatObj.Translate(0, 0);
+                    //MatObj.Scale(atr.Scale.X,atr.Scale.Y,MatrixOrder.Append);
+                    //MatObj.Rotate(atr.Radius.X,MatrixOrder.Append);
+                    //MatObj.Translate((vcx + atr.Position.X + (atr.Width / 2)) * atr.Scale.Y, (vcy + atr.Position.Y + (atr.Height / 2)) * atr.Scale.Y,MatrixOrder.Append);
+
+                    //g.TranslateTransform(vcx, vcy);
+                    //描画
+                    /*
+                    g.DrawImage(c.Img,
+                        -(atr.Width  * atr.Scale.X * zoom )/2,
+                        -(atr.Height * atr.Scale.Y * zoom )/2,
+                        vsx,vsy);*/
+                    //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
+                    //g.Transform = MatObj;
+
+                    //Draw
+                    if (atr.isTransparrency || atr.isColor)
+                    {
+                        g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
+                    }
+                    else
+                    {
+                        //透明化カラー補正なし
+                        g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
+                    }
+                    //Draw Helper
+                    if (checkBox_Helper.Checked)
+                    {
+                        //中心点やその他のサポート表示
+                        //CenterPosition
+                        g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
+
+                        //Selected DrawBounds
+                        if (e.isSelect)
+                        {
+                            g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+                        }
+                        //test Hit範囲をボックス描画
+                        //ElementsType
+                        if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
+                        {
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
+                        }
+                        if (e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
+                        {
+                            g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
+                        }
+                    }
+                    g.Transform = Back;//restore Matrix
+
+                    //Cuurent Draw Grip
+                }
             }
         }
         /// <summary>
@@ -854,10 +903,19 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
-            int inIndex = this.GetMotionSelectedIndex();
-            if (this.mListMotion[inIndex].EditFrame.ActiveIndex != null)
+
+            bool isHit = false;
+            if (this.mEditMotionIndex >= 0)
             {
-                ELEMENTS nowEle = this.mListMotion[inIndex].EditFrame.GetActiveElements();
+                if (this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex != null)
+                {
+                    isHit = true;
+                }
+            }
+
+            if(isHit)
+            {
+                ELEMENTS nowEle = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
                 //アイテム選択中のホイール操作
                 if (mKeysSP == Keys.Shift)
                 {
@@ -867,12 +925,12 @@ namespace PrjHikariwoAnim
                     nowEle.Atr.Scale.Y += ((nowEle.Atr.Scale.Y + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
                     //nowEle.Atr.Scale.Z += ((nowEle.Atr.Scale.Z + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
                 }
-                if(mKeysSP == Keys.Control)
+                if (mKeysSP == Keys.Control)
                 {
                     //Ctrl+Wheel 回転 1度単位
                     mDragState = DragState.Angle;
 
-                    float w = nowEle.Atr.Radius.Z+ mWheelDelta;
+                    float w = nowEle.Atr.Radius.Z + mWheelDelta;
                     if (w >= 360)
                     {
                         nowEle.Atr.Radius.Z = w % 360;
@@ -880,7 +938,7 @@ namespace PrjHikariwoAnim
                     else if (w < 0)
                     {
                         //nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
-                        nowEle.Atr.Radius.Z = (w % 360)+360;
+                        nowEle.Atr.Radius.Z = (w % 360) + 360;
                     }
                     else
                     {
@@ -895,15 +953,16 @@ namespace PrjHikariwoAnim
                 //画面の拡大縮小
                 if (mWheelDelta > 0)
                 {
-                    if(HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
+                    if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
                 }
                 else
                 {
                     if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
                 }
-                  
+
                 mWheelDelta = 0;
             }
+
             StatusLabel2.Text = $"{mWheelDelta}";
         }
         private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
@@ -927,19 +986,21 @@ namespace PrjHikariwoAnim
                 mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
 
                 //アイテム検索
-                int inIndex = this.GetMotionSelectedIndex();
-                SetNowElementsIndex(this.mListMotion[inIndex].EditFrame.SelectElement((int)stPosX,(int)stPosY, true));
-                ELEMENTS nowEle = this.mListMotion[inIndex].EditFrame.GetActiveElements();
-                //Item選択中なら移動変形処理等の準備
-                if (nowEle != null)
-                {              
-                    mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
-                    mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
+                if (this.mEditMotionIndex >= 0)
+                {
+                    SetNowElementsIndex(this.mListMotion[this.mEditMotionIndex].EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
+                    ELEMENTS nowEle = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
+                    //Item選択中なら移動変形処理等の準備
+                    if (nowEle != null)
+                    {
+                        mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
+                        mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
+                    }
+                    mMouseLDown = true;
+                    panel_PreView.Refresh();
+                    treeView_Project.Refresh();
+                    mFormControl.Refresh();
                 }
-                mMouseLDown = true;                
-                panel_PreView.Refresh();
-                treeView_Project.Refresh();
-                mFormControl.Refresh();
             }
         }
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
@@ -949,57 +1010,60 @@ namespace PrjHikariwoAnim
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
-            int inIndex = this.GetMotionSelectedIndex();
-            ELEMENTS nowEle = this.mListMotion[inIndex].EditFrame.GetActiveElements();
-            if (nowEle != null)
+            if (this.mEditMotionIndex >= 0)
             {
-                //移動処理
-                if (mMouseLDown)
+                ELEMENTS nowEle = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
+                if (nowEle != null)
                 {
-                    if (nowEle != null)
+                    //移動処理
+                    if (mMouseLDown)
                     {
-                        //+CTRL マウスでの回転 左周りにしかなってない
-                        if (mKeysSP == Keys.Control)
+                        if (nowEle != null)
                         {
-                            int w=(int)nowEle.Atr.Radius.Z+ ((int)stPosX- mMouseDownPoint.X )/4;
-                            if (w < 0)
+                            //+CTRL マウスでの回転 左周りにしかなってない
+                            if (mKeysSP == Keys.Control)
                             {
-                                //右回転
-                                w = 360 + (w%360) ;
-                                nowEle.Atr.Radius.Z = w;
+                                int w = (int)nowEle.Atr.Radius.Z + ((int)stPosX - mMouseDownPoint.X) / 4;
+                                if (w < 0)
+                                {
+                                    //右回転
+                                    w = 360 + (w % 360);
+                                    nowEle.Atr.Radius.Z = w;
+                                }
+                                else
+                                {
+                                    //左回転
+                                    w %= 360;
+                                    nowEle.Atr.Radius.Z = w;
+                                }
+                                //別キーも押されていれば別軸回転 等(将来)
                             }
+                            //if( mKeysSP==Keys.Alt) //将来用
                             else
                             {
-                                //左回転
-                                w %= 360;
-                                nowEle.Atr.Radius.Z = w;
+                                //移動
+                                //差分加算
+                                mDragState = DragState.Move;
+                                nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
+                                nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
+                                //mFormAttribute.SetAllParam(nowEle.Atr);
                             }
-                            //別キーも押されていれば別軸回転 等(将来)
                         }
-                        //if( mKeysSP==Keys.Alt) //将来用
                         else
-                        { 
-                            //移動
-                            //差分加算
-                            mDragState = DragState.Move;
-                            nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
-                            nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
-                            //mFormAttribute.SetAllParam(nowEle.Atr);
-                        }                        
+                        {
+                            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
+                            mDragState = DragState.Scroll;
+                            mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
+                            mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
+                        }
+                        mFormAttribute.SetAllParam(nowEle.Atr);
+                        panel_PreView.Refresh();
                     }
-                    else
-                    {
-                        //アイテム選択が無い場合のLドラッグはステージのXYスクロール
-                        mDragState = DragState.Scroll;
-                        mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
-                        mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
-                    }
-                    mFormAttribute.SetAllParam(nowEle.Atr);
-                    panel_PreView.Refresh();
                 }
+
+                StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
+                StatusLabel2.Text = $" [Select:{this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
             }
-            StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
-            StatusLabel2.Text = $" [Select:{this.mListMotion[inIndex].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -1009,8 +1073,8 @@ namespace PrjHikariwoAnim
             //部品選択中か確認
 
             //GetElement
-            int inIndex = this.GetMotionSelectedIndex();
-            ELEMENTS nowEle = this.mListMotion[inIndex].EditFrame.GetActiveElements();
+            if (this.mEditMotionIndex < 0) return;
+            ELEMENTS nowEle = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
             if (nowEle == null) return;
 
             //カーソル
@@ -1043,7 +1107,7 @@ namespace PrjHikariwoAnim
             if(e.KeyData==Keys.Delete)
             {
                 //Element Remove
-                this.mListMotion[inIndex].EditFrame.Remove((int)this.mListMotion[inIndex].EditFrame.ActiveIndex);
+                this.mListMotion[this.mEditMotionIndex].EditFrame.Remove((int)this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex);
             }
         }
         /// <summary>
@@ -1053,26 +1117,28 @@ namespace PrjHikariwoAnim
         public void SetNowElementsIndex(int? ElementsIndex)
         {
             //現在の選択と違う物であれば変更を行う
-            int inIndex = this.GetMotionSelectedIndex();
+            if (this.mEditMotionIndex <= 0) return;
             if (ElementsIndex == null)
             {
-                this.mListMotion[inIndex].EditFrame.ActiveIndex=null;//無選択に
+                this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex=null;//無選択に
                 return;
             }
-            int? idx = this.mListMotion[inIndex].EditFrame.ActiveIndex;
+            int? idx = this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex;
             if (idx != ElementsIndex)
             {
                 //現在の選択を解除
-                ELEMENTS elem = this.mListMotion[inIndex].EditFrame.GetActiveElements();
+                ELEMENTS elem = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
                 if (elem != null)
                 {
                     elem.isSelect = false;
                 }
+
                 //更新
-                this.mListMotion[inIndex].EditFrame.ActiveIndex = ElementsIndex;
+                this.mListMotion[this.mEditMotionIndex].EditFrame.ActiveIndex = ElementsIndex;
                 //新規選択を有効
-                elem = this.mListMotion[inIndex].EditFrame.GetActiveElements();
+                elem = this.mListMotion[this.mEditMotionIndex].EditFrame.GetActiveElements();
                 elem.isSelect = true;
+
                 //各種リフレッシュ
                 panel_PreView.Refresh();
                 treeView_Project_Update();                
@@ -1135,12 +1201,14 @@ namespace PrjHikariwoAnim
             }
 
             //以下、アニメ出力処理
-            int inIndex = this.GetMotionSelectedIndex();
-            inMax = this.mListMotion[inIndex].gmTimeLine.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            if (this.mEditMotionIndex >= 0)
             {
-                FRAME clFrame = this.mListMotion[inIndex].gmTimeLine[inCnt];
-                clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメ＞＜）としたい
+                inMax = this.mListMotion[this.mEditMotionIndex].gmTimeLine.Count;
+                for (inCnt = 0; inCnt < inMax; inCnt++)
+                {
+                    FRAME clFrame = this.mListMotion[this.mEditMotionIndex].gmTimeLine[inCnt];
+                    clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメ＞＜）としたい
+                }
             }
 
             //以下、DictionaryをJson形式に変換する処理

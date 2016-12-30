@@ -46,6 +46,8 @@
             this.ToolStripMenuItem_New = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Load = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_exports = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpNowFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpCellList = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,15 +84,14 @@
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_SelectMotion = new System.Windows.Forms.Button();
+            this.button_MotionNew = new System.Windows.Forms.Button();
             this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -200,6 +201,17 @@
             this.ToolStripMenuItem_Save.Text = "Save Project (&S)";
             this.ToolStripMenuItem_Save.Click += new System.EventHandler(this.SaveProject_Click);
             // 
+            // ToolStripMenuItem_SaveAs
+            // 
+            this.ToolStripMenuItem_SaveAs.Name = "ToolStripMenuItem_SaveAs";
+            this.ToolStripMenuItem_SaveAs.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_SaveAs.Text = "Save Project as... (&A)";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
             // ToolStripMenuItem_exports
             // 
             this.ToolStripMenuItem_exports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -243,7 +255,7 @@
             // 
             this.ToolStripMenuItem_ImageList.CheckOnClick = true;
             this.ToolStripMenuItem_ImageList.Name = "ToolStripMenuItem_ImageList";
-            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(140, 22);
             this.ToolStripMenuItem_ImageList.Text = "ImageList (&I)";
             this.ToolStripMenuItem_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
             // 
@@ -251,7 +263,7 @@
             // 
             this.ToolStripMenuItem_Control.CheckOnClick = true;
             this.ToolStripMenuItem_Control.Name = "ToolStripMenuItem_Control";
-            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Control.Size = new System.Drawing.Size(140, 22);
             this.ToolStripMenuItem_Control.Text = "Control (&C)";
             this.ToolStripMenuItem_Control.Click += new System.EventHandler(this.TSMenu_Control_Click);
             // 
@@ -259,14 +271,14 @@
             // 
             this.ToolStripMenuItem_Attribute.CheckOnClick = true;
             this.ToolStripMenuItem_Attribute.Name = "ToolStripMenuItem_Attribute";
-            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Attribute.Size = new System.Drawing.Size(140, 22);
             this.ToolStripMenuItem_Attribute.Text = "Attribute (&A)";
             this.ToolStripMenuItem_Attribute.Click += new System.EventHandler(this.TSMenu_Attribute_Click);
             // 
             // ToolStripMenuItem_CellList
             // 
             this.ToolStripMenuItem_CellList.Name = "ToolStripMenuItem_CellList";
-            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_CellList.Size = new System.Drawing.Size(140, 22);
             this.ToolStripMenuItem_CellList.Text = "CellList (&L)";
             this.ToolStripMenuItem_CellList.Click += new System.EventHandler(this.TSMenu_CellList_Click);
             // 
@@ -647,7 +659,7 @@
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
-            this.treeView_Project.Size = new System.Drawing.Size(139, 200);
+            this.treeView_Project.Size = new System.Drawing.Size(139, 197);
             this.treeView_Project.TabIndex = 1;
             this.treeView_Project.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_Project_AfterLabelEdit);
             this.treeView_Project.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_Project_ItemDrag);
@@ -669,7 +681,8 @@
             // 
             this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel_ProjectTopBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_ProjectTopBase.Controls.Add(this.button1);
+            this.panel_ProjectTopBase.Controls.Add(this.button_SelectMotion);
+            this.panel_ProjectTopBase.Controls.Add(this.button_MotionNew);
             this.panel_ProjectTopBase.Controls.Add(this.label_Project);
             this.panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
@@ -679,16 +692,27 @@
             this.panel_ProjectTopBase.TabIndex = 0;
             this.panel_ProjectTopBase.Click += new System.EventHandler(this.panel_ProjectTopBase_Click);
             // 
-            // button1
+            // button_SelectMotion
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(82, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(55, 18);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "+Motion";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_MotionAdd_Click);
+            this.button_SelectMotion.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button_SelectMotion.Location = new System.Drawing.Point(27, 0);
+            this.button_SelectMotion.Name = "button_SelectMotion";
+            this.button_SelectMotion.Size = new System.Drawing.Size(55, 18);
+            this.button_SelectMotion.TabIndex = 2;
+            this.button_SelectMotion.Text = "Select";
+            this.button_SelectMotion.UseVisualStyleBackColor = true;
+            this.button_SelectMotion.Click += new System.EventHandler(this.button_SelectMotion_Click);
+            // 
+            // button_MotionNew
+            // 
+            this.button_MotionNew.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button_MotionNew.Location = new System.Drawing.Point(82, 0);
+            this.button_MotionNew.Name = "button_MotionNew";
+            this.button_MotionNew.Size = new System.Drawing.Size(55, 18);
+            this.button_MotionNew.TabIndex = 0;
+            this.button_MotionNew.Text = "+Motion";
+            this.button_MotionNew.UseVisualStyleBackColor = true;
+            this.button_MotionNew.Click += new System.EventHandler(this.button_MotionNew_Click);
             // 
             // label_Project
             // 
@@ -748,7 +772,7 @@
             this.panel_MotionList_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_MotionList_Base.Margin = new System.Windows.Forms.Padding(0);
             this.panel_MotionList_Base.Name = "panel_MotionList_Base";
-            this.panel_MotionList_Base.Size = new System.Drawing.Size(139, 220);
+            this.panel_MotionList_Base.Size = new System.Drawing.Size(139, 217);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
             // SubMenu_Prpject
@@ -756,17 +780,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // ToolStripMenuItem_SaveAs
-            // 
-            this.ToolStripMenuItem_SaveAs.Name = "ToolStripMenuItem_SaveAs";
-            this.ToolStripMenuItem_SaveAs.Size = new System.Drawing.Size(180, 22);
-            this.ToolStripMenuItem_SaveAs.Text = "Save Project as... (&A)";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // FormMain
             // 
@@ -839,7 +852,7 @@
         private System.Windows.Forms.Panel panel_ProjectTopBase;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ContextMenuStrip SubMenu_Prpject;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_MotionNew;
         private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_New;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Load;
@@ -870,6 +883,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugRootOpen;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Button button_SelectMotion;
     }
 }
 
