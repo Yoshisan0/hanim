@@ -116,7 +116,7 @@ namespace PrjHikariwoAnim
             this.mFormImageList.Show();
 
             this.mFormControl = new FormControl(this);
-            this.mFormControl.mMotion = clMotion;
+            this.mFormControl.SetMotion(clMotion);
             this.mFormControl.Show();
 
             this.mFormAttribute = new FormAttribute(this);
