@@ -99,8 +99,10 @@ namespace PrjHikariwoAnim
             //以下、TreeNode作成処理
             this.mEditMotionKey = -1;
             this.mDicMotion = new Dictionary<int, Motion>();
+            //初期モーションTreeの追加
             TreeNode clTreeNode = this.treeView_Project_AddMotion("Motion");
             int inHashCode = clTreeNode.GetHashCode();
+            //初期モーションの追加 (? ↑のAddMotinの中でも作ってるで？)
             Motion clMotion = new Motion(clTreeNode.Name);
             this.mDicMotion[inHashCode] = clMotion;
 
@@ -120,14 +122,13 @@ namespace PrjHikariwoAnim
             this.mFormAttribute = new FormAttribute(this);
             this.mFormAttribute.Show();
 
-            mFormControl.mMotion = clMotion;//ControlFormに通達
             //Ver2
             mFormCell = new FormCell(this);
             //mFormCell.Owner = this;
             mFormCell.ImageMan = ImageMan;
             mFormCell.Show();
 
-            AlingForms();
+            AlingForms();//フォームの整列
 
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
@@ -486,17 +487,20 @@ namespace PrjHikariwoAnim
             {
                 this.mDicMotion[this.mEditMotionKey].EditFrame.AddElements(elem);//Elements登録
                 this.mDicMotion[this.mEditMotionKey].Store();//
-                // "Motion"固定決め打ちしてるのはあとでモーション名管理変数に置き換え
+
+                //TreeViewへの登録
+                //TreeViewの選択中Motionを取得
+                //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
+                //作成時にMotion.Name設定されてるはずだよなぁ・なんでnullなんだろか
+                Motion testStr = mDicMotion[mEditMotionKey];
+
+                TreeNode selNode = treeView_Project.Nodes[mDicMotion[mEditMotionKey].Name];
+                selNode.Nodes.Add(elem.Name, elem.Name);
+                selNode.Expand();
+                selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
+                selNode.Nodes[elem.Name].ImageIndex = 4;
+                selNode.Nodes[elem.Name].SelectedImageIndex = 3;
             }
-
-            //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
-            TreeNode selNode = treeView_Project.Nodes["Motion"];
-            selNode.Nodes.Add(elem.Name, elem.Name);
-            selNode.Expand();
-            selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-            selNode.Nodes[elem.Name].ImageIndex = 4;
-            selNode.Nodes[elem.Name].SelectedImageIndex = 3;
-
             //Control更新
             mFormControl.Refresh();
 
@@ -666,6 +670,7 @@ namespace PrjHikariwoAnim
         private void button_MotionNew_Click(object sender, EventArgs e)
         {
             treeView_Project_AddMotion("NewMotion");
+            
             //モーションである事を示すタグを付加する？
         }
 
