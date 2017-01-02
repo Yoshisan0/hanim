@@ -29,7 +29,7 @@ namespace PrjHikariwoAnim
         //現在編集中のステージ上フレーム(独立オブジェクト)
         //
         public FRAME EditFrame;
-        public string Name;//Project Name
+        public string Name;//Motion Name
 
         public List<FRAME> gmTimeLine;
 

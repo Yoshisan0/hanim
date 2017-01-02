@@ -57,8 +57,17 @@ namespace PrjHikariwoAnim
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
-        public Motion mMotion = null;
+        private Motion mMotion = null;
         private FormMain mFormMain = null;
+        /// <summary>
+        /// モーション選択の設定や変更 描画更新も行う
+        /// </summary>
+        /// <param name="clMotion"></param>
+        public void SetMotion(Motion clMotion)
+        {
+            mMotion = clMotion;
+            //以下画面更新予定　タイミングによってはguiがまだ準備できていない場合もありうる？
+        }
 
         private Font mFont = null;
 

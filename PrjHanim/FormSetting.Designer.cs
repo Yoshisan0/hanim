@@ -264,6 +264,17 @@
             this.button_Apply.UseVisualStyleBackColor = true;
             this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
             // 
+            // button_OK
+            // 
+            this.button_OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_OK.Location = new System.Drawing.Point(452, 406);
+            this.button_OK.Name = "button_OK";
+            this.button_OK.Size = new System.Drawing.Size(75, 23);
+            this.button_OK.TabIndex = 2;
+            this.button_OK.Text = "OK";
+            this.button_OK.UseVisualStyleBackColor = true;
+            this.button_OK.Click += new System.EventHandler(this.button_OK_Click);
+            // 
             // FormSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
