@@ -1238,7 +1238,7 @@ namespace PrjHikariwoAnim
             if (enResult != DialogResult.OK) return;
 
             //以下、設定処理
-//ここで背景色を変えたり、グリッド色を変えたりする予定
+//ここで背景色を変えたり、グリッド色を変えたりする？
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

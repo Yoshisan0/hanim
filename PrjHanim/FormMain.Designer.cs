@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Images");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Cells");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -51,6 +51,8 @@
             this.ToolStripMenuItem_ExpNowFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpCellList = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpNowAttribute = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.ウインドウToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ImageList = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Control = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,8 +93,6 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -241,6 +241,21 @@
             this.ToolStripMenuItem_ExpNowAttribute.Name = "ToolStripMenuItem_ExpNowAttribute";
             this.ToolStripMenuItem_ExpNowAttribute.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpNowAttribute.Text = "NowAttribute";
+            // 
+            // settingToolStripMenuItem
+            // 
+            this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Setting});
+            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.settingToolStripMenuItem.Text = "Setting(&S)";
+            // 
+            // ToolStripMenuItem_Setting
+            // 
+            this.ToolStripMenuItem_Setting.Name = "ToolStripMenuItem_Setting";
+            this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Setting.Text = "Setting(&S)";
+            this.ToolStripMenuItem_Setting.Click += new System.EventHandler(this.ToolStripMenuItem_Setting_Click);
             // 
             // ウインドウToolStripMenuItem
             // 
@@ -644,14 +659,14 @@
             this.treeView_Project.Location = new System.Drawing.Point(0, 20);
             this.treeView_Project.Margin = new System.Windows.Forms.Padding(0);
             this.treeView_Project.Name = "treeView_Project";
-            treeNode4.Name = "Images";
-            treeNode4.Text = "Images";
-            treeNode5.Name = "Cells";
-            treeNode5.Text = "Cells";
-            treeNode6.Name = "ProjectName";
-            treeNode6.Text = "Project";
+            treeNode1.Name = "Images";
+            treeNode1.Text = "Images";
+            treeNode2.Name = "Cells";
+            treeNode2.Text = "Cells";
+            treeNode3.Name = "ProjectName";
+            treeNode3.Text = "Project";
             this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode3});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
@@ -776,21 +791,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // settingToolStripMenuItem
-            // 
-            this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Setting});
-            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.settingToolStripMenuItem.Text = "Setting(&S)";
-            // 
-            // ToolStripMenuItem_Setting
-            // 
-            this.ToolStripMenuItem_Setting.Name = "ToolStripMenuItem_Setting";
-            this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(152, 22);
-            this.ToolStripMenuItem_Setting.Text = "Setting(&S)";
-            this.ToolStripMenuItem_Setting.Click += new System.EventHandler(this.ToolStripMenuItem_Setting_Click);
             // 
             // FormMain
             // 

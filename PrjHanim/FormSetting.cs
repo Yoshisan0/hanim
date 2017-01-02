@@ -23,5 +23,37 @@ namespace PrjHikariwoAnim
         {
             this.DialogResult = DialogResult.OK;
         }
+
+        private void panel_MainBackColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_MainGridColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_MainCenterLineColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_RateGraphBackColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_RateGraphGridColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_RateGraphCenterLineColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_RateGraphGraphColor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void panel_RateGraphForceColor_Click(object sender, EventArgs e)
+        {
+        }
     }
 }
