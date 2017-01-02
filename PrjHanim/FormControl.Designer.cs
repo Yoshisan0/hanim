@@ -424,7 +424,7 @@
             this.MinimumSize = new System.Drawing.Size(16, 118);
             this.Name = "FormControl";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "コントロール";
+            this.Text = "Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormControl_FormClosing);
             this.Load += new System.EventHandler(this.FormControl_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormControl_DragDrop);

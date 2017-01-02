@@ -641,7 +641,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAttribute";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "アトリビュート";
+            this.Text = "Attribute";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAttribute_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).EndInit();

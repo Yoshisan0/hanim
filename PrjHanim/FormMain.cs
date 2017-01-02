@@ -1236,6 +1236,16 @@ namespace PrjHikariwoAnim
             Process.Start(clPath);
         }
 
+        private void ToolStripMenuItem_Setting_Click(object sender, EventArgs e)
+        {
+            FormSetting clFormSetting = new FormSetting();
+            DialogResult enResult = clFormSetting.ShowDialog();
+            if (enResult != DialogResult.OK) return;
+
+            //以下、設定処理
+//ここで背景色を変えたり、グリッド色を変えたりする予定
+        }
+
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
             Dictionary<string, object> clDicFile = new Dictionary<string, object>();

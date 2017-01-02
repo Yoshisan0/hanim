@@ -228,7 +228,7 @@
             this.Controls.Add(this.panel_ToolBase);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormRateGraph";
-            this.Text = "レートグラフ";
+            this.Text = "Rate graph";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.FormRateGraph_Load);
             this.Resize += new System.EventHandler(this.FormRateGraph_Resize);
