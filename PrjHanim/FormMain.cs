@@ -398,19 +398,32 @@ namespace PrjHikariwoAnim
         private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             //ノードがエレメントかどうか確認する
-            //nodeのimageindexから判別する？
-            //Motionノードクリックされたらモーション切り替えを行う(将来)
-            //Select Motion
+            //nodeのimageindexから判別
+
+            //Select Motion Node
+            //MotionNodeか確認
             if (e.Node.ImageIndex == 2)
             {
-            }
+                //現在選択中か確認
+                if (!e.Node.IsSelected)
+                {
+                    //現在を選択状態へ
+                    treeView_Project.SelectedNode=e.Node;
+                    //モーション変更処理を行う
 
+
+                    panel_PreView.Refresh();
+                }
+            }
 /*
-            //SelectElements
-            //TagとElements.Nameが合致するものを選択
-            int inIndex = this.GetMotionSelectedIndex();
-            this.mListMotion[inIndex].EditFrame.SelectElement(e.Node.Tag);
-            if (this.mListMotion[inIndex].EditFrame.ActiveIndex != null) panel_PreView.Refresh();
+            //Select Elements Node
+            if(e.Node.ImageIndex == 4)
+            {
+                //TagとElements.Nameが合致するものを選択
+                int inIndex = this.GetMotionSelectedIndex();
+                this.mListMotion[inIndex].EditFrame.SelectElement(e.Node.Tag);
+                if (this.mListMotion[inIndex].EditFrame.ActiveIndex != null) panel_PreView.Refresh();
+            }
 */
         }
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)

@@ -60,13 +60,15 @@ namespace PrjHikariwoAnim
         private Motion mMotion = null;
         private FormMain mFormMain = null;
         /// <summary>
-        /// モーション選択の設定や変更 描画更新も行う
+        /// モーションの設定や変更、再設定(描画更新も行う
         /// </summary>
         /// <param name="clMotion"></param>
         public void SetMotion(Motion clMotion)
         {
             mMotion = clMotion;
             //以下画面更新予定　タイミングによってはguiがまだ準備できていない場合もありうる？
+            //Formの準備ができているか確認してリフレッシュ
+            RefreshAll();
         }
 
         private Font mFont = null;

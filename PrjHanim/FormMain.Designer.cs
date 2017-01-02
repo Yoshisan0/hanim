@@ -253,7 +253,7 @@
             // ToolStripMenuItem_Setting
             // 
             this.ToolStripMenuItem_Setting.Name = "ToolStripMenuItem_Setting";
-            this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(125, 22);
             this.ToolStripMenuItem_Setting.Text = "Setting(&S)";
             this.ToolStripMenuItem_Setting.Click += new System.EventHandler(this.ToolStripMenuItem_Setting_Click);
             // 
