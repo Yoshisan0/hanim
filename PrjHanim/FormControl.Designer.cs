@@ -37,14 +37,14 @@
             this.button_ItemDown = new System.Windows.Forms.Button();
             this.button_ItemUp = new System.Windows.Forms.Button();
             this.SubMenuTimeLine = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.キーフレーム追加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_AddKey = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_DelFrame = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_InsertFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.切り取りToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.コピーToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.上書き貼付けToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.挿入貼付けToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Cut = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_OverWrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Insert = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_Time = new System.Windows.Forms.Panel();
             this.LineHeader = new System.Windows.Forms.Panel();
             this.再生ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +59,7 @@
             this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.ToolStripMenuItem_DelKey = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -172,63 +173,71 @@
             // SubMenuTimeLine
             // 
             this.SubMenuTimeLine.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.キーフレーム追加ToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
+            this.ToolStripMenuItem_AddKey,
+            this.ToolStripMenuItem_DelKey,
+            this.toolStripMenuItem_DelFrame,
+            this.toolStripMenuItem_InsertFrame,
             this.toolStripSeparator1,
-            this.切り取りToolStripMenuItem,
-            this.コピーToolStripMenuItem,
-            this.上書き貼付けToolStripMenuItem,
-            this.挿入貼付けToolStripMenuItem});
+            this.ToolStripMenuItem_Cut,
+            this.ToolStripMenuItem_Copy,
+            this.ToolStripMenuItem_OverWrite,
+            this.ToolStripMenuItem_Insert});
             this.SubMenuTimeLine.Name = "SubMenuTimeLine";
-            this.SubMenuTimeLine.Size = new System.Drawing.Size(149, 164);
+            this.SubMenuTimeLine.Size = new System.Drawing.Size(153, 208);
             // 
-            // キーフレーム追加ToolStripMenuItem
+            // ToolStripMenuItem_AddKey
             // 
-            this.キーフレーム追加ToolStripMenuItem.Name = "キーフレーム追加ToolStripMenuItem";
-            this.キーフレーム追加ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.キーフレーム追加ToolStripMenuItem.Text = "キーフレーム登録";
+            this.ToolStripMenuItem_AddKey.Name = "ToolStripMenuItem_AddKey";
+            this.ToolStripMenuItem_AddKey.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AddKey.Text = "キーフレーム登録";
+            this.ToolStripMenuItem_AddKey.Click += new System.EventHandler(this.ToolStripMenuItem_AddKey_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItem_DelFrame
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
-            this.toolStripMenuItem1.Text = "フレーム削除";
+            this.toolStripMenuItem_DelFrame.Name = "toolStripMenuItem_DelFrame";
+            this.toolStripMenuItem_DelFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_DelFrame.Text = "フレーム削除";
+            this.toolStripMenuItem_DelFrame.Click += new System.EventHandler(this.toolStripMenuItem_DelFrame_Click);
             // 
-            // toolStripMenuItem2
+            // toolStripMenuItem_InsertFrame
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(148, 22);
-            this.toolStripMenuItem2.Text = "フレーム挿入";
+            this.toolStripMenuItem_InsertFrame.Name = "toolStripMenuItem_InsertFrame";
+            this.toolStripMenuItem_InsertFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_InsertFrame.Text = "フレーム挿入";
+            this.toolStripMenuItem_InsertFrame.Click += new System.EventHandler(this.toolStripMenuItem_InsertFrame_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
-            // 切り取りToolStripMenuItem
+            // ToolStripMenuItem_Cut
             // 
-            this.切り取りToolStripMenuItem.Name = "切り取りToolStripMenuItem";
-            this.切り取りToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.切り取りToolStripMenuItem.Text = "切取(X)";
+            this.ToolStripMenuItem_Cut.Name = "ToolStripMenuItem_Cut";
+            this.ToolStripMenuItem_Cut.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Cut.Text = "切り取り(X)";
+            this.ToolStripMenuItem_Cut.Click += new System.EventHandler(this.ToolStripMenuItem_Cut_Click);
             // 
-            // コピーToolStripMenuItem
+            // ToolStripMenuItem_Copy
             // 
-            this.コピーToolStripMenuItem.Name = "コピーToolStripMenuItem";
-            this.コピーToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.コピーToolStripMenuItem.Text = "コピー(C)";
+            this.ToolStripMenuItem_Copy.Name = "ToolStripMenuItem_Copy";
+            this.ToolStripMenuItem_Copy.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Copy.Text = "コピー(C)";
+            this.ToolStripMenuItem_Copy.Click += new System.EventHandler(this.ToolStripMenuItem_Copy_Click);
             // 
-            // 上書き貼付けToolStripMenuItem
+            // ToolStripMenuItem_OverWrite
             // 
-            this.上書き貼付けToolStripMenuItem.Name = "上書き貼付けToolStripMenuItem";
-            this.上書き貼付けToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.上書き貼付けToolStripMenuItem.Text = "貼付上書(V)";
+            this.ToolStripMenuItem_OverWrite.Name = "ToolStripMenuItem_OverWrite";
+            this.ToolStripMenuItem_OverWrite.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_OverWrite.Text = "貼付上書(V)";
+            this.ToolStripMenuItem_OverWrite.Click += new System.EventHandler(this.ToolStripMenuItem_OverWrite_Click);
             // 
-            // 挿入貼付けToolStripMenuItem
+            // ToolStripMenuItem_Insert
             // 
-            this.挿入貼付けToolStripMenuItem.Name = "挿入貼付けToolStripMenuItem";
-            this.挿入貼付けToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.挿入貼付けToolStripMenuItem.Text = "貼付挿入(B)";
+            this.ToolStripMenuItem_Insert.Name = "ToolStripMenuItem_Insert";
+            this.ToolStripMenuItem_Insert.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Insert.Text = "貼付挿入(B)";
+            this.ToolStripMenuItem_Insert.Click += new System.EventHandler(this.ToolStripMenuItem_Insert_Click);
             // 
             // panel_Time
             // 
@@ -412,6 +421,13 @@
             this.panel3.Size = new System.Drawing.Size(152, 27);
             this.panel3.TabIndex = 14;
             // 
+            // ToolStripMenuItem_DelKey
+            // 
+            this.ToolStripMenuItem_DelKey.Name = "ToolStripMenuItem_DelKey";
+            this.ToolStripMenuItem_DelKey.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_DelKey.Text = "キーフレーム削除";
+            this.ToolStripMenuItem_DelKey.Click += new System.EventHandler(this.ToolStripMenuItem_DelKey_Click);
+            // 
             // FormControl
             // 
             this.AllowDrop = true;
@@ -471,13 +487,14 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button_ItemRemove;
         private System.Windows.Forms.ContextMenuStrip SubMenuTimeLine;
-        private System.Windows.Forms.ToolStripMenuItem キーフレーム追加ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddKey;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_DelFrame;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_InsertFrame;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem 切り取りToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem コピーToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 上書き貼付けToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 挿入貼付けToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Cut;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Copy;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_OverWrite;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Insert;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DelKey;
     }
 }

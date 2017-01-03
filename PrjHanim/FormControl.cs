@@ -497,5 +497,45 @@ namespace PrjHikariwoAnim
         {
             this.panel_Time_MouseUp(sender, e);
         }
+
+        private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_DelKey_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem_DelFrame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem_InsertFrame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Cut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Copy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_OverWrite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Insert_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
