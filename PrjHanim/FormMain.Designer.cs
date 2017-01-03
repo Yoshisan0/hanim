@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Images");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Cells");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode5});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -659,14 +659,14 @@
             this.treeView_Project.Location = new System.Drawing.Point(0, 20);
             this.treeView_Project.Margin = new System.Windows.Forms.Padding(0);
             this.treeView_Project.Name = "treeView_Project";
-            treeNode1.Name = "Images";
-            treeNode1.Text = "Images";
-            treeNode2.Name = "Cells";
-            treeNode2.Text = "Cells";
-            treeNode3.Name = "ProjectName";
-            treeNode3.Text = "Project";
+            treeNode4.Name = "Images";
+            treeNode4.Text = "Images";
+            treeNode5.Name = "Cells";
+            treeNode5.Text = "Cells";
+            treeNode6.Name = "ProjectName";
+            treeNode6.Text = "Project";
             this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode6});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
@@ -808,7 +808,7 @@
             this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.Location_FormMain;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "hanim";
+            this.Text = "Hanim";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);

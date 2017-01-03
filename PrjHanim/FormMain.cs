@@ -545,7 +545,11 @@ namespace PrjHikariwoAnim
                 if (clTreeNode.IsSelected)
                 {
                     int inHashCode = clTreeNode.GetHashCode();
-                    return (inHashCode);
+                    bool isExist = this.mDicMotion.ContainsKey(inHashCode);
+                    if (isExist)
+                    {
+                        return (inHashCode);
+                    }
                 }
                 clTreeNode = clTreeNode.NextNode;
             }
@@ -677,6 +681,21 @@ namespace PrjHikariwoAnim
 
             //以下、モーションインデックス変更処理
             this.mEditMotionKey = this.GetMotionSelectedKey();
+
+            //以下、ウィンドウ名を修正する処理
+            string clName = "";
+            if (this.mEditMotionKey >= 0) {
+                Motion clMotion = this.mDicMotion[this.mEditMotionKey] as Motion;
+                clName = clMotion.Name;
+            }
+
+            if (!string.IsNullOrEmpty(clName)) {
+                clName = " (" + clName + ")";
+            }
+
+            this.Text = "Hanim" + clName;
+            this.mFormAttribute.Text = "Attribute" + clName;
+            this.mFormControl.Text = "Control" + clName;
         }
 
         private void button_MotionNew_Click(object sender, EventArgs e)
