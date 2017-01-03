@@ -102,8 +102,7 @@ namespace PrjHikariwoAnim
             //初期モーションTreeの追加
             TreeNode clTreeNode = this.treeView_Project_AddMotion("Motion");
             int inHashCode = clTreeNode.GetHashCode();
-            //初期モーションの追加 (? ↑のAddMotinの中でも作ってるで？)
-            Motion clMotion = new Motion(clTreeNode.Name);
+            Motion clMotion = this.mDicMotion[inHashCode] as Motion;
             this.mDicMotion[inHashCode] = clMotion;
 
             //以下、初期化処理
