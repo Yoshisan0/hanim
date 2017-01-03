@@ -233,10 +233,11 @@
             // panel_Time
             // 
             this.panel_Time.AutoScroll = true;
+            this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Time.Name = "panel_Time";
-            this.panel_Time.Size = new System.Drawing.Size(113, 100);
+            this.panel_Time.Size = new System.Drawing.Size(533, 167);
             this.panel_Time.TabIndex = 0;
             this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
             this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
@@ -256,6 +257,8 @@
             this.LineHeader.Size = new System.Drawing.Size(533, 20);
             this.LineHeader.TabIndex = 1;
             this.LineHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.LineHeader_Paint);
+            this.LineHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LineHeader_MouseDown);
+            this.LineHeader.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LineHeader_MouseUp);
             // 
             // 再生ToolStripMenuItem
             // 
