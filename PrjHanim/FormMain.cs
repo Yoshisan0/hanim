@@ -215,8 +215,8 @@ namespace PrjHikariwoAnim
             //アトリビュート
             this.mFormAttribute.Location = new Point(Location.X + Width, Location.Y);
             this.mFormControl.Location   = new Point(Location.X, Location.Y + Height);
-            this.mFormImageList.Location = new Point(Location.X - 50, Location.Y);
-            this.mFormCell.Location      = new Point(Location.X - 50, Location.Y + Height);
+            this.mFormImageList.Location = new Point(Location.X - this.mFormImageList.Width, Location.Y);
+            this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y + Height);
         }
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
         {

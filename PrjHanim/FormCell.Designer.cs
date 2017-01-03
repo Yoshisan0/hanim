@@ -49,7 +49,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 26);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(172, 235);
+            this.panel2.Size = new System.Drawing.Size(172, 215);
             this.panel2.TabIndex = 1;
             this.panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormCell_DragDrop);
             this.panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormCell_DragEnter);
@@ -62,14 +62,14 @@
             this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBar1.Location = new System.Drawing.Point(155, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 235);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 215);
             this.vScrollBar1.TabIndex = 0;
             // 
             // FormCell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(172, 261);
+            this.ClientSize = new System.Drawing.Size(172, 241);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;

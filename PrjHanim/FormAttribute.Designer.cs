@@ -468,7 +468,7 @@
             this.UserText.Margin = new System.Windows.Forms.Padding(0);
             this.UserText.Multiline = true;
             this.UserText.Name = "UserText";
-            this.UserText.Size = new System.Drawing.Size(245, 117);
+            this.UserText.Size = new System.Drawing.Size(245, 113);
             this.UserText.TabIndex = 47;
             // 
             // ColorCode
@@ -522,7 +522,7 @@
             this.panel_Attribute_Base.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Attribute_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_Attribute_Base.Name = "panel_Attribute_Base";
-            this.panel_Attribute_Base.Size = new System.Drawing.Size(256, 477);
+            this.panel_Attribute_Base.Size = new System.Drawing.Size(256, 473);
             this.panel_Attribute_Base.TabIndex = 49;
             // 
             // button_Yoff
@@ -636,7 +636,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 477);
+            this.ClientSize = new System.Drawing.Size(256, 473);
             this.Controls.Add(this.panel_Attribute_Base);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAttribute";

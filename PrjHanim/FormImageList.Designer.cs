@@ -46,7 +46,7 @@
             // button_Add
             // 
             this.button_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_Add.Location = new System.Drawing.Point(12, 416);
+            this.button_Add.Location = new System.Drawing.Point(12, 438);
             this.button_Add.Name = "button_Add";
             this.button_Add.Size = new System.Drawing.Size(75, 23);
             this.button_Add.TabIndex = 0;
@@ -57,7 +57,7 @@
             // button_Delete
             // 
             this.button_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_Delete.Location = new System.Drawing.Point(93, 416);
+            this.button_Delete.Location = new System.Drawing.Point(93, 438);
             this.button_Delete.Name = "button_Delete";
             this.button_Delete.Size = new System.Drawing.Size(75, 23);
             this.button_Delete.TabIndex = 1;
@@ -68,7 +68,7 @@
             // button_Cut
             // 
             this.button_Cut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Cut.Location = new System.Drawing.Point(415, 416);
+            this.button_Cut.Location = new System.Drawing.Point(409, 438);
             this.button_Cut.Name = "button_Cut";
             this.button_Cut.Size = new System.Drawing.Size(75, 23);
             this.button_Cut.TabIndex = 2;
@@ -93,7 +93,7 @@
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(478, 386);
+            this.listView.Size = new System.Drawing.Size(472, 408);
             this.listView.SmallImageList = this.imageList;
             this.listView.TabIndex = 3;
             this.listView.UseCompatibleStateImageBehavior = false;
@@ -154,7 +154,7 @@
             // button_OpenMyDoc
             // 
             this.button_OpenMyDoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_OpenMyDoc.Location = new System.Drawing.Point(174, 416);
+            this.button_OpenMyDoc.Location = new System.Drawing.Point(174, 438);
             this.button_OpenMyDoc.Name = "button_OpenMyDoc";
             this.button_OpenMyDoc.Size = new System.Drawing.Size(75, 23);
             this.button_OpenMyDoc.TabIndex = 7;
@@ -167,7 +167,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 451);
+            this.ClientSize = new System.Drawing.Size(496, 473);
             this.Controls.Add(this.button_OpenMyDoc);
             this.Controls.Add(this.checkBox_View);
             this.Controls.Add(this.label1);
