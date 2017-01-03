@@ -504,14 +504,25 @@ namespace PrjHikariwoAnim
                 //TreeViewの選択中Motionを取得
                 //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
                 //作成時にMotion.Name設定されてるはずだよなぁ・なんでnullなんだろか
-                Motion testStr = mDicMotion[mEditMotionKey];
 
-                TreeNode selNode = treeView_Project.Nodes[mDicMotion[mEditMotionKey].Name];
-                selNode.Nodes.Add(elem.Name, elem.Name);
-                selNode.Expand();
-                selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-                selNode.Nodes[elem.Name].ImageIndex = 4;
-                selNode.Nodes[elem.Name].SelectedImageIndex = 3;
+                //探すプログラムはこんな感じ？ 2016/01/03 comment by yoshi
+                TreeNode clTreeNode = this.treeView_Project.TopNode;
+                while (clTreeNode != null)
+                {
+                    int inHashCode = clTreeNode.GetHashCode();
+                    if (inHashCode == this.mEditMotionKey) break;
+
+                    clTreeNode = clTreeNode.NextNode;
+                }
+
+                if (clTreeNode != null)
+                {
+                    clTreeNode.Nodes.Add(elem.Name, elem.Name);
+                    clTreeNode.Expand();
+                    clTreeNode.Nodes[elem.Name].Tag = elem.GetHashCode();
+                    clTreeNode.Nodes[elem.Name].ImageIndex = 4;
+                    clTreeNode.Nodes[elem.Name].SelectedImageIndex = 3;
+                }
             }
             //Control更新
             mFormControl.Refresh();
