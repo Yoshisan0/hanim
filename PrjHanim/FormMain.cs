@@ -675,9 +675,9 @@ namespace PrjHikariwoAnim
 
         private void button_SelectMotion_Click(object sender, EventArgs e)
         {
-            //ここで現在編集中のモーションを自動で保存する？
+//ここで現在編集中のモーションを自動で保存する？
 
-            //現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
+//現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
 
             //以下、モーションインデックス変更処理
             this.mEditMotionKey = this.GetMotionSelectedKey();
