@@ -410,8 +410,8 @@ namespace PrjHikariwoAnim
                     //現在を選択状態へ
                     treeView_Project.SelectedNode=e.Node;
                     //モーション変更処理を行う
-
-
+                  
+                    //mFormControl.SetMotion(mDicMotion[]);//ControlFormにも通達
                     panel_PreView.Refresh();
                 }
             }
