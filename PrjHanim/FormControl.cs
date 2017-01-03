@@ -360,7 +360,6 @@ namespace PrjHikariwoAnim
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
             mSelect_Pos_Start.X = e.X / TIME_CELL_WIDTH;
             mSelect_Pos_Start.Y = e.Y / TIME_CELL_HEIGHT;
-
         }
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
         {
@@ -487,6 +486,56 @@ namespace PrjHikariwoAnim
 
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_Control.Checked = false;
+        }
+
+        private void LineHeader_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.panel_Time_MouseDown(sender, e);
+        }
+
+        private void LineHeader_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.panel_Time_MouseUp(sender, e);
+        }
+
+        private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_DelKey_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem_DelFrame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem_InsertFrame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Cut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Copy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_OverWrite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem_Insert_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -102,8 +102,7 @@ namespace PrjHikariwoAnim
             //初期モーションTreeの追加
             TreeNode clTreeNode = this.treeView_Project_AddMotion("Motion");
             int inHashCode = clTreeNode.GetHashCode();
-            //初期モーションの追加 (? ↑のAddMotinの中でも作ってるで？)
-            Motion clMotion = new Motion(clTreeNode.Name);
+            Motion clMotion = this.mDicMotion[inHashCode] as Motion;
             this.mDicMotion[inHashCode] = clMotion;
 
             //以下、初期化処理
@@ -216,8 +215,8 @@ namespace PrjHikariwoAnim
             //アトリビュート
             this.mFormAttribute.Location = new Point(Location.X + Width, Location.Y);
             this.mFormControl.Location   = new Point(Location.X, Location.Y + Height);
-            this.mFormImageList.Location = new Point(Location.X - 50, Location.Y);
-            this.mFormCell.Location      = new Point(Location.X - 50, Location.Y + Height);
+            this.mFormImageList.Location = new Point(Location.X - this.mFormImageList.Width, Location.Y);
+            this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y + Height);
         }
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
         {
@@ -410,7 +409,7 @@ namespace PrjHikariwoAnim
                     //現在を選択状態へ
                     treeView_Project.SelectedNode=e.Node;
                     //モーション変更処理を行う
-                  
+                   
                     //mFormControl.SetMotion(mDicMotion[]);//ControlFormにも通達
                     panel_PreView.Refresh();
                 }
@@ -505,14 +504,25 @@ namespace PrjHikariwoAnim
                 //TreeViewの選択中Motionを取得
                 //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
                 //作成時にMotion.Name設定されてるはずだよなぁ・なんでnullなんだろか
-                Motion testStr = mDicMotion[mEditMotionKey];
 
-                TreeNode selNode = treeView_Project.Nodes[mDicMotion[mEditMotionKey].Name];
-                selNode.Nodes.Add(elem.Name, elem.Name);
-                selNode.Expand();
-                selNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-                selNode.Nodes[elem.Name].ImageIndex = 4;
-                selNode.Nodes[elem.Name].SelectedImageIndex = 3;
+                //探すプログラムはこんな感じ？ 2016/01/03 comment by yoshi
+                TreeNode clTreeNode = this.treeView_Project.TopNode;
+                while (clTreeNode != null)
+                {
+                    int inHashCode = clTreeNode.GetHashCode();
+                    if (inHashCode == this.mEditMotionKey) break;
+
+                    clTreeNode = clTreeNode.NextNode;
+                }
+
+                if (clTreeNode != null)
+                {
+                    clTreeNode.Nodes.Add(elem.Name, elem.Name);
+                    clTreeNode.Expand();
+                    clTreeNode.Nodes[elem.Name].Tag = elem.GetHashCode();
+                    clTreeNode.Nodes[elem.Name].ImageIndex = 4;
+                    clTreeNode.Nodes[elem.Name].SelectedImageIndex = 3;
+                }
             }
             //Control更新
             mFormControl.Refresh();
@@ -546,7 +556,11 @@ namespace PrjHikariwoAnim
                 if (clTreeNode.IsSelected)
                 {
                     int inHashCode = clTreeNode.GetHashCode();
-                    return (inHashCode);
+                    bool isExist = this.mDicMotion.ContainsKey(inHashCode);
+                    if (isExist)
+                    {
+                        return (inHashCode);
+                    }
                 }
                 clTreeNode = clTreeNode.NextNode;
             }
@@ -672,12 +686,27 @@ namespace PrjHikariwoAnim
 
         private void button_SelectMotion_Click(object sender, EventArgs e)
         {
-            //ここで現在編集中のモーションを自動で保存する？
+//ここで現在編集中のモーションを自動で保存する？
 
-            //現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
+//現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
 
             //以下、モーションインデックス変更処理
             this.mEditMotionKey = this.GetMotionSelectedKey();
+
+            //以下、ウィンドウ名を修正する処理
+            string clName = "";
+            if (this.mEditMotionKey >= 0) {
+                Motion clMotion = this.mDicMotion[this.mEditMotionKey] as Motion;
+                clName = clMotion.Name;
+            }
+
+            if (!string.IsNullOrEmpty(clName)) {
+                clName = " (" + clName + ")";
+            }
+
+            this.Text = "Hanim" + clName;
+            this.mFormAttribute.Text = "Attribute" + clName;
+            this.mFormControl.Text = "Control" + clName;
         }
 
         private void button_MotionNew_Click(object sender, EventArgs e)
