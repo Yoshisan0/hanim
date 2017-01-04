@@ -444,13 +444,12 @@ namespace PrjHikariwoAnim
                     if(frm.Type == FRAME.TYPE.KeyFrame)
                     {
 //現在テスト中（ここから）
-                        //キーフレームの表示を画像で行う！？ 
-                        /*
-                        SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
-                        e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
-                        */
+//キーフレームの表示を画像で行う！？ 
 
-                        e.Graphics.DrawImage(Properties.Resources.markRed, inCnt * CellWidth, 0);
+//                      SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
+//                      e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
+
+                        e.Graphics.DrawImage(Properties.Resources.markRed, inCnt * CellWidth + 2, 1);   //Ｙ座標はどうやって取得するのが良いだろうか？
 //現在テスト中（ここまで）
                     }
                     if (frm.Type == FRAME.TYPE.Control)
