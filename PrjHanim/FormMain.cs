@@ -417,32 +417,10 @@ namespace PrjHikariwoAnim
                 //現在選択中か確認
                 if (!e.Node.IsSelected)
                 {
-                    //ここで現在編集中のモーションを自動で保存する？
-                    //現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
-
                     //現在を選択状態へ
                     treeView_Project.SelectedNode=e.Node;
                     //モーション変更処理を行う
-                    //以下、モーションインデックス変更処理
-                    this.mEditMotionKey = this.GetMotionSelectedKey();
-
-                    //以下、ウィンドウ名を修正する処理
-                    string clName = "";
-                    if (this.mEditMotionKey >= 0)
-                    {
-                        Motion clMotion = this.mDicMotion[this.mEditMotionKey] as Motion;
-                        clName = clMotion.Name;
-                    }
-
-                    if (!string.IsNullOrEmpty(clName))
-                    {
-                        clName = " (" + clName + ")";
-                    }
-
-                    this.Text = "Hanim" + clName;
-                    this.mFormAttribute.Text = "Attribute" + clName;
-                    this.mFormControl.Text = "Control" + clName;
-
+                   
                     //mFormControl.SetMotion(mDicMotion[]);//ControlFormにも通達
                     panel_PreView.Refresh();
                 }
@@ -561,39 +539,11 @@ namespace PrjHikariwoAnim
             mFormControl.Refresh();
 
         }
-        private TreeNode FineNodeFromHash(TreeView tv,int hash)
-        {
-            TreeNode clTreeNode = tv.TopNode;
-            while (clTreeNode != null)
-            {
-                int inHashCode = clTreeNode.GetHashCode();
-                if (inHashCode == hash) break;
-
-                clTreeNode = clTreeNode.NextNode;
-            }
-            return clTreeNode;
-        }
         private void treeView_Project_RemoveElements(string name)
         {
             //Elements選択中のDelキー
         }
 
-        /// <summary>
-        /// TreeViewへの既存Motionの追加
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns>TreeNode:HashCode</returns>
-        private int treeView_Project_AddMotion(Motion m)
-        {
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(m.Name);
-            return tn.GetHashCode();
-        }
-        /// <summary>
-        /// TreeViewに新規モーション名Nodeの追加とmDicMotionへの追加
-        /// </summary>
-        /// <param name="clMotionName"></param>
-        /// <returns></returns>
         private TreeNode treeView_Project_AddMotion(string clMotionName)
         {
             treeView_Project.SelectedNode = treeView_Project.TopNode;
@@ -608,11 +558,6 @@ namespace PrjHikariwoAnim
             this.mDicMotion.Add(inHashCode, clMotion);
 
             return (tn);
-        }
-        private void button_MotionNew_Click(object sender, EventArgs e)
-        {
-            treeView_Project_AddMotion("NewMotion");
-            //モーションである事を示すタグを付加する？
         }
 
         private int GetMotionSelectedKey()
@@ -774,29 +719,18 @@ namespace PrjHikariwoAnim
             this.mFormAttribute.Text = "Attribute" + clName;
             this.mFormControl.Text = "Control" + clName;
         }
+
+        private void button_MotionNew_Click(object sender, EventArgs e)
+        {
+            treeView_Project_AddMotion("NewMotion");
+            
+            //モーションである事を示すタグを付加する？
+        }
+
         private void panel_ProjectTopBase_Click(object sender, EventArgs e)
         {
             //ProjectPaineの開閉(おまけ)
             treeView_Project.Visible = !treeView_Project.Visible;
-        }
-
-        /// <summary>
-        /// treeViewの再構築 主にfileLoad時
-        /// </summary>
-        private void treeView_project_Rebuild()
-        {
-            treeView_Project.Nodes.Clear();
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            //Keyは読み取り専用で変更不可なので
-            //別のmDicMotionを再作成させて更新する
-            Dictionary<int, Motion> newDic = new Dictionary<int, Motion>();
-            foreach(int key in mDicMotion.Keys)
-            {
-                TreeNode tn = treeView_Project_AddMotion(mDicMotion[key].Name);
-                newDic.Add(tn.GetHashCode(), mDicMotion[key]);
-            }
-            mDicMotion.Clear();//古い方削除
-            mDicMotion = newDic;//再割当て
         }
 
         //PanelPreView周り

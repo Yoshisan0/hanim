@@ -242,6 +242,10 @@
     <None Include="glyph\rate1.PNG" />
     <None Include="glyph\rate2.PNG" />
     <None Include="glyph\rate3.PNG" />
+    <None Include="glyph\markBlue.PNG" />
+    <None Include="glyph\markGreen.PNG" />
+    <None Include="glyph\markRed.PNG" />
+    <None Include="glyph\markYellow.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

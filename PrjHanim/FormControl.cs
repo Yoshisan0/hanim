@@ -443,10 +443,16 @@ namespace PrjHikariwoAnim
                 {
                     if(frm.Type == FRAME.TYPE.KeyFrame)
                     {
-                        SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
-                        e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
+//現在テスト中（ここから）
+//キーフレームの表示を画像で行う！？ 
+
+//                      SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
+//                      e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
+
+                        e.Graphics.DrawImage(Properties.Resources.markRed, inCnt * CellWidth + 2, 1);   //Ｙ座標はどうやって取得するのが良いだろうか？
+//現在テスト中（ここまで）
                     }
-                    if(frm.Type == FRAME.TYPE.Control)
+                    if (frm.Type == FRAME.TYPE.Control)
                     { }
                 }
                 
@@ -500,7 +506,15 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
         {
+//現在テスト中（ここから）
+            FRAME clFrame = this.mMotion.GetFrame(4);
+            if (clFrame != null) return;    //存在チェックはこのような感じ
 
+            clFrame = new FRAME();
+            clFrame.FrameNum = 4;
+            clFrame.Type = FRAME.TYPE.KeyFrame;
+            this.mMotion.AddFrame(clFrame);
+//現在テスト中（ここまで）
         }
 
         private void ToolStripMenuItem_DelKey_Click(object sender, EventArgs e)
