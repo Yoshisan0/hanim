@@ -32,7 +32,6 @@ namespace PrjHikariwoAnim
         public string Name;//Motion Name
 
         public List<FRAME> gmTimeLine;
-
         //
         private int mCurrentFrameIndex;//
 

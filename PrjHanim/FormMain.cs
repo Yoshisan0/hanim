@@ -145,9 +145,20 @@ namespace PrjHikariwoAnim
             ofd.DefaultExt = ".hap";
             if (ofd.ShowDialog()==DialogResult.OK)
             {
-                if (this.mEditMotionKey >= 0)
+                if (mDicMotion!=null)
                 {
-                    this.mDicMotion[this.mEditMotionKey].LoadFromFile(ofd.FileName);
+                    //this.mDicMotion[this.mEditMotionKey].LoadFromFile(ofd.FileName);
+                    //StreamからMotion読込
+                    //StreamReader sr = new StreamReader(ofd.FileName);
+                    Motion newMotion = new Motion("default");
+                    newMotion.LoadFromFile(ofd.FileName);
+                    int hashkey = treeView_Project_AddMotion(newMotion);
+                    mDicMotion.Add(hashkey, newMotion);//keyと共にmDicMotionに登録
+
+                    //TreeView登録
+
+                    //treeView_project_Rebuild();
+                    treeView_Project.Refresh();
                 }
             }
             ofd.Dispose();
