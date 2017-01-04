@@ -84,9 +84,9 @@
             this.checkT.Location = new System.Drawing.Point(5, 130);
             this.checkT.Margin = new System.Windows.Forms.Padding(0);
             this.checkT.Name = "checkT";
-            this.checkT.Size = new System.Drawing.Size(75, 20);
+            this.checkT.Size = new System.Drawing.Size(119, 20);
             this.checkT.TabIndex = 7;
-            this.checkT.Text = "透明度";
+            this.checkT.Text = "Transparency";
             this.checkT.UseVisualStyleBackColor = true;
             this.checkT.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -97,9 +97,9 @@
             this.checkFlipH.Location = new System.Drawing.Point(5, 155);
             this.checkFlipH.Margin = new System.Windows.Forms.Padding(0);
             this.checkFlipH.Name = "checkFlipH";
-            this.checkFlipH.Size = new System.Drawing.Size(91, 20);
+            this.checkFlipH.Size = new System.Drawing.Size(118, 20);
             this.checkFlipH.TabIndex = 10;
-            this.checkFlipH.Text = "左右反転";
+            this.checkFlipH.Text = "Horizontal flip";
             this.checkFlipH.UseVisualStyleBackColor = true;
             this.checkFlipH.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -110,9 +110,9 @@
             this.checkFlipV.Location = new System.Drawing.Point(5, 180);
             this.checkFlipV.Margin = new System.Windows.Forms.Padding(0);
             this.checkFlipV.Name = "checkFlipV";
-            this.checkFlipV.Size = new System.Drawing.Size(91, 20);
+            this.checkFlipV.Size = new System.Drawing.Size(103, 20);
             this.checkFlipV.TabIndex = 12;
-            this.checkFlipV.Text = "上下反転";
+            this.checkFlipV.Text = "Vertical flip";
             this.checkFlipV.UseVisualStyleBackColor = true;
             this.checkFlipV.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -125,9 +125,9 @@
             this.checkVisible.Location = new System.Drawing.Point(5, 205);
             this.checkVisible.Margin = new System.Windows.Forms.Padding(0);
             this.checkVisible.Name = "checkVisible";
-            this.checkVisible.Size = new System.Drawing.Size(59, 20);
+            this.checkVisible.Size = new System.Drawing.Size(72, 20);
             this.checkVisible.TabIndex = 14;
-            this.checkVisible.Text = "表示";
+            this.checkVisible.Text = "display";
             this.checkVisible.UseVisualStyleBackColor = true;
             this.checkVisible.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -138,9 +138,9 @@
             this.checkColor.Location = new System.Drawing.Point(5, 230);
             this.checkColor.Margin = new System.Windows.Forms.Padding(0);
             this.checkColor.Name = "checkColor";
-            this.checkColor.Size = new System.Drawing.Size(62, 20);
+            this.checkColor.Size = new System.Drawing.Size(63, 20);
             this.checkColor.TabIndex = 16;
-            this.checkColor.Text = "カラー";
+            this.checkColor.Text = "Color";
             this.checkColor.UseVisualStyleBackColor = true;
             this.checkColor.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -151,9 +151,9 @@
             this.checkXoff.Location = new System.Drawing.Point(5, 283);
             this.checkXoff.Margin = new System.Windows.Forms.Padding(0);
             this.checkXoff.Name = "checkXoff";
-            this.checkXoff.Size = new System.Drawing.Size(125, 20);
+            this.checkXoff.Size = new System.Drawing.Size(84, 20);
             this.checkXoff.TabIndex = 20;
-            this.checkXoff.Text = "原点Ｘオフセット";
+            this.checkXoff.Text = "Offset X";
             this.checkXoff.UseVisualStyleBackColor = true;
             this.checkXoff.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -164,9 +164,9 @@
             this.checkYoff.Location = new System.Drawing.Point(5, 308);
             this.checkYoff.Margin = new System.Windows.Forms.Padding(0);
             this.checkYoff.Name = "checkYoff";
-            this.checkYoff.Size = new System.Drawing.Size(125, 20);
+            this.checkYoff.Size = new System.Drawing.Size(83, 20);
             this.checkYoff.TabIndex = 22;
-            this.checkYoff.Text = "原点Ｙオフセット";
+            this.checkYoff.Text = "Offset Y";
             this.checkYoff.UseVisualStyleBackColor = true;
             this.checkYoff.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -177,9 +177,9 @@
             this.checkUserText.Location = new System.Drawing.Point(5, 331);
             this.checkUserText.Margin = new System.Windows.Forms.Padding(0);
             this.checkUserText.Name = "checkUserText";
-            this.checkUserText.Size = new System.Drawing.Size(163, 20);
+            this.checkUserText.Size = new System.Drawing.Size(135, 20);
             this.checkUserText.TabIndex = 24;
-            this.checkUserText.Text = "ユーザーデータ(TEXT)";
+            this.checkUserText.Text = "User data (text)";
             this.checkUserText.UseVisualStyleBackColor = true;
             this.checkUserText.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -192,9 +192,9 @@
             this.checkSY.Location = new System.Drawing.Point(5, 105);
             this.checkSY.Margin = new System.Windows.Forms.Padding(0);
             this.checkSY.Name = "checkSY";
-            this.checkSY.Size = new System.Drawing.Size(88, 20);
+            this.checkSY.Size = new System.Drawing.Size(78, 20);
             this.checkSY.TabIndex = 25;
-            this.checkSY.Text = "Ｙスケール";
+            this.checkSY.Text = "Scale Y";
             this.checkSY.UseVisualStyleBackColor = true;
             this.checkSY.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -207,9 +207,9 @@
             this.checkSX.Location = new System.Drawing.Point(5, 80);
             this.checkSX.Margin = new System.Windows.Forms.Padding(0);
             this.checkSX.Name = "checkSX";
-            this.checkSX.Size = new System.Drawing.Size(88, 20);
+            this.checkSX.Size = new System.Drawing.Size(79, 20);
             this.checkSX.TabIndex = 26;
-            this.checkSX.Text = "Ｘスケール";
+            this.checkSX.Text = "Scale X";
             this.checkSX.UseVisualStyleBackColor = true;
             this.checkSX.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -220,9 +220,9 @@
             this.checkRot.Location = new System.Drawing.Point(5, 55);
             this.checkRot.Margin = new System.Windows.Forms.Padding(0);
             this.checkRot.Name = "checkRot";
-            this.checkRot.Size = new System.Drawing.Size(59, 20);
+            this.checkRot.Size = new System.Drawing.Size(84, 20);
             this.checkRot.TabIndex = 29;
-            this.checkRot.Text = "回転";
+            this.checkRot.Text = "Rotation";
             this.checkRot.UseVisualStyleBackColor = true;
             this.checkRot.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -233,9 +233,9 @@
             this.checkY.Location = new System.Drawing.Point(5, 30);
             this.checkY.Margin = new System.Windows.Forms.Padding(0);
             this.checkY.Name = "checkY";
-            this.checkY.Size = new System.Drawing.Size(69, 20);
+            this.checkY.Size = new System.Drawing.Size(94, 20);
             this.checkY.TabIndex = 30;
-            this.checkY.Text = "Ｙ座標";
+            this.checkY.Text = "Position Y";
             this.checkY.UseVisualStyleBackColor = true;
             this.checkY.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 
@@ -246,9 +246,9 @@
             this.checkX.Location = new System.Drawing.Point(5, 5);
             this.checkX.Margin = new System.Windows.Forms.Padding(0);
             this.checkX.Name = "checkX";
-            this.checkX.Size = new System.Drawing.Size(69, 20);
+            this.checkX.Size = new System.Drawing.Size(95, 20);
             this.checkX.TabIndex = 31;
-            this.checkX.Text = "Ｘ座標";
+            this.checkX.Text = "Position X";
             this.checkX.UseVisualStyleBackColor = true;
             this.checkX.CheckStateChanged += new System.EventHandler(this.checkUserText_CheckStateChanged);
             // 

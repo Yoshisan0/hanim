@@ -500,7 +500,15 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
         {
+//現在テスト中（ここから）
+            FRAME clFrame = this.mMotion.GetFrame(4);
+            if (clFrame != null) return;    //存在チェックはこのような感じ
 
+            clFrame = new FRAME();
+            clFrame.FrameNum = 4;
+            clFrame.Type = FRAME.TYPE.KeyFrame;
+            this.mMotion.AddFrame(clFrame);
+//現在テスト中（ここまで）
         }
 
         private void ToolStripMenuItem_DelKey_Click(object sender, EventArgs e)
