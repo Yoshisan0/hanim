@@ -559,6 +559,20 @@ namespace PrjHikariwoAnim
 
             return (tn);
         }
+        private int treeView_Project_AddMotion(Motion m)
+        {
+            treeView_Project.SelectedNode = treeView_Project.TopNode;
+            TreeNode tn = treeView_Project.Nodes.Add(m.Name);
+            tn.ImageIndex = 2;
+            tn.SelectedImageIndex = 2;
+            tn.Tag = this.mDicMotion.Count; //不要？
+
+            //以下、モーションクラス生成処理
+            int inHashCode = tn.GetHashCode();
+            this.mDicMotion.Add(inHashCode, m);
+
+            return inHashCode;
+        }
 
         private int GetMotionSelectedKey()
         {
