@@ -573,7 +573,7 @@ namespace PrjHikariwoAnim
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();
             elem.Atr = new AttributeBase();
-            elem.Atr.CellID = work.GetHashCode();
+            elem.CellID = work.GetHashCode();
             elem.Atr.Width = work.Img.Width;
             elem.Atr.Height = work.Img.Height;
 
@@ -659,6 +659,7 @@ namespace PrjHikariwoAnim
         public ELEMENTSTYPE Type;//Default Image
         public enum ELEMENTSSTYLE { Rect , Circle , Point }
         public ELEMENTSSTYLE Style;//Default Rect
+        public int CellID;//Image画像ID
         public bool isVisible = true;//表示非表示(目)
         public bool isLocked = false;//ロック状態(鍵)
         public bool isSelect = false;//選択状態

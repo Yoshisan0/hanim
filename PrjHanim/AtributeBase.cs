@@ -36,7 +36,8 @@ namespace PrjHikariwoAnim
         //親子関係や付随する上位情報は継承先か管理クラスで行う
         //xml,Json化可能にする為 public
         [DataMember]
-        public int CellID;
+        //public int CellID;
+        public int ElementID;
         [DataMember]
         public int Value;
         [DataMember]
@@ -101,7 +102,8 @@ namespace PrjHikariwoAnim
         public AttributeBase(AttributeBase src)
         {
             //return (AttributeBase)MemberwiseClone();
-            CellID = src.CellID;
+            //CellID = src.CellID;
+            ElementID = src.ElementID;
             Value = src.Value;
             Position = src.Position;
             isX = src.isX;
@@ -133,7 +135,8 @@ namespace PrjHikariwoAnim
         public Dictionary<string, object> Export()
         {
             Dictionary<string, object> clDic = new Dictionary<string, object>();
-            clDic["cid"] = this.CellID;
+            //clDic["cid"] = this.CellID;
+            clDic["eid"] = this.ElementID;
             clDic["val"] = this.Value;
             if (this.isX) clDic["x"] = this.Position.X;
             if (this.isY) clDic["y"] = this.Position.Y;

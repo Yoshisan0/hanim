@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 namespace PrjHikariwoAnim
@@ -24,15 +25,24 @@ namespace PrjHikariwoAnim
         */
         public string Name;//ProjectName FileName?
 
-        //各種パーツ
-        public List<ELEMENTS> mElement;
-
         //画像イメージ
         public ImageManagerBase mImage;
+        //各種パーツ
+        public List<ELEMENTS> mElement;
 
         //モーション と制御
         public Motion mMotion;
         private Dictionary<int, Motion> mDicMotion;
+
+        //const
+        public project(string pName)
+        {
+            Name = pName;
+            mImage = new ImageManagerBase();
+            mElement = new List<ELEMENTS>();
+
+        }
+
         public bool ChangeMotion(int key)
         {
             if (mDicMotion.ContainsKey(key))
@@ -76,7 +86,14 @@ namespace PrjHikariwoAnim
             mDicMotion = newDic;
         }
         
-        public void Save(string fName) { }
+        public void Save(string fName)
+        {
+            FileStream fs = new FileStream(fName, FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            
+
+            
+        }
         public void Load(string fName) { }
 
     }
