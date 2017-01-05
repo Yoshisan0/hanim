@@ -70,9 +70,9 @@ namespace PrjHikariwoAnim
                     string ext = System.IO.Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        CELL c = new CELL();
+                        ImageChip c = new ImageChip();
                         c.FromPngFile(str);
-                        ImageMan.AddCell(c);
+                        ImageMan.AddImageChip(c);
                         //ImageListへ登録と更新
                         //CellListの表示更新
                         Refresh();
@@ -101,9 +101,9 @@ namespace PrjHikariwoAnim
                 {
                     //ドラッグ開始
                     int sellectIndex = (e.Y / mTumsSize);
-                    if (sellectIndex < ImageMan.CellList.Count)
+                    if (sellectIndex < ImageMan.ImageChipList.Count)
                     {                        
-                        panel2.DoDragDrop(ImageMan.CellList[sellectIndex], DragDropEffects.Copy);
+                        panel2.DoDragDrop(ImageMan.ImageChipList[sellectIndex], DragDropEffects.Copy);
                     }
                 }
             }
@@ -129,11 +129,11 @@ namespace PrjHikariwoAnim
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
 
-            if (ImageMan.CellList.Count <= 0) return;
+            if (ImageMan.ImageChipList.Count <= 0) return;
 
-            while (drawPos < panel2.Height && cnt < ImageMan.CellList.Count)
+            while (drawPos < panel2.Height && cnt < ImageMan.ImageChipList.Count)
             {
-                Image src = ImageMan.CellList[cnt].Img;
+                Image src = ImageMan.ImageChipList[cnt].Img;
                 if (src == null)
                 {
                     Console.Out.Write("CellImage is Null");
@@ -148,7 +148,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
-                if (ImageMan.CellList[cnt].Selected)
+                if (ImageMan.ImageChipList[cnt].Selected)
                 {
                     e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(0,drawPos, bSize - 1, bSize - 1));
                 }

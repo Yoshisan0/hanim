@@ -14,8 +14,8 @@ namespace PrjHikariwoAnim
     /// <summary>
     /// TimeLine全体の管理
     /// TIMELINE<FRAME>
-    /// FRAME<ELEMENTS> データ削減の為パラメータ変化のあるフレームのみの記録
-    /// ELEMENTS<ATRIBUTEbase>
+    /// FRAME<ELEMENTS>
+    /// データ削減の為パラメータ変化のあるフレームのみの記録
     /// </summary>
     [Serializable]
     public class Motion
@@ -568,7 +568,7 @@ namespace PrjHikariwoAnim
             mFrame[index] = e;
             return true;
         }
-        public void AddElementsFromCEll(CELL work,int x , int y)
+        public void AddElementsFromCEll(ImageChip work,int x , int y)
         {
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();

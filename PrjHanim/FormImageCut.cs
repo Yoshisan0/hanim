@@ -99,12 +99,12 @@ namespace PrjHikariwoAnim
 
             Size wh = new Size((mPosEnd.X - mPosStart.X), (mPosEnd.Y - mPosStart.Y));
             Rectangle r = new Rectangle(mPosStart, wh);
-            CELL c = new CELL();
+            ImageChip c = new ImageChip();
             c.Rect = r;
-            ImageManager.AddCellFromImage(mImage, c);
+            ImageManager.AddImageChipFromImage(mImage, c);
 
             //
-            panel_CellList.Height = (ImageManager.CellList.Count/(panel_CellList.Width/ mThumsWidth))*mThumsWidth;
+            panel_CellList.Height = (ImageManager.ImageChipList.Count/(panel_CellList.Width/ mThumsWidth))*mThumsWidth;
             splitContainerBase.Panel2.Refresh();
 
             //this.DialogResult = DialogResult.OK;
@@ -355,7 +355,7 @@ namespace PrjHikariwoAnim
             int cvx = panel_CellList.Width  / bSize; //横に並ぶ数
             int cvy = panel_CellList.Height / bSize; //縦に並ぶ数
             //ImageManager.CellList.Count / cx;
-            if(ImageManager.CellList.Count <= 0) return;
+            if(ImageManager.ImageChipList.Count <= 0) return;
 
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はセレクトの関係から縦横固定サイズが望ましい
@@ -364,9 +364,9 @@ namespace PrjHikariwoAnim
             {
                 for(int cx = 0; cx < cvx;cx++)
                 {
-                    if (cnt < ImageManager.CellList.Count)
+                    if (cnt < ImageManager.ImageChipList.Count)
                     {
-                        Image src = ImageManager.CellList[cnt].Img;
+                        Image src = ImageManager.ImageChipList[cnt].Img;
                         if (src == null)
                         {
                             Console.Out.Write("CellImage is Null");
@@ -381,7 +381,7 @@ namespace PrjHikariwoAnim
                         e.Graphics.DrawImage(src, (cx*bSize) + (bSize / 2 - (ds.X / 2)), (cy*bSize) + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                         //DrawFlame
-                        if (ImageManager.CellList[cnt].Selected)
+                        if (ImageManager.ImageChipList[cnt].Selected)
                         {
                             e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(cx*bSize,cy*bSize, bSize - 1, bSize - 1));
                         }
@@ -400,9 +400,9 @@ namespace PrjHikariwoAnim
             int selX = e.X / mThumsWidth;
             int selY = e.Y / mThumsWidth;
             int sel = (selY * (panel_CellList.Width/ mThumsWidth)) + selX;
-            if (sel < ImageManager.CellList.Count)
+            if (sel < ImageManager.ImageChipList.Count)
             {
-                ImageManager.CellList[sel].Selected = !ImageManager.CellList[sel].Selected;
+                ImageManager.ImageChipList[sel].Selected = !ImageManager.ImageChipList[sel].Selected;
                 splitContainerBase.Refresh();
             }
         }
@@ -425,23 +425,23 @@ namespace PrjHikariwoAnim
                 for (int cx=0;cx<(mImage.Width/dx);cx++)
                 {
                     Rectangle r = new Rectangle(cx*dx,cy*dy,dx,dy);
-                    CELL c = new CELL();
+                    ImageChip c = new ImageChip();
                     c.Rect = r;
                     c.Name = cy.ToString("0d") +":"+ cx.ToString("0d");
-                    ImageManager.AddCellFromImage(mImage, c);                   
+                    ImageManager.AddImageChipFromImage(mImage, c);                   
                 }
             }
             mPosStart = new Point(0, 0);
             mPosEnd = new Point(dx, dy);//仮
 
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
-            panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth) + 1) * mThumsWidth;
+            panel_CellList.Height = (ImageManager.ImageChipList.Count / (panel_CellList.Width / mThumsWidth) + 1) * mThumsWidth;
             //splitContainerBase.Refresh();
         }
         private void button_Clear_Click(object sender, EventArgs e)
         {
             //全セルの削除
-            ImageManager.CellList.Clear();
+            ImageManager.ImageChipList.Clear();
             splitContainerBase.Refresh();
         }
         private void CellSave_Click(object sender, EventArgs e)
@@ -452,7 +452,7 @@ namespace PrjHikariwoAnim
                 sd.DefaultExt = "cell";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
-                    ImageManager.CellList[0].ToBinaryFile(sd.FileName);
+                    ImageManager.ImageChipList[0].ToBinaryFile(sd.FileName);
                     //ImageManager.CellList[0].ToXMLFile(sd.FileName);
                 }
             }
@@ -462,7 +462,7 @@ namespace PrjHikariwoAnim
         {
             if (ImageManager==null) return;
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
-            panel_CellList.Height = (ImageManager.CellList.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
+            panel_CellList.Height = (ImageManager.ImageChipList.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
             splitContainerBase.Refresh();
         }
 

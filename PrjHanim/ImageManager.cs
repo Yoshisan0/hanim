@@ -22,23 +22,23 @@ namespace PrjHikariwoAnim
 
         //CellのGetSetは遠回しになるのでCellList自体を公開
         //取扱い注意
-        public List<CELL> CellList;
+        public List<ImageChip> ImageChipList;
 
         // method:
         public ImageManagerBase()
         {
-            CellList = new List<CELL>();
+            ImageChipList = new List<ImageChip>();
         }
 
         //Image
         public int GetIndexFromPath(string fullPath)
         {
-            return CellList.FindIndex((CELL f) => (f.Path == fullPath));
+            return ImageChipList.FindIndex((ImageChip f) => (f.Path == fullPath));
         }
         public bool Remove(int ID)
         {
-            if (ID >= CellList.Count) return false;
-            CellList.RemoveAt(ID);
+            if (ID >= ImageChipList.Count) return false;
+            ImageChipList.RemoveAt(ID);
             //CellListの該当も自動削除するか悩む
 
             return true;
@@ -47,13 +47,13 @@ namespace PrjHikariwoAnim
         {
             var s = GetIndexFromPath(path);
             if (s < 0) return false;
-            CellList.RemoveAt(s);
+            ImageChipList.RemoveAt(s);
             //CellListの該当も削除するか悩む
             return true;
         }
         public Image GetImageFromID(int ID)
         {
-            return CellList[ID].Img;
+            return ImageChipList[ID].Img;
         }
         public void SaveToFile(string FileName)
         {
@@ -65,9 +65,9 @@ namespace PrjHikariwoAnim
                 //serializer.Serialize(sw, CellList);
                 //案の定シリアライズ失敗する
                 //ストリームに直書きするかぁ・・
-                bw.Write(CellList.Count);//Cell数
+                bw.Write(ImageChipList.Count);//Cell数
 
-                foreach (CELL c in CellList)
+                foreach (ImageChip c in ImageChipList)
                 {
                     c.BinaryToStream(bw);
                 }
@@ -75,12 +75,12 @@ namespace PrjHikariwoAnim
             
             //stm.Close();
             }
-            CellList[0].ToXMLFile(FileName + ".xml");
+            ImageChipList[0].ToXMLFile(FileName + ".xml");
 
         }
         public void LoadFromFile(string FileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(IList<CELL>));
+            XmlSerializer serializer = new XmlSerializer(typeof(IList<ImageChip>));
             //UTF-8 BOM無し
             Stream stm = new  FileStream(FileName, FileMode.Open);
             StreamReader sr = new StreamReader(FileName, new UTF8Encoding(false));
@@ -91,50 +91,50 @@ namespace PrjHikariwoAnim
             {
                 for (int mcnt = 0; mcnt < cnt;mcnt++)
                 {
-                    CELL c = new CELL();
+                    ImageChip c = new ImageChip();
                     c.BinaryFromStream(stm);//エラーチェックはあとで
-                    CellList.Add(c);
+                    ImageChipList.Add(c);
                 }
             }
 
             sr.Close();
         }
 
-        public void AddCell(CELL c)
+        public void AddImageChip(ImageChip c)
         {
             
-            CellList.Add(c);
+            ImageChipList.Add(c);
         }
         /// <summary>
         /// Add Cell from Cell.ImageID
         /// </summary>
         /// <param name="cell">Rectangle</param> 
-        public void AddCellFromID(CELL a)
+        public void AddImageChipFromID(ImageChip a)
         {
-            if (a.SrcID > CellList.Count)
+            if (a.SrcID > ImageChipList.Count)
             {
                 Console.Out.WriteLine("[ImageID]OutofRange");
                 return;
             }
             //Cellにイメージ格納
-            Bitmap srcBmp = new Bitmap(CellList[a.SrcID].Img);
+            Bitmap srcBmp = new Bitmap(ImageChipList[a.SrcID].Img);
             Bitmap dstBmp = srcBmp.Clone(a.Rect, srcBmp.PixelFormat);
             a.Img = dstBmp;
-            CellList.Add(a);//追加
+            ImageChipList.Add(a);//追加
         }
         /// <summary>
         /// Add Cell From Image
         /// </summary>
         /// <param name="img">Image</param>
         /// <param name="cell">Rectangle</param>
-        public void AddCellFromImage(Image img,CELL cell)
+        public void AddImageChipFromImage(Image img,ImageChip cell)
         {
             //重複チェック
             Bitmap srcBmp = new Bitmap(img);
             //Rectangle srcRect = new Rectangle(cell.Rect.Left,cell.Rect.Top,(cell.Rect.Right-cell.Rect.Left)-1,(cell.Rect.Bottom-cell.Rect.Top)-1); 
             Bitmap dstBmp = srcBmp.Clone(cell.Rect, srcBmp.PixelFormat);
             cell.Img = dstBmp;
-            CellList.Add(cell);//追加
+            ImageChipList.Add(cell);//追加
         }
 
         /// <summary>
@@ -150,35 +150,35 @@ namespace PrjHikariwoAnim
             if(idx<=0)
             {
                 //it's new
-                CELL c = new CELL();
+                ImageChip c = new ImageChip();
                 c.FromPngFile(path);
-                CellList.Add(c);
-                idx = CellList.Count;
+                ImageChipList.Add(c);
+                idx = ImageChipList.Count;
             }
             return idx;
         }
-        public void RemoveCell(int index)
+        public void RemoveImageChip(int index)
         {
-            CellList.RemoveAt(index);
+            ImageChipList.RemoveAt(index);
         }
-        public void RemoveImageCell(int imgID)
+        public void RemoveImageChipID(int imgID)
         {
             //
-            for(int cnt=CellList.Count;cnt > 0;cnt--)
+            for(int cnt=ImageChipList.Count;cnt > 0;cnt--)
             {
-                if(CellList[cnt].SrcID == imgID)
+                if(ImageChipList[cnt].SrcID == imgID)
                 {
-                    CellList.RemoveAt(cnt);
+                    ImageChipList.RemoveAt(cnt);
                 }
             }
         }
         public void RemoveSelectedCell()
         {
-            for (int cnt = CellList.Count; cnt > 0; cnt--)
+            for (int cnt = ImageChipList.Count; cnt > 0; cnt--)
             {
-                if (CellList[cnt-1].Selected)
+                if (ImageChipList[cnt-1].Selected)
                 {
-                    CellList.RemoveAt(cnt-1);
+                    ImageChipList.RemoveAt(cnt-1);
                 }
             }
 
@@ -187,23 +187,23 @@ namespace PrjHikariwoAnim
         
         public int CellCount()
         {
-            return CellList.Count;
+            return ImageChipList.Count;
         }
-        public CELL GetCell(int index)
+        public ImageChip GetImageChip(int index)
         {
-            if (index <= CellList.Count)
+            if (index <= ImageChipList.Count)
             {
-                return CellList[index];
+                return ImageChipList[index];
             }
             return null;
         }
-        public CELL GetCellFromImageID(int ID)
+        public ImageChip GetImageChipFromImageID(int ID)
         {
-            return  CellList.Find((CELL c) =>(c.SrcID==ID));
+            return  ImageChipList.Find((ImageChip c) =>(c.SrcID==ID));
         }
-        public CELL GetCellFromHash(int ID)
+        public ImageChip GetImageChipFromHash(int ID)
         {
-            return CellList.Find((CELL c) => (c.GetHashCode() == ID));
+            return ImageChipList.Find((ImageChip c) => (c.GetHashCode() == ID));
         }
 
     }
@@ -237,7 +237,7 @@ namespace PrjHikariwoAnim
 
     //イメージリスト中のどれかの画像の一部の範囲
     [Serializable]
-    public class CELL
+    public class ImageChip
     {
         public bool Selected;
         public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
@@ -248,13 +248,13 @@ namespace PrjHikariwoAnim
         public Bitmap Img;//汎用性と速度の為ここでも保持
         public string ImgStrBase64;//XML JSON用テスト
 
-        public CELL()
+        public ImageChip()
         {
             SrcID = 0;
             Name = "Noname";
             Rect = new Rectangle(0, 0, 0, 0);
         }
-        public CELL(CELL a)
+        public ImageChip(ImageChip a)
         {
             SrcID = a.SrcID;
             Rect = a.Rect;
@@ -264,7 +264,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="id"></param>
         /// <param name="rect"></param>
-        public CELL(CELL srcCell,Rectangle rect)
+        public ImageChip(ImageChip srcCell,Rectangle rect)
         {
             SrcID = srcCell.ID;
             Name = "Parts";
@@ -304,7 +304,7 @@ namespace PrjHikariwoAnim
         }
         //事前にImageManagerレベルで重複チェックすること
         //通常はImagemanager.AddPngFileを使う事！
-        public CELL FromPngFile(string path)
+        public ImageChip FromPngFile(string path)
         {
             Bitmap work = new Bitmap(path);//FileLockの可能性？
             Img = work;
@@ -356,7 +356,7 @@ namespace PrjHikariwoAnim
         public void ToStreamXML(Stream stm)
         {
             //bitmapはシリアライズされない
-            XmlSerializer xs = new XmlSerializer(typeof(CELL));
+            XmlSerializer xs = new XmlSerializer(typeof(ImageChip));
             xs.Serialize(stm, this);
             //imgを元に戻す
             this.Img = ClsSystem.ImageFromBase64(this.ImgStrBase64);

@@ -483,7 +483,7 @@ namespace PrjHikariwoAnim
         /// <param name="work"></param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        private void treeView_Project_AddElements(CELL work, int x, int y)
+        private void treeView_Project_AddElements(ImageChip work, int x, int y)
         {
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();
@@ -865,7 +865,7 @@ namespace PrjHikariwoAnim
                     ia.SetColorMatrix(colmat);
 
                     //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-                    CELL c = ImageMan.GetCellFromHash(e.CellID);
+                    ImageChip c = ImageMan.GetImageChipFromHash(e.CellID);
                     if (c == null) { Console.WriteLine("Image:null"); return; }
 
                     //原点を部品中心に
@@ -956,9 +956,9 @@ namespace PrjHikariwoAnim
                     string ext = System.IO.Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        CELL c = new CELL();
+                        ImageChip c = new ImageChip();
                         c.FromPngFile(str);
-                        ImageMan.AddCell(c);
+                        ImageMan.AddImageChip(c);
                         treeView_Project_AddElements(c, sPos.X, sPos.Y);
                         //ImageListへ登録と更新
                         mFormImageList.AddItem(str);
@@ -975,7 +975,7 @@ namespace PrjHikariwoAnim
             {
                 ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
                 //Cellの登録 Image Item
-                CELL work = new CELL();
+                ImageChip work = new ImageChip();
                 
                 work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
                 //画像そのままならこれでいいが一部切り抜きとなると変更
@@ -983,18 +983,18 @@ namespace PrjHikariwoAnim
                 //必要なのはmFormImagelist.mListImageの中身っぽい？
                 
                 work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
-                ImageMan.AddCell(work);//画像サイズ登録実画像はいずこ！
+                ImageMan.AddImageChip(work);//画像サイズ登録実画像はいずこ！
 
                 treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
             //CELL 受け入れ
-            if (e.Data.GetDataPresent(typeof(CELL)))
+            if (e.Data.GetDataPresent(typeof(ImageChip)))
             {
                 //Store Cell Item
-                CELL work = (CELL)e.Data.GetData(typeof(CELL));
-                ImageMan.AddCell(work);//画像登録
+                ImageChip work = (ImageChip)e.Data.GetData(typeof(ImageChip));
+                ImageMan.AddImageChip(work);//画像登録
                 //PreViewに配置し更新
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
                 treeView_Project_AddElements(work, a.X, a.Y);
@@ -1014,7 +1014,7 @@ namespace PrjHikariwoAnim
             if (e.Data.GetDataPresent(typeof(ListViewItem)))
             { e.Effect = DragDropEffects.Copy; }
 
-            if (e.Data.GetDataPresent(typeof(CELL)))
+            if (e.Data.GetDataPresent(typeof(ImageChip)))
             { e.Effect = DragDropEffects.Copy; }
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1322,10 +1322,10 @@ namespace PrjHikariwoAnim
             clDicFile["hogehoge"] = 99;
 
             //以下、イメージ出力処理
-            int inCnt, inMax = this.ImageMan.CellList.Count;
+            int inCnt, inMax = this.ImageMan.ImageChipList.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                CELL clCell = this.ImageMan.CellList[inCnt];
+                ImageChip clCell = this.ImageMan.ImageChipList[inCnt];
                 string clKey = clCell.ID.ToString();
                 clDicFile[clKey] = clCell.Export();
             }
