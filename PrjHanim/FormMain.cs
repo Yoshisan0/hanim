@@ -488,7 +488,7 @@ namespace PrjHikariwoAnim
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();
             elem.Atr = new AttributeBase();
-            elem.CellID = work.GetHashCode();
+            elem.ImageChipID = work.GetHashCode();
             elem.Atr.Width = work.Img.Width;
             elem.Atr.Height = work.Img.Height;
             elem.Tag = elem.GetHashCode();
@@ -865,7 +865,7 @@ namespace PrjHikariwoAnim
                     ia.SetColorMatrix(colmat);
 
                     //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-                    ImageChip c = ImageMan.GetImageChipFromHash(e.CellID);
+                    ImageChip c = ImageMan.GetImageChipFromHash(e.ImageChipID);
                     if (c == null) { Console.WriteLine("Image:null"); return; }
 
                     //原点を部品中心に

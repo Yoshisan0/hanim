@@ -15,14 +15,12 @@ namespace PrjHikariwoAnim
         /*
         project
             |->SETING 基準速度等？
-            |->ImageManager LIST<CELL> 利用画像
+            |->ImageManager LIST<ImageChip> 利用画像
             |->ELEMENTS parts 各種パーツ(非画像含む)
             |->Dictionary<key,Motion>mDicMotion
-               |Motiin->List<FRAME> エレメントの利用リストと状態
-                 |->FRAME->LIST<ELEMENTS(hash)> エレメントリスト
-                    |->FRAME->LIST<ATRIBUTEbase> エレメントの状態情報
-                    どの属性のデータなのか、格納方法等は要検証?
-        */
+               ->Motion Dictinary<Frame,EleParam>
+    
+            */
         public string Name;//ProjectName FileName?
 
         //画像イメージ

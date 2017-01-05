@@ -14,8 +14,22 @@ namespace PrjHikariwoAnim
     /// <summary>
     /// TimeLine全体の管理
     /// TIMELINE<FRAME>
-    /// FRAME<ELEMENTS>
+    /// TimeLine:EditFrame:編集中対象エレメント
+    /// TimeLine:FRAME<ELEMENTS>編集中除く1つだけ 外部モーションで共用したいのであとで離別 
     /// データ削減の為パラメータ変化のあるフレームのみの記録
+        /*
+            構造案(amami 17/1/6)
+            gmTimeLine　を　List<FRAME>mElementList　に変更 (イメージをImgChipIDで参照する事で他モーションで共有可能とする)
+            エレメントの親子関係　各種エレメント自体のフラグ等はここ
+            １モーションにつき１つだけ存在
+
+            Dictionary<int FrameNum, EleParam[]> gmEleParam　を新設
+            フレーム番号をKeyとした時間軸(フレーム数)のエレメントの各種パラメータ等
+            EleParam[]は登録Element数だけ用意し、値がnullの物はパラメータ無し か？
+            もしくはElementID(hash)をキーとした辞書か
+
+            こいうので・・合ってる？
+        */
     /// </summary>
     [Serializable]
     public class Motion
@@ -32,6 +46,8 @@ namespace PrjHikariwoAnim
         public string Name;//Motion Name
 
         public List<FRAME> gmTimeLine;
+        public Dictionary<int, EleParam[]> gmEleParam;
+        
         //
         private int mCurrentFrameIndex;//
 
@@ -41,6 +57,7 @@ namespace PrjHikariwoAnim
             this.Name = clMotionName;   //モーション名
 
             EditFrame = new FRAME();
+
             gmTimeLine = new List<FRAME>();
             gmTimeLine.Add(EditFrame);
             Top();
@@ -573,7 +590,7 @@ namespace PrjHikariwoAnim
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();
             elem.Atr = new AttributeBase();
-            elem.CellID = work.GetHashCode();
+            elem.ImageChipID = work.GetHashCode();
             elem.Atr.Width = work.Img.Width;
             elem.Atr.Height = work.Img.Height;
 
@@ -660,7 +677,7 @@ namespace PrjHikariwoAnim
         public ELEMENTSTYPE Type;//Default Image
         public enum ELEMENTSSTYLE { Rect , Circle , Point }
         public ELEMENTSSTYLE Style;//Default Rect
-        public int CellID;//Image画像ID
+        public int ImageChipID;//Image画像ID
         public bool isVisible = true;//表示非表示(目)
         public bool isLocked = false;//ロック状態(鍵)
         public bool isSelect = false;//選択状態
@@ -668,7 +685,10 @@ namespace PrjHikariwoAnim
         public string Name;
         public object Tag; //認識ID object.hash
         public int Value;
+
+        //AtrはEleParamで置換
         public AttributeBase Atr;//継承のほうがいいのかなぁ・・
+
         public AttributeBase Parent;//親:未使用参照
         public AttributeBase[] Child;//子:未使用参照
         public AttributeBase Next;//未使用参照
@@ -737,10 +757,15 @@ namespace PrjHikariwoAnim
     }
 
     [Serializable]
-    public class CHIP
+    //エレメントの各種パラメータ
+    public class EleParam
     {
-        public int ElementID;
-        public AttributeBase Atr;
+        //public int ElementID;//対応するエレメントID(hash)
+        public AttributeBase Atr;//基本パラメータ
+        public AttributeBase Option;//差分等が必要な場合の予備パラメータ
+        public ClsTween Tween;//?Tween時のRateが必要？
+        //合成時レート等のパラメータを追加
+        //RateGraphから作成したり補完したり？
     }
 
     public class RATEbase
