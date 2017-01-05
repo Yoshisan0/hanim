@@ -28,7 +28,7 @@ namespace PrjHikariwoAnim
         //画像イメージ
         public ImageManagerBase mImage;
         //各種パーツ
-        public List<ELEMENTS> mElement;
+        public List<ELEMENTS> mElements;
 
         //モーション と制御
         public Motion mMotion;
@@ -39,8 +39,7 @@ namespace PrjHikariwoAnim
         {
             Name = pName;
             mImage = new ImageManagerBase();
-            mElement = new List<ELEMENTS>();
-
+            mElements = new List<ELEMENTS>();
         }
 
         public bool ChangeMotion(int key)
@@ -90,8 +89,6 @@ namespace PrjHikariwoAnim
         {
             FileStream fs = new FileStream(fName, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
-            
-
             
         }
         public void Load(string fName) { }

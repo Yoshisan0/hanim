@@ -655,6 +655,7 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ELEMENTS
     {
+        // コントロール左側ペインに相当する部分
         public enum ELEMENTSTYPE { Image , Shape , Joint , Effect , Accessory, FX }
         public ELEMENTSTYPE Type;//Default Image
         public enum ELEMENTSSTYLE { Rect , Circle , Point }
@@ -733,6 +734,13 @@ namespace PrjHikariwoAnim
             serializer.WriteObject(ms, this);
             return Encoding.UTF8.GetString(ms.ToArray());
         }
+    }
+
+    [Serializable]
+    public class CHIP
+    {
+        public int ElementID;
+        public AttributeBase Atr;
     }
 
     public class RATEbase
