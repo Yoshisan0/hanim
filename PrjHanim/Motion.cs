@@ -23,14 +23,86 @@ namespace PrjHikariwoAnim
             エレメントの親子関係　各種エレメント自体のフラグ等はここ
             １モーションにつき１つだけ存在
 
-            Dictionary<int FrameNum, EleParam[]> gmEleParam　を新設
+            Dictionary<int,ElementID,Dictionary<int,FrameNum> EleParam> gmEleParam　を新設
+            gmEleParam[ElementID][FrameNum]でアクセス？
+            遅い？
+            エラー処理とかのちのち大変？
+
             フレーム番号をKeyとした時間軸(フレーム数)のエレメントの各種パラメータ等
             EleParam[]は登録Element数だけ用意し、値がnullの物はパラメータ無し か？
-            もしくはElementID(hash)をキーとした辞書か
+            もしくはElementID(hash)をキーとした辞書かList<>か
 
             こいうので・・合ってる？
         */
     /// </summary>
+    /// 
+    //サンプル Class Motion2  17/1/6
+    public class Motion2
+    {
+        public string Name;//モーション名
+        public FRAME Elements;
+        Dictionary<int, Dictionary<int,EleParam>> gmEleParam;
+
+        public Motion2 (string name)
+        {
+            Name = name;
+            Elements = new FRAME();
+            gmEleParam = new Dictionary<int,Dictionary<int, EleParam>>();
+        }
+
+        //パラメータ回りの取得と設定
+        public EleParam GetEleParam(int elementID ,int frameNum)
+        {
+            EleParam retParam=null;
+            
+            if(gmEleParam.ContainsKey(elementID))
+            {
+                Dictionary<int,EleParam> w =  gmEleParam[elementID];
+                if (w.ContainsKey(frameNum))
+                {
+                    retParam = gmEleParam[elementID][frameNum];
+                }
+                else
+                {
+                    //既存フレームのパラメータが無い
+                    //前後フレームから算出
+                    //前後ってどうやって探すか・・舐めるのか・・
+                }
+            }
+            else
+            {
+                //既存エレメントが存在しない               
+            }
+            return retParam;
+        }
+        public void SetEleParam(int elementID,int frameNum,EleParam e)
+        {
+            //Frame存在確認
+            if(gmEleParam.ContainsKey(elementID))
+            {
+                Dictionary<int, EleParam> w = gmEleParam[elementID];
+                if(w.ContainsKey(frameNum))
+                {
+                    //既存　更新
+                    gmEleParam[elementID][frameNum] = e;
+                }
+                else
+                {
+                    //frameに追加
+                    gmEleParam[elementID].Add(frameNum, e);
+                }
+            }
+            else
+            {
+                //エレメントから追加
+                Dictionary<int, EleParam> work = new Dictionary<int, EleParam>();
+                work.Add(frameNum, e);
+                gmEleParam.Add(elementID,work);                
+            }
+        }
+
+
+    }
     [Serializable]
     public class Motion
     {
@@ -46,7 +118,6 @@ namespace PrjHikariwoAnim
         public string Name;//Motion Name
 
         public List<FRAME> gmTimeLine;
-        public Dictionary<int, EleParam[]> gmEleParam;
         
         //
         private int mCurrentFrameIndex;//
