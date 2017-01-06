@@ -40,8 +40,9 @@ namespace PrjHikariwoAnim
     public class Motion2
     {
         public string Name;//モーション名
-        public FRAME Elements;
-        Dictionary<int, Dictionary<int,EleParam>> gmEleParam;
+        public FRAME ElementList;
+        // gmEleParam[ElementID][FrameNum]
+        private Dictionary<int, Dictionary<int,EleParam>> gmEleParam;
 
         public Motion2 (string name)
         {
@@ -100,7 +101,6 @@ namespace PrjHikariwoAnim
                 gmEleParam.Add(elementID,work);                
             }
         }
-
 
     }
     [Serializable]
@@ -757,13 +757,13 @@ namespace PrjHikariwoAnim
         public object Tag; //認識ID object.hash
         public int Value;
 
-        //AtrはEleParamで置換
+        //AtrはEleParamで置換予定で廃止
         public AttributeBase Atr;//継承のほうがいいのかなぁ・・
 
-        public AttributeBase Parent;//親:未使用参照
-        public AttributeBase[] Child;//子:未使用参照
-        public AttributeBase Next;//未使用参照
-        public AttributeBase Prev;//未使用参照
+        public ELEMENTS Parent;//親:未使用参照
+        public ELEMENTS[] Child;//子:未使用参照
+        public ELEMENTS Next;//未使用参照
+        public ELEMENTS Prev;//未使用参照
 
         public ELEMENTS()
         {
