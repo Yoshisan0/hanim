@@ -43,6 +43,8 @@ namespace PrjHikariwoAnim
         public string Name;//モーション名
         public FRAME ElementList;
         // gmEleParam[ElementID][FrameNum]
+        private Dictionary<int, List<EleParam>> mParam;
+        private Dictionary<int,Array>mParam2;
         private Dictionary<int, Dictionary<int,EleParam>> gmEleParam;
 
         public Motion2 (string name)
@@ -50,6 +52,8 @@ namespace PrjHikariwoAnim
             Name = name;
             ElementList = new FRAME();
             gmEleParam = new Dictionary<int,Dictionary<int, EleParam>>();
+            //うーん・・
+            mParam = new Dictionary<int, List<EleParam>>();            
         }
 
         //パラメータ回りの取得と設定
@@ -111,12 +115,63 @@ namespace PrjHikariwoAnim
                 //全検索でframeNumがキーの物を削除
                 gmEleParam[key].Remove(frameNum);
             }
-
+            //キー以降のキー変更せなあかんやんか・・
+            //辞書だとめんどくさいなぁ・・
+            ShiftKey(frameNum, -1);
         }
         //エレメント削除時
         public void RemoveElementParam(int elementID)
         {
             gmEleParam.Remove(elementID);
+            //キー以降の変更・・うぅ・・・
+        }
+        //キーのシフト処理 重そう・・
+        /// <summary>
+        /// keyNum以降のkeyをstep分増減し辞書再構成
+        /// 削減時に前フレーム以上削減しないように注意
+        /// </summary>
+        /// <param name="keyNum"></param>
+        /// <param name="step"></param>
+        public void ShiftKey(int keyNum,int step)
+        {
+            List<int> keys = new List<int> (gmEleParam.Keys);
+            Dictionary<int, Dictionary<int, EleParam>> newDic = new Dictionary<int, Dictionary<int, EleParam>>();
+            foreach(int ekey in keys)
+            {
+                Dictionary<int,EleParam> wDic = gmEleParam[ekey];
+                List<int> fkeys = new List<int>(wDic.Keys);
+                foreach(int wkey in fkeys)
+                {
+                    int newkey = wkey;
+                    if(wkey>keyNum)
+                    {
+                        newkey = wkey + step;
+                    }
+                    wDic.Add(newkey,gmEleParam[ekey][wkey]);
+                    newDic.Add(newkey, wDic);
+                }
+            }
+            gmEleParam.Clear();
+            gmEleParam = newDic;
+        }
+        /// <summary>
+        /// 指定framekeyより1つ前のkeyを取得
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public int GetPrevFrameKey(int framekey)
+        {
+            int ret = -1;
+            //List<int> keys = new List<int>(gmEleParam.Keys);
+            for(int idx=framekey; idx>0;idx--)
+            {
+                if(gmEleParam.ContainsKey(idx))
+                {
+                    ret = idx;
+                    break;
+                }
+            }
+            return ret;
         }
 
         //test
