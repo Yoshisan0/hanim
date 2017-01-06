@@ -19,7 +19,7 @@ namespace PrjHikariwoAnim
     /// データ削減の為パラメータ変化のあるフレームのみの記録
         /*
             構造案(amami 17/1/6)
-            gmTimeLine　を　List<FRAME>mElementList　に変更 (イメージをImgChipIDで参照する事で他モーションで共有可能とする)
+            gmTimeLine　を　FRAME mElementList　に変更 (イメージをImgChipIDで参照する事で他モーションで共有可能とする)
             エレメントの親子関係　各種エレメント自体のフラグ等はここ
             １モーションにつき１つだけ存在
 
