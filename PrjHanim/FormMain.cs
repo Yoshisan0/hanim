@@ -53,6 +53,8 @@ namespace PrjHikariwoAnim
         //編集中の選択中エレメントのインデックス 非選択=null
         //これはTimeLine内のFrameあたりに移動させたいなぁ 11/11移動
         //private int? mNowElementsIndex = null;
+
+        private Motion2 m2;
         
         private string mNowMotionName;//選択中モーション名
 
@@ -138,6 +140,10 @@ namespace PrjHikariwoAnim
             if (mFormControl != null) mFormControl.Visible = checkBox_Control.Checked;
             if (mFormAttribute != null) mFormAttribute.Visible = checkBox_Attribute.Checked;
             if (mFormCell != null) mFormCell.Visible = checkBox_CellList.Checked;
+
+            //Test
+            m2 = new Motion2("tekitou");
+            m2.test();
     }
         private void LoadProject_Click(object sender, EventArgs e)
         {

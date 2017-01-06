@@ -33,6 +33,7 @@ namespace PrjHikariwoAnim
             もしくはElementID(hash)をキーとした辞書かList<>か
 
             こいうので・・合ってる？
+            以下サンプルClass:Motion2は毎度の如く安易な思い付き
         */
     /// </summary>
     /// 
@@ -47,7 +48,7 @@ namespace PrjHikariwoAnim
         public Motion2 (string name)
         {
             Name = name;
-            Elements = new FRAME();
+            ElementList = new FRAME();
             gmEleParam = new Dictionary<int,Dictionary<int, EleParam>>();
         }
 
@@ -100,6 +101,33 @@ namespace PrjHikariwoAnim
                 work.Add(frameNum, e);
                 gmEleParam.Add(elementID,work);                
             }
+        }
+        //タイムライン削除時
+        public void RemoveFrameParam(int frameNum)
+        {
+            List<int> keys = new List<int>( gmEleParam.Keys);
+            foreach(int key in keys)
+            {
+                //全検索でframeNumがキーの物を削除
+                gmEleParam[key].Remove(frameNum);
+            }
+
+        }
+        //エレメント削除時
+        public void RemoveElementParam(int elementID)
+        {
+            gmEleParam.Remove(elementID);
+        }
+
+        //test
+        public void test()
+        {
+            ELEMENTS e = new ELEMENTS();
+            ElementList.AddElements(e);
+            EleParam ep = new EleParam();
+            ep.Atr.Position.X = 1;
+            SetEleParam(e.GetHashCode(), 1,ep);
+            ep = GetEleParam(e.GetHashCode(), 1);
         }
 
     }
@@ -837,6 +865,13 @@ namespace PrjHikariwoAnim
         public ClsTween Tween;//?Tween時のRateが必要？
         //合成時レート等のパラメータを追加
         //RateGraphから作成したり補完したり？
+
+        public EleParam()
+        {
+            Atr = new AttributeBase();
+            Option = new AttributeBase();
+            Tween = null;
+        }
     }
 
     public class RATEbase
