@@ -38,6 +38,7 @@ namespace PrjHikariwoAnim
     /// </summary>
     /// 
     //サンプル Class Motion2  17/1/6
+
     public class Motion2
     {
         public string Name;//モーション名
@@ -159,13 +160,33 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public int GetPrevFrameKey(int framekey)
+        public int GetPrevFrameKey(int framekey,int min=0)
         {
             int ret = -1;
             //List<int> keys = new List<int>(gmEleParam.Keys);
-            for(int idx=framekey; idx>0;idx--)
+            for(int idx=framekey; idx>=min;idx--)
             {
                 if(gmEleParam.ContainsKey(idx))
+                {
+                    ret = idx;
+                    break;
+                }
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 指定framekeyの後のkeyを取得
+        /// </summary>
+        /// <param name="framekey"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public int GetNextFrameKey(int framekey,int max)
+        {
+            int ret = -1;
+            //List<int> keys = new List<int>(gmEleParam.Keys);
+            for (int idx = framekey; idx < max; idx--)
+            {
+                if (gmEleParam.ContainsKey(idx))
                 {
                     ret = idx;
                     break;
