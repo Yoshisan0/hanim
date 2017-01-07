@@ -106,14 +106,14 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowMain.mSize;
 
             //以下、コントロール初期化処理
-            this.checkBox_GridCheck.Checked = ClsSystem.mSetting.Checked_DrawGird;
-            this.checkBox_CrossBar.Checked = ClsSystem.mSetting.Checked_DrawCross;
-            this.checkBox_CellList.Checked = ClsSystem.mSetting.Checked_CellList;
-            this.checkBox_Attribute.Checked = ClsSystem.mSetting.Checked_Attribute;
-            this.checkBox_Control.Checked = ClsSystem.mSetting.Checked_Control;
-            this.checkBox_ImageList.Checked = ClsSystem.mSetting.Checked_ImageList;
-            this.checkBox_Snap.Checked = ClsSystem.mSetting.Checked_GridSnap;
-            this.numericUpDown_Grid.Value = ClsSystem.mSetting.Value_WidthGrid;
+            this.checkBox_GridCheck.Checked = ClsSystem.mSetting.mWindowMain_DrawGird;
+            this.checkBox_CrossBar.Checked = ClsSystem.mSetting.mWindowMain_DrawCross;
+            this.checkBox_CellList.Checked = ClsSystem.mSetting.mWindowMain_CellList;
+            this.checkBox_Attribute.Checked = ClsSystem.mSetting.mWindowMain_Attribute;
+            this.checkBox_Control.Checked = ClsSystem.mSetting.mWindowMain_Control;
+            this.checkBox_ImageList.Checked = ClsSystem.mSetting.mWindowMain_ImageList;
+            this.checkBox_Snap.Checked = ClsSystem.mSetting.mWindowMain_GridSnap;
+            this.numericUpDown_Grid.Value = ClsSystem.mSetting.mWindowMain_WidthGrid;
 
             //以下、TreeNode作成処理
             this.mEditMotionKey = -1;
@@ -331,14 +331,14 @@ namespace PrjHikariwoAnim
             ClsSystem.mSetting.mWindowMain.mSize = this.Size;
 
             //以下、コントロール保存処理
-            ClsSystem.mSetting.Checked_DrawGird = this.checkBox_GridCheck.Checked;
-            ClsSystem.mSetting.Checked_DrawCross = this.checkBox_CrossBar.Checked;
-            ClsSystem.mSetting.Checked_CellList = this.checkBox_CellList.Checked;
-            ClsSystem.mSetting.Checked_Attribute = this.checkBox_Attribute.Checked;
-            ClsSystem.mSetting.Checked_Control = this.checkBox_Control.Checked;
-            ClsSystem.mSetting.Checked_ImageList = this.checkBox_ImageList.Checked;
-            ClsSystem.mSetting.Checked_GridSnap = this.checkBox_Snap.Checked;
-            ClsSystem.mSetting.Value_WidthGrid = (int)this.numericUpDown_Grid.Value;
+            ClsSystem.mSetting.mWindowMain_DrawGird = this.checkBox_GridCheck.Checked;
+            ClsSystem.mSetting.mWindowMain_DrawCross = this.checkBox_CrossBar.Checked;
+            ClsSystem.mSetting.mWindowMain_CellList = this.checkBox_CellList.Checked;
+            ClsSystem.mSetting.mWindowMain_Attribute = this.checkBox_Attribute.Checked;
+            ClsSystem.mSetting.mWindowMain_Control = this.checkBox_Control.Checked;
+            ClsSystem.mSetting.mWindowMain_ImageList = this.checkBox_ImageList.Checked;
+            ClsSystem.mSetting.mWindowMain_GridSnap = this.checkBox_Snap.Checked;
+            ClsSystem.mSetting.mWindowMain_WidthGrid = (int)this.numericUpDown_Grid.Value;
 
             //以下、終了処理
             ClsSystem.Exit();

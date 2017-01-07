@@ -28,18 +28,16 @@ namespace PrjHikariwoAnim
         public Color mRateGraphColorCenterLine;
         public Color mRateGraphColorGraph;
         public Color mRateGraphColorForce;
-
+        public bool mWindowMain_DrawGird;
+        public bool mWindowMain_DrawCross;
+        public bool mWindowMain_GridSnap;
+        public bool mWindowMain_ImageList;
+        public bool mWindowMain_Control;
+        public bool mWindowMain_Attribute;
+        public bool mWindowMain_CellList;
+        public int mWindowMain_WidthGrid;
         public bool mWindowRateGraph_DrawGrid;
-
-        public bool Checked_DrawGird;
-        public bool Checked_DrawCross;
-        public int Value_WidthGrid;
-        public bool Checked_GridSnap;
-        public bool Checked_ImageList;
-        public bool Checked_Control;
-        public bool Checked_Attribute;
-        public bool Checked_CellList;
-        public string LastImageDirectory;
+        public string mLastImageDirectory;
 
         /// <summary>
         /// コンストラクタ
@@ -62,18 +60,15 @@ namespace PrjHikariwoAnim
             this.mRateGraphColorCenterLine = Color.DarkRed;
             this.mRateGraphColorGraph = Color.Lime;
             this.mRateGraphColorForce = Color.DeepSkyBlue;
-
+            this.mWindowMain_DrawCross = true;
+            this.mWindowMain_WidthGrid = 10;
+            this.mWindowMain_GridSnap = true;
+            this.mWindowMain_ImageList = true;
+            this.mWindowMain_Control = true;
+            this.mWindowMain_Attribute = true;
+            this.mWindowMain_CellList = true;
             this.mWindowRateGraph_DrawGrid = true;
-
-            this.Checked_DrawGird = true;
-            this.Checked_DrawCross = true;
-            this.Value_WidthGrid = 10;
-            this.Checked_GridSnap = true;
-            this.Checked_ImageList = true;
-            this.Checked_Control = true;
-            this.Checked_Attribute = true;
-            this.Checked_CellList = true;
-            this.LastImageDirectory = "";
+            this.mLastImageDirectory = "";
         }
 
         /// <summary>

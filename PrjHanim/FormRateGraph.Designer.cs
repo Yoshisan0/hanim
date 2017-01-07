@@ -109,8 +109,8 @@
             this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
             this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.checkBox_GridCheck.Checked = true;
             this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_DrawGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_GridCheck.Location = new System.Drawing.Point(0, 0);
