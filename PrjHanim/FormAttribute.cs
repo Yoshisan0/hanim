@@ -26,6 +26,13 @@ namespace PrjHikariwoAnim
             this.mFormMain = form;
         }
 
+        private void FormAttribute_Load(object sender, EventArgs e)
+        {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowAttribute.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
+        }
+
         /// <summary>
         /// フォームにパラメータをセットします
         /// </summary>

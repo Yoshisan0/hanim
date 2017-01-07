@@ -643,6 +643,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Attribute";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAttribute_FormClosing);
+            this.Load += new System.EventHandler(this.FormAttribute_Load);
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).EndInit();

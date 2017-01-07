@@ -101,6 +101,10 @@ namespace PrjHikariwoAnim
             //以下、システム初期化処理
             ClsSystem.Init();
 
+            //以下、メインウィンドウの座標の設定
+            this.Location = ClsSystem.mSetting.mWindowMain.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowMain.mSize;
+
             //以下、TreeNode作成処理
             this.mEditMotionKey = -1;
             this.mDicMotion = new Dictionary<int, Motion>();
@@ -131,8 +135,6 @@ namespace PrjHikariwoAnim
             //mFormCell.Owner = this;
             mFormCell.ImageMan = ImageMan;
             mFormCell.Show();
-
-            AlingForms();//フォームの整列
 
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
@@ -306,6 +308,7 @@ namespace PrjHikariwoAnim
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+/*
             Properties.Settings.Default["Location_FormMain"]    = this.Location;
             //            Properties.Settings.Default["Location_FormAttribute"] = value;
             //            Properties.Settings.Default["Location_FormControl"] = value;
@@ -322,32 +325,22 @@ namespace PrjHikariwoAnim
             Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
             Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
             Properties.Settings.Default.Save(); //<-基本的にはバインドされたものはここで自動セーブ
+*/
+
+            //以下、ウィンドウ情報保存処理
+            ClsSystem.mSetting.mWindowImageList.mLocation = this.mFormImageList.Location;
+            ClsSystem.mSetting.mWindowImageList.mSize = this.mFormImageList.Size;
+            ClsSystem.mSetting.mWindowControl.mLocation = this.mFormControl.Location;
+            ClsSystem.mSetting.mWindowControl.mSize = this.mFormControl.Size;
+            ClsSystem.mSetting.mWindowAttribute.mLocation = this.mFormAttribute.Location;
+            ClsSystem.mSetting.mWindowAttribute.mSize = this.mFormAttribute.Size;
+            ClsSystem.mSetting.mWindowCell.mLocation = this.mFormCell.Location;
+            ClsSystem.mSetting.mWindowCell.mSize = this.mFormCell.Size;
+            ClsSystem.mSetting.mWindowMain.mLocation = this.Location;
+            ClsSystem.mSetting.mWindowMain.mSize = this.Size;
 
             //以下、終了処理
             ClsSystem.Exit();
-        }
-        private void button_BackColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-                panel_PreView.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
-        }
-        private void Button_Color_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
         }
         private void CheckButton_Changed(object sender, EventArgs e)
         {
@@ -762,6 +755,8 @@ namespace PrjHikariwoAnim
         //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.Clear(ClsSystem.mSetting.mMainColorBack);
+
             //以下、拡大してボケないようにする処理
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //e.Graphics.PixelOffsetMode   = PixelOffsetMode.HighQuality;
@@ -780,7 +775,7 @@ namespace PrjHikariwoAnim
             {
                 //Grid Draw
                 // V
-                var p1 = new Pen(button_GridColor.BackColor);
+                var p1 = new Pen(ClsSystem.mSetting.mMainColorGrid);
                 for (float cnt = ((float)panel_PreView.Width / 2) % (grid ); cnt < panel_PreView.Width; cnt += (grid))
                 {
                     e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, panel_PreView.Height);
@@ -806,7 +801,7 @@ namespace PrjHikariwoAnim
             //CrossBar スクリーン移動時は原点に沿う形に
             if(checkBox_CrossBar.Checked)
             {
-                var p1 = new Pen(button_CrossColor.BackColor);
+                var p1 = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
                 e.Graphics.DrawLine(p1,panel_PreView.Width / 2, 0, panel_PreView.Width/2, panel_PreView.Height);//V
                 e.Graphics.DrawLine(p1, 0, panel_PreView.Height/2, panel_PreView.Width,panel_PreView.Height/2);//H
             }

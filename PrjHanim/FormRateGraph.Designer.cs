@@ -209,7 +209,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.FormRateGraph_BackColor;
-            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "FormRateGraph_BackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.panel_PreView.Location = new System.Drawing.Point(6, 36);
             this.panel_PreView.Name = "panel_PreView";
             this.panel_PreView.Size = new System.Drawing.Size(540, 540);
@@ -230,6 +229,7 @@
             this.Name = "FormRateGraph";
             this.Text = "Rate graph";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRateGraph_FormClosing);
             this.Load += new System.EventHandler(this.FormRateGraph_Load);
             this.Resize += new System.EventHandler(this.FormRateGraph_Resize);
             this.panel_ToolBase.ResumeLayout(false);

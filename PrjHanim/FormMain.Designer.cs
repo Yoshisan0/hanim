@@ -79,11 +79,8 @@
             this.checkBox_Snap = new System.Windows.Forms.CheckBox();
             this.HScrollBar_ZoomLevel = new System.Windows.Forms.HScrollBar();
             this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
-            this.button_GridColor = new System.Windows.Forms.Button();
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
-            this.button_CrossColor = new System.Windows.Forms.Button();
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
-            this.button_BackColor = new System.Windows.Forms.Button();
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
@@ -141,8 +138,7 @@
             // panel_PreView
             // 
             this.panel_PreView.AllowDrop = true;
-            this.panel_PreView.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorBack;
-            this.panel_PreView.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorBack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.panel_PreView.BackColor = System.Drawing.Color.Black;
             this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_PreView.Location = new System.Drawing.Point(0, 30);
             this.panel_PreView.Margin = new System.Windows.Forms.Padding(0);
@@ -378,11 +374,8 @@
             this.panel_ToolBase.Controls.Add(this.checkBox_Snap);
             this.panel_ToolBase.Controls.Add(this.HScrollBar_ZoomLevel);
             this.panel_ToolBase.Controls.Add(this.numericUpDown_Grid);
-            this.panel_ToolBase.Controls.Add(this.button_GridColor);
             this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
-            this.panel_ToolBase.Controls.Add(this.button_CrossColor);
             this.panel_ToolBase.Controls.Add(this.checkBox_CrossBar);
-            this.panel_ToolBase.Controls.Add(this.button_BackColor);
             this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ToolBase.Margin = new System.Windows.Forms.Padding(0);
@@ -397,7 +390,7 @@
             this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.period;
             this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Helper.Location = new System.Drawing.Point(392, 0);
+            this.checkBox_Helper.Location = new System.Drawing.Point(302, 0);
             this.checkBox_Helper.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Helper.Name = "checkBox_Helper";
             this.checkBox_Helper.Size = new System.Drawing.Size(30, 30);
@@ -415,7 +408,7 @@
             this.panel1.Controls.Add(this.checkBox_ImageList);
             this.panel1.Controls.Add(this.Spaceer1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(221, 0);
+            this.panel1.Location = new System.Drawing.Point(131, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(171, 30);
             this.panel1.TabIndex = 8;
@@ -531,7 +524,7 @@
             this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_Snap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_GridSnap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Snap.Location = new System.Drawing.Point(191, 0);
+            this.checkBox_Snap.Location = new System.Drawing.Point(101, 0);
             this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Snap.Name = "checkBox_Snap";
             this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
@@ -558,7 +551,7 @@
             this.numericUpDown_Grid.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::PrjHikariwoAnim.Properties.Settings.Default, "Value_WidthGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown_Grid.Dock = System.Windows.Forms.DockStyle.Left;
             this.numericUpDown_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.numericUpDown_Grid.Location = new System.Drawing.Point(150, 0);
+            this.numericUpDown_Grid.Location = new System.Drawing.Point(60, 0);
             this.numericUpDown_Grid.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDown_Grid.Maximum = new decimal(new int[] {
             32,
@@ -577,20 +570,6 @@
             this.toolTipMain.SetToolTip(this.numericUpDown_Grid, "グリッドサイズ");
             this.numericUpDown_Grid.Value = global::PrjHikariwoAnim.Properties.Settings.Default.Value_WidthGrid;
             // 
-            // button_GridColor
-            // 
-            this.button_GridColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorGrid;
-            this.button_GridColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button_GridColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_GridColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_GridColor.Location = new System.Drawing.Point(120, 0);
-            this.button_GridColor.Name = "button_GridColor";
-            this.button_GridColor.Size = new System.Drawing.Size(30, 30);
-            this.button_GridColor.TabIndex = 5;
-            this.toolTipMain.SetToolTip(this.button_GridColor, "グリッドカラー");
-            this.button_GridColor.UseVisualStyleBackColor = false;
-            this.button_GridColor.Click += new System.EventHandler(this.Button_Color_Click);
-            // 
             // checkBox_GridCheck
             // 
             this.checkBox_GridCheck.Appearance = System.Windows.Forms.Appearance.Button;
@@ -602,7 +581,7 @@
             this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawGird", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_GridCheck.Location = new System.Drawing.Point(90, 0);
+            this.checkBox_GridCheck.Location = new System.Drawing.Point(30, 0);
             this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_GridCheck.Name = "checkBox_GridCheck";
             this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
@@ -610,20 +589,6 @@
             this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
             this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
-            // 
-            // button_CrossColor
-            // 
-            this.button_CrossColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorCross;
-            this.button_CrossColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button_CrossColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_CrossColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_CrossColor.Location = new System.Drawing.Point(60, 0);
-            this.button_CrossColor.Name = "button_CrossColor";
-            this.button_CrossColor.Size = new System.Drawing.Size(30, 30);
-            this.button_CrossColor.TabIndex = 4;
-            this.toolTipMain.SetToolTip(this.button_CrossColor, "クロスバーカラー");
-            this.button_CrossColor.UseVisualStyleBackColor = false;
-            this.button_CrossColor.Click += new System.EventHandler(this.Button_Color_Click);
             // 
             // checkBox_CrossBar
             // 
@@ -637,7 +602,7 @@
             this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
-            this.checkBox_CrossBar.Location = new System.Drawing.Point(30, 0);
+            this.checkBox_CrossBar.Location = new System.Drawing.Point(0, 0);
             this.checkBox_CrossBar.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_CrossBar.Name = "checkBox_CrossBar";
             this.checkBox_CrossBar.Size = new System.Drawing.Size(30, 30);
@@ -647,20 +612,6 @@
             this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
             this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
-            // 
-            // button_BackColor
-            // 
-            this.button_BackColor.BackColor = global::PrjHikariwoAnim.Properties.Settings.Default.BackColor_ColorBack;
-            this.button_BackColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", global::PrjHikariwoAnim.Properties.Settings.Default, "BackColor_ColorBack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.button_BackColor.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_BackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_BackColor.Location = new System.Drawing.Point(0, 0);
-            this.button_BackColor.Name = "button_BackColor";
-            this.button_BackColor.Size = new System.Drawing.Size(30, 30);
-            this.button_BackColor.TabIndex = 9;
-            this.toolTipMain.SetToolTip(this.button_BackColor, "背景色");
-            this.button_BackColor.UseVisualStyleBackColor = false;
-            this.button_BackColor.Click += new System.EventHandler(this.button_BackColor_Click);
             // 
             // treeView_Project
             // 
@@ -820,10 +771,8 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::PrjHikariwoAnim.Properties.Settings.Default, "Location_FormMain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
             this.KeyPreview = true;
-            this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.Location_FormMain;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Hanim";
@@ -869,9 +818,7 @@
         private System.Windows.Forms.CheckBox checkBox_Snap;
         private System.Windows.Forms.HScrollBar HScrollBar_ZoomLevel;
         private System.Windows.Forms.NumericUpDown numericUpDown_Grid;
-        private System.Windows.Forms.Button button_GridColor;
         private System.Windows.Forms.CheckBox checkBox_GridCheck;
-        private System.Windows.Forms.Button button_CrossColor;
         private System.Windows.Forms.CheckBox checkBox_CrossBar;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_CellList;
         private System.Windows.Forms.Panel panel1;
@@ -897,7 +844,6 @@
         public System.Windows.Forms.CheckBox checkBox_Attribute;
         public System.Windows.Forms.CheckBox checkBox_Control;
         public System.Windows.Forms.CheckBox checkBox_ImageList;
-        private System.Windows.Forms.Button button_BackColor;
         private System.Windows.Forms.CheckBox checkBox_Helper;
         private System.Windows.Forms.ToolTip toolTipMain;
         private System.Windows.Forms.SplitContainer splitContainerLeft;

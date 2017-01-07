@@ -36,6 +36,7 @@
             this.panel_MainGridColor = new System.Windows.Forms.Panel();
             this.panel_MainBackColor = new System.Windows.Forms.Panel();
             this.label_BackColor = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,11 +48,10 @@
             this.panel_RateGraphGridColor = new System.Windows.Forms.Panel();
             this.panel_RateGraphBackColor = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.button_Apply = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button_Apply = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -107,7 +107,7 @@
             this.panel_MainCenterLineColor.Name = "panel_MainCenterLineColor";
             this.panel_MainCenterLineColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainCenterLineColor.TabIndex = 4;
-            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_MainCenterLineColor_Click);
+            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label_GridColor
             // 
@@ -126,7 +126,7 @@
             this.panel_MainGridColor.Name = "panel_MainGridColor";
             this.panel_MainGridColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainGridColor.TabIndex = 2;
-            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_MainGridColor_Click);
+            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_MainBackColor
             // 
@@ -136,7 +136,7 @@
             this.panel_MainBackColor.Name = "panel_MainBackColor";
             this.panel_MainBackColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainBackColor.TabIndex = 1;
-            this.panel_MainBackColor.Click += new System.EventHandler(this.panel_MainBackColor_Click);
+            this.panel_MainBackColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label_BackColor
             // 
@@ -146,6 +146,15 @@
             this.label_BackColor.Size = new System.Drawing.Size(60, 12);
             this.label_BackColor.TabIndex = 0;
             this.label_BackColor.Text = "Back color";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(592, 359);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Control";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -210,7 +219,7 @@
             this.panel_RateGraphForceColor.Name = "panel_RateGraphForceColor";
             this.panel_RateGraphForceColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphForceColor.TabIndex = 7;
-            this.panel_RateGraphForceColor.Click += new System.EventHandler(this.panel_RateGraphForceColor_Click);
+            this.panel_RateGraphForceColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphGraphColor
             // 
@@ -220,7 +229,7 @@
             this.panel_RateGraphGraphColor.Name = "panel_RateGraphGraphColor";
             this.panel_RateGraphGraphColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphGraphColor.TabIndex = 6;
-            this.panel_RateGraphGraphColor.Click += new System.EventHandler(this.panel_RateGraphGraphColor_Click);
+            this.panel_RateGraphGraphColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphCenterLineColor
             // 
@@ -230,7 +239,7 @@
             this.panel_RateGraphCenterLineColor.Name = "panel_RateGraphCenterLineColor";
             this.panel_RateGraphCenterLineColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphCenterLineColor.TabIndex = 5;
-            this.panel_RateGraphCenterLineColor.Click += new System.EventHandler(this.panel_RateGraphCenterLineColor_Click);
+            this.panel_RateGraphCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphGridColor
             // 
@@ -240,7 +249,7 @@
             this.panel_RateGraphGridColor.Name = "panel_RateGraphGridColor";
             this.panel_RateGraphGridColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphGridColor.TabIndex = 4;
-            this.panel_RateGraphGridColor.Click += new System.EventHandler(this.panel_RateGraphGridColor_Click);
+            this.panel_RateGraphGridColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphBackColor
             // 
@@ -250,7 +259,7 @@
             this.panel_RateGraphBackColor.Name = "panel_RateGraphBackColor";
             this.panel_RateGraphBackColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphBackColor.TabIndex = 3;
-            this.panel_RateGraphBackColor.Click += new System.EventHandler(this.panel_RateGraphBackColor_Click);
+            this.panel_RateGraphBackColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label1
             // 
@@ -260,26 +269,6 @@
             this.label1.Size = new System.Drawing.Size(60, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "Back color";
-            // 
-            // button_Apply
-            // 
-            this.button_Apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Apply.Location = new System.Drawing.Point(533, 406);
-            this.button_Apply.Name = "button_Apply";
-            this.button_Apply.Size = new System.Drawing.Size(75, 23);
-            this.button_Apply.TabIndex = 1;
-            this.button_Apply.Text = "Apply";
-            this.button_Apply.UseVisualStyleBackColor = true;
-            this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(592, 359);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Control";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
@@ -308,6 +297,17 @@
             this.tabPage6.Text = "Cell list";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // button_Apply
+            // 
+            this.button_Apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Apply.Location = new System.Drawing.Point(533, 406);
+            this.button_Apply.Name = "button_Apply";
+            this.button_Apply.Size = new System.Drawing.Size(75, 23);
+            this.button_Apply.TabIndex = 1;
+            this.button_Apply.Text = "Apply";
+            this.button_Apply.UseVisualStyleBackColor = true;
+            this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
+            // 
             // FormSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -317,6 +317,8 @@
             this.Controls.Add(this.tabControl);
             this.Name = "FormSetting";
             this.Text = "Setting";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSetting_FormClosing);
+            this.Load += new System.EventHandler(this.FormSetting_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

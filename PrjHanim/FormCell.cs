@@ -30,6 +30,14 @@ namespace PrjHikariwoAnim
             ImageMan = new ImageManagerBase();
             mFormMain = form;
         }
+
+        private void FormCell_Load(object sender, EventArgs e)
+        {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowCell.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowCell.mSize;
+        }
+
         private void FormCell_DragEnter(object sender, DragEventArgs e)
         {
             //受け入れ準備

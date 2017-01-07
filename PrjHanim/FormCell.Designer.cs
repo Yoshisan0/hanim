@@ -81,6 +81,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "FormCell";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCell_FormClosing);
+            this.Load += new System.EventHandler(this.FormCell_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormCell_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormCell_DragEnter);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormCell_MouseDown);
