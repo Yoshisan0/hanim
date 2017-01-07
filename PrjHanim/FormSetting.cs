@@ -24,6 +24,16 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウの設定
             this.Location = ClsSystem.mSetting.mWindowSetting.mLocation;
             this.Size = ClsSystem.mSetting.mWindowSetting.mSize;
+
+            //以下、各種色の情報を設定する処理
+            this.panel_MainBackColor.BackColor = ClsSystem.mSetting.mMainColorBack;
+            this.panel_MainGridColor.BackColor = ClsSystem.mSetting.mMainColorGrid;
+            this.panel_MainCenterLineColor.BackColor = ClsSystem.mSetting.mMainColorCenterLine;
+            this.panel_RateGraphBackColor.BackColor = ClsSystem.mSetting.mRateGraphColorBack;
+            this.panel_RateGraphGridColor.BackColor = ClsSystem.mSetting.mRateGraphColorGrid;
+            this.panel_RateGraphCenterLineColor.BackColor = ClsSystem.mSetting.mRateGraphColorCenterLine;
+            this.panel_RateGraphGraphColor.BackColor = ClsSystem.mSetting.mRateGraphColorGrid;
+            this.panel_RateGraphForceColor.BackColor = ClsSystem.mSetting.mRateGraphColorForce;
         }
 
         private void FormSetting_FormClosing(object sender, FormClosingEventArgs e)
@@ -35,6 +45,16 @@ namespace PrjHikariwoAnim
 
         private void button_Apply_Click(object sender, EventArgs e)
         {
+            //以下、各種色の情報を設定する処理
+            ClsSystem.mSetting.mMainColorBack = this.panel_MainBackColor.BackColor;
+            ClsSystem.mSetting.mMainColorGrid = this.panel_MainGridColor.BackColor;
+            ClsSystem.mSetting.mMainColorCenterLine = this.panel_MainCenterLineColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorBack = this.panel_RateGraphBackColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorGrid = this.panel_RateGraphGridColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorCenterLine = this.panel_RateGraphCenterLineColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorGrid = this.panel_RateGraphGraphColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorForce = this.panel_RateGraphForceColor.BackColor;
+
             this.DialogResult = DialogResult.OK;
         }
 
