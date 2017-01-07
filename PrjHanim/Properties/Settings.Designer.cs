@@ -25,66 +25,6 @@ namespace PrjHikariwoAnim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location_FormMain {
-            get {
-                return ((global::System.Drawing.Point)(this["Location_FormMain"]));
-            }
-            set {
-                this["Location_FormMain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location_FormAttribute {
-            get {
-                return ((global::System.Drawing.Point)(this["Location_FormAttribute"]));
-            }
-            set {
-                this["Location_FormAttribute"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location_FormControl {
-            get {
-                return ((global::System.Drawing.Point)(this["Location_FormControl"]));
-            }
-            set {
-                this["Location_FormControl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location_FormImageCut {
-            get {
-                return ((global::System.Drawing.Point)(this["Location_FormImageCut"]));
-            }
-            set {
-                this["Location_FormImageCut"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location_FormImageList {
-            get {
-                return ((global::System.Drawing.Point)(this["Location_FormImageList"]));
-            }
-            set {
-                this["Location_FormImageList"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
         public global::System.Drawing.Color BackColor_ColorBack {
             get {

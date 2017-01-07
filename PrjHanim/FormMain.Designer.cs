@@ -820,10 +820,8 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::PrjHikariwoAnim.Properties.Settings.Default, "Location_FormMain", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
             this.KeyPreview = true;
-            this.Location = global::PrjHikariwoAnim.Properties.Settings.Default.Location_FormMain;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Hanim";
