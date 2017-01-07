@@ -33,10 +33,10 @@ namespace PrjHikariwoAnim
         private int mFrmEnd;        //終了フレーム
         private int mFrmCurrent;    //カレントフレーム
         private Pen mPenRed;        //赤いラインのペン
-        private Pen mPenGraph;      //ベクトルのペン
-        private Pen mPenLine;       //ラインのペン
+        private Pen mPenForce;      //ベクトルのペン
+        private Pen mPenGraph;      //ラインのペン
         private Pen mPenGrid;       //グリッドのペン
-        private Pen mPenCurrent;    //カレントフレームのペン
+        private Pen mPenCenterLine; //カレントフレームのペン
         private Vector3[] mListPos; //ポイントのリスト
         private Vector3[] mListVec; //ベクトルのリスト
         private int mGripNo;        //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
@@ -127,10 +127,10 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowRateGraph.mSize;
 
             this.mPenRed = new Pen(Color.Red, 0.5f);
-            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
-            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
-            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
-            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
+            this.mPenForce = new Pen(ClsSystem.mSetting.mRateGraphColorForce);
+            this.mPenGraph = new Pen(ClsSystem.mSetting.mRateGraphColorGraph);
+            this.mPenGrid = new Pen(ClsSystem.mSetting.mRateGraphColorGrid);
+            this.mPenCenterLine = new Pen(ClsSystem.mSetting.mRateGraphColorCenterLine);
 
             this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
             this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
@@ -289,7 +289,7 @@ namespace PrjHikariwoAnim
         {
             this.SetColor(sender as Button);
 
-            this.panel_PreView.BackColor = this.button_ColorBack.BackColor;
+            this.panel_PreView.BackColor = ClsSystem.mSetting.mRateGraphColorBack;
 
             this.panel_PreView.Refresh();
         }
@@ -298,7 +298,7 @@ namespace PrjHikariwoAnim
         {
             this.SetColor(sender as Button);
 
-            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
+            this.mPenGraph = new Pen(ClsSystem.mSetting.mRateGraphColorGraph, 2.0f);
 
             this.mChange = true;
             this.panel_PreView.Refresh();
@@ -308,7 +308,7 @@ namespace PrjHikariwoAnim
         {
             this.SetColor(sender as Button);
 
-            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
+            this.mPenForce = new Pen(ClsSystem.mSetting.mRateGraphColorForce);
 
             this.mChange = true;
             this.panel_PreView.Refresh();
@@ -318,7 +318,7 @@ namespace PrjHikariwoAnim
         {
             this.SetColor(sender as Button);
 
-            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
+            this.mPenGrid = new Pen(ClsSystem.mSetting.mRateGraphColorGrid);
 
             this.panel_PreView.Refresh();
         }
@@ -327,7 +327,7 @@ namespace PrjHikariwoAnim
         {
             this.SetColor(sender as Button);
 
-            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
+            this.mPenCenterLine = new Pen(ClsSystem.mSetting.mRateGraphColorCenterLine);
 
             this.panel_PreView.Refresh();
         }
@@ -357,7 +357,7 @@ namespace PrjHikariwoAnim
             float flY0 = flY * this.panel_PreView.Height;
             float flX1 = flX0 + flVecX * this.panel_PreView.Width;
             float flY1 = flY0 + flVecY * this.panel_PreView.Height;
-            g.DrawLine(this.mPenGraph, flX0, flY0, flX1, flY1);
+            g.DrawLine(this.mPenForce, flX0, flY0, flX1, flY1);
 
             //以下、矢印先の円を描画する処理
             this.DrawCircle(g, clPenCircle, flX1, flY1);
@@ -391,7 +391,7 @@ namespace PrjHikariwoAnim
                         Color stColor = this.mImage0.GetPixel(inX, inY);
                         if (stColor.A <= 0) continue;
 
-                        g.DrawLine(this.mPenLine, inXOld, inYOld, inX, inY);
+                        g.DrawLine(this.mPenGraph, inXOld, inYOld, inX, inY);
 
                         inXOld = inX;
                         inYOld = inY;
@@ -406,7 +406,7 @@ namespace PrjHikariwoAnim
             int inCnt;
 
             //以下、背景クリア処理
-            e.Graphics.Clear(this.button_ColorBack.BackColor);
+            e.Graphics.Clear(ClsSystem.mSetting.mRateGraphColorBack);
 
             //以下、グリッド描画処理
             if (this.checkBox_GridCheck.Checked) {
@@ -420,7 +420,7 @@ namespace PrjHikariwoAnim
                 {
                     if (inCnt == inFrmCurrent)
                     {
-                        e.Graphics.DrawLine(this.mPenCurrent, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
+                        e.Graphics.DrawLine(this.mPenCenterLine, inCnt * flSpan, 0.0f, inCnt * flSpan, this.panel_PreView.Height);
                     }
                     else
                     {
@@ -513,17 +513,17 @@ namespace PrjHikariwoAnim
             //以下、ポイント描画処理
             float flX = this.mListPos[1].X * this.panel_PreView.Width;
             float flY = this.mListPos[1].Y * this.panel_PreView.Height;
-            Pen clPen = (this.mGripNo == 1) ? Pens.Red : this.mPenGraph;
+            Pen clPen = (this.mGripNo == 1) ? Pens.Red : this.mPenForce;
             this.DrawCircle(e.Graphics, clPen, flX, flY);
 
             //以下、ベクトル描画処理
-            clPen = (this.mGripNo == 2) ? Pens.Red : this.mPenGraph;
+            clPen = (this.mGripNo == 2) ? Pens.Red : this.mPenForce;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[0].X, this.mListPos[0].Y, this.mListVec[0].X, this.mListVec[0].Y);
-            clPen = (this.mGripNo == 3) ? Pens.Red : this.mPenGraph;
+            clPen = (this.mGripNo == 3) ? Pens.Red : this.mPenForce;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, this.mListVec[1].X, this.mListVec[1].Y);
-            clPen = (this.mGripNo == 4) ? Pens.Red : this.mPenGraph;
+            clPen = (this.mGripNo == 4) ? Pens.Red : this.mPenForce;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[1].X, this.mListPos[1].Y, -this.mListVec[1].X, -this.mListVec[1].Y);
-            clPen = (this.mGripNo == 5) ? Pens.Red : this.mPenGraph;
+            clPen = (this.mGripNo == 5) ? Pens.Red : this.mPenForce;
             this.DrawArrow(e.Graphics, clPen, this.mListPos[2].X, this.mListPos[2].Y, -this.mListVec[2].X, -this.mListVec[2].Y);
         }
 

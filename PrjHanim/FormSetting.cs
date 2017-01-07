@@ -32,7 +32,7 @@ namespace PrjHikariwoAnim
             this.panel_RateGraphBackColor.BackColor = ClsSystem.mSetting.mRateGraphColorBack;
             this.panel_RateGraphGridColor.BackColor = ClsSystem.mSetting.mRateGraphColorGrid;
             this.panel_RateGraphCenterLineColor.BackColor = ClsSystem.mSetting.mRateGraphColorCenterLine;
-            this.panel_RateGraphGraphColor.BackColor = ClsSystem.mSetting.mRateGraphColorGrid;
+            this.panel_RateGraphGraphColor.BackColor = ClsSystem.mSetting.mRateGraphColorGraph;
             this.panel_RateGraphForceColor.BackColor = ClsSystem.mSetting.mRateGraphColorForce;
         }
 
@@ -52,7 +52,7 @@ namespace PrjHikariwoAnim
             ClsSystem.mSetting.mRateGraphColorBack = this.panel_RateGraphBackColor.BackColor;
             ClsSystem.mSetting.mRateGraphColorGrid = this.panel_RateGraphGridColor.BackColor;
             ClsSystem.mSetting.mRateGraphColorCenterLine = this.panel_RateGraphCenterLineColor.BackColor;
-            ClsSystem.mSetting.mRateGraphColorGrid = this.panel_RateGraphGraphColor.BackColor;
+            ClsSystem.mSetting.mRateGraphColorGraph = this.panel_RateGraphGraphColor.BackColor;
             ClsSystem.mSetting.mRateGraphColorForce = this.panel_RateGraphForceColor.BackColor;
 
             //以下、保存データ保存処理

@@ -121,30 +121,6 @@ namespace PrjHikariwoAnim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color FormRateGraph_BackColor {
-            get {
-                return ((global::System.Drawing.Color)(this["FormRateGraph_BackColor"]));
-            }
-            set {
-                this["FormRateGraph_BackColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DeepSkyBlue")]
-        public global::System.Drawing.Color FormRateGraph_GraphColor {
-            get {
-                return ((global::System.Drawing.Color)(this["FormRateGraph_GraphColor"]));
-            }
-            set {
-                this["FormRateGraph_GraphColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool FormRateGraph_DrawGrid {
             get {
@@ -152,42 +128,6 @@ namespace PrjHikariwoAnim.Properties {
             }
             set {
                 this["FormRateGraph_DrawGrid"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DarkGreen")]
-        public global::System.Drawing.Color FormRateGraph_ColorGrid {
-            get {
-                return ((global::System.Drawing.Color)(this["FormRateGraph_ColorGrid"]));
-            }
-            set {
-                this["FormRateGraph_ColorGrid"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Lime")]
-        public global::System.Drawing.Color FormRateGraph_LineColor {
-            get {
-                return ((global::System.Drawing.Color)(this["FormRateGraph_LineColor"]));
-            }
-            set {
-                this["FormRateGraph_LineColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
-        public global::System.Drawing.Color FormRateGraph_ColorCurrent {
-            get {
-                return ((global::System.Drawing.Color)(this["FormRateGraph_ColorCurrent"]));
-            }
-            set {
-                this["FormRateGraph_ColorCurrent"] = value;
             }
         }
         
