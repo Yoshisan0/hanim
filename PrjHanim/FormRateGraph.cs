@@ -120,6 +120,32 @@ namespace PrjHikariwoAnim
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
         }
 
+        private void FormRateGraph_Load(object sender, EventArgs e)
+        {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowRateGraph.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowRateGraph.mSize;
+
+            this.mPenRed = new Pen(Color.Red, 0.5f);
+            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
+            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
+            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
+            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
+
+            this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+            this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
+
+            this.mChange = true;
+            this.panel_PreView.Refresh();
+        }
+
+        private void FormRateGraph_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //以下、ウィンドウ情報保存処理
+            ClsSystem.mSetting.mWindowRateGraph.mLocation = this.Location;
+            ClsSystem.mSetting.mWindowRateGraph.mSize = this.Size;
+        }
+
         /// <summary>
         /// 重みを返す処理
         /// </summary>
@@ -246,21 +272,6 @@ namespace PrjHikariwoAnim
         {
             ClsTween clTween = new ClsTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mListPos[1], this.mListVec);
             return (clTween);
-        }
-
-        private void FormRateGraph_Load(object sender, EventArgs e)
-        {
-            this.mPenRed = new Pen(Color.Red, 0.5f);
-            this.mPenGraph = new Pen(this.button_ColorGraph.BackColor);
-            this.mPenLine = new Pen(this.button_ColorLine.BackColor, 2.0f);
-            this.mPenGrid = new Pen(this.button_ColorGrid.BackColor);
-            this.mPenCurrent = new Pen(this.button_ColorCurrent.BackColor);
-
-            this.mImage0 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
-            this.mImage1 = new Bitmap(this.panel_PreView.Width, this.panel_PreView.Height);
-
-            this.mChange = true;
-            this.panel_PreView.Refresh();
         }
 
         private void SetColor(Button clButton)

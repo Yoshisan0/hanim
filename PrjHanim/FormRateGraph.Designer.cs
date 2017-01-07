@@ -230,6 +230,7 @@
             this.Name = "FormRateGraph";
             this.Text = "Rate graph";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRateGraph_FormClosing);
             this.Load += new System.EventHandler(this.FormRateGraph_Load);
             this.Resize += new System.EventHandler(this.FormRateGraph_Resize);
             this.panel_ToolBase.ResumeLayout(false);

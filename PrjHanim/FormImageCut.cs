@@ -68,11 +68,30 @@ namespace PrjHikariwoAnim
 
         private void FormImageCut_Load(object sender, EventArgs e)
         {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowImageCut.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowImageCut.mSize;
+
             //以下、初期化処理
             this.DialogResult = DialogResult.None;
             if (ImageManager == null) ImageManager = new ImageManagerBase();
             this.comboBox_Mag.SelectedIndex = 0;
             this.panel_Image.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, this.panel_Image, new object[] { true });
+        }
+
+        private void FormImageCut_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            /*
+            //Closeキャンセルして非表示にするだけ
+            e.Cancel = true;
+
+            //this.Visible = false; //自身で消さなくても下の操作で消える
+            this.mFormMain.checkBox_Control.Checked = false;
+            */
+
+            //以下、ウィンドウ情報保存処理
+            ClsSystem.mSetting.mWindowImageCut.mLocation = this.Location;
+            ClsSystem.mSetting.mWindowImageCut.mSize = this.Size;
         }
 
         private void button_Cut_Click(object sender, EventArgs e)
@@ -464,17 +483,6 @@ namespace PrjHikariwoAnim
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
             panel_CellList.Height = (ImageManager.ImageChipList.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
             splitContainerBase.Refresh();
-        }
-
-        private void FormImageCut_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            /*
-            //Closeキャンセルして非表示にするだけ
-            e.Cancel = true;
-
-            //this.Visible = false; //自身で消さなくても下の操作で消える
-            this.mFormMain.checkBox_Control.Checked = false;
-            */
         }
     }
 }

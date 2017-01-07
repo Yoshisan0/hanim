@@ -32,6 +32,10 @@ namespace PrjHikariwoAnim
 
         private void FormImageList_Load(object sender, EventArgs e)
         {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowImageList.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowImageList.mSize;
+
             this.mListImage = new ArrayList();
             this.mMouseDownPoint = Point.Empty;
         }

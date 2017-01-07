@@ -19,6 +19,20 @@ namespace PrjHikariwoAnim
             this.DialogResult = DialogResult.None;
         }
 
+        private void FormSetting_Load(object sender, EventArgs e)
+        {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowSetting.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowSetting.mSize;
+        }
+
+        private void FormSetting_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //以下、ウィンドウ情報保存処理
+            ClsSystem.mSetting.mWindowSetting.mLocation = this.Location;
+            ClsSystem.mSetting.mWindowSetting.mSize = this.Size;
+        }
+
         private void button_Apply_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;

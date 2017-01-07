@@ -83,6 +83,10 @@ namespace PrjHikariwoAnim
 
         private void FormControl_Load(object sender, EventArgs e)
         {
+            //以下、ウィンドウの設定
+            this.Location = ClsSystem.mSetting.mWindowControl.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowControl.mSize;
+
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
             this.panel_Time.Width = TIME_CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height =HEAD_HEIGHT*5;          

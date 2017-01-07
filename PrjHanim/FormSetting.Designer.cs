@@ -36,6 +36,7 @@
             this.panel_MainGridColor = new System.Windows.Forms.Panel();
             this.panel_MainBackColor = new System.Windows.Forms.Panel();
             this.label_BackColor = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,11 +48,10 @@
             this.panel_RateGraphGridColor = new System.Windows.Forms.Panel();
             this.panel_RateGraphBackColor = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.button_Apply = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button_Apply = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -146,6 +146,15 @@
             this.label_BackColor.Size = new System.Drawing.Size(60, 12);
             this.label_BackColor.TabIndex = 0;
             this.label_BackColor.Text = "Back color";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(592, 359);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Control";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -261,26 +270,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Back color";
             // 
-            // button_Apply
-            // 
-            this.button_Apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Apply.Location = new System.Drawing.Point(533, 406);
-            this.button_Apply.Name = "button_Apply";
-            this.button_Apply.Size = new System.Drawing.Size(75, 23);
-            this.button_Apply.TabIndex = 1;
-            this.button_Apply.Text = "Apply";
-            this.button_Apply.UseVisualStyleBackColor = true;
-            this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(592, 359);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Control";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tabPage4
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -308,6 +297,17 @@
             this.tabPage6.Text = "Cell list";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // button_Apply
+            // 
+            this.button_Apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Apply.Location = new System.Drawing.Point(533, 406);
+            this.button_Apply.Name = "button_Apply";
+            this.button_Apply.Size = new System.Drawing.Size(75, 23);
+            this.button_Apply.TabIndex = 1;
+            this.button_Apply.Text = "Apply";
+            this.button_Apply.UseVisualStyleBackColor = true;
+            this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
+            // 
             // FormSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -317,6 +317,8 @@
             this.Controls.Add(this.tabControl);
             this.Name = "FormSetting";
             this.Text = "Setting";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSetting_FormClosing);
+            this.Load += new System.EventHandler(this.FormSetting_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

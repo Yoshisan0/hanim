@@ -101,6 +101,10 @@ namespace PrjHikariwoAnim
             //以下、システム初期化処理
             ClsSystem.Init();
 
+            //以下、メインウィンドウの座標の設定
+            this.Location = ClsSystem.mSetting.mWindowMain.mLocation;
+            this.Size = ClsSystem.mSetting.mWindowMain.mSize;
+
             //以下、TreeNode作成処理
             this.mEditMotionKey = -1;
             this.mDicMotion = new Dictionary<int, Motion>();
@@ -131,8 +135,6 @@ namespace PrjHikariwoAnim
             //mFormCell.Owner = this;
             mFormCell.ImageMan = ImageMan;
             mFormCell.Show();
-
-            AlingForms();//フォームの整列
 
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
@@ -306,6 +308,7 @@ namespace PrjHikariwoAnim
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+/*
             Properties.Settings.Default["Location_FormMain"]    = this.Location;
             //            Properties.Settings.Default["Location_FormAttribute"] = value;
             //            Properties.Settings.Default["Location_FormControl"] = value;
@@ -322,6 +325,19 @@ namespace PrjHikariwoAnim
             Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
             Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
             Properties.Settings.Default.Save(); //<-基本的にはバインドされたものはここで自動セーブ
+*/
+
+            //以下、ウィンドウ情報保存処理
+            ClsSystem.mSetting.mWindowImageList.mLocation = this.mFormImageList.Location;
+            ClsSystem.mSetting.mWindowImageList.mSize = this.mFormImageList.Size;
+            ClsSystem.mSetting.mWindowControl.mLocation = this.mFormControl.Location;
+            ClsSystem.mSetting.mWindowControl.mSize = this.mFormControl.Size;
+            ClsSystem.mSetting.mWindowAttribute.mLocation = this.mFormAttribute.Location;
+            ClsSystem.mSetting.mWindowAttribute.mSize = this.mFormAttribute.Size;
+            ClsSystem.mSetting.mWindowCell.mLocation = this.mFormCell.Location;
+            ClsSystem.mSetting.mWindowCell.mSize = this.mFormCell.Size;
+            ClsSystem.mSetting.mWindowMain.mLocation = this.Location;
+            ClsSystem.mSetting.mWindowMain.mSize = this.Size;
 
             //以下、終了処理
             ClsSystem.Exit();
