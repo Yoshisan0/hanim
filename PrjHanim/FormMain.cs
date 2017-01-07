@@ -105,6 +105,16 @@ namespace PrjHikariwoAnim
             this.Location = ClsSystem.mSetting.mWindowMain.mLocation;
             this.Size = ClsSystem.mSetting.mWindowMain.mSize;
 
+            //以下、コントロール初期化処理
+            this.checkBox_GridCheck.Checked = ClsSystem.mSetting.Checked_DrawGird;
+            this.checkBox_CrossBar.Checked = ClsSystem.mSetting.Checked_DrawCross;
+            this.checkBox_CellList.Checked = ClsSystem.mSetting.Checked_CellList;
+            this.checkBox_Attribute.Checked = ClsSystem.mSetting.Checked_Attribute;
+            this.checkBox_Control.Checked = ClsSystem.mSetting.Checked_Control;
+            this.checkBox_ImageList.Checked = ClsSystem.mSetting.Checked_ImageList;
+            this.checkBox_Snap.Checked = ClsSystem.mSetting.Checked_GridSnap;
+            this.numericUpDown_Grid.Value = ClsSystem.mSetting.Value_WidthGrid;
+
             //以下、TreeNode作成処理
             this.mEditMotionKey = -1;
             this.mDicMotion = new Dictionary<int, Motion>();
@@ -308,25 +318,6 @@ namespace PrjHikariwoAnim
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-/*
-            Properties.Settings.Default["Location_FormMain"]    = this.Location;
-            //            Properties.Settings.Default["Location_FormAttribute"] = value;
-            //            Properties.Settings.Default["Location_FormControl"] = value;
-            //            Properties.Settings.Default["Location_FormImageCut"] = value;
-            //            Properties.Settings.Default["Location_FormImageList"] = value;
-            Properties.Settings.Default["BackColor_ColorBack"]  = this.button_BackColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorGrid"]  = this.button_GridColor.BackColor;
-            Properties.Settings.Default["BackColor_ColorCross"] = this.button_CrossColor.BackColor;
-            Properties.Settings.Default["Checked_DrawGird"]     = this.checkBox_GridCheck.Checked;
-            Properties.Settings.Default["Checked_DrawCross"]    = this.checkBox_CrossBar.Checked;
-            Properties.Settings.Default["Value_WidthGrid"]      = this.numericUpDown_Grid.Value;
-            Properties.Settings.Default["Checked_GridSnap"]     = this.checkBox_Snap.Checked;
-            Properties.Settings.Default["Checked_ImageList"]    = this.checkBox_ImageList.Checked;
-            Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
-            Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
-            Properties.Settings.Default.Save(); //<-基本的にはバインドされたものはここで自動セーブ
-*/
-
             //以下、ウィンドウ情報保存処理
             ClsSystem.mSetting.mWindowImageList.mLocation = this.mFormImageList.Location;
             ClsSystem.mSetting.mWindowImageList.mSize = this.mFormImageList.Size;
@@ -338,6 +329,16 @@ namespace PrjHikariwoAnim
             ClsSystem.mSetting.mWindowCell.mSize = this.mFormCell.Size;
             ClsSystem.mSetting.mWindowMain.mLocation = this.Location;
             ClsSystem.mSetting.mWindowMain.mSize = this.Size;
+
+            //以下、コントロール保存処理
+            ClsSystem.mSetting.Checked_DrawGird = this.checkBox_GridCheck.Checked;
+            ClsSystem.mSetting.Checked_DrawCross = this.checkBox_CrossBar.Checked;
+            ClsSystem.mSetting.Checked_CellList = this.checkBox_CellList.Checked;
+            ClsSystem.mSetting.Checked_Attribute = this.checkBox_Attribute.Checked;
+            ClsSystem.mSetting.Checked_Control = this.checkBox_Control.Checked;
+            ClsSystem.mSetting.Checked_ImageList = this.checkBox_ImageList.Checked;
+            ClsSystem.mSetting.Checked_GridSnap = this.checkBox_Snap.Checked;
+            ClsSystem.mSetting.Value_WidthGrid = (int)this.numericUpDown_Grid.Value;
 
             //以下、終了処理
             ClsSystem.Exit();

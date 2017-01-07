@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Images");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Cells");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode5});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -430,9 +430,8 @@
             // 
             this.checkBox_CellList.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_CellList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_CellList;
+            this.checkBox_CellList.Checked = true;
             this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CellList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_CellList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -450,9 +449,8 @@
             // 
             this.checkBox_Attribute.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Attribute.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Attribute;
+            this.checkBox_Attribute.Checked = true;
             this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Attribute.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Attribute", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -470,9 +468,8 @@
             // 
             this.checkBox_Control.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_Control.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_Control;
+            this.checkBox_Control.Checked = true;
             this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Control.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_Control", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -490,9 +487,8 @@
             // 
             this.checkBox_ImageList.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox_ImageList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_ImageList.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_ImageList;
+            this.checkBox_ImageList.Checked = true;
             this.checkBox_ImageList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ImageList.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_ImageList", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_ImageList.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_ImageList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_ImageList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -520,9 +516,8 @@
             this.checkBox_Snap.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_Snap.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.magnet2;
             this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_Snap.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_GridSnap;
+            this.checkBox_Snap.Checked = true;
             this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Snap.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_GridSnap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Snap.Location = new System.Drawing.Point(101, 0);
             this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
@@ -548,7 +543,6 @@
             // numericUpDown_Grid
             // 
             this.numericUpDown_Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown_Grid.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::PrjHikariwoAnim.Properties.Settings.Default, "Value_WidthGrid", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numericUpDown_Grid.Dock = System.Windows.Forms.DockStyle.Left;
             this.numericUpDown_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.numericUpDown_Grid.Location = new System.Drawing.Point(60, 0);
@@ -568,7 +562,11 @@
             this.numericUpDown_Grid.TabIndex = 3;
             this.numericUpDown_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTipMain.SetToolTip(this.numericUpDown_Grid, "グリッドサイズ");
-            this.numericUpDown_Grid.Value = global::PrjHikariwoAnim.Properties.Settings.Default.Value_WidthGrid;
+            this.numericUpDown_Grid.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // checkBox_GridCheck
             // 
@@ -576,9 +574,8 @@
             this.checkBox_GridCheck.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_GridCheck.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.grid;
             this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_GridCheck.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawGird;
+            this.checkBox_GridCheck.Checked = true;
             this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_GridCheck.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawGird", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_GridCheck.Location = new System.Drawing.Point(30, 0);
@@ -596,9 +593,8 @@
             this.checkBox_CrossBar.AutoSize = true;
             this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
             this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_CrossBar.Checked = global::PrjHikariwoAnim.Properties.Settings.Default.Checked_DrawCross;
+            this.checkBox_CrossBar.Checked = true;
             this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CrossBar.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PrjHikariwoAnim.Properties.Settings.Default, "Checked_DrawCross", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
@@ -628,14 +624,14 @@
             this.treeView_Project.Location = new System.Drawing.Point(0, 20);
             this.treeView_Project.Margin = new System.Windows.Forms.Padding(0);
             this.treeView_Project.Name = "treeView_Project";
-            treeNode1.Name = "Images";
-            treeNode1.Text = "Images";
-            treeNode2.Name = "Cells";
-            treeNode2.Text = "Cells";
-            treeNode3.Name = "ProjectName";
-            treeNode3.Text = "Project";
+            treeNode4.Name = "Images";
+            treeNode4.Text = "Images";
+            treeNode5.Name = "Cells";
+            treeNode5.Text = "Cells";
+            treeNode6.Name = "ProjectName";
+            treeNode6.Text = "Project";
             this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode6});
             this.treeView_Project.SelectedImageIndex = 0;
             this.treeView_Project.ShowNodeToolTips = true;
             this.treeView_Project.ShowRootLines = false;
