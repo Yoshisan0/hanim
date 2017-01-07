@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +19,35 @@ namespace PrjHikariwoAnim
 
         public static void Init()
         {
+            //以下、保存データ読み込み処理
+            FormMain.mSetting = null;
+            string clFileName = ClsSystem.GetAppFileName();
+            string clPath = ClsPath.GetPath(clFileName + ".setting");
+            bool isExist = File.Exists(clPath);
+            if (isExist)
+            {
+                using (FileStream clStream = new FileStream(clPath, FileMode.Open))
+                {
+                    DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
+                    FormMain.mSetting = (ClsSetting)clSerializer.ReadObject(clStream);
+                    clStream.Close();
+                }
+            }
+            if (FormMain.mSetting == null)
+            {
+                FormMain.mSetting = new ClsSetting();
+                FormMain.mSetting.Save();
+            }
+
             //以下、イメージテーブル作成処理
             ClsSystem.mTblImage = new Hashtable();
         }
 
-        public static string GetPath(string clFileName)
+        public static string GetAppFileName()
         {
             Assembly clAssembly = Assembly.GetExecutingAssembly();
-            string clPath = Path.GetDirectoryName(clAssembly.Location);
-            clPath = Path.Combine(clPath, clFileName);
-            return (clPath);
+            string clFileName = Path.GetFileNameWithoutExtension(clAssembly.Location);
+            return (clFileName);
         }
 
         public static string GetMD5FromFile(string clPath)

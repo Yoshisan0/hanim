@@ -68,6 +68,12 @@ namespace PrjHikariwoAnim
         private int mEditMotionKey = -1;            //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
         private Dictionary<int, Motion> mDicMotion; //モーションテーブル（キーはTreeNodeのハッシュコード 値はMotionクラス）
 
+        //以下、保存データ関係
+        public static ClsSetting mSetting = null;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public FormMain()
         {
             InitializeComponent();
@@ -1317,6 +1323,22 @@ namespace PrjHikariwoAnim
 
             //以下、設定処理
 //ここで背景色を変えたり、グリッド色を変えたりする？
+        }
+
+        private void ToolStripMenuItem_DebugSave_Click(object sender, EventArgs e)
+        {
+            ClsSetting clSetting = new ClsSetting();
+            clSetting.Save();
+        }
+
+        private void ToolStripMenuItem_DebugLoad_Click(object sender, EventArgs e)
+        {
+            using (FileStream clStream = new FileStream("C:\\Users\\Yoshi\\Desktop\\hoge.json", FileMode.Open))
+            {
+                DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
+                ClsSetting a = (ClsSetting)clSerializer.ReadObject(clStream);
+                clStream.Close();
+            }
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
