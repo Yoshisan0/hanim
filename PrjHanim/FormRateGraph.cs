@@ -126,6 +126,9 @@ namespace PrjHikariwoAnim
             this.Location = ClsSystem.mSetting.mWindowRateGraph.mLocation;
             this.Size = ClsSystem.mSetting.mWindowRateGraph.mSize;
 
+            //以下、コントロール初期化処理
+            this.checkBox_GridCheck.Checked = ClsSystem.mSetting.FormRateGraph_DrawGrid;
+
             this.mPenRed = new Pen(Color.Red, 0.5f);
             this.mPenForce = new Pen(ClsSystem.mSetting.mRateGraphColorForce);
             this.mPenGraph = new Pen(ClsSystem.mSetting.mRateGraphColorGraph);
@@ -144,6 +147,9 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウ情報保存処理
             ClsSystem.mSetting.mWindowRateGraph.mLocation = this.Location;
             ClsSystem.mSetting.mWindowRateGraph.mSize = this.Size;
+
+            //以下、コントロール保存処理
+            ClsSystem.mSetting.FormRateGraph_DrawGrid = this.checkBox_GridCheck.Checked;
         }
 
         /// <summary>

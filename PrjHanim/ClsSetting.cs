@@ -29,6 +29,17 @@ namespace PrjHikariwoAnim
         public Color mRateGraphColorGraph;
         public Color mRateGraphColorForce;
 
+        public bool Checked_DrawGird;
+        public bool Checked_DrawCross;
+        public int Value_WidthGrid;
+        public bool Checked_GridSnap;
+        public bool Checked_ImageList;
+        public bool Checked_Control;
+        public bool Checked_Attribute;
+        public bool Checked_CellList;
+        public bool FormRateGraph_DrawGrid;
+        public string LastImageDirectory;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -50,7 +61,17 @@ namespace PrjHikariwoAnim
             this.mRateGraphColorCenterLine = Color.DarkRed;
             this.mRateGraphColorGraph = Color.Lime;
             this.mRateGraphColorForce = Color.DeepSkyBlue;
-        }
+            this.Checked_DrawGird = true;
+            this.Checked_DrawCross = true;
+            this.Value_WidthGrid = 10;
+            this.Checked_GridSnap = true;
+            this.Checked_ImageList = true;
+            this.Checked_Control = true;
+            this.Checked_Attribute = true;
+            this.Checked_CellList = true;
+            this.FormRateGraph_DrawGrid = true;
+            this.LastImageDirectory = "";
+    }
 
         /// <summary>
         /// 保存処理

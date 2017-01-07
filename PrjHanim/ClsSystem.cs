@@ -30,11 +30,18 @@ namespace PrjHikariwoAnim
             bool isExist = File.Exists(clPath);
             if (isExist)
             {
-                using (FileStream clStream = new FileStream(clPath, FileMode.Open))
+                try
                 {
-                    DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
-                    ClsSystem.mSetting = (ClsSetting)clSerializer.ReadObject(clStream);
-                    clStream.Close();
+                    using (FileStream clStream = new FileStream(clPath, FileMode.Open))
+                    {
+                        DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
+                        ClsSystem.mSetting = (ClsSetting)clSerializer.ReadObject(clStream);
+                        clStream.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    ClsSystem.mSetting = null;
                 }
             }
             if (ClsSystem.mSetting == null)
