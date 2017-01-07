@@ -65,6 +65,8 @@
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -326,7 +328,9 @@
             this.よしさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_DebugGraph,
             this.ToolStripMenuItem_DebugRootOpen,
-            this.ToolStripMenuItem_DebugExport});
+            this.ToolStripMenuItem_DebugExport,
+            this.ToolStripMenuItem_DebugSave,
+            this.ToolStripMenuItem_DebugLoad});
             this.よしさんテストToolStripMenuItem.Name = "よしさんテストToolStripMenuItem";
             this.よしさんテストToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.よしさんテストToolStripMenuItem.Text = "よしさんテスト";
@@ -351,6 +355,20 @@
             this.ToolStripMenuItem_DebugExport.Size = new System.Drawing.Size(175, 22);
             this.ToolStripMenuItem_DebugExport.Text = "エクスポートテスト";
             this.ToolStripMenuItem_DebugExport.Click += new System.EventHandler(this.ToolStripMenuItem_DebugExport_Click);
+            // 
+            // ToolStripMenuItem_DebugSave
+            // 
+            this.ToolStripMenuItem_DebugSave.Name = "ToolStripMenuItem_DebugSave";
+            this.ToolStripMenuItem_DebugSave.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugSave.Text = "保存テスト";
+            this.ToolStripMenuItem_DebugSave.Click += new System.EventHandler(this.ToolStripMenuItem_DebugSave_Click);
+            // 
+            // ToolStripMenuItem_DebugLoad
+            // 
+            this.ToolStripMenuItem_DebugLoad.Name = "ToolStripMenuItem_DebugLoad";
+            this.ToolStripMenuItem_DebugLoad.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugLoad.Text = "読み込みテスト";
+            this.ToolStripMenuItem_DebugLoad.Click += new System.EventHandler(this.ToolStripMenuItem_DebugLoad_Click);
             // 
             // panel_ToolBase
             // 
@@ -897,6 +915,8 @@
         private System.Windows.Forms.Button button_SelectMotion;
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Setting;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugSave;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugLoad;
     }
 }
 

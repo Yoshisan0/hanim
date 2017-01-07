@@ -52,6 +52,7 @@
     <Compile Include="AtributeBase.cs" />
     <Compile Include="ClsImage.cs" />
     <Compile Include="ClsPath.cs" />
+    <Compile Include="ClsSetting.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsTween.cs" />
     <Compile Include="ClsWin32.cs" />

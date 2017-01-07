@@ -12,15 +12,15 @@ namespace PrjHikariwoAnim
     {
         public static string GetPath()
         {
-            Assembly clAssembly = Assembly.GetExecutingAssembly();
-            string clPath = Path.GetDirectoryName(clAssembly.Location);
-            return (clPath);
+            string clPathBase = ClsPath.GetPath("");
+            return (clPathBase);
         }
 
-        public static string GetPathRoaming(string clPath)
+        public static string GetPath(string clPath)
         {
-            string clPathRoaming = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string clPathBase = Path.Combine(clPathRoaming, clPath);
+            Assembly clAssembly = Assembly.GetExecutingAssembly();
+            string clPathBase = Path.GetDirectoryName(clAssembly.Location);
+            clPathBase = Path.Combine(clPathBase, clPath);
             return (clPathBase);
         }
     }

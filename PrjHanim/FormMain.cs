@@ -68,6 +68,9 @@ namespace PrjHikariwoAnim
         private int mEditMotionKey = -1;            //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
         private Dictionary<int, Motion> mDicMotion; //モーションテーブル（キーはTreeNodeのハッシュコード 値はMotionクラス）
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public FormMain()
         {
             InitializeComponent();
@@ -319,6 +322,9 @@ namespace PrjHikariwoAnim
             Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
             Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
             Properties.Settings.Default.Save(); //<-基本的にはバインドされたものはここで自動セーブ
+
+            //以下、終了処理
+            ClsSystem.Exit();
         }
         private void button_BackColor_Click(object sender, EventArgs e)
         {
@@ -1317,6 +1323,22 @@ namespace PrjHikariwoAnim
 
             //以下、設定処理
 //ここで背景色を変えたり、グリッド色を変えたりする？
+        }
+
+        private void ToolStripMenuItem_DebugSave_Click(object sender, EventArgs e)
+        {
+            ClsSetting clSetting = new ClsSetting();
+            clSetting.Save();
+        }
+
+        private void ToolStripMenuItem_DebugLoad_Click(object sender, EventArgs e)
+        {
+            using (FileStream clStream = new FileStream("C:\\Users\\Yoshi\\Desktop\\hoge.json", FileMode.Open))
+            {
+                DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
+                ClsSetting a = (ClsSetting)clSerializer.ReadObject(clStream);
+                clStream.Close();
+            }
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
