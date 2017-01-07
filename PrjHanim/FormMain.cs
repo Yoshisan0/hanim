@@ -112,7 +112,7 @@ namespace PrjHikariwoAnim
             mScreenScroll = new Point(0, 0);
 
             ImageMan = new ImageManagerBase();
-           
+            
             this.mFormImageList = new FormImageList(this);
             this.mFormImageList.Show();
 
