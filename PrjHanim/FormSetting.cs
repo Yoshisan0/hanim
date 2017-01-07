@@ -55,39 +55,25 @@ namespace PrjHikariwoAnim
             ClsSystem.mSetting.mRateGraphColorGrid = this.panel_RateGraphGraphColor.BackColor;
             ClsSystem.mSetting.mRateGraphColorForce = this.panel_RateGraphForceColor.BackColor;
 
+            //以下、保存データ保存処理
+            ClsSystem.mSetting.Save();
+
             this.DialogResult = DialogResult.OK;
+
+//※ここでメインウィンドウをリフレッシュしたい
+//※ここでRateGraphウィンドウをリフレッシュしたい
+//※っていうか全ウィンドウリフレッシュしたい
         }
 
-        private void panel_MainBackColor_Click(object sender, EventArgs e)
+        private void panel_Color_Click(object sender, EventArgs e)
         {
-        }
-
-        private void panel_MainGridColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_MainCenterLineColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_RateGraphBackColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_RateGraphGridColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_RateGraphCenterLineColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_RateGraphGraphColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel_RateGraphForceColor_Click(object sender, EventArgs e)
-        {
+            ColorDialog cdg = new ColorDialog();
+            if (cdg.ShowDialog() == DialogResult.OK)
+            {
+                Panel clPanel = (Panel)sender;
+                clPanel.BackColor = cdg.Color;
+            }
+            cdg.Dispose();
         }
     }
 }

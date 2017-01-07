@@ -25,42 +25,6 @@ namespace PrjHikariwoAnim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color BackColor_ColorBack {
-            get {
-                return ((global::System.Drawing.Color)(this["BackColor_ColorBack"]));
-            }
-            set {
-                this["BackColor_ColorBack"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DarkGreen")]
-        public global::System.Drawing.Color BackColor_ColorGrid {
-            get {
-                return ((global::System.Drawing.Color)(this["BackColor_ColorGrid"]));
-            }
-            set {
-                this["BackColor_ColorGrid"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DarkRed")]
-        public global::System.Drawing.Color BackColor_ColorCross {
-            get {
-                return ((global::System.Drawing.Color)(this["BackColor_ColorCross"]));
-            }
-            set {
-                this["BackColor_ColorCross"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Checked_DrawGird {
             get {

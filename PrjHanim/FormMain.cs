@@ -342,29 +342,6 @@ namespace PrjHikariwoAnim
             //以下、終了処理
             ClsSystem.Exit();
         }
-        private void button_BackColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-                panel_PreView.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
-        }
-        private void Button_Color_Click(object sender, EventArgs e)
-        {
-            ColorDialog cdg = new ColorDialog();
-            if (cdg.ShowDialog() == DialogResult.OK)
-            {
-                Button b = (Button)sender;
-                b.BackColor = cdg.Color;
-            }
-            cdg.Dispose();
-            panel_PreView.Refresh();
-        }
         private void CheckButton_Changed(object sender, EventArgs e)
         {
             panel_PreView.Refresh();
@@ -778,6 +755,8 @@ namespace PrjHikariwoAnim
         //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.Clear(ClsSystem.mSetting.mMainColorBack);
+
             //以下、拡大してボケないようにする処理
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //e.Graphics.PixelOffsetMode   = PixelOffsetMode.HighQuality;
@@ -796,7 +775,7 @@ namespace PrjHikariwoAnim
             {
                 //Grid Draw
                 // V
-                var p1 = new Pen(button_GridColor.BackColor);
+                var p1 = new Pen(ClsSystem.mSetting.mMainColorGrid);
                 for (float cnt = ((float)panel_PreView.Width / 2) % (grid ); cnt < panel_PreView.Width; cnt += (grid))
                 {
                     e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, panel_PreView.Height);
@@ -822,7 +801,7 @@ namespace PrjHikariwoAnim
             //CrossBar スクリーン移動時は原点に沿う形に
             if(checkBox_CrossBar.Checked)
             {
-                var p1 = new Pen(button_CrossColor.BackColor);
+                var p1 = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
                 e.Graphics.DrawLine(p1,panel_PreView.Width / 2, 0, panel_PreView.Width/2, panel_PreView.Height);//V
                 e.Graphics.DrawLine(p1, 0, panel_PreView.Height/2, panel_PreView.Width,panel_PreView.Height/2);//H
             }

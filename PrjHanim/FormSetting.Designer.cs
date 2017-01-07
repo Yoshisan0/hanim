@@ -107,7 +107,7 @@
             this.panel_MainCenterLineColor.Name = "panel_MainCenterLineColor";
             this.panel_MainCenterLineColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainCenterLineColor.TabIndex = 4;
-            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_MainCenterLineColor_Click);
+            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label_GridColor
             // 
@@ -126,7 +126,7 @@
             this.panel_MainGridColor.Name = "panel_MainGridColor";
             this.panel_MainGridColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainGridColor.TabIndex = 2;
-            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_MainGridColor_Click);
+            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_MainBackColor
             // 
@@ -136,7 +136,7 @@
             this.panel_MainBackColor.Name = "panel_MainBackColor";
             this.panel_MainBackColor.Size = new System.Drawing.Size(75, 24);
             this.panel_MainBackColor.TabIndex = 1;
-            this.panel_MainBackColor.Click += new System.EventHandler(this.panel_MainBackColor_Click);
+            this.panel_MainBackColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label_BackColor
             // 
@@ -219,7 +219,7 @@
             this.panel_RateGraphForceColor.Name = "panel_RateGraphForceColor";
             this.panel_RateGraphForceColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphForceColor.TabIndex = 7;
-            this.panel_RateGraphForceColor.Click += new System.EventHandler(this.panel_RateGraphForceColor_Click);
+            this.panel_RateGraphForceColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphGraphColor
             // 
@@ -229,7 +229,7 @@
             this.panel_RateGraphGraphColor.Name = "panel_RateGraphGraphColor";
             this.panel_RateGraphGraphColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphGraphColor.TabIndex = 6;
-            this.panel_RateGraphGraphColor.Click += new System.EventHandler(this.panel_RateGraphGraphColor_Click);
+            this.panel_RateGraphGraphColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphCenterLineColor
             // 
@@ -239,7 +239,7 @@
             this.panel_RateGraphCenterLineColor.Name = "panel_RateGraphCenterLineColor";
             this.panel_RateGraphCenterLineColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphCenterLineColor.TabIndex = 5;
-            this.panel_RateGraphCenterLineColor.Click += new System.EventHandler(this.panel_RateGraphCenterLineColor_Click);
+            this.panel_RateGraphCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphGridColor
             // 
@@ -249,7 +249,7 @@
             this.panel_RateGraphGridColor.Name = "panel_RateGraphGridColor";
             this.panel_RateGraphGridColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphGridColor.TabIndex = 4;
-            this.panel_RateGraphGridColor.Click += new System.EventHandler(this.panel_RateGraphGridColor_Click);
+            this.panel_RateGraphGridColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_RateGraphBackColor
             // 
@@ -259,7 +259,7 @@
             this.panel_RateGraphBackColor.Name = "panel_RateGraphBackColor";
             this.panel_RateGraphBackColor.Size = new System.Drawing.Size(75, 24);
             this.panel_RateGraphBackColor.TabIndex = 3;
-            this.panel_RateGraphBackColor.Click += new System.EventHandler(this.panel_RateGraphBackColor_Click);
+            this.panel_RateGraphBackColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // label1
             // 
