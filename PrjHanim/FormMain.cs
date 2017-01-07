@@ -68,9 +68,6 @@ namespace PrjHikariwoAnim
         private int mEditMotionKey = -1;            //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
         private Dictionary<int, Motion> mDicMotion; //モーションテーブル（キーはTreeNodeのハッシュコード 値はMotionクラス）
 
-        //以下、保存データ関係
-        public static ClsSetting mSetting = null;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -325,6 +322,9 @@ namespace PrjHikariwoAnim
             Properties.Settings.Default["Checked_Control"]      = this.checkBox_Control.Checked;
             Properties.Settings.Default["Checked_Attribute"]    = this.checkBox_Attribute.Checked;
             Properties.Settings.Default.Save(); //<-基本的にはバインドされたものはここで自動セーブ
+
+            //以下、終了処理
+            ClsSystem.Exit();
         }
         private void button_BackColor_Click(object sender, EventArgs e)
         {

@@ -16,11 +16,15 @@ namespace PrjHikariwoAnim
     public class ClsSystem
     {
         public static Hashtable mTblImage; //キーはstringのMD5 値はClsImage
+        public static ClsSetting mSetting = null;   //保存データ
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         public static void Init()
         {
             //以下、保存データ読み込み処理
-            FormMain.mSetting = null;
+            ClsSystem.mSetting = null;
             string clFileName = ClsSystem.GetAppFileName();
             string clPath = ClsPath.GetPath(clFileName + ".setting");
             bool isExist = File.Exists(clPath);
@@ -29,18 +33,30 @@ namespace PrjHikariwoAnim
                 using (FileStream clStream = new FileStream(clPath, FileMode.Open))
                 {
                     DataContractJsonSerializer clSerializer = new DataContractJsonSerializer(typeof(ClsSetting));
-                    FormMain.mSetting = (ClsSetting)clSerializer.ReadObject(clStream);
+                    ClsSystem.mSetting = (ClsSetting)clSerializer.ReadObject(clStream);
                     clStream.Close();
                 }
             }
-            if (FormMain.mSetting == null)
+            if (ClsSystem.mSetting == null)
             {
-                FormMain.mSetting = new ClsSetting();
-                FormMain.mSetting.Save();
+                ClsSystem.mSetting = new ClsSetting();
+                ClsSystem.mSetting.Save();
             }
 
             //以下、イメージテーブル作成処理
             ClsSystem.mTblImage = new Hashtable();
+        }
+
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        public static void Exit()
+        {
+            //以下、保存データ保存処理
+            if (ClsSystem.mSetting != null)
+            {
+                ClsSystem.mSetting.Save();
+            }
         }
 
         public static string GetAppFileName()
