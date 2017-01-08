@@ -298,7 +298,7 @@ namespace PrjHikariwoAnim
             //以下、イメージリスト描画処理
             e.Graphics.Clear(Color.Black);
 
-//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（行番号を割り振って？）描画するようにします
+//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（各クラスのmLineNoを見て）描画するようにします
 //※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
 
             //以下、横ライン描画処理
@@ -452,7 +452,7 @@ namespace PrjHikariwoAnim
             //全消去
             e.Graphics.Clear(Color.Black);
 
-//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（行番号を割り振って？）描画するようにします
+//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（各クラスのmLineNoを見て）描画するようにします
 //※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
 
             //以下、横ライン描画処理
