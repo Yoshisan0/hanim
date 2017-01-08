@@ -5,8 +5,6 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    //とりあえず作成したバージョン
-
     public class ClsDatKeyFrame
     {
         public ClsTween mTween; //トゥイーン管理クラス

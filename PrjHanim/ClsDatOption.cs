@@ -5,9 +5,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    //とりあえず作成したバージョン
-
-    public class ClsDatOption
+    public class ClsDatOption : ClsDatItem
     {
         public enum TYPE {
             NONE,

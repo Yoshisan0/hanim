@@ -98,10 +98,7 @@ namespace PrjHikariwoAnim
 
             //以下、TreeNode作成処理
             //初期モーションTreeの追加
-            TreeNode clTreeNode = this.treeView_Project_AddMotion("Motion");
-            int inHashCode = clTreeNode.GetHashCode();
-            ClsDatMotion clMotion = new ClsDatMotion("Motion");
-            ClsSystem.mDicMotion[inHashCode] = clMotion;
+            ClsDatMotion clMotion = this.treeView_Project_AddMotion("Motion");
 
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
@@ -143,7 +140,14 @@ namespace PrjHikariwoAnim
         public void SetName(string clName)
         {
             string clAppName = ClsSystem.GetAppFileName();
-            this.Text = clAppName + " (" + clName + ")";
+            if (string.IsNullOrEmpty(clName))
+            {
+                this.Text = clAppName;
+            }
+            else
+            {
+                this.Text = clAppName + " (" + clName + ")";
+            }
         }
 
         public void AttributeUpdate()
@@ -175,17 +179,17 @@ namespace PrjHikariwoAnim
                     //ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].LoadFromFile(ofd.FileName);
                     //StreamからMotion読込
                     //StreamReader sr = new StreamReader(ofd.FileName);
-                    ClsDatMotion newMotion = new ClsDatMotion("default");
-//                    newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
-                    int hashkey = treeView_Project_AddMotion(newMotion);
-                    ClsSystem.mDicMotion.Add(hashkey, newMotion);//keyと共にmDicMotionに登録
+
+//                  newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
+                    this.treeView_Project_AddMotion("test");
 
                     //TreeView登録
 
                     //treeView_project_Rebuild();
-                    treeView_Project.Refresh();
+                    this.treeView_Project.Refresh();
                 }
             }
+
             ofd.Dispose();
         }
         private void SaveProject_Click(object sender, EventArgs e)
@@ -269,7 +273,7 @@ namespace PrjHikariwoAnim
 
             if (e.KeyData == Keys.Delete)
             {
-//ここで確認ダイアログ表示
+//ここで確認ダイアログ表示（編集中のモーションを保存しますか？）
 
                 //Element Remove
                 int inMotionKey = this.GetMotionSelectedKey();
@@ -298,8 +302,9 @@ namespace PrjHikariwoAnim
                         ClsSystem.mMotionSelectKey = -1;
 
                         //以下、コントロール設定処理
-                        this.mFormControl.SetName("");
-                        this.mFormAttribute.SetName("");
+                        this.SetName(null);
+                        this.mFormControl.SetName(null);
+                        this.mFormAttribute.SetName(null);
                     }
 
                     //以下、Motionクラス削除処理
@@ -456,6 +461,7 @@ namespace PrjHikariwoAnim
                 }
 
                 //以下、各コントロールの設定
+                this.SetName(e.Label);
                 this.mFormControl.SetName(e.Label);
                 this.mFormAttribute.SetName(e.Label);
             }
@@ -472,6 +478,8 @@ namespace PrjHikariwoAnim
             //ノードがエレメントかどうか確認する
             //nodeのimageindexから判別
 
+            bool isHit = false;
+
             //Select Motion Node
             //MotionNodeか確認
             if (e.Node.ImageIndex == 2)
@@ -481,19 +489,7 @@ namespace PrjHikariwoAnim
                 //以下、モーションインデックス変更処理
                 ClsSystem.mMotionSelectKey = inHashCode;
 
-                //以下、ウィンドウ名を修正する処理
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                this.SetName(clMotion.mName);
-                this.mFormAttribute.SetName(clMotion.mName);
-                this.mFormControl.SetName(clMotion.mName);
-
-                //以下、各種コントロール設定処理
-                this.treeView_Project.SelectedNode = e.Node;
-
-                //新しく選択したモーションをメインウィンドウに表示する
-                //新しく選択したモーションをコントロールウィンドウに表示する
-
-                this.panel_PreView.Refresh();
+                isHit = true;
             }
 
             //Select Elements Node
@@ -510,14 +506,35 @@ namespace PrjHikariwoAnim
                     clMotion.SelectElem(inHashCode);
                 }
 
+                isHit = true;
+            }
+
+            if (isHit)
+            {
                 //以下、各種コントロール設定処理
                 this.treeView_Project.SelectedNode = e.Node;
 
+                //以下、ウィンドウ名を修正する処理
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                this.SetName(clMotion.mName);
+                this.mFormAttribute.SetName(clMotion.mName);
+                this.mFormControl.SetName(clMotion.mName);
+
                 //新しく選択したモーションをメインウィンドウに表示する
                 //新しく選択したモーションをコントロールウィンドウに表示する
-
-                this.panel_PreView.Refresh();
             }
+            else
+            {
+                //以下、モーションインデックス変更処理
+                ClsSystem.mMotionSelectKey = -1;
+
+                //以下、コントロール設定処理
+                this.SetName(null);
+                this.mFormControl.SetName(null);
+                this.mFormAttribute.SetName(null);
+            }
+
+            this.panel_PreView.Refresh();
         }
 
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -559,9 +576,24 @@ namespace PrjHikariwoAnim
                     }
                 }
             }
-
-
         }
+
+        private TreeNode FindSelectTreeNode()
+        {
+            if (ClsSystem.mMotionSelectKey < 0) return (null);
+
+            TreeNode clTreeNode = this.treeView_Project.TopNode;
+            while (clTreeNode != null)
+            {
+                int inHashCode = clTreeNode.GetHashCode();
+                if (inHashCode == ClsSystem.mMotionSelectKey) break;
+
+                clTreeNode = clTreeNode.NextNode;
+            }
+
+            return (clTreeNode);
+        }
+
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
@@ -570,69 +602,56 @@ namespace PrjHikariwoAnim
         /// <param name="y">クリック座標(Cliant)</param>
         private void treeView_Project_AddElements(ImageChip work, int x, int y)
         {
-            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+            if (ClsSystem.mMotionSelectKey < 0) return;
+
+            TreeNode clTreeNode = this.FindSelectTreeNode();
+            if (clTreeNode == null) return;
+
+            ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+
             //アイテムの登録
-            ELEMENTS elem = new ELEMENTS();
-            elem.Atr = new AttributeBase();
+            ClsDatElem elem = new ClsDatElem();
             elem.ImageChipID = work.GetHashCode();
-            elem.Atr.Width = work.Img.Width;
-            elem.Atr.Height = work.Img.Height;
-            elem.Tag = elem.GetHashCode();
+            elem.mAttInit.Width = work.Img.Width;
+            elem.mAttInit.Height = work.Img.Height;
 
             //センターからの距離に変換
             x -= panel_PreView.Width / 2;
             y -= panel_PreView.Height / 2;
-            //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= elem.Atr.Width / 2;
-            y -= elem.Atr.Height / 2;
 
-            elem.Atr.Position = new Vector3(x, y, 0);
-            elem.Name = elem.GetHashCode().ToString("X8");//仮名
+            //さらに画像サイズ半分シフトして画像中心をセンターに
+            x -= elem.mAttInit.Width / 2;
+            y -= elem.mAttInit.Height / 2;
+
+            elem.mAttInit.Position = new Vector3(x, y, 0);
 
             //Show - Attribute
-            mFormAttribute.SetAllParam(elem.Atr);
+            this.mFormAttribute.SetAllParam(elem.mAttInit);
 
-            if (ClsSystem.mMotionSelectKey >= 0)
-            {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.AddElements(elem);//Elements登録
-                clMotion.Store();//
+            clMotion.AddElements(elem);//Elements登録
+            //clMotion.Store();//
 
-                //TreeViewへの登録
-                //TreeViewの選択中Motionを取得
-                //TreeNode selNode = treeView_Project.Nodes[mNowMotionName];
-                //作成時にMotion.Name設定されてるはずだよなぁ・なんでnullなんだろか
+            //TreeViewへの登録
+            //TreeViewの選択中Motionを取得
+            TreeNode clTreeNodeAdd = clTreeNode.Nodes.Add(elem.mName, elem.mName);
+            clTreeNode.Expand();
+            clTreeNode.Nodes[elem.mName].Tag = elem.GetHashCode();
+            clTreeNode.Nodes[elem.mName].ImageIndex = 4;
+            clTreeNode.Nodes[elem.mName].SelectedImageIndex = 3;
 
-                //探すプログラムはこんな感じ？ 2016/01/03 comment by yoshi
-                TreeNode clTreeNode = this.treeView_Project.TopNode;
-                while (clTreeNode != null)
-                {
-                    int inHashCode = clTreeNode.GetHashCode();
-                    if (inHashCode == ClsSystem.mMotionSelectKey) break;
+            int inID = clTreeNodeAdd.GetHashCode();
+            elem.SetID(inID);
 
-                    clTreeNode = clTreeNode.NextNode;
-                }
-
-                if (clTreeNode != null)
-                {
-                    clTreeNode.Nodes.Add(elem.Name, elem.Name);
-                    clTreeNode.Expand();
-                    clTreeNode.Nodes[elem.Name].Tag = elem.GetHashCode();
-                    clTreeNode.Nodes[elem.Name].ImageIndex = 4;
-                    clTreeNode.Nodes[elem.Name].SelectedImageIndex = 3;
-                }
-            }
             //Control更新
-            mFormControl.Refresh();
-            */
-
+            this.mFormControl.Refresh();
         }
+
         private void treeView_Project_RemoveElements(string name)
         {
             //Elements選択中のDelキー
         }
 
-        private TreeNode treeView_Project_AddMotion(string clMotionName)
+        private ClsDatMotion treeView_Project_AddMotion(string clMotionName)
         {
             treeView_Project.SelectedNode = treeView_Project.TopNode;
             TreeNode tn = treeView_Project.Nodes.Add(clMotionName);
@@ -641,12 +660,13 @@ namespace PrjHikariwoAnim
             tn.Tag = ClsSystem.mDicMotion.Count; //不要？
 
             //以下、モーションクラス生成処理
-            ClsDatMotion clMotion = new ClsDatMotion(clMotionName);
             int inHashCode = tn.GetHashCode();
+            ClsDatMotion clMotion = new ClsDatMotion(inHashCode, clMotionName);
             ClsSystem.mDicMotion.Add(inHashCode, clMotion);
 
-            return (tn);
+            return (clMotion);
         }
+        /*
         private int treeView_Project_AddMotion(ClsDatMotion m)
         {
             treeView_Project.SelectedNode = treeView_Project.TopNode;
@@ -661,6 +681,7 @@ namespace PrjHikariwoAnim
 
             return inHashCode;
         }
+        */
 
         private int GetMotionSelectedKey()
         {
@@ -1031,7 +1052,7 @@ namespace PrjHikariwoAnim
                         ImageChip c = new ImageChip();
                         c.FromPngFile(str);
                         ImageMan.AddImageChip(c);
-                        treeView_Project_AddElements(c, sPos.X, sPos.Y);
+                        this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
                         //ImageListへ登録と更新
                         mFormImageList.AddItem(str);
                         mFormImageList.Refresh();

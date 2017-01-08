@@ -5,9 +5,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    //とりあえず作成したバージョン
-
-    public class ClsDatElem
+    public class ClsDatElem : ClsDatItem
     {
         // コントロール左側ペインに相当する部分
         public enum ELEMENTSTYPE {
@@ -24,6 +22,7 @@ namespace PrjHikariwoAnim
             Point
         }
 
+        public int mID;                     //TreeNodeのHashCode
         public string mName;                //エレメント名
         public ELEMENTSTYPE mType;          //Default Image
         public ELEMENTSSTYLE mStyle;        //Default Rect
@@ -31,12 +30,14 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public bool isSelect;               //選択状態
+        public int ImageChipID;             //イメージID
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
         public Dictionary<ClsDatOption.TYPE, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
+        public AttributeBase mAttInit;      //初期情報
 
-        public ClsDatElem(string clName)
+        public ClsDatElem()
         {
-            this.mName = clName;
+            this.mName = this.GetHashCode().ToString("X8");//仮名
             this.mType = ELEMENTSTYPE.Image;
             this.mStyle = ELEMENTSSTYLE.Rect;
             this.isVisible = true;  //表示非表示(目)
@@ -45,6 +46,12 @@ namespace PrjHikariwoAnim
             this.isSelect = false;  //選択状態
             this.mListElem = new List<ClsDatElem>();
             this.mDicOption = new Dictionary<ClsDatOption.TYPE, ClsDatOption>();
+            this.mAttInit = new AttributeBase();
+        }
+
+        public void SetID(int inID)
+        {
+            this.mID = inID;
         }
 
         public Dictionary<string, object> Export()

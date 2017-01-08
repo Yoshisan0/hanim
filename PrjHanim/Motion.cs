@@ -313,9 +313,11 @@ namespace PrjHikariwoAnim
                 }
             }
         }
+
         //現在編集中のフレームを戻す
         //NowFrameに変更等加える操作の最後には呼ぶように!
         public void Store() { gmTimeLine[mCurrentFrameIndex] = EditFrame; }
+
         /// <summary>
         /// Index直前に挿入
         /// </summary>

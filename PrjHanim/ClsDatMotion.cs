@@ -5,16 +5,16 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    //とりあえず作成したバージョン
-
     public class ClsDatMotion
     {
+        public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
         public int mElemSelectKey;          //現在編集中のエレメントキー（TreeNodeのハッシュコード）
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
-        public ClsDatMotion(string clName)
+        public ClsDatMotion(int inID, string clName)
         {
+            this.mID = inID;
             this.mName = clName;
             this.mElemSelectKey = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -77,7 +77,12 @@ namespace PrjHikariwoAnim
         {
             this.mElemSelectKey = inHashCode;
         }
-        
+
+        public void AddElements(ClsDatElem clElem)
+        {
+            this.mListElem.Add(clElem);
+        }
+
         /// <summary>
         /// モーションの全てを削除する処理
         /// </summary>
@@ -103,8 +108,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                int inHashCode = clElem.GetHashCode();
-                if (inHashCode != inElementKey) continue;
+                if (inElementKey!= clElem.mID) continue;
 
                 clElem.RemoveAll();
                 this.mListElem.RemoveAt(inCnt);

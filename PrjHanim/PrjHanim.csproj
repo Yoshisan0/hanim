@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AtributeBase.cs" />
     <Compile Include="ClsDatElem.cs" />
+    <Compile Include="ClsDatItem.cs" />
     <Compile Include="ClsDatKeyFrame.cs" />
     <Compile Include="ClsDatMotion.cs" />
     <Compile Include="ClsDatOption.cs" />
