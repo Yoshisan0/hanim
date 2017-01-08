@@ -38,6 +38,39 @@ namespace PrjHikariwoAnim
             return (null);
         }
 
+        /// <summary>
+        /// フレーム数変更処理
+        /// </summary>
+        /// <param name="inFrameNum">フレーム数</param>
+        public void SetFrameNum(int inFrameNum)
+        {
+            if (inFrameNum <= 0) return;
+            if (inFrameNum > 65535) return; //あまりに大きな値は怪しいのでバグ対策としてはじく
+
+            int inFrameNumNow = this.mListKeyFrame.Count;
+            if (inFrameNumNow == inFrameNum) return;
+
+            if (inFrameNumNow < inFrameNum)
+            {
+                //以下、フレーム数を増やす処理
+                while (this.mListKeyFrame.Count < inFrameNum)
+                {
+                    this.mListKeyFrame.Add(null);
+                }
+            }
+            else
+            {
+                //以下、フレーム数を減らす処理
+                while (this.mListKeyFrame.Count > inFrameNum)
+                {
+                    int inIndex = this.mListKeyFrame.Count - 1;
+                    ClsDatKeyFrame clKeyFrame = this.mListKeyFrame[inIndex];
+                    clKeyFrame.RemoveAll();
+                    this.mListKeyFrame.RemoveAt(inIndex);
+                }
+            }
+        }
+
         public void RemoveAll()
         {
             //以下、キーフレーム全削除処理

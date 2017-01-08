@@ -10,11 +10,13 @@ namespace PrjHikariwoAnim
     public class ClsDatMotion
     {
         public string mName;    //モーション名
+        public int mElemSelectKey;          //現在編集中のエレメントキー（TreeNodeのハッシュコード）
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         public ClsDatMotion(string clName)
         {
             this.mName = clName;
+            this.mElemSelectKey = -1;
             this.mListElem = new List<ClsDatElem>();
         }
 
@@ -53,6 +55,29 @@ namespace PrjHikariwoAnim
             this.mName = clName;
         }
 
+        /// <summary>
+        /// フレーム数変更処理
+        /// </summary>
+        /// <param name="inFrameNum">フレーム数</param>
+        public void SetFrameNum(int inFrameNum)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.SetFrameNum(inFrameNum);
+            }
+        }
+
+        /// <summary>
+        /// エレメント選択処理
+        /// </summary>
+        /// <param name="inHashCode">TreeNodeのHashCode</param>
+        public void SelectElem(int inHashCode)
+        {
+            this.mElemSelectKey = inHashCode;
+        }
+        
         /// <summary>
         /// モーションの全てを削除する処理
         /// </summary>

@@ -84,7 +84,6 @@
             this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
-            this.button_SelectMotion = new System.Windows.Forms.Button();
             this.button_MotionNew = new System.Windows.Forms.Button();
             this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -657,7 +656,6 @@
             // 
             this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel_ProjectTopBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_ProjectTopBase.Controls.Add(this.button_SelectMotion);
             this.panel_ProjectTopBase.Controls.Add(this.button_MotionNew);
             this.panel_ProjectTopBase.Controls.Add(this.label_Project);
             this.panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
@@ -667,17 +665,6 @@
             this.panel_ProjectTopBase.Size = new System.Drawing.Size(133, 20);
             this.panel_ProjectTopBase.TabIndex = 0;
             this.panel_ProjectTopBase.Click += new System.EventHandler(this.panel_ProjectTopBase_Click);
-            // 
-            // button_SelectMotion
-            // 
-            this.button_SelectMotion.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_SelectMotion.Location = new System.Drawing.Point(21, 0);
-            this.button_SelectMotion.Name = "button_SelectMotion";
-            this.button_SelectMotion.Size = new System.Drawing.Size(55, 18);
-            this.button_SelectMotion.TabIndex = 2;
-            this.button_SelectMotion.Text = "Select";
-            this.button_SelectMotion.UseVisualStyleBackColor = true;
-            this.button_SelectMotion.Click += new System.EventHandler(this.button_SelectMotion_Click);
             // 
             // button_MotionNew
             // 
@@ -854,7 +841,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugRootOpen;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.Button button_SelectMotion;
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Setting;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugSave;

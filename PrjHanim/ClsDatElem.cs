@@ -58,6 +58,26 @@ namespace PrjHikariwoAnim
             return (null);
         }
 
+        /// <summary>
+        /// フレーム数変更処理
+        /// </summary>
+        /// <param name="inFrameNum">フレーム数</param>
+        public void SetFrameNum(int inFrameNum)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.SetFrameNum(inFrameNum);
+            }
+
+            foreach(ClsDatOption.TYPE enType in this.mDicOption.Keys) 
+            {
+                ClsDatOption clOption = this.mDicOption[enType];
+                clOption.SetFrameNum(inFrameNum);
+            }
+        }
+
         public void RemoveAll()
         {
             //以下、子供のエレメントリスト全削除処理

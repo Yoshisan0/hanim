@@ -56,7 +56,7 @@ namespace PrjHikariwoAnim
 
         private Motion2 m2;
         
-        private string mNowMotionName;//選択中モーション名
+        //private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
         private DragState mDragState = DragState.none;
@@ -296,6 +296,10 @@ namespace PrjHikariwoAnim
                         //コントロールウィンドウとメインウィンドウの情報をクリアする
 
                         ClsSystem.mMotionSelectKey = -1;
+
+                        //以下、コントロール設定処理
+                        this.mFormControl.SetName("");
+                        this.mFormAttribute.SetName("");
                     }
 
                     //以下、Motionクラス削除処理
@@ -442,23 +446,24 @@ namespace PrjHikariwoAnim
             //ReName MotionName
             if (e.Node.ImageIndex == 2)
             {
-                mNowMotionName = e.Label;
+                //this.mNowMotionName = e.Label;
+
+                int inHashCode = e.Node.GetHashCode();
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                if (clMotion != null)
+                {
+                    clMotion.SetName(e.Label);
+                }
+
+                //以下、各コントロールの設定
+                this.mFormControl.SetName(e.Label);
+                this.mFormAttribute.SetName(e.Label);
             }
 
             //ReName ElementsName
             if (e.Node.ImageIndex == 4)
             {
                 //e.Label:新Text e.node.TExt:旧Text
-                int inHashCode = e.Node.GetHashCode();
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
-                if (clMotion != null)
-                {
-                    clMotion.SetName(e.Label);
-
-                    //以下、各コントロールの設定
-                    this.mFormControl.SetMotion(clMotion);
-                    this.mFormControl.Refresh();
-                }
             }
             
         }
@@ -471,28 +476,50 @@ namespace PrjHikariwoAnim
             //MotionNodeか確認
             if (e.Node.ImageIndex == 2)
             {
-                //現在選択中か確認
-                if (!e.Node.IsSelected)
-                {
-                    //現在を選択状態へ
-                    treeView_Project.SelectedNode=e.Node;
-                    //モーション変更処理を行う
-                   
-                    //mFormControl.SetMotion(mDicMotion[]);//ControlFormにも通達
-                    panel_PreView.Refresh();
-                }
+                int inHashCode = e.Node.GetHashCode();
+
+                //以下、モーションインデックス変更処理
+                ClsSystem.mMotionSelectKey = inHashCode;
+
+                //以下、ウィンドウ名を修正する処理
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                this.SetName(clMotion.mName);
+                this.mFormAttribute.SetName(clMotion.mName);
+                this.mFormControl.SetName(clMotion.mName);
+
+                //以下、各種コントロール設定処理
+                this.treeView_Project.SelectedNode = e.Node;
+
+                //新しく選択したモーションをメインウィンドウに表示する
+                //新しく選択したモーションをコントロールウィンドウに表示する
+
+                this.panel_PreView.Refresh();
             }
-/*
+
             //Select Elements Node
-            if(e.Node.ImageIndex == 4)
+            if (e.Node.ImageIndex == 4)
             {
-                //TagとElements.Nameが合致するものを選択
-                int inIndex = this.GetMotionSelectedIndex();
-                this.mListMotion[inIndex].EditFrame.SelectElement(e.Node.Tag);
-                if (this.mListMotion[inIndex].EditFrame.ActiveIndex != null) panel_PreView.Refresh();
+                int inHashCode = e.Node.FirstNode.GetHashCode();
+
+                //以下、モーションインデックス変更処理
+                ClsSystem.mMotionSelectKey = inHashCode;
+
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                if (clMotion != null)
+                {
+                    clMotion.SelectElem(inHashCode);
+                }
+
+                //以下、各種コントロール設定処理
+                this.treeView_Project.SelectedNode = e.Node;
+
+                //新しく選択したモーションをメインウィンドウに表示する
+                //新しく選択したモーションをコントロールウィンドウに表示する
+
+                this.panel_PreView.Refresh();
             }
-*/
         }
+
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             //未使用 将来的に使うかもしれない
@@ -772,30 +799,9 @@ namespace PrjHikariwoAnim
             }
         }
 
-        private void button_SelectMotion_Click(object sender, EventArgs e)
-        {
-//ここで現在編集中のモーションを自動で保存する？
-
-//現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
-
-            //以下、モーションインデックス変更処理
-            ClsSystem.mMotionSelectKey = this.GetMotionSelectedKey();
-
-            //以下、ウィンドウ名を修正する処理
-            string clName = "";
-            if (ClsSystem.mMotionSelectKey >= 0) {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clName = clMotion.mName;
-            }
-
-            this.SetName(clName);
-            this.mFormAttribute.SetName(clName);
-            this.mFormControl.SetName(clName);
-        }
-
         private void button_MotionNew_Click(object sender, EventArgs e)
         {
-            treeView_Project_AddMotion("NewMotion");
+            this.treeView_Project_AddMotion("NewMotion");
             
             //モーションである事を示すタグを付加する？
         }

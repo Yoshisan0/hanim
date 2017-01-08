@@ -15,7 +15,7 @@ namespace PrjHikariwoAnim
         public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
 
-        public static int mMotionSelectKey;   //現在編集中のモーションキー（TreeNodeのハッシュコード）
+        public static int mMotionSelectKey;                     //現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
 
         /// <summary>

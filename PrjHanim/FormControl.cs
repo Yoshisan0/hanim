@@ -87,7 +87,14 @@ namespace PrjHikariwoAnim
 
         public void SetName(string clName)
         {
-            this.Text = "Control (" + clName + ")";
+            if (string.IsNullOrEmpty(clName))
+            {
+                this.Text = "Control";
+            }
+            else
+            {
+                this.Text = "Control (" + clName + ")";
+            }
         }
 
         public int GetElementSelectKey()
@@ -184,9 +191,11 @@ namespace PrjHikariwoAnim
         }
         private void MaxFrame_ValueChanged(object sender, EventArgs e)
         {
-            int inWidth = (int)this.numericUpDown_MaxFrame.Value * FormControl.TIME_CELL_WIDTH + 1;
-            this.panel_Time.Width = inWidth;
+            int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
+            this.mMotion.SetFrameNum(inFrameNum);
 
+            int inWidth = inFrameNum * FormControl.TIME_CELL_WIDTH + 1;
+            this.panel_Time.Width = inWidth;
             this.panel_Time.Refresh();
         }
         private void NowFrame_ValueChanged(object sender, EventArgs e)

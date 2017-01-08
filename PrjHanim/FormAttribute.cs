@@ -35,7 +35,14 @@ namespace PrjHikariwoAnim
 
         public void SetName(string clName)
         {
-            this.Text = "Attribute (" + clName + ")";
+            if (string.IsNullOrEmpty(clName))
+            {
+                this.Text = "Attribute";
+            }
+            else
+            {
+                this.Text = "Attribute (" + clName + ")";
+            }
         }
 
         /// <summary>
