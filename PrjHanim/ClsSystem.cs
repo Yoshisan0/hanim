@@ -3,13 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PrjHikariwoAnim
 {
@@ -17,6 +14,9 @@ namespace PrjHikariwoAnim
     {
         public static Hashtable mTblImage; //キーはstringのMD5 値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
+
+        public static int mEditMotionKey = -1; //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
+        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーはTreeNodeのHashCode 値はモーション管理クラス
 
         /// <summary>
         /// 初期化処理
