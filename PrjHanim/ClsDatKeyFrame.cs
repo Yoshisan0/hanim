@@ -9,7 +9,7 @@ namespace PrjHikariwoAnim
 
     public class ClsDatKeyFrame
     {
-        public ClsTween mTween;
+        public ClsTween mTween; //トゥイーン管理クラス
 
         public ClsDatKeyFrame()
         {

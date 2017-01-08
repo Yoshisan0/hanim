@@ -9,12 +9,12 @@ namespace PrjHikariwoAnim
 
     public class ClsDatElem
     {
-        public string mName;
-        public bool isVisible;  //表示非表示(目)
-        public bool isLocked;   //ロック状態(鍵)
-        public bool isOpen;     //属性開閉状態(+-)
-        public Dictionary<int, ClsDatElem> mDicElem;    //子供
-        public Dictionary<int, ClsDatOption> mDicOption;
+        public string mName;                //エレメント名
+        public bool isVisible;              //表示非表示(目)
+        public bool isLocked;               //ロック状態(鍵)
+        public bool isOpen;                 //属性開閉状態(+-)
+        public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
+        public Dictionary<ClsDatOption.TYPE, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
 
         public ClsDatElem()
         {

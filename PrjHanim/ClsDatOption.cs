@@ -5,10 +5,10 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
+    //とりあえず作成したバージョン
+
     public class ClsDatOption
     {
-        //とりあえず作成したバージョン
-
         public enum TYPE {
             NONE,
             POSITION_X,
@@ -26,8 +26,8 @@ namespace PrjHikariwoAnim
             USER_DATA,
         }
 
-        public TYPE mType;
-        public List<ClsDatKeyFrame> mListKeyFrame;
+        public TYPE mType;  //タイプ
+        public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する nullは存在しない事にする
 
         public ClsDatOption()
         {

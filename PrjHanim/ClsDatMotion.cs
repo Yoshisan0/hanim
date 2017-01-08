@@ -9,8 +9,8 @@ namespace PrjHikariwoAnim
 
     public class ClsDatMotion
     {
-        public string mName;
-        public Dictionary<int, ClsDatElem> mDicElem;
+        public string mName;    //モーション名
+        public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         public ClsDatMotion()
         {
