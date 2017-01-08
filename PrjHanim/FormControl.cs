@@ -257,11 +257,22 @@ namespace PrjHikariwoAnim
                 mSelectElementKey = work;
 
                 //Click Eye
-                if (e.X < 16) { ele.isVisible = !ele.isVisible; }
+                if (e.X < 16) {
+                    ele.isVisible = !ele.isVisible;
+                }
+
                 //Click Locked
-                if (e.X > 16 && e.X < 32) { ele.isLocked = !ele.isLocked; }
+                if (e.X > 16 && e.X < 32) {
+                    ele.isLocked = !ele.isLocked;
+                }
+
                 //Attribute Open
-                if (e.X > 32 && e.X < 48) { ele.isOpen = !ele.isOpen; }
+                if (e.X > 32 && e.X < 48) {
+                    ele.isOpen = !ele.isOpen;
+
+                    this.mMotion.AssignmentLineNo();    //行番号割り振り処理
+                }
+
                 //SelectElements
                 if (e.X > 48) { ele.isSelect = !ele.isSelect; }
 

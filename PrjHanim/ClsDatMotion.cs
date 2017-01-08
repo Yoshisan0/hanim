@@ -12,6 +12,11 @@ namespace PrjHikariwoAnim
         public int mElemSelectKey;          //現在編集中のエレメントキー（TreeNodeのハッシュコード）
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
+        //以下、作業領域
+        public int mWorkLineNo;             //行番号割り振り時に利用する一時保持領域
+        public ClsDatElem mWorkElem;        //検索時に利用するエレメント一時保持領域
+        public ClsDatOption mWorkOption;    //検索時に利用するオプション一時保持領域
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -120,9 +125,76 @@ namespace PrjHikariwoAnim
             this.mElemSelectKey = inHashCode;
         }
 
+        /// <summary>
+        /// エレメント追加処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
         public void AddElements(ClsDatElem clElem)
         {
             this.mListElem.Add(clElem);
+        }
+
+        /// <summary>
+        /// 行番号割り振り処理
+        /// </summary>
+        public void AssignmentLineNo()
+        {
+            this.mWorkLineNo = 0;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.AssignmentLineNo(this);
+            }
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>エレメント</returns>
+        public ClsDatElem FindElemFromLineNo(int inLineNo)
+        {
+            this.mWorkElem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindElemFromLineNo(this, inLineNo);
+
+                if (this.mWorkElem != null)
+                {
+                    return (this.mWorkElem);
+                }
+            }
+
+            return (this.mWorkElem);
+        }
+
+        /// <summary>
+        /// 行番号からオプションを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>オプション</returns>
+        public ClsDatOption FindOptionFromLineNo(int inLineNo)
+        {
+            this.mWorkOption = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindOptionFromLineNo(this, inLineNo);
+
+                if (this.mWorkElem != null)
+                {
+                    return (this.mWorkOption);
+                }
+            }
+
+            return (this.mWorkOption);
         }
     }
 }

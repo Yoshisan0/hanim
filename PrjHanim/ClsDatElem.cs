@@ -118,5 +118,81 @@ namespace PrjHikariwoAnim
                 clOption.SetFrameNum(inFrameNum);
             }
         }
+
+        /// <summary>
+        /// 行番号割り振り処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        public void AssignmentLineNo(ClsDatMotion clMotion)
+        {
+            this.mLineNo = clMotion.mWorkLineNo;
+            clMotion.mWorkLineNo++;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.AssignmentLineNo(clMotion);
+            }
+
+            if (this.isOpen)
+            {
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.AssignmentLineNo(clMotion);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを取得する処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <param name="inLineNo">行番号</param>
+        public void FindElemFromLineNo(ClsDatMotion clMotion, int inLineNo)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (clElem.mLineNo == inLineNo)
+                {
+                    clMotion.mWorkElem = this;
+                    return;
+                }
+
+                clElem.FindElemFromLineNo(clMotion, inLineNo);
+            }
+        }
+
+        /// <summary>
+        /// 行番号からオプションを取得する処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <param name="inLineNo">行番号</param>
+        public void FindOptionFromLineNo(ClsDatMotion clMotion, int inLineNo)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (clElem.mLineNo == inLineNo) return;  //Optionを検索したかったのだが、該当のItemがElementだった
+                clElem.FindOptionFromLineNo(clMotion, inLineNo);
+            }
+
+            if (this.isOpen)
+            {
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    if (clOption.mLineNo == inLineNo)
+                    {
+                        clMotion.mWorkOption = clOption;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

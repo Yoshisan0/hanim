@@ -644,6 +644,9 @@ namespace PrjHikariwoAnim
 
             //Control更新
             this.mFormControl.Refresh();
+
+            //以下、行番号更新処理
+            clMotion.AssignmentLineNo();
         }
 
         private void treeView_Project_RemoveElements(string name)
@@ -666,6 +669,7 @@ namespace PrjHikariwoAnim
 
             return (clMotion);
         }
+
         /*
         private int treeView_Project_AddMotion(ClsDatMotion m)
         {
@@ -746,9 +750,8 @@ namespace PrjHikariwoAnim
                                       
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
-
-
         }
+
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる
         /// </summary>
@@ -1038,6 +1041,7 @@ namespace PrjHikariwoAnim
         {
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
             Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
+
             //PNGファイル直受け入れ
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -1053,11 +1057,13 @@ namespace PrjHikariwoAnim
                         c.FromPngFile(str);
                         ImageMan.AddImageChip(c);
                         this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
+
                         //ImageListへ登録と更新
-                        mFormImageList.AddItem(str);
-                        mFormImageList.Refresh();
+                        this.mFormImageList.AddItem(str);
+                        this.mFormImageList.Refresh();
+
                         //CellListの表示更新
-                        mFormCell.Refresh();
+                        this.mFormCell.Refresh();
                     }
                 }
                 e.Effect = DragDropEffects.Copy;
