@@ -85,16 +85,13 @@ namespace PrjHikariwoAnim
             this.panel_Time.Height =HEAD_HEIGHT*5;          
         }
 
-        public void SetName(string clName)
+        /// <summary>
+        /// ウィンドウ名設定
+        /// </summary>
+        /// <param name="clMotion">選択中のモーション管理クラス</param>
+        public void SetName(ClsDatMotion clMotion)
         {
-            if (string.IsNullOrEmpty(clName))
-            {
-                this.Text = "Control";
-            }
-            else
-            {
-                this.Text = "Control (" + clName + ")";
-            }
+            this.Text = ClsSystem.GetWindowName("Control", clMotion);
         }
 
         public int GetElementSelectKey()

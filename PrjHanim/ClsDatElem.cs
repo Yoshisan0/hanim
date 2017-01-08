@@ -100,6 +100,15 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// エレメント名設定処理
+        /// </summary>
+        /// <param name="clName">エレメント名</param>
+        public void SetName(string clName)
+        {
+            this.mName = clName;
+        }
+
+        /// <summary>
         /// フレーム数変更処理
         /// </summary>
         /// <param name="inFrameNum">フレーム数</param>

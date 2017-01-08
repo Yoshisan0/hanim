@@ -125,6 +125,37 @@ namespace PrjHikariwoAnim
             return img;
         }
 
+        /// <summary>
+        /// ウィンドウ名取得処理
+        /// </summary>
+        /// <param name="clWindowName">ウィンドウ名</param>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <returns>ウィンドウ名</returns>
+        public static string GetWindowName(string clWindowName, ClsDatMotion clMotion)
+        {
+            string clName = "";
+            if (clMotion != null)
+            {
+                string clNameMotion = clMotion.mName;
+
+                string clNameElem = "";
+                ClsDatElem clElem = clMotion.GetSelectElem();
+                if (clElem != null) clNameElem = clElem.mName;
+
+                if (string.IsNullOrEmpty(clNameElem))
+                {
+                    clName = " (" + clNameMotion + ")";
+                }
+                else
+                {
+                    clName = " (" + clNameMotion + "," + clNameElem + ")";
+                }
+            }
+
+            string clResultName = clWindowName + clName;
+            return (clResultName);
+        }
+
         public static string DictionaryToJson(Dictionary<string, object> clDic)
         {
             string clJsonData = "";

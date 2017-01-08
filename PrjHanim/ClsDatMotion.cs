@@ -9,7 +9,7 @@ namespace PrjHikariwoAnim
     {
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
-        public int mElemSelectKey;          //現在編集中のエレメントキー（TreeNodeのハッシュコード）
+        private int mElemSelectKey;         //現在編集中のエレメントキー（TreeNodeのハッシュコード）
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -120,9 +120,29 @@ namespace PrjHikariwoAnim
         /// エレメント選択処理
         /// </summary>
         /// <param name="inHashCode">TreeNodeのHashCode</param>
-        public void SelectElem(int inHashCode)
+        public void SetSelectElem(int inHashCode)
         {
             this.mElemSelectKey = inHashCode;
+        }
+
+        /// <summary>
+        /// 選択中のエレメント取得処理
+        /// </summary>
+        /// <returns>選択中のエレメント管理クラス</returns>
+        public ClsDatElem GetSelectElem()
+        {
+            if (this.mElemSelectKey < 0) return (null);
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (clElem.mID != this.mElemSelectKey) continue;
+
+                return (clElem);
+            }
+
+            return (null);
         }
 
         /// <summary>

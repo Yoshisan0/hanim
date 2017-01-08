@@ -33,16 +33,13 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
         }
 
-        public void SetName(string clName)
+        /// <summary>
+        /// ウィンドウ名設定
+        /// </summary>
+        /// <param name="clMotion">選択中のモーション管理クラス</param>
+        public void SetName(ClsDatMotion clMotion)
         {
-            if (string.IsNullOrEmpty(clName))
-            {
-                this.Text = "Attribute";
-            }
-            else
-            {
-                this.Text = "Attribute (" + clName + ")";
-            }
+            this.Text = ClsSystem.GetWindowName("Attribute", clMotion);
         }
 
         /// <summary>
