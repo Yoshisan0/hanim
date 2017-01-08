@@ -95,7 +95,7 @@ namespace PrjHikariwoAnim
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
-        public void AssignmentLineNo(ClsDatMotion clMotion)
+        public void Assignment(ClsDatMotion clMotion)
         {
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;

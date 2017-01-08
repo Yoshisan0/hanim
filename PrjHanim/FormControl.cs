@@ -270,7 +270,7 @@ namespace PrjHikariwoAnim
                 if (e.X > 32 && e.X < 48) {
                     ele.isOpen = !ele.isOpen;
 
-                    this.mMotion.AssignmentLineNo();    //行番号割り振り処理
+                    this.mMotion.Assignment();    //行番号とタブを割り振る処理
                 }
 
                 //SelectElements

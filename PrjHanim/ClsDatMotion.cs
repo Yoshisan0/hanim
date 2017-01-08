@@ -137,15 +137,17 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 行番号割り振り処理
         /// </summary>
-        public void AssignmentLineNo()
+        public void Assignment()
         {
             this.mWorkLineNo = 0;
+            int inTab = 0;
 
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.AssignmentLineNo(this);
+                clElem.mTab = inTab;
+                clElem.Assignment(this, inTab + 1);
             }
         }
 

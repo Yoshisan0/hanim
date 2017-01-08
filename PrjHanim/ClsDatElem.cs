@@ -123,7 +123,8 @@ namespace PrjHikariwoAnim
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
-        public void AssignmentLineNo(ClsDatMotion clMotion)
+        /// <param name="inTab">タブ値</param>
+        public void Assignment(ClsDatMotion clMotion, int inTab)
         {
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
@@ -132,7 +133,8 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.AssignmentLineNo(clMotion);
+                clElem.mTab = inTab;    //タブ値設定
+                clElem.Assignment(clMotion, inTab + 1);
             }
 
             if (this.isOpen)
@@ -140,7 +142,8 @@ namespace PrjHikariwoAnim
                 foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
-                    clOption.AssignmentLineNo(clMotion);
+                    clOption.mTab = inTab;  //タブ値設定
+                    clOption.Assignment(clMotion);
                 }
             }
         }

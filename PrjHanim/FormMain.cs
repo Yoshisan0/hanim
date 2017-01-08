@@ -645,8 +645,8 @@ namespace PrjHikariwoAnim
             //Control更新
             this.mFormControl.Refresh();
 
-            //以下、行番号更新処理
-            clMotion.AssignmentLineNo();
+            //以下、行番号とタブを割り振る処理
+            clMotion.Assignment();
         }
 
         private void treeView_Project_RemoveElements(string name)
