@@ -12,8 +12,10 @@ namespace PrjHikariwoAnim
         public string mName;    //モーション名
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
-        public ClsDatMotion()
+        public ClsDatMotion(string clName)
         {
+            this.mName = clName;
+            this.mListElem = new List<ClsDatElem>();
         }
 
         public Dictionary<string, object> Export()
@@ -40,6 +42,49 @@ namespace PrjHikariwoAnim
             */
 
             return (null);
+        }
+
+        /// <summary>
+        /// モーション名設定処理
+        /// </summary>
+        /// <param name="clName">モーション名</param>
+        public void SetName(string clName)
+        {
+            this.mName = clName;
+        }
+
+        /// <summary>
+        /// モーションの全てを削除する処理
+        /// </summary>
+        public void RemoveAll()
+        {
+            //以下、エレメント全削除処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.RemoveAll();
+            }
+            this.mListElem.Clear();
+        }
+
+        /// <summary>
+        /// エレメント削除処理
+        /// </summary>
+        /// <param name="inElementKey">エレメントキー</param>
+        public void RemoveElem(int inElementKey)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                int inHashCode = clElem.GetHashCode();
+                if (inHashCode != inElementKey) continue;
+
+                clElem.RemoveAll();
+                this.mListElem.RemoveAt(inCnt);
+                break;
+            }
         }
     }
 }

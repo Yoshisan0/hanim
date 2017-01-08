@@ -11,7 +11,7 @@ namespace PrjHikariwoAnim
         //TweenのParamなので所在を明確にする為ここに移動しました amami 11/27
         //どのパラメータに対してかの指定
         //UserDataはStringやで
-        public enum EnmParam
+        public enum EnmParam    //オプションにもあるから、それ使った方が良いかも？ coment by yoshi 2017/01/08
         {
             NONE = 0,
 
@@ -58,6 +58,11 @@ namespace PrjHikariwoAnim
             {
                 this.mListVec[inCnt] = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
             }
+        }
+
+        public void RemoveAll()
+        {
+            this.mListVec = null;
         }
 
         /// <summary>

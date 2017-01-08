@@ -65,9 +65,6 @@ namespace PrjHikariwoAnim
         
         private ImageManagerBase ImageMan;
 
-        private int mEditMotionKey = -1;            //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
-        private Dictionary<int, Motion> mDicMotion; //モーションテーブル（キーはTreeNodeのハッシュコード 値はMotionクラス）
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -78,22 +75,6 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_PreView,new object[] { true });
-        }
-
-        public void AttributeUpdate()
-        {
-            //mFormAttributeのパラメータ変更時に呼び出される
-            //パラメータ取得処理
-            //エディット中アイテムにパラメータ再取得
-            if (this.mEditMotionKey >= 0)
-            {
-                ELEMENTS e = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
-                if (e != null)
-                {
-                    mFormAttribute.GetAllParam(ref e.Atr);
-                    panel_PreView.Refresh();
-                }
-            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -116,13 +97,11 @@ namespace PrjHikariwoAnim
             this.numericUpDown_Grid.Value = ClsSystem.mSetting.mWindowMain_WidthGrid;
 
             //以下、TreeNode作成処理
-            this.mEditMotionKey = -1;
-            this.mDicMotion = new Dictionary<int, Motion>();
             //初期モーションTreeの追加
             TreeNode clTreeNode = this.treeView_Project_AddMotion("Motion");
             int inHashCode = clTreeNode.GetHashCode();
-            Motion clMotion = this.mDicMotion[inHashCode] as Motion;
-            this.mDicMotion[inHashCode] = clMotion;
+            ClsDatMotion clMotion = new ClsDatMotion("Motion");
+            ClsSystem.mDicMotion[inHashCode] = clMotion;
 
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
@@ -159,22 +138,47 @@ namespace PrjHikariwoAnim
             //Test
             m2 = new Motion2("tekitou");
             m2.test();
-    }
+        }
+
+        public void SetName(string clName)
+        {
+            string clAppName = ClsSystem.GetAppFileName();
+            this.Text = clAppName + " (" + clName + ")";
+        }
+
+        public void AttributeUpdate()
+        {
+            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+            //mFormAttributeのパラメータ変更時に呼び出される
+            //パラメータ取得処理
+            //エディット中アイテムにパラメータ再取得
+            if (ClsSystem.mMotionSelectKey >= 0)
+            {
+                ELEMENTS e = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
+                if (e != null)
+                {
+                    mFormAttribute.GetAllParam(ref e.Atr);
+                    panel_PreView.Refresh();
+                }
+            }
+            */
+        }
+
         private void LoadProject_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".hap";
             if (ofd.ShowDialog()==DialogResult.OK)
             {
-                if (mDicMotion!=null)
+                if (ClsSystem.mDicMotion!=null)
                 {
-                    //this.mDicMotion[this.mEditMotionKey].LoadFromFile(ofd.FileName);
+                    //ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].LoadFromFile(ofd.FileName);
                     //StreamからMotion読込
                     //StreamReader sr = new StreamReader(ofd.FileName);
-                    Motion newMotion = new Motion("default");
-                    newMotion.LoadFromFile(ofd.FileName);
+                    ClsDatMotion newMotion = new ClsDatMotion("default");
+//                    newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
                     int hashkey = treeView_Project_AddMotion(newMotion);
-                    mDicMotion.Add(hashkey, newMotion);//keyと共にmDicMotionに登録
+                    ClsSystem.mDicMotion.Add(hashkey, newMotion);//keyと共にmDicMotionに登録
 
                     //TreeView登録
 
@@ -190,10 +194,13 @@ namespace PrjHikariwoAnim
             sfd.DefaultExt = ".hap";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (this.mEditMotionKey >= 0)
+                //*.hapには各モーションの情報を全て出力する感じに
+                /*
+                if (ClsSystem.mEditMotionKey >= 0)
                 {
-                    this.mDicMotion[this.mEditMotionKey].SaveToFile(sfd.FileName);
+                    ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].SaveToFile(sfd.FileName);
                 }
+                */
             }
             sfd.Dispose();
         }
@@ -262,24 +269,18 @@ namespace PrjHikariwoAnim
 
             if (e.KeyData == Keys.Delete)
             {
-                //Element Remove
-                int inKey = this.GetMotionSelectedKey();
-                if (inKey >= 0)
-                {
-                    int? inActiveIndex = this.mDicMotion[inKey].EditFrame.ActiveIndex;
-                    if (inActiveIndex != null)
-                    {
-                        this.mDicMotion[inKey].EditFrame.Remove((int)inActiveIndex);
-                        this.panel_PreView.Refresh();
-                        this.treeView_Project_Update();
-                    }
+//ここで確認ダイアログ表示
 
+                //Element Remove
+                int inMotionKey = this.GetMotionSelectedKey();
+                if (inMotionKey >= 0)
+                {
                     //以下、TreeNode削除処理
                     TreeNode clTreeNode = this.treeView_Project.TopNode;
                     while (clTreeNode != null)
                     {
                         int inKeyTmp = clTreeNode.GetHashCode();
-                        if (inKeyTmp== inKey)
+                        if (inKeyTmp == inMotionKey)
                         {
                             clTreeNode.Remove();
                             break;
@@ -289,25 +290,70 @@ namespace PrjHikariwoAnim
                     }
 
                     //以下、Motion削除処理
-                    if (this.mEditMotionKey == inKey)
+                    if (ClsSystem.mMotionSelectKey == inMotionKey)
+                    {
+                        //編集中のモーションが削除されたので、
+                        //コントロールウィンドウとメインウィンドウの情報をクリアする
+
+                        ClsSystem.mMotionSelectKey = -1;
+                    }
+
+                    //以下、Motionクラス削除処理
+                    bool isExist = ClsSystem.mDicMotion.ContainsKey(inMotionKey);
+                    if (isExist)
+                    {
+                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inMotionKey];
+                        clMotion.RemoveAll();
+                        ClsSystem.mDicMotion.Remove(inMotionKey);    //モーションクラス削除処理
+
+                        this.panel_PreView.Refresh();
+                        this.treeView_Project_Update();
+                    }
+
+                    /*
+                    int? inActiveIndex = ClsSystem.mDicMotion[inMotionKey].EditFrame.ActiveIndex;
+                    if (inActiveIndex != null)
+                    {
+                        ClsSystem.mDicMotion[inMotionKey].EditFrame.Remove((int)inActiveIndex);
+                        this.panel_PreView.Refresh();
+                        this.treeView_Project_Update();
+                    }
+
+                    //以下、TreeNode削除処理
+                    TreeNode clTreeNode = this.treeView_Project.TopNode;
+                    while (clTreeNode != null)
+                    {
+                        int inKeyTmp = clTreeNode.GetHashCode();
+                        if (inKeyTmp== inMotionKey)
+                        {
+                            clTreeNode.Remove();
+                            break;
+                        }
+
+                        clTreeNode = clTreeNode.NextNode;
+                    }
+
+                    //以下、Motion削除処理
+                    if (ClsSystem.mMotionSelectKey == inMotionKey)
                     {
 //編集中のモーションが削除されたので、
 //コントロールウィンドウとメインウィンドウの情報をクリアする
 
-                        this.mEditMotionKey = -1;
+                        ClsSystem.mMotionSelectKey = -1;
                     }
 
                     //以下、Motionクラス削除処理
-                    bool isExist = this.mDicMotion.ContainsKey(inKey);
+                    bool isExist = ClsSystem.mDicMotion.ContainsKey(inMotionKey);
                     if (isExist)
                     {
-                        Motion clMotion = this.mDicMotion[inKey];
+                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inMotionKey];
                         if (clMotion != null)
                         {
                             clMotion.Clear();   //全削除するときはこれで良いのだろうか？
                         }
-                        this.mDicMotion.Remove(inKey);    //モーションクラス削除処理
+                        ClsSystem.mDicMotion.Remove(inMotionKey);    //モーションクラス削除処理
                     }
+                    */
                 }
             }
         }
@@ -403,10 +449,15 @@ namespace PrjHikariwoAnim
             if (e.Node.ImageIndex == 4)
             {
                 //e.Label:新Text e.node.TExt:旧Text
-                if (this.mEditMotionKey >= 0)
+                int inHashCode = e.Node.GetHashCode();
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                if (clMotion != null)
                 {
-                    this.mDicMotion[this.mEditMotionKey].EditFrame.RenameElements(e.Node.Tag, e.Label);
-                    mFormControl.Refresh();
+                    clMotion.SetName(e.Label);
+
+                    //以下、各コントロールの設定
+                    this.mFormControl.SetMotion(clMotion);
+                    this.mFormControl.Refresh();
                 }
             }
             
@@ -463,12 +514,13 @@ namespace PrjHikariwoAnim
             //TreeNode tn = treeView_Project.Nodes["Motion"];
             //TreeViewて複数選択できないじゃーん！！！！
             //Add Editing AllElements
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                for (int cnt = 0; cnt < this.mDicMotion[this.mEditMotionKey].EditFrame.ElementsCount; cnt++)
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                for (int cnt = 0; cnt < clMotion.mListElem.Count; cnt++)
                 {
-                    ELEMENTS elm = this.mDicMotion[this.mEditMotionKey].EditFrame.GetElement(cnt);
-                    TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.Name];
+                    ClsDatElem elm = clMotion.mListElem[cnt];
+                    TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.mName];
                     if (tn == null) continue;
                     if (elm.isSelect)
                     {
@@ -491,6 +543,7 @@ namespace PrjHikariwoAnim
         /// <param name="y">クリック座標(Cliant)</param>
         private void treeView_Project_AddElements(ImageChip work, int x, int y)
         {
+            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
             //アイテムの登録
             ELEMENTS elem = new ELEMENTS();
             elem.Atr = new AttributeBase();
@@ -512,10 +565,11 @@ namespace PrjHikariwoAnim
             //Show - Attribute
             mFormAttribute.SetAllParam(elem.Atr);
 
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                this.mDicMotion[this.mEditMotionKey].EditFrame.AddElements(elem);//Elements登録
-                this.mDicMotion[this.mEditMotionKey].Store();//
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.AddElements(elem);//Elements登録
+                clMotion.Store();//
 
                 //TreeViewへの登録
                 //TreeViewの選択中Motionを取得
@@ -527,7 +581,7 @@ namespace PrjHikariwoAnim
                 while (clTreeNode != null)
                 {
                     int inHashCode = clTreeNode.GetHashCode();
-                    if (inHashCode == this.mEditMotionKey) break;
+                    if (inHashCode == ClsSystem.mMotionSelectKey) break;
 
                     clTreeNode = clTreeNode.NextNode;
                 }
@@ -543,6 +597,7 @@ namespace PrjHikariwoAnim
             }
             //Control更新
             mFormControl.Refresh();
+            */
 
         }
         private void treeView_Project_RemoveElements(string name)
@@ -556,26 +611,26 @@ namespace PrjHikariwoAnim
             TreeNode tn = treeView_Project.Nodes.Add(clMotionName);
             tn.ImageIndex = 2;
             tn.SelectedImageIndex = 2;
-            tn.Tag = this.mDicMotion.Count; //不要？
+            tn.Tag = ClsSystem.mDicMotion.Count; //不要？
 
             //以下、モーションクラス生成処理
-            Motion clMotion = new Motion(clMotionName);
+            ClsDatMotion clMotion = new ClsDatMotion(clMotionName);
             int inHashCode = tn.GetHashCode();
-            this.mDicMotion.Add(inHashCode, clMotion);
+            ClsSystem.mDicMotion.Add(inHashCode, clMotion);
 
             return (tn);
         }
-        private int treeView_Project_AddMotion(Motion m)
+        private int treeView_Project_AddMotion(ClsDatMotion m)
         {
             treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(m.Name);
+            TreeNode tn = treeView_Project.Nodes.Add(m.mName);
             tn.ImageIndex = 2;
             tn.SelectedImageIndex = 2;
-            tn.Tag = this.mDicMotion.Count; //不要？
+            tn.Tag = ClsSystem.mDicMotion.Count; //不要？
 
             //以下、モーションクラス生成処理
             int inHashCode = tn.GetHashCode();
-            this.mDicMotion.Add(inHashCode, m);
+            ClsSystem.mDicMotion.Add(inHashCode, m);
 
             return inHashCode;
         }
@@ -587,7 +642,7 @@ namespace PrjHikariwoAnim
                 if (clTreeNode.IsSelected)
                 {
                     int inHashCode = clTreeNode.GetHashCode();
-                    bool isExist = this.mDicMotion.ContainsKey(inHashCode);
+                    bool isExist = ClsSystem.mDicMotion.ContainsKey(inHashCode);
                     if (isExist)
                     {
                         return (inHashCode);
@@ -632,11 +687,13 @@ namespace PrjHikariwoAnim
                     //上記以外 -> 対象の子へ移動
                     //※対象がイメージタイプでは無い場合どうするか？
 
-                    if (this.mEditMotionKey >= 0)
+                    if (ClsSystem.mMotionSelectKey >= 0)
                     {
-                        if (this.mDicMotion[this.mEditMotionKey].EditFrame.Move(src.Name, dest.Name, true) == false) {
+                        /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                        if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.Move(src.Name, dest.Name, true) == false) {
                             Console.WriteLine("Elements move False");
                         }
+                        */
                     }
                                       
                 }else e.Effect = DragDropEffects.None;
@@ -722,22 +779,18 @@ namespace PrjHikariwoAnim
 //現在選択しているモーションをコントロールウィンドウとメインウィンドウに表示する
 
             //以下、モーションインデックス変更処理
-            this.mEditMotionKey = this.GetMotionSelectedKey();
+            ClsSystem.mMotionSelectKey = this.GetMotionSelectedKey();
 
             //以下、ウィンドウ名を修正する処理
             string clName = "";
-            if (this.mEditMotionKey >= 0) {
-                Motion clMotion = this.mDicMotion[this.mEditMotionKey] as Motion;
-                clName = clMotion.Name;
+            if (ClsSystem.mMotionSelectKey >= 0) {
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clName = clMotion.mName;
             }
 
-            if (!string.IsNullOrEmpty(clName)) {
-                clName = " (" + clName + ")";
-            }
-
-            this.Text = "Hanim" + clName;
-            this.mFormAttribute.Text = "Attribute" + clName;
-            this.mFormControl.Text = "Control" + clName;
+            this.SetName(clName);
+            this.mFormAttribute.SetName(clName);
+            this.mFormControl.SetName(clName);
         }
 
         private void button_MotionNew_Click(object sender, EventArgs e)
@@ -791,9 +844,9 @@ namespace PrjHikariwoAnim
             // 各種Itemの描画処理
             // DrawItems
             Matrix back = e.Graphics.Transform;
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                if (this.mDicMotion[this.mEditMotionKey].EditFrame != null)
+//              if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame != null)
                 {
                     PanelPreview_Paint_DrawParts(sender, e.Graphics);
                 }
@@ -824,11 +877,15 @@ namespace PrjHikariwoAnim
             int vcx = mScreenScroll.X + panel_PreView.Width / 2;//ViewCenter X
             int vcy = mScreenScroll.Y + panel_PreView.Height / 2;//ViewCenter Y
 
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                FRAME frm = this.mDicMotion[this.mEditMotionKey].EditFrame;
-                for (int cnt = 0; cnt < frm.ElementsCount; cnt++)
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                int inMax = clMotion.mListElem.Count;
+                for (int cnt = 0; cnt < inMax; cnt++)
                 {
+                    ClsDatElem e = clMotion.mListElem[cnt];
+
+                    /*
                     ELEMENTS e = frm.GetElement(cnt);
                     AttributeBase atr = e.Atr;
 
@@ -897,11 +954,11 @@ namespace PrjHikariwoAnim
 
                     //g.TranslateTransform(vcx, vcy);
                     //描画
-                    /*
-                    g.DrawImage(c.Img,
-                        -(atr.Width  * atr.Scale.X * zoom )/2,
-                        -(atr.Height * atr.Scale.Y * zoom )/2,
-                        vsx,vsy);*/
+
+                    //g.DrawImage(c.Img,
+                    //    -(atr.Width  * atr.Scale.X * zoom )/2,
+                    //    -(atr.Height * atr.Scale.Y * zoom )/2,
+                    //    vsx,vsy);
                     //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
                     //g.Transform = MatObj;
 
@@ -941,6 +998,7 @@ namespace PrjHikariwoAnim
                     g.Transform = Back;//restore Matrix
 
                     //Cuurent Draw Grip
+                    */
                 }
             }
         }
@@ -1033,17 +1091,22 @@ namespace PrjHikariwoAnim
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
 
             bool isHit = false;
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                if (this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex != null)
+                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex != null)
                 {
                     isHit = true;
                 }
+                */
             }
 
             if(isHit)
             {
-                ELEMENTS nowEle = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+
+                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
                 //アイテム選択中のホイール操作
                 if (mKeysSP == Keys.Shift)
                 {
@@ -1075,6 +1138,7 @@ namespace PrjHikariwoAnim
                 }
                 mFormAttribute.SetAllParam(nowEle.Atr);
                 panel_PreView.Refresh();
+                */
             }
             else
             {
@@ -1114,10 +1178,11 @@ namespace PrjHikariwoAnim
                 mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
 
                 //アイテム検索
-                if (this.mEditMotionKey >= 0)
+                if (ClsSystem.mMotionSelectKey >= 0)
                 {
-                    SetNowElementsIndex(this.mDicMotion[this.mEditMotionKey].EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
-                    ELEMENTS nowEle = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
+                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                    SetNowElementsIndex(ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
+                    ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
                     //Item選択中なら移動変形処理等の準備
                     if (nowEle != null)
                     {
@@ -1128,6 +1193,7 @@ namespace PrjHikariwoAnim
                     panel_PreView.Refresh();
                     treeView_Project.Refresh();
                     mFormControl.Refresh();
+                    */
                 }
             }
         }
@@ -1138,9 +1204,12 @@ namespace PrjHikariwoAnim
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
 
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mMotionSelectKey >= 0)
             {
-                ELEMENTS nowEle = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+
+                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
                 if (nowEle != null)
                 {
                     //移動処理
@@ -1188,9 +1257,10 @@ namespace PrjHikariwoAnim
                         panel_PreView.Refresh();
                     }
                 }
-
+                
                 StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
-                StatusLabel2.Text = $" [Select:{this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+                StatusLabel2.Text = $" [Select:{ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+                */
             }
         }
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -1201,9 +1271,9 @@ namespace PrjHikariwoAnim
             //部品選択中か確認
 
             //GetElement
-            if (this.mEditMotionKey < 0) return;
-            ELEMENTS nowEle = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
-            if (nowEle == null) return;
+            if (ClsSystem.mMotionSelectKey < 0) return;
+            ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+            if (clMotion == null) return;
 
             //カーソル
             if (e.KeyData == Keys.Shift)
@@ -1235,7 +1305,9 @@ namespace PrjHikariwoAnim
             if(e.KeyData==Keys.Delete)
             {
                 //Element Remove
-                this.mDicMotion[this.mEditMotionKey].EditFrame.Remove((int)this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex);
+                //以下、エレメントを削除する処理
+                //どうやって画像のインターフェイスからエレメントキーを取得するのが良いだろうか？
+                //clMotion.RemoveElem(inElementKey);
             }
         }
         /// <summary>
@@ -1244,27 +1316,29 @@ namespace PrjHikariwoAnim
         /// <param name="ElementsIndex"></param>
         public void SetNowElementsIndex(int? ElementsIndex)
         {
+            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
             //現在の選択と違う物であれば変更を行う
-            if (this.mEditMotionKey <= 0) return;
+            if (ClsSystem.mMotionSelectKey <= 0) return;
             if (ElementsIndex == null)
             {
-                this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex=null;//無選択に
+                ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex=null;//無選択に
                 return;
             }
-            int? idx = this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex;
+
+            int? idx = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex;
             if (idx != ElementsIndex)
             {
                 //現在の選択を解除
-                ELEMENTS elem = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
+                ELEMENTS elem = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
                 if (elem != null)
                 {
                     elem.isSelect = false;
                 }
 
                 //更新
-                this.mDicMotion[this.mEditMotionKey].EditFrame.ActiveIndex = ElementsIndex;
+                ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex = ElementsIndex;
                 //新規選択を有効
-                elem = this.mDicMotion[this.mEditMotionKey].EditFrame.GetActiveElements();
+                elem = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
                 elem.isSelect = true;
 
                 //各種リフレッシュ
@@ -1275,6 +1349,7 @@ namespace PrjHikariwoAnim
                 mFormAttribute.Refresh();
                 mFormControl.Refresh();
             }
+            */
         }
 
         private void BottonTest_Click(object sender, EventArgs e)
@@ -1354,19 +1429,21 @@ namespace PrjHikariwoAnim
                 clDicFile[clKey] = clCell.Export();
             }
 
+/*
             //以下、アニメ出力処理
-            if (this.mEditMotionKey >= 0)
+            if (ClsSystem.mEditMotionKey >= 0)
             {
-                inMax = this.mDicMotion[this.mEditMotionKey].gmTimeLine.Count;
+                inMax = ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].gmTimeLine.Count;
                 for (inCnt = 0; inCnt < inMax; inCnt++)
                 {
-                    FRAME clFrame = this.mDicMotion[this.mEditMotionKey].gmTimeLine[inCnt];
+                    FRAME clFrame = ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].gmTimeLine[inCnt];
                     clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメ＞＜）としたい
                 }
             }
+*/
 
             //以下、DictionaryをJson形式に変換する処理
-            string clJsonData = ClsSystem.DictionaryToString(clDicFile);
+            string clJsonData = ClsSystem.DictionaryToJson(clDicFile);
 
             //以下、ファイル出力処理
             string clPath = ClsPath.GetPath();

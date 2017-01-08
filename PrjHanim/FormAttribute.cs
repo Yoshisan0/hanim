@@ -33,6 +33,11 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
         }
 
+        public void SetName(string clName)
+        {
+            this.Text = "Attribute (" + clName + ")";
+        }
+
         /// <summary>
         /// フォームにパラメータをセットします
         /// </summary>

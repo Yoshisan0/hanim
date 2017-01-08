@@ -19,5 +19,15 @@ namespace PrjHikariwoAnim
         {
             return (null);
         }
+
+        public void RemoveAll()
+        {
+            //以下、トゥイーン全削除処理
+            if (this.mTween != null)
+            {
+                this.mTween.RemoveAll();
+                this.mTween = null;
+            }
+        }
     }
 }

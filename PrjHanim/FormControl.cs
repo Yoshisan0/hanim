@@ -48,7 +48,7 @@ namespace PrjHikariwoAnim
         private static readonly int TIME_CELL_HEIGHT = 18;
         private static readonly int TIME_CELL_WIDTH = 12;
 
-        private int mSelectElements;
+        private int mSelectElementKey;
         private Point mSelect_Pos_Start;
         private Point mSelect_Pos_End;
         private bool mMouseDownL=false;
@@ -57,26 +57,17 @@ namespace PrjHikariwoAnim
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
-        private Motion mMotion = null;
+        private ClsDatMotion mMotion = null;
         private FormMain mFormMain = null;
-        /// <summary>
-        /// モーションの設定や変更、再設定(描画更新も行う
-        /// </summary>
-        /// <param name="clMotion"></param>
-        public void SetMotion(Motion clMotion)
-        {
-            mMotion = clMotion;
-            //以下画面更新予定　タイミングによってはguiがまだ準備できていない場合もありうる？
-            //Formの準備ができているか確認してリフレッシュ
-            RefreshAll();
-        }
 
         private Font mFont = null;
 
         public FormControl(FormMain form)
         {
-            mFormMain = form;
+            this.mFormMain = form;
+
             InitializeComponent();
+
             //ダブルバッファ強制有効化
             panel_Time.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_Time,new object[] { true });
         }
@@ -87,9 +78,48 @@ namespace PrjHikariwoAnim
             this.Location = ClsSystem.mSetting.mWindowControl.mLocation;
             this.Size = ClsSystem.mSetting.mWindowControl.mSize;
 
+            //以下、初期化処理
+            this.mSelectElementKey = -1;
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
             this.panel_Time.Width = TIME_CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height =HEAD_HEIGHT*5;          
+        }
+
+        public void SetName(string clName)
+        {
+            this.Text = "Control (" + clName + ")";
+        }
+
+        public int GetElementSelectKey()
+        {
+            return (this.mSelectElementKey);
+        }
+
+        public void RemoveElementFromKey(int inElementKey)
+        {
+            if (this.mMotion == null) return;
+
+            this.mMotion.RemoveElem(inElementKey);
+
+            if (inElementKey == this.mSelectElementKey)
+            {
+                this.mSelectElementKey = -1;
+            }
+
+            RefreshAll();
+        }
+
+        /// <summary>
+        /// モーションの設定や変更、再設定(描画更新も行う
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        public void SetMotion(ClsDatMotion clMotion)
+        {
+            this.mMotion = clMotion;
+
+            //以下画面更新予定　タイミングによってはguiがまだ準備できていない場合もありうる？
+            //Formの準備ができているか確認してリフレッシュ
+            RefreshAll();
         }
 
         private void FormControl_DragEnter(object sender, DragEventArgs e)
@@ -207,20 +237,22 @@ namespace PrjHikariwoAnim
         }
         private void panel_Control_MouseClick(object sender, MouseEventArgs e)
         {
+            //※ e.Y がそのまま mListElem のインデックスになるわけではないので、ここは修正する必要があります
+
             //Item選択
             var work = e.Y / TIME_CELL_HEIGHT;
             //Item最大数を確認
-            if (work < mMotion.EditFrame.ElementsCount)
+            if (work < this.mMotion.mListElem.Count)
             {
-                ELEMENTS ele = mMotion.EditFrame.GetElement(work);
-                mSelectElements = work;
+                ClsDatElem ele = this.mMotion.mListElem[work];
+                mSelectElementKey = work;
 
                 //Click Eye
                 if (e.X < 16) { ele.isVisible = !ele.isVisible; }
                 //Click Locked
                 if (e.X > 16 && e.X < 32) { ele.isLocked = !ele.isLocked; }
                 //Attribute Open
-                if (e.X > 32 && e.X < 48) { ele.isOpenAtr = !ele.isOpenAtr; }
+                if (e.X > 32 && e.X < 48) { ele.isOpen = !ele.isOpen; }
                 //SelectElements
                 if (e.X > 48) { ele.isSelect = !ele.isSelect; }
 
@@ -249,15 +281,17 @@ namespace PrjHikariwoAnim
             //以下、イメージリスト描画処理
             e.Graphics.Clear(Color.Black);
 
+//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（行番号を割り振って？）描画するようにします
+//※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
+
             //以下、横ライン描画処理
             int inY = TIME_CELL_HEIGHT;
             //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
-            int inMax = mMotion.EditFrame.ElementsCount;
-
+            int inMax = this.mMotion.mListElem.Count;
             for (int inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ELEMENTS ele = mMotion.EditFrame.GetElement(inCnt);
+                ClsDatElem ele = this.mMotion.mListElem[inCnt];
                 SolidBrush sb= new SolidBrush(Color.Black);
                 if (ele == null) continue;
                 //背景塗り
@@ -291,7 +325,7 @@ namespace PrjHikariwoAnim
                     e.Graphics.DrawImage(Properties.Resources.unLock, 2+16, inCnt * TIME_CELL_HEIGHT);
                 }
                 //ステートマーク 属性開閉
-                if (ele.isOpenAtr)
+                if (ele.isOpen)
                 {
                     e.Graphics.DrawImage(Properties.Resources.minus, 2+32, inCnt * TIME_CELL_HEIGHT);
                 }
@@ -300,9 +334,9 @@ namespace PrjHikariwoAnim
                     e.Graphics.DrawImage(Properties.Resources.plus, 2+32, inCnt * TIME_CELL_HEIGHT);
                 }
                 //以下、名前描画処理
-                if (!string.IsNullOrEmpty(ele.Name))
+                if (!string.IsNullOrEmpty(ele.mName))
                 {
-                    e.Graphics.DrawString(ele.Name, mFont, Brushes.White, 2+48, inCnt * TIME_CELL_HEIGHT);
+                    e.Graphics.DrawString(ele.mName, mFont, Brushes.White, 2+48, inCnt * TIME_CELL_HEIGHT);
                 }
             }
 
@@ -325,12 +359,14 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_Start.X = cx;
                 mSelect_Pos_Start.Y = cy;
 
+                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
                 //既存フレームがあればMainPreviewに表示
                 if (!mMotion.ToFrame(cx))
                 {
                     //無ければ前後フレームから補完を行う
                     mMotion.Completion(cx);
                 }
+                */
                 mFormMain.Refresh();
             }          
         }
@@ -399,19 +435,21 @@ namespace PrjHikariwoAnim
             //全消去
             e.Graphics.Clear(Color.Black);
 
+//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（行番号を割り振って？）描画するようにします
+//※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
+
             //以下、横ライン描画処理
 
             //e.Graphics.DrawLine(Pens.Black, 0, CellHeight, inWidth - 1, CellHeight);
 
             if (mMotion == null) return;
-            inMax = mMotion.EditFrame.ElementsCount;//現在フレームのElements数
+            inMax = this.mMotion.mListElem.Count;   //Elements数
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Gray));
                 //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
                 //選択中Elementsの背景強調
-                ELEMENTS ele= mMotion.EditFrame.GetElement(inCnt);
-
+                ClsDatElem ele= this.mMotion.mListElem[inCnt];
                 if ((inCnt % 2) != 0)
                 {
                     e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
@@ -424,8 +462,8 @@ namespace PrjHikariwoAnim
                 }
             }
 
+            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
             //以下、縦ライン描画処理
-
             for (inCnt = 0; inCnt < inFrame; inCnt++)
             {
                 Pen pen = new Pen( Color.FromArgb(255,40,40,40));// Pens.DimGray;
@@ -442,7 +480,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawLine(pen, inCnt * CellWidth, 0, inCnt * CellWidth, inHeight);
 
                 //Draw FRAMEtype
-                FRAME frm = mMotion.GetFrame(inCnt);
+                FRAME frm = this.mMotion.GetFrame(inCnt);
                 if(frm!=null)
                 {
                     if(frm.Type == FRAME.TYPE.KeyFrame)
@@ -459,9 +497,10 @@ namespace PrjHikariwoAnim
                     if (frm.Type == FRAME.TYPE.Control)
                     { }
                 }
-                
+
             }
-            
+            */
+
 
             //DrawDragArea
             if (!mSelect_Pos_End.IsEmpty)
@@ -480,10 +519,13 @@ namespace PrjHikariwoAnim
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
 
-            FRAME newframe = mMotion.EditFrame.Clone();
+            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
+            FRAME newframe = this.mMotion.EditFrame.Clone();
             newframe.FrameNum = pos;
             newframe.Type = FRAME.TYPE.KeyFrame;
-            mMotion.AddFrame(newframe);
+            this.mMotion.AddFrame(newframe);
+            */
+
             //表示更新
             panel_Time.Refresh();
             mFormMain.Refresh();            
@@ -511,6 +553,7 @@ namespace PrjHikariwoAnim
         private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
         {
 //現在テスト中（ここから）
+            /*
             FRAME clFrame = this.mMotion.GetFrame(4);
             if (clFrame != null) return;    //存在チェックはこのような感じ
 
@@ -518,6 +561,7 @@ namespace PrjHikariwoAnim
             clFrame.FrameNum = 4;
             clFrame.Type = FRAME.TYPE.KeyFrame;
             this.mMotion.AddFrame(clFrame);
+            */
 //現在テスト中（ここまで）
         }
 

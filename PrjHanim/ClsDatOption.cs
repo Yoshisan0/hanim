@@ -37,5 +37,17 @@ namespace PrjHikariwoAnim
         {
             return (null);
         }
+
+        public void RemoveAll()
+        {
+            //以下、キーフレーム全削除処理
+            int inCnt, inMax = this.mListKeyFrame.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatKeyFrame clKeyFrame = this.mListKeyFrame[inCnt];
+                clKeyFrame.RemoveAll();
+            }
+            this.mListKeyFrame.Clear();
+        }
     }
 }

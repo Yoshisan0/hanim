@@ -12,11 +12,11 @@ namespace PrjHikariwoAnim
 {
     public class ClsSystem
     {
-        public static Hashtable mTblImage; //キーはstringのMD5 値はClsImage
+        public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
 
-        public static int mEditMotionKey = -1; //現在編集中のモーションインデックス（TreeNodeのハッシュコード）
-        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーはTreeNodeのHashCode 値はモーション管理クラス
+        public static int mMotionSelectKey;   //現在編集中のモーションキー（TreeNodeのハッシュコード）
+        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
 
         /// <summary>
         /// 初期化処理
@@ -52,6 +52,10 @@ namespace PrjHikariwoAnim
 
             //以下、イメージテーブル作成処理
             ClsSystem.mTblImage = new Hashtable();
+
+            //以下、データ初期化処理
+            ClsSystem.mMotionSelectKey = -1;
+            ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
         }
 
         /// <summary>
@@ -121,7 +125,7 @@ namespace PrjHikariwoAnim
             return img;
         }
 
-        public static string DictionaryToString(Dictionary<string, object> clDic)
+        public static string DictionaryToJson(Dictionary<string, object> clDic)
         {
             string clJsonData = "";
 
@@ -135,7 +139,7 @@ namespace PrjHikariwoAnim
                 if (clVal is Dictionary<string, object>)
                 {
                     clJsonData += "\"" + clKey + "\":";
-                    clJsonData += DictionaryToString(clVal as Dictionary<string, object>);
+                    clJsonData += ClsSystem.DictionaryToJson(clVal as Dictionary<string, object>);
                 }
                 else if (clVal is string)
                 {
