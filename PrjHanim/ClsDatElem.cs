@@ -35,6 +35,9 @@ namespace PrjHikariwoAnim
         public Dictionary<ClsDatOption.TYPE, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public ClsDatElem()
         {
             this.mName = this.GetHashCode().ToString("X8");//仮名
@@ -49,11 +52,42 @@ namespace PrjHikariwoAnim
             this.mAttInit = new AttributeBase();
         }
 
+        /// <summary>
+        /// エレメントIDを設定
+        /// </summary>
+        /// <param name="inID">TreeNodeのハッシュコード</param>
         public void SetID(int inID)
         {
             this.mID = inID;
         }
 
+        /// <summary>
+        /// エレメントの全てを削除する処理
+        /// </summary>
+        public void RemoveAll()
+        {
+            //以下、子供のエレメントリスト全削除処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.RemoveAll();
+            }
+            this.mListElem.Clear();
+
+            //以下、オプション全削除処理
+            foreach (ClsDatOption.TYPE enKey in this.mDicOption.Keys)
+            {
+                ClsDatOption clOption = this.mDicOption[enKey];
+                clOption.RemoveAll();
+            }
+            this.mDicOption.Clear();
+        }
+
+        /// <summary>
+        /// エクスポート
+        /// </summary>
+        /// <returns>出力情報</returns>
         public Dictionary<string, object> Export()
         {
             /*
@@ -83,25 +117,6 @@ namespace PrjHikariwoAnim
                 ClsDatOption clOption = this.mDicOption[enType];
                 clOption.SetFrameNum(inFrameNum);
             }
-        }
-
-        public void RemoveAll()
-        {
-            //以下、子供のエレメントリスト全削除処理
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++) {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RemoveAll();
-            }
-            this.mListElem.Clear();
-
-            //以下、オプション全削除処理
-            foreach (ClsDatOption.TYPE enKey in this.mDicOption.Keys)
-            {
-                ClsDatOption clOption = this.mDicOption[enKey];
-                clOption.RemoveAll();
-            }
-            this.mDicOption.Clear();
         }
     }
 }

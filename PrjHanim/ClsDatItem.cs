@@ -10,6 +10,9 @@ namespace PrjHikariwoAnim
         public int mLineNo; //コントロールウィンドウの行番号
         public int mTab;    //コントロールウィンドウの先頭タブの数
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public ClsDatItem()
         {
             this.mLineNo = -1;
