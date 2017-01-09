@@ -63,8 +63,6 @@ namespace PrjHikariwoAnim
 
         private Point PreViewCenter;//PanelPreView Centerセンターポジション
         
-        private ImageManagerBase ImageMan;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -104,8 +102,6 @@ namespace PrjHikariwoAnim
             PreViewCenter = new Point(0, 0);
             mScreenScroll = new Point(0, 0);
 
-            ImageMan = new ImageManagerBase();
-            
             this.mFormImageList = new FormImageList(this);
             this.mFormImageList.Show();
 
@@ -119,7 +115,7 @@ namespace PrjHikariwoAnim
             //Ver2
             mFormCell = new FormCell(this);
             //mFormCell.Owner = this;
-            mFormCell.ImageMan = ImageMan;
+            mFormCell.ImageMan = ClsSystem.ImageMan;
             mFormCell.Show();
 
             //背景の再描画をキャンセル(ちらつき抑制)
@@ -642,7 +638,6 @@ namespace PrjHikariwoAnim
         /// <param name="work"></param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        /*
         private void treeView_Project_AddElements(ImageChip work, int x, int y)
         {
             if (ClsSystem.mMotionSelectKey < 0) return;
@@ -677,6 +672,7 @@ namespace PrjHikariwoAnim
             clMotion.AddElements(elem);//Elements登録
             //clMotion.Store();//
 
+/*
             //TreeViewへの登録
             //TreeViewの選択中Motionを取得
             TreeNode clTreeNodeAdd = clTreeNode.Nodes.Add(elem.mName, elem.mName);
@@ -684,9 +680,7 @@ namespace PrjHikariwoAnim
             clTreeNode.Nodes[elem.mName].Tag = elem.GetHashCode();
             clTreeNode.Nodes[elem.mName].ImageIndex = 4;
             clTreeNode.Nodes[elem.mName].SelectedImageIndex = 3;
-
-            int inID = clTreeNodeAdd.GetHashCode();
-            elem.SetID(inID);
+*/
 
             //Control更新
             this.mFormControl.Refresh();
@@ -694,7 +688,6 @@ namespace PrjHikariwoAnim
             //以下、行番号とタブを割り振る処理
             clMotion.Assignment();
         }
-        */
 
         /*
         private void treeView_Project_RemoveElements(string name)
@@ -718,23 +711,6 @@ namespace PrjHikariwoAnim
 
             return (clMotion);
         }
-
-        /*
-        private int treeView_Project_AddMotion(ClsDatMotion m)
-        {
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(m.mName);
-            tn.ImageIndex = 2;
-            tn.SelectedImageIndex = 2;
-            tn.Tag = ClsSystem.mDicMotion.Count; //不要？
-
-            //以下、モーションクラス生成処理
-            int inHashCode = tn.GetHashCode();
-            ClsSystem.mDicMotion.Add(inHashCode, m);
-
-            return inHashCode;
-        }
-        */
 
         private int GetMotionSelectedKey()
         {
@@ -960,126 +936,7 @@ namespace PrjHikariwoAnim
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                int inMax = clMotion.mListElem.Count;
-                for (int cnt = 0; cnt < inMax; cnt++)
-                {
-                    ClsDatElem e = clMotion.mListElem[cnt];
-
-                    /*
-                    ELEMENTS e = frm.GetElement(cnt);
-                    AttributeBase atr = e.Atr;
-
-                    Matrix Back = g.Transform;
-                    Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
-
-                    //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
-
-                    //スケールにあわせた部品の大きさを算出
-                    float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
-                    float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
-
-                    //パーツの中心点
-                    float pcx = atr.Position.X + atr.Offset.X;
-                    float pcy = atr.Position.X + atr.Offset.X;
-                    Color Col = Color.FromArgb(atr.Color);
-
-                    //カラーマトリックス作成
-                    System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
-                    if (atr.isColor)
-                    {
-                        colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
-                        colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
-                        colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
-                    }
-                    else
-                    {
-                        colmat.Matrix00 = 1;//Red
-                        colmat.Matrix11 = 1;//Green
-                        colmat.Matrix22 = 1;//Blue
-                    }
-                    if (atr.isTransparrency)
-                    {
-                        colmat.Matrix33 = (atr.Transparency / 100f);
-                    }
-                    else
-                    {
-                        colmat.Matrix33 = 1;
-                    }
-                    colmat.Matrix44 = 1;//w
-                    System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
-                    ia.SetColorMatrix(colmat);
-
-                    //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-                    ImageChip c = ImageMan.GetImageChipFromHash(e.ImageChipID);
-                    if (c == null) { Console.WriteLine("Image:null"); return; }
-
-                    //原点を部品中心に
-                    //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
-                    //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
-
-                    //中心に平行移動
-                    g.TranslateTransform(vcx + atr.Position.X + atr.Offset.X, vcy + atr.Position.Y + atr.Offset.Y);
-                    //回転角指定
-                    g.RotateTransform(atr.Radius.Z);
-
-                    //スケーリング調
-                    g.ScaleTransform(atr.Scale.X, atr.Scale.X);
-                    //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
-
-                    //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
-                    //MatObj.Translate(0, 0);
-                    //MatObj.Scale(atr.Scale.X,atr.Scale.Y,MatrixOrder.Append);
-                    //MatObj.Rotate(atr.Radius.X,MatrixOrder.Append);
-                    //MatObj.Translate((vcx + atr.Position.X + (atr.Width / 2)) * atr.Scale.Y, (vcy + atr.Position.Y + (atr.Height / 2)) * atr.Scale.Y,MatrixOrder.Append);
-
-                    //g.TranslateTransform(vcx, vcy);
-                    //描画
-
-                    //g.DrawImage(c.Img,
-                    //    -(atr.Width  * atr.Scale.X * zoom )/2,
-                    //    -(atr.Height * atr.Scale.Y * zoom )/2,
-                    //    vsx,vsy);
-                    //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
-                    //g.Transform = MatObj;
-
-                    //Draw
-                    if (atr.isTransparrency || atr.isColor)
-                    {
-                        g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
-                    }
-                    else
-                    {
-                        //透明化カラー補正なし
-                        g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
-                    }
-                    //Draw Helper
-                    if (checkBox_Helper.Checked)
-                    {
-                        //中心点やその他のサポート表示
-                        //CenterPosition
-                        g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
-
-                        //Selected DrawBounds
-                        if (e.isSelect)
-                        {
-                            g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
-                        }
-                        //test Hit範囲をボックス描画
-                        //ElementsType
-                        if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
-                        {
-                            g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
-                        }
-                        if (e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
-                        {
-                            g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
-                        }
-                    }
-                    g.Transform = Back;//restore Matrix
-
-                    //Cuurent Draw Grip
-                    */
-                }
+                clMotion.DrawElem(g, vcx, vcy);
             }
         }
         /// <summary>
@@ -1105,8 +962,8 @@ namespace PrjHikariwoAnim
                     {
                         ImageChip c = new ImageChip();
                         c.FromPngFile(str);
-                        ImageMan.AddImageChip(c);
-                        //this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
+                        ClsSystem.ImageMan.AddImageChip(c);
+                        this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
 
                         //ImageListへ登録と更新
                         this.mFormImageList.AddItem(str);
@@ -1132,9 +989,9 @@ namespace PrjHikariwoAnim
                 //必要なのはmFormImagelist.mListImageの中身っぽい？
                 
                 work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
-                ImageMan.AddImageChip(work);//画像サイズ登録実画像はいずこ！
+                ClsSystem.ImageMan.AddImageChip(work);//画像サイズ登録実画像はいずこ！
 
-                //treeView_Project_AddElements(work, sPos.X, sPos.Y);
+                treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
@@ -1143,11 +1000,11 @@ namespace PrjHikariwoAnim
             {
                 //Store Cell Item
                 ImageChip work = (ImageChip)e.Data.GetData(typeof(ImageChip));
-                ImageMan.AddImageChip(work);//画像登録
+                ClsSystem.ImageMan.AddImageChip(work);//画像登録
 
                 //PreViewに配置し更新
-                //Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                //treeView_Project_AddElements(work, a.X, a.Y);
+                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                treeView_Project_AddElements(work, a.X, a.Y);
 
                 e.Effect = DragDropEffects.Copy;
             }
@@ -1175,19 +1032,8 @@ namespace PrjHikariwoAnim
         {
             mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
 
-            bool isHit = false;
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
-            {
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex != null)
-                {
-                    isHit = true;
-                }
-                */
-            }
-
-            if(isHit)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
 
@@ -1267,19 +1113,29 @@ namespace PrjHikariwoAnim
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
                 if (isExist)
                 {
-                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                    SetNowElementsIndex(ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
-                    ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
+                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                    /* こういう風にする？
+                    ClsDatElem clElem = clMotion.FindElemFromPosition((int)stPosX, (int)stPosY);
+                    if(clElem!= null)
+                    {
+                    }
+                    */
+
+                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2016/01/09
+                    this.SetNowElementsIndex(clMotion.EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
+                    ELEMENTS nowEle = clMotion.EditFrame.GetActiveElements();
+
                     //Item選択中なら移動変形処理等の準備
                     if (nowEle != null)
                     {
                         mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
                         mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
                     }
-                    mMouseLDown = true;
-                    panel_PreView.Refresh();
-                    treeView_Project.Refresh();
-                    mFormControl.Refresh();
+
+                    this.mMouseLDown = true;
+                    this.panel_PreView.Refresh();
+                    this.treeView_Project.Refresh();
+                    this.mFormControl.Refresh();
                     */
                 }
             }
@@ -1405,9 +1261,10 @@ namespace PrjHikariwoAnim
         /// <param name="ElementsIndex"></param>
         public void SetNowElementsIndex(int? ElementsIndex)
         {
-            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
             //現在の選択と違う物であれば変更を行う
             if (ClsSystem.mMotionSelectKey <= 0) return;
+
+/*
             if (ElementsIndex == null)
             {
                 ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex=null;//無選択に
@@ -1438,7 +1295,7 @@ namespace PrjHikariwoAnim
                 mFormAttribute.Refresh();
                 mFormControl.Refresh();
             }
-            */
+*/
         }
 
         private void BottonTest_Click(object sender, EventArgs e)
@@ -1455,7 +1312,7 @@ namespace PrjHikariwoAnim
         //test
         private void writeImageListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImageMan.SaveToFile("ImageTest");
+            ClsSystem.ImageMan.SaveToFile("ImageTest");
         }
 
         /// <summary>
@@ -1510,10 +1367,10 @@ namespace PrjHikariwoAnim
             clDicFile["hogehoge"] = 99;
 
             //以下、イメージ出力処理
-            int inCnt, inMax = this.ImageMan.ImageChipList.Count;
+            int inCnt, inMax = ClsSystem.ImageMan.ImageChipList.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ImageChip clCell = this.ImageMan.ImageChipList[inCnt];
+                ImageChip clCell = ClsSystem.ImageMan.ImageChipList[inCnt];
                 string clKey = clCell.ID.ToString();
                 clDicFile[clKey] = clCell.Export();
             }

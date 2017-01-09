@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -250,6 +251,53 @@ namespace PrjHikariwoAnim
             }
 
             return (this.mWorkOption);
+        }
+
+        /// <summary>
+        /// パーツの描画処理
+        /// </summary>
+        /// <param name="g">描画管理クラス</param>
+        /// <param name="inCX">中心Ｘ座標</param>
+        /// <param name="inCY">中心Ｙ座標</param>
+        public void DrawElem(Graphics g, int inCX, int inCY)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.DrawElem(g, inCX, inCY);
+            }
+        }
+
+        /// <summary>
+        /// モーションのコントロール描画処理
+        /// </summary>
+        /// <param name="g">描画管理クラス</param>
+        /// <param name="clFont">フォント管理クラス</param>
+        /// <param name="inWidth">描画先の幅</param>
+        /// <param name="inHeight">描画先の高さ</param>
+        public void DrawControl(Graphics g, Font clFont, int inWidth, int inHeight)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.DrawControl(g, clFont, inWidth, inHeight);
+            }
+        }
+
+        /// <summary>
+        /// モーションのタイムライン描画処理
+        /// </summary>
+        /// <param name="g">描画管理クラス</param>
+        public void DrawTime(Graphics g)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.DrawTime(g);
+            }
         }
     }
 }

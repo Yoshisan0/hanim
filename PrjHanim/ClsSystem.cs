@@ -18,6 +18,8 @@ namespace PrjHikariwoAnim
         public static int mMotionSelectKey;                     //現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
 
+        public static ImageManagerBase ImageMan;
+
         /// <summary>
         /// 初期化処理
         /// </summary>
@@ -51,6 +53,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、イメージテーブル作成処理
+            ClsSystem.ImageMan = new ImageManagerBase();
             ClsSystem.mTblImage = new Hashtable();
 
             //以下、データ初期化処理

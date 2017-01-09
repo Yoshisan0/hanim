@@ -44,9 +44,9 @@ namespace PrjHikariwoAnim
       */
     public partial class FormControl : Form
     {
-        private static readonly int HEAD_HEIGHT = 20;
-        private static readonly int TIME_CELL_HEIGHT = 18;
-        private static readonly int TIME_CELL_WIDTH = 12;
+        public static readonly int HEAD_HEIGHT = 20;
+        public static readonly int TIME_CELL_HEIGHT = 18;
+        public static readonly int TIME_CELL_WIDTH = 12;
 
         private int mSelectElementKey;
         private Point mSelect_Pos_Start;
@@ -290,6 +290,7 @@ namespace PrjHikariwoAnim
         {
 
         }
+
         private void panel_Control_Paint(object sender, PaintEventArgs e)
         {
             int inWidth = this.panel_Control.Width;
@@ -298,67 +299,13 @@ namespace PrjHikariwoAnim
             //以下、イメージリスト描画処理
             e.Graphics.Clear(Color.Black);
 
-//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（各クラスのmLineNoを見て）描画するようにします
-//※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
-
-            //以下、横ライン描画処理
-            int inY = TIME_CELL_HEIGHT;
-            //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
-
-            int inMax = this.mMotion.mListElem.Count;
-            for (int inCnt = 0; inCnt < inMax; inCnt++)
+            //以下、モーションのコントロール描画処理
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+            if (isExist)
             {
-                ClsDatElem ele = this.mMotion.mListElem[inCnt];
-                SolidBrush sb= new SolidBrush(Color.Black);
-                if (ele == null) continue;
-                //背景塗り
-                if(inCnt %2 !=0)
-                {
-                    sb = new SolidBrush(Color.FromArgb(0xff, 30, 30, 40));
-                    e.Graphics.FillRectangle(sb, 0, inCnt * TIME_CELL_HEIGHT, panel_Control.Width, TIME_CELL_HEIGHT - 1);
-                }
-                if (ele.isSelect)
-                {
-                    //選択中Elementsの背景強調
-                    sb = new SolidBrush(Color.FromArgb(128,Color.Green));
-                    e.Graphics.FillRectangle(sb, 0, inCnt * TIME_CELL_HEIGHT, panel_Control.Width, TIME_CELL_HEIGHT - 1);
-                }
-                //ステートマーク 目
-                if (ele.isVisible)
-                {
-                    e.Graphics.DrawImage(Properties.Resources.see, 2, inCnt * TIME_CELL_HEIGHT);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(Properties.Resources.unSee, 2, inCnt * TIME_CELL_HEIGHT);
-                }
-                //ステートマーク 鍵
-                if (ele.isLocked)
-                {
-                    e.Graphics.DrawImage(Properties.Resources.locked, 2+16, inCnt * TIME_CELL_HEIGHT);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(Properties.Resources.unLock, 2+16, inCnt * TIME_CELL_HEIGHT);
-                }
-                //ステートマーク 属性開閉
-                if (ele.isOpen)
-                {
-                    e.Graphics.DrawImage(Properties.Resources.minus, 2+32, inCnt * TIME_CELL_HEIGHT);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(Properties.Resources.plus, 2+32, inCnt * TIME_CELL_HEIGHT);
-                }
-                //以下、名前描画処理
-                if (!string.IsNullOrEmpty(ele.mName))
-                {
-                    e.Graphics.DrawString(ele.mName, mFont, Brushes.White, 2+48, inCnt * TIME_CELL_HEIGHT);
-                }
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.DrawControl(e.Graphics, this.mFont, this.panel_Control.Width, this.panel_Control.Height);
             }
-
-            //e.Graphics.FillRectangle(Brushes.Lime, new Rectangle(0, 0, 500, 500));
-
         }
 
         //Right Paine

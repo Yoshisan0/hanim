@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -7,7 +8,8 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatOption : ClsDatItem
     {
-        public enum TYPE {
+        public enum TYPE
+        {
             NONE,
             POSITION_X,
             POSITION_Y,
@@ -101,6 +103,24 @@ namespace PrjHikariwoAnim
         {
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
+        }
+
+        /// <summary>
+        /// エレメントのコントロール描画処理
+        /// </summary>
+        /// <param name="g">描画管理クラス</param>
+        public void DrawControl(Graphics g)
+        {
+//オプションコントロール表示処理
+        }
+
+        /// <summary>
+        /// エレメントのタイムライン描画処理
+        /// </summary>
+        /// <param name="g">描画管理クラス</param>
+        public void DrawTime(Graphics g)
+        {
+//オプションタイムライン表示処理
         }
     }
 }
