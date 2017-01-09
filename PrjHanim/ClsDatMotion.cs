@@ -9,7 +9,7 @@ namespace PrjHikariwoAnim
     {
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
-        private int mElemSelectKey;         //現在編集中のエレメントキー（TreeNodeのハッシュコード）
+        private int mElemSelectIndex;       //現在編集中のエレメントリストのインデックス
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -26,12 +26,13 @@ namespace PrjHikariwoAnim
         {
             this.mID = inID;
             this.mName = clName;
-            this.mElemSelectKey = -1;
+            this.mElemSelectIndex = -1;
             this.mListElem = new List<ClsDatElem>();
         }
 
         /// <summary>
         /// モーションの全てを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         public void RemoveAll()
         {
@@ -46,20 +47,57 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// エレメント削除処理
+        /// インデックスからエレメントを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
-        /// <param name="inElementKey">エレメントキー</param>
-        public void RemoveElem(int inElementKey)
+        /// <param name="inIndex">インデックス</param>
+        public void RemoveElemFromIndex(int inIndex)
         {
+            if (inIndex < 0) return;
+            if (inIndex >= this.mListElem.Count) return;
+
+            ClsDatElem clElem = this.mListElem[inIndex];
+            clElem.RemoveAll();
+            this.mListElem.RemoveAt(inIndex);
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        public void RemoveElemFromLineNo(int inLineNo)
+        {
+            if (inLineNo < 0) return;
+
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                if (inElementKey != clElem.mID) continue;
+                if (inLineNo == clElem.mLineNo)
+                {
+                    this.RemoveElemFromIndex(inCnt);
+                    return;
+                }
 
-                clElem.RemoveAll();
-                this.mListElem.RemoveAt(inCnt);
-                break;
+                clElem.RemoveElemFromLineNo(inLineNo);
+            }
+        }
+
+        /// <summary>
+        /// 行番号からオプションを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        public void RemoveOptionFromLineNo(int inLineNo)
+        {
+            if (inLineNo < 0) return;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.RemoveOptionFromLineNo(inLineNo);
             }
         }
 
@@ -122,7 +160,7 @@ namespace PrjHikariwoAnim
         /// <param name="inHashCode">TreeNodeのHashCode</param>
         public void SetSelectElem(int inHashCode)
         {
-            this.mElemSelectKey = inHashCode;
+            this.mElemSelectIndex = inHashCode;
         }
 
         /// <summary>
@@ -131,22 +169,17 @@ namespace PrjHikariwoAnim
         /// <returns>選択中のエレメント管理クラス</returns>
         public ClsDatElem GetSelectElem()
         {
-            if (this.mElemSelectKey < 0) return (null);
+            int inIndex = this.mElemSelectIndex;
+            if (inIndex < 0) return (null);
+            if (inIndex >= this.mListElem.Count) return (null);
 
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                if (clElem.mID != this.mElemSelectKey) continue;
-
-                return (clElem);
-            }
-
-            return (null);
+            ClsDatElem clElem = this.mListElem[inIndex];
+            return (clElem);
         }
 
         /// <summary>
         /// エレメント追加処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="clElem">エレメント</param>
         public void AddElements(ClsDatElem clElem)

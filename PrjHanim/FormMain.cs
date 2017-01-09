@@ -642,6 +642,7 @@ namespace PrjHikariwoAnim
         /// <param name="work"></param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
+        /*
         private void treeView_Project_AddElements(ImageChip work, int x, int y)
         {
             if (ClsSystem.mMotionSelectKey < 0) return;
@@ -693,11 +694,14 @@ namespace PrjHikariwoAnim
             //以下、行番号とタブを割り振る処理
             clMotion.Assignment();
         }
+        */
 
+        /*
         private void treeView_Project_RemoveElements(string name)
         {
             //Elements選択中のDelキー
         }
+        */
 
         private ClsDatMotion treeView_Project_AddMotion(string clMotionName)
         {
@@ -1102,7 +1106,7 @@ namespace PrjHikariwoAnim
                         ImageChip c = new ImageChip();
                         c.FromPngFile(str);
                         ImageMan.AddImageChip(c);
-                        this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
+                        //this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
 
                         //ImageListへ登録と更新
                         this.mFormImageList.AddItem(str);
@@ -1130,7 +1134,7 @@ namespace PrjHikariwoAnim
                 work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
                 ImageMan.AddImageChip(work);//画像サイズ登録実画像はいずこ！
 
-                treeView_Project_AddElements(work, sPos.X, sPos.Y);
+                //treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
@@ -1140,9 +1144,11 @@ namespace PrjHikariwoAnim
                 //Store Cell Item
                 ImageChip work = (ImageChip)e.Data.GetData(typeof(ImageChip));
                 ImageMan.AddImageChip(work);//画像登録
+
                 //PreViewに配置し更新
-                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                treeView_Project_AddElements(work, a.X, a.Y);
+                //Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                //treeView_Project_AddElements(work, a.X, a.Y);
+
                 e.Effect = DragDropEffects.Copy;
             }
             if (e.Data.GetType() == typeof(ELEMENTS))

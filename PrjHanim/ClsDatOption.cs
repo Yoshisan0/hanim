@@ -32,10 +32,12 @@ namespace PrjHikariwoAnim
         /// </summary>
         public ClsDatOption()
         {
+            this.mListKeyFrame = new List<ClsDatKeyFrame>();
         }
 
         /// <summary>
         /// オプションの全てを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         public void RemoveAll()
         {

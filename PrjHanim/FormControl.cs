@@ -103,7 +103,7 @@ namespace PrjHikariwoAnim
         {
             if (this.mMotion == null) return;
 
-            this.mMotion.RemoveElem(inElementKey);
+            this.mMotion.RemoveElemFromIndex(inElementKey);
 
             if (inElementKey == this.mSelectElementKey)
             {
