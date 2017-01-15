@@ -433,6 +433,16 @@ namespace PrjHikariwoAnim.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap repeat {
+            get {
+                object obj = ResourceManager.GetObject("repeat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap right {
             get {
                 object obj = ResourceManager.GetObject("right", resourceCulture);

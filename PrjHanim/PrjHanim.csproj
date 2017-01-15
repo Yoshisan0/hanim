@@ -243,6 +243,7 @@
     <None Include="glyph\markGreen.PNG" />
     <None Include="glyph\markRed.PNG" />
     <None Include="glyph\markYellow.PNG" />
+    <None Include="glyph\repeat.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
