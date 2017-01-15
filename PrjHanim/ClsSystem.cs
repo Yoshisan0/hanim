@@ -140,19 +140,7 @@ namespace PrjHikariwoAnim
             if (clMotion != null)
             {
                 string clNameMotion = clMotion.mName;
-
-                string clNameElem = "";
-                ClsDatElem clElem = clMotion.GetSelectElem();
-                if (clElem != null) clNameElem = clElem.mName;
-
-                if (string.IsNullOrEmpty(clNameElem))
-                {
-                    clName = " (" + clNameMotion + ")";
-                }
-                else
-                {
-                    clName = " (" + clNameMotion + "," + clNameElem + ")";
-                }
+                clName = " (" + clNameMotion + ")";
             }
 
             string clResultName = clWindowName + clName;

@@ -458,30 +458,6 @@ namespace PrjHikariwoAnim
                 this.mFormControl.SetName(clMotion);
                 this.mFormAttribute.SetName(clMotion);
             }
-
-            //ReName ElementsName
-            if (e.Node.ImageIndex == 4)
-            {
-                //e.Label:新Text e.node.TExt:旧Text
-
-                TreeNode clTreeNode = this.FindTopNodeFromChildNode(e.Node);
-                int inHashCode = clTreeNode.GetHashCode();
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
-                if (clMotion != null)
-                {
-                    ClsDatElem clElem = clMotion.GetSelectElem();
-                    if (clElem != null)
-                    {
-                        clElem.SetName(e.Label);
-                    }
-                }
-
-                //以下、各コントロールの設定
-                this.SetName(clMotion);
-                this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.SetName(clMotion);
-            }
-            
         }
 
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
@@ -516,27 +492,7 @@ namespace PrjHikariwoAnim
                 if (isExist)
                 {
                     ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    clMotion.SetSelectElem(-1);
-                }
-
-                isHit = true;
-            }
-
-            //Select Elements Node
-            if (e.Node.ImageIndex == 4)
-            {
-                TreeNode clNode = FindTopNodeFromChildNode(e.Node);
-                int inMotionKey = clNode.GetHashCode();
-
-                //以下、モーションインデックス変更処理
-                ClsSystem.mMotionSelectKey = inMotionKey;
-
-                bool isExist = ClsSystem.mDicMotion.ContainsKey(inMotionKey);
-                if (isExist)
-                {
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[inMotionKey];
-                    int inElemKey = e.Node.GetHashCode();
-                    clMotion.SetSelectElem(inElemKey);
+                    clMotion.SetSelectLineNo(-1);
                 }
 
                 isHit = true;
@@ -604,14 +560,7 @@ namespace PrjHikariwoAnim
                     ClsDatElem elm = clMotion.mListElem[cnt];
                     TreeNode tn = treeView_Project.Nodes["Motion"].Nodes[elm.mName];
                     if (tn == null) continue;
-                    if (elm.isSelect)
-                    {
-                        tn.ImageIndex = 3;//選択中
-                    }
-                    else
-                    {
-                        tn.ImageIndex = 4;//非選択
-                    }
+                    tn.ImageIndex = 4;  //非選択
                 }
             }
         }

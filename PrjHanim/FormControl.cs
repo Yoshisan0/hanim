@@ -247,7 +247,8 @@ namespace PrjHikariwoAnim
             if (work < this.mMotion.mListElem.Count)
             {
                 ClsDatElem clElem = this.mMotion.mListElem[work];
-                this.mMotion.mElemSelectIndex = work;
+
+                this.mMotion.SetSelectLineNo(clElem.mLineNo);
 
                 //Click Eye
                 if (e.X < 16) {
@@ -264,11 +265,6 @@ namespace PrjHikariwoAnim
                     clElem.isOpen = !clElem.isOpen;
 
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
-                }
-
-                //SelectElements
-                if (e.X > 48) {
-                    clElem.isSelect = !clElem.isSelect;
                 }
 
                 this.panel_Control.Refresh();
@@ -313,7 +309,7 @@ namespace PrjHikariwoAnim
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.mFrameSelectIndex = (int)numericUpDown_NowFlame.Value;
+                clMotion.mSelectFrame = (int)numericUpDown_NowFlame.Value;
                 clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }
         }
@@ -323,29 +319,33 @@ namespace PrjHikariwoAnim
         {
             //Flameクリック処理
             //フレーム検出
-            int cx = e.X / CELL_WIDTH;
-            int cy = e.Y / CELL_HEIGHT;
+            int cx = e.X / FormControl.CELL_WIDTH;
+            int cy = e.Y / FormControl.CELL_HEIGHT;
 
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
-            if (cx <= numericUpDown_MaxFrame.Value)
+            if (cx <= this.numericUpDown_MaxFrame.Value)
             {
-                numericUpDown_NowFlame.Value = cx;
-                mSelect_Pos_Start.X = cx;
-                mSelect_Pos_Start.Y = cy;
+                this.numericUpDown_NowFlame.Value = cx;
+                this.mSelect_Pos_Start.X = cx;
+                this.mSelect_Pos_Start.Y = cy;
 
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                //既存フレームがあればMainPreviewに表示
-                if (!mMotion.ToFrame(cx))
-                {
-                    //無ければ前後フレームから補完を行う
-                    mMotion.Completion(cx);
-                }
-                */
+                this.mFormMain.Refresh();
+            }
 
-                mFormMain.Refresh();
-            }          
+            //Item最大数を確認
+            if (cy < this.mMotion.mListElem.Count)
+            {
+                ClsDatElem clElem = this.mMotion.mListElem[cy];
+
+                this.mMotion.SetSelectLineNo(clElem.mLineNo);
+
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
         }
+
         private void panel_Time_MouseEnter(object sender, EventArgs e)
         {
 
@@ -375,8 +375,8 @@ namespace PrjHikariwoAnim
 
             //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
-            mSelect_Pos_Start.X = e.X / CELL_WIDTH;
-            mSelect_Pos_Start.Y = e.Y / CELL_HEIGHT;
+            mSelect_Pos_Start.X = e.X / FormControl.CELL_WIDTH;
+            mSelect_Pos_Start.Y = e.Y / FormControl.CELL_HEIGHT;
         }
 
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
@@ -385,8 +385,8 @@ namespace PrjHikariwoAnim
             {
                 //Flameクリック処理
                 //フレーム検出
-                int cx = e.X / CELL_WIDTH;
-                int cy = e.Y / CELL_HEIGHT;
+                int cx = e.X / FormControl.CELL_WIDTH;
+                int cy = e.Y / FormControl.CELL_HEIGHT;
 
                 //注:範囲指定時は考慮
                 //クリックフレームを現在のフレームに指定
@@ -408,7 +408,8 @@ namespace PrjHikariwoAnim
         private void panel_Time_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //タイムライン上ダブルクリックは KeyFrame作成
-            int pos = e.X / CELL_WIDTH;
+            int pos = e.X / FormControl.CELL_WIDTH;
+
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
 
