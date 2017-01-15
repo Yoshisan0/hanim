@@ -297,10 +297,11 @@ namespace PrjHikariwoAnim
                     //以下、テキストボックス生成処理
                     this.mTextBox = new TextBox();
                     this.mTextBox.Location = new System.Drawing.Point(52, inLineNo * FormControl.CELL_HEIGHT - 1);
+                    this.mTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
                     this.mTextBox.MaxLength = ClsDatElem.MAX_NAME;
                     this.mTextBox.Text = clElem.GetName();
                     this.mTextBox.Name = "textBox_Name";
-                    this.mTextBox.Size = new System.Drawing.Size(100, 19);
+                    this.mTextBox.Size = new System.Drawing.Size(80, 19);
                     this.mTextBox.Tag = inLineNo;
                     this.mTextBox.TabIndex = 0;
                     this.mTextBox.Leave += new System.EventHandler(this.textBox_Name_Leave);
@@ -581,12 +582,14 @@ namespace PrjHikariwoAnim
 
         private void button_ElemUp_Click(object sender, EventArgs e)
         {
-
+            //兄と弟の入れ替えとする
+            //子供が親になったり、親が子供になったりしない
         }
 
         private void button_ElemDown_Click(object sender, EventArgs e)
         {
-
+            //兄と弟の入れ替えとする
+            //子供が親になったり、親が子供になったりしない
         }
 
         private void button_ElemRemove_Click(object sender, EventArgs e)
