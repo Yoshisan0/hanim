@@ -60,6 +60,9 @@ namespace PrjHikariwoAnim
 
         private Font mFont = null;
 
+        //以下、作業領域
+        private TextBox mTextBox = null;
+
         public FormControl(FormMain form)
         {
             this.mFormMain = form;
@@ -241,27 +244,29 @@ namespace PrjHikariwoAnim
             //※ e.Y がそのまま mListElem のインデックスになるわけではないので、ここは修正する必要があります
 
             //Item選択
-            var work = e.Y / CELL_HEIGHT;
+            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
 
             //Item最大数を確認
-            if (work < this.mMotion.mListElem.Count)
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
             {
-                ClsDatElem clElem = this.mMotion.mListElem[work];
-
-                this.mMotion.SetSelectLineNo(clElem.mLineNo);
+                this.mMotion.SetSelectLineNo(inLineNo);
 
                 //Click Eye
-                if (e.X < 16) {
+                if (e.X < 16)
+                {
                     clElem.isVisible = !clElem.isVisible;
                 }
 
                 //Click Locked
-                if (e.X > 16 && e.X < 32) {
+                if (e.X > 16 && e.X < 32)
+                {
                     clElem.isLocked = !clElem.isLocked;
                 }
 
                 //Attribute Open
-                if (e.X > 32 && e.X < 48) {
+                if (e.X > 32 && e.X < 48)
+                {
                     clElem.isOpen = !clElem.isOpen;
 
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
@@ -272,6 +277,46 @@ namespace PrjHikariwoAnim
                 this.mFormMain.Refresh();
             }
         }
+
+        private void panel_Control_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //Item選択
+            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+
+            //Item最大数を確認
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
+            {
+                this.mMotion.SetSelectLineNo(inLineNo);
+
+                if (e.X > 48)
+                {
+                    //以下、テキストボックス削除処理
+                    this.RemoveTextBoxName();
+
+                    //以下、テキストボックス生成処理
+                    this.mTextBox = new TextBox();
+                    this.mTextBox.Location = new System.Drawing.Point(52, inLineNo * FormControl.CELL_HEIGHT - 1);
+                    this.mTextBox.MaxLength = ClsDatElem.MAX_NAME;
+                    this.mTextBox.Text = clElem.GetName();
+                    this.mTextBox.Name = "textBox_Name";
+                    this.mTextBox.Size = new System.Drawing.Size(100, 19);
+                    this.mTextBox.Tag = inLineNo;
+                    this.mTextBox.TabIndex = 0;
+                    this.mTextBox.Leave += new System.EventHandler(this.textBox_Name_Leave);
+                    this.mTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_Name_KeyDown);
+                    this.panel_Control.Controls.Add(this.mTextBox);
+
+                    this.mTextBox.Focus();
+                }
+
+                //以下、コントロール更新処理
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
+        }
+
         private void panel_Control_MouseEnter(object sender, EventArgs e)
         {
 
@@ -413,13 +458,6 @@ namespace PrjHikariwoAnim
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
 
-            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
-            FRAME newframe = this.mMotion.EditFrame.Clone();
-            newframe.FrameNum = pos;
-            newframe.Type = FRAME.TYPE.KeyFrame;
-            this.mMotion.AddFrame(newframe);
-            */
-
             //表示更新
             panel_Time.Refresh();
             mFormMain.Refresh();            
@@ -492,6 +530,53 @@ namespace PrjHikariwoAnim
         private void ToolStripMenuItem_Insert_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox_Name_Leave(object sender, EventArgs e)
+        {
+            //以下、テキストボックス削除処理
+            this.RemoveTextBoxName();
+        }
+
+        private void textBox_Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
+            {
+                //以下、テキストボックス削除処理
+                this.RemoveTextBoxName();
+            }
+        }
+
+        private void RemoveTextBoxName()
+        {
+            if (this.mTextBox == null) return;
+
+            //以下、名前設定処理
+            int inLineNo = (int)this.mTextBox.Tag;
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
+            {
+                string clName = this.mTextBox.Text;
+                if (!string.IsNullOrEmpty(clName))
+                {
+                    clElem.SetName(clName);
+                }
+            }
+
+            //以下、テキストボックス削除処理
+            this.panel_Control.Controls.Remove(this.mTextBox);
+            this.mTextBox = null;
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
+        }
+
+        private void panel_Control_MouseDown(object sender, MouseEventArgs e)
+        {
+            //以下、テキストボックス削除処理
+            this.RemoveTextBoxName();
         }
     }
 }

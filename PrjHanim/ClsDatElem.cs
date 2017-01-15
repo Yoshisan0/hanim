@@ -9,6 +9,8 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatElem : ClsDatItem
     {
+        public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
+
         // コントロール左側ペインに相当する部分
         public enum ELEMENTSTYPE {
             Image,
@@ -153,11 +155,20 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// エレメント名取得処理
+        /// </summary>
+        /// <returns>エレメント名</returns>
+        public string GetName()
+        {
+            return (this.mName);
+        }
+
+        /// <summary>
         /// ハッシュコードからエレメント管理クラスを検索する処理
         /// </summary>
         /// <param name="inHashCode">ハッシュコード</param>
         /// <returns>エレメント管理クラス</returns>
-        public ClsDatElem Search(int inHashCode)
+        public ClsDatElem GetElemFromHashCode(int inHashCode)
         {
             if (inHashCode < 0) return (null);
 
@@ -168,7 +179,27 @@ namespace PrjHikariwoAnim
                 int inHashCodeTmp = clElem.GetHashCode();
                 if (inHashCodeTmp == inHashCode) return (clElem);
 
-                clElem = clElem.Search(inHashCode);
+                clElem = clElem.GetElemFromHashCode(inHashCode);
+                if (clElem != null) return (clElem);
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// ライン番号からエレメント管理クラスを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">ライン番号</param>
+        /// <returns>エレメント管理クラス</returns>
+        public ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (inLineNo == clElem.mLineNo) return (clElem);
+
+                clElem = clElem.GetElemFromLineNo(inLineNo);
                 if (clElem != null) return (clElem);
             }
 

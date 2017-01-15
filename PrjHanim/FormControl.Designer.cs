@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormControl));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.panel_Control = new System.Windows.Forms.Panel();
             this.TreeHeader = new System.Windows.Forms.Panel();
             this.button_ItemRemove = new System.Windows.Forms.Button();
             this.button_ItemDown = new System.Windows.Forms.Button();
@@ -46,20 +45,21 @@
             this.ToolStripMenuItem_Copy = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_OverWrite = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Insert = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel_Time = new System.Windows.Forms.Panel();
             this.LineHeader = new System.Windows.Forms.Panel();
             this.再生ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MediaBase = new System.Windows.Forms.Panel();
-            this.button_Fore = new System.Windows.Forms.Button();
-            this.button_Play = new System.Windows.Forms.Button();
-            this.button_Prev = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.numericUpDown_NowFlame = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel_Control = new System.Windows.Forms.Panel();
+            this.panel_Time = new System.Windows.Forms.Panel();
+            this.button_Fore = new System.Windows.Forms.Button();
+            this.button_Play = new System.Windows.Forms.Button();
+            this.button_Prev = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -104,25 +104,6 @@
             this.splitContainer.Size = new System.Drawing.Size(684, 189);
             this.splitContainer.SplitterDistance = 145;
             this.splitContainer.TabIndex = 0;
-            // 
-            // panel_Control
-            // 
-            this.panel_Control.AllowDrop = true;
-            this.panel_Control.AutoScroll = true;
-            this.panel_Control.BackColor = System.Drawing.Color.Black;
-            this.panel_Control.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
-            this.panel_Control.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_Control.Location = new System.Drawing.Point(0, 20);
-            this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_Control.Name = "panel_Control";
-            this.panel_Control.Size = new System.Drawing.Size(143, 167);
-            this.panel_Control.TabIndex = 1;
-            this.panel_Control.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_Control_DragDrop);
-            this.panel_Control.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Control_Paint);
-            this.panel_Control.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseClick);
-            this.panel_Control.MouseEnter += new System.EventHandler(this.panel_Control_MouseEnter);
-            this.panel_Control.MouseLeave += new System.EventHandler(this.panel_Control_MouseLeave);
-            this.panel_Control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseMove);
             // 
             // TreeHeader
             // 
@@ -246,25 +227,6 @@
             this.ToolStripMenuItem_Insert.Text = "貼付挿入(B)";
             this.ToolStripMenuItem_Insert.Click += new System.EventHandler(this.ToolStripMenuItem_Insert_Click);
             // 
-            // panel_Time
-            // 
-            this.panel_Time.AutoScroll = true;
-            this.panel_Time.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
-            this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_Time.Location = new System.Drawing.Point(0, 20);
-            this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_Time.Name = "panel_Time";
-            this.panel_Time.Size = new System.Drawing.Size(533, 167);
-            this.panel_Time.TabIndex = 0;
-            this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
-            this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
-            this.panel_Time.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseDoubleClick);
-            this.panel_Time.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseDown);
-            this.panel_Time.MouseEnter += new System.EventHandler(this.panel_Time_MouseEnter);
-            this.panel_Time.MouseLeave += new System.EventHandler(this.panel_Time_MouseLeave);
-            this.panel_Time.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseMove);
-            this.panel_Time.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseUp);
-            // 
             // LineHeader
             // 
             this.LineHeader.BackColor = System.Drawing.Color.MidnightBlue;
@@ -302,48 +264,6 @@
             this.MediaBase.Name = "MediaBase";
             this.MediaBase.Size = new System.Drawing.Size(122, 27);
             this.MediaBase.TabIndex = 12;
-            // 
-            // button_Fore
-            // 
-            this.button_Fore.BackColor = System.Drawing.Color.DarkGray;
-            this.button_Fore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_Fore.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_Fore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Fore.Image = ((System.Drawing.Image)(resources.GetObject("button_Fore.Image")));
-            this.button_Fore.Location = new System.Drawing.Point(73, 0);
-            this.button_Fore.Margin = new System.Windows.Forms.Padding(0);
-            this.button_Fore.Name = "button_Fore";
-            this.button_Fore.Size = new System.Drawing.Size(36, 27);
-            this.button_Fore.TabIndex = 5;
-            this.button_Fore.UseVisualStyleBackColor = false;
-            this.button_Fore.Click += new System.EventHandler(this.ButtonFore_Click);
-            // 
-            // button_Play
-            // 
-            this.button_Play.BackColor = System.Drawing.Color.OliveDrab;
-            this.button_Play.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_Play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Play.Image = ((System.Drawing.Image)(resources.GetObject("button_Play.Image")));
-            this.button_Play.Location = new System.Drawing.Point(31, 0);
-            this.button_Play.Margin = new System.Windows.Forms.Padding(0);
-            this.button_Play.Name = "button_Play";
-            this.button_Play.Size = new System.Drawing.Size(42, 27);
-            this.button_Play.TabIndex = 3;
-            this.button_Play.UseVisualStyleBackColor = false;
-            // 
-            // button_Prev
-            // 
-            this.button_Prev.BackColor = System.Drawing.Color.DarkGray;
-            this.button_Prev.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_Prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Prev.Image = ((System.Drawing.Image)(resources.GetObject("button_Prev.Image")));
-            this.button_Prev.Location = new System.Drawing.Point(0, 0);
-            this.button_Prev.Margin = new System.Windows.Forms.Padding(0);
-            this.button_Prev.Name = "button_Prev";
-            this.button_Prev.Size = new System.Drawing.Size(31, 27);
-            this.button_Prev.TabIndex = 0;
-            this.button_Prev.UseVisualStyleBackColor = false;
-            this.button_Prev.Click += new System.EventHandler(this.ButtonPrev_Click);
             // 
             // panel2
             // 
@@ -428,6 +348,88 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(152, 27);
             this.panel3.TabIndex = 14;
+            // 
+            // panel_Control
+            // 
+            this.panel_Control.AllowDrop = true;
+            this.panel_Control.AutoScroll = true;
+            this.panel_Control.BackColor = System.Drawing.Color.Black;
+            this.panel_Control.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
+            this.panel_Control.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_Control.Location = new System.Drawing.Point(0, 20);
+            this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
+            this.panel_Control.Name = "panel_Control";
+            this.panel_Control.Size = new System.Drawing.Size(143, 167);
+            this.panel_Control.TabIndex = 1;
+            this.panel_Control.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_Control_DragDrop);
+            this.panel_Control.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Control_Paint);
+            this.panel_Control.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseClick);
+            this.panel_Control.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseDoubleClick);
+            this.panel_Control.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseDown);
+            this.panel_Control.MouseEnter += new System.EventHandler(this.panel_Control_MouseEnter);
+            this.panel_Control.MouseLeave += new System.EventHandler(this.panel_Control_MouseLeave);
+            this.panel_Control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseMove);
+            // 
+            // panel_Time
+            // 
+            this.panel_Time.AutoScroll = true;
+            this.panel_Time.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
+            this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_Time.Location = new System.Drawing.Point(0, 20);
+            this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
+            this.panel_Time.Name = "panel_Time";
+            this.panel_Time.Size = new System.Drawing.Size(533, 167);
+            this.panel_Time.TabIndex = 0;
+            this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
+            this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
+            this.panel_Time.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseDoubleClick);
+            this.panel_Time.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseDown);
+            this.panel_Time.MouseEnter += new System.EventHandler(this.panel_Time_MouseEnter);
+            this.panel_Time.MouseLeave += new System.EventHandler(this.panel_Time_MouseLeave);
+            this.panel_Time.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseMove);
+            this.panel_Time.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseUp);
+            // 
+            // button_Fore
+            // 
+            this.button_Fore.BackColor = System.Drawing.Color.DarkGray;
+            this.button_Fore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button_Fore.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Fore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Fore.Image = ((System.Drawing.Image)(resources.GetObject("button_Fore.Image")));
+            this.button_Fore.Location = new System.Drawing.Point(73, 0);
+            this.button_Fore.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Fore.Name = "button_Fore";
+            this.button_Fore.Size = new System.Drawing.Size(36, 27);
+            this.button_Fore.TabIndex = 5;
+            this.button_Fore.UseVisualStyleBackColor = false;
+            this.button_Fore.Click += new System.EventHandler(this.ButtonFore_Click);
+            // 
+            // button_Play
+            // 
+            this.button_Play.BackColor = System.Drawing.Color.OliveDrab;
+            this.button_Play.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Play.Image = ((System.Drawing.Image)(resources.GetObject("button_Play.Image")));
+            this.button_Play.Location = new System.Drawing.Point(31, 0);
+            this.button_Play.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Play.Name = "button_Play";
+            this.button_Play.Size = new System.Drawing.Size(42, 27);
+            this.button_Play.TabIndex = 3;
+            this.button_Play.UseVisualStyleBackColor = false;
+            // 
+            // button_Prev
+            // 
+            this.button_Prev.BackColor = System.Drawing.Color.DarkGray;
+            this.button_Prev.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Prev.Image = ((System.Drawing.Image)(resources.GetObject("button_Prev.Image")));
+            this.button_Prev.Location = new System.Drawing.Point(0, 0);
+            this.button_Prev.Margin = new System.Windows.Forms.Padding(0);
+            this.button_Prev.Name = "button_Prev";
+            this.button_Prev.Size = new System.Drawing.Size(31, 27);
+            this.button_Prev.TabIndex = 0;
+            this.button_Prev.UseVisualStyleBackColor = false;
+            this.button_Prev.Click += new System.EventHandler(this.ButtonPrev_Click);
             // 
             // FormControl
             // 
