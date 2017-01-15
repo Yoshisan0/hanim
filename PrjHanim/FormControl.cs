@@ -578,5 +578,32 @@ namespace PrjHikariwoAnim
             //以下、テキストボックス削除処理
             this.RemoveTextBoxName();
         }
+
+        private void button_ElemUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_ElemDown_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_ElemRemove_Click(object sender, EventArgs e)
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            //以下、エレメント削除処理
+            this.mMotion.RemoveElemFromLineNo(inLineNo);
+
+            //以下、行番号振り直し処理
+            this.mMotion.Assignment();
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
+        }
     }
 }
