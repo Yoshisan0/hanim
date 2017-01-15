@@ -272,6 +272,7 @@ namespace PrjHikariwoAnim
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
                 }
 
+                //以下、コントロール更新処理
                 this.panel_Control.Refresh();
                 this.panel_Time.Refresh();
                 this.mFormMain.Refresh();
@@ -386,6 +387,7 @@ namespace PrjHikariwoAnim
 
                 this.mMotion.SetSelectLineNo(clElem.mLineNo);
 
+                //以下、コントロール更新処理
                 this.panel_Control.Refresh();
                 this.panel_Time.Refresh();
                 this.mFormMain.Refresh();
