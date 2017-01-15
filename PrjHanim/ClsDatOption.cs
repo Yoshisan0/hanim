@@ -27,7 +27,7 @@ namespace PrjHikariwoAnim
         }
 
         public TYPE mType;  //タイプ
-        public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する nullは存在しない事にする
+        public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する（ null は存在しない事にする）
 
         /// <summary>
         /// コンストラクタ

@@ -33,11 +33,14 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.panel_Control = new System.Windows.Forms.Panel();
             this.TreeHeader = new System.Windows.Forms.Panel();
-            this.button_ItemRemove = new System.Windows.Forms.Button();
-            this.button_ItemDown = new System.Windows.Forms.Button();
-            this.button_ItemUp = new System.Windows.Forms.Button();
+            this.button_ElemRemove = new System.Windows.Forms.Button();
+            this.button_ElemDown = new System.Windows.Forms.Button();
+            this.button_ElemUp = new System.Windows.Forms.Button();
+            this.button_ElemChild = new System.Windows.Forms.Button();
+            this.button_ElemParent = new System.Windows.Forms.Button();
             this.SubMenuTimeLine = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_AddKey = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DelKey = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_DelFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_InsertFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,7 +62,6 @@
             this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.ToolStripMenuItem_DelKey = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -102,7 +104,7 @@
             this.splitContainer.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainer_Panel2_Scroll);
             this.splitContainer.Panel2MinSize = 48;
             this.splitContainer.Size = new System.Drawing.Size(684, 189);
-            this.splitContainer.SplitterDistance = 145;
+            this.splitContainer.SplitterDistance = 157;
             this.splitContainer.TabIndex = 0;
             // 
             // panel_Control
@@ -110,16 +112,18 @@
             this.panel_Control.AllowDrop = true;
             this.panel_Control.AutoScroll = true;
             this.panel_Control.BackColor = System.Drawing.Color.Black;
-            this.panel_Control.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel_Control.BackgroundImage")));
+            this.panel_Control.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
             this.panel_Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Control.Location = new System.Drawing.Point(0, 20);
             this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Control.Name = "panel_Control";
-            this.panel_Control.Size = new System.Drawing.Size(143, 167);
+            this.panel_Control.Size = new System.Drawing.Size(155, 167);
             this.panel_Control.TabIndex = 1;
             this.panel_Control.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_Control_DragDrop);
             this.panel_Control.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Control_Paint);
             this.panel_Control.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseClick);
+            this.panel_Control.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseDoubleClick);
+            this.panel_Control.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseDown);
             this.panel_Control.MouseEnter += new System.EventHandler(this.panel_Control_MouseEnter);
             this.panel_Control.MouseLeave += new System.EventHandler(this.panel_Control_MouseLeave);
             this.panel_Control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseMove);
@@ -127,48 +131,77 @@
             // TreeHeader
             // 
             this.TreeHeader.BackColor = System.Drawing.Color.MidnightBlue;
-            this.TreeHeader.Controls.Add(this.button_ItemRemove);
-            this.TreeHeader.Controls.Add(this.button_ItemDown);
-            this.TreeHeader.Controls.Add(this.button_ItemUp);
+            this.TreeHeader.Controls.Add(this.button_ElemRemove);
+            this.TreeHeader.Controls.Add(this.button_ElemDown);
+            this.TreeHeader.Controls.Add(this.button_ElemUp);
+            this.TreeHeader.Controls.Add(this.button_ElemChild);
+            this.TreeHeader.Controls.Add(this.button_ElemParent);
             this.TreeHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.TreeHeader.Location = new System.Drawing.Point(0, 0);
             this.TreeHeader.Name = "TreeHeader";
-            this.TreeHeader.Size = new System.Drawing.Size(143, 20);
+            this.TreeHeader.Size = new System.Drawing.Size(155, 20);
             this.TreeHeader.TabIndex = 2;
             // 
-            // button_ItemRemove
+            // button_ElemRemove
             // 
-            this.button_ItemRemove.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_ItemRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_ItemRemove.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button_ItemRemove.Location = new System.Drawing.Point(54, 0);
-            this.button_ItemRemove.Name = "button_ItemRemove";
-            this.button_ItemRemove.Size = new System.Drawing.Size(27, 20);
-            this.button_ItemRemove.TabIndex = 4;
-            this.button_ItemRemove.Text = "🚮";
-            this.button_ItemRemove.UseVisualStyleBackColor = true;
+            this.button_ElemRemove.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ElemRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ElemRemove.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_ElemRemove.Location = new System.Drawing.Point(108, 0);
+            this.button_ElemRemove.Name = "button_ElemRemove";
+            this.button_ElemRemove.Size = new System.Drawing.Size(27, 20);
+            this.button_ElemRemove.TabIndex = 12;
+            this.button_ElemRemove.Text = "🚮";
+            this.button_ElemRemove.UseVisualStyleBackColor = true;
+            this.button_ElemRemove.Click += new System.EventHandler(this.button_ElemRemove_Click);
             // 
-            // button_ItemDown
+            // button_ElemDown
             // 
-            this.button_ItemDown.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_ItemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_ItemDown.Location = new System.Drawing.Point(27, 0);
-            this.button_ItemDown.Name = "button_ItemDown";
-            this.button_ItemDown.Size = new System.Drawing.Size(27, 20);
-            this.button_ItemDown.TabIndex = 3;
-            this.button_ItemDown.Text = "▽";
-            this.button_ItemDown.UseVisualStyleBackColor = true;
+            this.button_ElemDown.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ElemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ElemDown.Location = new System.Drawing.Point(81, 0);
+            this.button_ElemDown.Name = "button_ElemDown";
+            this.button_ElemDown.Size = new System.Drawing.Size(27, 20);
+            this.button_ElemDown.TabIndex = 11;
+            this.button_ElemDown.Text = "▽";
+            this.button_ElemDown.UseVisualStyleBackColor = true;
+            this.button_ElemDown.Click += new System.EventHandler(this.button_ElemDown_Click);
             // 
-            // button_ItemUp
+            // button_ElemUp
             // 
-            this.button_ItemUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_ItemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_ItemUp.Location = new System.Drawing.Point(0, 0);
-            this.button_ItemUp.Name = "button_ItemUp";
-            this.button_ItemUp.Size = new System.Drawing.Size(27, 20);
-            this.button_ItemUp.TabIndex = 2;
-            this.button_ItemUp.Text = "△";
-            this.button_ItemUp.UseVisualStyleBackColor = true;
+            this.button_ElemUp.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ElemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ElemUp.Location = new System.Drawing.Point(54, 0);
+            this.button_ElemUp.Name = "button_ElemUp";
+            this.button_ElemUp.Size = new System.Drawing.Size(27, 20);
+            this.button_ElemUp.TabIndex = 10;
+            this.button_ElemUp.Text = "△";
+            this.button_ElemUp.UseVisualStyleBackColor = true;
+            this.button_ElemUp.Click += new System.EventHandler(this.button_ElemUp_Click);
+            // 
+            // button_ElemChild
+            // 
+            this.button_ElemChild.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ElemChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ElemChild.Location = new System.Drawing.Point(27, 0);
+            this.button_ElemChild.Name = "button_ElemChild";
+            this.button_ElemChild.Size = new System.Drawing.Size(27, 20);
+            this.button_ElemChild.TabIndex = 9;
+            this.button_ElemChild.Text = "子";
+            this.button_ElemChild.UseVisualStyleBackColor = true;
+            this.button_ElemChild.Click += new System.EventHandler(this.button_ElemChild_Click);
+            // 
+            // button_ElemParent
+            // 
+            this.button_ElemParent.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ElemParent.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ElemParent.Location = new System.Drawing.Point(0, 0);
+            this.button_ElemParent.Name = "button_ElemParent";
+            this.button_ElemParent.Size = new System.Drawing.Size(27, 20);
+            this.button_ElemParent.TabIndex = 1;
+            this.button_ElemParent.Text = "親";
+            this.button_ElemParent.UseVisualStyleBackColor = true;
+            this.button_ElemParent.Click += new System.EventHandler(this.button_ElemParent_Click);
             // 
             // SubMenuTimeLine
             // 
@@ -183,70 +216,78 @@
             this.ToolStripMenuItem_OverWrite,
             this.ToolStripMenuItem_Insert});
             this.SubMenuTimeLine.Name = "SubMenuTimeLine";
-            this.SubMenuTimeLine.Size = new System.Drawing.Size(153, 208);
+            this.SubMenuTimeLine.Size = new System.Drawing.Size(149, 186);
             // 
             // ToolStripMenuItem_AddKey
             // 
             this.ToolStripMenuItem_AddKey.Name = "ToolStripMenuItem_AddKey";
-            this.ToolStripMenuItem_AddKey.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AddKey.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_AddKey.Text = "キーフレーム登録";
             this.ToolStripMenuItem_AddKey.Click += new System.EventHandler(this.ToolStripMenuItem_AddKey_Click);
+            // 
+            // ToolStripMenuItem_DelKey
+            // 
+            this.ToolStripMenuItem_DelKey.Name = "ToolStripMenuItem_DelKey";
+            this.ToolStripMenuItem_DelKey.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem_DelKey.Text = "キーフレーム削除";
+            this.ToolStripMenuItem_DelKey.Click += new System.EventHandler(this.ToolStripMenuItem_DelKey_Click);
             // 
             // toolStripMenuItem_DelFrame
             // 
             this.toolStripMenuItem_DelFrame.Name = "toolStripMenuItem_DelFrame";
-            this.toolStripMenuItem_DelFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_DelFrame.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem_DelFrame.Text = "フレーム削除";
             this.toolStripMenuItem_DelFrame.Click += new System.EventHandler(this.toolStripMenuItem_DelFrame_Click);
             // 
             // toolStripMenuItem_InsertFrame
             // 
             this.toolStripMenuItem_InsertFrame.Name = "toolStripMenuItem_InsertFrame";
-            this.toolStripMenuItem_InsertFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_InsertFrame.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem_InsertFrame.Text = "フレーム挿入";
             this.toolStripMenuItem_InsertFrame.Click += new System.EventHandler(this.toolStripMenuItem_InsertFrame_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // ToolStripMenuItem_Cut
             // 
             this.ToolStripMenuItem_Cut.Name = "ToolStripMenuItem_Cut";
-            this.ToolStripMenuItem_Cut.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Cut.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Cut.Text = "切り取り(X)";
             this.ToolStripMenuItem_Cut.Click += new System.EventHandler(this.ToolStripMenuItem_Cut_Click);
             // 
             // ToolStripMenuItem_Copy
             // 
             this.ToolStripMenuItem_Copy.Name = "ToolStripMenuItem_Copy";
-            this.ToolStripMenuItem_Copy.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Copy.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Copy.Text = "コピー(C)";
             this.ToolStripMenuItem_Copy.Click += new System.EventHandler(this.ToolStripMenuItem_Copy_Click);
             // 
             // ToolStripMenuItem_OverWrite
             // 
             this.ToolStripMenuItem_OverWrite.Name = "ToolStripMenuItem_OverWrite";
-            this.ToolStripMenuItem_OverWrite.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_OverWrite.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_OverWrite.Text = "貼付上書(V)";
             this.ToolStripMenuItem_OverWrite.Click += new System.EventHandler(this.ToolStripMenuItem_OverWrite_Click);
             // 
             // ToolStripMenuItem_Insert
             // 
             this.ToolStripMenuItem_Insert.Name = "ToolStripMenuItem_Insert";
-            this.ToolStripMenuItem_Insert.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Insert.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Insert.Text = "貼付挿入(B)";
             this.ToolStripMenuItem_Insert.Click += new System.EventHandler(this.ToolStripMenuItem_Insert_Click);
             // 
             // panel_Time
             // 
             this.panel_Time.AutoScroll = true;
+            this.panel_Time.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
             this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Time.Name = "panel_Time";
-            this.panel_Time.Size = new System.Drawing.Size(533, 167);
+            this.panel_Time.Size = new System.Drawing.Size(521, 167);
             this.panel_Time.TabIndex = 0;
             this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
             this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
@@ -263,7 +304,7 @@
             this.LineHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.LineHeader.Location = new System.Drawing.Point(0, 0);
             this.LineHeader.Name = "LineHeader";
-            this.LineHeader.Size = new System.Drawing.Size(533, 20);
+            this.LineHeader.Size = new System.Drawing.Size(521, 20);
             this.LineHeader.TabIndex = 1;
             this.LineHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.LineHeader_Paint);
             this.LineHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LineHeader_MouseDown);
@@ -421,13 +462,6 @@
             this.panel3.Size = new System.Drawing.Size(152, 27);
             this.panel3.TabIndex = 14;
             // 
-            // ToolStripMenuItem_DelKey
-            // 
-            this.ToolStripMenuItem_DelKey.Name = "ToolStripMenuItem_DelKey";
-            this.ToolStripMenuItem_DelKey.Size = new System.Drawing.Size(152, 22);
-            this.ToolStripMenuItem_DelKey.Text = "キーフレーム削除";
-            this.ToolStripMenuItem_DelKey.Click += new System.EventHandler(this.ToolStripMenuItem_DelKey_Click);
-            // 
             // FormControl
             // 
             this.AllowDrop = true;
@@ -482,10 +516,7 @@
         private System.Windows.Forms.Panel Panel_LineControl_Base;
         private System.Windows.Forms.Panel TreeHeader;
         private System.Windows.Forms.Panel LineHeader;
-        private System.Windows.Forms.Button button_ItemDown;
-        private System.Windows.Forms.Button button_ItemUp;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button_ItemRemove;
         private System.Windows.Forms.ContextMenuStrip SubMenuTimeLine;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddKey;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_DelFrame;
@@ -496,5 +527,10 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_OverWrite;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Insert;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DelKey;
+        private System.Windows.Forms.Button button_ElemParent;
+        private System.Windows.Forms.Button button_ElemRemove;
+        private System.Windows.Forms.Button button_ElemDown;
+        private System.Windows.Forms.Button button_ElemUp;
+        private System.Windows.Forms.Button button_ElemChild;
     }
 }

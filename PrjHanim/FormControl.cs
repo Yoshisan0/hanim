@@ -40,15 +40,13 @@ namespace PrjHikariwoAnim
 
       キーフレーム登録(Enter)/削除(Del)
       範囲　削除/追加/挿入
-
       */
     public partial class FormControl : Form
     {
         public static readonly int HEAD_HEIGHT = 20;
-        public static readonly int TIME_CELL_HEIGHT = 18;
-        public static readonly int TIME_CELL_WIDTH = 12;
+        public static readonly int CELL_HEIGHT = 18;
+        public static readonly int CELL_WIDTH = 12;
 
-        private int mSelectElementKey;
         private Point mSelect_Pos_Start;
         private Point mSelect_Pos_End;
         private bool mMouseDownL=false;
@@ -62,6 +60,9 @@ namespace PrjHikariwoAnim
 
         private Font mFont = null;
 
+        //以下、作業領域
+        private TextBox mTextBox = null;
+
         public FormControl(FormMain form)
         {
             this.mFormMain = form;
@@ -69,7 +70,8 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //ダブルバッファ強制有効化
-            panel_Time.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_Time,new object[] { true });
+            panel_Control.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
+            panel_Time.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
         }
 
         private void FormControl_Load(object sender, EventArgs e)
@@ -79,10 +81,15 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowControl.mSize;
 
             //以下、初期化処理
-            this.mSelectElementKey = -1;
+            if (this.mMotion != null)
+            {
+                int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
+                this.mMotion.SetFrameNum(inFrameNum);
+            }
+
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
-            this.panel_Time.Width = TIME_CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
-            this.panel_Time.Height =HEAD_HEIGHT*5;          
+            this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
+            this.panel_Time.Height = HEAD_HEIGHT * 5;
         }
 
         /// <summary>
@@ -94,21 +101,11 @@ namespace PrjHikariwoAnim
             this.Text = ClsSystem.GetWindowName("Control", clMotion);
         }
 
-        public int GetElementSelectKey()
-        {
-            return (this.mSelectElementKey);
-        }
-
         public void RemoveElementFromKey(int inElementKey)
         {
             if (this.mMotion == null) return;
 
             this.mMotion.RemoveElemFromIndex(inElementKey);
-
-            if (inElementKey == this.mSelectElementKey)
-            {
-                this.mSelectElementKey = -1;
-            }
 
             RefreshAll();
         }
@@ -191,7 +188,7 @@ namespace PrjHikariwoAnim
             int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
             this.mMotion.SetFrameNum(inFrameNum);
 
-            int inWidth = inFrameNum * FormControl.TIME_CELL_WIDTH + 1;
+            int inWidth = inFrameNum * FormControl.CELL_WIDTH + 1;
             this.panel_Time.Width = inWidth;
             this.panel_Time.Refresh();
         }
@@ -220,20 +217,21 @@ namespace PrjHikariwoAnim
         {
             //LulerLine 目盛
             Brush numBrush = Brushes.AntiqueWhite;
-            for (int cx = 1; cx < (LineHeader.Width / TIME_CELL_WIDTH); cx++)
+            for (int cx = 1; cx < (LineHeader.Width / FormControl.CELL_WIDTH); cx++)
             {
                 if (cx % 5 == 0)
                 {
-                    e.Graphics.DrawLine(Pens.Orange, cx * TIME_CELL_WIDTH, LineHeader.Height / 4, cx * TIME_CELL_WIDTH, LineHeader.Height - 1);
-                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * TIME_CELL_WIDTH, 0));
+                    e.Graphics.DrawLine(Pens.Orange, cx * FormControl.CELL_WIDTH, LineHeader.Height / 4, cx * FormControl.CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * FormControl.CELL_WIDTH, 0));
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Green, cx * TIME_CELL_WIDTH, LineHeader.Height / 2, cx * TIME_CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawLine(Pens.Green, cx * FormControl.CELL_WIDTH, LineHeader.Height / 2, cx * FormControl.CELL_WIDTH, LineHeader.Height - 1);
                 }
             }
+
             //NowPotision 矢印
-            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(TIME_CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (TIME_CELL_WIDTH / 2) - 4, 2));
+            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(FormControl.CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (FormControl.CELL_WIDTH / 2) - 3, 2));
         }
 
         //Left  Paine
@@ -246,38 +244,81 @@ namespace PrjHikariwoAnim
             //※ e.Y がそのまま mListElem のインデックスになるわけではないので、ここは修正する必要があります
 
             //Item選択
-            var work = e.Y / TIME_CELL_HEIGHT;
+            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+
             //Item最大数を確認
-            if (work < this.mMotion.mListElem.Count)
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
             {
-                ClsDatElem ele = this.mMotion.mListElem[work];
-                mSelectElementKey = work;
+                this.mMotion.SetSelectLineNo(inLineNo);
 
                 //Click Eye
-                if (e.X < 16) {
-                    ele.isVisible = !ele.isVisible;
+                if (e.X < 16)
+                {
+                    clElem.isVisible = !clElem.isVisible;
                 }
 
                 //Click Locked
-                if (e.X > 16 && e.X < 32) {
-                    ele.isLocked = !ele.isLocked;
+                if (e.X > 16 && e.X < 32)
+                {
+                    clElem.isLocked = !clElem.isLocked;
                 }
 
                 //Attribute Open
-                if (e.X > 32 && e.X < 48) {
-                    ele.isOpen = !ele.isOpen;
+                if (e.X > 32 && e.X < 48)
+                {
+                    clElem.isOpen = !clElem.isOpen;
 
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
                 }
 
-                //SelectElements
-                if (e.X > 48) { ele.isSelect = !ele.isSelect; }
-
-                panel_Control.Refresh();
-                panel_Time.Refresh();
-                mFormMain.Refresh();
+                //以下、コントロール更新処理
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
             }
         }
+
+        private void panel_Control_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //Item選択
+            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+
+            //Item最大数を確認
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
+            {
+                this.mMotion.SetSelectLineNo(inLineNo);
+
+                if (e.X > 48)
+                {
+                    //以下、テキストボックス削除処理
+                    this.RemoveTextBoxName();
+
+                    //以下、テキストボックス生成処理
+                    this.mTextBox = new TextBox();
+                    this.mTextBox.Location = new System.Drawing.Point(52, inLineNo * FormControl.CELL_HEIGHT - 1);
+                    this.mTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+                    this.mTextBox.MaxLength = ClsDatElem.MAX_NAME;
+                    this.mTextBox.Text = clElem.GetName();
+                    this.mTextBox.Name = "textBox_Name";
+                    this.mTextBox.Size = new System.Drawing.Size(80, 19);
+                    this.mTextBox.Tag = inLineNo;
+                    this.mTextBox.TabIndex = 0;
+                    this.mTextBox.Leave += new System.EventHandler(this.textBox_Name_Leave);
+                    this.mTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_Name_KeyDown);
+                    this.panel_Control.Controls.Add(this.mTextBox);
+
+                    this.mTextBox.Focus();
+                }
+
+                //以下、コントロール更新処理
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
+        }
+
         private void panel_Control_MouseEnter(object sender, EventArgs e)
         {
 
@@ -296,15 +337,27 @@ namespace PrjHikariwoAnim
             int inWidth = this.panel_Control.Width;
             int inHeight = this.panel_Control.Height;
 
-            //以下、イメージリスト描画処理
-            e.Graphics.Clear(Color.Black);
+            //以下、モーションのコントロール描画処理
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+            if (isExist)
+            {
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.DrawControl(e.Graphics, this.panel_Control.Width, this.panel_Control.Height, this.mFont);
+            }
+        }
+
+        private void panel_Time_Paint(object sender, PaintEventArgs e)
+        {
+            int inWidth = this.panel_Time.Width;
+            int inHeight = this.panel_Time.Height;
 
             //以下、モーションのコントロール描画処理
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawControl(e.Graphics, this.mFont, this.panel_Control.Width, this.panel_Control.Height);
+                clMotion.mSelectFrame = (int)numericUpDown_NowFlame.Value;
+                clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }
         }
 
@@ -313,27 +366,34 @@ namespace PrjHikariwoAnim
         {
             //Flameクリック処理
             //フレーム検出
-            int cx = e.X / TIME_CELL_WIDTH;
-            int cy = e.Y / TIME_CELL_HEIGHT;
+            int cx = e.X / FormControl.CELL_WIDTH;
+            int cy = e.Y / FormControl.CELL_HEIGHT;
+
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
-            if (cx <= numericUpDown_MaxFrame.Value)
+            if (cx <= this.numericUpDown_MaxFrame.Value)
             {
-                numericUpDown_NowFlame.Value = cx;
-                mSelect_Pos_Start.X = cx;
-                mSelect_Pos_Start.Y = cy;
+                this.numericUpDown_NowFlame.Value = cx;
+                this.mSelect_Pos_Start.X = cx;
+                this.mSelect_Pos_Start.Y = cy;
 
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                //既存フレームがあればMainPreviewに表示
-                if (!mMotion.ToFrame(cx))
-                {
-                    //無ければ前後フレームから補完を行う
-                    mMotion.Completion(cx);
-                }
-                */
-                mFormMain.Refresh();
-            }          
+                this.mFormMain.Refresh();
+            }
+
+            //Item最大数を確認
+            if (cy < this.mMotion.mListElem.Count)
+            {
+                ClsDatElem clElem = this.mMotion.mListElem[cy];
+
+                this.mMotion.SetSelectLineNo(clElem.mLineNo);
+
+                //以下、コントロール更新処理
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
         }
+
         private void panel_Time_MouseEnter(object sender, EventArgs e)
         {
 
@@ -346,12 +406,12 @@ namespace PrjHikariwoAnim
         {
             if(mMouseDownL)
             {
-                mSelect_Pos_End.X = e.X / TIME_CELL_WIDTH;
-                mSelect_Pos_End.Y = e.Y / TIME_CELL_HEIGHT;
+                mSelect_Pos_End.X = e.X / FormControl.CELL_WIDTH;
+                mSelect_Pos_End.Y = e.Y / FormControl.CELL_HEIGHT;
                 panel_Time.Refresh();
             }
-
         }
+
         private void panel_Time_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -360,19 +420,22 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_End.X = 0;
                 mSelect_Pos_End.Y = 0;
             }
+
             //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
-            mSelect_Pos_Start.X = e.X / TIME_CELL_WIDTH;
-            mSelect_Pos_Start.Y = e.Y / TIME_CELL_HEIGHT;
+            mSelect_Pos_Start.X = e.X / FormControl.CELL_WIDTH;
+            mSelect_Pos_Start.Y = e.Y / FormControl.CELL_HEIGHT;
         }
+
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
         {
             if(mMouseDownL)
             {
                 //Flameクリック処理
                 //フレーム検出
-                int cx = e.X / TIME_CELL_WIDTH;
-                int cy = e.Y / TIME_CELL_HEIGHT;
+                int cx = e.X / FormControl.CELL_WIDTH;
+                int cy = e.Y / FormControl.CELL_HEIGHT;
+
                 //注:範囲指定時は考慮
                 //クリックフレームを現在のフレームに指定
                 if (cx <= numericUpDown_MaxFrame.Value)
@@ -381,114 +444,22 @@ namespace PrjHikariwoAnim
                     mSelect_Pos_End.X = cx;
                     mSelect_Pos_End.Y = cy;
                 }
+
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
             }
             mMouseDownL = false;
             //mMouseDownR = false;
             //mMouseDownM = false;
         }
-        private void panel_Time_Paint(object sender, PaintEventArgs e)
-        {
-            //TimeLine
-            int inWidth = this.panel_Time.Width;
-            int inHeight = this.panel_Time.Height;
-            int inFrame = (int)this.numericUpDown_MaxFrame.Value;
-            int CellWidth = TIME_CELL_WIDTH;
-            int CellHeight = TIME_CELL_HEIGHT;
-            int inCnt, inMax = 5;
-
-            //全消去
-            e.Graphics.Clear(Color.Black);
-
-//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（各クラスのmLineNoを見て）描画するようにします
-//※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
-
-            //以下、横ライン描画処理
-
-            //e.Graphics.DrawLine(Pens.Black, 0, CellHeight, inWidth - 1, CellHeight);
-
-            if (mMotion == null) return;
-            inMax = this.mMotion.mListElem.Count;   //Elements数
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Gray));
-                //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
-                //選択中Elementsの背景強調
-                ClsDatElem ele= this.mMotion.mListElem[inCnt];
-                if ((inCnt % 2) != 0)
-                {
-                    e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
-                }
-                if (ele.isSelect)
-                {
-                    //選択色
-                    sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                    e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
-                }
-            }
-
-            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
-            //以下、縦ライン描画処理
-            for (inCnt = 0; inCnt < inFrame; inCnt++)
-            {
-                Pen pen = new Pen( Color.FromArgb(255,40,40,40));// Pens.DimGray;
-
-                //5の倍数の時(グレイ)
-                if (inCnt % 5 == 0) pen = Pens.DarkGreen;
-                //現在のフレームの時(赤)
-                if (inCnt == numericUpDown_NowFlame.Value)
-                {
-                    SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Red));
-                    e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
-                }
-                //標準(黒)
-                e.Graphics.DrawLine(pen, inCnt * CellWidth, 0, inCnt * CellWidth, inHeight);
-
-                //Draw FRAMEtype
-                FRAME frm = this.mMotion.GetFrame(inCnt);
-                if(frm!=null)
-                {
-                    if(frm.Type == FRAME.TYPE.KeyFrame)
-                    {
-//現在テスト中（ここから）
-//キーフレームの表示を画像で行う！？ 
-
-//                      SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
-//                      e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
-
-                        e.Graphics.DrawImage(Properties.Resources.markRed, inCnt * CellWidth + 2, 1);   //Ｙ座標はどうやって取得するのが良いだろうか？
-//現在テスト中（ここまで）
-                    }
-                    if (frm.Type == FRAME.TYPE.Control)
-                    { }
-                }
-
-            }
-            */
-
-
-            //DrawDragArea
-            if (!mSelect_Pos_End.IsEmpty)
-            {
-                //選択範囲の網掛け
-                SolidBrush sb = new SolidBrush(Color.FromArgb(128, 0, 0, 128));
-                e.Graphics.FillRectangle(sb, mSelect_Pos_Start.X * TIME_CELL_WIDTH, 0, (mSelect_Pos_End.X-mSelect_Pos_Start.X) * TIME_CELL_WIDTH, inHeight - 1);
-            }
-
-        }
 
         private void panel_Time_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //タイムライン上ダブルクリックは KeyFrame作成
-            int pos = e.X / TIME_CELL_WIDTH;
+            int pos = e.X / FormControl.CELL_WIDTH;
+
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
-
-            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
-            FRAME newframe = this.mMotion.EditFrame.Clone();
-            newframe.FrameNum = pos;
-            newframe.Type = FRAME.TYPE.KeyFrame;
-            this.mMotion.AddFrame(newframe);
-            */
 
             //表示更新
             panel_Time.Refresh();
@@ -562,6 +533,92 @@ namespace PrjHikariwoAnim
         private void ToolStripMenuItem_Insert_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox_Name_Leave(object sender, EventArgs e)
+        {
+            //以下、テキストボックス削除処理
+            this.RemoveTextBoxName();
+        }
+
+        private void textBox_Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
+            {
+                //以下、テキストボックス削除処理
+                this.RemoveTextBoxName();
+            }
+        }
+
+        private void RemoveTextBoxName()
+        {
+            if (this.mTextBox == null) return;
+
+            //以下、名前設定処理
+            int inLineNo = (int)this.mTextBox.Tag;
+            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            if (clElem != null)
+            {
+                string clName = this.mTextBox.Text;
+                if (!string.IsNullOrEmpty(clName))
+                {
+                    clElem.SetName(clName);
+                }
+            }
+
+            //以下、テキストボックス削除処理
+            this.panel_Control.Controls.Remove(this.mTextBox);
+            this.mTextBox = null;
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
+        }
+
+        private void panel_Control_MouseDown(object sender, MouseEventArgs e)
+        {
+            //以下、テキストボックス削除処理
+            this.RemoveTextBoxName();
+        }
+
+        private void button_ElemParent_Click(object sender, EventArgs e)
+        {
+            //一つ上の親になる
+        }
+
+        private void button_ElemChild_Click(object sender, EventArgs e)
+        {
+            //一行上のエレメントの子供になる
+        }
+
+        private void button_ElemUp_Click(object sender, EventArgs e)
+        {
+            //兄と弟の入れ替えとする
+            //子供が親になったり、親が子供になったりしない
+        }
+
+        private void button_ElemDown_Click(object sender, EventArgs e)
+        {
+            //兄と弟の入れ替えとする
+            //子供が親になったり、親が子供になったりしない
+        }
+
+        private void button_ElemRemove_Click(object sender, EventArgs e)
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            //以下、エレメント削除処理
+            this.mMotion.RemoveElemFromLineNo(inLineNo);
+
+            //以下、行番号振り直し処理
+            this.mMotion.Assignment();
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
     }
 }

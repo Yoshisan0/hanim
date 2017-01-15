@@ -9,6 +9,8 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatElem : ClsDatItem
     {
+        public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
+
         // コントロール左側ペインに相当する部分
         public enum ELEMENTSTYPE {
             Image,
@@ -30,7 +32,6 @@ namespace PrjHikariwoAnim
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
-        public bool isSelect;               //選択状態
         public int ImageChipID;             //イメージID
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
         public Dictionary<ClsDatOption.TYPE, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
@@ -47,7 +48,6 @@ namespace PrjHikariwoAnim
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.isSelect = false;  //選択状態
             this.mListElem = new List<ClsDatElem>();
             this.mDicOption = new Dictionary<ClsDatOption.TYPE, ClsDatOption>();
             this.mAttInit = new AttributeBase();
@@ -155,6 +155,58 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// エレメント名取得処理
+        /// </summary>
+        /// <returns>エレメント名</returns>
+        public string GetName()
+        {
+            return (this.mName);
+        }
+
+        /// <summary>
+        /// ハッシュコードからエレメント管理クラスを検索する処理
+        /// </summary>
+        /// <param name="inHashCode">ハッシュコード</param>
+        /// <returns>エレメント管理クラス</returns>
+        public ClsDatElem GetElemFromHashCode(int inHashCode)
+        {
+            if (inHashCode < 0) return (null);
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt] as ClsDatElem;
+                int inHashCodeTmp = clElem.GetHashCode();
+                if (inHashCodeTmp == inHashCode) return (clElem);
+
+                clElem = clElem.GetElemFromHashCode(inHashCode);
+                if (clElem != null) return (clElem);
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// ライン番号からエレメント管理クラスを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">ライン番号</param>
+        /// <returns>エレメント管理クラス</returns>
+        public ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (inLineNo == clElem.mLineNo) return (clElem);
+
+                clElem = clElem.GetElemFromLineNo(inLineNo);
+                if (clElem != null) return (clElem);
+            }
+
+            return (null);
+        }
+
+        /// <summary>
         /// フレーム数変更処理
         /// </summary>
         /// <param name="inFrameNum">フレーム数</param>
@@ -235,11 +287,10 @@ namespace PrjHikariwoAnim
             foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
             {
                 ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.mLineNo == inLineNo)
-                {
-                    clMotion.mWorkOption = clOption;
-                    return;
-                }
+                if (clOption.mLineNo != inLineNo) continue;
+
+                clMotion.mWorkOption = clOption;
+                return;
             }
 
             int inCnt, inMax = this.mListElem.Count;
@@ -247,6 +298,7 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (clElem.mLineNo == inLineNo) return;  //Optionを検索したかったのだが、該当のItemがElementだった
+
                 clElem.FindOptionFromLineNo(clMotion, inLineNo);
             }
         }
@@ -257,7 +309,7 @@ namespace PrjHikariwoAnim
         /// <param name="g">描画管理クラス</param>
         /// <param name="inCX">中心Ｘ座標</param>
         /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawElem(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g, int inCX, int inCY)
         {
             AttributeBase atr = this.mAttInit;
 
@@ -383,7 +435,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawElem(g, inCX, inCY);
+                clElem.DrawPreview(g, inCX, inCY);
             }
         }
 
@@ -391,76 +443,83 @@ namespace PrjHikariwoAnim
         /// エレメントのコントロール描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="clFont">フォント管理クラス</param>
+        /// <param name="inSelectLineNo">選択中のライン番号</param>
         /// <param name="inWidth">描画先の幅</param>
         /// <param name="inHeight">描画先の高さ</param>
-        public void DrawControl(Graphics g, Font clFont, int inWidth, int inHeight)
+        /// <param name="clFont">フォント管理クラス</param>
+        public void DrawControl(Graphics g, int inSelectLineNo, int inWidth, int inHeight, Font clFont)
         {
             //以下、横ライン描画処理
-            int inY = FormControl.TIME_CELL_HEIGHT;
+            int inY = FormControl.CELL_HEIGHT;
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
-            SolidBrush sb = new SolidBrush(Color.Black);
-
-            //背景塗り
-            if (this.mLineNo % 2 != 0)
-            {
-                sb = new SolidBrush(Color.FromArgb(0xff, 30, 30, 40));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.TIME_CELL_HEIGHT, inWidth, FormControl.TIME_CELL_HEIGHT - 1);
-            }
-            if (this.isSelect)
+            //以下、背景を塗る処理
+            if (inSelectLineNo == this.mLineNo)
             {
                 //選択中Elementsの背景強調
-                sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.TIME_CELL_HEIGHT, inWidth, FormControl.TIME_CELL_HEIGHT - 1);
+                SolidBrush sb = new SolidBrush(Color.DarkGreen);
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+            }
+            else
+            {
+                if (this.mLineNo % 2 == 0)
+                {
+                    SolidBrush sb = new SolidBrush(Color.Black);
+                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
+                else
+                {
+                    SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
             }
 
-            //ステートマーク 目
+            //以下、「目」アイコン表示処理
             if (this.isVisible)
             {
-                g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
-            //ステートマーク 鍵
+            //以下、「鍵」アイコン表示処理
             if (this.isLocked)
             {
-                g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
-            //ステートマーク 属性開閉
+            //以下、「開閉」アイコン表示処理
             if (this.isOpen)
             {
-                g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.plus, 2 + 32, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.plus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
-                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
 
             //g.FillRectangle(Brushes.Lime, new Rectangle(0, 0, 500, 500));
 
-            //以下、子供描画処理
-            if (!this.isOpen) return;
-
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawControl(g);
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawControl(g);
+                }
             }
 
             //以下、子供のエレメント描画処理
@@ -468,7 +527,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawControl(g, clFont, inWidth, inHeight);
+                clElem.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
             }
         }
 
@@ -476,18 +535,64 @@ namespace PrjHikariwoAnim
         /// エレメントのタイムライン描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        public void DrawTime(Graphics g)
+        /// <param name="inSelectLineNo">選択中のライン番号</param>
+        /// <param name="inSelectFrame">選択中のフレーム</param>
+        /// <param name="inWidth">描画先の幅</param>
+        /// <param name="ginHeight">描画先の高さ</param>
+        public void DrawTime(Graphics g, int inSelectLineNo, int inSelectFrame, int inWidth, int inHeight)
         {
-//エレメントタイムライン表示処理
+            SolidBrush clBrush = null;
+            int inX = inSelectFrame * FormControl.CELL_WIDTH;
+            int inY = this.mLineNo * FormControl.CELL_HEIGHT;
 
-            //以下、子供描画処理
-            if (!this.isOpen) return;
+            //以下、背景を塗る処理
+            if (inSelectLineNo == this.mLineNo)
+            {
+                //選択中Elementsの背景強調
+                clBrush = new SolidBrush(Color.DarkGreen);
+                g.FillRectangle(clBrush, 0, inY, inWidth, FormControl.CELL_HEIGHT);
+            }
+            else
+            {
+                if (this.mLineNo % 2 == 0)
+                {
+                    clBrush = new SolidBrush(Color.Black);
+                    g.FillRectangle(clBrush, 0, inY, inWidth, FormControl.CELL_HEIGHT);
+                }
+                else
+                {
+                    clBrush = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                    g.FillRectangle(clBrush, 0, inY, inWidth, FormControl.CELL_HEIGHT);
+                }
+            }
+
+            //以下、選択中のフレーム描画処理
+            if (inSelectLineNo == this.mLineNo)
+            {
+                clBrush = new SolidBrush(Color.Green);
+            }
+            else
+            {
+                clBrush = new SolidBrush(Color.DarkGreen);
+            }
+            g.FillRectangle(clBrush, inX, inY, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT);
+
+            //以下、境界線描画処理
+            Pen clPen = new Pen(Color.Green);
+            inY = this.mLineNo * FormControl.CELL_HEIGHT + FormControl.CELL_HEIGHT - 1;
+            g.DrawLine(clPen, 0, inY, inWidth, inY);
+
+            //以下、0フレーム目のマーカー表示処理
+            g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
 
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawTime(g);
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawTime(g);
+                }
             }
 
             //以下、子供のエレメント描画処理
@@ -495,7 +600,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g);
+                clElem.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
             }
         }
     }

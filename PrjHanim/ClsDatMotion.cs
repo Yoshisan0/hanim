@@ -10,7 +10,9 @@ namespace PrjHikariwoAnim
     {
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
-        private int mElemSelectIndex;       //現在編集中のエレメントリストのインデックス
+        public int mFrameNum;       //トータルフレーム数
+        public int mSelectFrame;    //現在選択中のフレーム
+        public int mSelectLineNo;   //現在選択中の行数
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -27,7 +29,9 @@ namespace PrjHikariwoAnim
         {
             this.mID = inID;
             this.mName = clName;
-            this.mElemSelectIndex = -1;
+            this.mFrameNum = 1;
+            this.mSelectFrame = -1;
+            this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
         }
 
@@ -153,29 +157,47 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.SetFrameNum(inFrameNum);
             }
+
+            this.mFrameNum = inFrameNum;
         }
 
         /// <summary>
-        /// エレメント選択処理
+        /// 選択中のライン番号取得処理
         /// </summary>
-        /// <param name="inHashCode">TreeNodeのHashCode</param>
-        public void SetSelectElem(int inHashCode)
+        /// <param name="inLineNo">選択中のライン番号</param>
+        public void SetSelectLineNo(int inLineNo)
         {
-            this.mElemSelectIndex = inHashCode;
+            this.mSelectLineNo = inLineNo;
         }
 
         /// <summary>
-        /// 選択中のエレメント取得処理
+        /// 選択中のライン番号取得処理
         /// </summary>
-        /// <returns>選択中のエレメント管理クラス</returns>
-        public ClsDatElem GetSelectElem()
+        /// <returns>選択中のライン番号</returns>
+        public int GetSelectLineNo()
         {
-            int inIndex = this.mElemSelectIndex;
-            if (inIndex < 0) return (null);
-            if (inIndex >= this.mListElem.Count) return (null);
+            return (this.mSelectLineNo);
+        }
 
-            ClsDatElem clElem = this.mListElem[inIndex];
-            return (clElem);
+        /// <summary>
+        /// ライン番号からエレメントを取得する処理
+        /// 取得できない場合は、そのライン番号にはオプションが表示されているかもしれない
+        /// </summary>
+        /// <param name="inLineNo">ライン番号</param>
+        /// <returns>エレメント管理クラス</returns>
+        public ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (inLineNo == clElem.mLineNo) return (clElem);
+
+                clElem = clElem.GetElemFromLineNo(inLineNo);
+                if (clElem != null) return (clElem);
+            }
+
+            return (null);
         }
 
         /// <summary>
@@ -254,18 +276,19 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// パーツの描画処理
+        /// プレビュー上のパーツの描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
         /// <param name="inCX">中心Ｘ座標</param>
         /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawElem(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g, int inCX, int inCY)
         {
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawElem(g, inCX, inCY);
+                clElem.DrawPreview(g, inCX, inCY);
             }
         }
 
@@ -273,16 +296,17 @@ namespace PrjHikariwoAnim
         /// モーションのコントロール描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="clFont">フォント管理クラス</param>
         /// <param name="inWidth">描画先の幅</param>
         /// <param name="inHeight">描画先の高さ</param>
-        public void DrawControl(Graphics g, Font clFont, int inWidth, int inHeight)
+        /// <param name="clFont">フォント管理クラス</param>
+        public void DrawControl(Graphics g, int inWidth, int inHeight, Font clFont)
         {
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawControl(g, clFont, inWidth, inHeight);
+                clElem.DrawControl(g, this.mSelectLineNo, inWidth, inHeight, clFont);
             }
         }
 
@@ -290,14 +314,37 @@ namespace PrjHikariwoAnim
         /// モーションのタイムライン描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        public void DrawTime(Graphics g)
+        /// <param name="inWidth">描画先の幅</param>
+        /// <param name="inHeight">描画先の高さ</param>
+        public void DrawTime(Graphics g, int inWidth, int inHeight)
         {
+            /*
+            //DrawDragArea
+            if (!mSelect_Pos_End.IsEmpty)
+            {
+                //選択範囲の網掛け
+                SolidBrush sb = new SolidBrush(Color.FromArgb(128, 0, 0, 128));
+                e.Graphics.FillRectangle(sb, mSelect_Pos_Start.X * TIME_CELL_WIDTH, 0, (mSelect_Pos_End.X - mSelect_Pos_Start.X) * TIME_CELL_WIDTH, inHeight - 1);
+            }
+            */
+
+            //以下、選択中フレームのラインを表示する処理
+            Brush clBrush = new SolidBrush(Color.DarkGreen);
+            int inX = this.mSelectFrame * FormControl.CELL_WIDTH;
+            g.FillRectangle(clBrush, inX, 0, FormControl.CELL_WIDTH, inHeight);
+
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g);
+                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrame, inWidth, inHeight);
             }
+
+            //以下、最終フレームの境界線描画処理
+            Pen clPen = new Pen(Color.Green);
+            inX = this.mFrameNum * FormControl.CELL_WIDTH;
+            g.DrawLine(clPen, inX, 0, inX, inHeight);
         }
     }
 }
