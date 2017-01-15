@@ -672,7 +672,10 @@ namespace PrjHikariwoAnim
             clMotion.AddElements(elem);//Elements登録
             //clMotion.Store();//
 
-/*
+            //以下、行番号とタブを割り振る処理
+            clMotion.Assignment();
+
+            /*
             //TreeViewへの登録
             //TreeViewの選択中Motionを取得
             TreeNode clTreeNodeAdd = clTreeNode.Nodes.Add(elem.mName, elem.mName);
@@ -680,13 +683,10 @@ namespace PrjHikariwoAnim
             clTreeNode.Nodes[elem.mName].Tag = elem.GetHashCode();
             clTreeNode.Nodes[elem.mName].ImageIndex = 4;
             clTreeNode.Nodes[elem.mName].SelectedImageIndex = 3;
-*/
+            */
 
             //Control更新
             this.mFormControl.Refresh();
-
-            //以下、行番号とタブを割り振る処理
-            clMotion.Assignment();
         }
 
         /*

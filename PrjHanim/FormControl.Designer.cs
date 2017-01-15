@@ -38,6 +38,7 @@
             this.button_ItemUp = new System.Windows.Forms.Button();
             this.SubMenuTimeLine = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_AddKey = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DelKey = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_DelFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_InsertFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,7 +60,6 @@
             this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.ToolStripMenuItem_DelKey = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -110,7 +110,7 @@
             this.panel_Control.AllowDrop = true;
             this.panel_Control.AutoScroll = true;
             this.panel_Control.BackColor = System.Drawing.Color.Black;
-            this.panel_Control.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel_Control.BackgroundImage")));
+            this.panel_Control.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
             this.panel_Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Control.Location = new System.Drawing.Point(0, 20);
             this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
@@ -183,65 +183,73 @@
             this.ToolStripMenuItem_OverWrite,
             this.ToolStripMenuItem_Insert});
             this.SubMenuTimeLine.Name = "SubMenuTimeLine";
-            this.SubMenuTimeLine.Size = new System.Drawing.Size(153, 208);
+            this.SubMenuTimeLine.Size = new System.Drawing.Size(149, 186);
             // 
             // ToolStripMenuItem_AddKey
             // 
             this.ToolStripMenuItem_AddKey.Name = "ToolStripMenuItem_AddKey";
-            this.ToolStripMenuItem_AddKey.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AddKey.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_AddKey.Text = "キーフレーム登録";
             this.ToolStripMenuItem_AddKey.Click += new System.EventHandler(this.ToolStripMenuItem_AddKey_Click);
+            // 
+            // ToolStripMenuItem_DelKey
+            // 
+            this.ToolStripMenuItem_DelKey.Name = "ToolStripMenuItem_DelKey";
+            this.ToolStripMenuItem_DelKey.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem_DelKey.Text = "キーフレーム削除";
+            this.ToolStripMenuItem_DelKey.Click += new System.EventHandler(this.ToolStripMenuItem_DelKey_Click);
             // 
             // toolStripMenuItem_DelFrame
             // 
             this.toolStripMenuItem_DelFrame.Name = "toolStripMenuItem_DelFrame";
-            this.toolStripMenuItem_DelFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_DelFrame.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem_DelFrame.Text = "フレーム削除";
             this.toolStripMenuItem_DelFrame.Click += new System.EventHandler(this.toolStripMenuItem_DelFrame_Click);
             // 
             // toolStripMenuItem_InsertFrame
             // 
             this.toolStripMenuItem_InsertFrame.Name = "toolStripMenuItem_InsertFrame";
-            this.toolStripMenuItem_InsertFrame.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_InsertFrame.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem_InsertFrame.Text = "フレーム挿入";
             this.toolStripMenuItem_InsertFrame.Click += new System.EventHandler(this.toolStripMenuItem_InsertFrame_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // ToolStripMenuItem_Cut
             // 
             this.ToolStripMenuItem_Cut.Name = "ToolStripMenuItem_Cut";
-            this.ToolStripMenuItem_Cut.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Cut.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Cut.Text = "切り取り(X)";
             this.ToolStripMenuItem_Cut.Click += new System.EventHandler(this.ToolStripMenuItem_Cut_Click);
             // 
             // ToolStripMenuItem_Copy
             // 
             this.ToolStripMenuItem_Copy.Name = "ToolStripMenuItem_Copy";
-            this.ToolStripMenuItem_Copy.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Copy.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Copy.Text = "コピー(C)";
             this.ToolStripMenuItem_Copy.Click += new System.EventHandler(this.ToolStripMenuItem_Copy_Click);
             // 
             // ToolStripMenuItem_OverWrite
             // 
             this.ToolStripMenuItem_OverWrite.Name = "ToolStripMenuItem_OverWrite";
-            this.ToolStripMenuItem_OverWrite.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_OverWrite.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_OverWrite.Text = "貼付上書(V)";
             this.ToolStripMenuItem_OverWrite.Click += new System.EventHandler(this.ToolStripMenuItem_OverWrite_Click);
             // 
             // ToolStripMenuItem_Insert
             // 
             this.ToolStripMenuItem_Insert.Name = "ToolStripMenuItem_Insert";
-            this.ToolStripMenuItem_Insert.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Insert.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_Insert.Text = "貼付挿入(B)";
             this.ToolStripMenuItem_Insert.Click += new System.EventHandler(this.ToolStripMenuItem_Insert_Click);
             // 
             // panel_Time
             // 
             this.panel_Time.AutoScroll = true;
+            this.panel_Time.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
             this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
@@ -420,13 +428,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(152, 27);
             this.panel3.TabIndex = 14;
-            // 
-            // ToolStripMenuItem_DelKey
-            // 
-            this.ToolStripMenuItem_DelKey.Name = "ToolStripMenuItem_DelKey";
-            this.ToolStripMenuItem_DelKey.Size = new System.Drawing.Size(152, 22);
-            this.ToolStripMenuItem_DelKey.Text = "キーフレーム削除";
-            this.ToolStripMenuItem_DelKey.Click += new System.EventHandler(this.ToolStripMenuItem_DelKey_Click);
             // 
             // FormControl
             // 
