@@ -1008,10 +1008,16 @@ namespace PrjHikariwoAnim
 
                 e.Effect = DragDropEffects.Copy;
             }
+
             if (e.Data.GetType() == typeof(ELEMENTS))
-            { e.Effect = DragDropEffects.Copy; }
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+
             if (e.Data.GetType() == typeof(Image))
-            { e.Effect = DragDropEffects.Copy; }
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
 
             panel_PreView.Refresh();
         }
@@ -1020,13 +1026,19 @@ namespace PrjHikariwoAnim
             e.Effect = DragDropEffects.None;
             //Drop受け入れ準備
             if (e.Data.GetDataPresent(typeof(ListViewItem)))
-            { e.Effect = DragDropEffects.Copy; }
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
 
             if (e.Data.GetDataPresent(typeof(ImageChip)))
-            { e.Effect = DragDropEffects.Copy; }
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            { e.Effect = DragDropEffects.Copy; }
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
         }
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {

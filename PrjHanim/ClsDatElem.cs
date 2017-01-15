@@ -400,22 +400,28 @@ namespace PrjHikariwoAnim
             int inY = FormControl.CELL_HEIGHT;
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
-            SolidBrush sb = new SolidBrush(Color.Black);
-
-            //背景塗り
-            if (this.mLineNo % 2 != 0)
-            {
-                sb = new SolidBrush(Color.FromArgb(0xff, 30, 30, 40));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
-            }
+            //以下、背景を塗る処理
             if (this.isSelect)
             {
                 //選択中Elementsの背景強調
-                sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
+                SolidBrush sb = new SolidBrush(Color.Green);
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+            }
+            else
+            {
+                if (this.mLineNo % 2 == 0)
+                {
+                    SolidBrush sb = new SolidBrush(Color.Black);
+                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
+                else
+                {
+                    SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
             }
 
-            //ステートマーク 目
+            //以下、「目」アイコン表示処理
             if (this.isVisible)
             {
                 g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.CELL_HEIGHT);
@@ -425,7 +431,7 @@ namespace PrjHikariwoAnim
                 g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
-            //ステートマーク 鍵
+            //以下、「鍵」アイコン表示処理
             if (this.isLocked)
             {
                 g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
@@ -435,7 +441,7 @@ namespace PrjHikariwoAnim
                 g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
-            //ステートマーク 属性開閉
+            //以下、「開閉」アイコン表示処理
             if (this.isOpen)
             {
                 g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
@@ -448,19 +454,19 @@ namespace PrjHikariwoAnim
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
-                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
 
             //g.FillRectangle(Brushes.Lime, new Rectangle(0, 0, 500, 500));
 
-            //以下、子供描画処理
-            if (!this.isOpen) return;
-
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawControl(g);
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawControl(g);
+                }
             }
 
             //以下、子供のエレメント描画処理
@@ -480,30 +486,43 @@ namespace PrjHikariwoAnim
         /// <param name="g">描画先の高さ</param>
         public void DrawTime(Graphics g, int inWidth, int inHeight)
         {
-            //エレメントタイムライン表示処理
-            SolidBrush sb = new SolidBrush(Color.FromArgb(64, Color.Gray));
-
-            //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
-            //選択中Elementsの背景強調
-            if ((this.mLineNo % 2) != 0)
-            {
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
-            }
+            //以下、背景を塗る処理
             if (this.isSelect)
             {
-                //選択色
-                sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
+                //選択中Elementsの背景強調
+                SolidBrush clBrush = new SolidBrush(Color.Green);
+                g.FillRectangle(clBrush, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+            }
+            else
+            {
+                if (this.mLineNo % 2 == 0)
+                {
+                    SolidBrush clBrush = new SolidBrush(Color.Black);
+                    g.FillRectangle(clBrush, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
+                else
+                {
+                    SolidBrush clBrush = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                    g.FillRectangle(clBrush, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                }
             }
 
-            //以下、子供描画処理
-            if (!this.isOpen) return;
+            //以下、境界線描画処理
+            Pen clPen = new Pen(Color.Green);
+            int inY = this.mLineNo * FormControl.CELL_HEIGHT + FormControl.CELL_HEIGHT - 1;
+            g.DrawLine(clPen, 0, inY, inWidth, inY);
+
+            //以下、0フレーム目のマーカー表示処理
+            g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
 
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawTime(g);
+                foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawTime(g);
+                }
             }
 
             //以下、子供のエレメント描画処理

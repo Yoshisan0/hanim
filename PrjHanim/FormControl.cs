@@ -69,7 +69,8 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //ダブルバッファ強制有効化
-            panel_Time.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_Time,new object[] { true });
+            panel_Control.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
+            panel_Time.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
         }
 
         private void FormControl_Load(object sender, EventArgs e)
@@ -79,10 +80,15 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowControl.mSize;
 
             //以下、初期化処理
+            if (this.mMotion != null)
+            {
+                int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
+                this.mMotion.SetFrameNum(inFrameNum);
+            }
             this.mSelectElementKey = -1;
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
-            this.panel_Time.Height =HEAD_HEIGHT*5;          
+            this.panel_Time.Height = HEAD_HEIGHT * 5;
         }
 
         /// <summary>
@@ -220,20 +226,21 @@ namespace PrjHikariwoAnim
         {
             //LulerLine 目盛
             Brush numBrush = Brushes.AntiqueWhite;
-            for (int cx = 1; cx < (LineHeader.Width / CELL_WIDTH); cx++)
+            for (int cx = 1; cx < (LineHeader.Width / FormControl.CELL_WIDTH); cx++)
             {
                 if (cx % 5 == 0)
                 {
-                    e.Graphics.DrawLine(Pens.Orange, cx * CELL_WIDTH, LineHeader.Height / 4, cx * CELL_WIDTH, LineHeader.Height - 1);
-                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * CELL_WIDTH, 0));
+                    e.Graphics.DrawLine(Pens.Orange, cx * FormControl.CELL_WIDTH, LineHeader.Height / 4, cx * FormControl.CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * FormControl.CELL_WIDTH, 0));
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Green, cx * CELL_WIDTH, LineHeader.Height / 2, cx * CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawLine(Pens.Green, cx * FormControl.CELL_WIDTH, LineHeader.Height / 2, cx * FormControl.CELL_WIDTH, LineHeader.Height - 1);
                 }
             }
+
             //NowPotision 矢印
-            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (CELL_WIDTH / 2) - 4, 2));
+            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(FormControl.CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (FormControl.CELL_WIDTH / 2) - 3, 2));
         }
 
         //Left  Paine
@@ -307,15 +314,16 @@ namespace PrjHikariwoAnim
 
         private void panel_Time_Paint(object sender, PaintEventArgs e)
         {
-            int inWidth = this.panel_Control.Width;
-            int inHeight = this.panel_Control.Height;
+            int inWidth = this.panel_Time.Width;
+            int inHeight = this.panel_Time.Height;
 
             //以下、モーションのコントロール描画処理
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawTime(e.Graphics, this.panel_Control.Width, this.panel_Control.Height);
+                clMotion.mFrameSelectIndex = (int)numericUpDown_NowFlame.Value;
+                clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }
         }
 
@@ -357,8 +365,8 @@ namespace PrjHikariwoAnim
         {
             if(mMouseDownL)
             {
-                mSelect_Pos_End.X = e.X / CELL_WIDTH;
-                mSelect_Pos_End.Y = e.Y / CELL_HEIGHT;
+                mSelect_Pos_End.X = e.X / FormControl.CELL_WIDTH;
+                mSelect_Pos_End.Y = e.Y / FormControl.CELL_HEIGHT;
                 panel_Time.Refresh();
             }
 
@@ -392,6 +400,9 @@ namespace PrjHikariwoAnim
                     mSelect_Pos_End.X = cx;
                     mSelect_Pos_End.Y = cy;
                 }
+
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
             }
             mMouseDownL = false;
             //mMouseDownR = false;

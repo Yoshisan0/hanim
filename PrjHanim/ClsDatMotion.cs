@@ -10,6 +10,8 @@ namespace PrjHikariwoAnim
     {
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
+        public int mFrameNum;               //フレーム数
+        public int mFrameSelectIndex;       //現在選択中のフレームのインデックス（←まだ設定していない）
         private int mElemSelectIndex;       //現在編集中のエレメントリストのインデックス
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
@@ -27,6 +29,8 @@ namespace PrjHikariwoAnim
         {
             this.mID = inID;
             this.mName = clName;
+            this.mFrameNum = 1;
+            this.mFrameSelectIndex = -1;
             this.mElemSelectIndex = -1;
             this.mListElem = new List<ClsDatElem>();
         }
@@ -153,6 +157,8 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.SetFrameNum(inFrameNum);
             }
+
+            this.mFrameNum = inFrameNum;
         }
 
         /// <summary>
@@ -310,6 +316,17 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.DrawTime(g, inWidth, inHeight);
             }
+
+            //以下、選択中フレームのラインを表示する処理
+            Pen clPen = new Pen(Color.Green);
+            int inX = this.mFrameSelectIndex * FormControl.CELL_WIDTH;
+            g.DrawLine(clPen, inX, 0, inX, inHeight);
+            inX = this.mFrameSelectIndex * FormControl.CELL_WIDTH + FormControl.CELL_WIDTH;
+            g.DrawLine(clPen, inX, 0, inX, inHeight);
+
+            //以下、最終フレームの境界線描画処理
+            inX = this.mFrameNum * FormControl.CELL_WIDTH + FormControl.CELL_WIDTH;
+            g.DrawLine(clPen, inX, 0, inX, inHeight);
         }
     }
 }
