@@ -580,6 +580,16 @@ namespace PrjHikariwoAnim
             this.RemoveTextBoxName();
         }
 
+        private void button_ElemParent_Click(object sender, EventArgs e)
+        {
+            //一つ上の親になる
+        }
+
+        private void button_ElemChild_Click(object sender, EventArgs e)
+        {
+            //一行上のエレメントの子供になる
+        }
+
         private void button_ElemUp_Click(object sender, EventArgs e)
         {
             //兄と弟の入れ替えとする
