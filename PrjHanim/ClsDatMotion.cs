@@ -12,7 +12,7 @@ namespace PrjHikariwoAnim
         public string mName;    //モーション名
         public int mFrameNum;               //フレーム数
         public int mFrameSelectIndex;       //現在選択中のフレームのインデックス（←まだ設定していない）
-        private int mElemSelectIndex;       //現在編集中のエレメントリストのインデックス
+        public int mElemSelectIndex;        //現在編集中のエレメントリストのインデックス
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -267,6 +267,7 @@ namespace PrjHikariwoAnim
         /// <param name="inCY">中心Ｙ座標</param>
         public void DrawPreview(Graphics g, int inCX, int inCY)
         {
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
@@ -284,6 +285,7 @@ namespace PrjHikariwoAnim
         /// <param name="clFont">フォント管理クラス</param>
         public void DrawControl(Graphics g, int inWidth, int inHeight, Font clFont)
         {
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
@@ -310,6 +312,7 @@ namespace PrjHikariwoAnim
             }
             */
 
+            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
@@ -325,7 +328,7 @@ namespace PrjHikariwoAnim
             g.DrawLine(clPen, inX, 0, inX, inHeight);
 
             //以下、最終フレームの境界線描画処理
-            inX = this.mFrameNum * FormControl.CELL_WIDTH + FormControl.CELL_WIDTH;
+            inX = this.mFrameNum * FormControl.CELL_WIDTH;
             g.DrawLine(clPen, inX, 0, inX, inHeight);
         }
     }

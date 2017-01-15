@@ -235,11 +235,10 @@ namespace PrjHikariwoAnim
             foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
             {
                 ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.mLineNo == inLineNo)
-                {
-                    clMotion.mWorkOption = clOption;
-                    return;
-                }
+                if (clOption.mLineNo != inLineNo) continue;
+
+                clMotion.mWorkOption = clOption;
+                return;
             }
 
             int inCnt, inMax = this.mListElem.Count;
@@ -247,6 +246,7 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (clElem.mLineNo == inLineNo) return;  //Optionを検索したかったのだが、該当のItemがElementだった
+
                 clElem.FindOptionFromLineNo(clMotion, inLineNo);
             }
         }

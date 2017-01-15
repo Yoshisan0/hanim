@@ -40,7 +40,6 @@ namespace PrjHikariwoAnim
 
       キーフレーム登録(Enter)/削除(Del)
       範囲　削除/追加/挿入
-
       */
     public partial class FormControl : Form
     {
@@ -48,7 +47,6 @@ namespace PrjHikariwoAnim
         public static readonly int CELL_HEIGHT = 18;
         public static readonly int CELL_WIDTH = 12;
 
-        private int mSelectElementKey;
         private Point mSelect_Pos_Start;
         private Point mSelect_Pos_End;
         private bool mMouseDownL=false;
@@ -85,7 +83,7 @@ namespace PrjHikariwoAnim
                 int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
                 this.mMotion.SetFrameNum(inFrameNum);
             }
-            this.mSelectElementKey = -1;
+
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
@@ -100,21 +98,11 @@ namespace PrjHikariwoAnim
             this.Text = ClsSystem.GetWindowName("Control", clMotion);
         }
 
-        public int GetElementSelectKey()
-        {
-            return (this.mSelectElementKey);
-        }
-
         public void RemoveElementFromKey(int inElementKey)
         {
             if (this.mMotion == null) return;
 
             this.mMotion.RemoveElemFromIndex(inElementKey);
-
-            if (inElementKey == this.mSelectElementKey)
-            {
-                this.mSelectElementKey = -1;
-            }
 
             RefreshAll();
         }
@@ -254,35 +242,38 @@ namespace PrjHikariwoAnim
 
             //Item選択
             var work = e.Y / CELL_HEIGHT;
+
             //Item最大数を確認
             if (work < this.mMotion.mListElem.Count)
             {
-                ClsDatElem ele = this.mMotion.mListElem[work];
-                mSelectElementKey = work;
+                ClsDatElem clElem = this.mMotion.mListElem[work];
+                this.mMotion.mElemSelectIndex = work;
 
                 //Click Eye
                 if (e.X < 16) {
-                    ele.isVisible = !ele.isVisible;
+                    clElem.isVisible = !clElem.isVisible;
                 }
 
                 //Click Locked
                 if (e.X > 16 && e.X < 32) {
-                    ele.isLocked = !ele.isLocked;
+                    clElem.isLocked = !clElem.isLocked;
                 }
 
                 //Attribute Open
                 if (e.X > 32 && e.X < 48) {
-                    ele.isOpen = !ele.isOpen;
+                    clElem.isOpen = !clElem.isOpen;
 
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
                 }
 
                 //SelectElements
-                if (e.X > 48) { ele.isSelect = !ele.isSelect; }
+                if (e.X > 48) {
+                    clElem.isSelect = !clElem.isSelect;
+                }
 
-                panel_Control.Refresh();
-                panel_Time.Refresh();
-                mFormMain.Refresh();
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
             }
         }
         private void panel_Control_MouseEnter(object sender, EventArgs e)
@@ -334,6 +325,7 @@ namespace PrjHikariwoAnim
             //フレーム検出
             int cx = e.X / CELL_WIDTH;
             int cy = e.Y / CELL_HEIGHT;
+
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
             if (cx <= numericUpDown_MaxFrame.Value)
@@ -350,6 +342,7 @@ namespace PrjHikariwoAnim
                     mMotion.Completion(cx);
                 }
                 */
+
                 mFormMain.Refresh();
             }          
         }
@@ -369,8 +362,8 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_End.Y = e.Y / FormControl.CELL_HEIGHT;
                 panel_Time.Refresh();
             }
-
         }
+
         private void panel_Time_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -379,11 +372,13 @@ namespace PrjHikariwoAnim
                 mSelect_Pos_End.X = 0;
                 mSelect_Pos_End.Y = 0;
             }
+
             //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
             mSelect_Pos_Start.X = e.X / CELL_WIDTH;
             mSelect_Pos_Start.Y = e.Y / CELL_HEIGHT;
         }
+
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
         {
             if(mMouseDownL)
@@ -392,6 +387,7 @@ namespace PrjHikariwoAnim
                 //フレーム検出
                 int cx = e.X / CELL_WIDTH;
                 int cy = e.Y / CELL_HEIGHT;
+
                 //注:範囲指定時は考慮
                 //クリックフレームを現在のフレームに指定
                 if (cx <= numericUpDown_MaxFrame.Value)
