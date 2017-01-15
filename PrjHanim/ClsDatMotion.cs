@@ -254,18 +254,18 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// パーツの描画処理
+        /// プレビュー上のパーツの描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
         /// <param name="inCX">中心Ｘ座標</param>
         /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawElem(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g, int inCX, int inCY)
         {
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawElem(g, inCX, inCY);
+                clElem.DrawPreview(g, inCX, inCY);
             }
         }
 
@@ -273,16 +273,16 @@ namespace PrjHikariwoAnim
         /// モーションのコントロール描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="clFont">フォント管理クラス</param>
         /// <param name="inWidth">描画先の幅</param>
         /// <param name="inHeight">描画先の高さ</param>
-        public void DrawControl(Graphics g, Font clFont, int inWidth, int inHeight)
+        /// <param name="clFont">フォント管理クラス</param>
+        public void DrawControl(Graphics g, int inWidth, int inHeight, Font clFont)
         {
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawControl(g, clFont, inWidth, inHeight);
+                clElem.DrawControl(g, inWidth, inHeight, clFont);
             }
         }
 
@@ -290,13 +290,25 @@ namespace PrjHikariwoAnim
         /// モーションのタイムライン描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        public void DrawTime(Graphics g)
+        /// <param name="inWidth">描画先の幅</param>
+        /// <param name="inHeight">描画先の高さ</param>
+        public void DrawTime(Graphics g, int inWidth, int inHeight)
         {
+            /*
+            //DrawDragArea
+            if (!mSelect_Pos_End.IsEmpty)
+            {
+                //選択範囲の網掛け
+                SolidBrush sb = new SolidBrush(Color.FromArgb(128, 0, 0, 128));
+                e.Graphics.FillRectangle(sb, mSelect_Pos_Start.X * TIME_CELL_WIDTH, 0, (mSelect_Pos_End.X - mSelect_Pos_Start.X) * TIME_CELL_WIDTH, inHeight - 1);
+            }
+            */
+
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g);
+                clElem.DrawTime(g, inWidth, inHeight);
             }
         }
     }

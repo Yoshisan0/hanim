@@ -64,25 +64,25 @@ namespace PrjHikariwoAnim
             UDnumSY.Value = (decimal)atr.Scale.Y;
             //UDnumSZ.Value = (decimal)atr.Scale.Z;
 
-            checkX.Checked = atr.isX;
-            checkY.Checked = atr.isY;
+            checkBox_X.Checked = atr.isX;
+            checkBox_Y.Checked = atr.isY;
             //checkZ.Checked = atr.isZ;
 
-            checkRot.Checked = atr.isRZ;
+            checkBox_Rot.Checked = atr.isRZ;
 
-            checkSX.Checked = atr.isSX;
-            checkSY.Checked = atr.isSY;
+            checkBox_SX.Checked = atr.isSX;
+            checkBox_SY.Checked = atr.isSY;
             //checkSZ.Checked = atr.isSZ;
 
-            checkFlipH.Checked = atr.FlipH;
-            checkFlipV.Checked = atr.FlipV;
+            checkBox_FlipH.Checked = atr.FlipH;
+            checkBox_FlipV.Checked = atr.FlipV;
             //checkEnable.Checked = atr.Enable;
-            checkVisible.Checked = atr.Visible;
+            checkBox_Visible.Checked = atr.Visible;
 
-            checkT.Checked = atr.isTransparrency;
+            checkBox_T.Checked = atr.isTransparrency;
             UDnumT.Value = atr.Transparency;
 
-            checkColor.Checked = atr.isColor;
+            checkBox_Color.Checked = atr.isColor;
             ColorCode.Text = $"{atr.Color:X8}";
             ColorCode.Tag = atr.Color;
 
@@ -92,7 +92,7 @@ namespace PrjHikariwoAnim
             UDnumYoff.Value = (int)atr.Offset.Y;
             //UDnumZoff.Value = (int)atr.Offset.Z;
 
-            UserText.Text = atr.Text;
+            textBox_User.Text = atr.Text;
 
             //変更完了
             isLocked = false;
@@ -121,16 +121,16 @@ namespace PrjHikariwoAnim
                 atr.Scale.Y = (float)UDnumSY.Value;
                 //ret.Scale.Z = (float)UDnumSZ.Value;
 
-                atr.FlipH = checkFlipH.Checked;
-                atr.FlipV = checkFlipV.Checked;
+                atr.FlipH = checkBox_FlipH.Checked;
+                atr.FlipV = checkBox_FlipV.Checked;
 
                 //ret.Enable = checkEnable.Checked;
-                atr.Visible = checkVisible.Checked;
+                atr.Visible = checkBox_Visible.Checked;
 
-                atr.isTransparrency = checkT.Checked;
+                atr.isTransparrency = checkBox_T.Checked;
                 atr.Transparency = (int)UDnumT.Value;
 
-                atr.isColor = checkColor.Checked;
+                atr.isColor = checkBox_Color.Checked;
                 if (ColorCode.Tag != null) atr.Color = (int)ColorCode.Tag;
                 if (ColorCode.Text != "")
                 { 
@@ -142,7 +142,7 @@ namespace PrjHikariwoAnim
                 atr.Offset.Y = (int)UDnumYoff.Value;
                 //ret.Offset.Z = (int)UDnumZoff.Value;
 
-                atr.Text = UserText.Text;
+                atr.Text = textBox_User.Text;
 
                 ValuesPool = atr;
                 isLocked = false;
@@ -177,7 +177,7 @@ namespace PrjHikariwoAnim
             }
         }
 
-        private void checkUserText_CheckStateChanged(object sender, EventArgs e)
+        private void checkBox_CheckStateChanged(object sender, EventArgs e)
         {
             //チェックボックス系
             //any Param Update どれかのチェックが変更された通知をメインに送る

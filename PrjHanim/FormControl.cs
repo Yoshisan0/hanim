@@ -45,8 +45,8 @@ namespace PrjHikariwoAnim
     public partial class FormControl : Form
     {
         public static readonly int HEAD_HEIGHT = 20;
-        public static readonly int TIME_CELL_HEIGHT = 18;
-        public static readonly int TIME_CELL_WIDTH = 12;
+        public static readonly int CELL_HEIGHT = 18;
+        public static readonly int CELL_WIDTH = 12;
 
         private int mSelectElementKey;
         private Point mSelect_Pos_Start;
@@ -81,7 +81,7 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
             this.mSelectElementKey = -1;
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
-            this.panel_Time.Width = TIME_CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
+            this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height =HEAD_HEIGHT*5;          
         }
 
@@ -191,7 +191,7 @@ namespace PrjHikariwoAnim
             int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
             this.mMotion.SetFrameNum(inFrameNum);
 
-            int inWidth = inFrameNum * FormControl.TIME_CELL_WIDTH + 1;
+            int inWidth = inFrameNum * FormControl.CELL_WIDTH + 1;
             this.panel_Time.Width = inWidth;
             this.panel_Time.Refresh();
         }
@@ -220,20 +220,20 @@ namespace PrjHikariwoAnim
         {
             //LulerLine 目盛
             Brush numBrush = Brushes.AntiqueWhite;
-            for (int cx = 1; cx < (LineHeader.Width / TIME_CELL_WIDTH); cx++)
+            for (int cx = 1; cx < (LineHeader.Width / CELL_WIDTH); cx++)
             {
                 if (cx % 5 == 0)
                 {
-                    e.Graphics.DrawLine(Pens.Orange, cx * TIME_CELL_WIDTH, LineHeader.Height / 4, cx * TIME_CELL_WIDTH, LineHeader.Height - 1);
-                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * TIME_CELL_WIDTH, 0));
+                    e.Graphics.DrawLine(Pens.Orange, cx * CELL_WIDTH, LineHeader.Height / 4, cx * CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawString(cx.ToString(), Font, Brushes.AntiqueWhite, new Point((cx - 1) * CELL_WIDTH, 0));
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Green, cx * TIME_CELL_WIDTH, LineHeader.Height / 2, cx * TIME_CELL_WIDTH, LineHeader.Height - 1);
+                    e.Graphics.DrawLine(Pens.Green, cx * CELL_WIDTH, LineHeader.Height / 2, cx * CELL_WIDTH, LineHeader.Height - 1);
                 }
             }
             //NowPotision 矢印
-            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(TIME_CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (TIME_CELL_WIDTH / 2) - 4, 2));
+            e.Graphics.DrawImage(Properties.Resources.LineMarker, new Point(CELL_WIDTH * (int)numericUpDown_NowFlame.Value + (CELL_WIDTH / 2) - 4, 2));
         }
 
         //Left  Paine
@@ -246,7 +246,7 @@ namespace PrjHikariwoAnim
             //※ e.Y がそのまま mListElem のインデックスになるわけではないので、ここは修正する必要があります
 
             //Item選択
-            var work = e.Y / TIME_CELL_HEIGHT;
+            var work = e.Y / CELL_HEIGHT;
             //Item最大数を確認
             if (work < this.mMotion.mListElem.Count)
             {
@@ -296,15 +296,26 @@ namespace PrjHikariwoAnim
             int inWidth = this.panel_Control.Width;
             int inHeight = this.panel_Control.Height;
 
-            //以下、イメージリスト描画処理
-            e.Graphics.Clear(Color.Black);
+            //以下、モーションのコントロール描画処理
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+            if (isExist)
+            {
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.DrawControl(e.Graphics, this.panel_Control.Width, this.panel_Control.Height, this.mFont);
+            }
+        }
+
+        private void panel_Time_Paint(object sender, PaintEventArgs e)
+        {
+            int inWidth = this.panel_Control.Width;
+            int inHeight = this.panel_Control.Height;
 
             //以下、モーションのコントロール描画処理
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawControl(e.Graphics, this.mFont, this.panel_Control.Width, this.panel_Control.Height);
+                clMotion.DrawTime(e.Graphics, this.panel_Control.Width, this.panel_Control.Height);
             }
         }
 
@@ -313,8 +324,8 @@ namespace PrjHikariwoAnim
         {
             //Flameクリック処理
             //フレーム検出
-            int cx = e.X / TIME_CELL_WIDTH;
-            int cy = e.Y / TIME_CELL_HEIGHT;
+            int cx = e.X / CELL_WIDTH;
+            int cy = e.Y / CELL_HEIGHT;
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
             if (cx <= numericUpDown_MaxFrame.Value)
@@ -346,8 +357,8 @@ namespace PrjHikariwoAnim
         {
             if(mMouseDownL)
             {
-                mSelect_Pos_End.X = e.X / TIME_CELL_WIDTH;
-                mSelect_Pos_End.Y = e.Y / TIME_CELL_HEIGHT;
+                mSelect_Pos_End.X = e.X / CELL_WIDTH;
+                mSelect_Pos_End.Y = e.Y / CELL_HEIGHT;
                 panel_Time.Refresh();
             }
 
@@ -362,8 +373,8 @@ namespace PrjHikariwoAnim
             }
             //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
-            mSelect_Pos_Start.X = e.X / TIME_CELL_WIDTH;
-            mSelect_Pos_Start.Y = e.Y / TIME_CELL_HEIGHT;
+            mSelect_Pos_Start.X = e.X / CELL_WIDTH;
+            mSelect_Pos_Start.Y = e.Y / CELL_HEIGHT;
         }
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
         {
@@ -371,8 +382,8 @@ namespace PrjHikariwoAnim
             {
                 //Flameクリック処理
                 //フレーム検出
-                int cx = e.X / TIME_CELL_WIDTH;
-                int cy = e.Y / TIME_CELL_HEIGHT;
+                int cx = e.X / CELL_WIDTH;
+                int cy = e.Y / CELL_HEIGHT;
                 //注:範囲指定時は考慮
                 //クリックフレームを現在のフレームに指定
                 if (cx <= numericUpDown_MaxFrame.Value)
@@ -386,100 +397,11 @@ namespace PrjHikariwoAnim
             //mMouseDownR = false;
             //mMouseDownM = false;
         }
-        private void panel_Time_Paint(object sender, PaintEventArgs e)
-        {
-            //TimeLine
-            int inWidth = this.panel_Time.Width;
-            int inHeight = this.panel_Time.Height;
-            int inFrame = (int)this.numericUpDown_MaxFrame.Value;
-            int CellWidth = TIME_CELL_WIDTH;
-            int CellHeight = TIME_CELL_HEIGHT;
-            int inCnt, inMax = 5;
-
-            //全消去
-            e.Graphics.Clear(Color.Black);
-
-//※ここはthis.mMotionをe.Graphicsで描画しやすいように並べて（各クラスのmLineNoを見て）描画するようにします
-//※トリッキーなやり方としては、this.mMotionにe.Graphicsを渡してやって内部で描画する
-
-            //以下、横ライン描画処理
-
-            //e.Graphics.DrawLine(Pens.Black, 0, CellHeight, inWidth - 1, CellHeight);
-
-            if (mMotion == null) return;
-            inMax = this.mMotion.mListElem.Count;   //Elements数
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Gray));
-                //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
-                //選択中Elementsの背景強調
-                ClsDatElem ele= this.mMotion.mListElem[inCnt];
-                if ((inCnt % 2) != 0)
-                {
-                    e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
-                }
-                if (ele.isSelect)
-                {
-                    //選択色
-                    sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                    e.Graphics.FillRectangle(sb, 0, inCnt * CellHeight, panel_Time.Width, CellHeight - 1);
-                }
-            }
-
-            /* ※データ構造が変わったので一旦コメントアウト comennt out by yoshi 2017/01/08
-            //以下、縦ライン描画処理
-            for (inCnt = 0; inCnt < inFrame; inCnt++)
-            {
-                Pen pen = new Pen( Color.FromArgb(255,40,40,40));// Pens.DimGray;
-
-                //5の倍数の時(グレイ)
-                if (inCnt % 5 == 0) pen = Pens.DarkGreen;
-                //現在のフレームの時(赤)
-                if (inCnt == numericUpDown_NowFlame.Value)
-                {
-                    SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Red));
-                    e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
-                }
-                //標準(黒)
-                e.Graphics.DrawLine(pen, inCnt * CellWidth, 0, inCnt * CellWidth, inHeight);
-
-                //Draw FRAMEtype
-                FRAME frm = this.mMotion.GetFrame(inCnt);
-                if(frm!=null)
-                {
-                    if(frm.Type == FRAME.TYPE.KeyFrame)
-                    {
-//現在テスト中（ここから）
-//キーフレームの表示を画像で行う！？ 
-
-//                      SolidBrush sb = new SolidBrush(Color.FromArgb(64,Color.Aquamarine));
-//                      e.Graphics.FillRectangle(sb, inCnt * CellWidth, 0, CellWidth, inHeight - 1);
-
-                        e.Graphics.DrawImage(Properties.Resources.markRed, inCnt * CellWidth + 2, 1);   //Ｙ座標はどうやって取得するのが良いだろうか？
-//現在テスト中（ここまで）
-                    }
-                    if (frm.Type == FRAME.TYPE.Control)
-                    { }
-                }
-
-            }
-            */
-
-
-            //DrawDragArea
-            if (!mSelect_Pos_End.IsEmpty)
-            {
-                //選択範囲の網掛け
-                SolidBrush sb = new SolidBrush(Color.FromArgb(128, 0, 0, 128));
-                e.Graphics.FillRectangle(sb, mSelect_Pos_Start.X * TIME_CELL_WIDTH, 0, (mSelect_Pos_End.X-mSelect_Pos_Start.X) * TIME_CELL_WIDTH, inHeight - 1);
-            }
-
-        }
 
         private void panel_Time_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //タイムライン上ダブルクリックは KeyFrame作成
-            int pos = e.X / TIME_CELL_WIDTH;
+            int pos = e.X / CELL_WIDTH;
             //フレーム範囲チェック
             if (pos >= numericUpDown_MaxFrame.Value) return;
 

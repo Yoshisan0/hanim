@@ -936,7 +936,7 @@ namespace PrjHikariwoAnim
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawElem(g, vcx, vcy);
+                clMotion.DrawPreview(g, vcx, vcy);
             }
         }
         /// <summary>

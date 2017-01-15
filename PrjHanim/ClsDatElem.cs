@@ -257,7 +257,7 @@ namespace PrjHikariwoAnim
         /// <param name="g">描画管理クラス</param>
         /// <param name="inCX">中心Ｘ座標</param>
         /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawElem(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g, int inCX, int inCY)
         {
             AttributeBase atr = this.mAttInit;
 
@@ -383,7 +383,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawElem(g, inCX, inCY);
+                clElem.DrawPreview(g, inCX, inCY);
             }
         }
 
@@ -391,13 +391,13 @@ namespace PrjHikariwoAnim
         /// エレメントのコントロール描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="clFont">フォント管理クラス</param>
         /// <param name="inWidth">描画先の幅</param>
         /// <param name="inHeight">描画先の高さ</param>
-        public void DrawControl(Graphics g, Font clFont, int inWidth, int inHeight)
+        /// <param name="clFont">フォント管理クラス</param>
+        public void DrawControl(Graphics g, int inWidth, int inHeight, Font clFont)
         {
             //以下、横ライン描画処理
-            int inY = FormControl.TIME_CELL_HEIGHT;
+            int inY = FormControl.CELL_HEIGHT;
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             SolidBrush sb = new SolidBrush(Color.Black);
@@ -406,49 +406,49 @@ namespace PrjHikariwoAnim
             if (this.mLineNo % 2 != 0)
             {
                 sb = new SolidBrush(Color.FromArgb(0xff, 30, 30, 40));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.TIME_CELL_HEIGHT, inWidth, FormControl.TIME_CELL_HEIGHT - 1);
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
             }
             if (this.isSelect)
             {
                 //選択中Elementsの背景強調
                 sb = new SolidBrush(Color.FromArgb(128, Color.Green));
-                g.FillRectangle(sb, 0, this.mLineNo * FormControl.TIME_CELL_HEIGHT, inWidth, FormControl.TIME_CELL_HEIGHT - 1);
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
             }
 
             //ステートマーク 目
             if (this.isVisible)
             {
-                g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //ステートマーク 鍵
             if (this.isLocked)
             {
-                g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //ステートマーク 属性開閉
             if (this.isOpen)
             {
-                g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
             }
             else
             {
-                g.DrawImage(Properties.Resources.plus, 2 + 32, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.plus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
-                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.TIME_CELL_HEIGHT);
+                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //g.FillRectangle(Brushes.Lime, new Rectangle(0, 0, 500, 500));
@@ -468,7 +468,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawControl(g, clFont, inWidth, inHeight);
+                clElem.DrawControl(g, inWidth, inHeight, clFont);
             }
         }
 
@@ -476,9 +476,25 @@ namespace PrjHikariwoAnim
         /// エレメントのタイムライン描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        public void DrawTime(Graphics g)
+        /// <param name="g">描画先の幅</param>
+        /// <param name="g">描画先の高さ</param>
+        public void DrawTime(Graphics g, int inWidth, int inHeight)
         {
-//エレメントタイムライン表示処理
+            //エレメントタイムライン表示処理
+            SolidBrush sb = new SolidBrush(Color.FromArgb(64, Color.Gray));
+
+            //e.Graphics.DrawLine(Pens.Black, 0, inY, inWidth, inY);
+            //選択中Elementsの背景強調
+            if ((this.mLineNo % 2) != 0)
+            {
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
+            }
+            if (this.isSelect)
+            {
+                //選択色
+                sb = new SolidBrush(Color.FromArgb(128, Color.Green));
+                g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT - 1);
+            }
 
             //以下、子供描画処理
             if (!this.isOpen) return;
@@ -495,7 +511,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g);
+                clElem.DrawTime(g, inWidth, inHeight);
             }
         }
     }
