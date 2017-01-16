@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
+using System.Collections;
 
 namespace PrjHikariwoAnim
 {
@@ -15,19 +16,21 @@ namespace PrjHikariwoAnim
             重複ファイルは登録しない
             パスと検索用のファイル名を記録しIDで管理
 
-            CellListはさらにその画像の一部分を表現
-            CellとImage分離するか悩む
+            ImageChipListはさらにその画像の一部分を表現
+            ImageChipとImage分離するか悩む
         */
         // member:
 
         //CellのGetSetは遠回しになるのでCellList自体を公開
         //取扱い注意
         public List<ImageChip> ImageChipList;
+        //private Hashtable ImageHashTable;//<MD5,Image> 画像重複チェック用
 
         // method:
         public ImageManagerBase()
         {
             ImageChipList = new List<ImageChip>();
+            //ImageHashTable = new Hashtable();//<MD5,Image>
         }
 
         //Image
@@ -50,6 +53,11 @@ namespace PrjHikariwoAnim
             ImageChipList.RemoveAt(s);
             //CellListの該当も削除するか悩む
             return true;
+        }
+        public void RemoveAll()
+        {
+            ImageChipList.Clear();
+            //ImageHashTable.Clear();
         }
         public Image GetImageFromID(int ID)
         {
@@ -100,41 +108,60 @@ namespace PrjHikariwoAnim
             sr.Close();
         }
 
-        public void AddImageChip(ImageChip c)
+        public bool AddImageChip(ImageChip c)
         {
-            
+
             ImageChipList.Add(c);
+            return true;
         }
         /// <summary>
         /// Add Cell from Cell.ImageID
         /// </summary>
         /// <param name="cell">Rectangle</param> 
-        public void AddImageChipFromID(ImageChip a)
+        public void AddImageChipFromID(ImageChip chip)
         {
-            if (a.SrcID > ImageChipList.Count)
+            if (chip.SrcID > ImageChipList.Count)
             {
                 Console.Out.WriteLine("[ImageID]OutofRange");
                 return;
             }
             //Cellにイメージ格納
-            Bitmap srcBmp = new Bitmap(ImageChipList[a.SrcID].Img);
-            Bitmap dstBmp = srcBmp.Clone(a.Rect, srcBmp.PixelFormat);
-            a.Img = dstBmp;
-            ImageChipList.Add(a);//追加
+            Bitmap srcBmp = new Bitmap(ImageChipList[chip.SrcID].Img);
+            Bitmap dstBmp = srcBmp.Clone(chip.Rect, srcBmp.PixelFormat);
+            chip.Img = dstBmp;
+            AddImageChip(chip);//追加
         }
         /// <summary>
-        /// Add Cell From Image
+        /// イメージからchip情報のrect範囲を抜き出し追加 Add Chip.Rect From Image
         /// </summary>
         /// <param name="img">Image</param>
-        /// <param name="cell">Rectangle</param>
-        public void AddImageChipFromImage(Image img,ImageChip cell)
+        /// <param name="chip">Rectangle</param>
+        public void AddImageChipFromImage(Image img,ImageChip chip)
         {
-            //重複チェック
             Bitmap srcBmp = new Bitmap(img);
             //Rectangle srcRect = new Rectangle(cell.Rect.Left,cell.Rect.Top,(cell.Rect.Right-cell.Rect.Left)-1,(cell.Rect.Bottom-cell.Rect.Top)-1); 
-            Bitmap dstBmp = srcBmp.Clone(cell.Rect, srcBmp.PixelFormat);
-            cell.Img = dstBmp;
-            ImageChipList.Add(cell);//追加
+            Bitmap dstBmp = srcBmp.Clone(chip.Rect, srcBmp.PixelFormat);
+            chip.Img = dstBmp;
+            chip.Name = "Cut:" + chip.Name;
+            AddImageChip(chip);//追加
+        }
+        /// <summary>
+        /// イメージが既存かを確認
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public bool isImageStored(Image img)
+        {
+            return false;// ImageHashTable.ContainsValue(img);
+        }
+        /// <summary>
+        /// MD5が既存かを確認
+        /// </summary>
+        /// <param name="md5"></param>
+        /// <returns></returns>
+        public bool isImageSrtoredMD5(string md5)
+        {
+            return false;//ImageHashTable.ContainsKey(md5);
         }
 
         /// <summary>
@@ -189,14 +216,7 @@ namespace PrjHikariwoAnim
         {
             return ImageChipList.Count;
         }
-        public ImageChip GetImageChip(int index)
-        {
-            if (index <= ImageChipList.Count)
-            {
-                return ImageChipList[index];
-            }
-            return null;
-        }
+
         public ImageChip GetImageChipFromImageID(int ID)
         {
             return  ImageChipList.Find((ImageChip c) =>(c.SrcID==ID));
@@ -204,6 +224,10 @@ namespace PrjHikariwoAnim
         public ImageChip GetImageChipFromHash(int ID)
         {
             return ImageChipList.Find((ImageChip c) => (c.GetHashCode() == ID));
+        }
+        public ImageChip GetImageChipFromMD5(string md5)
+        {
+            return ImageChipList.Find((ImageChip c) => (c.StrMD5 == md5));
         }
 
     }
@@ -239,10 +263,11 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ImageChip
     {
-        public bool Selected;
+        public bool Selected;//
         public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
         public int ID;//識別コード(hash?)
         public string Name;
+        public string StrMD5;//ImageからのMD5 重複厳重チェック用
         public int SrcID;//どの画像の (自身がオリジナルの場合:0)
 	    public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         public Bitmap Img;//汎用性と速度の為ここでも保持
@@ -252,13 +277,11 @@ namespace PrjHikariwoAnim
         {
             SrcID = 0;
             Name = "Noname";
+            StrMD5 = "";
+            Path = "";
             Rect = new Rectangle(0, 0, 0, 0);
         }
-        public ImageChip(ImageChip a)
-        {
-            SrcID = a.SrcID;
-            Rect = a.Rect;
-        }
+
         /// <summary>
         /// 既存CellIDの一部を登録
         /// </summary>
@@ -271,7 +294,17 @@ namespace PrjHikariwoAnim
             Rect = rect;
             //切り抜いてimageを登録
             Bitmap dst = srcCell.Img.Clone(rect,srcCell.Img.PixelFormat);
+            StrMD5 = ClsSystem.GetMD5FromImage(dst);
+            //重複チェック？
             Img = dst;
+        }
+        public ImageChip(Image img)
+        {
+            SrcID = this.GetHashCode();
+            Name = "";
+            Rect = new Rectangle(0, 0, img.Width, img.Height);
+            Img = (Bitmap)img;
+            StrMD5 = ClsSystem.GetMD5FromImage(img);
         }
 
         public Dictionary<string, object> Export()
@@ -308,6 +341,9 @@ namespace PrjHikariwoAnim
         {
             Bitmap work = new Bitmap(path);//FileLockの可能性？
             Img = work;
+            StrMD5 = ClsSystem.GetMD5FromImage(work);
+            Path = path;
+            //重複チェック
             SrcID = this.GetHashCode();
             Rect = new Rectangle(0, 0, work.Width, work.Height);
             Name = System.IO.Path.GetFileNameWithoutExtension(path);

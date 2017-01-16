@@ -103,6 +103,11 @@ namespace PrjHikariwoAnim
             string clHash = clResult.ToString();
             return (clHash);
         }
+        public static string GetMD5FromImage(Image clImage)
+        {
+            byte[] work = ImageToByteArray(clImage);
+            return GetMD5FromMemory(work);
+        }
 
         public static byte[] ImageToByteArray(Image clImage)
         {

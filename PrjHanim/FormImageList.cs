@@ -13,14 +13,13 @@ using System.Windows.Forms;
 
 namespace PrjHikariwoAnim
 {
+
     public partial class FormImageList : Form
     {
         private FormMain mFormMain = null;
         private ArrayList mListImage;   //イメージリスト
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
         private bool m_isMouseLDown;    //左クリック押し下げ中
-
-        //public ImageManagerBase IM;
 
         public FormImageList(FormMain form)
         {
