@@ -35,7 +35,6 @@
             this.listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
@@ -68,7 +67,7 @@
             // button_Cut
             // 
             this.button_Cut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Cut.Location = new System.Drawing.Point(409, 438);
+            this.button_Cut.Location = new System.Drawing.Point(281, 438);
             this.button_Cut.Name = "button_Cut";
             this.button_Cut.Size = new System.Drawing.Size(75, 23);
             this.button_Cut.TabIndex = 2;
@@ -83,8 +82,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader2});
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.HideSelection = false;
@@ -93,7 +91,7 @@
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(472, 408);
+            this.listView.Size = new System.Drawing.Size(344, 408);
             this.listView.SmallImageList = this.imageList;
             this.listView.TabIndex = 3;
             this.listView.UseCompatibleStateImageBehavior = false;
@@ -112,11 +110,6 @@
             // 
             this.columnHeader2.Text = "パス";
             this.columnHeader2.Width = 203;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "MD5";
-            this.columnHeader3.Width = 109;
             // 
             // imageList
             // 
@@ -167,7 +160,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 473);
+            this.ClientSize = new System.Drawing.Size(368, 473);
             this.Controls.Add(this.button_OpenMyDoc);
             this.Controls.Add(this.checkBox_View);
             this.Controls.Add(this.label1);
@@ -198,7 +191,6 @@
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.CheckBox checkBox_View;
