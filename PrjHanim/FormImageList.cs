@@ -200,6 +200,7 @@ namespace PrjHikariwoAnim
 
             ListViewItem clItem = new ListViewItem(pclCells);
             clItem.ImageIndex = inIndexImage;
+            clItem.ToolTipText = clPath+"\n{"+clMD5+"}";//
             clItem.Text = listView.Items.Count.ToString();
 
             this.listView.Items.Add(clItem);
@@ -371,6 +372,8 @@ namespace PrjHikariwoAnim
 
             //以下、アイテム追加処理
             this.AddItem(path + Environment.NewLine + "cut " + stRectSrc.ToString(), clMD5, clImageDst);
+            
+            
             
         }
 
