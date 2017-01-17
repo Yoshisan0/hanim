@@ -1323,10 +1323,10 @@ namespace PrjHikariwoAnim
             clDicFile["hogehoge"] = 99;
 
             //以下、イメージ出力処理
-            int inCnt, inMax = ClsSystem.ImageMan.ImageChipList.Count;
+            int inCnt, inMax = ClsSystem.ImageMan.ChipCount();
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ImageChip clCell = ClsSystem.ImageMan.ImageChipList[inCnt];
+                ImageChip clCell = ClsSystem.ImageMan.GetImageChipFromIndex(inCnt);
                 string clKey = clCell.ID.ToString();
                 clDicFile[clKey] = clCell.Export();
             }

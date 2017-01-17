@@ -109,9 +109,9 @@ namespace PrjHikariwoAnim
                 {
                     //ドラッグ開始
                     int sellectIndex = (e.Y / mTumsSize);
-                    if (sellectIndex < ImageMan.ImageChipList.Count)
+                    if (sellectIndex < ImageMan.ChipCount())
                     {                        
-                        panel2.DoDragDrop(ImageMan.ImageChipList[sellectIndex], DragDropEffects.Copy);
+                        panel2.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
                     }
                 }
             }
@@ -137,11 +137,11 @@ namespace PrjHikariwoAnim
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
 
-            if (ImageMan.ImageChipList.Count <= 0) return;
+            if (ImageMan.ChipCount() <= 0) return;
 
-            while (drawPos < panel2.Height && cnt < ImageMan.ImageChipList.Count)
+            while (drawPos < panel2.Height && cnt < ImageMan.ChipCount())
             {
-                Image src = ImageMan.ImageChipList[cnt].Img;
+                Image src = ImageMan.GetImageChipFromIndex(cnt).Img;
                 if (src == null)
                 {
                     Console.Out.Write("CellImage is Null");
@@ -156,7 +156,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
-                if (ImageMan.ImageChipList[cnt].Selected)
+                if (ImageMan.GetImageChipFromIndex(cnt).Selected)
                 {
                     e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(0,drawPos, bSize - 1, bSize - 1));
                 }

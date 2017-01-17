@@ -854,7 +854,7 @@ namespace PrjHikariwoAnim
         public ELEMENTSTYPE Type;//Default Image
         public enum ELEMENTSSTYLE { Rect , Circle , Point }
         public ELEMENTSSTYLE Style;//Default Rect
-        public int ImageChipID;//Image画像ID
+        public int ImageChipID;//Image画像ID(Hash)
         public bool isVisible = true;//表示非表示(目)
         public bool isLocked = false;//ロック状態(鍵)
         public bool isSelect = false;//選択状態

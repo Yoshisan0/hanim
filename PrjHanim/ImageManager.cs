@@ -18,12 +18,15 @@ namespace PrjHikariwoAnim
 
             ImageChipListはさらにその画像の一部分を表現
             ImageChipとImage分離するか悩む
+            あ、参照カウンタも必要か？
+
+            ImageChip:画像データ
+            
         */
         // member:
 
-        //CellのGetSetは遠回しになるのでCellList自体を公開
-        //取扱い注意
-        public List<ImageChip> ImageChipList;
+        //2017 1/17 やっぱ危なそうなので　privateに変更
+        private List<ImageChip> ImageChipList;
         //private Hashtable ImageHashTable;//<MD5,Image> 画像重複チェック用
 
         // method:
@@ -46,13 +49,23 @@ namespace PrjHikariwoAnim
 
             return true;
         }
+        /// <summary>
+        /// psthからの削除
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public bool Remove(string path)
         {
             var s = GetIndexFromPath(path);
             if (s < 0) return false;
-            ImageChipList.RemoveAt(s);
-            //CellListの該当も削除するか悩む
-            return true;
+            if(ImageChipList[s].refCountDown(1))
+            {
+                //参照0以下
+                ImageChipList.RemoveAt(s);
+                return true;
+            }
+            //他参照在り
+            return false;
         }
         public void RemoveAll()
         {
@@ -110,7 +123,7 @@ namespace PrjHikariwoAnim
 
         public bool AddImageChip(ImageChip c)
         {
-
+            c.refCountUp(1);//参照カウント            
             ImageChipList.Add(c);
             return true;
         }
@@ -210,13 +223,20 @@ namespace PrjHikariwoAnim
             }
 
         }
-
         
-        public int CellCount()
+        /// <summary>
+        /// ImageChip登録数取得
+        /// </summary>
+        /// <returns></returns>
+        public int ChipCount()
         {
             return ImageChipList.Count;
         }
 
+        public ImageChip GetImageChipFromIndex(int idx)
+        {
+            return ImageChipList[idx];
+        }
         public ImageChip GetImageChipFromImageID(int ID)
         {
             return  ImageChipList.Find((ImageChip c) =>(c.SrcID==ID));
@@ -232,6 +252,7 @@ namespace PrjHikariwoAnim
 
     }
 
+    //未使用　なぜ作ったのか・・・
     [Serializable]
     public class ImageInfo
     {
@@ -259,7 +280,9 @@ namespace PrjHikariwoAnim
         }
     }
 
-    //イメージリスト中のどれかの画像の一部の範囲
+    //ImageChip
+    //イメージ情報
+    //イメージや他イメージの一部の範囲
     [Serializable]
     public class ImageChip
     {
@@ -269,9 +292,10 @@ namespace PrjHikariwoAnim
         public string Name;
         public string StrMD5;//ImageからのMD5 重複厳重チェック用
         public int SrcID;//どの画像の (自身がオリジナルの場合:0)
-	    public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
+        public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         public Bitmap Img;//汎用性と速度の為ここでも保持
         public string ImgStrBase64;//XML JSON用テスト
+        private int Refcount;//参照カウンタ　ImageManagerへの追加と削除時に更新
 
         public ImageChip()
         {
@@ -280,22 +304,22 @@ namespace PrjHikariwoAnim
             StrMD5 = "";
             Path = "";
             Rect = new Rectangle(0, 0, 0, 0);
+            Refcount = 0;//参照カウンタ
         }
 
         /// <summary>
-        /// 既存CellIDの一部を登録
+        /// 既存ImageChipの一部を登録
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="srcChip"></param>
         /// <param name="rect"></param>
-        public ImageChip(ImageChip srcCell,Rectangle rect)
+        public ImageChip(ImageChip srcChip, Rectangle rect)
         {
-            SrcID = srcCell.ID;
+            SrcID = srcChip.ID;
             Name = "Parts";
             Rect = rect;
             //切り抜いてimageを登録
-            Bitmap dst = srcCell.Img.Clone(rect,srcCell.Img.PixelFormat);
+            Bitmap dst = srcChip.Img.Clone(rect, srcChip.Img.PixelFormat);
             StrMD5 = ClsSystem.GetMD5FromImage(dst);
-            //重複チェック？
             Img = dst;
         }
         public ImageChip(Image img)
@@ -305,6 +329,24 @@ namespace PrjHikariwoAnim
             Rect = new Rectangle(0, 0, img.Width, img.Height);
             Img = (Bitmap)img;
             StrMD5 = ClsSystem.GetMD5FromImage(img);
+        }
+
+        //参照カウンタ回り
+        public bool refCountUp(int i)
+        {
+            Refcount += i;
+            return true;
+        }
+        public bool refCountDown(int i)
+        {
+            Refcount -= i;
+            if (Refcount <= 0) return false;
+            return true;
+        }
+        //おもいっきり使わないきがするがまぁ・・
+        public int getRefCount()
+        {
+            return Refcount;
         }
 
         public Dictionary<string, object> Export()
