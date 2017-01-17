@@ -906,7 +906,8 @@ namespace PrjHikariwoAnim
                     {
                         ImageChip c = new ImageChip();
                         c.FromPngFile(str);
-                        ClsSystem.ImageMan.AddImageChip(c);
+
+                        c =  ClsSystem.ImageMan.AddImageChip(c);
                         this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
 
                         //ImageListへ登録と更新
@@ -924,16 +925,14 @@ namespace PrjHikariwoAnim
             if (e.Data.GetDataPresent(typeof(ListViewItem)))
             {
                 ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
-                //Cellの登録 Image Item
+                //ImageChipの登録
                 ImageChip work = new ImageChip();
                 
-                work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
-                //画像そのままならこれでいいが一部切り抜きとなると変更
-                // ！！！どうやらオリジナル画像でなくサムネらしい！！！
-                //必要なのはmFormImagelist.mListImageの中身っぽい？
-                
-                work.Rect = new Rectangle(0, 0, work.Img.Width, work.Img.Height);
-                ClsSystem.ImageMan.AddImageChip(work);//画像サイズ登録実画像はいずこ！
+                //work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
+                string md5 = (string)lvi.Tag;//ListViewのTagからMD5を取得
+                work =  ClsSystem.ImageMan.GetImageChipFromMD5(md5);//取得したMD5から特定
+                if (work == null) System.Console.WriteLine("ListViewからのドロップ時MD5不詳");
+                ClsSystem.ImageMan.AddImageChip(work);
 
                 treeView_Project_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
@@ -944,7 +943,7 @@ namespace PrjHikariwoAnim
             {
                 //Store Cell Item
                 ImageChip work = (ImageChip)e.Data.GetData(typeof(ImageChip));
-                ClsSystem.ImageMan.AddImageChip(work);//画像登録
+                work = ClsSystem.ImageMan.AddImageChip(work);//画像登録
 
                 //PreViewに配置し更新
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));

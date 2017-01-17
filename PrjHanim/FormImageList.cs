@@ -164,6 +164,11 @@ namespace PrjHikariwoAnim
         }
         private void AddItem(string clPath, string clMD5, Image clImage)
         {
+            //ImageManへの登録
+            ImageChip chip = new ImageChip();
+            chip.FromPngFile(clPath);
+            ClsSystem.ImageMan.AddImageChip(chip);
+
             //以下、MD5重複チェック処理
             foreach (ListViewItem clItemTmp in this.listView.Items)
             {
@@ -200,6 +205,7 @@ namespace PrjHikariwoAnim
             ListViewItem clItem = new ListViewItem(pclCells);
             clItem.ImageIndex = inIndexImage;
             clItem.ToolTipText = clPath+"\n{"+clMD5+"}";//
+            clItem.Tag = clMD5;//TagにもMD5指定 
             clItem.Text = listView.Items.Count.ToString();
 
             this.listView.Items.Add(clItem);

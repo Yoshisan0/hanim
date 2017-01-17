@@ -121,11 +121,27 @@ namespace PrjHikariwoAnim
             sr.Close();
         }
 
-        public bool AddImageChip(ImageChip c)
+        /// <summary>
+        /// ImageChipを追加します　既存があれば帰り値として既存ImageChipが帰ります
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns>既存のImageChip</returns>
+        public ImageChip AddImageChip(ImageChip c)
         {
-            c.refCountUp(1);//参照カウント            
-            ImageChipList.Add(c);
-            return true;
+            ImageChip retChip = GetImageChipFromMD5(c.StrMD5);
+            if(retChip==null)
+            {
+                //新規
+                c.refCountUp(1);
+                ImageChipList.Add(c);
+                retChip = c;
+            }
+            else
+            {
+                //既存
+                retChip.refCountUp(1);//参照カウントアップ
+            }
+            return retChip;
         }
         /// <summary>
         /// Add Cell from Cell.ImageID
@@ -165,7 +181,8 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public bool isImageStored(Image img)
         {
-            return false;// ImageHashTable.ContainsValue(img);
+            ImageChip work = GetImageChipFromHash(img.GetHashCode());
+            return work!=null;// ImageHashTable.ContainsValue(img);
         }
         /// <summary>
         /// MD5が既存かを確認
@@ -174,7 +191,8 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public bool isImageSrtoredMD5(string md5)
         {
-            return false;//ImageHashTable.ContainsKey(md5);
+            ImageChip work = GetImageChipFromMD5(md5);
+            return work!=null;//ImageHashTable.ContainsKey(md5);
         }
 
         /// <summary>
