@@ -29,7 +29,7 @@ namespace PrjHikariwoAnim
         private SolidBrush mBrushRect;
         private Color mBrushRectColor;
 
-        private int mThumsWidth = 64;//セルサムネイル幅高
+        private int mThumsWidth = 64;//サムネイル幅高
 
         //公開用
         public ImageManagerBase ImageManager; //呼び出し元から都度貰うのも有りかなぁ
@@ -81,14 +81,6 @@ namespace PrjHikariwoAnim
 
         private void FormImageCut_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /*
-            //Closeキャンセルして非表示にするだけ
-            e.Cancel = true;
-
-            //this.Visible = false; //自身で消さなくても下の操作で消える
-            this.mFormMain.checkBox_Control.Checked = false;
-            */
-
             //以下、ウィンドウ情報保存処理
             ClsSystem.mSetting.mWindowImageCut.mLocation = this.Location;
             ClsSystem.mSetting.mWindowImageCut.mSize = this.Size;

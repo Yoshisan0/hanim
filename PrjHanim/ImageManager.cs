@@ -171,6 +171,7 @@ namespace PrjHikariwoAnim
             //Rectangle srcRect = new Rectangle(cell.Rect.Left,cell.Rect.Top,(cell.Rect.Right-cell.Rect.Left)-1,(cell.Rect.Bottom-cell.Rect.Top)-1); 
             Bitmap dstBmp = srcBmp.Clone(chip.Rect, srcBmp.PixelFormat);
             chip.Img = dstBmp;
+            chip.StrMD5 = ClsSystem.GetMD5FromImage(dstBmp);
             chip.Name = "Cut:" + chip.Name;
             AddImageChip(chip);//追加
         }

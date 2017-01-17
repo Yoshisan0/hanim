@@ -205,7 +205,7 @@ namespace PrjHikariwoAnim
             ListViewItem clItem = new ListViewItem(pclCells);
             clItem.ImageIndex = inIndexImage;
             clItem.ToolTipText = clPath+"\n{"+clMD5+"}";//
-            clItem.Tag = clMD5;//TagにもMD5指定 
+            clItem.Tag = clMD5;//TagにもMD5指定
             clItem.Text = listView.Items.Count.ToString();
 
             this.listView.Items.Add(clItem);
