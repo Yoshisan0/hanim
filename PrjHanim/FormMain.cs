@@ -454,7 +454,6 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.SetName(clMotion);
             }
         }
-
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
         {
             if (clNode == null) return (clNode);
@@ -466,7 +465,6 @@ namespace PrjHikariwoAnim
 
             return (clNode);
         }
-
         private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             //ノードがエレメントかどうか確認する
@@ -524,7 +522,6 @@ namespace PrjHikariwoAnim
 
             this.panel_PreView.Refresh();
         }
-
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             //未使用 将来的に使うかもしれない
@@ -559,7 +556,6 @@ namespace PrjHikariwoAnim
                 }
             }
         }
-
         private TreeNode FindSelectTreeNode()
         {
             if (ClsSystem.mMotionSelectKey < 0) return (null);
@@ -575,7 +571,6 @@ namespace PrjHikariwoAnim
 
             return (clTreeNode);
         }
-
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
@@ -632,7 +627,6 @@ namespace PrjHikariwoAnim
             //Control更新
             this.mFormControl.Refresh();
         }
-
         /*
         private void treeView_Project_RemoveElements(string name)
         {
@@ -655,7 +649,6 @@ namespace PrjHikariwoAnim
 
             return (clMotion);
         }
-
         private int GetMotionSelectedKey()
         {
             TreeNode clTreeNode = this.treeView_Project.TopNode;
@@ -674,7 +667,6 @@ namespace PrjHikariwoAnim
 
             return (-1);
         }
-
         private void treeView_Project_RemoveMotion(string name)
         {
         }
@@ -798,7 +790,6 @@ namespace PrjHikariwoAnim
             
             //モーションである事を示すタグを付加する？
         }
-
         private void panel_ProjectTopBase_Click(object sender, EventArgs e)
         {
             //ProjectPaineの開閉(おまけ)
@@ -1311,6 +1302,14 @@ namespace PrjHikariwoAnim
                 ClsSetting a = (ClsSetting)clSerializer.ReadObject(clStream);
                 clStream.Close();
             }
+        }
+
+        private void popuptestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSingleInput frms = new FormSingleInput();
+            frms.Location = this.Location;
+            frms.ShowDialog();
+            frms.Dispose();
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

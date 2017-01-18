@@ -88,9 +88,11 @@
             this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.popuptestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -300,7 +302,8 @@
             // 
             this.あまみさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeImageListToolStripMenuItem,
-            this.readImageListToolStripMenuItem});
+            this.readImageListToolStripMenuItem,
+            this.popuptestToolStripMenuItem});
             this.あまみさんテストToolStripMenuItem.Name = "あまみさんテストToolStripMenuItem";
             this.あまみさんテストToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.あまみさんテストToolStripMenuItem.Text = "あまみさんテスト";
@@ -669,11 +672,11 @@
             // button_MotionNew
             // 
             this.button_MotionNew.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_MotionNew.Location = new System.Drawing.Point(76, 0);
+            this.button_MotionNew.Location = new System.Drawing.Point(102, 0);
             this.button_MotionNew.Name = "button_MotionNew";
-            this.button_MotionNew.Size = new System.Drawing.Size(55, 18);
+            this.button_MotionNew.Size = new System.Drawing.Size(29, 18);
             this.button_MotionNew.TabIndex = 0;
-            this.button_MotionNew.Text = "+Motion";
+            this.button_MotionNew.Text = "+";
             this.button_MotionNew.UseVisualStyleBackColor = true;
             this.button_MotionNew.Click += new System.EventHandler(this.button_MotionNew_Click);
             // 
@@ -683,12 +686,15 @@
             this.label_Project.AutoSize = true;
             this.label_Project.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label_Project.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label_Project.Location = new System.Drawing.Point(10, 4);
+            this.label_Project.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_Project.ImageIndex = 2;
+            this.label_Project.ImageList = this.imageList_Thumb;
+            this.label_Project.Location = new System.Drawing.Point(24, 4);
             this.label_Project.Margin = new System.Windows.Forms.Padding(0);
             this.label_Project.Name = "label_Project";
-            this.label_Project.Size = new System.Drawing.Size(48, 12);
+            this.label_Project.Size = new System.Drawing.Size(45, 12);
             this.label_Project.TabIndex = 1;
-            this.label_Project.Text = "Project";
+            this.label_Project.Text = "Motion";
             // 
             // splitContainer1
             // 
@@ -720,11 +726,22 @@
             // 
             // splitContainerLeft.Panel1
             // 
+            this.splitContainerLeft.Panel1.Controls.Add(this.panel2);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel_MotionList_Base);
             this.splitContainerLeft.Size = new System.Drawing.Size(133, 427);
             this.splitContainerLeft.SplitterDistance = 356;
             this.splitContainerLeft.SplitterWidth = 2;
             this.splitContainerLeft.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            this.panel2.AutoSize = true;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 217);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(133, 0);
+            this.panel2.TabIndex = 3;
             // 
             // panel_MotionList_Base
             // 
@@ -743,6 +760,13 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
+            // 
+            // popuptestToolStripMenuItem
+            // 
+            this.popuptestToolStripMenuItem.Name = "popuptestToolStripMenuItem";
+            this.popuptestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.popuptestToolStripMenuItem.Text = "popuptest";
+            this.popuptestToolStripMenuItem.Click += new System.EventHandler(this.popuptestToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -845,6 +869,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Setting;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugSave;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugLoad;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem popuptestToolStripMenuItem;
     }
 }
 
