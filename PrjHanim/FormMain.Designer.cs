@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Images");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cells");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Project", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -61,6 +56,7 @@
             this.あまみさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.popuptestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.よしさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,18 +77,17 @@
             this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
-            this.treeView_Project = new System.Windows.Forms.TreeView();
             this.imageList_Thumb = new System.Windows.Forms.ImageList(this.components);
             this.panel_ProjectTopBase = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.button_MotionNew = new System.Windows.Forms.Button();
-            this.label_Project = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
+            this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.popuptestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -320,6 +315,13 @@
             this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
             this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.readImageListToolStripMenuItem.Text = "ReadImageList";
+            // 
+            // popuptestToolStripMenuItem
+            // 
+            this.popuptestToolStripMenuItem.Name = "popuptestToolStripMenuItem";
+            this.popuptestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.popuptestToolStripMenuItem.Text = "popuptest";
+            this.popuptestToolStripMenuItem.Click += new System.EventHandler(this.popuptestToolStripMenuItem_Click);
             // 
             // よしさんテストToolStripMenuItem
             // 
@@ -611,40 +613,6 @@
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
             this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.CheckButton_Changed);
             // 
-            // treeView_Project
-            // 
-            this.treeView_Project.AllowDrop = true;
-            this.treeView_Project.BackColor = System.Drawing.Color.Black;
-            this.treeView_Project.Dock = System.Windows.Forms.DockStyle.Top;
-            this.treeView_Project.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.treeView_Project.ForeColor = System.Drawing.Color.White;
-            this.treeView_Project.FullRowSelect = true;
-            this.treeView_Project.HotTracking = true;
-            this.treeView_Project.ImageIndex = 0;
-            this.treeView_Project.ImageList = this.imageList_Thumb;
-            this.treeView_Project.LabelEdit = true;
-            this.treeView_Project.Location = new System.Drawing.Point(0, 20);
-            this.treeView_Project.Margin = new System.Windows.Forms.Padding(0);
-            this.treeView_Project.Name = "treeView_Project";
-            treeNode1.Name = "Images";
-            treeNode1.Text = "Images";
-            treeNode2.Name = "Cells";
-            treeNode2.Text = "Cells";
-            treeNode3.Name = "ProjectName";
-            treeNode3.Text = "Project";
-            this.treeView_Project.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
-            this.treeView_Project.SelectedImageIndex = 0;
-            this.treeView_Project.ShowNodeToolTips = true;
-            this.treeView_Project.ShowRootLines = false;
-            this.treeView_Project.Size = new System.Drawing.Size(133, 197);
-            this.treeView_Project.TabIndex = 1;
-            this.treeView_Project.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_Project_AfterLabelEdit);
-            this.treeView_Project.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_Project_ItemDrag);
-            this.treeView_Project.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Project_NodeMouseClick);
-            this.treeView_Project.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_Project_DragDrop);
-            this.treeView_Project.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView_Project_DragOver);
-            // 
             // imageList_Thumb
             // 
             this.imageList_Thumb.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList_Thumb.ImageStream")));
@@ -659,8 +627,8 @@
             // 
             this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel_ProjectTopBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_ProjectTopBase.Controls.Add(this.label1);
             this.panel_ProjectTopBase.Controls.Add(this.button_MotionNew);
-            this.panel_ProjectTopBase.Controls.Add(this.label_Project);
             this.panel_ProjectTopBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ProjectTopBase.Margin = new System.Windows.Forms.Padding(0);
@@ -668,6 +636,16 @@
             this.panel_ProjectTopBase.Size = new System.Drawing.Size(133, 20);
             this.panel_ProjectTopBase.TabIndex = 0;
             this.panel_ProjectTopBase.Click += new System.EventHandler(this.panel_ProjectTopBase_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 3);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Motion";
             // 
             // button_MotionNew
             // 
@@ -679,22 +657,6 @@
             this.button_MotionNew.Text = "+";
             this.button_MotionNew.UseVisualStyleBackColor = true;
             this.button_MotionNew.Click += new System.EventHandler(this.button_MotionNew_Click);
-            // 
-            // label_Project
-            // 
-            this.label_Project.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label_Project.AutoSize = true;
-            this.label_Project.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_Project.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label_Project.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_Project.ImageIndex = 2;
-            this.label_Project.ImageList = this.imageList_Thumb;
-            this.label_Project.Location = new System.Drawing.Point(24, 4);
-            this.label_Project.Margin = new System.Windows.Forms.Padding(0);
-            this.label_Project.Name = "label_Project";
-            this.label_Project.Size = new System.Drawing.Size(45, 12);
-            this.label_Project.TabIndex = 1;
-            this.label_Project.Text = "Motion";
             // 
             // splitContainer1
             // 
@@ -726,6 +688,7 @@
             // 
             // splitContainerLeft.Panel1
             // 
+            this.splitContainerLeft.Panel1.Controls.Add(this.listView_Motion);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel2);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel_MotionList_Base);
             this.splitContainerLeft.Size = new System.Drawing.Size(133, 427);
@@ -733,11 +696,29 @@
             this.splitContainerLeft.SplitterWidth = 2;
             this.splitContainerLeft.TabIndex = 2;
             // 
+            // listView_Motion
+            // 
+            this.listView_Motion.BackColor = System.Drawing.Color.Black;
+            this.listView_Motion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listView_Motion.ForeColor = System.Drawing.Color.White;
+            this.listView_Motion.LabelEdit = true;
+            this.listView_Motion.LabelWrap = false;
+            this.listView_Motion.Location = new System.Drawing.Point(0, 20);
+            this.listView_Motion.MultiSelect = false;
+            this.listView_Motion.Name = "listView_Motion";
+            this.listView_Motion.Size = new System.Drawing.Size(133, 136);
+            this.listView_Motion.SmallImageList = this.imageList_Thumb;
+            this.listView_Motion.TabIndex = 4;
+            this.listView_Motion.UseCompatibleStateImageBehavior = false;
+            this.listView_Motion.View = System.Windows.Forms.View.SmallIcon;
+            this.listView_Motion.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.listView_Motion_AfterLabelEdit);
+            this.listView_Motion.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView_Motion_ItemSelectionChanged);
+            // 
             // panel2
             // 
             this.panel2.AutoSize = true;
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 217);
+            this.panel2.Location = new System.Drawing.Point(0, 20);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(133, 0);
@@ -746,13 +727,12 @@
             // panel_MotionList_Base
             // 
             this.panel_MotionList_Base.AutoSize = true;
-            this.panel_MotionList_Base.Controls.Add(this.treeView_Project);
             this.panel_MotionList_Base.Controls.Add(this.panel_ProjectTopBase);
             this.panel_MotionList_Base.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_MotionList_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_MotionList_Base.Margin = new System.Windows.Forms.Padding(0);
             this.panel_MotionList_Base.Name = "panel_MotionList_Base";
-            this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 217);
+            this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 20);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
             // SubMenu_Prpject
@@ -760,13 +740,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // popuptestToolStripMenuItem
-            // 
-            this.popuptestToolStripMenuItem.Name = "popuptestToolStripMenuItem";
-            this.popuptestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.popuptestToolStripMenuItem.Text = "popuptest";
-            this.popuptestToolStripMenuItem.Click += new System.EventHandler(this.popuptestToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -831,7 +804,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel Spaceer1;
         private System.Windows.Forms.Button button_AlingForm;
-        private System.Windows.Forms.TreeView treeView_Project;
         private System.Windows.Forms.Panel panel_ProjectTopBase;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ContextMenuStrip SubMenu_Prpject;
@@ -854,7 +826,6 @@
         private System.Windows.Forms.CheckBox checkBox_Helper;
         private System.Windows.Forms.ToolTip toolTipMain;
         private System.Windows.Forms.SplitContainer splitContainerLeft;
-        private System.Windows.Forms.Label label_Project;
         private System.Windows.Forms.Panel panel_MotionList_Base;
         private System.Windows.Forms.ToolStripMenuItem よしさんテストToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugGraph;
@@ -871,6 +842,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugLoad;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem popuptestToolStripMenuItem;
+        private System.Windows.Forms.ListView listView_Motion;
+        private System.Windows.Forms.Label label1;
     }
 }
 

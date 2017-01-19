@@ -94,7 +94,7 @@ namespace PrjHikariwoAnim
 
             //以下、TreeNode作成処理
             //初期モーションTreeの追加
-            ClsDatMotion clMotion = this.treeView_Project_AddMotion("Motion");
+            ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
 
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
@@ -169,12 +169,12 @@ namespace PrjHikariwoAnim
                     //StreamReader sr = new StreamReader(ofd.FileName);
 
 //                  newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
-                    this.treeView_Project_AddMotion("test");
+                    this.listView_AddMotion("test");
 
                     //TreeView登録
 
                     //treeView_project_Rebuild();
-                    this.treeView_Project.Refresh();
+                    this.listView_Motion.Refresh();
                 }
             }
 
@@ -263,27 +263,17 @@ namespace PrjHikariwoAnim
             {
 //ここで確認ダイアログ表示（編集中のモーションを保存しますか？）
 
-                //Element Remove
-                int inMotionKey = this.GetMotionSelectedKey();
-                if (inMotionKey >= 0)
-                {
-                    //以下、TreeNode削除処理
-                    TreeNode clTreeNode = this.treeView_Project.TopNode;
-                    while (clTreeNode != null)
+                    //以下、ListView_Motion.Items 削除処理
+                    if(listView_Motion.SelectedItems.Count>=1)
                     {
-                        int inKeyTmp = clTreeNode.GetHashCode();
-                        if (inKeyTmp == inMotionKey)
-                        {
-                            clTreeNode.Remove();
-                            break;
-                        }
+                        //複数同時選択は禁止になってるので選択の0番目のみでOK　のはず
+                        int inHash = listView_Motion.SelectedItems[0].GetHashCode();
+                        listView_Motion.SelectedItems[0].Remove();
+                        //mDicMotionからの削除
+                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
+                        clMotion.RemoveAll();
+                        ClsSystem.mDicMotion.Remove(inHash);    //モーションクラス削除処理
 
-                        clTreeNode = clTreeNode.NextNode;
-                    }
-
-                    //以下、Motion削除処理
-                    if (ClsSystem.mMotionSelectKey == inMotionKey)
-                    {
                         //編集中のモーションが削除されたので、
                         //コントロールウィンドウとメインウィンドウの情報をクリアする
 
@@ -293,65 +283,9 @@ namespace PrjHikariwoAnim
                         this.SetName(null);
                         this.mFormControl.SetName(null);
                         this.mFormAttribute.SetName(null);
-                    }
-
-                    //以下、Motionクラス削除処理
-                    bool isExist = ClsSystem.mDicMotion.ContainsKey(inMotionKey);
-                    if (isExist)
-                    {
-                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inMotionKey];
-                        clMotion.RemoveAll();
-                        ClsSystem.mDicMotion.Remove(inMotionKey);    //モーションクラス削除処理
 
                         this.panel_PreView.Refresh();
-                        this.treeView_Project_Update();
-                    }
-
-                    /*
-                    int? inActiveIndex = ClsSystem.mDicMotion[inMotionKey].EditFrame.ActiveIndex;
-                    if (inActiveIndex != null)
-                    {
-                        ClsSystem.mDicMotion[inMotionKey].EditFrame.Remove((int)inActiveIndex);
-                        this.panel_PreView.Refresh();
-                        this.treeView_Project_Update();
-                    }
-
-                    //以下、TreeNode削除処理
-                    TreeNode clTreeNode = this.treeView_Project.TopNode;
-                    while (clTreeNode != null)
-                    {
-                        int inKeyTmp = clTreeNode.GetHashCode();
-                        if (inKeyTmp== inMotionKey)
-                        {
-                            clTreeNode.Remove();
-                            break;
-                        }
-
-                        clTreeNode = clTreeNode.NextNode;
-                    }
-
-                    //以下、Motion削除処理
-                    if (ClsSystem.mMotionSelectKey == inMotionKey)
-                    {
-//編集中のモーションが削除されたので、
-//コントロールウィンドウとメインウィンドウの情報をクリアする
-
-                        ClsSystem.mMotionSelectKey = -1;
-                    }
-
-                    //以下、Motionクラス削除処理
-                    bool isExist = ClsSystem.mDicMotion.ContainsKey(inMotionKey);
-                    if (isExist)
-                    {
-                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inMotionKey];
-                        if (clMotion != null)
-                        {
-                            clMotion.Clear();   //全削除するときはこれで良いのだろうか？
-                        }
-                        ClsSystem.mDicMotion.Remove(inMotionKey);    //モーションクラス削除処理
-                    }
-                    */
-                }
+                    }                
             }
         }
         private void FormMain_Resize(object sender, EventArgs e)
@@ -431,11 +365,6 @@ namespace PrjHikariwoAnim
         //TreeView_Project
         private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            //ReName ProjectName
-            if (e.Node.ImageIndex == 0)
-            {
-            }
-
             //ReName MotionName
             if (e.Node.ImageIndex == 2)
             {
@@ -467,6 +396,7 @@ namespace PrjHikariwoAnim
         }
         private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            /*
             //ノードがエレメントかどうか確認する
             //nodeのimageindexから判別
 
@@ -521,6 +451,7 @@ namespace PrjHikariwoAnim
             }
 
             this.panel_PreView.Refresh();
+            */
         }
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
@@ -539,6 +470,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void treeView_Project_Update()
         {
+            /*
             //現在のMotionNodeを探す モーション名決め打ちなので将来略
             //TreeNode tn = treeView_Project.Nodes["Motion"];
             //TreeViewて複数選択できないじゃーん！！！！
@@ -555,9 +487,12 @@ namespace PrjHikariwoAnim
                     tn.ImageIndex = 4;  //非選択
                 }
             }
+            
+            */
         }
         private TreeNode FindSelectTreeNode()
         {
+            /*
             if (ClsSystem.mMotionSelectKey < 0) return (null);
 
             TreeNode clTreeNode = this.treeView_Project.TopNode;
@@ -570,6 +505,8 @@ namespace PrjHikariwoAnim
             }
 
             return (clTreeNode);
+            */
+            return null;
         }
         /// <summary>
         /// CellからElementを作成し追加
@@ -577,16 +514,19 @@ namespace PrjHikariwoAnim
         /// <param name="work"></param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        private void treeView_Project_AddElements(ImageChip work, int x, int y)
+        private void listView_Motion_AddElements(ImageChip work, int x, int y)
         {
+            //モーション選択無し
             if (ClsSystem.mMotionSelectKey < 0) return;
 
-            TreeNode clTreeNode = this.FindSelectTreeNode();
-            if (clTreeNode == null) return;
+            //TreeNode clTreeNode = this.FindSelectTreeNode();
+            //if (clTreeNode == null) return;
 
+            //辞書にもモーション無し
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (!isExist) return;
 
+            //現在のモーション取得
             ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
 
             //アイテムの登録
@@ -634,23 +574,25 @@ namespace PrjHikariwoAnim
         }
         */
 
-        private ClsDatMotion treeView_Project_AddMotion(string clMotionName)
+        private ClsDatMotion listView_AddMotion(string clMotionName)
         {
-            treeView_Project.SelectedNode = treeView_Project.TopNode;
-            TreeNode tn = treeView_Project.Nodes.Add(clMotionName);
-            tn.ImageIndex = 2;
-            tn.SelectedImageIndex = 2;
-            tn.Tag = ClsSystem.mDicMotion.Count; //不要？
+            ListViewItem lvi = new ListViewItem("newMotion", 2);
+            listView_Motion.Items.Add(lvi);
+            lvi.Tag = ClsSystem.mDicMotion.Count;
 
-            //以下、モーションクラス生成処理
-            int inHashCode = tn.GetHashCode();
-            ClsDatMotion clMotion = new ClsDatMotion(inHashCode, clMotionName);
-            ClsSystem.mDicMotion.Add(inHashCode, clMotion);
+            ClsDatMotion clMotion = new ClsDatMotion(lvi.GetHashCode(), clMotionName);
+            ClsSystem.mDicMotion.Add(lvi.GetHashCode(), clMotion);
 
             return (clMotion);
         }
         private int GetMotionSelectedKey()
         {
+            if (listView_Motion.SelectedItems.Count > 0)
+            {
+                return listView_Motion.SelectedItems[0].GetHashCode();
+            }
+            
+            /*
             TreeNode clTreeNode = this.treeView_Project.TopNode;
             while (clTreeNode != null) {
                 if (clTreeNode.IsSelected)
@@ -664,12 +606,15 @@ namespace PrjHikariwoAnim
                 }
                 clTreeNode = clTreeNode.NextNode;
             }
+            */
 
             return (-1);
         }
         private void treeView_Project_RemoveMotion(string name)
         {
         }
+
+        //アイテムD&D移動用
         private void treeView_Project_DragDrop(object sender, DragEventArgs e)
         {
             //ドロップされたデータがTreeNodeか調べる
@@ -712,7 +657,6 @@ namespace PrjHikariwoAnim
                 }else e.Effect = DragDropEffects.None;
             } else e.Effect = DragDropEffects.None;
         }
-
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる
         /// </summary>
@@ -737,7 +681,7 @@ namespace PrjHikariwoAnim
             else if(src.Parent!=null)return IsMotionNode(src.Parent, name);
             else return false;
         }  
-
+        //
         private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
         {
             //ドラッグ開始
@@ -786,14 +730,67 @@ namespace PrjHikariwoAnim
 
         private void button_MotionNew_Click(object sender, EventArgs e)
         {
-            this.treeView_Project_AddMotion("NewMotion");
+            this.listView_AddMotion("NewMotion");
             
             //モーションである事を示すタグを付加する？
         }
         private void panel_ProjectTopBase_Click(object sender, EventArgs e)
         {
             //ProjectPaineの開閉(おまけ)
-            treeView_Project.Visible = !treeView_Project.Visible;
+            listView_Motion.Visible = !listView_Motion.Visible;
+        }
+
+        //ListView TreeViewの階層構造が不要になるのでListViewへ置き換える
+        private void listView_Motion_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            //e.Item == Index
+            if (!e.CancelEdit && e.Label!=null && e.Label!="")
+            {
+                int inHashCode = listView_Motion.Items[e.Item].GetHashCode();
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                if (clMotion != null)
+                {
+                    clMotion.SetName(e.Label);
+                }
+                listView_Motion.Items[e.Item].Text = e.Label;
+                //以下、各コントロールの設定
+                this.SetName(clMotion);
+                this.mFormControl.SetName(clMotion);
+                this.mFormAttribute.SetName(clMotion);
+            }
+        }
+        private void listView_Motion_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            //e==選択されたlistViewItem のはず
+            int inHashCode = e.Item.GetHashCode();
+
+            //モーション存在確認   
+            if (ClsSystem.mDicMotion.ContainsKey(inHashCode))
+            {
+                //アイテムが存在
+                ClsSystem.mMotionSelectKey = inHashCode;//選択中変更
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.SetSelectLineNo(-1);
+
+                //以下、各種コントロール設定処理
+                //以下、ウィンドウ名を修正する処理
+                this.SetName(clMotion);
+                this.mFormAttribute.SetName(clMotion);
+                this.mFormControl.SetName(clMotion);
+
+                //新しく選択したモーションをメインウィンドウに表示する
+                //新しく選択したモーションをコントロールウィンドウに表示する
+            }
+            else
+            {
+                //非選択
+                ClsSystem.mMotionSelectKey = -1;
+                //以下、コントロール設定処理
+                this.SetName(null);
+                this.mFormControl.SetName(null);
+                this.mFormAttribute.SetName(null);
+            }
+            this.panel_PreView.Refresh();
         }
 
         //PanelPreView周り
@@ -899,7 +896,7 @@ namespace PrjHikariwoAnim
                         c.FromPngFile(str);
 
                         c =  ClsSystem.ImageMan.AddImageChip(c);
-                        this.treeView_Project_AddElements(c, sPos.X, sPos.Y);
+                        this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
 
                         //ImageListへ登録と更新
                         this.mFormImageList.AddItem(str);
@@ -925,7 +922,7 @@ namespace PrjHikariwoAnim
                 if (work == null) System.Console.WriteLine("ListViewからのドロップ時MD5不詳");
                 ClsSystem.ImageMan.AddImageChip(work);
 
-                treeView_Project_AddElements(work, sPos.X, sPos.Y);
+                listView_Motion_AddElements(work, sPos.X, sPos.Y);
                 e.Effect = DragDropEffects.Copy;
             }
 
@@ -938,7 +935,7 @@ namespace PrjHikariwoAnim
 
                 //PreViewに配置し更新
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                treeView_Project_AddElements(work, a.X, a.Y);
+                listView_Motion_AddElements(work, a.X, a.Y);
 
                 e.Effect = DragDropEffects.Copy;
             }
@@ -1311,6 +1308,7 @@ namespace PrjHikariwoAnim
             frms.ShowDialog();
             frms.Dispose();
         }
+
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
