@@ -625,7 +625,7 @@
             // 
             // panel_ProjectTopBase
             // 
-            this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel_ProjectTopBase.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel_ProjectTopBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_ProjectTopBase.Controls.Add(this.label1);
             this.panel_ProjectTopBase.Controls.Add(this.button_MotionNew);
@@ -633,26 +633,29 @@
             this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ProjectTopBase.Margin = new System.Windows.Forms.Padding(0);
             this.panel_ProjectTopBase.Name = "panel_ProjectTopBase";
-            this.panel_ProjectTopBase.Size = new System.Drawing.Size(133, 20);
+            this.panel_ProjectTopBase.Size = new System.Drawing.Size(133, 22);
             this.panel_ProjectTopBase.TabIndex = 0;
             this.panel_ProjectTopBase.Click += new System.EventHandler(this.panel_ProjectTopBase_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 3);
+            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(0, 4);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 12);
+            this.label1.Size = new System.Drawing.Size(45, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "Motion";
             // 
             // button_MotionNew
             // 
             this.button_MotionNew.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_MotionNew.Location = new System.Drawing.Point(102, 0);
+            this.button_MotionNew.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_MotionNew.Location = new System.Drawing.Point(111, 0);
+            this.button_MotionNew.Margin = new System.Windows.Forms.Padding(0);
             this.button_MotionNew.Name = "button_MotionNew";
-            this.button_MotionNew.Size = new System.Drawing.Size(29, 18);
+            this.button_MotionNew.Size = new System.Drawing.Size(20, 20);
             this.button_MotionNew.TabIndex = 0;
             this.button_MotionNew.Text = "+";
             this.button_MotionNew.UseVisualStyleBackColor = true;
@@ -692,21 +695,21 @@
             this.splitContainerLeft.Panel1.Controls.Add(this.panel2);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel_MotionList_Base);
             this.splitContainerLeft.Size = new System.Drawing.Size(133, 427);
-            this.splitContainerLeft.SplitterDistance = 356;
-            this.splitContainerLeft.SplitterWidth = 2;
+            this.splitContainerLeft.SplitterDistance = 170;
+            this.splitContainerLeft.SplitterWidth = 5;
             this.splitContainerLeft.TabIndex = 2;
             // 
             // listView_Motion
             // 
             this.listView_Motion.BackColor = System.Drawing.Color.Black;
-            this.listView_Motion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listView_Motion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView_Motion.ForeColor = System.Drawing.Color.White;
             this.listView_Motion.LabelEdit = true;
             this.listView_Motion.LabelWrap = false;
-            this.listView_Motion.Location = new System.Drawing.Point(0, 20);
+            this.listView_Motion.Location = new System.Drawing.Point(0, 22);
             this.listView_Motion.MultiSelect = false;
             this.listView_Motion.Name = "listView_Motion";
-            this.listView_Motion.Size = new System.Drawing.Size(133, 136);
+            this.listView_Motion.Size = new System.Drawing.Size(133, 148);
             this.listView_Motion.SmallImageList = this.imageList_Thumb;
             this.listView_Motion.TabIndex = 4;
             this.listView_Motion.UseCompatibleStateImageBehavior = false;
@@ -718,7 +721,7 @@
             // 
             this.panel2.AutoSize = true;
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 20);
+            this.panel2.Location = new System.Drawing.Point(0, 22);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(133, 0);
@@ -732,7 +735,7 @@
             this.panel_MotionList_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_MotionList_Base.Margin = new System.Windows.Forms.Padding(0);
             this.panel_MotionList_Base.Name = "panel_MotionList_Base";
-            this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 20);
+            this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
             // SubMenu_Prpject

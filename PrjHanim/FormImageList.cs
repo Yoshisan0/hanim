@@ -376,10 +376,11 @@ namespace PrjHikariwoAnim
             string clMD5 = ClsSystem.GetMD5FromMemory(pchBuffer);
 
             //以下、アイテム追加処理
-            this.AddItem(path + Environment.NewLine + "cut " + stRectSrc.ToString(), clMD5, clImageDst);
-            
-            
-            
+            //パスに余計なもの追加しちゃいかんね・・
+            //this.AddItem(path + Environment.NewLine + "cut " + stRectSrc.ToString(), clMD5, clImageDst);
+
+            this.AddItem(path, clMD5, clImageDst);
+
         }
 
         private void listView_MouseDown(object sender, MouseEventArgs e)

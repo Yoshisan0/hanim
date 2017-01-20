@@ -116,6 +116,11 @@ namespace PrjHikariwoAnim
             mFormCell.ImageMan = ClsSystem.ImageMan;
             mFormCell.Show();
 
+            //Motion選択状態にする 他フォームの準備完了後
+            listView_Motion.Items[0].Selected = true;
+            ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
+
+
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
             this.SetStyle(ControlStyles.Opaque, true);
@@ -465,6 +470,125 @@ namespace PrjHikariwoAnim
             e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
             e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
         }
+        private void treeView_Project_RemoveMotion(string name)
+        {
+        }
+        //アイテムD&D移動用
+        private void treeView_Project_DragDrop(object sender, DragEventArgs e)
+        {
+            //ドロップされたデータがTreeNodeか調べる
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                TreeView tv = (TreeView)sender;
+                //元ノード取得
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //ドロップ先のTreeNodeを取得する
+                TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //Motionのみの移動に限定する
+                if (dest != null && dest.Parent != null && src.Parent != null && dest != src && IsMotionNode(src) && IsMotionNode(dest) && !IsChildNode(src, dest))
+                {
+                    //ドロップされたNodeのコピーを作成
+                    TreeNode cln = (TreeNode)src.Clone();
+                    dest.Nodes.Add(cln);
+                    dest.Expand();
+                    tv.SelectedNode = cln;
+                    //構造をTimelineに反映させる
+                    //src to dest
+                    //destの種類に応じて親になるか子になるか振分
+                    //ルート -> 同レベルの前へ移動
+                    if (dest.Parent == null)
+                    {
+
+                    }
+                    //１つ上がルート ->　同レベルの次へ移動
+                    //上記以外 -> 対象の子へ移動
+                    //※対象がイメージタイプでは無い場合どうするか？
+
+                    if (ClsSystem.mMotionSelectKey >= 0)
+                    {
+                        /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                        if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.Move(src.Name, dest.Name, true) == false) {
+                            Console.WriteLine("Elements move False");
+                        }
+                        */
+                    }
+
+                }
+                else e.Effect = DragDropEffects.None;
+            }
+            else e.Effect = DragDropEffects.None;
+        }
+        /// <summary>
+        /// あるTreeNodeが別のTreeNodeの子ノードか調べる
+        /// </summary>
+        /// <param name="parentNode">親ノードか調べるTreeNode</param>
+        /// <param name="childNode">子ノードか調べるTreeNode</param>
+        /// <returns>子ノードの時はTrue</returns>
+        private static bool IsChildNode(TreeNode parentNode, TreeNode childNode)
+        {
+            if (childNode.Parent == parentNode) return true;
+            else if (childNode.Parent != null) return IsChildNode(parentNode, childNode.Parent);
+            else return false;
+        }
+        /// <summary>
+        /// ノードが指定の名前を含むか(親を遡り)確認する
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static bool IsMotionNode(TreeNode src, string name = "Motion")
+        {
+            if (src.Name == name) return true; //それ自体がモーション
+            else if (src.Parent != null) return IsMotionNode(src.Parent, name);
+            else return false;
+        }
+        //
+        private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //ドラッグ開始
+            TreeView tv = (TreeView)sender;
+            tv.SelectedNode = (TreeNode)e.Item;
+            tv.Focus();
+            //ノードのドラッグを開始する
+            DragDropEffects dde = tv.DoDragDrop(e.Item, DragDropEffects.All);
+            //移動した時は、ドラッグしたノードを削除する
+            if ((dde & DragDropEffects.Move) == DragDropEffects.Move)
+            {
+                tv.Nodes.Remove((TreeNode)e.Item);
+            }
+        }
+        private void treeView_Project_DragOver(object sender, DragEventArgs e)
+        {
+            //TreeNodeか確認
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                //CtrlKey(8)== Copy / nonkey==Move
+                if ((e.KeyState & 8) == 8 && (e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) { e.Effect = DragDropEffects.Copy; }
+                else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) { e.Effect = DragDropEffects.Move; }
+                else { e.Effect = DragDropEffects.None; }
+            }
+            else
+                //TreeNodeでなければ受け入れない
+                e.Effect = DragDropEffects.None;
+
+            //マウス下のNodeを選択する
+            if (e.Effect != DragDropEffects.None)
+            {
+                TreeView tv = (TreeView)sender;
+                //マウスのあるNodeを取得する
+                TreeNode dst = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
+                //ドラッグされているNodeを取得する
+                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                //マウス下のNodeがドロップ先として適切か調べる
+                if (dst != null && dst != src && !IsChildNode(src, dst))
+                {
+                    //Nodeを選択する
+                    if (dst.IsSelected == false) tv.SelectedNode = dst;
+                }
+                else e.Effect = DragDropEffects.None;
+            }
+        }
+
         /// <summary>
         /// treeView_Project更新
         /// </summary>
@@ -508,6 +632,7 @@ namespace PrjHikariwoAnim
             */
             return null;
         }
+
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
@@ -573,10 +698,9 @@ namespace PrjHikariwoAnim
             //Elements選択中のDelキー
         }
         */
-
         private ClsDatMotion listView_AddMotion(string clMotionName)
         {
-            ListViewItem lvi = new ListViewItem("newMotion", 2);
+            ListViewItem lvi = new ListViewItem(clMotionName, 2);
             listView_Motion.Items.Add(lvi);
             lvi.Tag = ClsSystem.mDicMotion.Count;
 
@@ -609,123 +733,6 @@ namespace PrjHikariwoAnim
             */
 
             return (-1);
-        }
-        private void treeView_Project_RemoveMotion(string name)
-        {
-        }
-
-        //アイテムD&D移動用
-        private void treeView_Project_DragDrop(object sender, DragEventArgs e)
-        {
-            //ドロップされたデータがTreeNodeか調べる
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                TreeView tv = (TreeView)sender;
-                //元ノード取得
-                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
-                //ドロップ先のTreeNodeを取得する
-                TreeNode dest = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
-                //Motionのみの移動に限定する
-                if (dest !=null && dest.Parent !=null && src.Parent !=null && dest !=src && IsMotionNode(src) && IsMotionNode(dest) && !IsChildNode(src,dest))
-                {
-                    //ドロップされたNodeのコピーを作成
-                    TreeNode cln = (TreeNode)src.Clone();
-                    dest.Nodes.Add(cln);
-                    dest.Expand();
-                    tv.SelectedNode = cln;
-                    //構造をTimelineに反映させる
-                    //src to dest
-                    //destの種類に応じて親になるか子になるか振分
-                    //ルート -> 同レベルの前へ移動
-                    if(dest.Parent==null)
-                    {
-
-                    }
-                    //１つ上がルート ->　同レベルの次へ移動
-                    //上記以外 -> 対象の子へ移動
-                    //※対象がイメージタイプでは無い場合どうするか？
-
-                    if (ClsSystem.mMotionSelectKey >= 0)
-                    {
-                        /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                        if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.Move(src.Name, dest.Name, true) == false) {
-                            Console.WriteLine("Elements move False");
-                        }
-                        */
-                    }
-                                      
-                }else e.Effect = DragDropEffects.None;
-            } else e.Effect = DragDropEffects.None;
-        }
-        /// <summary>
-        /// あるTreeNodeが別のTreeNodeの子ノードか調べる
-        /// </summary>
-        /// <param name="parentNode">親ノードか調べるTreeNode</param>
-        /// <param name="childNode">子ノードか調べるTreeNode</param>
-        /// <returns>子ノードの時はTrue</returns>
-        private static bool IsChildNode(TreeNode parentNode, TreeNode childNode)
-        {
-            if (childNode.Parent == parentNode) return true;
-            else if (childNode.Parent != null)  return IsChildNode(parentNode, childNode.Parent);
-            else return false;
-        }
-        /// <summary>
-        /// ノードが指定の名前を含むか(親を遡り)確認する
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private static bool IsMotionNode(TreeNode src,string name="Motion")
-        {
-            if (src.Name == name) return true; //それ自体がモーション
-            else if(src.Parent!=null)return IsMotionNode(src.Parent, name);
-            else return false;
-        }  
-        //
-        private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            //ドラッグ開始
-            TreeView tv = (TreeView)sender;
-            tv.SelectedNode = (TreeNode)e.Item;
-            tv.Focus();
-            //ノードのドラッグを開始する
-            DragDropEffects dde = tv.DoDragDrop(e.Item, DragDropEffects.All);
-            //移動した時は、ドラッグしたノードを削除する
-            if ((dde & DragDropEffects.Move) == DragDropEffects.Move)
-            {
-                tv.Nodes.Remove((TreeNode)e.Item);
-            }
-        }
-        private void treeView_Project_DragOver(object sender, DragEventArgs e)
-        {
-            //TreeNodeか確認
-            if (e.Data.GetDataPresent(typeof(TreeNode)))
-            {
-                //CtrlKey(8)== Copy / nonkey==Move
-                if ((e.KeyState & 8) == 8 && (e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy) { e.Effect = DragDropEffects.Copy; }
-                else if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move) { e.Effect = DragDropEffects.Move; }
-                else { e.Effect = DragDropEffects.None; }
-            }
-            else
-                //TreeNodeでなければ受け入れない
-                e.Effect = DragDropEffects.None;
-
-            //マウス下のNodeを選択する
-            if (e.Effect != DragDropEffects.None)
-            {
-                TreeView tv = (TreeView)sender;
-                //マウスのあるNodeを取得する
-                TreeNode dst = tv.GetNodeAt(tv.PointToClient(new Point(e.X, e.Y)));
-                //ドラッグされているNodeを取得する
-                TreeNode src = (TreeNode)e.Data.GetData(typeof(TreeNode));
-                //マウス下のNodeがドロップ先として適切か調べる
-                if (dst != null && dst != src && !IsChildNode(src, dst))
-                {
-                    //Nodeを選択する
-                    if (dst.IsSelected == false) tv.SelectedNode = dst;
-                }
-                else e.Effect = DragDropEffects.None;
-            }
         }
 
         private void button_MotionNew_Click(object sender, EventArgs e)
