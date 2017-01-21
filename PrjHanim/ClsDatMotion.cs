@@ -180,27 +180,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// ライン番号からエレメントを取得する処理
-        /// 取得できない場合は、そのライン番号にはオプションが表示されているかもしれない
-        /// </summary>
-        /// <param name="inLineNo">ライン番号</param>
-        /// <returns>エレメント管理クラス</returns>
-        public ClsDatElem GetElemFromLineNo(int inLineNo)
-        {
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                if (inLineNo == clElem.mLineNo) return (clElem);
-
-                clElem = clElem.GetElemFromLineNo(inLineNo);
-                if (clElem != null) return (clElem);
-            }
-
-            return (null);
-        }
-
-        /// <summary>
         /// エレメント追加処理
         /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>

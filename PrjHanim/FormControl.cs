@@ -246,12 +246,13 @@ namespace PrjHikariwoAnim
             //Item選択
             int inLineNo = e.Y / FormControl.CELL_HEIGHT;
 
+            //以下、エレメント選択処理
+            this.mMotion.SetSelectLineNo(inLineNo);
+
             //Item最大数を確認
-            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                this.mMotion.SetSelectLineNo(inLineNo);
-
                 //Click Eye
                 if (e.X < 16)
                 {
@@ -271,12 +272,12 @@ namespace PrjHikariwoAnim
 
                     this.mMotion.Assignment();    //行番号とタブを割り振る処理
                 }
-
-                //以下、コントロール更新処理
-                this.panel_Control.Refresh();
-                this.panel_Time.Refresh();
-                this.mFormMain.Refresh();
             }
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
 
         private void panel_Control_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -284,12 +285,13 @@ namespace PrjHikariwoAnim
             //Item選択
             int inLineNo = e.Y / FormControl.CELL_HEIGHT;
 
+            //以下、エレメント選択処理
+            this.mMotion.SetSelectLineNo(inLineNo);
+
             //Item最大数を確認
-            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                this.mMotion.SetSelectLineNo(inLineNo);
-
                 if (e.X > 48)
                 {
                     //以下、テキストボックス削除処理
@@ -311,12 +313,12 @@ namespace PrjHikariwoAnim
 
                     this.mTextBox.Focus();
                 }
-
-                //以下、コントロール更新処理
-                this.panel_Control.Refresh();
-                this.panel_Time.Refresh();
-                this.mFormMain.Refresh();
             }
+
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
 
         private void panel_Control_MouseEnter(object sender, EventArgs e)
@@ -392,6 +394,12 @@ namespace PrjHikariwoAnim
                 this.panel_Time.Refresh();
                 this.mFormMain.Refresh();
             }
+
+            //以下、選択した行がエレメントだった場合の処理
+            /*
+            this.mMotion.FindElemFromLineNo();
+            this.mMotion.FindOptionFromLineNo();
+            */
         }
 
         private void panel_Time_MouseEnter(object sender, EventArgs e)
@@ -556,7 +564,7 @@ namespace PrjHikariwoAnim
 
             //以下、名前設定処理
             int inLineNo = (int)this.mTextBox.Tag;
-            ClsDatElem clElem = this.mMotion.GetElemFromLineNo(inLineNo);
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem != null)
             {
                 string clName = this.mTextBox.Text;
