@@ -51,6 +51,9 @@ namespace PrjHikariwoAnim
             this.mListElem = new List<ClsDatElem>();
             this.mDicOption = new Dictionary<ClsDatOption.TYPE, ClsDatOption>();
             this.mAttInit = new AttributeBase();
+
+            this.AddOption(ClsDatOption.TYPE.POSITION_X);
+            this.AddOption(ClsDatOption.TYPE.POSITION_Y);
         }
 
         /// <summary>
@@ -164,6 +167,19 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// オプション追加処理
+        /// </summary>
+        /// <param name="enType">オプションのタイプ</param>
+        public void AddOption(ClsDatOption.TYPE enType)
+        {
+            //以下、オプション追加処理
+            bool isExist = this.mDicOption.ContainsKey(enType);
+            if (!isExist) {
+                this.mDicOption[enType] = new ClsDatOption(enType);
+            }
+        }
+
+        /// <summary>
         /// ハッシュコードからエレメント管理クラスを検索する処理
         /// </summary>
         /// <param name="inHashCode">ハッシュコード</param>
@@ -261,6 +277,12 @@ namespace PrjHikariwoAnim
         /// <param name="inLineNo">行番号</param>
         public void FindElemFromLineNo(ClsDatMotion clMotion, int inLineNo)
         {
+            if (this.mLineNo == inLineNo)
+            {
+                clMotion.mWorkElem = this;
+                return;
+            }
+
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
@@ -518,7 +540,7 @@ namespace PrjHikariwoAnim
                 foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
-                    clOption.DrawControl(g);
+                    clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
                 }
             }
 
@@ -591,7 +613,7 @@ namespace PrjHikariwoAnim
                 foreach (ClsDatOption.TYPE enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
-                    clOption.DrawTime(g);
+                    clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
                 }
             }
 
