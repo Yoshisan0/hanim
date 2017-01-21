@@ -169,14 +169,20 @@ namespace PrjHikariwoAnim
             {
                 if (ClsSystem.mDicMotion!=null)
                 {
+                    //mDicMotion全削除
+                    //listView_Motion.Itemsも全削除
+                    //ファイルを読み込み
+                    //モーション数確認し
+                    //ListView_MotionとmDicMotionの同時再作成
+                    //初期モーションを指定し再描画
+                    //の流れ　かな
+
                     //ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].LoadFromFile(ofd.FileName);
                     //StreamからMotion読込
                     //StreamReader sr = new StreamReader(ofd.FileName);
 
-//                  newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
+                    //newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
                     this.listView_AddMotion("test");
-
-                    //TreeView登録
 
                     //treeView_project_Rebuild();
                     this.listView_Motion.Refresh();

@@ -27,7 +27,8 @@ namespace PrjHikariwoAnim
         public FormCell(FormMain form)
         {
             InitializeComponent();
-            ImageMan = new ImageManagerBase();
+            //ImageMan = new ImageManagerBase();
+            ImageMan = ClsSystem.ImageMan;
             mFormMain = form;
         }
 
@@ -115,15 +116,6 @@ namespace PrjHikariwoAnim
                     }
                 }
             }
-        }
-
-        private void addImageFile()
-        {
-         
-        }
-        private void addCell()
-        {
-
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
