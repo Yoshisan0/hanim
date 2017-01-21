@@ -369,7 +369,10 @@ namespace PrjHikariwoAnim
             //Flameクリック処理
             //フレーム検出
             int cx = e.X / FormControl.CELL_WIDTH;
-            int cy = e.Y / FormControl.CELL_HEIGHT;
+            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+
+            //以下、エレメント選択処理
+            this.mMotion.SetSelectLineNo(inLineNo);
 
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
@@ -377,29 +380,15 @@ namespace PrjHikariwoAnim
             {
                 this.numericUpDown_NowFlame.Value = cx;
                 this.mSelect_Pos_Start.X = cx;
-                this.mSelect_Pos_Start.Y = cy;
+                this.mSelect_Pos_Start.Y = inLineNo;
 
                 this.mFormMain.Refresh();
             }
 
-            //Item最大数を確認
-            if (cy < this.mMotion.mListElem.Count)
-            {
-                ClsDatElem clElem = this.mMotion.mListElem[cy];
-
-                this.mMotion.SetSelectLineNo(clElem.mLineNo);
-
-                //以下、コントロール更新処理
-                this.panel_Control.Refresh();
-                this.panel_Time.Refresh();
-                this.mFormMain.Refresh();
-            }
-
-            //以下、選択した行がエレメントだった場合の処理
-            /*
-            this.mMotion.FindElemFromLineNo();
-            this.mMotion.FindOptionFromLineNo();
-            */
+            //以下、コントロール更新処理
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
 
         private void panel_Time_MouseEnter(object sender, EventArgs e)
