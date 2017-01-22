@@ -177,13 +177,21 @@ namespace PrjHikariwoAnim
                     //初期モーションを指定し再描画
                     //の流れ　かな
 
+                    StreamReader sr = new StreamReader(ofd.FileName);
+
                     //ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].LoadFromFile(ofd.FileName);
+                    Motion m = new Motion("1");
+                    m.LoadFromStream(sr.BaseStream);
+
+
+                    sr.Close();
+
                     //StreamからMotion読込
                     //StreamReader sr = new StreamReader(ofd.FileName);
 
                     //newMotion.LoadFromFile(ofd.FileName); //hapを開いて中のモーションを取り出してロードする必要がある
-                    this.listView_AddMotion("test");
-
+                    this.listView_AddMotion("test");//
+                    
                     //treeView_project_Rebuild();
                     this.listView_Motion.Refresh();
                 }
