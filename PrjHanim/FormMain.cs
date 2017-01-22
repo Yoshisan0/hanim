@@ -36,10 +36,10 @@ namespace PrjHikariwoAnim
     {
         private const float mParZOOM = 10f;//Zoom倍率の固定値
 
-        private FormImageList mFormImageList;
-        private FormControl mFormControl;
-        private FormAttribute mFormAttribute;
-        private FormCell mFormCell;
+        public FormImageList mFormImageList;
+        public FormControl mFormControl;
+        public FormAttribute mFormAttribute;
+        public FormCell mFormCell;
 
         private Point mMouseDownPoint = Point.Empty;
         private Point mMouseDownShift;
@@ -301,7 +301,7 @@ namespace PrjHikariwoAnim
                         //以下、コントロール設定処理
                         this.SetName(null);
                         this.mFormControl.SetName(null);
-                        this.mFormAttribute.SetName(null);
+                        this.mFormAttribute.Init(null);
 
                         this.panel_PreView.Refresh();
                     }                
@@ -399,7 +399,7 @@ namespace PrjHikariwoAnim
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.SetName(clMotion);
+                this.mFormAttribute.Init(null);
             }
         }
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
@@ -669,7 +669,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
 
             //アイテムの登録
-            ClsDatElem elem = new ClsDatElem();
+            ClsDatElem elem = new ClsDatElem(clMotion);
             elem.ImageChipID = work.GetHashCode();
             elem.mAttInit.Width = work.Img.Width;
             elem.mAttInit.Height = work.Img.Height;
@@ -774,10 +774,11 @@ namespace PrjHikariwoAnim
                     clMotion.SetName(e.Label);
                 }
                 listView_Motion.Items[e.Item].Text = e.Label;
+
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.SetName(clMotion);
+                this.mFormAttribute.Init(null);
             }
         }
         private void listView_Motion_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -796,8 +797,8 @@ namespace PrjHikariwoAnim
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
-                this.mFormAttribute.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
+                this.mFormAttribute.Init(null);
 
                 //新しく選択したモーションをメインウィンドウに表示する
                 //新しく選択したモーションをコントロールウィンドウに表示する
@@ -809,7 +810,7 @@ namespace PrjHikariwoAnim
                 //以下、コントロール設定処理
                 this.SetName(null);
                 this.mFormControl.SetName(null);
-                this.mFormAttribute.SetName(null);
+                this.mFormAttribute.Init(null);
             }
             this.panel_PreView.Refresh();
         }

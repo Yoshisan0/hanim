@@ -33,27 +33,50 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
 
             //以下、チェックボックスの名称を変更する処理
-            this.checkBox_X.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.POSITION_X);
-            this.checkBox_Y.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.POSITION_Y);
-            this.checkBox_Rot.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.ROTATION);
-            this.checkBox_SX.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.SCALE_X);
-            this.checkBox_SY.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.SCALE_Y);
-            this.checkBox_T.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.TRANSPARENCY);
-            this.checkBox_FlipH.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.FLIP_HORIZONAL);
-            this.checkBox_FlipV.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.FLIP_VERTICAL);
-            this.checkBox_Color.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.COLOR);
-            this.checkBox_Xoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.OFFSET_X);
-            this.checkBox_Yoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.OFFSET_Y);
-            this.checkBox_UserText.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE.USER_DATA);
+            this.checkBox_X.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.POSITION_X);
+            this.checkBox_Y.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.POSITION_Y);
+            this.checkBox_Rot.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.ROTATION);
+            this.checkBox_SX.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.SCALE_X);
+            this.checkBox_SY.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.SCALE_Y);
+            this.checkBox_T.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
+            this.checkBox_FlipH.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
+            this.checkBox_FlipV.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
+            this.checkBox_Color.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.COLOR);
+            this.checkBox_Xoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.OFFSET_X);
+            this.checkBox_Yoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.OFFSET_Y);
+            this.checkBox_UserText.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.USER_DATA);
         }
 
         /// <summary>
-        /// ウィンドウ名設定
+        /// 初期化処理
         /// </summary>
-        /// <param name="clMotion">選択中のモーション管理クラス</param>
-        public void SetName(ClsDatMotion clMotion)
+        /// <param name="clElem">選択中のエレメント</param>
+        public void Init(ClsDatElem clElem)
         {
-            this.Text = ClsSystem.GetWindowName("Attribute", clMotion);
+            if (clElem == null)
+            {
+                this.Text = "Attribute";
+                this.Enabled = false;
+            }
+            else
+            {
+                this.Text = ClsSystem.GetWindowName("Attribute", clElem);
+                this.Enabled = true;
+
+                this.checkBox_Visible.Enabled = true;
+                this.checkBox_X.Enabled = true;
+                this.checkBox_Y.Enabled = true;
+                this.checkBox_Rot.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
+                this.checkBox_SX.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
+                this.checkBox_SY.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
+                this.checkBox_T.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
+                this.checkBox_FlipH.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
+                this.checkBox_FlipV.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
+                this.checkBox_Color.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.COLOR);
+                this.checkBox_Xoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_X);
+                this.checkBox_Yoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_Y);
+                this.checkBox_UserText.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.USER_DATA);
+            }
         }
 
         /// <summary>
