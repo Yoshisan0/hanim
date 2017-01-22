@@ -241,12 +241,10 @@ namespace PrjHikariwoAnim
         }
         private void panel_Control_MouseClick(object sender, MouseEventArgs e)
         {
-            //※ e.Y がそのまま mListElem のインデックスになるわけではないので、ここは修正する必要があります
-
             //Item選択
             int inLineNo = e.Y / FormControl.CELL_HEIGHT;
 
-            //以下、エレメント選択処理
+            //以下、アイテム選択処理
             this.mMotion.SetSelectLineNo(inLineNo);
 
             //Item最大数を確認
@@ -275,6 +273,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、コントロール更新処理
+            this.RefreshControl();
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
@@ -386,6 +385,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、コントロール更新処理
+            this.RefreshControl();
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
@@ -573,6 +573,29 @@ namespace PrjHikariwoAnim
             this.mFormMain.Refresh();
         }
 
+        private void RefreshControl()
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+
+            //以下、削除ボタン有効フラグ設定
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+            bool isEnable = false;
+            if (clItem != null)
+            {
+                if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+                {
+                    isEnable = true;
+                }
+                else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+                {
+                    ClsDatOption clOption = clItem as ClsDatOption;
+                    isEnable = clOption.IsRemoveOK();
+                }
+            }
+
+            this.button_ItemRemove.Enabled = isEnable;
+        }
+
         private void panel_Control_MouseDown(object sender, MouseEventArgs e)
         {
             //以下、テキストボックス削除処理
@@ -601,18 +624,19 @@ namespace PrjHikariwoAnim
             //子供が親になったり、親が子供になったりしない
         }
 
-        private void button_ElemRemove_Click(object sender, EventArgs e)
+        private void button_ItemRemove_Click(object sender, EventArgs e)
         {
             int inLineNo = this.mMotion.GetSelectLineNo();
             if (inLineNo < 0) return;
 
-            //以下、エレメント削除処理
-            this.mMotion.RemoveElemFromLineNo(inLineNo);
+            //以下、アイテム削除処理
+            this.mMotion.RemoveItemFromLineNo(inLineNo, false);
 
             //以下、行番号振り直し処理
             this.mMotion.Assignment();
 
             //以下、コントロール更新処理
+            this.RefreshControl();
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();

@@ -19,6 +19,7 @@ namespace PrjHikariwoAnim
         public int mWorkLineNo;             //行番号割り振り時に利用する一時保持領域
         public ClsDatElem mWorkElem;        //検索時に利用するエレメント一時保持領域
         public ClsDatOption mWorkOption;    //検索時に利用するオプション一時保持領域
+        public ClsDatItem mWorkItem;        //検索時に利用するアイテム一時保持領域
 
         /// <summary>
         /// コンストラクタ
@@ -67,6 +68,27 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 行番号からアイテムを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <param name="isForce">強制フラグ</param>
+        public void RemoveItemFromLineNo(int inLineNo, bool isForce)
+        {
+            ClsDatItem clItem = this.FindItemFromLineNo(inLineNo);
+            if (clItem == null) return;
+
+            switch(clItem.mTypeItem) {
+            case ClsDatItem.TYPE_ITEM.ELEM:
+                this.RemoveElemFromLineNo(inLineNo);
+                break;
+            case ClsDatItem.TYPE_ITEM.OPTION:
+                this.RemoveOptionFromLineNo(inLineNo, isForce);
+                break;
+            }
+        }
+
+        /// <summary>
         /// 行番号からエレメントを削除する処理
         /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
@@ -94,7 +116,8 @@ namespace PrjHikariwoAnim
         /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
-        public void RemoveOptionFromLineNo(int inLineNo)
+        /// <param name="isForce">強制フラグ</param>
+        public void RemoveOptionFromLineNo(int inLineNo, bool isForce)
         {
             if (inLineNo < 0) return;
 
@@ -102,7 +125,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RemoveOptionFromLineNo(inLineNo);
+                clElem.RemoveOptionFromLineNo(inLineNo, isForce);
             }
         }
 
@@ -207,6 +230,30 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 行番号からアイテムを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>アイテム</returns>
+        public ClsDatItem FindItemFromLineNo(int inLineNo)
+        {
+            this.mWorkItem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromLineNo(this, inLineNo);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        /// <summary>
         /// 行番号からエレメントを検索する処理
         /// </summary>
         /// <param name="inLineNo">行番号</param>
@@ -227,7 +274,7 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            return (this.mWorkElem);
+            return (null);
         }
 
         /// <summary>
@@ -251,7 +298,7 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            return (this.mWorkOption);
+            return (null);
         }
 
         /// <summary>

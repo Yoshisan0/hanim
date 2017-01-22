@@ -8,7 +8,7 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatOption : ClsDatItem
     {
-        public enum TYPE
+        public enum TYPE_OPTION
         {
             NONE,
             POSITION_X,
@@ -26,16 +26,18 @@ namespace PrjHikariwoAnim
             USER_DATA,
         }
 
-        public TYPE mType;  //タイプ
+        public TYPE_OPTION mTypeOption;  //タイプ
         public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する（ null は存在しない事にする）
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="enType">オプションタイプ</param>
-        public ClsDatOption(TYPE enType)
+        public ClsDatOption(TYPE_OPTION enType)
         {
-            this.mType = enType;
+            this.mTypeItem = TYPE_ITEM.OPTION;
+
+            this.mTypeOption = enType;
             this.mListKeyFrame = new List<ClsDatKeyFrame>();
         }
 
@@ -56,6 +58,20 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 削除可能フラグの取得
+        /// </summary>
+        /// <returns>削除可能フラグ</returns>
+        public bool IsRemoveOK()
+        {
+            if (this.mTypeOption == TYPE_OPTION.NONE) return (false);
+            if (this.mTypeOption == TYPE_OPTION.DISPLAY) return (false);
+            if (this.mTypeOption == TYPE_OPTION.POSITION_X) return (false);
+            if (this.mTypeOption == TYPE_OPTION.POSITION_Y) return (false);
+
+            return (true);
+        }
+
+        /// <summary>
         /// エクスポート
         /// </summary>
         /// <returns>出力情報</returns>
@@ -69,48 +85,48 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enType">オプションタイプ</param>
         /// <returns>オプションタイプの名称</returns>
-        public static string CnvType2Name(TYPE enType)
+        public static string CnvType2Name(TYPE_OPTION enType)
         {
             string clName = "";
 
             switch (enType) {
-            case TYPE.POSITION_X:
+            case TYPE_OPTION.POSITION_X:
                 clName = "Position X";
                 break;
-            case TYPE.POSITION_Y:
+            case TYPE_OPTION.POSITION_Y:
                 clName = "Position Y";
                 break;
-            case TYPE.ROTATION:
+            case TYPE_OPTION.ROTATION:
                 clName = "Rotation";
                 break;
-            case TYPE.SCALE_X:
+            case TYPE_OPTION.SCALE_X:
                 clName = "Scale X";
                 break;
-            case TYPE.SCALE_Y:
+            case TYPE_OPTION.SCALE_Y:
                 clName = "Scale Y";
                 break;
-            case TYPE.TRANSPARENCY:
+            case TYPE_OPTION.TRANSPARENCY:
                 clName = "Transparency";
                 break;
-            case TYPE.FLIP_HORIZONAL:
+            case TYPE_OPTION.FLIP_HORIZONAL:
                 clName = "Horizontal flip";
                 break;
-            case TYPE.FLIP_VERTICAL:
+            case TYPE_OPTION.FLIP_VERTICAL:
                 clName = "Vertical flip";
                 break;
-            case TYPE.DISPLAY:
+            case TYPE_OPTION.DISPLAY:
                 clName = "Display";
                 break;
-            case TYPE.COLOR:
+            case TYPE_OPTION.COLOR:
                 clName = "Color";
                 break;
-            case TYPE.OFFSET_X:
+            case TYPE_OPTION.OFFSET_X:
                 clName = "Offset X";
                 break;
-            case TYPE.OFFSET_Y:
+            case TYPE_OPTION.OFFSET_Y:
                 clName = "Offset Y";
                 break;
-            case TYPE.USER_DATA:
+            case TYPE_OPTION.USER_DATA:
                 clName = "User data(text)";
                 break;
             default:
@@ -199,7 +215,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、名前描画処理
-            string clName = ClsDatOption.CnvType2Name(this.mType);
+            string clName = ClsDatOption.CnvType2Name(this.mTypeOption);
             if (!string.IsNullOrEmpty(clName))
             {
                 g.DrawString(clName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT + 2);
