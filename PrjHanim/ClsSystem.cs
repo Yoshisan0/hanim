@@ -144,8 +144,25 @@ namespace PrjHikariwoAnim
             string clName = "";
             if (clMotion != null)
             {
-                string clNameMotion = clMotion.mName;
-                clName = " (" + clNameMotion + ")";
+                clName = " ( " + clMotion.mName + " )";
+            }
+
+            string clResultName = clWindowName + clName;
+            return (clResultName);
+        }
+
+        /// <summary>
+        /// ウィンドウ名取得処理
+        /// </summary>
+        /// <param name="clWindowName">ウィンドウ名</param>
+        /// <param name="clElem">エレメント管理クラス</param>
+        /// <returns>ウィンドウ名</returns>
+        public static string GetWindowName(string clWindowName, ClsDatElem clElem)
+        {
+            string clName = "";
+            if (clElem != null && clElem.mMotion != null)
+            {
+                clName = " ( " + clElem.mMotion.mName + " [ " + clElem.mName + " ] )";
             }
 
             string clResultName = clWindowName + clName;

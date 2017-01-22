@@ -26,6 +26,7 @@ namespace PrjHikariwoAnim
             Point
         }
 
+        public ClsDatMotion mMotion;        //親モーション
         public string mName;                //エレメント名
         public ELEMENTSTYPE mType;          //Default Image
         public ELEMENTSSTYLE mStyle;        //Default Rect
@@ -40,10 +41,12 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ClsDatElem()
+        /// <param name="clMotion">親モーション</param>
+        public ClsDatElem(ClsDatMotion clMotion)
         {
             this.mTypeItem = TYPE_ITEM.ELEM;
 
+            this.mMotion = clMotion;
             this.mName = this.GetHashCode().ToString("X8");//仮名
             this.mType = ELEMENTSTYPE.Image;
             this.mStyle = ELEMENTSSTYLE.Rect;
@@ -183,7 +186,7 @@ namespace PrjHikariwoAnim
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enType);
             if (!isExist) {
-                this.mDicOption[enType] = new ClsDatOption(enType);
+                this.mDicOption[enType] = new ClsDatOption(this, enType);
             }
         }
 

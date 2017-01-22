@@ -48,12 +48,35 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// ウィンドウ名設定
+        /// 初期化処理
         /// </summary>
-        /// <param name="clMotion">選択中のモーション管理クラス</param>
-        public void SetName(ClsDatMotion clMotion)
+        /// <param name="clElem">選択中のエレメント</param>
+        public void Init(ClsDatElem clElem)
         {
-            this.Text = ClsSystem.GetWindowName("Attribute", clMotion);
+            if (clElem == null)
+            {
+                this.Text = "Attribute";
+                this.Enabled = false;
+            }
+            else
+            {
+                this.Text = ClsSystem.GetWindowName("Attribute", clElem);
+                this.Enabled = true;
+
+                this.checkBox_Visible.Enabled = true;
+                this.checkBox_X.Enabled = true;
+                this.checkBox_Y.Enabled = true;
+                this.checkBox_Rot.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
+                this.checkBox_SX.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
+                this.checkBox_SY.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
+                this.checkBox_T.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
+                this.checkBox_FlipH.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
+                this.checkBox_FlipV.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
+                this.checkBox_Color.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.COLOR);
+                this.checkBox_Xoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_X);
+                this.checkBox_Yoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_Y);
+                this.checkBox_UserText.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.USER_DATA);
+            }
         }
 
         /// <summary>

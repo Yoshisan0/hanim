@@ -576,9 +576,9 @@ namespace PrjHikariwoAnim
         private void RefreshControl()
         {
             int inLineNo = this.mMotion.GetSelectLineNo();
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
 
             //以下、削除ボタン有効フラグ設定
-            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
             bool isEnable = false;
             if (clItem != null)
             {
@@ -594,6 +594,34 @@ namespace PrjHikariwoAnim
             }
 
             this.button_ItemRemove.Enabled = isEnable;
+
+            //以下、アトリビュートウィンドウ設定
+            if (clItem != null)
+            {
+                if (this.mFormMain != null)
+                {
+                    if (this.mFormMain.mFormAttribute != null)
+                    {
+                        //以下、エレメント設定
+                        ClsDatElem clElem = null;
+                        if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+                        {
+                            clElem = clItem as ClsDatElem;
+                        }
+                        else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+                        {
+                            ClsDatOption clOption = clItem as ClsDatOption;
+                            clElem = clOption.mElem;
+                        }
+
+                        //以下、アトリビュートウィンドウ初期化処理
+                        this.mFormMain.mFormAttribute.Init(clElem);
+
+                        //以下、アイテム選択処理
+                        this.mMotion.SetSelectLineNo(inLineNo);
+                    }
+                }
+            }
         }
 
         private void panel_Control_MouseDown(object sender, MouseEventArgs e)

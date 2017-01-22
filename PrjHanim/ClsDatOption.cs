@@ -26,17 +26,20 @@ namespace PrjHikariwoAnim
             USER_DATA,
         }
 
+        public ClsDatElem mElem;    //親エレメント
         public TYPE_OPTION mTypeOption;  //タイプ
         public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する（ null は存在しない事にする）
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
+        /// <param name="clElem">親エレメント</param>
         /// <param name="enType">オプションタイプ</param>
-        public ClsDatOption(TYPE_OPTION enType)
+        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enType)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
+            this.mElem = clElem;
             this.mTypeOption = enType;
             this.mListKeyFrame = new List<ClsDatKeyFrame>();
         }
