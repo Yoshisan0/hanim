@@ -15,15 +15,19 @@ namespace PrjHikariwoAnim
         //一時記録用
         //AllSet,AllGet時に更新
         private AttributeBase ValuesPool;
-        private bool isLocked;//パラメータ変更中にロック
+        private bool isLocked;      //パラメータ変更中にロック
         private FormMain mFormMain;
+        private ClsDatElem mElem;   //ターゲットとなるエレメント
 
         public bool isChanged;//パラメータ変更があった時True 読み出し後False
 
         public FormAttribute(FormMain form)
         {
             InitializeComponent();
+
+            //以下、初期化処理
             this.mFormMain = form;
+            this.mElem = null;
         }
 
         private void FormAttribute_Load(object sender, EventArgs e)
@@ -33,18 +37,29 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
 
             //以下、チェックボックスの名称を変更する処理
-            this.checkBox_X.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.POSITION_X);
-            this.checkBox_Y.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.POSITION_Y);
-            this.checkBox_Rot.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.ROTATION);
-            this.checkBox_SX.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.SCALE_X);
-            this.checkBox_SY.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.SCALE_Y);
-            this.checkBox_T.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
-            this.checkBox_FlipH.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
-            this.checkBox_FlipV.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
-            this.checkBox_Color.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.COLOR);
-            this.checkBox_Xoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.OFFSET_X);
-            this.checkBox_Yoff.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.OFFSET_Y);
-            this.checkBox_UserText.Text = ClsDatOption.CnvType2Name(ClsDatOption.TYPE_OPTION.USER_DATA);
+            this.InitCheckBox(this.checkBox_X, ClsDatOption.TYPE_OPTION.POSITION_X);
+            this.InitCheckBox(this.checkBox_Y, ClsDatOption.TYPE_OPTION.POSITION_Y);
+            this.InitCheckBox(this.checkBox_Rot, ClsDatOption.TYPE_OPTION.ROTATION);
+            this.InitCheckBox(this.checkBox_SX, ClsDatOption.TYPE_OPTION.SCALE_X);
+            this.InitCheckBox(this.checkBox_SY, ClsDatOption.TYPE_OPTION.SCALE_Y);
+            this.InitCheckBox(this.checkBox_T, ClsDatOption.TYPE_OPTION.TRANSPARENCY);
+            this.InitCheckBox(this.checkBox_FlipH, ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
+            this.InitCheckBox(this.checkBox_FlipV, ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
+            this.InitCheckBox(this.checkBox_Color, ClsDatOption.TYPE_OPTION.COLOR);
+            this.InitCheckBox(this.checkBox_Xoff, ClsDatOption.TYPE_OPTION.OFFSET_X);
+            this.InitCheckBox(this.checkBox_Yoff, ClsDatOption.TYPE_OPTION.OFFSET_Y);
+            this.InitCheckBox(this.checkBox_UserText, ClsDatOption.TYPE_OPTION.USER_DATA);
+        }
+
+        /// <summary>
+        /// チェックボックス初期化処理
+        /// </summary>
+        /// <param name="clCheckBox">チェックボックス</param>
+        /// <param name="enTypeOption">オプション種別</param>
+        private void InitCheckBox(CheckBox clCheckBox, ClsDatOption.TYPE_OPTION enTypeOption)
+        {
+            clCheckBox.Text = ClsDatOption.CnvType2Name(enTypeOption);
+            clCheckBox.Tag = enTypeOption;
         }
 
         /// <summary>
@@ -53,6 +68,8 @@ namespace PrjHikariwoAnim
         /// <param name="clElem">選択中のエレメント</param>
         public void Init(ClsDatElem clElem)
         {
+            this.mElem = clElem;
+
             if (clElem == null)
             {
                 this.Text = "Attribute";
@@ -63,19 +80,20 @@ namespace PrjHikariwoAnim
                 this.Text = ClsSystem.GetWindowName("Attribute", clElem);
                 this.Enabled = true;
 
-                this.checkBox_Visible.Enabled = true;
-                this.checkBox_X.Enabled = true;
-                this.checkBox_Y.Enabled = true;
-                this.checkBox_Rot.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
-                this.checkBox_SX.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
-                this.checkBox_SY.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
-                this.checkBox_T.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
-                this.checkBox_FlipH.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
-                this.checkBox_FlipV.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
-                this.checkBox_Color.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.COLOR);
-                this.checkBox_Xoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_X);
-                this.checkBox_Yoff.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_Y);
-                this.checkBox_UserText.Enabled = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.USER_DATA);
+                //以下、チェック状態の設定
+                this.checkBox_Display.Checked = true;
+                this.checkBox_X.Checked = true;
+                this.checkBox_Y.Checked = true;
+                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
+                this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
+                this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
+                this.checkBox_T.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
+                this.checkBox_FlipH.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
+                this.checkBox_FlipV.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
+                this.checkBox_Color.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.COLOR);
+                this.checkBox_Xoff.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_X);
+                this.checkBox_Yoff.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_Y);
+                this.checkBox_UserText.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.USER_DATA);
             }
         }
 
@@ -114,7 +132,7 @@ namespace PrjHikariwoAnim
             checkBox_FlipH.Checked = atr.FlipH;
             checkBox_FlipV.Checked = atr.FlipV;
             //checkEnable.Checked = atr.Enable;
-            checkBox_Visible.Checked = atr.Visible;
+            checkBox_Display.Checked = atr.Visible;
 
             checkBox_T.Checked = atr.isTransparrency;
             UDnumT.Value = atr.Transparency;
@@ -162,7 +180,7 @@ namespace PrjHikariwoAnim
                 atr.FlipV = checkBox_FlipV.Checked;
 
                 //ret.Enable = checkEnable.Checked;
-                atr.Visible = checkBox_Visible.Checked;
+                atr.Visible = checkBox_Display.Checked;
 
                 atr.isTransparrency = checkBox_T.Checked;
                 atr.Transparency = (int)UDnumT.Value;
@@ -218,7 +236,30 @@ namespace PrjHikariwoAnim
         {
             //チェックボックス系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
+            if (!isLocked) {
+                isChanged = true;
+                this.mFormMain.AttributeUpdate();
+            }
+
+            CheckBox clCheckBox = sender as CheckBox;
+            if (this.mElem != null)
+            {
+                if (clCheckBox.Tag != null)
+                {
+                    ClsDatOption.TYPE_OPTION enTypeOption = (ClsDatOption.TYPE_OPTION)clCheckBox.Tag;
+                    if (clCheckBox.Checked) this.mElem.AddOption(enTypeOption);
+                    else this.mElem.RemoveOption(enTypeOption, false);
+
+                    //以下、行番号振り直し処理
+                    if (this.mElem.mMotion != null)
+                    {
+                        this.mElem.mMotion.Assignment();
+                    }
+
+                    //以下、コントロールリフレッシュ処理
+                    this.mFormMain.mFormControl.RefreshAll();
+                }
+            }
         }
 
         private void UDnum_ValueChanged(object sender, EventArgs e)
