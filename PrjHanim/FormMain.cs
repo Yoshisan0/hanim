@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
@@ -205,13 +206,47 @@ namespace PrjHikariwoAnim
             sfd.DefaultExt = ".hap";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                //*.hapには各モーションの情報を全て出力する感じに
+
+                //.hapに含むもの
+                //1:全体プロジェクトデータ
+                // Project
+                //  -string:FileHeader
+                //   {
+                //    -FileDiscription
+                //    -string:Version {Master:major:minor:Option}
+                //    -string:ProjectName
+                //    -string:Creator?
+                //    -int:ImageManager.Count
+                //    -int:MotionCount
+                //    }
+                //     ImageManagerData
+                //      -ImageManager[]
+                //      -ClsImageData{ }
+                //     MotionData
+                //      -Motion[]
+                //      {
+                //          -ElementList[] 
+                //      }
                 /*
-                if (ClsSystem.mEditMotionKey >= 0)
-                {
-                    ClsSystem.mDicMotion[ClsSystem.mEditMotionKey].SaveToFile(sfd.FileName);
-                }
+                StreamWriter sw = new StreamWriter(sfd.FileName);
+
+                sw.WriteLine("<title>HanimProjectData</title>");
+                sw.WriteLine("<version>0.0.0</version>");
+                sw.WriteLine($"<name>{Name}</name>");
+                int iCnt = ClsSystem.ImageMan.ChipCount();
+                sw.WriteLine(iCnt);
+                
+                string ts2 = ClsSystem.ImageMan.ToString();
+                
+                int cnt = ClsSystem.mDicMotion.Count;
                 */
+
+                //名前空間出力抑制
+                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                ns.Add(String.Empty, String.Empty);
+
+
+                //sw.Close();
             }
             sfd.Dispose();
         }

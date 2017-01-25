@@ -17,24 +17,8 @@ namespace PrjHikariwoAnim
     /// TimeLine:EditFrame:編集中対象エレメント
     /// TimeLine:FRAME<ELEMENTS>編集中除く1つだけ 外部モーションで共用したいのであとで離別 
     /// データ削減の為パラメータ変化のあるフレームのみの記録
-        /*
-            構造案(amami 17/1/6)
-            gmTimeLine　を　FRAME mElementList　に変更 (イメージをImgChipIDで参照する事で他モーションで共有可能とする)
-            エレメントの親子関係　各種エレメント自体のフラグ等はここ
-            １モーションにつき１つだけ存在
 
-            Dictionary<int,ElementID,Dictionary<int,FrameNum> EleParam> gmEleParam　を新設
-            gmEleParam[ElementID][FrameNum]でアクセス？
-            遅い？
-            エラー処理とかのちのち大変？
 
-            フレーム番号をKeyとした時間軸(フレーム数)のエレメントの各種パラメータ等
-            EleParam[]は登録Element数だけ用意し、値がnullの物はパラメータ無し か？
-            もしくはElementID(hash)をキーとした辞書かList<>か
-
-            こいうので・・合ってる？
-            以下サンプルClass:Motion2は毎度の如く安易な思い付き
-        */
     /// </summary>
     /// 
     //サンプル Class Motion2  17/1/6
@@ -207,6 +191,47 @@ namespace PrjHikariwoAnim
         }
 
     }
+
+    [Serializable]
+    public class Project
+    {
+        public string Name;//ProjectName
+        public int SelectKey  { get{ return mSelectKey; } }
+
+
+        private int mSelectKey;
+
+        private Dictionary<int, Motion> mMotion;
+
+        public void AddMotion(int Key,Motion m)
+        {
+            mMotion.Add(Key, m);
+        }
+
+        
+        public Motion GetMotion(int key)
+        {
+            return mMotion[key];
+        }
+        public void RemoveMotion(int key)
+        {
+            mMotion.Remove(key);
+        }
+
+        public void save(string fname)
+        {
+            
+            StreamWriter sw = new StreamWriter(fname);
+            sw.WriteLine("<title>HanimProjectData</title>");
+            sw.WriteLine("<version>0.0.0</version>");
+            sw.WriteLine($"<name>{Name}</name>");
+            sw.Write(mMotion);
+            
+            sw.Close();
+        }
+
+    }
+
     [Serializable]
     public class Motion
     {
@@ -952,22 +977,6 @@ namespace PrjHikariwoAnim
         }
     }
 
-    public class RATEbase
-    {
-        //アニメーション等で利用するためのサブパラメータ
-        //ELEMENTSレベルとフレームレベルで使うきがする
-        //どのパラメータを利用するか　その重み　のデータ
-        //基本的に0～1の値を取りパラメータの種類で意味付けが変わる
-        //
-
-        //補完タイプ
-        public enum CompletionType { NONE, LINEAR, ELMINATE, BEJUE, AMPLIFICATION, ATTENUATION }
-
-        public CompletionType Style = CompletionType.NONE;//補完タイプ
-        public double MasterVolume;//必要かなぁ
-        public bool IsPosition;//うーん
-        //色　どうすっかなぁ 1パラメータで
-    }
     
 
 }
