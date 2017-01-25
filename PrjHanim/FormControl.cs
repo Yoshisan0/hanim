@@ -195,16 +195,17 @@ namespace PrjHikariwoAnim
         private void NowFrame_ValueChanged(object sender, EventArgs e)
         {
             //現在フレームが変更された時の処理
-            RefreshAll();
-
+            this.RefreshAll();
         }
-        private void RefreshAll()
+
+        public void RefreshAll()
         {
             //全体再描画
-            //panel_Control.Refresh();
-            panel_Time.Refresh();
-            LineHeader.Refresh();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.LineHeader.Refresh();
         }
+
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
             numericUpDown_NowFlame.Value = 0;
@@ -668,6 +669,82 @@ namespace PrjHikariwoAnim
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
+        }
+
+        private void ToolStripMenuItem_AddOption_DropDownOpening(object sender, EventArgs e)
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
+            if (clElem == null) return;
+
+            Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem>();
+            clDic[ClsDatOption.TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[ClsDatOption.TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
+            clDic[ClsDatOption.TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
+            clDic[ClsDatOption.TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
+            clDic[ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
+            clDic[ClsDatOption.TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
+            clDic[ClsDatOption.TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
+            clDic[ClsDatOption.TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
+            clDic[ClsDatOption.TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
+            clDic[ClsDatOption.TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
+
+            foreach (ClsDatOption.TYPE_OPTION enTypeOption in Enum.GetValues(typeof(ClsDatOption.TYPE_OPTION)))
+            {
+                bool isExist = clDic.ContainsKey(enTypeOption);
+                if (!isExist) continue;
+
+                ToolStripMenuItem clItem = clDic[enTypeOption] as ToolStripMenuItem;
+                if (clItem == null) continue;
+
+                isExist = clElem.mDicOption.ContainsKey(enTypeOption);
+                clItem.Enabled = !isExist;
+            }
+        }
+
+        private void ToolStripMenuItem_RemoveOption_DropDownOpening(object sender, EventArgs e)
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
+            if (clElem == null) return;
+
+            Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem>();
+            clDic[ClsDatOption.TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[ClsDatOption.TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
+            clDic[ClsDatOption.TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
+            clDic[ClsDatOption.TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
+            clDic[ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
+            clDic[ClsDatOption.TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
+            clDic[ClsDatOption.TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
+            clDic[ClsDatOption.TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
+            clDic[ClsDatOption.TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
+            clDic[ClsDatOption.TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
+
+            foreach (ClsDatOption.TYPE_OPTION enTypeOption in Enum.GetValues(typeof(ClsDatOption.TYPE_OPTION)))
+            {
+                bool isExist = clDic.ContainsKey(enTypeOption);
+                if (!isExist) continue;
+
+                ToolStripMenuItem clItem = clDic[enTypeOption] as ToolStripMenuItem;
+                if (clItem == null) continue;
+
+                isExist = clElem.mDicOption.ContainsKey(enTypeOption);
+                clItem.Enabled = isExist;
+            }
+        }
+
+        private void contextMenuStrip_Right_Opening(object sender, CancelEventArgs e)
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
+            this.ToolStripMenuItem_AddOption.Enabled = (clElem != null);
+            this.ToolStripMenuItem_RemoveOption.Enabled = (clElem != null);
         }
     }
 }

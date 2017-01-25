@@ -31,7 +31,7 @@
             this.checkBox_T = new System.Windows.Forms.CheckBox();
             this.checkBox_FlipH = new System.Windows.Forms.CheckBox();
             this.checkBox_FlipV = new System.Windows.Forms.CheckBox();
-            this.checkBox_Visible = new System.Windows.Forms.CheckBox();
+            this.checkBox_Display = new System.Windows.Forms.CheckBox();
             this.checkBox_Color = new System.Windows.Forms.CheckBox();
             this.checkBox_Xoff = new System.Windows.Forms.CheckBox();
             this.checkBox_Yoff = new System.Windows.Forms.CheckBox();
@@ -78,8 +78,6 @@
             // checkBox_T
             // 
             this.checkBox_T.AutoSize = true;
-            this.checkBox_T.Checked = true;
-            this.checkBox_T.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_T.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_T.Location = new System.Drawing.Point(9, 159);
             this.checkBox_T.Margin = new System.Windows.Forms.Padding(0);
@@ -116,20 +114,20 @@
             this.checkBox_FlipV.UseVisualStyleBackColor = true;
             this.checkBox_FlipV.CheckStateChanged += new System.EventHandler(this.checkBox_CheckStateChanged);
             // 
-            // checkBox_Visible
+            // checkBox_Display
             // 
-            this.checkBox_Visible.AutoSize = true;
-            this.checkBox_Visible.Checked = true;
-            this.checkBox_Visible.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Visible.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_Visible.Location = new System.Drawing.Point(9, 9);
-            this.checkBox_Visible.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_Visible.Name = "checkBox_Visible";
-            this.checkBox_Visible.Size = new System.Drawing.Size(74, 20);
-            this.checkBox_Visible.TabIndex = 14;
-            this.checkBox_Visible.Text = "Display";
-            this.checkBox_Visible.UseVisualStyleBackColor = true;
-            this.checkBox_Visible.CheckStateChanged += new System.EventHandler(this.checkBox_CheckStateChanged);
+            this.checkBox_Display.AutoSize = true;
+            this.checkBox_Display.Checked = true;
+            this.checkBox_Display.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Display.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_Display.Location = new System.Drawing.Point(9, 9);
+            this.checkBox_Display.Margin = new System.Windows.Forms.Padding(0);
+            this.checkBox_Display.Name = "checkBox_Display";
+            this.checkBox_Display.Size = new System.Drawing.Size(74, 20);
+            this.checkBox_Display.TabIndex = 14;
+            this.checkBox_Display.Text = "Display";
+            this.checkBox_Display.UseVisualStyleBackColor = true;
+            this.checkBox_Display.CheckStateChanged += new System.EventHandler(this.checkBox_CheckStateChanged);
             // 
             // checkBox_Color
             // 
@@ -186,8 +184,6 @@
             // checkBox_SY
             // 
             this.checkBox_SY.AutoSize = true;
-            this.checkBox_SY.Checked = true;
-            this.checkBox_SY.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_SY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_SY.Location = new System.Drawing.Point(9, 134);
             this.checkBox_SY.Margin = new System.Windows.Forms.Padding(0);
@@ -201,8 +197,6 @@
             // checkBox_SX
             // 
             this.checkBox_SX.AutoSize = true;
-            this.checkBox_SX.Checked = true;
-            this.checkBox_SX.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_SX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_SX.Location = new System.Drawing.Point(9, 109);
             this.checkBox_SX.Margin = new System.Windows.Forms.Padding(0);
@@ -229,6 +223,8 @@
             // checkBox_Y
             // 
             this.checkBox_Y.AutoSize = true;
+            this.checkBox_Y.Checked = true;
+            this.checkBox_Y.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_Y.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_Y.Location = new System.Drawing.Point(9, 59);
             this.checkBox_Y.Margin = new System.Windows.Forms.Padding(0);
@@ -242,6 +238,8 @@
             // checkBox_X
             // 
             this.checkBox_X.AutoSize = true;
+            this.checkBox_X.Checked = true;
+            this.checkBox_X.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_X.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_X.Location = new System.Drawing.Point(9, 34);
             this.checkBox_X.Margin = new System.Windows.Forms.Padding(0);
@@ -520,7 +518,7 @@
             this.panel_Attribute_Base.Controls.Add(this.checkBox_Yoff);
             this.panel_Attribute_Base.Controls.Add(this.checkBox_Xoff);
             this.panel_Attribute_Base.Controls.Add(this.checkBox_Color);
-            this.panel_Attribute_Base.Controls.Add(this.checkBox_Visible);
+            this.panel_Attribute_Base.Controls.Add(this.checkBox_Display);
             this.panel_Attribute_Base.Controls.Add(this.checkBox_FlipV);
             this.panel_Attribute_Base.Controls.Add(this.checkBox_FlipH);
             this.panel_Attribute_Base.Controls.Add(this.checkBox_T);
@@ -670,7 +668,7 @@
         private System.Windows.Forms.CheckBox checkBox_T;
         private System.Windows.Forms.CheckBox checkBox_FlipH;
         private System.Windows.Forms.CheckBox checkBox_FlipV;
-        private System.Windows.Forms.CheckBox checkBox_Visible;
+        private System.Windows.Forms.CheckBox checkBox_Display;
         private System.Windows.Forms.CheckBox checkBox_Color;
         private System.Windows.Forms.CheckBox checkBox_Xoff;
         private System.Windows.Forms.CheckBox checkBox_Yoff;

@@ -180,13 +180,34 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// オプション追加処理
         /// </summary>
-        /// <param name="enType">オプションのタイプ</param>
-        public void AddOption(ClsDatOption.TYPE_OPTION enType)
+        /// <param name="enTypeOption">オプションのタイプ</param>
+        public void AddOption(ClsDatOption.TYPE_OPTION enTypeOption)
         {
             //以下、オプション追加処理
-            bool isExist = this.mDicOption.ContainsKey(enType);
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
             if (!isExist) {
-                this.mDicOption[enType] = new ClsDatOption(this, enType);
+                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption);
+            }
+        }
+
+        /// <summary>
+        /// オプション削除処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <param name="isForce">強制削除フラグ</param>
+        public void RemoveOption(ClsDatOption.TYPE_OPTION enTypeOption, bool isForce)
+        {
+            //以下、オプション削除処理
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            if (isExist)
+            {
+                ClsDatOption clOption = this.mDicOption[enTypeOption] as ClsDatOption;
+                bool isRemoveOK = (isForce) ? true : clOption.IsRemoveOK();
+                if (isRemoveOK)
+                {
+                    clOption.RemoveAll();
+                    this.mDicOption.Remove(enTypeOption);
+                }
             }
         }
 

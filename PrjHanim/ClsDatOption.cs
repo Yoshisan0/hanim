@@ -11,6 +11,7 @@ namespace PrjHikariwoAnim
         public enum TYPE_OPTION
         {
             NONE,
+            DISPLAY,
             POSITION_X,
             POSITION_Y,
             ROTATION,
@@ -19,7 +20,6 @@ namespace PrjHikariwoAnim
             TRANSPARENCY,
             FLIP_HORIZONAL,
             FLIP_VERTICAL,
-            DISPLAY,
             COLOR,
             OFFSET_X,
             OFFSET_Y,
@@ -66,10 +66,21 @@ namespace PrjHikariwoAnim
         /// <returns>削除可能フラグ</returns>
         public bool IsRemoveOK()
         {
-            if (this.mTypeOption == TYPE_OPTION.NONE) return (false);
-            if (this.mTypeOption == TYPE_OPTION.DISPLAY) return (false);
-            if (this.mTypeOption == TYPE_OPTION.POSITION_X) return (false);
-            if (this.mTypeOption == TYPE_OPTION.POSITION_Y) return (false);
+            bool isRemoveOK = ClsDatOption.IsRemoveOK(this.mTypeOption);
+            return (isRemoveOK);
+        }
+
+        /// <summary>
+        /// 削除可能フラグの取得
+        /// </summary>
+        /// <param name="enTypeOption">オプション種別</param>
+        /// <returns>削除可能フラグ</returns>
+        public static bool IsRemoveOK(TYPE_OPTION enTypeOption)
+        {
+            if (enTypeOption == TYPE_OPTION.NONE) return (false);
+            if (enTypeOption == TYPE_OPTION.DISPLAY) return (false);
+            if (enTypeOption == TYPE_OPTION.POSITION_X) return (false);
+            if (enTypeOption == TYPE_OPTION.POSITION_Y) return (false);
 
             return (true);
         }
