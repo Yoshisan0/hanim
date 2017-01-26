@@ -76,33 +76,26 @@ namespace PrjHikariwoAnim
         {
             return ImageChipList[ID].Img;
         }
-        public void SaveToFile(string FileName)
+        /// <summary>
+        /// イメージリストの保存
+        /// </summary>
+        /// <param name="FileName">ファイル名</param>
+        /// <param name="ext">独自拡張子等</param>
+        public void SaveToFile(string FileName,string ext)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(ImageChip));
-            //UTF-8 BOM無し
+            //privateはシリアライズ不可なので配列に入れ直し
             ImageChip[] il = ImageChipList.ToArray();
-            
-            using (Stream stm = new FileStream(FileName, FileMode.Create))
-            {
-                serializer.Serialize(stm, il);
-            }
-            /*using (BinaryWriter bw = new BinaryWriter(stm, new UTF8Encoding(false)))
-            {
-                //serializer.Serialize(sw, CellList);
-                //案の定シリアライズ失敗する
-                //ストリームに直書きするかぁ・・
-                bw.Write(ImageChipList.Count);//Cell数
+            XmlSerializer serializer = new XmlSerializer(typeof(ImageChip[]));
+            //スキーマを無しに
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add(String.Empty, String.Empty);
 
-                foreach (ImageChip c in ImageChipList)
-                {
-                    c.BinaryToStream(bw);
-                }
-                //sw.Close();            
-            //stm.Close();
+            //UTF8 Bom無
+            using (StreamWriter sw = new StreamWriter(FileName+ext, false, new System.Text.UTF8Encoding(false)))
+            {
+                serializer.Serialize(sw, il);
+                sw.Close();
             }
-            ImageChipList[0].ToXMLFile(FileName + ".xml");
-            */
-
         }
         public void ToStream(Stream stm)
         {
@@ -110,24 +103,17 @@ namespace PrjHikariwoAnim
         }
         public void LoadFromFile(string FileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(IList<ImageChip>));
+            ImageChip[] work;
+            XmlSerializer serializer = new XmlSerializer(typeof(IList<ImageChip[]>));
             //UTF-8 BOM無し
-            Stream stm = new  FileStream(FileName, FileMode.Open);
-            StreamReader sr = new StreamReader(FileName, new UTF8Encoding(false));
-            //CellList = (List<CELL>)serializer.Deserialize(sw);
-            string wstr = sr.ReadLine();
-            int cnt;
-            if(int.TryParse(wstr,out cnt))
+            using (StreamReader sr = new StreamReader(FileName, new UTF8Encoding(false)))
             {
-                for (int mcnt = 0; mcnt < cnt;mcnt++)
-                {
-                    ImageChip c = new ImageChip();
-                    c.BinaryFromStream(stm);//エラーチェックはあとで
-                    ImageChipList.Add(c);
-                }
+                work = (ImageChip[])serializer.Deserialize(sr);
+                sr.Close();
+                //仮配列から戻し
+                ImageChipList.Clear();
+                ImageChipList.AddRange(work);
             }
-
-            sr.Close();
         }
 
         /// <summary>
@@ -313,31 +299,32 @@ namespace PrjHikariwoAnim
     //イメージ情報
     //イメージや他イメージの一部の範囲
     [Serializable]
+    [XmlRoot("Imagechip")]
     public class ImageChip
     {
-        [XmlText]
-        public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
+
         [XmlAttribute("src")]
         public int SrcID;//どの画像の (自身がオリジナルの場合:0)
-        [XmlAttribute("rect")]
-        public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
         [XmlAttribute("ref")]
         private int Refcount;//参照カウンタ　ImageManagerへの追加と削除時に更新
         [XmlAttribute("id")]
         public int ID;//識別コード(hash?)
         [XmlAttribute("name")]
         public string Name;
+        [XmlText]
+        public string Path;//画像パス情報 null時は別画像(Cell)の一部を利用
+        public Rectangle Rect;//どの部分か(オリジナルは必ず全体を指定)
 
-        [NonSerialized]
+        [XmlIgnore]
         public bool Selected;//
-        [NonSerialized]
+        [XmlIgnore]
         public string StrMD5;//ImageからのMD5 重複厳重チェック用
-        [NonSerialized]
+        [XmlIgnore]
         public Bitmap Img;//汎用性と速度の為ここでも保持
-        [NonSerialized]
+        [XmlIgnore]
         public string ImgStrBase64;//XML JSON用テスト
 
-
+        
         public ImageChip()
         {
             SrcID = 0;
@@ -373,6 +360,7 @@ namespace PrjHikariwoAnim
         }
 
         //参照カウンタ回り
+        
         public bool refCountUp(int i)
         {
             Refcount += i;
@@ -389,7 +377,7 @@ namespace PrjHikariwoAnim
         {
             return Refcount;
         }
-
+        
         public Dictionary<string, object> Export()
         {
             Dictionary<string, object> clDic = new Dictionary<string, object>();
@@ -443,6 +431,7 @@ namespace PrjHikariwoAnim
                 bw.Write(Rect.Height);
                 Img.Save(bw.BaseStream, System.Drawing.Imaging.ImageFormat.Png);         
         }
+
         public void BinaryFromStream(Stream stm)
         {
             StreamReader sw = new StreamReader(stm);
@@ -465,6 +454,7 @@ namespace PrjHikariwoAnim
             sw.Close();
         }
 
+        
         public void ToXMLFile(string fname)
         {
             ImgStrBase64 = ClsSystem.ImageToBase64(Img); 
@@ -472,6 +462,7 @@ namespace PrjHikariwoAnim
             ToStreamXML(fs);
             fs.Close();
         }
+
         public void ToStreamXML(Stream stm)
         {
             //bitmapはシリアライズされない
@@ -480,14 +471,7 @@ namespace PrjHikariwoAnim
             //imgを元に戻す
             this.Img = ClsSystem.ImageFromBase64(this.ImgStrBase64);
         }
-        override public string ToString()
-        {
-            string ret="";
-            
-            XmlSerializer xs = new XmlSerializer(typeof(ImageChip));
 
-            return ret;
-        }
     }
 
 }

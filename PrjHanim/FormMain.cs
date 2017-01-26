@@ -14,8 +14,10 @@ using System.Diagnostics;
 using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
 
+
 namespace PrjHikariwoAnim
 {
+
     //左ペイン:プロジェクトコントロールTree
     // |-プロジェクト名
     // | +-ImageManager(利用するイメージ)
@@ -244,7 +246,7 @@ namespace PrjHikariwoAnim
                 //名前空間出力抑制
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
                 ns.Add(String.Empty, String.Empty);
-
+                ClsSystem.ImageMan.SaveToFile(sfd.FileName,".img.Xml");
 
                 //sw.Close();
             }
@@ -1312,7 +1314,7 @@ namespace PrjHikariwoAnim
         //test
         private void writeImageListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ClsSystem.ImageMan.SaveToFile("ImageTest");
+            
         }
 
         /// <summary>
