@@ -653,7 +653,7 @@ namespace PrjHikariwoAnim
             //子供が親になったり、親が子供になったりしない
         }
 
-        private void button_ItemRemove_Click(object sender, EventArgs e)
+        private void RemoveSelectItem()
         {
             int inLineNo = this.mMotion.GetSelectLineNo();
             if (inLineNo < 0) return;
@@ -671,10 +671,27 @@ namespace PrjHikariwoAnim
             this.mFormMain.Refresh();
         }
 
+        private void button_ItemRemove_Click(object sender, EventArgs e)
+        {
+            this.RemoveSelectItem();
+        }
+
+        private void ToolStripMenuItem_RemoveElement_Click(object sender, EventArgs e)
+        {
+            this.RemoveSelectItem();
+        }
+
+        private void ToolStripMenuItem_RemoveOption_Click(object sender, EventArgs e)
+        {
+            this.RemoveSelectItem();
+        }
+
         private void ToolStripMenuItem_AddOption_DropDownOpening(object sender, EventArgs e)
         {
             int inLineNo = this.mMotion.GetSelectLineNo();
             if (inLineNo < 0) return;
+
+//オプションを選択していたら、そのオプションのみ表示する処理
 
             ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem == null) return;
@@ -706,45 +723,36 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_RemoveOption_DropDownOpening(object sender, EventArgs e)
         {
-            int inLineNo = this.mMotion.GetSelectLineNo();
-            if (inLineNo < 0) return;
 
-            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
-            if (clElem == null) return;
-
-            Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem>();
-            clDic[ClsDatOption.TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
-            clDic[ClsDatOption.TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
-            clDic[ClsDatOption.TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
-            clDic[ClsDatOption.TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
-            clDic[ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
-            clDic[ClsDatOption.TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
-            clDic[ClsDatOption.TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
-            clDic[ClsDatOption.TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
-            clDic[ClsDatOption.TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
-            clDic[ClsDatOption.TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
-
-            foreach (ClsDatOption.TYPE_OPTION enTypeOption in Enum.GetValues(typeof(ClsDatOption.TYPE_OPTION)))
-            {
-                bool isExist = clDic.ContainsKey(enTypeOption);
-                if (!isExist) continue;
-
-                ToolStripMenuItem clItem = clDic[enTypeOption] as ToolStripMenuItem;
-                if (clItem == null) continue;
-
-                isExist = clElem.mDicOption.ContainsKey(enTypeOption);
-                clItem.Enabled = isExist;
-            }
         }
 
-        private void contextMenuStrip_Right_Opening(object sender, CancelEventArgs e)
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            int inLineNo = this.mMotion.GetSelectLineNo();
-            if (inLineNo < 0) return;
+            bool isRemoveElementEnable = false;
+            bool isRemoveOptionEnable = false;
 
-            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
-            this.ToolStripMenuItem_AddOption.Enabled = (clElem != null);
-            this.ToolStripMenuItem_RemoveOption.Enabled = (clElem != null);
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo >= 0)
+            {
+                ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
+                if (clElem != null)
+                {
+                    isRemoveElementEnable = true;
+                }
+
+                ClsDatOption clOption = this.mMotion.FindOptionFromLineNo(inLineNo);
+                if (clOption != null)
+                {
+                    bool isRemoveOK = clOption.IsRemoveOK();
+                    if (isRemoveOK)
+                    {
+                        isRemoveOptionEnable = true;
+                    }
+                }
+            }
+
+            this.ToolStripMenuItem_RemoveElement.Enabled = isRemoveElementEnable;
+            this.ToolStripMenuItem_RemoveOption.Enabled = isRemoveOptionEnable;
         }
     }
 }

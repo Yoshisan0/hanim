@@ -37,8 +37,8 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
 
             //以下、チェックボックスの名称を変更する処理
-            this.InitCheckBox(this.checkBox_X, ClsDatOption.TYPE_OPTION.POSITION_X);
-            this.InitCheckBox(this.checkBox_Y, ClsDatOption.TYPE_OPTION.POSITION_Y);
+            //this.InitCheckBox(this.checkBox_X, ClsDatOption.TYPE_OPTION.POSITION_X);
+            //this.InitCheckBox(this.checkBox_Y, ClsDatOption.TYPE_OPTION.POSITION_Y);
             this.InitCheckBox(this.checkBox_Rot, ClsDatOption.TYPE_OPTION.ROTATION);
             this.InitCheckBox(this.checkBox_SX, ClsDatOption.TYPE_OPTION.SCALE_X);
             this.InitCheckBox(this.checkBox_SY, ClsDatOption.TYPE_OPTION.SCALE_Y);
@@ -81,9 +81,9 @@ namespace PrjHikariwoAnim
                 this.Enabled = true;
 
                 //以下、チェック状態の設定
-                this.checkBox_Display.Checked = true;
-                this.checkBox_X.Checked = true;
-                this.checkBox_Y.Checked = true;
+                //this.checkBox_Display.Checked = true;
+                //this.checkBox_X.Checked = true;
+                //this.checkBox_Y.Checked = true;
                 this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
                 this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
                 this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
@@ -119,8 +119,8 @@ namespace PrjHikariwoAnim
             UDnumSY.Value = (decimal)atr.Scale.Y;
             //UDnumSZ.Value = (decimal)atr.Scale.Z;
 
-            checkBox_X.Checked = atr.isX;
-            checkBox_Y.Checked = atr.isY;
+            //checkBox_X.Checked = atr.isX;
+            //checkBox_Y.Checked = atr.isY;
             //checkZ.Checked = atr.isZ;
 
             checkBox_Rot.Checked = atr.isRZ;
@@ -132,7 +132,7 @@ namespace PrjHikariwoAnim
             checkBox_FlipH.Checked = atr.FlipH;
             checkBox_FlipV.Checked = atr.FlipV;
             //checkEnable.Checked = atr.Enable;
-            checkBox_Display.Checked = atr.Visible;
+            //checkBox_Display.Checked = atr.Visible;
 
             checkBox_T.Checked = atr.isTransparrency;
             UDnumT.Value = atr.Transparency;
@@ -180,7 +180,7 @@ namespace PrjHikariwoAnim
                 atr.FlipV = checkBox_FlipV.Checked;
 
                 //ret.Enable = checkEnable.Checked;
-                atr.Visible = checkBox_Display.Checked;
+                //atr.Visible = checkBox_Display.Checked;
 
                 atr.isTransparrency = checkBox_T.Checked;
                 atr.Transparency = (int)UDnumT.Value;
