@@ -704,7 +704,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
 
             //アイテムの登録
-            ClsDatElem elem = new ClsDatElem(clMotion);
+            ClsDatElem elem = new ClsDatElem(clMotion, null);
             elem.ImageChipID = work.GetHashCode();
             elem.mAttInit.Width = work.Img.Width;
             elem.mAttInit.Height = work.Img.Height;
@@ -827,7 +827,7 @@ namespace PrjHikariwoAnim
                 //アイテムが存在
                 ClsSystem.mMotionSelectKey = inHashCode;//選択中変更
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.SetSelectLineNo(-1);
+                clMotion.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理

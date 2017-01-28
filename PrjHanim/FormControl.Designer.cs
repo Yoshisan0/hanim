@@ -49,8 +49,8 @@
             this.ToolStripMenuItem_RemoveOption = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeHeader = new System.Windows.Forms.Panel();
             this.button_ItemRemove = new System.Windows.Forms.Button();
-            this.button_ElemDown = new System.Windows.Forms.Button();
-            this.button_ElemUp = new System.Windows.Forms.Button();
+            this.button_ItemDown = new System.Windows.Forms.Button();
+            this.button_ItemUp = new System.Windows.Forms.Button();
             this.button_ElemChild = new System.Windows.Forms.Button();
             this.button_ElemParent = new System.Windows.Forms.Button();
             this.SubMenuTimeLine = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -268,8 +268,8 @@
             // 
             this.TreeHeader.BackColor = System.Drawing.Color.MidnightBlue;
             this.TreeHeader.Controls.Add(this.button_ItemRemove);
-            this.TreeHeader.Controls.Add(this.button_ElemDown);
-            this.TreeHeader.Controls.Add(this.button_ElemUp);
+            this.TreeHeader.Controls.Add(this.button_ItemDown);
+            this.TreeHeader.Controls.Add(this.button_ItemUp);
             this.TreeHeader.Controls.Add(this.button_ElemChild);
             this.TreeHeader.Controls.Add(this.button_ElemParent);
             this.TreeHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -292,31 +292,31 @@
             this.button_ItemRemove.UseVisualStyleBackColor = true;
             this.button_ItemRemove.Click += new System.EventHandler(this.button_ItemRemove_Click);
             // 
-            // button_ElemDown
+            // button_ItemDown
             // 
-            this.button_ElemDown.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_ElemDown.Enabled = false;
-            this.button_ElemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_ElemDown.Location = new System.Drawing.Point(81, 0);
-            this.button_ElemDown.Name = "button_ElemDown";
-            this.button_ElemDown.Size = new System.Drawing.Size(27, 20);
-            this.button_ElemDown.TabIndex = 11;
-            this.button_ElemDown.Text = "▽";
-            this.button_ElemDown.UseVisualStyleBackColor = true;
-            this.button_ElemDown.Click += new System.EventHandler(this.button_ElemDown_Click);
+            this.button_ItemDown.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ItemDown.Enabled = false;
+            this.button_ItemDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ItemDown.Location = new System.Drawing.Point(81, 0);
+            this.button_ItemDown.Name = "button_ItemDown";
+            this.button_ItemDown.Size = new System.Drawing.Size(27, 20);
+            this.button_ItemDown.TabIndex = 11;
+            this.button_ItemDown.Text = "▽";
+            this.button_ItemDown.UseVisualStyleBackColor = true;
+            this.button_ItemDown.Click += new System.EventHandler(this.button_ItemDown_Click);
             // 
-            // button_ElemUp
+            // button_ItemUp
             // 
-            this.button_ElemUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_ElemUp.Enabled = false;
-            this.button_ElemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_ElemUp.Location = new System.Drawing.Point(54, 0);
-            this.button_ElemUp.Name = "button_ElemUp";
-            this.button_ElemUp.Size = new System.Drawing.Size(27, 20);
-            this.button_ElemUp.TabIndex = 10;
-            this.button_ElemUp.Text = "△";
-            this.button_ElemUp.UseVisualStyleBackColor = true;
-            this.button_ElemUp.Click += new System.EventHandler(this.button_ElemUp_Click);
+            this.button_ItemUp.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_ItemUp.Enabled = false;
+            this.button_ItemUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_ItemUp.Location = new System.Drawing.Point(54, 0);
+            this.button_ItemUp.Name = "button_ItemUp";
+            this.button_ItemUp.Size = new System.Drawing.Size(27, 20);
+            this.button_ItemUp.TabIndex = 10;
+            this.button_ItemUp.Text = "△";
+            this.button_ItemUp.UseVisualStyleBackColor = true;
+            this.button_ItemUp.Click += new System.EventHandler(this.button_ItemUp_Click);
             // 
             // button_ElemChild
             // 
@@ -688,8 +688,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DelKey;
         private System.Windows.Forms.Button button_ElemParent;
         private System.Windows.Forms.Button button_ItemRemove;
-        private System.Windows.Forms.Button button_ElemDown;
-        private System.Windows.Forms.Button button_ElemUp;
+        private System.Windows.Forms.Button button_ItemDown;
+        private System.Windows.Forms.Button button_ItemUp;
         private System.Windows.Forms.Button button_ElemChild;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;

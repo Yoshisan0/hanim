@@ -206,10 +206,10 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 選択中のライン番号取得処理
+        /// ラインを選択する処理
         /// </summary>
         /// <param name="inLineNo">選択中のライン番号</param>
-        public void SetSelectLineNo(int inLineNo)
+        public void SetSelectFromLineNo(int inLineNo)
         {
             this.mSelectLineNo = inLineNo;
         }
@@ -221,6 +221,18 @@ namespace PrjHikariwoAnim
         public int GetSelectLineNo()
         {
             return (this.mSelectLineNo);
+        }
+
+        /// <summary>
+        /// アイテムを選択する処理
+        /// </summary>
+        /// <param name="clItem">アイテム</param>
+        public void SetSelectFromItem(ClsDatItem clItem)
+        {
+            if (clItem == null) return;
+
+            int inLineNo = this.GetLineNoFromItem(clItem);
+            this.SetSelectFromLineNo(inLineNo);
         }
 
         /// <summary>
@@ -264,6 +276,25 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.FindItemFromLineNo(this, inLineNo);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        public ClsDatItem FindItemFromHashCode(int inHashCode)
+        {
+            this.mWorkItem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromHashCode(this, inHashCode);
 
                 if (this.mWorkItem != null)
                 {
@@ -392,6 +423,117 @@ namespace PrjHikariwoAnim
             Pen clPen = new Pen(Color.Green);
             inX = this.mFrameNum * FormControl.CELL_WIDTH;
             g.DrawLine(clPen, inX, 0, inX, inHeight);
+        }
+
+        /// <summary>
+        /// 指定のエレメントが上に移動できるかチェックする処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        /// <returns>移動可能フラグ</returns>
+        public bool CanMoveUp(ClsDatElem clElem)
+        {
+            if (clElem == null) return (false);
+            if (this.mListElem == null) return (false);
+            if (this.mListElem.Count <= 0) return (false);
+
+            int inHashCode1 = clElem.GetHashCode();
+
+            ClsDatElem clElem1ST = this.mListElem[0] as ClsDatElem;
+            int inHashCode2 = clElem1ST.GetHashCode();
+            if (inHashCode1 == inHashCode2) return (false);
+
+            return (true);
+        }
+
+        /// <summary>
+        /// 指定のエレメントが下に移動できるかチェックする処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        /// <returns>移動可能フラグ</returns>
+        public bool CanMoveDown(ClsDatElem clElem)
+        {
+            if (clElem == null) return (false);
+            if (this.mListElem == null) return (false);
+            if (this.mListElem.Count <= 0) return (false);
+
+            int inHashCode1 = clElem.GetHashCode();
+
+            ClsDatElem clElemEnd = this.mListElem[this.mListElem.Count- 1] as ClsDatElem;
+            int inHashCode2 = clElemEnd.GetHashCode();
+            if (inHashCode1 == inHashCode2) return (false);
+
+            return (true);
+        }
+
+        /// <summary>
+        /// アイテム管理クラスから行番号を取得する処理
+        /// </summary>
+        /// <param name="clItem">アイテム</param>
+        /// <returns>行番号</returns>
+        public int GetLineNoFromItem(ClsDatItem clItem)
+        {
+            int inHashCode = clItem.GetHashCode();
+            ClsDatItem clItemTmp = this.FindItemFromHashCode(inHashCode);
+            if (clItemTmp == null) return (-1);
+
+            int inLineNo = clItemTmp.mLineNo;
+            return (inLineNo);
+        }
+
+        /// <summary>
+        /// エレメント検索処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        /// <returns>インデックス</returns>
+        public int FindIndexFromElem(ClsDatElem clElem)
+        {
+            int inHashCode1 = clElem.GetHashCode();
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElemTmp = this.mListElem[inCnt];
+                int inHashCode2 = clElemTmp.GetHashCode();
+                if (inHashCode1 == inHashCode2) return (inCnt);
+            }
+
+            return (-1);
+        }
+
+        /// <summary>
+        /// 指定のエレメントを上に移動する処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        public void MoveUp(ClsDatElem clElem)
+        {
+            bool isCanMove = this.CanMoveUp(clElem);
+            if (!isCanMove) return;
+
+            int inIndex = this.FindIndexFromElem(clElem);
+            if (inIndex < 0) return;
+
+            //以下、一つ上と入れ替える処理
+            ClsDatElem clElemTmp = this.mListElem[inIndex - 1];
+            this.mListElem[inIndex - 1] = clElem;
+            this.mListElem[inIndex] = clElemTmp;
+        }
+
+        /// <summary>
+        /// 指定のエレメントを下に移動する処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        public void MoveDown(ClsDatElem clElem)
+        {
+            bool isCanMove = this.CanMoveDown(clElem);
+            if (!isCanMove) return;
+
+            int inIndex = this.FindIndexFromElem(clElem);
+            if (inIndex < 0) return;
+
+            //以下、一つ下と入れ替える処理
+            ClsDatElem clElemTmp = this.mListElem[inIndex + 1];
+            this.mListElem[inIndex + 1] = clElem;
+            this.mListElem[inIndex] = clElemTmp;
         }
     }
 }

@@ -28,6 +28,8 @@ namespace PrjHikariwoAnim
         }
         [XmlIgnore]//シリアライズ時に循環参照になる
         public ClsDatMotion mMotion;        //親モーション
+        public ClsDatElem mElem;            //親エレメント
+        public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
         public ELEMENTSTYPE mType;          //Default Image
         public ELEMENTSSTYLE mStyle;        //Default Rect
@@ -35,7 +37,6 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int ImageChipID;             //イメージID
-        public List<ClsDatElem> mListElem;  //
         [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
@@ -50,18 +51,20 @@ namespace PrjHikariwoAnim
         /// コンストラクタ
         /// </summary>
         /// <param name="clMotion">親モーション</param>
-        public ClsDatElem(ClsDatMotion clMotion)
+        /// <param name="clElem">親エレメント</param>
+        public ClsDatElem(ClsDatMotion clMotion, ClsDatElem clElem)
         {
             this.mTypeItem = TYPE_ITEM.ELEM;
 
             this.mMotion = clMotion;
+            this.mElem = clElem;
+            this.mListElem = new List<ClsDatElem>();
             this.mName = this.GetHashCode().ToString("X8");//仮名
             this.mType = ELEMENTSTYPE.Image;
             this.mStyle = ELEMENTSSTYLE.Rect;
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.mListElem = new List<ClsDatElem>();
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.mAttInit = new AttributeBase();
 
@@ -372,6 +375,7 @@ namespace PrjHikariwoAnim
         /// <param name="inLineNo">行番号</param>
         public void FindItemFromLineNo(ClsDatMotion clMotion, int inLineNo)
         {
+            //以下、自分をチェックする処理
             if (this.mLineNo == inLineNo)
             {
                 clMotion.mWorkItem = this;
@@ -380,6 +384,7 @@ namespace PrjHikariwoAnim
 
             if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
 
+            //以下、子供のオプションをチェックする処理
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clOption = this.mDicOption[enType];
@@ -390,11 +395,56 @@ namespace PrjHikariwoAnim
                 }
             }
 
+            //以下、子供のエレメントをチェックする処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindOptionFromLineNo(clMotion, inLineNo);
+                clElem.FindItemFromLineNo(clMotion, inLineNo);
+                if (clMotion.mWorkItem != null)
+                {
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ハッシュコードからアイテム取得する処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <param name="inHashCode">ハッシュコード</param>
+        public void FindItemFromHashCode(ClsDatMotion clMotion, int inHashCode)
+        {
+            //以下、自分をチェックする処理
+            if (this.GetHashCode() == inHashCode)
+            {
+                clMotion.mWorkItem = this;
+                return;
+            }
+
+            if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
+
+            //以下、子供のオプションをチェックする処理
+            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            {
+                ClsDatOption clOption = this.mDicOption[enType];
+                if (clOption.GetHashCode() == inHashCode)
+                {
+                    clMotion.mWorkItem = clOption;
+                    return;
+                }
+            }
+
+            //以下、子供のエレメントをチェックする処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromHashCode(clMotion, inHashCode);
+                if (clMotion.mWorkItem != null)
+                {
+                    return;
+                }
             }
         }
 
