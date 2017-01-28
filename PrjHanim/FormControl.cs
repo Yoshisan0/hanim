@@ -770,26 +770,17 @@ namespace PrjHikariwoAnim
 
             ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
             if (clItem == null) return;
+            if (clItem.mTypeItem != ClsDatItem.TYPE_ITEM.ELEM) return;
 
             //以下、一つ上に移動する処理
-            ClsDatElem clElem = null;
-            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            ClsDatElem clElem = clItem as ClsDatElem;
+            if (clElem.mElem == null)
             {
-                clElem = clItem as ClsDatElem;
-                if (clElem.mElem == null)
-                {
-                    this.mMotion.MoveUp(clElem);
-                }
-                else
-                {
-                    //clElem.mElem.MoveUp(clElem);
-                }
+                this.mMotion.MoveUp(clElem);
             }
-            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            else
             {
-                ClsDatOption clOption = clItem as ClsDatOption;
-                clElem = clOption.mElem;
-                //clElem.MoveUp(clOption);
+                clElem.mElem.MoveElemUp(clElem);
             }
 
             //以下、行番号振り直し処理
@@ -812,26 +803,17 @@ namespace PrjHikariwoAnim
 
             ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
             if (clItem == null) return;
+            if (clItem.mTypeItem != ClsDatItem.TYPE_ITEM.ELEM) return;
 
             //以下、一つ下に移動する処理
-            ClsDatElem clElem = null;
-            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            ClsDatElem clElem = clItem as ClsDatElem;
+            if (clElem.mElem == null)
             {
-                clElem = clItem as ClsDatElem;
-                if (clElem.mElem == null)
-                {
-                    this.mMotion.MoveDown(clElem);
-                }
-                else
-                {
-                    //clElem.mElem.MoveDown(clElem);
-                }
+                this.mMotion.MoveDown(clElem);
             }
-            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            else
             {
-                ClsDatOption clOption = clItem as ClsDatOption;
-                clElem = clOption.mElem;
-                //clElem.MoveDown(clOption);
+                clElem.mElem.MoveElemDown(clElem);
             }
 
             //以下、行番号振り直し処理
