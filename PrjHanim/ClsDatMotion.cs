@@ -313,7 +313,7 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.FindOptionFromLineNo(this, inLineNo);
 
-                if (this.mWorkElem != null)
+                if (this.mWorkOption != null)
                 {
                     return (this.mWorkOption);
                 }

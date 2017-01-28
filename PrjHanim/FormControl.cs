@@ -90,6 +90,17 @@ namespace PrjHikariwoAnim
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
+
+            this.ToolStripMenuItem_AddRotation.Tag = ClsDatOption.TYPE_OPTION.ROTATION;
+            this.ToolStripMenuItem_AddScaleX.Tag = ClsDatOption.TYPE_OPTION.SCALE_X;
+            this.ToolStripMenuItem_AddScaleY.Tag = ClsDatOption.TYPE_OPTION.SCALE_Y;
+            this.ToolStripMenuItem_AddTransparency.Tag = ClsDatOption.TYPE_OPTION.TRANSPARENCY;
+            this.ToolStripMenuItem_AddHorizontalFlip.Tag = ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL;
+            this.ToolStripMenuItem_AddVerticalFlip.Tag = ClsDatOption.TYPE_OPTION.FLIP_VERTICAL;
+            this.ToolStripMenuItem_AddColor.Tag = ClsDatOption.TYPE_OPTION.COLOR;
+            this.ToolStripMenuItem_AddOffsetX.Tag = ClsDatOption.TYPE_OPTION.OFFSET_X;
+            this.ToolStripMenuItem_AddOffsetY.Tag = ClsDatOption.TYPE_OPTION.OFFSET_Y;
+            this.ToolStripMenuItem_AddUserDataText.Tag = ClsDatOption.TYPE_OPTION.USER_DATA;
         }
 
         /// <summary>
@@ -316,6 +327,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、コントロール更新処理
+            this.RefreshControl();
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
@@ -625,6 +637,66 @@ namespace PrjHikariwoAnim
             }
         }
 
+        private void RemoveItemFromSelectLineNo()
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return;
+
+            //以下、アイテム削除処理
+            this.mMotion.RemoveItemFromLineNo(inLineNo, false);
+
+            //以下、行番号振り直し処理
+            this.mMotion.Assignment();
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
+        }
+
+        /// <summary>
+        /// 現在選択中のエレメントを取得する
+        /// オプションを選択中の場合は、その親のエレメントを取得する
+        /// </summary>
+        /// <returns>現在選択中のエレメント</returns>
+        private ClsDatElem GetElemFromSelectLineNo()
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatElem clElem = this.GetElemFromLineNo(inLineNo);
+            return (clElem);
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを取得する
+        /// その行がオプションの場合は、その親のエレメントを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のエレメント</returns>
+        private ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+            if (clItem == null) return (null);
+
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                ClsDatElem clElem = clItem as ClsDatElem;
+                return (clElem);
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                ClsDatOption clOption = clItem as ClsDatOption;
+                ClsDatElem clElem = clOption.mElem;
+                return (clElem);
+            }
+
+            return (null);
+        }
+
         private void panel_Control_MouseDown(object sender, MouseEventArgs e)
         {
             //以下、テキストボックス削除処理
@@ -653,47 +725,24 @@ namespace PrjHikariwoAnim
             //子供が親になったり、親が子供になったりしない
         }
 
-        private void RemoveSelectItem()
-        {
-            int inLineNo = this.mMotion.GetSelectLineNo();
-            if (inLineNo < 0) return;
-
-            //以下、アイテム削除処理
-            this.mMotion.RemoveItemFromLineNo(inLineNo, false);
-
-            //以下、行番号振り直し処理
-            this.mMotion.Assignment();
-
-            //以下、コントロール更新処理
-            this.RefreshControl();
-            this.panel_Control.Refresh();
-            this.panel_Time.Refresh();
-            this.mFormMain.Refresh();
-        }
-
         private void button_ItemRemove_Click(object sender, EventArgs e)
         {
-            this.RemoveSelectItem();
+            this.RemoveItemFromSelectLineNo();
         }
 
         private void ToolStripMenuItem_RemoveElement_Click(object sender, EventArgs e)
         {
-            this.RemoveSelectItem();
+            this.RemoveItemFromSelectLineNo();
         }
 
         private void ToolStripMenuItem_RemoveOption_Click(object sender, EventArgs e)
         {
-            this.RemoveSelectItem();
+            this.RemoveItemFromSelectLineNo();
         }
 
         private void ToolStripMenuItem_AddOption_DropDownOpening(object sender, EventArgs e)
         {
-            int inLineNo = this.mMotion.GetSelectLineNo();
-            if (inLineNo < 0) return;
-
-//オプションを選択していたら、そのオプションのみ表示する処理
-
-            ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
+            ClsDatElem clElem = this.GetElemFromSelectLineNo();
             if (clElem == null) return;
 
             Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem>();
@@ -713,11 +762,11 @@ namespace PrjHikariwoAnim
                 bool isExist = clDic.ContainsKey(enTypeOption);
                 if (!isExist) continue;
 
-                ToolStripMenuItem clItem = clDic[enTypeOption] as ToolStripMenuItem;
-                if (clItem == null) continue;
+                ToolStripMenuItem clMenuItem = clDic[enTypeOption] as ToolStripMenuItem;
+                if (clMenuItem == null) continue;
 
                 isExist = clElem.mDicOption.ContainsKey(enTypeOption);
-                clItem.Enabled = !isExist;
+                clMenuItem.Enabled = !isExist;
             }
         }
 
@@ -753,6 +802,26 @@ namespace PrjHikariwoAnim
 
             this.ToolStripMenuItem_RemoveElement.Enabled = isRemoveElementEnable;
             this.ToolStripMenuItem_RemoveOption.Enabled = isRemoveOptionEnable;
+        }
+
+        private void ToolStripMenuItem_Add_Click(object sender, EventArgs e)
+        {
+            ClsDatElem clElem = this.GetElemFromSelectLineNo();
+            if (clElem == null) return;
+
+            //以下、オプション追加処理
+            ToolStripMenuItem clITem = sender as ToolStripMenuItem;
+            ClsDatOption.TYPE_OPTION enType = (ClsDatOption.TYPE_OPTION)clITem.Tag;
+            clElem.AddOption(enType);
+
+            //以下、行番号振り直し処理
+            this.mMotion.Assignment();
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
     }
 }
