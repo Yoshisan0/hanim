@@ -30,6 +30,12 @@ namespace PrjHikariwoAnim
         public TYPE_OPTION mTypeOption;  //タイプ
         public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する（ null は存在しない事にする）
 
+
+        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
+        public ClsDatOption()
+        {
+
+        }
         /// <summary>
         /// コンストラクタ
         /// </summary>

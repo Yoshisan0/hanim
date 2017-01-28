@@ -224,31 +224,29 @@ namespace PrjHikariwoAnim
                 //     ImageManagerData
                 //      -ImageManager[]
                 //      -ClsImageData{ }
-                //     MotionData
+
+                //     MotionData(mDicMotionの中身)
                 //      -Motion[]
                 //      {
                 //          -ElementList[] 
                 //      }
-                /*
-                StreamWriter sw = new StreamWriter(sfd.FileName);
-
-                sw.WriteLine("<title>HanimProjectData</title>");
-                sw.WriteLine("<version>0.0.0</version>");
-                sw.WriteLine($"<name>{Name}</name>");
-                int iCnt = ClsSystem.ImageMan.ChipCount();
-                sw.WriteLine(iCnt);
                 
-                string ts2 = ClsSystem.ImageMan.ToString();
-                
-                int cnt = ClsSystem.mDicMotion.Count;
-                */
 
                 //名前空間出力抑制
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
                 ns.Add(String.Empty, String.Empty);
-                ClsSystem.ImageMan.SaveToFile(sfd.FileName,".img.Xml");
+                XmlSerializer xs=new XmlSerializer(typeof (ProjectSaveData));
+                StreamWriter sw = new StreamWriter(sfd.FileName);
 
-                //sw.Close();
+                //全自動シリアライズテスト
+                ProjectSaveData psd = new ProjectSaveData();
+                psd.mMotionSelectKey = ClsSystem.mMotionSelectKey;
+                psd.MotionCount = ClsSystem.mDicMotion.Count;
+                psd.arryMotion = ClsSystem.mDicMotion.Values.ToArray();
+                //psd.mDicMotion = ClsSystem.mDicMotion;
+                psd.ImageMan = ClsSystem.ImageMan;
+                xs.Serialize(sw,psd);
+                sw.Close();
             }
             sfd.Dispose();
         }
@@ -1368,6 +1366,16 @@ namespace PrjHikariwoAnim
             frms.Dispose();
         }
 
+        private void ToolStripMenuItem_ExpCellList_Click(object sender, EventArgs e)
+        {
+            //ExportImageList(XML imageList)
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt = ".ximg";
+            if(sfd.ShowDialog() == DialogResult.OK)
+            { 
+                ClsSystem.ImageMan.SaveToFile(sfd.FileName,".ximg");
+            }
+        }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {

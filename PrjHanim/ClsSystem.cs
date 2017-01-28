@@ -7,17 +7,16 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
-    public class ClsSystem
+     public class ClsSystem
     {
         public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
-
-        public static int mMotionSelectKey;                     //現在編集中のモーションキー（TreeNodeのハッシュコード）
+        public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
-
         public static ImageManagerBase ImageMan;
 
         /// <summary>
@@ -207,5 +206,18 @@ namespace PrjHikariwoAnim
 
             return (clJsonData);
         }
+
+    }
+
+    //ちょこっとテスト
+    [Serializable]
+    [XmlRoot("HanimProjectData")]
+    public class ProjectSaveData
+    {
+        public int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
+        public int MotionCount;
+        public ClsDatMotion[] arryMotion;//ArryMotion
+        //public Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
+        public ImageManagerBase ImageMan;
     }
 }

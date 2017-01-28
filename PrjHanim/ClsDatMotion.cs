@@ -3,24 +3,45 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsDatMotion
     {
+        [XmlIgnore]
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
         public int mFrameNum;       //トータルフレーム数
+
+        [XmlIgnore]
         public int mSelectFrame;    //現在選択中のフレーム
+        [XmlIgnore]
         public int mSelectLineNo;   //現在選択中の行数
+        [XmlArray]
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
+        [XmlIgnore]
         public int mWorkLineNo;             //行番号割り振り時に利用する一時保持領域
+        [XmlIgnore]
         public ClsDatElem mWorkElem;        //検索時に利用するエレメント一時保持領域
+        [XmlIgnore]
         public ClsDatOption mWorkOption;    //検索時に利用するオプション一時保持領域
+        [XmlIgnore]
         public ClsDatItem mWorkItem;        //検索時に利用するアイテム一時保持領域
 
+        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
+        public ClsDatMotion()
+        {
+            this.mID = 0;
+            this.mName = "";
+            this.mFrameNum = 1;
+            this.mSelectFrame = -1;
+            this.mSelectLineNo = -1;
+            this.mListElem = new List<ClsDatElem>();
+        }
         /// <summary>
         /// コンストラクタ
         /// </summary>

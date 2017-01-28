@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
@@ -25,7 +26,7 @@ namespace PrjHikariwoAnim
             Circle,
             Point
         }
-
+        [XmlIgnore]//シリアライズ時に循環参照になる
         public ClsDatMotion mMotion;        //親モーション
         public string mName;                //エレメント名
         public ELEMENTSTYPE mType;          //Default Image
@@ -34,9 +35,16 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int ImageChipID;             //イメージID
-        public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
+        public List<ClsDatElem> mListElem;  //
+        [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
+
+        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
+        public ClsDatElem()
+        {
+
+        }
 
         /// <summary>
         /// コンストラクタ

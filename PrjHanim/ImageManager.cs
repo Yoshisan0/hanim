@@ -101,15 +101,20 @@ namespace PrjHikariwoAnim
         {
 
         }
-        public void LoadFromFile(string FileName)
+        public void LoadFromFile(string FileName,string ext)
         {
             ImageChip[] work;
             XmlSerializer serializer = new XmlSerializer(typeof(IList<ImageChip[]>));
             //UTF-8 BOM無し
-            using (StreamReader sr = new StreamReader(FileName, new UTF8Encoding(false)))
+            using (StreamReader sr = new StreamReader(FileName+ext, new UTF8Encoding(false)))
             {
                 work = (ImageChip[])serializer.Deserialize(sr);
                 sr.Close();
+                //イメージ再読み込みとmd5生成
+                foreach(ImageChip ic in work)
+                {
+                    ic.FromPngFile(ic.Path);
+                }
                 //仮配列から戻し
                 ImageChipList.Clear();
                 ImageChipList.AddRange(work);
@@ -263,8 +268,6 @@ namespace PrjHikariwoAnim
         {
             return ImageChipList.Find((ImageChip c) => (c.StrMD5 == md5));
         }
-
-
     }
 
     //未使用　なぜ作ったのか・・・

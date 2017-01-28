@@ -192,6 +192,7 @@ namespace PrjHikariwoAnim
 
     }
 
+    //シリアライザ一発でセーブロードを目指せるかなぁ
     [Serializable]
     public class Project
     {
@@ -217,19 +218,6 @@ namespace PrjHikariwoAnim
         {
             mMotion.Remove(key);
         }
-
-        public void save(string fname)
-        {
-            
-            StreamWriter sw = new StreamWriter(fname);
-            sw.WriteLine("<title>HanimProjectData</title>");
-            sw.WriteLine("<version>0.0.0</version>");
-            sw.WriteLine($"<name>{Name}</name>");
-            sw.Write(mMotion);
-            
-            sw.Close();
-        }
-
     }
 
     [Serializable]

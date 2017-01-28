@@ -36,6 +36,8 @@ namespace PrjHikariwoAnim
         public Vector3 mPos;
         public Vector3[] mListVec;
 
+        //シリアライザ用
+        public ClsTween() { }
         /// <summary>
         /// コンストラクタ
         /// </summary>
