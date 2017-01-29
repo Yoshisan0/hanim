@@ -340,8 +340,8 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 挿入可能マークからエレメントを検索する処理
         /// </summary>
-        /// <param name="enMark"></param>
-        /// <returns></returns>
+        /// <param name="enMark">挿入可能マーク</param>
+        /// <returns>エレメント</returns>
         public ClsDatElem FindElemFromMark(ClsDatElem.ELEMENTS_MARK enMark)
         {
             this.mWorkElem = null;

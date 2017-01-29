@@ -416,7 +416,7 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (clElem.mInsertMark == enMark)
                 {
-                    clMotion.mWorkElem = this;
+                    clMotion.mWorkElem = clElem;
                     return;
                 }
 
@@ -443,7 +443,7 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (clElem.mLineNo == inLineNo)
                 {
-                    clMotion.mWorkElem = this;
+                    clMotion.mWorkElem = clElem;
                     return;
                 }
 

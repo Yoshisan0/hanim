@@ -27,6 +27,12 @@ namespace PrjHikariwoAnim
 
         private void FormDragItem_Load(object sender, EventArgs e)
         {
+            if (this.mElem == null)
+            {
+                this.Close();
+                return;
+            }
+
             //以下、初期化処理
             this.label.Text = this.mElem.mName;
             int inW = this.label.Size.Width;

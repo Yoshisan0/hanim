@@ -302,7 +302,7 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                if (e.X > 48)
+                if (e.X > 52)
                 {
                     //以下、テキストボックス削除処理
                     this.RemoveTextBoxName();
