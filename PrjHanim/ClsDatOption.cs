@@ -238,7 +238,7 @@ namespace PrjHikariwoAnim
             string clName = ClsDatOption.CnvType2Name(this.mTypeOption);
             if (!string.IsNullOrEmpty(clName))
             {
-                g.DrawString(clName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT + 2);
+                g.DrawString(clName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
         }
 
