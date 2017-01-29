@@ -40,6 +40,8 @@ namespace PrjHikariwoAnim
         [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
+        public bool mInsertMarkExist = false;
+        public bool mInsertMarkUp = false;
 
         //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
         public ClsDatElem()
@@ -599,63 +601,80 @@ namespace PrjHikariwoAnim
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             //以下、背景を塗る処理
-            if (inSelectLineNo == this.mLineNo)
+            if (this.mInsertMarkExist && !this.mInsertMarkUp)
             {
-                //選択中Elementsの背景強調
-                SolidBrush sb = new SolidBrush(Color.DarkGreen);
+                //以下、挿入可能エレメント描画処理
+                SolidBrush sb = new SolidBrush(Color.Orange);
                 g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
             }
             else
             {
-                if (this.mLineNo % 2 == 0)
+                if (inSelectLineNo == this.mLineNo)
                 {
-                    SolidBrush sb = new SolidBrush(Color.Black);
+                    //選択中Elementsの背景強調
+                    SolidBrush sb = new SolidBrush(Color.DarkGreen);
                     g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
                 }
                 else
                 {
-                    SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
-                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    if (this.mLineNo % 2 == 0)
+                    {
+                        SolidBrush sb = new SolidBrush(Color.Black);
+                        g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    }
+                    else
+                    {
+                        SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                        g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    }
                 }
             }
 
             //以下、「目」アイコン表示処理
             if (this.isVisible)
             {
-                g.DrawImage(Properties.Resources.see, 2, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.see, 1, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unSee, 2, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unSee, 1, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
             //以下、「鍵」アイコン表示処理
             if (this.isLocked)
             {
-                g.DrawImage(Properties.Resources.locked, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.locked, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unLock, 2 + 16, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.unLock, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
             //以下、「開閉」アイコン表示処理
             if (this.isOpen)
             {
-                g.DrawImage(Properties.Resources.minus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.minus, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
             else
             {
-                g.DrawImage(Properties.Resources.plus, 2 + 32, this.mLineNo * FormControl.CELL_HEIGHT);
+                g.DrawImage(Properties.Resources.plus, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
-                g.DrawString(this.mName, clFont, Brushes.White, 2 + 48, this.mLineNo * FormControl.CELL_HEIGHT + 2);
+                g.DrawString(this.mName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
 
-            //g.FillRectangle(Brushes.Lime, new Rectangle(0, 0, 500, 500));
+            //以下、挿入可能ライン描画処理
+            if (this.mInsertMarkExist)
+            {
+                if (this.mInsertMarkUp)
+                {
+                    g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
+                    g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
+                }
+            }
 
             //以下、オプション描画処理
             if (this.isOpen)
@@ -863,6 +882,34 @@ namespace PrjHikariwoAnim
             ClsDatElem clElemTmp = this.mListElem[inIndex + 1];
             this.mListElem[inIndex + 1] = clElem;
             this.mListElem[inIndex] = clElemTmp;
+        }
+
+        /// <summary>
+        /// 挿入可能マークのクリア
+        /// </summary>
+        public void ClearInsertMark()
+        {
+            this.mInsertMarkExist = false;
+
+            //以下、子エレメントの挿入マークを消す処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.ClearInsertMark();
+            }
+        }
+
+        /// <summary>
+        /// 挿入可能マークの設定
+        /// </summary>
+        /// <param name="isUp">上フラグ</param>
+        public void SetInsertMark(bool isUp)
+        {
+            this.mInsertMarkExist = true;
+            this.mInsertMarkUp = isUp;
+
+            Console.WriteLine("elem SetInsertMark name=" + this.mName);
         }
     }
 }

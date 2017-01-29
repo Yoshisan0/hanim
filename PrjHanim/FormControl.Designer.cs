@@ -145,6 +145,7 @@
             this.panel_Control.MouseEnter += new System.EventHandler(this.panel_Control_MouseEnter);
             this.panel_Control.MouseLeave += new System.EventHandler(this.panel_Control_MouseLeave);
             this.panel_Control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseMove);
+            this.panel_Control.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseUp);
             // 
             // contextMenuStrip
             // 

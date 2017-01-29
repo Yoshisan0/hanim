@@ -52,6 +52,8 @@ namespace PrjHikariwoAnim
         private bool mMouseDownL=false;
         //private bool mMouseDownR=false;
         //private bool mMouseDownM=false;
+        private Point mPosStartCatch;
+        private FormDragLabel mFormDragLabel = null;
 
         //メインフォームにセットしてもらう
         //全状態を間接参照する
@@ -70,7 +72,7 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //ダブルバッファ強制有効化
-            panel_Control.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
+            panel_Control.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Control, new object[] { true });
             panel_Time.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_Time, new object[] { true });
         }
 
@@ -254,10 +256,7 @@ namespace PrjHikariwoAnim
         private void panel_Control_MouseClick(object sender, MouseEventArgs e)
         {
             //Item選択
-            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
-
-            //以下、アイテム選択処理
-            this.mMotion.SetSelectFromLineNo(inLineNo);
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
             //Item最大数を確認
             ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
@@ -294,7 +293,7 @@ namespace PrjHikariwoAnim
         private void panel_Control_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //Item選択
-            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
             //以下、エレメント選択処理
             this.mMotion.SetSelectFromLineNo(inLineNo);
@@ -337,11 +336,8 @@ namespace PrjHikariwoAnim
         {
 
         }
-        private void panel_Control_MouseLeave(object sender, EventArgs e)
-        {
 
-        }
-        private void panel_Control_MouseMove(object sender, MouseEventArgs e)
+        private void panel_Control_MouseLeave(object sender, EventArgs e)
         {
 
         }
@@ -375,13 +371,20 @@ namespace PrjHikariwoAnim
             }
         }
 
+        private int GetLineNoFromPositionY(int inPosY)
+        {
+            //ここに垂直スクロールバーの処理を書く
+
+            return (inPosY / FormControl.CELL_HEIGHT);
+        }
+
         //Right Paine
         private void panel_Time_MouseClick(object sender, MouseEventArgs e)
         {
             //Flameクリック処理
             //フレーム検出
             int cx = e.X / FormControl.CELL_WIDTH;
-            int inLineNo = e.Y / FormControl.CELL_HEIGHT;
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
             //以下、エレメント選択処理
             this.mMotion.SetSelectFromLineNo(inLineNo);
@@ -747,12 +750,6 @@ namespace PrjHikariwoAnim
             return (null);
         }
 
-        private void panel_Control_MouseDown(object sender, MouseEventArgs e)
-        {
-            //以下、テキストボックス削除処理
-            this.RemoveTextBoxName();
-        }
-
         private void button_ElemParent_Click(object sender, EventArgs e)
         {
             //一つ上の親になる
@@ -926,6 +923,135 @@ namespace PrjHikariwoAnim
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
+        }
+
+        private void panel_Control_MouseDown(object sender, MouseEventArgs e)
+        {
+            //以下、テキストボックス削除処理
+            this.RemoveTextBoxName();
+
+            //以下、エレメントを掴む処理
+            if (e.Button == MouseButtons.Left)
+            {
+                //以下、アイテム選択処理
+                int inLineNo = this.GetLineNoFromPositionY(e.Y);
+                this.mMotion.SetSelectFromLineNo(inLineNo);
+
+                //以下、掴んでいるエレメントを別ウィンドウで表示する処理
+                ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+                if (clItem != null && clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+                {
+                    int inX = Cursor.Position.X;
+                    int inY = Cursor.Position.Y;
+                    this.mPosStartCatch = new Point(inX, inY);
+                }
+
+                //以下、コントロール更新処理
+                this.RefreshControl();
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
+        }
+
+        private void panel_Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            //以下、エレメント移動処理
+            if (e.Button == MouseButtons.Left)
+            {
+                bool isExist = false;
+                if (this.mFormDragLabel != null)
+                {
+                    if (!this.mFormDragLabel.IsDisposed)
+                    {
+                        isExist = true;
+                    }
+                }
+
+                //以下、挿入マーククリア処理
+                this.mMotion.ClearInsertMark();
+
+                if (isExist)
+                {
+                    int inSelectLineNo = this.mMotion.GetSelectLineNo();
+                    int inLineNo = this.GetLineNoFromPositionY(e.Y);
+                    if (inSelectLineNo != inLineNo)
+                    {
+                        //以下、挿入先チェック処理
+                        ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+                        if (clItem != null)
+                        {
+                            //以下、挿入先のエレメントに通知する処理
+                            ClsDatElem clElem = null;
+                            bool isUp = false;
+                            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+                            {
+                                clElem = clItem as ClsDatElem;
+
+                                int inY = e.Y % FormControl.CELL_HEIGHT;
+                                isUp = (inY < FormControl.CELL_HEIGHT / 2);
+                            }
+                            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+                            {
+                                ClsDatOption clOption = clItem as ClsDatOption;
+                                clElem = clOption.mElem;
+                                if (inSelectLineNo == clElem.mLineNo)
+                                {
+                                    clElem = null;
+                                }
+
+                                isUp = false;
+                            }
+
+                            if (clElem != null)
+                            {
+                                //以下、挿入可能な旨をエレメントに通知する処理
+                                clElem.SetInsertMark(isUp);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    //以下、掴んでいるエレメントを別ウィンドウで表示する処理
+                    int inLineNo = this.mMotion.GetSelectLineNo();
+                    ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+                    if (clItem != null)
+                    {
+                        int inXDiff = (Cursor.Position.X - this.mPosStartCatch.X);
+                        int inYDiff = (Cursor.Position.Y - this.mPosStartCatch.Y);
+                        double doLen = Math.Sqrt(inXDiff * inXDiff + inYDiff * inYDiff);
+                        if (doLen >= 5.0)
+                        {
+                            ClsDatElem clElem = clItem as ClsDatElem;
+                            this.mFormDragLabel = new FormDragLabel(clElem);
+                            this.mFormDragLabel.Show();
+                        }
+                    }
+                }
+
+                //以下、コントロール更新処理
+                this.RefreshControl();
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
+        }
+
+        private void panel_Control_MouseUp(object sender, MouseEventArgs e)
+        {
+            //以下、エレメントをドロップする処理
+            if (e.Button == MouseButtons.Left)
+            {
+                //以下、挿入マークをクリアする処理
+                this.mMotion.ClearInsertMark();
+
+                //以下、コントロール更新処理
+                this.RefreshControl();
+                this.panel_Control.Refresh();
+                this.panel_Time.Refresh();
+                this.mFormMain.Refresh();
+            }
         }
     }
 }

@@ -535,5 +535,19 @@ namespace PrjHikariwoAnim
             this.mListElem[inIndex + 1] = clElem;
             this.mListElem[inIndex] = clElemTmp;
         }
+
+        /// <summary>
+        /// 挿入可能マークのクリア
+        /// </summary>
+        public void ClearInsertMark()
+        {
+            //以下、子エレメントの挿入マークを消す処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.ClearInsertMark();
+            }
+        }
     }
 }
