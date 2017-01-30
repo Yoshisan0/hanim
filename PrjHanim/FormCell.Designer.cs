@@ -79,7 +79,7 @@
             this.Name = "FormCell";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "FormCell";
+            this.Text = "ChipList";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCell_FormClosing);
             this.Load += new System.EventHandler(this.FormCell_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormCell_DragDrop);
