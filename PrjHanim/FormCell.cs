@@ -140,12 +140,13 @@ namespace PrjHikariwoAnim
                     return;
                 }
 
-                float rw = bSize / src.Width;
-                float rh = bSize / src.Height;
+                float rw = (float)bSize / src.Width;
+                float rh = (float)bSize / src.Height;
                 float rf = Math.Min(rw, rh);
                 Point ds = new Point((int)(src.Width * rf), (int)(src.Height * rf));
 
-                e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
+                //e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
+                e.Graphics.DrawImage(src, (bSize / 2 - (ds.X / 2)), drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
                 if (ImageMan.GetImageChipFromIndex(cnt).Selected)
