@@ -354,7 +354,7 @@ namespace PrjHikariwoAnim
 
                         //以下、コントロール設定処理
                         this.SetName(null);
-                        this.mFormControl.SetName(null);
+                        this.mFormControl.SetMotion(null);
                         this.mFormAttribute.Init(null);
 
                         this.panel_PreView.Refresh();
@@ -452,7 +452,7 @@ namespace PrjHikariwoAnim
 
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
-                this.mFormControl.SetName(clMotion);
+                this.mFormControl.SetMotion(clMotion);
                 this.mFormAttribute.Init(null);
             }
         }
@@ -831,7 +831,7 @@ namespace PrjHikariwoAnim
 
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
-                this.mFormControl.SetName(clMotion);
+                this.mFormControl.SetMotion(clMotion);
                 this.mFormAttribute.Init(null);
             }
         }
@@ -851,7 +851,7 @@ namespace PrjHikariwoAnim
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
-                this.mFormControl.SetName(clMotion);
+                this.mFormControl.SetMotion(clMotion);
                 this.mFormAttribute.Init(null);
 
                 //新しく選択したモーションをメインウィンドウに表示する
@@ -863,7 +863,7 @@ namespace PrjHikariwoAnim
                 ClsSystem.mMotionSelectKey = -1;
                 //以下、コントロール設定処理
                 this.SetName(null);
-                this.mFormControl.SetName(null);
+                this.mFormControl.SetMotion(null);
                 this.mFormAttribute.Init(null);
             }
             this.panel_PreView.Refresh();
