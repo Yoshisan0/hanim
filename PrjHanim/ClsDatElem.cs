@@ -13,7 +13,8 @@ namespace PrjHikariwoAnim
         public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
 
         // コントロール左側ペインに相当する部分
-        public enum ELEMENTSTYPE {
+        public enum ELEMENTS_TYPE
+        {
             Image,
             Shape,
             Joint,
@@ -21,18 +22,28 @@ namespace PrjHikariwoAnim
             Accessory,
             FX
         }
-        public enum ELEMENTSSTYLE {
+
+        public enum ELEMENTS_STYLE
+        {
             Rect,
             Circle,
             Point
         }
+
+        public enum ELEMENTS_MARK
+        {
+            NONE,
+            UP,
+            IN
+        }
+
         [XmlIgnore]//シリアライズ時に循環参照になる
         public ClsDatMotion mMotion;        //親モーション
         public ClsDatElem mElem;            //親エレメント
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
-        public ELEMENTSTYPE mType;          //Default Image
-        public ELEMENTSSTYLE mStyle;        //Default Rect
+        public ELEMENTS_TYPE mType;          //Default Image
+        public ELEMENTS_STYLE mStyle;        //Default Rect
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
@@ -40,8 +51,7 @@ namespace PrjHikariwoAnim
         [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
-        public bool mInsertMarkExist = false;
-        public bool mInsertMarkUp = false;
+        public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
         //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
         public ClsDatElem()
@@ -62,8 +72,8 @@ namespace PrjHikariwoAnim
             this.mElem = clElem;
             this.mListElem = new List<ClsDatElem>();
             this.mName = this.GetHashCode().ToString("X8");//仮名
-            this.mType = ELEMENTSTYPE.Image;
-            this.mStyle = ELEMENTSSTYLE.Rect;
+            this.mType = ELEMENTS_TYPE.Image;
+            this.mStyle = ELEMENTS_STYLE.Rect;
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
@@ -99,11 +109,40 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// ハッシュコードからエレメントを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// </summary>
+        /// <param name="inHashCode">ハッシュコード</param>
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveElemFromHashCode(int inHashCode, bool isRemove)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                int inHashCodeTmp = clElem.GetHashCode();
+                if (inHashCode == inHashCodeTmp)
+                {
+                    if (isRemove)
+                    {
+                        clElem.RemoveAll();
+                    }
+
+                    this.mListElem.RemoveAt(inCnt);
+                    return;
+                }
+
+                clElem.RemoveElemFromHashCode(inHashCode, isRemove);
+            }
+        }
+
+        /// <summary>
         /// 行番号からエレメントを削除する処理
         /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
-        public void RemoveElemFromLineNo(int inLineNo)
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveElemFromLineNo(int inLineNo, bool isRemove)
         {
             if (inLineNo < 0) return;
 
@@ -113,12 +152,16 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (inLineNo == clElem.mLineNo)
                 {
-                    clElem.RemoveAll();
+                    if (isRemove)
+                    {
+                        clElem.RemoveAll();
+                    }
+
                     this.mListElem.RemoveAt(inCnt);
                     return;
                 }
 
-                clElem.RemoveElemFromLineNo(inLineNo);
+                clElem.RemoveElemFromLineNo(inLineNo, isRemove);
             }
         }
 
@@ -128,7 +171,8 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
-        public void RemoveOptionFromLineNo(int inLineNo, bool isForce)
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveOptionFromLineNo(int inLineNo, bool isForce, bool isRemove)
         {
             if (inLineNo < 0) return;
             if (!this.isOpen) return;
@@ -144,7 +188,11 @@ namespace PrjHikariwoAnim
                     if (!isRemoveOK) continue;
                 }
 
-                clOption.RemoveAll();
+                if (isRemove)
+                {
+                    clOption.RemoveAll();
+                }
+
                 this.mDicOption.Remove(enType);
                 return;
             }
@@ -153,7 +201,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RemoveOptionFromLineNo(inLineNo, isForce);
+                clElem.RemoveOptionFromLineNo(inLineNo, isForce, isRemove);
             }
         }
 
@@ -188,6 +236,40 @@ namespace PrjHikariwoAnim
         public string GetName()
         {
             return (this.mName);
+        }
+
+        /// <summary>
+        /// エレメント追加処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        public void AddElem(ClsDatElem clElem)
+        {
+            if (clElem == null) return;
+
+            int inHashCode1 = this.GetHashCode();
+            int inHashCode2 = clElem.GetHashCode();
+            if (inHashCode1 == inHashCode2)
+            {
+                Console.WriteLine("Error AddElem");
+                return;
+            }
+
+            //以下、現在の親から削除する処理（関連付けの変更だけとする）
+            int inHashCode = clElem.GetHashCode();
+            if (clElem.mElem == null)
+            {
+                this.mMotion.RemoveElemFromHashCode(inHashCode, false);
+            }
+            else
+            {
+                clElem.mElem.RemoveElemFromHashCode(inHashCode, false);
+            }
+
+            //以下、子供に登録する処理
+            this.mListElem.Add(clElem);
+
+            //以下、親として自分を登録する処理
+            clElem.mElem = this;
         }
 
         /// <summary>
@@ -316,6 +398,33 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 挿入可能マークからエレメントを取得する処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <param name="enMark">挿入可能マーク</param>
+        public void FindElemFromMark(ClsDatMotion clMotion, ELEMENTS_MARK enMark)
+        {
+            if (this.mInsertMark == enMark)
+            {
+                clMotion.mWorkElem = this;
+                return;
+            }
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (clElem.mInsertMark == enMark)
+                {
+                    clMotion.mWorkElem = clElem;
+                    return;
+                }
+
+                clElem.FindElemFromMark(clMotion, enMark);
+            }
+        }
+
+        /// <summary>
         /// 行番号からエレメントを取得する処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
@@ -334,7 +443,7 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = this.mListElem[inCnt];
                 if (clElem.mLineNo == inLineNo)
                 {
-                    clMotion.mWorkElem = this;
+                    clMotion.mWorkElem = clElem;
                     return;
                 }
 
@@ -574,9 +683,6 @@ namespace PrjHikariwoAnim
 
             //Cuurent Draw Grip
 
-            //以下、子供描画処理
-            if (!this.isOpen) return;
-
             //以下、子供のエレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
@@ -601,7 +707,7 @@ namespace PrjHikariwoAnim
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             //以下、背景を塗る処理
-            if (this.mInsertMarkExist && !this.mInsertMarkUp)
+            if (this.mInsertMark== ELEMENTS_MARK.IN)
             {
                 //以下、挿入可能エレメント描画処理
                 SolidBrush sb = new SolidBrush(Color.Orange);
@@ -663,27 +769,24 @@ namespace PrjHikariwoAnim
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
-                g.DrawString(this.mName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
+                string clBlank = this.GetTabBlank();
+                g.DrawString(clBlank + this.mName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
 
             //以下、挿入可能ライン描画処理
-            if (this.mInsertMarkExist)
+            if (this.mInsertMark== ELEMENTS_MARK.UP)
             {
-                if (this.mInsertMarkUp)
-                {
-                    g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
-                    g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
-                }
+                g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
+                g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
+            if (!this.isOpen) return;
+
             //以下、オプション描画処理
-            if (this.isOpen)
+            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
-                {
-                    ClsDatOption clOption = this.mDicOption[enType];
-                    clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
-                }
+                ClsDatOption clOption = this.mDicOption[enType];
+                clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
             }
 
             //以下、子供のエレメント描画処理
@@ -749,14 +852,13 @@ namespace PrjHikariwoAnim
             //以下、0フレーム目のマーカー表示処理
             g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
 
+            if (!this.isOpen) return;
+
             //以下、オプション描画処理
-            if (this.isOpen)
+            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
-                {
-                    ClsDatOption clOption = this.mDicOption[enType];
-                    clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
-                }
+                ClsDatOption clOption = this.mDicOption[enType];
+                clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
             }
 
             //以下、子供のエレメント描画処理
@@ -889,7 +991,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void ClearInsertMark()
         {
-            this.mInsertMarkExist = false;
+            this.mInsertMark = ELEMENTS_MARK.NONE;
 
             //以下、子エレメントの挿入マークを消す処理
             int inCnt, inMax = this.mListElem.Count;
@@ -903,13 +1005,10 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 挿入可能マークの設定
         /// </summary>
-        /// <param name="isUp">上フラグ</param>
-        public void SetInsertMark(bool isUp)
+        /// <param name="enMark">挿入可能マーク</param>
+        public void SetInsertMark(ELEMENTS_MARK enMark)
         {
-            this.mInsertMarkExist = true;
-            this.mInsertMarkUp = isUp;
-
-            Console.WriteLine("elem SetInsertMark name=" + this.mName);
+            this.mInsertMark = enMark;
         }
     }
 }

@@ -27,5 +27,22 @@ namespace PrjHikariwoAnim
             this.mTab = 0;
             this.mTypeItem = TYPE_ITEM.NONE;
         }
+
+        /// <summary>
+        /// タブによる空白取得処理
+        /// </summary>
+        /// <returns>空白文字列</returns>
+        public string GetTabBlank()
+        {
+            string clBlank = "";
+
+            int inCnt;
+            for (inCnt = 0; inCnt < this.mTab; inCnt++)
+            {
+                clBlank += " ";
+            }
+
+            return (clBlank);
+        }
     }
 }

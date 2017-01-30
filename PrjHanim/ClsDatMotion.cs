@@ -94,17 +94,18 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
-        public void RemoveItemFromLineNo(int inLineNo, bool isForce)
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveItemFromLineNo(int inLineNo, bool isForce, bool isRemove)
         {
             ClsDatItem clItem = this.FindItemFromLineNo(inLineNo);
             if (clItem == null) return;
 
             switch(clItem.mTypeItem) {
             case ClsDatItem.TYPE_ITEM.ELEM:
-                this.RemoveElemFromLineNo(inLineNo);
+                this.RemoveElemFromLineNo(inLineNo, isRemove);
                 break;
             case ClsDatItem.TYPE_ITEM.OPTION:
-                this.RemoveOptionFromLineNo(inLineNo, isForce);
+                this.RemoveOptionFromLineNo(inLineNo, isForce, isRemove);
                 break;
             }
         }
@@ -114,7 +115,8 @@ namespace PrjHikariwoAnim
         /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
-        public void RemoveElemFromLineNo(int inLineNo)
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveElemFromLineNo(int inLineNo, bool isRemove)
         {
             if (inLineNo < 0) return;
 
@@ -128,7 +130,7 @@ namespace PrjHikariwoAnim
                     return;
                 }
 
-                clElem.RemoveElemFromLineNo(inLineNo);
+                clElem.RemoveElemFromLineNo(inLineNo, isRemove);
             }
         }
 
@@ -138,7 +140,8 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
-        public void RemoveOptionFromLineNo(int inLineNo, bool isForce)
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveOptionFromLineNo(int inLineNo, bool isForce, bool isRemove)
         {
             if (inLineNo < 0) return;
 
@@ -146,7 +149,36 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RemoveOptionFromLineNo(inLineNo, isForce);
+                clElem.RemoveOptionFromLineNo(inLineNo, isForce, isRemove);
+            }
+        }
+
+        /// <summary>
+        /// ハッシュコードからエレメントを削除する処理
+        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// （ClsDatElemと重複しているので、いづれ継承でまとめる）
+        /// </summary>
+        /// <param name="inHashCode">ハッシュコード</param>
+        /// <param name="isRemove">実体削除フラグ</param>
+        public void RemoveElemFromHashCode(int inHashCode, bool isRemove)
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                int inHashCodeTmp = clElem.GetHashCode();
+                if (inHashCode == inHashCodeTmp)
+                {
+                    if (isRemove)
+                    {
+                        clElem.RemoveAll();
+                    }
+
+                    this.mListElem.RemoveAt(inCnt);
+                    return;
+                }
+
+                clElem.RemoveElemFromHashCode(inHashCode, isRemove);
             }
         }
 
@@ -299,6 +331,30 @@ namespace PrjHikariwoAnim
                 if (this.mWorkItem != null)
                 {
                     return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// 挿入可能マークからエレメントを検索する処理
+        /// </summary>
+        /// <param name="enMark">挿入可能マーク</param>
+        /// <returns>エレメント</returns>
+        public ClsDatElem FindElemFromMark(ClsDatElem.ELEMENTS_MARK enMark)
+        {
+            this.mWorkElem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindElemFromMark(this, enMark);
+
+                if (this.mWorkElem != null)
+                {
+                    return (this.mWorkElem);
                 }
             }
 

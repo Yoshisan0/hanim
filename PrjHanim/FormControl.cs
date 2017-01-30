@@ -302,7 +302,7 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = this.mMotion.FindElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                if (e.X > 48)
+                if (e.X > 52)
                 {
                     //以下、テキストボックス削除処理
                     this.RemoveTextBoxName();
@@ -690,13 +690,16 @@ namespace PrjHikariwoAnim
             this.button_ItemDown.Enabled = isEnable;
         }
 
+        /// <summary>
+        /// 現在選択中のアイテムを削除する
+        /// </summary>
         private void RemoveItemFromSelectLineNo()
         {
             int inLineNo = this.mMotion.GetSelectLineNo();
             if (inLineNo < 0) return;
 
             //以下、アイテム削除処理
-            this.mMotion.RemoveItemFromLineNo(inLineNo, false);
+            this.mMotion.RemoveItemFromLineNo(inLineNo, false, true);
 
             //以下、行番号振り直し処理
             this.mMotion.Assignment();
@@ -983,13 +986,14 @@ namespace PrjHikariwoAnim
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
-                            bool isUp = false;
+                            ClsDatElem.ELEMENTS_MARK enMark = ClsDatElem.ELEMENTS_MARK.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
-                                isUp = (inY < FormControl.CELL_HEIGHT / 2);
+                                bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
+                                enMark = (isUp) ? ClsDatElem.ELEMENTS_MARK.UP : ClsDatElem.ELEMENTS_MARK.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -1000,13 +1004,13 @@ namespace PrjHikariwoAnim
                                     clElem = null;
                                 }
 
-                                isUp = false;
+                                enMark = ClsDatElem.ELEMENTS_MARK.IN;
                             }
 
                             if (clElem != null)
                             {
                                 //以下、挿入可能な旨をエレメントに通知する処理
-                                clElem.SetInsertMark(isUp);
+                                clElem.SetInsertMark(enMark);
                             }
                         }
                     }
@@ -1043,6 +1047,45 @@ namespace PrjHikariwoAnim
             //以下、エレメントをドロップする処理
             if (e.Button == MouseButtons.Left)
             {
+                if (this.mFormDragLabel != null)
+                {
+                    if (!this.mFormDragLabel.IsDisposed)
+                    {
+                        bool isHit = false;
+
+                        //以下、子供に移動する処理
+                        ClsDatElem clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.IN);
+                        if (clElemBase != null)
+                        {
+                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
+                            clElemBase.AddElem(clElem);
+
+                            isHit = true;
+                        }
+
+                        /*
+                        //以下、
+                        clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.UP);
+                        if (clElemBase != null)
+                        {
+                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
+
+                            isHit = true;
+                        }
+                        */
+
+                        //以下、行番号割り振り処理
+                        if (isHit)
+                        {
+                            this.mMotion.Assignment();
+                        }
+                    }
+
+                    this.mFormDragLabel.Close();
+                    this.mFormDragLabel.Dispose();
+                    this.mFormDragLabel = null;
+                }
+
                 //以下、挿入マークをクリアする処理
                 this.mMotion.ClearInsertMark();
 
