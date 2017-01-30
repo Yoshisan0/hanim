@@ -105,15 +105,6 @@ namespace PrjHikariwoAnim
             this.ToolStripMenuItem_AddUserDataText.Tag = ClsDatOption.TYPE_OPTION.USER_DATA;
         }
 
-        /// <summary>
-        /// ウィンドウ名設定
-        /// </summary>
-        /// <param name="clMotion">選択中のモーション管理クラス</param>
-        public void SetName(ClsDatMotion clMotion)
-        {
-            this.Text = ClsSystem.GetWindowName("Control", clMotion);
-        }
-
         public void RemoveElementFromKey(int inElementKey)
         {
             if (this.mMotion == null) return;
@@ -130,10 +121,9 @@ namespace PrjHikariwoAnim
         public void SetMotion(ClsDatMotion clMotion)
         {
             this.mMotion = clMotion;
+            this.Text = ClsSystem.GetWindowName("Control", clMotion);
 
-            //以下画面更新予定　タイミングによってはguiがまだ準備できていない場合もありうる？
-            //Formの準備ができているか確認してリフレッシュ
-            RefreshAll();
+            this.RefreshAll();
         }
 
         private void FormControl_DragEnter(object sender, DragEventArgs e)
@@ -1053,26 +1043,25 @@ namespace PrjHikariwoAnim
                     {
                         bool isHit = false;
 
-                        //以下、子供に移動する処理
+                        //以下、子供として登録する処理
                         ClsDatElem clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.IN);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
-                            clElemBase.AddElem(clElem);
+                            clElemBase.AddElemChild(clElem);
 
                             isHit = true;
                         }
 
-                        /*
-                        //以下、
+                        //以下、自分の兄として登録する処理
                         clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.UP);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
+                            clElemBase.AddElemBigBrother(clElem);
 
                             isHit = true;
                         }
-                        */
 
                         //以下、行番号割り振り処理
                         if (isHit)
