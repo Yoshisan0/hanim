@@ -251,6 +251,21 @@ namespace PrjHikariwoAnim
         {
             return ImageChipList.Count;
         }
+        public ImageChip[] getArry()
+        {
+            return ImageChipList.ToArray();
+        }
+
+        /// <summary>
+        /// 全てのImageChipListを再読込する
+        /// </summary>
+        public void RestoreIamgeList()
+        {
+            foreach(ImageChip ic in ImageChipList)
+            {
+                ic.RestoreImage();
+            }
+        }
 
         public ImageChip GetImageChipFromIndex(int idx)
         {
@@ -343,15 +358,16 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="srcChip"></param>
         /// <param name="rect"></param>
-        public ImageChip(ImageChip srcChip, Rectangle rect)
+        public Bitmap ImageCut(ImageChip srcChip, Rectangle rect)
         {
-            SrcID = srcChip.ID;
-            Name = "Parts";
-            Rect = rect;
+            this.SrcID = srcChip.ID;
+            this.Name = "Parts";
+            this.Rect = rect;
             //切り抜いてimageを登録
             Bitmap dst = srcChip.Img.Clone(rect, srcChip.Img.PixelFormat);
-            StrMD5 = ClsSystem.GetMD5FromImage(dst);
-            Img = dst;
+            this.StrMD5 = ClsSystem.GetMD5FromImage(dst);
+            this.Img = dst;
+            return dst;
         }
         public ImageChip(Image img)
         {
@@ -421,7 +437,14 @@ namespace PrjHikariwoAnim
             SrcID = this.GetHashCode();
             Rect = new Rectangle(0, 0, work.Width, work.Height);
             Name = System.IO.Path.GetFileNameWithoutExtension(path);
-            return this; 
+            return this ;
+        }
+
+        public void RestoreImage()
+        {
+            this.FromPngFile(this.Path);
+            //部分取込
+            this.Img = this.ImageCut(this, this.Rect); 
         }
         public void BinaryToStream(BinaryWriter bw)
         {
