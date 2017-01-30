@@ -1053,26 +1053,25 @@ namespace PrjHikariwoAnim
                     {
                         bool isHit = false;
 
-                        //以下、子供に移動する処理
+                        //以下、子供として登録する処理
                         ClsDatElem clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.IN);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
-                            clElemBase.AddElem(clElem);
+                            clElemBase.AddElemChild(clElem);
 
                             isHit = true;
                         }
 
-                        /*
-                        //以下、
+                        //以下、自分の兄として登録する処理
                         clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.UP);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
+                            clElemBase.AddElemBigBrother(clElem);
 
                             isHit = true;
                         }
-                        */
 
                         //以下、行番号割り振り処理
                         if (isHit)

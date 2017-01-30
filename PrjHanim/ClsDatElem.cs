@@ -239,18 +239,72 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// エレメント追加処理
+        /// エレメントをこのエレメントの兄として登録する処理
         /// </summary>
-        /// <param name="clElem">エレメント</param>
-        public void AddElem(ClsDatElem clElem)
+        /// <param name="clElem"></param>
+        public void AddElemBigBrother(ClsDatElem clElem)
         {
             if (clElem == null) return;
 
+            //以下、自分を自分の兄として登録するのを回避する処理
             int inHashCode1 = this.GetHashCode();
             int inHashCode2 = clElem.GetHashCode();
             if (inHashCode1 == inHashCode2)
             {
-                Console.WriteLine("Error AddElem");
+                Console.WriteLine("Error AddElemBigBrother");
+                return;
+            }
+
+            //以下、現在の親から削除する処理（関連付けの変更だけとする）
+            int inHashCode = clElem.GetHashCode();
+            if (clElem.mElem == null)
+            {
+                this.mMotion.RemoveElemFromHashCode(inHashCode, false);
+            }
+            else
+            {
+                clElem.mElem.RemoveElemFromHashCode(inHashCode, false);
+            }
+
+            //以下、自分の兄・自分の親の子供として登録する処理
+            List<ClsDatElem> clListElem = null;
+            if (this.mElem == null)
+            {
+                clListElem = this.mMotion.mListElem;
+            }
+            else
+            {
+                clListElem = this.mElem.mListElem;
+            }
+            inHashCode = this.GetHashCode();
+            int inCnt;
+            for (inCnt = 0; inCnt < clListElem.Count; inCnt++) {
+                int inHashCodeTmp = clListElem[inCnt].GetHashCode();
+                if (inHashCodeTmp != inHashCode) continue;  //自分を探す処理
+
+                //以下、自分の兄として登録する処理
+                clListElem.Insert(inCnt, clElem);
+                break;
+            }
+
+            //以下、親として自分の親を登録する処理
+            clElem.mElem = this.mElem;
+        }
+
+        /// <summary>
+        /// エレメントを子供として追加する処理
+        /// </summary>
+        /// <param name="clElem">エレメント</param>
+        public void AddElemChild(ClsDatElem clElem)
+        {
+            if (clElem == null) return;
+
+            //以下、自分を自分の子供として登録するのを回避する処理
+            int inHashCode1 = this.GetHashCode();
+            int inHashCode2 = clElem.GetHashCode();
+            if (inHashCode1 == inHashCode2)
+            {
+                Console.WriteLine("Error AddElemChild");
                 return;
             }
 
@@ -266,7 +320,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、子供に登録する処理
-            this.mListElem.Add(clElem);
+            this.mListElem.Insert(0, clElem);
 
             //以下、親として自分を登録する処理
             clElem.mElem = this;
