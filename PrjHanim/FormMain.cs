@@ -190,9 +190,13 @@ namespace PrjHikariwoAnim
                     psd = (ProjectSaveData) xs.Deserialize(sr);//デシリアライズ
 
                     //psd.mDicMotion = ClsSystem.mDicMotion;
-                    ClsSystem.ImageMan = psd.ImageMan;
+                    foreach(ImageChip ic in psd.ImageChipList)
+                    {
+                        //ClsSystem.ImageMan.AddImageChip(ic);
+                        mFormImageList.AddItem(ic.Path);
+                    }
                     //image再構築が必用？VistView.Hash再取得と再設定が必用か？
-                    
+                    ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
 
                     ClsSystem.mMotionSelectKey = psd.mMotionSelectKey;
 
@@ -209,6 +213,7 @@ namespace PrjHikariwoAnim
                     
                     //treeView_project_Rebuild();
                     this.listView_Motion.Refresh();
+                    System.Media.SystemSounds.Exclamation.Play();
                 }
             }
 
@@ -256,9 +261,11 @@ namespace PrjHikariwoAnim
                 psd.MotionCount = ClsSystem.mDicMotion.Count;
                 psd.arryMotion = ClsSystem.mDicMotion.Values.ToArray();
                 //psd.mDicMotion = ClsSystem.mDicMotion;
-                psd.ImageMan = ClsSystem.ImageMan;
+                psd.ImageChipList = ClsSystem.ImageMan.ToArray();
                 xs.Serialize(sw,psd);
                 sw.Close();
+
+                System.Media.SystemSounds.Exclamation.Play();
             }
             sfd.Dispose();
         }
@@ -988,11 +995,16 @@ namespace PrjHikariwoAnim
                 //work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
                 string md5 = (string)lvi.Tag;//ListViewのTagからMD5を取得
                 work =  ClsSystem.ImageMan.GetImageChipFromMD5(md5);//取得したMD5から特定
-                if (work == null) System.Console.WriteLine("ListViewからのドロップ時MD5不詳");
-                ClsSystem.ImageMan.AddImageChip(work);
-
-                listView_Motion_AddElements(work, sPos.X, sPos.Y);
-                e.Effect = DragDropEffects.Copy;
+                if (work != null)
+                {
+                    ClsSystem.ImageMan.AddImageChip(work);
+                    listView_Motion_AddElements(work, sPos.X, sPos.Y);
+                    e.Effect = DragDropEffects.Copy;
+                }
+                else
+                {
+                    System.Console.WriteLine("ListViewからのドロップ時MD5不詳");
+                }
             }
 
             //ImageChip 受け入れ

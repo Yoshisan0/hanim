@@ -251,7 +251,7 @@ namespace PrjHikariwoAnim
         {
             return ImageChipList.Count;
         }
-        public ImageChip[] getArry()
+        public ImageChip[] ToArray()
         {
             return ImageChipList.ToArray();
         }
@@ -439,12 +439,17 @@ namespace PrjHikariwoAnim
             Name = System.IO.Path.GetFileNameWithoutExtension(path);
             return this ;
         }
-
+        /// <summary>
+        /// イメージの再読込
+        /// </summary>
         public void RestoreImage()
         {
             this.FromPngFile(this.Path);
             //部分取込
-            this.Img = this.ImageCut(this, this.Rect); 
+            if (Img.Width != Rect.Width || Img.Height != Rect.Height)
+            {
+                this.Img = this.ImageCut(this, this.Rect);
+            }
         }
         public void BinaryToStream(BinaryWriter bw)
         {

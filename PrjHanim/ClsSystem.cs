@@ -214,10 +214,11 @@ namespace PrjHikariwoAnim
     [XmlRoot("HanimProjectData")]
     public class ProjectSaveData
     {
+        public ImageChip[] ImageChipList;//ImageChipList
         public int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public int MotionCount;
         public ClsDatMotion[] arryMotion;//ArryMotion
         //public Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
-        public ImageManagerBase ImageMan;
+        
     }
 }

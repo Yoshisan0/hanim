@@ -355,6 +355,15 @@ namespace PrjHikariwoAnim
             {
                 //以下、画像切り取り処理
                 CutPeace(clImageSrc, clFormImageCut.GetRectangle(), clPath);
+
+                ImageChip ic = new ImageChip();
+                ic.Path = clPath;
+                ic.FromPngFile(ic.Path);
+
+                ic.Rect = clFormImageCut.GetRectangle();
+                ic.ImageCut(ic, ic.Rect);
+                ClsSystem.ImageMan.AddImageChip(ic);
+                this.listView.Items[inIndex+1].Tag = ic.StrMD5;
             }
             clFormImageCut.Dispose();
             clFormImageCut = null;

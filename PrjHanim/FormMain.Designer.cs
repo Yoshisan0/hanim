@@ -227,7 +227,7 @@
             // ToolStripMenuItem_ExpCellList
             // 
             this.ToolStripMenuItem_ExpCellList.Name = "ToolStripMenuItem_ExpCellList";
-            this.ToolStripMenuItem_ExpCellList.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_ExpCellList.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpCellList.Text = "ImageList";
             this.ToolStripMenuItem_ExpCellList.Click += new System.EventHandler(this.ToolStripMenuItem_ExpCellList_Click);
             // 
