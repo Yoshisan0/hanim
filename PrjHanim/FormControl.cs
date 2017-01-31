@@ -47,9 +47,9 @@ namespace PrjHikariwoAnim
         public static readonly int CELL_HEIGHT = 18;
         public static readonly int CELL_WIDTH = 12;
 
-        private Point mSelect_Pos_Start;
-        private Point mSelect_Pos_End;
-        private bool mMouseDownL=false;
+        //private Point mSelect_Pos_Start; 一旦コメントアウト 2017/01/31 comment out by yoshi
+        //private Point mSelect_Pos_End; 一旦コメントアウト 2017/01/31 comment out by yoshi
+        //private bool mMouseDownL=false; 一旦コメントアウト 2017/01/31 comment out by yoshi
         //private bool mMouseDownR=false;
         //private bool mMouseDownM=false;
         private Point mPosStartCatch;
@@ -371,13 +371,11 @@ namespace PrjHikariwoAnim
         //Right Paine
         private void panel_Time_MouseClick(object sender, MouseEventArgs e)
         {
+            /* 一旦コメントアウト 2017/01/31 comment out by yoshi
             //Flameクリック処理
             //フレーム検出
             int cx = e.X / FormControl.CELL_WIDTH;
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
-
-            //以下、エレメント選択処理
-            this.mMotion.SetSelectFromLineNo(inLineNo);
 
             //注:範囲指定時は考慮
             //クリックフレームを現在のフレームに指定
@@ -395,6 +393,7 @@ namespace PrjHikariwoAnim
             this.panel_Control.Refresh();
             this.panel_Time.Refresh();
             this.mFormMain.Refresh();
+            */
         }
 
         private void panel_Time_MouseEnter(object sender, EventArgs e)
@@ -407,31 +406,61 @@ namespace PrjHikariwoAnim
         }
         private void panel_Time_MouseMove(object sender, MouseEventArgs e)
         {
+            /*
             if(mMouseDownL)
             {
                 mSelect_Pos_End.X = e.X / FormControl.CELL_WIDTH;
                 mSelect_Pos_End.Y = e.Y / FormControl.CELL_HEIGHT;
                 panel_Time.Refresh();
             }
+            */
         }
 
         private void panel_Time_MouseDown(object sender, MouseEventArgs e)
         {
+            int cx = e.X / FormControl.CELL_WIDTH;
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
+
+            //以下、アイテム選択処理
+            this.mMotion.SetSelectFromLineNo(inLineNo);
+
+            //以下、フレーム選択処理
+            if (cx <= this.numericUpDown_MaxFrame.Value)
+            {
+                this.numericUpDown_NowFlame.Value = cx;
+            }
+            else
+            {
+                this.numericUpDown_NowFlame.Value = this.numericUpDown_MaxFrame.Value - 1;
+            }
+
+            /* 一旦コメントアウト 2017/01/31 comment out by yoshi
             if (e.Button == MouseButtons.Left)
             {
+                //以下、座標情報初期化処理
                 mMouseDownL = true;
                 mSelect_Pos_End.X = 0;
                 mSelect_Pos_End.Y = 0;
             }
+            */
 
+            /* 一旦コメントアウト 2017/01/31 comment out by yoshi
             //if (e.Button == MouseButtons.Right) { mMouseDownR = true; }
             //if (e.Button == MouseButtons.Middle) { mMouseDownM = true; }
             mSelect_Pos_Start.X = e.X / FormControl.CELL_WIDTH;
             mSelect_Pos_Start.Y = e.Y / FormControl.CELL_HEIGHT;
+            */
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
 
         private void panel_Time_MouseUp(object sender, MouseEventArgs e)
         {
+            /* 一旦コメントアウト 2017/01/31 comment out by yoshi
             if(mMouseDownL)
             {
                 //Flameクリック処理
@@ -451,9 +480,11 @@ namespace PrjHikariwoAnim
                 this.panel_Control.Refresh();
                 this.panel_Time.Refresh();
             }
+            
             mMouseDownL = false;
             //mMouseDownR = false;
             //mMouseDownM = false;
+            */
         }
 
         private void panel_Time_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -923,13 +954,12 @@ namespace PrjHikariwoAnim
             //以下、テキストボックス削除処理
             this.RemoveTextBoxName();
 
-            //以下、エレメントを掴む処理
+            //以下、アイテム選択処理
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
+            this.mMotion.SetSelectFromLineNo(inLineNo);
+
             if (e.Button == MouseButtons.Left)
             {
-                //以下、アイテム選択処理
-                int inLineNo = this.GetLineNoFromPositionY(e.Y);
-                this.mMotion.SetSelectFromLineNo(inLineNo);
-
                 //以下、掴んでいるエレメントを別ウィンドウで表示する処理
                 ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
                 if (clItem != null && clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
@@ -938,13 +968,13 @@ namespace PrjHikariwoAnim
                     int inY = Cursor.Position.Y;
                     this.mPosStartCatch = new Point(inX, inY);
                 }
-
-                //以下、コントロール更新処理
-                this.RefreshControl();
-                this.panel_Control.Refresh();
-                this.panel_Time.Refresh();
-                this.mFormMain.Refresh();
             }
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
 
         private void panel_Control_MouseMove(object sender, MouseEventArgs e)
@@ -1084,6 +1114,58 @@ namespace PrjHikariwoAnim
                 this.panel_Time.Refresh();
                 this.mFormMain.Refresh();
             }
+        }
+
+        private void ToolStripMenuItem_AddKeyFrame_Click(object sender, EventArgs e)
+        {
+            int inSelectLineNo = this.mMotion.GetSelectLineNo();
+            if (inSelectLineNo < 0) return;
+
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inSelectLineNo);
+            if (clItem == null) return;
+
+            ClsDatOption clOption = null;
+            bool isExist;
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                ClsDatElem clElem = clItem as ClsDatElem;
+                if (clElem == null) return;
+
+                isExist = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.DISPLAY);
+                if (!isExist) return;
+
+                clOption = clElem.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
+                if (clOption == null) return;
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                clOption = clItem as ClsDatOption;
+                if (clOption == null) return;
+            }
+            if (clOption == null) return;
+
+            //以下、キーフレーム存在チェック処理
+            int inIndex = (int)this.numericUpDown_NowFlame.Value;
+            isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+            if (isExist)
+            {
+                ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
+                if (clKeyFrame != null) return;
+            }
+
+            //以下、キーフレーム作成処理
+            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame();
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
+        }
+
+        private void ToolStripMenuItem_RemoveKeyframe_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
