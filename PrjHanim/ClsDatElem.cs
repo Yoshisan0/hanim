@@ -80,6 +80,7 @@ namespace PrjHikariwoAnim
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.mAttInit = new AttributeBase();
 
+            this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
         }
@@ -407,6 +408,7 @@ namespace PrjHikariwoAnim
         /// フレーム数変更処理
         /// </summary>
         /// <param name="inFrameNum">フレーム数</param>
+        /*
         public void SetFrameNum(int inFrameNum)
         {
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
@@ -422,6 +424,7 @@ namespace PrjHikariwoAnim
                 clElem.SetFrameNum(inFrameNum);
             }
         }
+        */
 
         /// <summary>
         /// 行番号割り振り処理
@@ -906,6 +909,22 @@ namespace PrjHikariwoAnim
             //以下、0フレーム目のマーカー表示処理
             g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
 
+            //以下、DISPLAYオプション表示処理
+            int inCnt, inMax;
+            bool isExist = this.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.DISPLAY);
+            if (isExist) {
+                ClsDatOption clOption = this.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
+                if (clOption != null) {
+                    foreach (int inKey in clOption.mDicKeyFrame.Keys)
+                    {
+                        ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inKey];
+                        if (clKeyFrame == null) continue;
+
+                        g.DrawImage(Properties.Resources.markRed, inKey * FormControl.CELL_WIDTH + 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                    }
+                }
+            }
+
             if (!this.isOpen) return;
 
             //以下、オプション描画処理
@@ -916,7 +935,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、子供のエレメント描画処理
-            int inCnt, inMax = this.mListElem.Count;
+            inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];

@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormControl));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.panel_Control = new System.Windows.Forms.Panel();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip_Control = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_RemoveElement = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_AddOption = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,11 +78,14 @@
             this.numericUpDown_MaxFrame = new System.Windows.Forms.NumericUpDown();
             this.Panel_LineControl_Base = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.contextMenuStrip_Time = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem_AddKeyFrame = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_RemoveKeyframe = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
-            this.contextMenuStrip.SuspendLayout();
+            this.contextMenuStrip_Control.SuspendLayout();
             this.TreeHeader.SuspendLayout();
             this.SubMenuTimeLine.SuspendLayout();
             this.MediaBase.SuspendLayout();
@@ -90,6 +93,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NowFlame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFrame)).BeginInit();
             this.Panel_LineControl_Base.SuspendLayout();
+            this.contextMenuStrip_Time.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -130,7 +134,7 @@
             this.panel_Control.AutoScroll = true;
             this.panel_Control.BackColor = System.Drawing.Color.Black;
             this.panel_Control.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
-            this.panel_Control.ContextMenuStrip = this.contextMenuStrip;
+            this.panel_Control.ContextMenuStrip = this.contextMenuStrip_Control;
             this.panel_Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Control.Location = new System.Drawing.Point(0, 20);
             this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
@@ -147,16 +151,16 @@
             this.panel_Control.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseMove);
             this.panel_Control.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_Control_MouseUp);
             // 
-            // contextMenuStrip
+            // contextMenuStrip_Control
             // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip_Control.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_RemoveElement,
             this.toolStripSeparator2,
             this.ToolStripMenuItem_AddOption,
             this.ToolStripMenuItem_RemoveOption});
-            this.contextMenuStrip.Name = "SubMenuTimeLine";
-            this.contextMenuStrip.Size = new System.Drawing.Size(162, 76);
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            this.contextMenuStrip_Control.Name = "SubMenuTimeLine";
+            this.contextMenuStrip_Control.Size = new System.Drawing.Size(162, 76);
+            this.contextMenuStrip_Control.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // ToolStripMenuItem_RemoveElement
             // 
@@ -425,6 +429,7 @@
             // 
             this.panel_Time.AutoScroll = true;
             this.panel_Time.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
+            this.panel_Time.ContextMenuStrip = this.contextMenuStrip_Time;
             this.panel_Time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
@@ -621,6 +626,29 @@
             this.panel3.Size = new System.Drawing.Size(156, 27);
             this.panel3.TabIndex = 14;
             // 
+            // contextMenuStrip_Time
+            // 
+            this.contextMenuStrip_Time.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_AddKeyFrame,
+            this.ToolStripMenuItem_RemoveKeyframe});
+            this.contextMenuStrip_Time.Name = "SubMenuTimeLine";
+            this.contextMenuStrip_Time.Size = new System.Drawing.Size(168, 48);
+            this.contextMenuStrip_Time.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // ToolStripMenuItem_AddKeyFrame
+            // 
+            this.ToolStripMenuItem_AddKeyFrame.Name = "ToolStripMenuItem_AddKeyFrame";
+            this.ToolStripMenuItem_AddKeyFrame.Size = new System.Drawing.Size(167, 22);
+            this.ToolStripMenuItem_AddKeyFrame.Text = "Add keyframe";
+            this.ToolStripMenuItem_AddKeyFrame.Click += new System.EventHandler(this.ToolStripMenuItem_AddKeyFrame_Click);
+            // 
+            // ToolStripMenuItem_RemoveKeyframe
+            // 
+            this.ToolStripMenuItem_RemoveKeyframe.Name = "ToolStripMenuItem_RemoveKeyframe";
+            this.ToolStripMenuItem_RemoveKeyframe.Size = new System.Drawing.Size(167, 22);
+            this.ToolStripMenuItem_RemoveKeyframe.Text = "Remove keyframe";
+            this.ToolStripMenuItem_RemoveKeyframe.Click += new System.EventHandler(this.ToolStripMenuItem_RemoveKeyframe_Click);
+            // 
             // FormControl
             // 
             this.AllowDrop = true;
@@ -645,7 +673,7 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
-            this.contextMenuStrip.ResumeLayout(false);
+            this.contextMenuStrip_Control.ResumeLayout(false);
             this.TreeHeader.ResumeLayout(false);
             this.SubMenuTimeLine.ResumeLayout(false);
             this.MediaBase.ResumeLayout(false);
@@ -654,6 +682,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NowFlame)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MaxFrame)).EndInit();
             this.Panel_LineControl_Base.ResumeLayout(false);
+            this.contextMenuStrip_Time.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -693,7 +722,7 @@
         private System.Windows.Forms.Button button_ItemUp;
         private System.Windows.Forms.Button button_ElemChild;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Control;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddOption;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_RemoveOption;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddRotation;
@@ -708,5 +737,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddUserDataText;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_RemoveElement;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Time;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddKeyFrame;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_RemoveKeyframe;
     }
 }

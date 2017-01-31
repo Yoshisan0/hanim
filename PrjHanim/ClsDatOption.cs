@@ -28,7 +28,7 @@ namespace PrjHikariwoAnim
 
         public ClsDatElem mElem;    //親エレメント
         public TYPE_OPTION mTypeOption;  //タイプ
-        public List<ClsDatKeyFrame> mListKeyFrame;  //フレーム数分Countが存在する（ null は存在しない事にする）
+        public Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
 
         //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
         public ClsDatOption()
@@ -47,7 +47,7 @@ namespace PrjHikariwoAnim
 
             this.mElem = clElem;
             this.mTypeOption = enType;
-            this.mListKeyFrame = new List<ClsDatKeyFrame>();
+            this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
         }
 
         /// <summary>
@@ -57,13 +57,12 @@ namespace PrjHikariwoAnim
         public void RemoveAll()
         {
             //以下、キーフレーム全削除処理
-            int inCnt, inMax = this.mListKeyFrame.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            foreach (int inKey in this.mDicKeyFrame.Keys)
             {
-                ClsDatKeyFrame clKeyFrame = this.mListKeyFrame[inCnt];
+                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
                 clKeyFrame.RemoveAll();
             }
-            this.mListKeyFrame.Clear();
+            this.mDicKeyFrame.Clear();
         }
 
         /// <summary>
@@ -160,6 +159,7 @@ namespace PrjHikariwoAnim
         /// フレーム数変更処理
         /// </summary>
         /// <param name="inFrameNum">フレーム数</param>
+        /*
         public void SetFrameNum(int inFrameNum)
         {
             if (inFrameNum <= 0) return;
@@ -188,6 +188,7 @@ namespace PrjHikariwoAnim
                 }
             }
         }
+        */
 
         /// <summary>
         /// 行番号割り振り処理
@@ -296,6 +297,15 @@ namespace PrjHikariwoAnim
 
             //以下、0フレーム目のマーカー表示処理
             g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+
+            //以下、オプション表示処理
+            foreach (int inKey in this.mDicKeyFrame.Keys)
+            {
+                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
+                if (clKeyFrame == null) continue;
+
+                g.DrawImage(Properties.Resources.markRed, inKey * FormControl.CELL_WIDTH + 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+            }
         }
     }
 }

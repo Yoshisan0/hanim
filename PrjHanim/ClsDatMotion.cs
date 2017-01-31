@@ -227,12 +227,14 @@ namespace PrjHikariwoAnim
         /// <param name="inFrameNum">フレーム数</param>
         public void SetFrameNum(int inFrameNum)
         {
+            /*
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.SetFrameNum(inFrameNum);
             }
+            */
 
             this.mFrameNum = inFrameNum;
         }
