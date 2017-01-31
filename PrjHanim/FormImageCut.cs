@@ -463,8 +463,8 @@ namespace PrjHikariwoAnim
                 sd.DefaultExt = "cell";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
-                    ImageManager.GetImageChipFromIndex(0).ToBinaryFile(sd.FileName);
-                    //ImageManager.CellList[0].ToXMLFile(sd.FileName);
+                    ImageManager.SaveToFile(sd.FileName,"");
+                    //ImageManager.GetImageChipFromIndex(0).ToBinaryFile(sd.FileName);
                 }
             }
         }
