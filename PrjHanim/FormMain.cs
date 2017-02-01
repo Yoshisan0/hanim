@@ -205,8 +205,12 @@ namespace PrjHikariwoAnim
                     {
                         //Motion登録
                         ClsDatMotion w = listView_AddMotion(m.mName);
-                        ClsSystem.mDicMotion.Add(w.GetHashCode(),w);
                         //ElementList再構築
+                        w.Restore();
+                        
+                        ClsSystem.mDicMotion.Add(w.GetHashCode(),w);
+                        
+                        
                     }
 
                     sr.Close();

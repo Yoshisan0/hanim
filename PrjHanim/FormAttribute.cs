@@ -73,12 +73,14 @@ namespace PrjHikariwoAnim
             if (clElem == null)
             {
                 this.Text = "Attribute";
-                this.Enabled = false;
+                this.panel_Attribute_Base.Enabled = false;
+                //this.Enabled = false;
             }
             else
             {
                 this.Text = ClsSystem.GetWindowName("Attribute", clElem);
-                this.Enabled = true;
+                this.panel_Attribute_Base.Enabled = true;
+                //this.Enabled = true;
 
                 //以下、チェック状態の設定
                 //this.checkBox_Display.Checked = true;

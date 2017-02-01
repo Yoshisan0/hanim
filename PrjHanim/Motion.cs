@@ -192,33 +192,6 @@ namespace PrjHikariwoAnim
 
     }
 
-    //シリアライザ一発でセーブロードを目指せるかなぁ
-    [Serializable]
-    public class Project
-    {
-        public string Name;//ProjectName
-        public int SelectKey  { get{ return mSelectKey; } }
-
-
-        private int mSelectKey;
-
-        private Dictionary<int, Motion> mMotion;
-
-        public void AddMotion(int Key,Motion m)
-        {
-            mMotion.Add(Key, m);
-        }
-
-        
-        public Motion GetMotion(int key)
-        {
-            return mMotion[key];
-        }
-        public void RemoveMotion(int key)
-        {
-            mMotion.Remove(key);
-        }
-    }
 
     [Serializable]
     public class Motion
