@@ -181,15 +181,17 @@ namespace PrjHikariwoAnim
                 clElem.RemoveElemFromHashCode(inHashCode, isRemove);
             }
         }
+
         /// <summary>
         /// モーションロード後にモーション内構造の再構築を行う
         /// </summary>
         public void Restore()
         {
             //ElementList再構築
-            foreach(ClsDatElem e in mListElem)
+            foreach(ClsDatElem clElem in this.mListElem)
             {
-                e.mMotion = this;//親の再指定
+                clElem.mMotion = this;   //親の再指定
+                clElem.Restore();
             }
         }
 

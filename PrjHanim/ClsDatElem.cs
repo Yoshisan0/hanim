@@ -43,8 +43,8 @@ namespace PrjHikariwoAnim
         [XmlIgnore]//シリアライズ時に循環参照になる どう保存復帰するか
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
-        public ELEMENTS_TYPE mType;          //Default Image
-        public ELEMENTS_STYLE mStyle;        //Default Rect
+        public ELEMENTS_TYPE mType;         //Default Image
+        public ELEMENTS_STYLE mStyle;       //Default Rect
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
@@ -206,6 +206,26 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.RemoveOptionFromLineNo(inLineNo, isForce, isRemove);
+            }
+        }
+
+        /// <summary>
+        /// モーションロード後にエレメント・オプション内構造の再構築を行う
+        /// </summary>
+        public void Restore()
+        {
+            //以下、子エレメントの親設定
+            foreach (ClsDatElem clElem in this.mListElem)
+            {
+                clElem.mElem = this;
+                clElem.Restore();
+            }
+
+            //以下、オプションの親設定
+            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            {
+                ClsDatOption clOption = this.mDicOption[enType];
+                clOption.mElem = this;
             }
         }
 
