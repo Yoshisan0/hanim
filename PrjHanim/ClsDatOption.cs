@@ -108,7 +108,11 @@ namespace PrjHikariwoAnim
         {
             string clName = "";
 
-            switch (enType) {
+            switch (enType)
+            {
+            case TYPE_OPTION.DISPLAY:
+                clName = "Display";
+                break;
             case TYPE_OPTION.POSITION_X:
                 clName = "Position X";
                 break;
@@ -133,9 +137,6 @@ namespace PrjHikariwoAnim
             case TYPE_OPTION.FLIP_VERTICAL:
                 clName = "Vertical flip";
                 break;
-            case TYPE_OPTION.DISPLAY:
-                clName = "Display";
-                break;
             case TYPE_OPTION.COLOR:
                 clName = "Color";
                 break;
@@ -156,39 +157,16 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// フレーム数変更処理
+        /// 表示するオプション種別かチェックする処理
         /// </summary>
-        /// <param name="inFrameNum">フレーム数</param>
-        /*
-        public void SetFrameNum(int inFrameNum)
+        /// <param name="enType">オプション種別</param>
+        /// <returns>表示フラグ</returns>
+        public static bool IsDraw(TYPE_OPTION enType)
         {
-            if (inFrameNum <= 0) return;
-            if (inFrameNum > 65535) return; //あまりに大きな値は怪しいのでバグ対策としてはじく
+            if (enType == TYPE_OPTION.DISPLAY) return (false);
 
-            int inFrameNumNow = this.mListKeyFrame.Count;
-            if (inFrameNumNow == inFrameNum) return;
-
-            if (inFrameNumNow < inFrameNum)
-            {
-                //以下、フレーム数を増やす処理
-                while (this.mListKeyFrame.Count < inFrameNum)
-                {
-                    this.mListKeyFrame.Add(null);
-                }
-            }
-            else
-            {
-                //以下、フレーム数を減らす処理
-                while (this.mListKeyFrame.Count > inFrameNum)
-                {
-                    int inIndex = this.mListKeyFrame.Count - 1;
-                    ClsDatKeyFrame clKeyFrame = this.mListKeyFrame[inIndex];
-                    clKeyFrame.RemoveAll();
-                    this.mListKeyFrame.RemoveAt(inIndex);
-                }
-            }
+            return (true);
         }
-        */
 
         /// <summary>
         /// 行番号割り振り処理
@@ -196,6 +174,11 @@ namespace PrjHikariwoAnim
         /// <param name="clMotion">モーション管理クラス</param>
         public void Assignment(ClsDatMotion clMotion)
         {
+            //以下、表示しなくてはいけない種別かどうかチェックする処理
+            bool isDraw = ClsDatOption.IsDraw(this.mTypeOption);
+            if (!isDraw) return;
+
+            //以下、行番号設定
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
         }
@@ -210,6 +193,10 @@ namespace PrjHikariwoAnim
         /// <param name="clFont">フォント管理クラス</param>
         public void DrawControl(Graphics g, int inSelectLineNo, int inWidth, int inHeight, Font clFont)
         {
+            //以下、表示しなくてはいけない種別かどうかチェックする処理
+            bool isDraw = ClsDatOption.IsDraw(this.mTypeOption);
+            if (!isDraw) return;
+
             //以下、横ライン描画処理
             int inY = FormControl.CELL_HEIGHT;
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
@@ -254,6 +241,10 @@ namespace PrjHikariwoAnim
         /// <param name="inHeight">描画先の高さ</param>
         public void DrawTime(Graphics g, int inSelectLineNo, int inSelectFrame, int inWidth, int inHeight)
         {
+            //以下、表示しなくてはいけない種別かどうかチェックする処理
+            bool isDraw = ClsDatOption.IsDraw(this.mTypeOption);
+            if (!isDraw) return;
+
             SolidBrush clBrush = null;
             int inX = inSelectFrame * FormControl.CELL_WIDTH;
             int inY = this.mLineNo * FormControl.CELL_HEIGHT;
