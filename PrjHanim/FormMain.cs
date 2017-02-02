@@ -174,8 +174,12 @@ namespace PrjHikariwoAnim
                 {
                     //mDicMotion全削除
                     ClsSystem.mDicMotion.Clear();
-                    //listView_Motion.Items全削除
+                    //listView_Motion.Items全削除                    
                     listView_Motion.Items.Clear();
+                    //ImageList.Items全削除
+                    mFormImageList.RemoveAllImage();
+                    //ImageMan全削除
+                    ClsSystem.ImageMan.RemoveAll();
 
                     //ファイルを読み込み
                     //モーション数確認し
@@ -197,30 +201,27 @@ namespace PrjHikariwoAnim
                     }
                     //image再構築が必用？VistView.Hash再取得と再設定が必用か？
                     ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
-
-                    ClsSystem.mMotionSelectKey = psd.mMotionSelectKey;
+                    //ClsSystem.mMotionSelectKey = psd.mMotionSelectKey;
 
                     int cnt=psd.arryMotion.Count();
                     foreach(ClsDatMotion m in psd.arryMotion)
                     {
                         //Motion登録
-                        ClsDatMotion w = listView_AddMotion(m.mName);
-                        //ElementList再構築
-                        w.Restore();
-                        
-                        ClsSystem.mDicMotion.Add(w.GetHashCode(),w);
-                        
-                        
-                    }
+                        ListViewItem lvi = new ListViewItem(m.mName, 2);
+                        listView_Motion.Items.Add(lvi);
+                        lvi.Tag = ClsSystem.mDicMotion.Count;
 
-                    sr.Close();
-                    
-                    //treeView_project_Rebuild();
+                        ClsSystem.mDicMotion.Add(lvi.GetHashCode(), m);
+                        //ElementList再構築
+                        m.Restore();
+                    }
+                    sr.Close();                    
                     this.listView_Motion.Refresh();
-                    System.Media.SystemSounds.Exclamation.Play();
+                    //最初のモーションを選択する
+                    ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
+                    System.Media.SystemSounds.Exclamation.Play();//読込完了音
                 }
             }
-
             ofd.Dispose();
         }
         private void SaveProject_Click(object sender, EventArgs e)

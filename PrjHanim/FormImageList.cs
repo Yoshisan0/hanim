@@ -210,6 +210,11 @@ namespace PrjHikariwoAnim
 
             this.listView.Items.Add(clItem);
         }
+        public void RemoveAllImage()
+        {
+            mListImage.Clear();
+            listView.Items.Clear();
+        }
         private void ResizeImage(Image clImageSrc, ref Image clImageBig, ref Image clImageSmall)
         {
             Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);

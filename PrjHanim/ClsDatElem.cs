@@ -37,9 +37,10 @@ namespace PrjHikariwoAnim
             IN
         }
 
-        [XmlIgnore]//シリアライズ時に循環参照になる
+        [XmlIgnore]//シリアライズ時に循環参照になる Load後再設定
         public ClsDatMotion mMotion;        //親モーション
         public ClsDatElem mElem;            //親エレメント
+        [XmlIgnore]//シリアライズ時に循環参照になる どう保存復帰するか
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
         public ELEMENTS_TYPE mType;          //Default Image
@@ -56,7 +57,9 @@ namespace PrjHikariwoAnim
         //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
         public ClsDatElem()
         {
-
+            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
+            this.mListElem = new List<ClsDatElem>();
+            this.mAttInit = new AttributeBase();
         }
 
         /// <summary>
