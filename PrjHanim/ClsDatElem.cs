@@ -408,28 +408,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// フレーム数変更処理
-        /// </summary>
-        /// <param name="inFrameNum">フレーム数</param>
-        /*
-        public void SetFrameNum(int inFrameNum)
-        {
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
-            {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.SetFrameNum(inFrameNum);
-            }
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.SetFrameNum(inFrameNum);
-            }
-        }
-        */
-
-        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
@@ -439,13 +417,14 @@ namespace PrjHikariwoAnim
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
 
-            if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
-
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.mTab = inTab;  //タブ値設定
-                clOption.Assignment(clMotion);
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.mTab = inTab;  //タブ値設定
+                    clOption.Assignment(clMotion);
+                }
             }
 
             int inCnt, inMax = this.mListElem.Count;
@@ -518,15 +497,16 @@ namespace PrjHikariwoAnim
         /// <param name="inLineNo">行番号</param>
         public void FindOptionFromLineNo(ClsDatMotion clMotion, int inLineNo)
         {
-            if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
-
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.mLineNo != inLineNo) continue;
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    if (clOption.mLineNo != inLineNo) continue;
 
-                clMotion.mWorkOption = clOption;
-                return;
+                    clMotion.mWorkOption = clOption;
+                    return;
+                }
             }
 
             int inCnt, inMax = this.mListElem.Count;
@@ -553,16 +533,17 @@ namespace PrjHikariwoAnim
                 return;
             }
 
-            if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
-
             //以下、子供のオプションをチェックする処理
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.mLineNo == inLineNo)
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
                 {
-                    clMotion.mWorkItem = clOption;
-                    return;
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    if (clOption.mLineNo == inLineNo)
+                    {
+                        clMotion.mWorkItem = clOption;
+                        return;
+                    }
                 }
             }
 
@@ -593,16 +574,17 @@ namespace PrjHikariwoAnim
                 return;
             }
 
-            if (!this.isOpen) return;   //開いていなかったら子供エレメントと子供オプションを見に行かない
-
             //以下、子供のオプションをチェックする処理
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.GetHashCode() == inHashCode)
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
                 {
-                    clMotion.mWorkItem = clOption;
-                    return;
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    if (clOption.GetHashCode() == inHashCode)
+                    {
+                        clMotion.mWorkItem = clOption;
+                        return;
+                    }
                 }
             }
 
@@ -840,13 +822,14 @@ namespace PrjHikariwoAnim
                 g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
-            if (!this.isOpen) return;
-
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
+                }
             }
 
             //以下、子供のエレメント描画処理
@@ -928,13 +911,14 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            if (!this.isOpen) return;
-
             //以下、オプション描画処理
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            if (this.isOpen)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
+                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                {
+                    ClsDatOption clOption = this.mDicOption[enType];
+                    clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
+                }
             }
 
             //以下、子供のエレメント描画処理
