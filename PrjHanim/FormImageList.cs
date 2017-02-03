@@ -215,6 +215,36 @@ namespace PrjHikariwoAnim
             mListImage.Clear();
             listView.Items.Clear();
         }
+
+        /// <summary>
+        /// ImageManからの再登録
+        /// </summary>
+        public void Restore()
+        {
+            //AddImageでやるとIDが振り直されるので新設
+            //ImageManから再登録する
+            ImageChip[] icl = ClsSystem.ImageMan.ToArray();
+            foreach(ImageChip ic in icl)
+            {
+                //以下、アイテム追加処理
+                int inIndexImage = this.imageList.Images.Count;
+                this.mListImage.Add(ic.Img);
+                this.imageList.Images.Add(ic.Img);
+
+                string[] pclCells = new string[3];
+                pclCells[0] = null;
+                pclCells[1] = ic.Path;
+                pclCells[2] = ic.StrMD5;
+
+                ListViewItem clItem = new ListViewItem(pclCells);
+                clItem.ImageIndex = inIndexImage;
+                clItem.ToolTipText = ic.Path + "\n{" + ic.StrMD5 + "}";//
+                clItem.Tag = ic.StrMD5;//TagにもMD5指定
+                clItem.Text = listView.Items.Count.ToString();
+
+                this.listView.Items.Add(clItem);
+            }
+        }
         private void ResizeImage(Image clImageSrc, ref Image clImageBig, ref Image clImageSmall)
         {
             Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);

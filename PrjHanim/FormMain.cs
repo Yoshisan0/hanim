@@ -193,16 +193,12 @@ namespace PrjHikariwoAnim
                     ProjectSaveData psd = new ProjectSaveData();
                     psd = (ProjectSaveData) xs.Deserialize(sr);//デシリアライズ
 
-                    //psd.mDicMotion = ClsSystem.mDicMotion;
-                    foreach(ImageChip ic in psd.ImageChipList)
-                    {
-                        //ClsSystem.ImageMan.AddImageChip(ic);
-                        mFormImageList.AddItem(ic.Path);
-                    }
-                    //image再構築が必用？VistView.Hash再取得と再設定が必用か？
+                    //ImageMan再構築
+                    ClsSystem.ImageMan.FromArray(psd.ImageChipList);//イメージチップ登録
                     ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
-                    //ClsSystem.mMotionSelectKey = psd.mMotionSelectKey;
+                    mFormImageList.Restore();
 
+                    //Motion再構築
                     int cnt=psd.arryMotion.Count();
                     foreach(ClsDatMotion m in psd.arryMotion)
                     {

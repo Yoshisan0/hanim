@@ -72,9 +72,9 @@ namespace PrjHikariwoAnim
             ImageChipList.Clear();
             //ImageHashTable.Clear();
         }
-        public Image GetImageFromID(int ID)
+        public Image GetImageFromIndex(int index)
         {
-            return ImageChipList[ID].Img;
+            return ImageChipList[index].Img;
         }
         /// <summary>
         /// イメージリストの保存
@@ -132,6 +132,7 @@ namespace PrjHikariwoAnim
             if(retChip==null)
             {
                 //新規
+                c.ID = c.GetHashCode();
                 c.refCountUp(1);
                 ImageChipList.Add(c);
                 retChip = c;
@@ -266,14 +267,22 @@ namespace PrjHikariwoAnim
                 ic.RestoreImage();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx"></param>
+        /// <returns></returns>
+        public void FromArray(ImageChip[] icl)
+        {
+            ImageChipList.AddRange(icl);
+        }
         public ImageChip GetImageChipFromIndex(int idx)
         {
             return ImageChipList[idx];
         }
-        public ImageChip GetImageChipFromImageID(int ID)
+        public ImageChip GetImageChipFromID(int ID)
         {
-            return  ImageChipList.Find((ImageChip c) =>(c.SrcID==ID));
+            return  ImageChipList.Find((ImageChip c) =>(c.ID==ID));
         }
         public ImageChip GetImageChipFromHash(int ID)
         {
@@ -367,6 +376,7 @@ namespace PrjHikariwoAnim
             Bitmap dst = srcChip.Img.Clone(rect, srcChip.Img.PixelFormat);
             this.StrMD5 = ClsSystem.GetMD5FromImage(dst);
             this.Img = dst;
+            this.ID = this.GetHashCode();
             return dst;
         }
         public ImageChip(Image img)

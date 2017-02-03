@@ -672,7 +672,7 @@ namespace PrjHikariwoAnim
             ia.SetColorMatrix(colmat);
 
             //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-            ImageChip c = ClsSystem.ImageMan.GetImageChipFromHash(this.ImageChipID);
+            ImageChip c = ClsSystem.ImageMan.GetImageChipFromID(this.ImageChipID);
             if (c == null) { Console.WriteLine("Image:null"); return; }
 
             //原点を部品中心に
