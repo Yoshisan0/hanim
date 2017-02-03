@@ -46,6 +46,8 @@
             this.ToolStripMenuItem_ExpNowFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpCellList = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ExpNowAttribute = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.projectHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.WindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,8 +90,6 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.projectHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -240,6 +240,17 @@
             this.ToolStripMenuItem_ExpNowAttribute.Name = "ToolStripMenuItem_ExpNowAttribute";
             this.ToolStripMenuItem_ExpNowAttribute.Size = new System.Drawing.Size(146, 22);
             this.ToolStripMenuItem_ExpNowAttribute.Text = "NowAttribute";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // projectHistoryToolStripMenuItem
+            // 
+            this.projectHistoryToolStripMenuItem.Name = "projectHistoryToolStripMenuItem";
+            this.projectHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.projectHistoryToolStripMenuItem.Text = "ProjectHistory";
             // 
             // settingToolStripMenuItem
             // 
@@ -748,17 +759,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
-            // projectHistoryToolStripMenuItem
-            // 
-            this.projectHistoryToolStripMenuItem.Name = "projectHistoryToolStripMenuItem";
-            this.projectHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.projectHistoryToolStripMenuItem.Text = "ProjectHistory";
             // 
             // FormMain
             // 

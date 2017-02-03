@@ -756,7 +756,7 @@ namespace PrjHikariwoAnim
 
             //アイテムの登録
             ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.ImageChipID = work.GetHashCode();
+            elem.ImageChipID = work.ID;// work.GetHashCode();
             elem.mAttInit.Width = work.Img.Width;
             elem.mAttInit.Height = work.Img.Height;
 
@@ -1001,7 +1001,7 @@ namespace PrjHikariwoAnim
                     if (ext == ".png")
                     {
                         ImageChip c = new ImageChip();
-                        c.FromPngFile(str);
+                        c.FromPngFile(str,true);
 
                         c =  ClsSystem.ImageMan.AddImageChip(c);
                         this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
@@ -1022,14 +1022,14 @@ namespace PrjHikariwoAnim
             {
                 ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
                 //ImageChipの登録
-                ImageChip work = new ImageChip();
+                ImageChip work;
                 
                 //work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
                 string md5 = (string)lvi.Tag;//ListViewのTagからMD5を取得
                 work =  ClsSystem.ImageMan.GetImageChipFromMD5(md5);//取得したMD5から特定
                 if (work != null)
                 {
-                    ClsSystem.ImageMan.AddImageChip(work);
+                    //ClsSystem.ImageMan.AddImageChip(work);
                     listView_Motion_AddElements(work, sPos.X, sPos.Y);
                     e.Effect = DragDropEffects.Copy;
                 }

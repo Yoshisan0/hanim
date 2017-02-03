@@ -113,7 +113,7 @@ namespace PrjHikariwoAnim
                 //イメージ再読み込みとmd5生成
                 foreach(ImageChip ic in work)
                 {
-                    ic.FromPngFile(ic.Path);
+                    ic.FromPngFile(ic.Path,false);
                 }
                 //仮配列から戻し
                 ImageChipList.Clear();
@@ -144,23 +144,7 @@ namespace PrjHikariwoAnim
             }
             return retChip;
         }
-        /// <summary>
-        /// Add Cell from Cell.ImageID
-        /// </summary>
-        /// <param name="cell">Rectangle</param> 
-        public void AddImageChipFromID(ImageChip chip)
-        {
-            if (chip.SrcID > ImageChipList.Count)
-            {
-                Console.Out.WriteLine("[ImageID]OutofRange");
-                return;
-            }
-            //Cellにイメージ格納
-            Bitmap srcBmp = new Bitmap(ImageChipList[chip.SrcID].Img);
-            Bitmap dstBmp = srcBmp.Clone(chip.Rect, srcBmp.PixelFormat);
-            chip.Img = dstBmp;
-            AddImageChip(chip);//追加
-        }
+
         /// <summary>
         /// イメージからchip情報のrect範囲を抜き出し追加 Add Chip.Rect From Image
         /// </summary>
@@ -211,7 +195,7 @@ namespace PrjHikariwoAnim
             {
                 //it's new
                 ImageChip c = new ImageChip();
-                c.FromPngFile(path);
+                c.FromPngFile(path,true);
                 ImageChipList.Add(c);
                 idx = ImageChipList.Count;
             }
@@ -437,14 +421,20 @@ namespace PrjHikariwoAnim
         }
         //事前にImageManagerレベルで重複チェックすること
         //通常はImagemanager.AddPngFileを使う事！
-        public ImageChip FromPngFile(string path)
+        /// <summary>
+        /// psthからファイルを読み込む
+        /// </summary>
+        /// <param name="path">filePath</param>
+        /// <param name="hashset">SrcIDにhashを入れるか指定</param>
+        /// <returns></returns>
+        public ImageChip FromPngFile(string path,bool hashset)
         {
             Bitmap work = new Bitmap(path);//FileLockの可能性？
             Img = work;
             StrMD5 = ClsSystem.GetMD5FromImage(work);
             Path = path;
             //重複チェック
-            SrcID = this.GetHashCode();
+            if(hashset) SrcID = this.GetHashCode();
             Rect = new Rectangle(0, 0, work.Width, work.Height);
             Name = System.IO.Path.GetFileNameWithoutExtension(path);
             return this ;
@@ -454,7 +444,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void RestoreImage()
         {
-            this.FromPngFile(this.Path);
+            this.FromPngFile(this.Path,false);
             //部分取込
             if (Img.Width != Rect.Width || Img.Height != Rect.Height)
             {

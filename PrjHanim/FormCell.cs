@@ -80,7 +80,7 @@ namespace PrjHikariwoAnim
                     if (ext == ".png")
                     {
                         ImageChip c = new ImageChip();
-                        c.FromPngFile(str);
+                        c.FromPngFile(str,true);
                         ImageMan.AddImageChip(c);
                         //ImageListへ登録と更新
                         //CellListの表示更新
@@ -94,9 +94,10 @@ namespace PrjHikariwoAnim
         {
             if (e.Button == MouseButtons.Left) m_isMouseLDown = true;
             this.mMouseDownPoint = e.Location; //new Point(e.X, e.Y);
+
         }
         private void FormCell_MouseMove(object sender, MouseEventArgs e)
-        {
+        {            
             if (mMouseDownPoint != Point.Empty || m_isMouseLDown)
             {
                 //マウス左押し下げ中にドラッグ中
@@ -112,10 +113,10 @@ namespace PrjHikariwoAnim
                     int sellectIndex = (e.Y / mTumsSize);
                     if (sellectIndex < ImageMan.ChipCount())
                     {                        
-                        panel2.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
+                        panel_list.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
                     }
                 }
-            }
+            }            
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -131,7 +132,7 @@ namespace PrjHikariwoAnim
 
             if (ImageMan.ChipCount() <= 0) return;
 
-            while (drawPos < panel2.Height && cnt < ImageMan.ChipCount())
+            while (drawPos < panel_list.Height && cnt < ImageMan.ChipCount())
             {
                 Image src = ImageMan.GetImageChipFromIndex(cnt).Img;
                 if (src == null)
@@ -145,7 +146,6 @@ namespace PrjHikariwoAnim
                 float rf = Math.Min(rw, rh);
                 Point ds = new Point((int)(src.Width * rf), (int)(src.Height * rf));
 
-                //e.Graphics.DrawImage(src,(bSize / 2 - (ds.X / 2)),drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
                 e.Graphics.DrawImage(src, (bSize / 2 - (ds.X / 2)), drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
@@ -160,6 +160,7 @@ namespace PrjHikariwoAnim
                 drawPos += bSize;
                 cnt++;
             }
+            e.Graphics.Dispose();
         }
 
         private void FormCell_FormClosing(object sender, FormClosingEventArgs e)
@@ -169,6 +170,25 @@ namespace PrjHikariwoAnim
 
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_CellList.Checked = false;
+        }
+
+        private void panel_list_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_isMouseLDown = false;
+            //Cell Select
+            int selX = e.X / mTumsSize;
+            int selY = e.Y / mTumsSize;
+            int sel = (selY * (panel_list.Width / mTumsSize)) + selX;
+            if (sel < ClsSystem.ImageMan.ChipCount())
+            {
+                ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected = !ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected;
+                panel_list.Refresh();
+            }
+        }
+
+        private void Delbutton_Click(object sender, EventArgs e)
+        {
+            ClsSystem.ImageMan.RemoveSelectedCell();
         }
     }
 }
