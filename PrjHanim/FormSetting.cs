@@ -75,5 +75,15 @@ namespace PrjHikariwoAnim
             }
             cdg.Dispose();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClsSystem.mSetting.mFileHistory.Clear();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            ClsSystem.mSetting.mProjectAutoReload = this.check_AutoReload.Checked;
+        }
     }
 }

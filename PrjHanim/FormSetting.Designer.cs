@@ -30,12 +30,18 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label_CenterLineColor = new System.Windows.Forms.Label();
-            this.panel_MainCenterLineColor = new System.Windows.Forms.Panel();
-            this.label_GridColor = new System.Windows.Forms.Label();
-            this.panel_MainGridColor = new System.Windows.Forms.Panel();
-            this.panel_MainBackColor = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.label_BackColor = new System.Windows.Forms.Label();
+            this.label_CenterLineColor = new System.Windows.Forms.Label();
+            this.panel_MainBackColor = new System.Windows.Forms.Panel();
+            this.panel_MainCenterLineColor = new System.Windows.Forms.Panel();
+            this.panel_MainGridColor = new System.Windows.Forms.Panel();
+            this.label_GridColor = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
@@ -52,17 +58,13 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.button_Apply = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.check_AutoReload = new System.Windows.Forms.CheckBox();
+            this.HistoryClear = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -94,6 +96,78 @@
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.HistoryClear);
+            this.panel2.Controls.Add(this.check_AutoReload);
+            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Location = new System.Drawing.Point(6, 6);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(289, 142);
+            this.panel2.TabIndex = 8;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 56);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 12);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Directory";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label8.Location = new System.Drawing.Point(14, 34);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 12);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Name";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(11, 13);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "ProjectSetting";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label_BackColor);
+            this.panel1.Controls.Add(this.label_CenterLineColor);
+            this.panel1.Controls.Add(this.panel_MainBackColor);
+            this.panel1.Controls.Add(this.panel_MainCenterLineColor);
+            this.panel1.Controls.Add(this.panel_MainGridColor);
+            this.panel1.Controls.Add(this.label_GridColor);
+            this.panel1.Location = new System.Drawing.Point(301, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(166, 142);
+            this.panel1.TabIndex = 7;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 11);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 12);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "PreViewScreenSetting";
+            // 
+            // label_BackColor
+            // 
+            this.label_BackColor.AutoSize = true;
+            this.label_BackColor.Location = new System.Drawing.Point(14, 32);
+            this.label_BackColor.Name = "label_BackColor";
+            this.label_BackColor.Size = new System.Drawing.Size(60, 12);
+            this.label_BackColor.TabIndex = 0;
+            this.label_BackColor.Text = "Back color";
+            // 
             // label_CenterLineColor
             // 
             this.label_CenterLineColor.AutoSize = true;
@@ -102,35 +176,6 @@
             this.label_CenterLineColor.Size = new System.Drawing.Size(90, 12);
             this.label_CenterLineColor.TabIndex = 5;
             this.label_CenterLineColor.Text = "Center line color";
-            // 
-            // panel_MainCenterLineColor
-            // 
-            this.panel_MainCenterLineColor.BackColor = System.Drawing.Color.DarkRed;
-            this.panel_MainCenterLineColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_MainCenterLineColor.Location = new System.Drawing.Point(110, 86);
-            this.panel_MainCenterLineColor.Name = "panel_MainCenterLineColor";
-            this.panel_MainCenterLineColor.Size = new System.Drawing.Size(49, 24);
-            this.panel_MainCenterLineColor.TabIndex = 4;
-            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
-            // 
-            // label_GridColor
-            // 
-            this.label_GridColor.AutoSize = true;
-            this.label_GridColor.Location = new System.Drawing.Point(14, 62);
-            this.label_GridColor.Name = "label_GridColor";
-            this.label_GridColor.Size = new System.Drawing.Size(55, 12);
-            this.label_GridColor.TabIndex = 3;
-            this.label_GridColor.Text = "Grid color";
-            // 
-            // panel_MainGridColor
-            // 
-            this.panel_MainGridColor.BackColor = System.Drawing.Color.DarkGreen;
-            this.panel_MainGridColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_MainGridColor.Location = new System.Drawing.Point(110, 56);
-            this.panel_MainGridColor.Name = "panel_MainGridColor";
-            this.panel_MainGridColor.Size = new System.Drawing.Size(49, 24);
-            this.panel_MainGridColor.TabIndex = 2;
-            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
             // panel_MainBackColor
             // 
@@ -142,14 +187,34 @@
             this.panel_MainBackColor.TabIndex = 1;
             this.panel_MainBackColor.Click += new System.EventHandler(this.panel_Color_Click);
             // 
-            // label_BackColor
+            // panel_MainCenterLineColor
             // 
-            this.label_BackColor.AutoSize = true;
-            this.label_BackColor.Location = new System.Drawing.Point(14, 32);
-            this.label_BackColor.Name = "label_BackColor";
-            this.label_BackColor.Size = new System.Drawing.Size(60, 12);
-            this.label_BackColor.TabIndex = 0;
-            this.label_BackColor.Text = "Back color";
+            this.panel_MainCenterLineColor.BackColor = System.Drawing.Color.DarkRed;
+            this.panel_MainCenterLineColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_MainCenterLineColor.Location = new System.Drawing.Point(110, 86);
+            this.panel_MainCenterLineColor.Name = "panel_MainCenterLineColor";
+            this.panel_MainCenterLineColor.Size = new System.Drawing.Size(49, 24);
+            this.panel_MainCenterLineColor.TabIndex = 4;
+            this.panel_MainCenterLineColor.Click += new System.EventHandler(this.panel_Color_Click);
+            // 
+            // panel_MainGridColor
+            // 
+            this.panel_MainGridColor.BackColor = System.Drawing.Color.DarkGreen;
+            this.panel_MainGridColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_MainGridColor.Location = new System.Drawing.Point(110, 56);
+            this.panel_MainGridColor.Name = "panel_MainGridColor";
+            this.panel_MainGridColor.Size = new System.Drawing.Size(49, 24);
+            this.panel_MainGridColor.TabIndex = 2;
+            this.panel_MainGridColor.Click += new System.EventHandler(this.panel_Color_Click);
+            // 
+            // label_GridColor
+            // 
+            this.label_GridColor.AutoSize = true;
+            this.label_GridColor.Location = new System.Drawing.Point(14, 62);
+            this.label_GridColor.Name = "label_GridColor";
+            this.label_GridColor.Size = new System.Drawing.Size(55, 12);
+            this.label_GridColor.TabIndex = 3;
+            this.label_GridColor.Text = "Grid color";
             // 
             // tabPage2
             // 
@@ -312,66 +377,26 @@
             this.button_Apply.UseVisualStyleBackColor = true;
             this.button_Apply.Click += new System.EventHandler(this.button_Apply_Click);
             // 
-            // label6
+            // check_AutoReload
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 11);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(118, 12);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "PreViewScreenSetting";
+            this.check_AutoReload.AutoSize = true;
+            this.check_AutoReload.Location = new System.Drawing.Point(13, 104);
+            this.check_AutoReload.Name = "check_AutoReload";
+            this.check_AutoReload.Size = new System.Drawing.Size(127, 16);
+            this.check_AutoReload.TabIndex = 4;
+            this.check_AutoReload.Text = "Project Auto Reload";
+            this.check_AutoReload.UseVisualStyleBackColor = true;
+            this.check_AutoReload.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // panel1
+            // HistoryClear
             // 
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label_BackColor);
-            this.panel1.Controls.Add(this.label_CenterLineColor);
-            this.panel1.Controls.Add(this.panel_MainBackColor);
-            this.panel1.Controls.Add(this.panel_MainCenterLineColor);
-            this.panel1.Controls.Add(this.panel_MainGridColor);
-            this.panel1.Controls.Add(this.label_GridColor);
-            this.panel1.Location = new System.Drawing.Point(301, 6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(166, 142);
-            this.panel1.TabIndex = 7;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Location = new System.Drawing.Point(6, 6);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(289, 142);
-            this.panel2.TabIndex = 8;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 13);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(77, 12);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "ProjectSetting";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label8.Location = new System.Drawing.Point(14, 34);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 12);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Name";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 56);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 12);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Directory";
+            this.HistoryClear.Location = new System.Drawing.Point(13, 119);
+            this.HistoryClear.Name = "HistoryClear";
+            this.HistoryClear.Size = new System.Drawing.Size(127, 23);
+            this.HistoryClear.TabIndex = 5;
+            this.HistoryClear.Text = "Clear FileHistory";
+            this.HistoryClear.UseVisualStyleBackColor = true;
+            this.HistoryClear.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormSetting
             // 
@@ -386,12 +411,12 @@
             this.Load += new System.EventHandler(this.FormSetting_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -428,5 +453,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox check_AutoReload;
+        private System.Windows.Forms.Button HistoryClear;
     }
 }

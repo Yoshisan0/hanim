@@ -38,6 +38,11 @@ namespace PrjHikariwoAnim
         public int mWindowMain_WidthGrid;
         public bool mWindowRateGraph_DrawGrid;
         public string mLastImageDirectory;
+        
+        //FileHistory 先頭が新しくなる セーブ時最大数に制限
+        public List<string> mFileHistory;
+        //自動リロード
+        public bool mProjectAutoReload;
 
         /// <summary>
         /// コンストラクタ
@@ -69,6 +74,8 @@ namespace PrjHikariwoAnim
             this.mWindowMain_CellList = true;
             this.mWindowRateGraph_DrawGrid = true;
             this.mLastImageDirectory = "";
+            this.mProjectAutoReload = false;
+            this.mFileHistory = new List<string>();
         }
 
         /// <summary>
@@ -85,6 +92,12 @@ namespace PrjHikariwoAnim
             MemoryStream clMemStream = new MemoryStream();
             clSerializer.WriteObject(clMemStream, this);
             string clBuffer = Encoding.UTF8.GetString(clMemStream.ToArray());
+
+            //FileHistoryを最大数 10 に制限する
+            if(mFileHistory.Count()>10)
+            {
+                mFileHistory.RemoveRange(10, mFileHistory.Count() - 10);
+            }
 
             //以下、保存処理
             File.WriteAllText(clPath, clBuffer);

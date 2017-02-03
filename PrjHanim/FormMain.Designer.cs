@@ -36,7 +36,7 @@
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.panel_PreView = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_New = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Load = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,16 +48,16 @@
             this.ToolStripMenuItem_ExpNowAttribute = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Setting = new System.Windows.Forms.ToolStripMenuItem();
-            this.ウインドウToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_ImageList = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Control = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Attribute = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CellList = new System.Windows.Forms.ToolStripMenuItem();
-            this.あまみさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AmamiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.popuptestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.よしさんテストToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.YosiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugExport = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +88,8 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.projectHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -153,29 +155,31 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ファイルToolStripMenuItem,
+            this.FileToolStripMenuItem,
             this.settingToolStripMenuItem,
-            this.ウインドウToolStripMenuItem,
-            this.あまみさんテストToolStripMenuItem,
-            this.よしさんテストToolStripMenuItem});
+            this.WindowToolStripMenuItem,
+            this.AmamiTestToolStripMenuItem,
+            this.YosiTestToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(684, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // ファイルToolStripMenuItem
+            // FileToolStripMenuItem
             // 
-            this.ファイルToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_New,
             this.ToolStripMenuItem_Load,
             this.ToolStripMenuItem_Save,
             this.ToolStripMenuItem_SaveAs,
             this.toolStripSeparator1,
-            this.ToolStripMenuItem_exports});
-            this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
-            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.ファイルToolStripMenuItem.Text = "File(&F)";
+            this.ToolStripMenuItem_exports,
+            this.toolStripSeparator2,
+            this.projectHistoryToolStripMenuItem});
+            this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.FileToolStripMenuItem.Text = "File(&F)";
             // 
             // ToolStripMenuItem_New
             // 
@@ -252,16 +256,16 @@
             this.ToolStripMenuItem_Setting.Text = "Setting(&S)";
             this.ToolStripMenuItem_Setting.Click += new System.EventHandler(this.ToolStripMenuItem_Setting_Click);
             // 
-            // ウインドウToolStripMenuItem
+            // WindowToolStripMenuItem
             // 
-            this.ウインドウToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.WindowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_ImageList,
             this.ToolStripMenuItem_Control,
             this.ToolStripMenuItem_Attribute,
             this.ToolStripMenuItem_CellList});
-            this.ウインドウToolStripMenuItem.Name = "ウインドウToolStripMenuItem";
-            this.ウインドウToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
-            this.ウインドウToolStripMenuItem.Text = "Window(&W)";
+            this.WindowToolStripMenuItem.Name = "WindowToolStripMenuItem";
+            this.WindowToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.WindowToolStripMenuItem.Text = "Window(&W)";
             // 
             // ToolStripMenuItem_ImageList
             // 
@@ -294,15 +298,15 @@
             this.ToolStripMenuItem_CellList.Text = "CellList (&L)";
             this.ToolStripMenuItem_CellList.Click += new System.EventHandler(this.TSMenu_CellList_Click);
             // 
-            // あまみさんテストToolStripMenuItem
+            // AmamiTestToolStripMenuItem
             // 
-            this.あまみさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AmamiTestToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeImageListToolStripMenuItem,
             this.readImageListToolStripMenuItem,
             this.popuptestToolStripMenuItem});
-            this.あまみさんテストToolStripMenuItem.Name = "あまみさんテストToolStripMenuItem";
-            this.あまみさんテストToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.あまみさんテストToolStripMenuItem.Text = "あまみさんテスト";
+            this.AmamiTestToolStripMenuItem.Name = "AmamiTestToolStripMenuItem";
+            this.AmamiTestToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.AmamiTestToolStripMenuItem.Text = "あまみさんテスト";
             // 
             // writeImageListToolStripMenuItem
             // 
@@ -324,17 +328,17 @@
             this.popuptestToolStripMenuItem.Text = "popuptest";
             this.popuptestToolStripMenuItem.Click += new System.EventHandler(this.popuptestToolStripMenuItem_Click);
             // 
-            // よしさんテストToolStripMenuItem
+            // YosiTestToolStripMenuItem
             // 
-            this.よしさんテストToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.YosiTestToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_DebugGraph,
             this.ToolStripMenuItem_DebugRootOpen,
             this.ToolStripMenuItem_DebugExport,
             this.ToolStripMenuItem_DebugSave,
             this.ToolStripMenuItem_DebugLoad});
-            this.よしさんテストToolStripMenuItem.Name = "よしさんテストToolStripMenuItem";
-            this.よしさんテストToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
-            this.よしさんテストToolStripMenuItem.Text = "よしさんテスト";
+            this.YosiTestToolStripMenuItem.Name = "YosiTestToolStripMenuItem";
+            this.YosiTestToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.YosiTestToolStripMenuItem.Text = "よしさんテスト";
             // 
             // ToolStripMenuItem_DebugGraph
             // 
@@ -745,6 +749,17 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // projectHistoryToolStripMenuItem
+            // 
+            this.projectHistoryToolStripMenuItem.Name = "projectHistoryToolStripMenuItem";
+            this.projectHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.projectHistoryToolStripMenuItem.Text = "ProjectHistory";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -794,7 +809,7 @@
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.Panel panel_PreView;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ウインドウToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem WindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ImageList;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Control;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Attribute;
@@ -812,7 +827,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ContextMenuStrip SubMenu_Prpject;
         private System.Windows.Forms.Button button_MotionNew;
-        private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_New;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Load;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Save;
@@ -831,9 +846,9 @@
         private System.Windows.Forms.ToolTip toolTipMain;
         private System.Windows.Forms.SplitContainer splitContainerLeft;
         private System.Windows.Forms.Panel panel_MotionList_Base;
-        private System.Windows.Forms.ToolStripMenuItem よしさんテストToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem YosiTestToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugGraph;
-        private System.Windows.Forms.ToolStripMenuItem あまみさんテストToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AmamiTestToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeImageListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readImageListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugExport;
@@ -848,6 +863,8 @@
         private System.Windows.Forms.ToolStripMenuItem popuptestToolStripMenuItem;
         private System.Windows.Forms.ListView listView_Motion;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem projectHistoryToolStripMenuItem;
     }
 }
 

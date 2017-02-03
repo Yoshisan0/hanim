@@ -123,6 +123,24 @@ namespace PrjHikariwoAnim
             listView_Motion.Items[0].Selected = true;
             ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
 
+            //FileHistory追加
+
+            foreach (string str in ClsSystem.mSetting.mFileHistory)
+            {
+                ToolStripMenuItem tsi = new ToolStripMenuItem(str,null,TSMEnu_History_Click);
+                tsi.Tag = str;
+                //projectHistoryToolStripMenuItem
+                projectHistoryToolStripMenuItem.DropDown.Items.Add(tsi);
+                //FileToolStripMenuItem.DropDown.Items.Add(tsi);
+            }
+            //
+            if(ClsSystem.mSetting.mProjectAutoReload)
+            {
+                if (ClsSystem.mSetting.mFileHistory.Count > 1)
+                {
+                    LoadProject(ClsSystem.mSetting.mFileHistory[0]);
+                }
+            }
 
             //背景の再描画をキャンセル(ちらつき抑制)
             //効果いまいち
@@ -170,55 +188,61 @@ namespace PrjHikariwoAnim
             ofd.DefaultExt = ".hap";
             if (ofd.ShowDialog()==DialogResult.OK)
             {
-                if (ClsSystem.mDicMotion!=null)
-                {
-                    //mDicMotion全削除
-                    ClsSystem.mDicMotion.Clear();
-                    //listView_Motion.Items全削除                    
-                    listView_Motion.Items.Clear();
-                    //ImageList.Items全削除
-                    mFormImageList.RemoveAllImage();
-                    //ImageMan全削除
-                    ClsSystem.ImageMan.RemoveAll();
+                LoadProject(ofd.FileName);
 
-                    //ファイルを読み込み
-                    //モーション数確認し
-                    //ListView_MotionとmDicMotionの同時再作成
-                    //初期モーションを指定し再描画
-                    //の流れ　かな
-
-                    XmlSerializer xs = new XmlSerializer(typeof(ProjectSaveData));
-                    StreamReader sr = new StreamReader(ofd.FileName);
-                    //仮データ
-                    ProjectSaveData psd = new ProjectSaveData();
-                    psd = (ProjectSaveData) xs.Deserialize(sr);//デシリアライズ
-
-                    //ImageMan再構築
-                    ClsSystem.ImageMan.FromArray(psd.ImageChipList);//イメージチップ登録
-                    ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
-                    mFormImageList.Restore();
-
-                    //Motion再構築
-                    int cnt=psd.arryMotion.Count();
-                    foreach(ClsDatMotion m in psd.arryMotion)
-                    {
-                        //Motion登録
-                        ListViewItem lvi = new ListViewItem(m.mName, 2);
-                        listView_Motion.Items.Add(lvi);
-                        lvi.Tag = ClsSystem.mDicMotion.Count;
-
-                        ClsSystem.mDicMotion.Add(lvi.GetHashCode(), m);
-                        //ElementList再構築
-                        m.Restore();
-                    }
-                    sr.Close();                    
-                    this.listView_Motion.Refresh();
-                    //最初のモーションを選択する
-                    ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
-                    System.Media.SystemSounds.Exclamation.Play();//読込完了音
-                }
+                this.listView_Motion.Refresh();
+                //最初のモーションを選択する
+                ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
+                System.Media.SystemSounds.Exclamation.Play();//読込完了音                
             }
             ofd.Dispose();
+        }
+
+        public void LoadProject(string fname)
+        {
+            if (ClsSystem.mDicMotion != null)
+            {
+                //mDicMotion全削除
+                ClsSystem.mDicMotion.Clear();
+                //listView_Motion.Items全削除                    
+                listView_Motion.Items.Clear();
+                //ImageList.Items全削除
+                mFormImageList.RemoveAllImage();
+                //ImageMan全削除
+                ClsSystem.ImageMan.RemoveAll();
+
+                //ファイルを読み込み
+                //モーション数確認し
+                //ListView_MotionとmDicMotionの同時再作成
+                //初期モーションを指定し再描画
+                //の流れ　かな
+
+                XmlSerializer xs = new XmlSerializer(typeof(ProjectSaveData));
+                StreamReader sr = new StreamReader(fname);
+                //仮データ
+                ProjectSaveData psd = new ProjectSaveData();
+                psd = (ProjectSaveData)xs.Deserialize(sr);//デシリアライズ
+
+                //ImageMan再構築
+                ClsSystem.ImageMan.FromArray(psd.ImageChipList);//イメージチップ登録
+                ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
+                mFormImageList.Restore();
+
+                //Motion再構築
+                int cnt = psd.arryMotion.Count();
+                foreach (ClsDatMotion m in psd.arryMotion)
+                {
+                    //Motion登録
+                    ListViewItem lvi = new ListViewItem(m.mName, 2);
+                    listView_Motion.Items.Add(lvi);
+                    lvi.Tag = ClsSystem.mDicMotion.Count;
+
+                    ClsSystem.mDicMotion.Add(lvi.GetHashCode(), m);
+                    //ElementList再構築
+                    m.Restore();
+                }
+                sr.Close();
+            }
         }
         private void SaveProject_Click(object sender, EventArgs e)
         {
@@ -267,8 +291,15 @@ namespace PrjHikariwoAnim
                 sw.Close();
 
                 System.Media.SystemSounds.Exclamation.Play();
+                //FileHistory Store
+                ClsSystem.mSetting.mFileHistory.Add(sfd.FileName);
             }
             sfd.Dispose();
+        }
+        private void TSMEnu_History_Click(object sender,EventArgs e)
+        {
+            ToolStripMenuItem ts = (ToolStripMenuItem)sender;
+            LoadProject(ts.Text);
         }
         private void TSMenu_ImageList_Click(object sender, EventArgs e)
         {
