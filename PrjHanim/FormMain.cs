@@ -131,7 +131,7 @@ namespace PrjHikariwoAnim
 
             foreach (string str in ClsSystem.mSetting.mFileHistory)
             {
-                ToolStripMenuItem tsi = new ToolStripMenuItem(str,null,TSMEnu_History_Click);
+                ToolStripMenuItem tsi = new ToolStripMenuItem(str,null,TSMenu_History_Click);
                 tsi.Tag = str;
                 //projectHistoryToolStripMenuItem
                 projectHistoryToolStripMenuItem.DropDown.Items.Add(tsi);
@@ -185,7 +185,23 @@ namespace PrjHikariwoAnim
             }
             */
         }
+        /// <summary>
+        /// 新規プロジェクト
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripMenuItem_New_Click(object sender, EventArgs e)
+        {
+            //NewProject
+            //ClearAll
+            ClsSystem.ImageMan.RemoveAll();
+            ClsSystem.mDicMotion.Clear();
+            mFormImageList.RemoveAllImage();
 
+            mFormControl.RefreshAll();
+            mFormImageList.Refresh();
+            mFormCell.Refresh();
+        }
         /// <summary>
         /// 読み込み
         /// </summary>
@@ -208,7 +224,6 @@ namespace PrjHikariwoAnim
             }
             ofd.Dispose();
         }
-
         /// <summary>
         /// プロジェクト読み込み処理
         /// </summary>
@@ -263,7 +278,6 @@ namespace PrjHikariwoAnim
 
             ClsSystem.Load(clFilePath);
         }
-
         /// <summary>
         /// 保存
         /// </summary>
@@ -313,7 +327,6 @@ namespace PrjHikariwoAnim
 
             //ClsSystem.Save(sfd.FileName);
         }
-
         /// <summary>
         /// 名前を付けて保存
         /// </summary>
@@ -335,7 +348,6 @@ namespace PrjHikariwoAnim
             }
             sfd.Dispose();
         }
-
         /// <summary>
         /// プロジェクト保存処理
         /// </summary>
@@ -345,7 +357,7 @@ namespace PrjHikariwoAnim
             ClsSystem.Save(clFilePath);
         }
 
-        private void TSMEnu_History_Click(object sender,EventArgs e)
+        private void TSMenu_History_Click(object sender,EventArgs e)
         {
             ToolStripMenuItem ts = (ToolStripMenuItem)sender;
             LoadProject(ts.Text);
@@ -373,6 +385,7 @@ namespace PrjHikariwoAnim
         private void TSMenu_CellList_Click(object sender, EventArgs e)
         {
         }
+
         private void CB_ImageList_CheckedChanged(object sender, EventArgs e)
         {
             if (mFormImageList != null) mFormImageList.Visible = checkBox_ImageList.Checked;
@@ -403,6 +416,7 @@ namespace PrjHikariwoAnim
             this.mFormImageList.Location = new Point(Location.X - this.mFormImageList.Width, Location.Y);
             this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y + Height);
         }
+
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
         {
             this.mKeys = e.KeyData;
@@ -1122,16 +1136,15 @@ namespace PrjHikariwoAnim
             {
                 e.Effect = DragDropEffects.Copy;
             }
-
             if (e.Data.GetDataPresent(typeof(ImageChip)))
             {
                 e.Effect = DragDropEffects.Copy;
             }
-
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Copy;
             }
+
         }
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -1452,7 +1465,6 @@ namespace PrjHikariwoAnim
             ClsSetting clSetting = new ClsSetting();
             clSetting.Save();
         }
-
         private void ToolStripMenuItem_DebugLoad_Click(object sender, EventArgs e)
         {
             using (FileStream clStream = new FileStream("C:\\Users\\Yoshi\\Desktop\\hoge.json", FileMode.Open))
@@ -1481,7 +1493,6 @@ namespace PrjHikariwoAnim
                 ClsSystem.ImageMan.SaveToFile(sfd.FileName,".ximg");
             }
         }
-
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
             Dictionary<string, object> clDicFile = new Dictionary<string, object>();
