@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsDatKeyFrame
     {
-        public ClsTween mTween; //トゥイーン管理クラス
+        public ClsDatTween mTween; //トゥイーン管理クラス
 
         /// <summary>
         /// コンストラクタ
@@ -36,6 +38,16 @@ namespace PrjHikariwoAnim
         public Dictionary<string, object> Export()
         {
             return (null);
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        public void Save()
+        {
+            ClsSystem.mSaveData.AddKeyFrame(this);
+
+            this.mTween.Save();
         }
     }
 }

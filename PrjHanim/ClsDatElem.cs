@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsDatElem : ClsDatItem
     {
         public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
@@ -48,7 +47,7 @@ namespace PrjHikariwoAnim
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
-        public int ImageChipID;             //イメージID
+        public int mImageChipID;            //イメージID
         [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
@@ -242,6 +241,21 @@ namespace PrjHikariwoAnim
             */
 
             return (null);
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        /// <returns>出力テーブル</returns>
+        public void Save()
+        {
+            ClsSystem.mSaveData.AddElem(this);
+
+            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            {
+                ClsDatOption clDatOption = this.mDicOption[enType];
+                clDatOption.Save();
+            }
         }
 
         /// <summary>
@@ -672,7 +686,7 @@ namespace PrjHikariwoAnim
             ia.SetColorMatrix(colmat);
 
             //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-            ImageChip c = ClsSystem.ImageMan.GetImageChipFromID(this.ImageChipID);
+            ImageChip c = ClsSystem.ImageMan.GetImageChipFromID(this.mImageChipID);
             if (c == null) { Console.WriteLine("Image:null"); return; }
 
             //原点を部品中心に

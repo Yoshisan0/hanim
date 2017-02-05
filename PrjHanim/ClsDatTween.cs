@@ -6,7 +6,7 @@ using System.Text;
 namespace PrjHikariwoAnim
 {
     [Serializable]
-    public class ClsTween
+    public class ClsDatTween
     {
         //TweenのParamなので所在を明確にする為ここに移動しました amami 11/27
         //どのパラメータに対してかの指定
@@ -37,7 +37,7 @@ namespace PrjHikariwoAnim
         public Vector3[] mListVec;
 
         //シリアライザ用
-        public ClsTween() { }
+        public ClsDatTween() { }
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -46,7 +46,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="clPos">座標</param>
         /// <param name="pclVec">各ベクトル</param>
-        public ClsTween(EnmParam enParam, int inFrmStart, int inFrmEnd, Vector3 clPos, Vector3[] pclVec)
+        public ClsDatTween(EnmParam enParam, int inFrmStart, int inFrmEnd, Vector3 clPos, Vector3[] pclVec)
         {
             this.mParam = enParam;
             this.mFrmStart = inFrmStart;
@@ -71,10 +71,18 @@ namespace PrjHikariwoAnim
         /// クローン処理
         /// </summary>
         /// <returns>トゥイーン情報</returns>
-        public ClsTween Clone()
+        public ClsDatTween Clone()
         {
-            ClsTween clTween = new ClsTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mPos, this.mListVec);
+            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mPos, this.mListVec);
             return (clTween);
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        public void Save()
+        {
+            ClsSystem.mSaveData.AddTween(this);
         }
     }
 }

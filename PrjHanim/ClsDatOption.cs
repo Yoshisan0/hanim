@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsDatOption : ClsDatItem
     {
         public enum TYPE_OPTION
@@ -97,6 +99,20 @@ namespace PrjHikariwoAnim
         public Dictionary<string, object> Export()
         {
             return (null);
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        public void Save()
+        {
+            ClsSystem.mSaveData.AddOption(this);
+
+            foreach (int inKey in this.mDicKeyFrame.Keys)
+            {
+                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
+                clKeyFrame.Save();
+            }
         }
 
         /// <summary>

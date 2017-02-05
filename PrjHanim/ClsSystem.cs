@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,6 +19,7 @@ namespace PrjHikariwoAnim
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
         public static ImageManagerBase ImageMan;
+        public static ClsFileData mSaveData;
 
         /// <summary>
         /// 初期化処理
@@ -70,6 +72,46 @@ namespace PrjHikariwoAnim
             {
                 ClsSystem.mSetting.Save();
             }
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        /// <param name="clFileName">ファイル名</param>
+        public static void Save(string clFileName)
+        {
+            ClsSystem.mSaveData = new ClsFileData();
+            ClsSystem.mSaveData.mMotionSelectKey = ClsSystem.mMotionSelectKey;
+            ClsSystem.mSaveData.mMotionCount = ClsSystem.mDicMotion.Count;
+
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
+                clMotion.Save();
+            }
+
+            //ここでImageをToArray
+
+
+
+            //名前空間出力抑制
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add(String.Empty, String.Empty);
+            XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
+            using (StreamWriter sw = new StreamWriter(clFileName))
+            {
+                //全自動シリアライズテスト
+                xs.Serialize(sw, ClsSystem.mSaveData);
+                sw.Close();
+            }
+        }
+
+        /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clFileName">ファイル名</param>
+        public static void Load(string clFileName)
+        {
         }
 
         public static string GetAppFileName()
@@ -207,21 +249,5 @@ namespace PrjHikariwoAnim
             return (clJsonData);
         }
 
-    }
-
-    //ちょこっとテスト
-    [Serializable]
-    [XmlRoot("HanimProjectData")]
-    public class ProjectSaveData
-    {
-        public string Header="";
-        public int ver = 1;
-    
-        public ImageChip[] ImageChipList;//ImageChipList
-        public int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
-        public int MotionCount;
-        public ClsDatMotion[] arryMotion;//ArryMotion
-        //public Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
-        
     }
 }

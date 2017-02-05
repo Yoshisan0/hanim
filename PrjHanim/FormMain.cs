@@ -13,7 +13,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
-
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Collections;
 
 namespace PrjHikariwoAnim
 {
@@ -182,6 +183,11 @@ namespace PrjHikariwoAnim
             */
         }
 
+        /// <summary>
+        /// 読み込み
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoadProject_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -191,6 +197,7 @@ namespace PrjHikariwoAnim
                 LoadProject(ofd.FileName);
 
                 this.listView_Motion.Refresh();
+
                 //最初のモーションを選択する
                 ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
                 System.Media.SystemSounds.Exclamation.Play();//読込完了音                
@@ -198,8 +205,13 @@ namespace PrjHikariwoAnim
             ofd.Dispose();
         }
 
-        public void LoadProject(string fname)
+        /// <summary>
+        /// プロジェクト読み込み処理
+        /// </summary>
+        /// <param name="clFilePath">ファイルパス</param>
+        public void LoadProject(string clFilePath)
         {
+            /*
             if (ClsSystem.mDicMotion != null)
             {
                 //mDicMotion全削除
@@ -243,59 +255,92 @@ namespace PrjHikariwoAnim
                 }
                 sr.Close();
             }
+            */
+
+            ClsSystem.Load(clFilePath);
         }
+
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveProject_Click(object sender, EventArgs e)
+        {
+            //.hapに含むもの
+            //1:全体プロジェクトデータ
+            // Project
+            //  -string:FileHeader
+            //   {
+            //    -FileDiscription
+            //    -string:Version {Master:major:minor:Option}
+            //    -string:ProjectName
+            //    -string:Creator?
+            //    -int:ImageManager.Count
+            //    -int:MotionCount
+            //    }
+            //     ImageManagerData
+            //      -ImageManager[]
+            //      -ClsImageData{ }
+
+            //     MotionData(mDicMotionの中身)
+            //      -Motion[]
+            //      {
+            //          -ElementList[] 
+            //      }
+                
+            /*
+            //名前空間出力抑制
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add(String.Empty, String.Empty);
+            XmlSerializer xs=new XmlSerializer(typeof (ProjectSaveData));
+            //StreamWriter sw = new StreamWriter(sfd.FileName);
+            FileStream sw = new FileStream(sfd.FileName, FileMode.Create);
+
+            //全自動シリアライズテスト
+            ProjectSaveData psd = new ProjectSaveData();
+            psd.mMotionSelectKey = ClsSystem.mMotionSelectKey;
+            psd.MotionCount = ClsSystem.mDicMotion.Count;
+            psd.arryMotion = ClsSystem.mDicMotion.Values.ToArray();
+            //psd.mDicMotion = ClsSystem.mDicMotion;
+            psd.ImageChipList = ClsSystem.ImageMan.ToArray();
+            xs.Serialize(sw,psd);
+            */
+
+            //ClsSystem.Save(sfd.FileName);
+        }
+
+        /// <summary>
+        /// 名前を付けて保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = ".hap";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
+                this.SaveProject(sfd.FileName);
 
-                //.hapに含むもの
-                //1:全体プロジェクトデータ
-                // Project
-                //  -string:FileHeader
-                //   {
-                //    -FileDiscription
-                //    -string:Version {Master:major:minor:Option}
-                //    -string:ProjectName
-                //    -string:Creator?
-                //    -int:ImageManager.Count
-                //    -int:MotionCount
-                //    }
-                //     ImageManagerData
-                //      -ImageManager[]
-                //      -ClsImageData{ }
+                this.listView_Motion.Refresh();
 
-                //     MotionData(mDicMotionの中身)
-                //      -Motion[]
-                //      {
-                //          -ElementList[] 
-                //      }
-                
-
-                //名前空間出力抑制
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                ns.Add(String.Empty, String.Empty);
-                XmlSerializer xs=new XmlSerializer(typeof (ProjectSaveData));
-                StreamWriter sw = new StreamWriter(sfd.FileName);
-
-                //全自動シリアライズテスト
-                ProjectSaveData psd = new ProjectSaveData();
-                psd.mMotionSelectKey = ClsSystem.mMotionSelectKey;
-                psd.MotionCount = ClsSystem.mDicMotion.Count;
-                psd.arryMotion = ClsSystem.mDicMotion.Values.ToArray();
-                //psd.mDicMotion = ClsSystem.mDicMotion;
-                psd.ImageChipList = ClsSystem.ImageMan.ToArray();
-                xs.Serialize(sw,psd);
-                sw.Close();
-
-                System.Media.SystemSounds.Exclamation.Play();
+                System.Media.SystemSounds.Exclamation.Play();   //保存完了音
                 //FileHistory Store
                 ClsSystem.mSetting.mFileHistory.Add(sfd.FileName);
             }
             sfd.Dispose();
         }
+
+        /// <summary>
+        /// プロジェクト保存処理
+        /// </summary>
+        /// <param name="clFilePath">ファイルパス</param>
+        private void SaveProject(string clFilePath)
+        {
+            ClsSystem.Save(clFilePath);
+        }
+
         private void TSMEnu_History_Click(object sender,EventArgs e)
         {
             ToolStripMenuItem ts = (ToolStripMenuItem)sender;
@@ -756,7 +801,7 @@ namespace PrjHikariwoAnim
 
             //アイテムの登録
             ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.ImageChipID = work.ID;// work.GetHashCode();
+            elem.mImageChipID = work.ID;// work.GetHashCode();
             elem.mAttInit.Width = work.Img.Width;
             elem.mAttInit.Height = work.Img.Height;
 
@@ -1378,7 +1423,7 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void ToolStripMenuItem_DebugGraph_Click(object sender, EventArgs e)
         {
-            FormRateGraph clFormRateGraph = new FormRateGraph(this, ClsTween.EnmParam.POSITION_X, 10, 20, 15);
+            FormRateGraph clFormRateGraph = new FormRateGraph(this, ClsDatTween.EnmParam.POSITION_X, 10, 20, 15);
             clFormRateGraph.Show();
         }
 

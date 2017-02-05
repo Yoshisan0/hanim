@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -223,6 +224,21 @@ namespace PrjHikariwoAnim
             */
 
             return (null);
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        public void Save()
+        {
+            ClsSystem.mSaveData.AddMotion(this);
+            
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.Save();
+            }
         }
 
         /// <summary>

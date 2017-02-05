@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,9 +58,10 @@
     <Compile Include="ClsDatOption.cs" />
     <Compile Include="ClsImage.cs" />
     <Compile Include="ClsPath.cs" />
+    <Compile Include="ClsSaveData.cs" />
     <Compile Include="ClsSetting.cs" />
     <Compile Include="ClsSystem.cs" />
-    <Compile Include="ClsTween.cs" />
+    <Compile Include="ClsDatTween.cs" />
     <Compile Include="ClsWin32.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>

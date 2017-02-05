@@ -206,6 +206,7 @@
             this.ToolStripMenuItem_SaveAs.Name = "ToolStripMenuItem_SaveAs";
             this.ToolStripMenuItem_SaveAs.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItem_SaveAs.Text = "Save Project as... (&A)";
+            this.ToolStripMenuItem_SaveAs.Click += new System.EventHandler(this.ToolStripMenuItem_SaveAs_Click);
             // 
             // toolStripSeparator1
             // 

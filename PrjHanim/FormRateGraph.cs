@@ -44,7 +44,7 @@ namespace PrjHikariwoAnim
         private Bitmap mImage1;     //イメージ
         private bool mChange;       //変更フラグ
         private FormMain mFormMain; //メインフォーム
-        private ClsTween.EnmParam mParam;    //パラメーター種別
+        private ClsDatTween.EnmParam mParam;    //パラメーター種別
 
         /// <summary>
         /// コンストラクタ
@@ -54,7 +54,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
-        public FormRateGraph(FormMain clForm, ClsTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
+        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
         {
             InitializeComponent();
 
@@ -91,7 +91,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, ClsTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
+        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
         {
             InitializeComponent();
 
@@ -159,7 +159,7 @@ namespace PrjHikariwoAnim
         /// <param name="puchRate">重みリスト</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <returns>重み(0.0～1.0)</returns>
-        public static float GetRate(ClsTween clTween, byte[] puchRate, int inFrmCurrent)
+        public static float GetRate(ClsDatTween clTween, byte[] puchRate, int inFrmCurrent)
         {
             if (clTween == null) return (0.0f);
             if (puchRate == null)
@@ -195,7 +195,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clTween">トゥイーン情報</param>
         /// <returns>出力用データ</returns>
-        public static byte[] CreateSaveData(ClsTween clTween)
+        public static byte[] CreateSaveData(ClsDatTween clTween)
         {
             if (clTween == null) return (null);
 
@@ -228,7 +228,7 @@ namespace PrjHikariwoAnim
         /// <param name="inWidth">イメージ幅</param>
         /// <param name="inHeight">イメージ高さ</param>
         /// <returns>画像</returns>
-        public static Bitmap CreateImage(ClsTween clTween, int inWidth, int inHeight)
+        public static Bitmap CreateImage(ClsDatTween clTween, int inWidth, int inHeight)
         {
             Pen clPen = new Pen(Color.Green);
             Bitmap clImage = new Bitmap(inWidth, inHeight);
@@ -274,9 +274,9 @@ namespace PrjHikariwoAnim
         /// トゥイーン情報の取得
         /// </summary>
         /// <returns>トゥイーン情報</returns>
-        public ClsTween GetTween()
+        public ClsDatTween GetTween()
         {
-            ClsTween clTween = new ClsTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mListPos[1], this.mListVec);
+            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mListPos[1], this.mListVec);
             return (clTween);
         }
 

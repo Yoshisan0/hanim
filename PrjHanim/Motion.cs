@@ -510,7 +510,7 @@ namespace PrjHikariwoAnim
         public TYPE Type;//Type Role
         public int FrameNum;//自身のフレーム番号(配列indexとは一致しない事に注意)        
 
-        public ClsTween mTween; //トゥイーン情報（存在しない場合はnull）
+        public ClsDatTween mTween; //トゥイーン情報（存在しない場合はnull）
 
         //init
         public FRAME()
@@ -926,7 +926,7 @@ namespace PrjHikariwoAnim
         //public int ElementID;//対応するエレメントID(hash)
         public AttributeBase Atr;//基本パラメータ
         public AttributeBase Option;//差分等が必要な場合の予備パラメータ
-        public ClsTween Tween;//?Tween時のRateが必要？
+        public ClsDatTween Tween;//?Tween時のRateが必要？
         //合成時レート等のパラメータを追加
         //RateGraphから作成したり補完したり？
 

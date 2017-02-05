@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
+    [Serializable]
     public class ClsDatItem
     {
         public enum TYPE_ITEM
