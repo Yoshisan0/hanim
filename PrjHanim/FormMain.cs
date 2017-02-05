@@ -116,9 +116,12 @@ namespace PrjHikariwoAnim
 
             //Ver2
             mFormCell = new FormCell(this);
-            //mFormCell.Owner = this;
-            mFormCell.ImageMan = ClsSystem.ImageMan;
+            //mFormCell.TopLevel = false;
+            //mFormCell.FormBorderStyle = FormBorderStyle.None;
+            //mFormCell.Visible = true;
+            //mFormCell.Dock = DockStyle.Fill;
             mFormCell.Show();
+            //Panel_Chip.Controls.Add(mFormCell);
 
             //Motion選択状態にする 他フォームの準備完了後
             listView_Motion.Items[0].Selected = true;
@@ -200,7 +203,8 @@ namespace PrjHikariwoAnim
 
                 //最初のモーションを選択する
                 ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
-                System.Media.SystemSounds.Exclamation.Play();//読込完了音                
+                System.Media.SystemSounds.Exclamation.Play();//読込完了音
+                mFormCell.Refresh();                
             }
             ofd.Dispose();
         }
@@ -236,7 +240,7 @@ namespace PrjHikariwoAnim
                 psd = (ProjectSaveData)xs.Deserialize(sr);//デシリアライズ
 
                 //ImageMan再構築
-                ClsSystem.ImageMan.FromArray(psd.ImageChipList);//イメージチップ登録
+                ClsSystem.ImageMan.AddArray(psd.ImageChipList);//イメージチップ登録
                 ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
                 mFormImageList.Restore();
 

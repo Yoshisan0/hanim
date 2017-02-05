@@ -15,8 +15,7 @@ namespace PrjHikariwoAnim
     public partial class FormCell : Form
     {
         //このフォームはセル画像情報を管理しとりだすだけで
-        //操作等はしないほうがいいかもしれないので少し考え直し
-        
+        //操作等はしないほうがいいかもしれないので少し考え直し        
         public ImageManagerBase ImageMan ;
 
         private int mTumsSize=64;//Thumbnailサイズ
@@ -31,14 +30,20 @@ namespace PrjHikariwoAnim
             ImageMan = ClsSystem.ImageMan;
             mFormMain = form;
         }
-
         private void FormCell_Load(object sender, EventArgs e)
         {
             //以下、ウィンドウの設定
             this.Location = ClsSystem.mSetting.mWindowCell.mLocation;
             this.Size = ClsSystem.mSetting.mWindowCell.mSize;
         }
+        private void FormCell_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Closeキャンセルして非表示にするだけ
+            e.Cancel = true;
 
+            //this.Visible = false; //自身で消さなくても下の操作で消える
+            this.mFormMain.checkBox_CellList.Checked = false;
+        }
         private void FormCell_DragEnter(object sender, DragEventArgs e)
         {
             //受け入れ準備
@@ -46,6 +51,10 @@ namespace PrjHikariwoAnim
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
             }
         }
         private bool ChkImageFile(string clPath)
@@ -89,6 +98,10 @@ namespace PrjHikariwoAnim
                 }
                 e.Effect = DragDropEffects.Copy;
             }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
         private void FormCell_MouseDown(object sender, MouseEventArgs e)
         {
@@ -110,29 +123,38 @@ namespace PrjHikariwoAnim
                 if (!dragRegion.Contains(e.X, e.Y))
                 {
                     //ドラッグ開始
-                    int sellectIndex = (e.Y / mTumsSize);
+                    int sellectIndex = PointToItemIndex(e.X , e.Y );
                     if (sellectIndex < ImageMan.ChipCount())
                     {                        
-                        panel_list.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
+                        panel_listBase.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
                     }
                 }
             }            
         }
+        private void FormCell_Resize(object sender, EventArgs e)
+        {
+            panel_list.Width = panel_listBase.Width;
+            panel_list.Height = mTumsSize * (ImageMan.ChipCount() / (panel_list.Width / mTumsSize));
+            if (panel_list.Height < panel_listBase.Height) panel_list.Height = panel_listBase.Height;
+            panel_listBase.Refresh();
+        }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void panel_list_Paint(object sender, PaintEventArgs e)
         {
             //DrawCells自力描画でがんばる
             //Selectedは枠色で表現?網かけ？
             int cnt = 0;//初期インデックス
             int bSize = mTumsSize;//BoxSize
-            int drawPos = 0;//描画横幅累計 コンポーネント横幅まで描画
+            int dpX = 0;//DrawPosX
+            int dpY = 0;//DrawPosY
+            int cx = panel_listBase.Width / mTumsSize;//横並び数
 
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
 
             if (ImageMan.ChipCount() <= 0) return;
 
-            while (drawPos < panel_list.Height && cnt < ImageMan.ChipCount())
+            while (dpY < panel_listBase.Height && cnt < ImageMan.ChipCount())
             {
                 Image src = ImageMan.GetImageChipFromIndex(cnt).Img;
                 if (src == null)
@@ -140,55 +162,87 @@ namespace PrjHikariwoAnim
                     Console.Out.Write("CellImage is Null");
                     return;
                 }
-
+                //Tumbサイズ
                 float rw = (float)bSize / src.Width;
                 float rh = (float)bSize / src.Height;
                 float rf = Math.Min(rw, rh);
                 Point ds = new Point((int)(src.Width * rf), (int)(src.Height * rf));
-
-                e.Graphics.DrawImage(src, (bSize / 2 - (ds.X / 2)), drawPos + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
+                
+                //
+                e.Graphics.DrawImage(src, dpX+(bSize / 2 - (ds.X / 2)), dpY + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
                 if (ImageMan.GetImageChipFromIndex(cnt).Selected)
                 {
-                    e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(0,drawPos, bSize - 1, bSize - 1));
+                    e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(dpX,dpY, bSize - 1, bSize - 1));
                 }
                 else
                 {
-                    e.Graphics.DrawRectangle(Pens.Brown, new Rectangle(0,drawPos, bSize - 1, bSize - 1));
+                    e.Graphics.DrawRectangle(Pens.Brown, new Rectangle(dpX,dpY, bSize - 1, bSize - 1));
                 }
-                drawPos += bSize;
                 cnt++;
+                dpX = (cnt%cx) * bSize;                
+                dpY = (cnt/cx) * bSize;
             }
             e.Graphics.Dispose();
         }
-
-        private void FormCell_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //Closeキャンセルして非表示にするだけ
-            e.Cancel = true;
-
-            //this.Visible = false; //自身で消さなくても下の操作で消える
-            this.mFormMain.checkBox_CellList.Checked = false;
-        }
-
         private void panel_list_MouseUp(object sender, MouseEventArgs e)
         {
             m_isMouseLDown = false;
+            //mMouseDownPoint = Point.Empty;
             //Cell Select
-            int selX = e.X / mTumsSize;
-            int selY = e.Y / mTumsSize;
-            int sel = (selY * (panel_list.Width / mTumsSize)) + selX;
+            int sel = PointToItemIndex(e.X, e.Y);
             if (sel < ClsSystem.ImageMan.ChipCount())
             {
                 ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected = !ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected;
+                panel_listBase.Refresh();
+            }
+        }
+        private void panel_list_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //Call ImageCuter
+            int idx = PointToItemIndex(e.X, e.Y);
+            ImageChip ic = ImageMan.GetImageChipFromIndex(idx);
+
+            FormImageCut fic = new FormImageCut(this.mFormMain, ic.Img, ic.Path);
+            if (fic.ShowDialog() == DialogResult.OK)
+            {
+                ImageChip[] ica = fic.ImageManager.ToArray();
+                ImageMan.AddArray(ica);
                 panel_list.Refresh();
             }
         }
-
-        private void Delbutton_Click(object sender, EventArgs e)
+        private int PointToItemIndex(int x,int y)
         {
-            ClsSystem.ImageMan.RemoveSelectedCell();
+            int cx = x / mTumsSize;
+            int cy = y / mTumsSize;
+            return (cy * (panel_list.Width / mTumsSize)) + cx;
+        }
+
+        private void button_Del_Click(object sender, EventArgs e)
+        {
+            ClsSystem.ImageMan.RemoveSelectedCell();         
+            panel_listBase.Refresh();
+        }
+        private void button_Doc_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        }
+        private void button_LoadPic_Click(object sender, EventArgs e)
+        {
+            //LoadImage
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = "png";
+            ofd.Filter = "png|*.png";
+            ofd.InitialDirectory = ClsSystem.mSetting.mLastImageDirectory;
+            if(ofd.ShowDialog()==DialogResult.OK)
+            {
+                ImageChip ic = new ImageChip();
+                ic.FromPngFile(ofd.FileName,true);
+                ImageMan.AddImageChip(ic);
+            }
+            ofd.Dispose();
+            panel_list.Refresh();
         }
     }
 }

@@ -256,7 +256,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public void FromArray(ImageChip[] icl)
+        public void AddArray(ImageChip[] icl)
         {
             ImageChipList.AddRange(icl);
         }
