@@ -258,6 +258,7 @@ namespace PrjHikariwoAnim
         /// <returns></returns>
         public void AddArray(ImageChip[] icl)
         {
+            if (icl == null) return;
             ImageChipList.AddRange(icl);
         }
         public ImageChip GetImageChipFromIndex(int idx)

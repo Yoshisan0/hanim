@@ -142,7 +142,7 @@ namespace PrjHikariwoAnim
             {
                 if (ClsSystem.mSetting.mFileHistory.Count > 1)
                 {
-                    LoadProject(ClsSystem.mSetting.mFileHistory[0]);
+                    this.LoadProject(ClsSystem.mSetting.mFileHistory[0]);
                 }
             }
 
@@ -197,14 +197,14 @@ namespace PrjHikariwoAnim
             ofd.DefaultExt = ".hap";
             if (ofd.ShowDialog()==DialogResult.OK)
             {
-                LoadProject(ofd.FileName);
+                this.LoadProject(ofd.FileName);
 
                 this.listView_Motion.Refresh();
 
                 //最初のモーションを選択する
                 ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
                 System.Media.SystemSounds.Exclamation.Play();//読込完了音
-                mFormCell.Refresh();                
+                this.mFormCell.Refresh();
             }
             ofd.Dispose();
         }
@@ -261,7 +261,50 @@ namespace PrjHikariwoAnim
             }
             */
 
-            ClsSystem.Load(clFilePath);
+            //mDicMotion全削除
+            ClsSystem.mDicMotion.Clear();
+            //listView_Motion.Items全削除                    
+            listView_Motion.Items.Clear();
+            //ImageList.Items全削除
+            mFormImageList.RemoveAllImage();
+            //ImageMan全削除
+            ClsSystem.ImageMan.RemoveAll();
+
+            XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
+            StreamReader sr = new StreamReader(clFilePath);
+            ClsFileData clFileData = new ClsFileData();
+            clFileData = (ClsFileData)xs.Deserialize(sr);//デシリアライズ
+
+            //ImageMan再構築
+            ClsSystem.ImageMan.AddArray(clFileData.mListImageChip); //イメージチップ登録
+            ClsSystem.ImageMan.RestoreIamgeList();                  //全ての画像再読込
+
+            //以下、モーション再構築処理
+            ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
+            int inCnt, inMax = clFileData.mListMotion.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsFileMotion clFileMotion = clFileData.mListMotion[inCnt];
+
+                ListViewItem clListViewItem = new ListViewItem(clFileMotion.mName, 2);
+                this.listView_Motion.Items.Add(clListViewItem);
+                clListViewItem.Tag = ClsSystem.mDicMotion.Count;
+
+                ClsDatMotion clMotion = new ClsDatMotion(clListViewItem.GetHashCode(), clFileMotion);
+                int inHashCode = clMotion.GetHashCode();
+                ClsSystem.mDicMotion.Add(inHashCode, clMotion);
+            }
+
+            inMax = clFileData.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsFileElem clFileElem = clFileData.mListElem[inCnt];
+
+//                ClsDatElem clElem = new ClsDatElem(clFileElem, ClsDatMotion clMotion, ClsDatElem clElem);
+//              ClsDatMotion clMotion = new ClsDatMotion();
+
+//この辺まだ
+            }
         }
 
         /// <summary>
@@ -849,12 +892,12 @@ namespace PrjHikariwoAnim
         */
         private ClsDatMotion listView_AddMotion(string clMotionName)
         {
-            ListViewItem lvi = new ListViewItem(clMotionName, 2);
-            listView_Motion.Items.Add(lvi);
-            lvi.Tag = ClsSystem.mDicMotion.Count;
+            ListViewItem clListViewItem = new ListViewItem(clMotionName, 2);
+            listView_Motion.Items.Add(clListViewItem);
+            clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
-            ClsDatMotion clMotion = new ClsDatMotion(lvi.GetHashCode(), clMotionName);
-            ClsSystem.mDicMotion.Add(lvi.GetHashCode(), clMotion);
+            ClsDatMotion clMotion = new ClsDatMotion(clListViewItem.GetHashCode(), clMotionName);
+            ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
 
             return (clMotion);
         }

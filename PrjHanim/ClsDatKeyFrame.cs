@@ -43,11 +43,12 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        public void Save()
+        /// <param name="inIndexParent">親のインデックス</param>
+        public void Save(int inIndexParent)
         {
-            ClsSystem.mSaveData.AddKeyFrame(this);
+            int inIndexOption = ClsSystem.mFileData.AddKeyFrame(inIndexParent, this);
 
-            this.mTween.Save();
+            this.mTween.Save(inIndexOption);
         }
     }
 }

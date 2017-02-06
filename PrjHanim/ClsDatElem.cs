@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
-    [Serializable]
     public class ClsDatElem : ClsDatItem
     {
         public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
@@ -36,10 +35,8 @@ namespace PrjHikariwoAnim
             IN
         }
 
-        [XmlIgnore]//シリアライズ時に循環参照になる Load後再設定
         public ClsDatMotion mMotion;        //親モーション
         public ClsDatElem mElem;            //親エレメント
-        [XmlIgnore]//シリアライズ時に循環参照になる どう保存復帰するか
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
         public ELEMENTS_TYPE mType;         //Default Image
@@ -48,17 +45,36 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageChipID;            //イメージID
-        [XmlIgnore]
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
-        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
-        public ClsDatElem()
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="clFileElem">親エレメントの保存データ</param>
+        /// <param name="clMotion">親モーション</param>
+        /// <param name="clElem">親エレメント</param>
+        public ClsDatElem(ClsFileElem clFileElem, ClsDatMotion clMotion, ClsDatElem clElem)
         {
-            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
+            this.mTypeItem = TYPE_ITEM.ELEM;
+
+            this.mMotion = clMotion;
+            this.mElem = clElem;
             this.mListElem = new List<ClsDatElem>();
+            this.mName = clFileElem.mName;
+            this.mType = ELEMENTS_TYPE.Image;
+            this.mStyle = ELEMENTS_STYLE.Rect;
+            this.isVisible = clFileElem.isVisible;  //表示非表示(目)
+            this.isLocked = clFileElem.isLocked;    //ロック状態(鍵)
+            this.isOpen = clFileElem.isOpen;        //属性開閉状態(+-)
             this.mAttInit = new AttributeBase();
+            this.mImageChipID = clFileElem.mImageChipID;
+
+            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
+            this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
+            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
+            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
         }
 
         /// <summary>
@@ -79,9 +95,10 @@ namespace PrjHikariwoAnim
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.mAttInit = new AttributeBase();
+            this.mImageChipID = 0;
 
+            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
@@ -246,15 +263,16 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
+        /// <param name="inIndexParent">親のインデックス</param>
         /// <returns>出力テーブル</returns>
-        public void Save()
+        public void Save(int inIndexParent)
         {
-            ClsSystem.mSaveData.AddElem(this);
+            int inIndexElem = ClsSystem.mFileData.AddElem(inIndexParent, this);
 
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
-                clDatOption.Save();
+                clDatOption.Save(inIndexElem);
             }
         }
 

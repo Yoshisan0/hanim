@@ -19,7 +19,7 @@ namespace PrjHikariwoAnim
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
         public static ImageManagerBase ImageMan;
-        public static ClsFileData mSaveData;
+        public static ClsFileData mFileData;
 
         /// <summary>
         /// 初期化処理
@@ -77,12 +77,12 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        /// <param name="clFileName">ファイル名</param>
-        public static void Save(string clFileName)
+        /// <param name="clFilePath">ファイルパス</param>
+        public static void Save(string clFilePath)
         {
-            ClsSystem.mSaveData = new ClsFileData();
-            ClsSystem.mSaveData.mMotionSelectKey = ClsSystem.mMotionSelectKey;
-            ClsSystem.mSaveData.mMotionCount = ClsSystem.mDicMotion.Count;
+            ClsSystem.mFileData = new ClsFileData();
+            ClsSystem.mFileData.mMotionSelectKey = ClsSystem.mMotionSelectKey;
+            ClsSystem.mFileData.mMotionCount = ClsSystem.mDicMotion.Count;
 
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
@@ -98,20 +98,12 @@ namespace PrjHikariwoAnim
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
             ns.Add(String.Empty, String.Empty);
             XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
-            using (StreamWriter sw = new StreamWriter(clFileName))
+            using (StreamWriter sw = new StreamWriter(clFilePath))
             {
                 //全自動シリアライズテスト
-                xs.Serialize(sw, ClsSystem.mSaveData);
+                xs.Serialize(sw, ClsSystem.mFileData);
                 sw.Close();
             }
-        }
-
-        /// <summary>
-        /// 読み込み処理
-        /// </summary>
-        /// <param name="clFileName">ファイル名</param>
-        public static void Load(string clFileName)
-        {
         }
 
         public static string GetAppFileName()

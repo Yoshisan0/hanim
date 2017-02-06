@@ -80,9 +80,10 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        public void Save()
+        /// <param name="inIndexParent">親のインデックス</param>
+        public void Save(int inIndexParent)
         {
-            ClsSystem.mSaveData.AddTween(this);
+            ClsSystem.mFileData.AddTween(inIndexParent, this);
         }
     }
 }

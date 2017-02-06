@@ -8,41 +8,21 @@ using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
-    [Serializable]
     public class ClsDatMotion
     {
-        [XmlIgnore]
         public int mID;         //TreeNodeのHashCode
         public string mName;    //モーション名
-        public int mFrameNum;       //トータルフレーム数
-
-        [XmlIgnore]
+        public int mFrameNum;   //トータルフレーム数
         public int mSelectFrame;    //現在選択中のフレーム
-        [XmlIgnore]
         public int mSelectLineNo;   //現在選択中の行数
-        [XmlArray]
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
-        [XmlIgnore]
         public int mWorkLineNo;             //行番号割り振り時に利用する一時保持領域
-        [XmlIgnore]
         public ClsDatElem mWorkElem;        //検索時に利用するエレメント一時保持領域
-        [XmlIgnore]
         public ClsDatOption mWorkOption;    //検索時に利用するオプション一時保持領域
-        [XmlIgnore]
         public ClsDatItem mWorkItem;        //検索時に利用するアイテム一時保持領域
 
-        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
-        public ClsDatMotion()
-        {
-            this.mID = 0;
-            this.mName = "";
-            this.mFrameNum = 1;
-            this.mSelectFrame = -1;
-            this.mSelectLineNo = -1;
-            this.mListElem = new List<ClsDatElem>();
-        }
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -53,6 +33,21 @@ namespace PrjHikariwoAnim
             this.mID = inID;
             this.mName = clName;
             this.mFrameNum = 1;
+            this.mSelectFrame = -1;
+            this.mSelectLineNo = -1;
+            this.mListElem = new List<ClsDatElem>();
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="inID">TreeNodeのハッシュコード</param>
+        /// <param name="clFileMotion">モーション管理クラスの保存データ</param>
+        public ClsDatMotion(int inID, ClsFileMotion clFileMotion)
+        {
+            this.mID = inID;
+            this.mName = clFileMotion.mName;            //モーション名
+            this.mFrameNum = clFileMotion.mFrameNum;    //トータルフレーム数
             this.mSelectFrame = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -231,13 +226,13 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void Save()
         {
-            ClsSystem.mSaveData.AddMotion(this);
+            int inIndexMotion = ClsSystem.mFileData.AddMotion(this);
             
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.Save();
+                clElem.Save(inIndexMotion);
             }
         }
 

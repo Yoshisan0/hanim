@@ -88,9 +88,9 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
+            this.Panel_Chip = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.Panel_Chip = new System.Windows.Forms.Panel();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -761,12 +761,6 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
             // Panel_Chip
             // 
             this.Panel_Chip.AutoScroll = true;
@@ -776,6 +770,12 @@
             this.Panel_Chip.Name = "Panel_Chip";
             this.Panel_Chip.Size = new System.Drawing.Size(133, 252);
             this.Panel_Chip.TabIndex = 0;
+            // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 
