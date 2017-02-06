@@ -112,12 +112,13 @@
             this.panel_list.Name = "panel_list";
             this.panel_list.Size = new System.Drawing.Size(79, 78);
             this.panel_list.TabIndex = 1;
-            this.panel_list.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormCell_DragDrop);
-            this.panel_list.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormCell_DragEnter);
+            this.panel_list.Click += new System.EventHandler(this.panel_list_Click);
+            this.panel_list.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_list_DragDrop);
+            this.panel_list.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel_list_DragEnter);
             this.panel_list.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_list_Paint);
             this.panel_list.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel_list_MouseDoubleClick);
-            this.panel_list.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormCell_MouseDown);
-            this.panel_list.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormCell_MouseMove);
+            this.panel_list.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_list_MouseDown);
+            this.panel_list.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_list_MouseMove);
             this.panel_list.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_list_MouseUp);
             // 
             // FormCell
@@ -127,6 +128,7 @@
             this.ClientSize = new System.Drawing.Size(112, 241);
             this.Controls.Add(this.panel_listBase);
             this.Controls.Add(this.panel_menu);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.HelpButton = true;
             this.MaximizeBox = false;

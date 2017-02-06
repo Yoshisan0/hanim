@@ -263,6 +263,7 @@ namespace PrjHikariwoAnim
         }
         public ImageChip GetImageChipFromIndex(int idx)
         {
+            if (idx < 0 || idx > ImageChipList.Count) return null;
             return ImageChipList[idx];
         }
         public ImageChip GetImageChipFromID(int ID)

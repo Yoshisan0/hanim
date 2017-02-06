@@ -188,6 +188,7 @@
             this.ToolStripMenuItem_New.Name = "ToolStripMenuItem_New";
             this.ToolStripMenuItem_New.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItem_New.Text = "New Project (&N)";
+            this.ToolStripMenuItem_New.Click += new System.EventHandler(this.ToolStripMenuItem_New_Click);
             // 
             // ToolStripMenuItem_Load
             // 

@@ -22,6 +22,7 @@ namespace PrjHikariwoAnim
         private FormMain mFormMain;
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
         private bool m_isMouseLDown;    //左クリック押し下げ中
+        public int mSelectIndex;
 
         public FormCell(FormMain form)
         {
@@ -44,18 +45,12 @@ namespace PrjHikariwoAnim
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_CellList.Checked = false;
         }
-        private void FormCell_DragEnter(object sender, DragEventArgs e)
+        private void FormCell_Resize(object sender, EventArgs e)
         {
-            //受け入れ準備
-            //File
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            panel_list.Width = panel_listBase.Width;
+            panel_list.Height = mTumsSize * (ImageMan.ChipCount() / (panel_list.Width / mTumsSize));
+            if (panel_list.Height < panel_listBase.Height) panel_list.Height = panel_listBase.Height;
+            panel_listBase.Refresh();
         }
         private bool ChkImageFile(string clPath)
         {
@@ -75,7 +70,21 @@ namespace PrjHikariwoAnim
             }
             return (true);
         }
-        private void FormCell_DragDrop(object sender, DragEventArgs e)
+
+        private void panel_list_DragEnter(object sender, DragEventArgs e)
+        {
+            //受け入れ準備
+            //File
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+        private void panel_list_DragDrop(object sender, DragEventArgs e)
         {
             //PNGファイル直受け入れ
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -103,15 +112,22 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.None;
             }
         }
-        private void FormCell_MouseDown(object sender, MouseEventArgs e)
+        private void panel_list_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left) m_isMouseLDown = true;
-            this.mMouseDownPoint = e.Location; //new Point(e.X, e.Y);
-
+            if (e.Button == MouseButtons.Left)
+            {
+                m_isMouseLDown = true;
+            }
+            this.mMouseDownPoint = new Point(e.X,e.Y); //new Point(e.X, e.Y);
         }
-        private void FormCell_MouseMove(object sender, MouseEventArgs e)
-        {            
-            if (mMouseDownPoint != Point.Empty || m_isMouseLDown)
+        private void panel_list_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_isMouseLDown = false;
+            mMouseDownPoint = Point.Empty;
+        }
+        private void panel_list_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mMouseDownPoint != Point.Empty && m_isMouseLDown)
             {
                 //マウス左押し下げ中にドラッグ中
                 Rectangle dragRegion = new Rectangle(
@@ -120,23 +136,22 @@ namespace PrjHikariwoAnim
                     SystemInformation.DragSize.Width,
                     SystemInformation.DragSize.Height);
                 //DragSize外に出たらドラッグ開始とする
-                if (!dragRegion.Contains(e.X, e.Y))
+                if (!dragRegion.Contains(e.X,e.Y))
                 {
                     //ドラッグ開始
-                    int sellectIndex = PointToItemIndex(e.X , e.Y );
-                    if (sellectIndex < ImageMan.ChipCount())
+                    int selectIndex = PointToItemIndex(e.X , e.Y );
+                    if (selectIndex >=0 && selectIndex < ImageMan.ChipCount())
                     {                        
-                        panel_listBase.DoDragDrop(ImageMan.GetImageChipFromIndex(sellectIndex), DragDropEffects.Copy);
+                        DragDropEffects rete = panel_listBase.DoDragDrop(ImageMan.GetImageChipFromIndex(selectIndex), DragDropEffects.Copy);
+                        if(rete==DragDropEffects.Copy)
+                        {
+                            //正常完了
+                            m_isMouseLDown = false;
+                        }
                     }
                 }
-            }            
-        }
-        private void FormCell_Resize(object sender, EventArgs e)
-        {
-            panel_list.Width = panel_listBase.Width;
-            panel_list.Height = mTumsSize * (ImageMan.ChipCount() / (panel_list.Width / mTumsSize));
-            if (panel_list.Height < panel_listBase.Height) panel_list.Height = panel_listBase.Height;
-            panel_listBase.Refresh();
+            }
+                        
         }
 
         private void panel_list_Paint(object sender, PaintEventArgs e)
@@ -186,13 +201,11 @@ namespace PrjHikariwoAnim
             }
             e.Graphics.Dispose();
         }
-        private void panel_list_MouseUp(object sender, MouseEventArgs e)
+        private void panel_list_Click(object sender, EventArgs e)
         {
-            m_isMouseLDown = false;
-            //mMouseDownPoint = Point.Empty;
             //Cell Select
-            int sel = PointToItemIndex(e.X, e.Y);
-            if (sel < ClsSystem.ImageMan.ChipCount())
+            int sel = PointToItemIndex(mMouseDownPoint.X, mMouseDownPoint.Y);
+            if (sel >= 0 && sel < ClsSystem.ImageMan.ChipCount())
             {
                 ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected = !ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected;
                 panel_listBase.Refresh();
@@ -233,16 +246,22 @@ namespace PrjHikariwoAnim
             //LoadImage
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = "png";
+            ofd.Multiselect = true;
             ofd.Filter = "png|*.png";
             ofd.InitialDirectory = ClsSystem.mSetting.mLastImageDirectory;
             if(ofd.ShowDialog()==DialogResult.OK)
             {
-                ImageChip ic = new ImageChip();
-                ic.FromPngFile(ofd.FileName,true);
-                ImageMan.AddImageChip(ic);
+                foreach (string fn in ofd.FileNames)
+                {
+                    ImageChip ic = new ImageChip();
+                    ic.FromPngFile(fn, true);
+                    ImageMan.AddImageChip(ic);
+                }
             }
             ofd.Dispose();
             panel_list.Refresh();
         }
+
+
     }
 }
