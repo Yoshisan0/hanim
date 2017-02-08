@@ -31,11 +31,13 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.HistoryClear = new System.Windows.Forms.Button();
-            this.check_AutoReload = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox_Dir = new System.Windows.Forms.TextBox();
+            this.textBox_name = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_prepre = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label_BackColor = new System.Windows.Forms.Label();
             this.label_CenterLineColor = new System.Windows.Forms.Label();
@@ -43,8 +45,11 @@
             this.panel_MainCenterLineColor = new System.Windows.Forms.Panel();
             this.panel_MainGridColor = new System.Windows.Forms.Panel();
             this.label_GridColor = new System.Windows.Forms.Label();
+            this.HistoryClear = new System.Windows.Forms.Button();
+            this.check_AutoReload = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel_prerate = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,9 +66,6 @@
             this.button_Apply = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button_cancel = new System.Windows.Forms.Button();
-            this.textBox_name = new System.Windows.Forms.TextBox();
-            this.textBox_Dir = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -84,7 +86,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(474, 305);
+            this.tabControl.Size = new System.Drawing.Size(474, 247);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -96,7 +98,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(466, 279);
+            this.tabPage1.Size = new System.Drawing.Size(466, 221);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -114,26 +116,29 @@
             this.panel2.Size = new System.Drawing.Size(228, 185);
             this.panel2.TabIndex = 8;
             // 
-            // HistoryClear
+            // label11
             // 
-            this.HistoryClear.Location = new System.Drawing.Point(8, 250);
-            this.HistoryClear.Name = "HistoryClear";
-            this.HistoryClear.Size = new System.Drawing.Size(127, 23);
-            this.HistoryClear.TabIndex = 5;
-            this.HistoryClear.Text = "Clear FileHistory";
-            this.HistoryClear.UseVisualStyleBackColor = true;
-            this.HistoryClear.Click += new System.EventHandler(this.button1_Click);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 56);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(35, 12);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Memo";
             // 
-            // check_AutoReload
+            // textBox_Dir
             // 
-            this.check_AutoReload.AutoSize = true;
-            this.check_AutoReload.Location = new System.Drawing.Point(6, 197);
-            this.check_AutoReload.Name = "check_AutoReload";
-            this.check_AutoReload.Size = new System.Drawing.Size(127, 16);
-            this.check_AutoReload.TabIndex = 4;
-            this.check_AutoReload.Text = "Project Auto Reload";
-            this.check_AutoReload.UseVisualStyleBackColor = true;
-            this.check_AutoReload.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.textBox_Dir.Location = new System.Drawing.Point(52, 53);
+            this.textBox_Dir.Multiline = true;
+            this.textBox_Dir.Name = "textBox_Dir";
+            this.textBox_Dir.Size = new System.Drawing.Size(173, 65);
+            this.textBox_Dir.TabIndex = 7;
+            // 
+            // textBox_name
+            // 
+            this.textBox_name.Location = new System.Drawing.Point(52, 29);
+            this.textBox_name.Name = "textBox_name";
+            this.textBox_name.Size = new System.Drawing.Size(173, 19);
+            this.textBox_name.TabIndex = 6;
             // 
             // label8
             // 
@@ -158,6 +163,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.panel_prepre);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label_BackColor);
             this.panel1.Controls.Add(this.label_CenterLineColor);
@@ -169,6 +175,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(220, 185);
             this.panel1.TabIndex = 7;
+            // 
+            // panel_prepre
+            // 
+            this.panel_prepre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_prepre.Location = new System.Drawing.Point(87, 106);
+            this.panel_prepre.Name = "panel_prepre";
+            this.panel_prepre.Size = new System.Drawing.Size(128, 65);
+            this.panel_prepre.TabIndex = 7;
+            this.panel_prepre.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_prepre_Paint);
             // 
             // label6
             // 
@@ -236,17 +251,39 @@
             this.label_GridColor.TabIndex = 3;
             this.label_GridColor.Text = "Grid color";
             // 
+            // HistoryClear
+            // 
+            this.HistoryClear.Location = new System.Drawing.Point(239, 193);
+            this.HistoryClear.Name = "HistoryClear";
+            this.HistoryClear.Size = new System.Drawing.Size(127, 23);
+            this.HistoryClear.TabIndex = 5;
+            this.HistoryClear.Text = "Clear FileHistory";
+            this.HistoryClear.UseVisualStyleBackColor = true;
+            this.HistoryClear.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // check_AutoReload
+            // 
+            this.check_AutoReload.AutoSize = true;
+            this.check_AutoReload.Location = new System.Drawing.Point(6, 197);
+            this.check_AutoReload.Name = "check_AutoReload";
+            this.check_AutoReload.Size = new System.Drawing.Size(127, 16);
+            this.check_AutoReload.TabIndex = 4;
+            this.check_AutoReload.Text = "Project Auto Reload";
+            this.check_AutoReload.UseVisualStyleBackColor = true;
+            this.check_AutoReload.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(466, 279);
+            this.tabPage2.Size = new System.Drawing.Size(466, 221);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Control";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.panel_prerate);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.label3);
@@ -259,10 +296,18 @@
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(466, 279);
+            this.tabPage3.Size = new System.Drawing.Size(466, 221);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Rate graph";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // panel_prerate
+            // 
+            this.panel_prerate.Location = new System.Drawing.Point(192, 6);
+            this.panel_prerate.Name = "panel_prerate";
+            this.panel_prerate.Size = new System.Drawing.Size(109, 144);
+            this.panel_prerate.TabIndex = 12;
+            this.panel_prerate.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_prerate_Paint);
             // 
             // label5
             // 
@@ -363,7 +408,7 @@
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(466, 279);
+            this.tabPage4.Size = new System.Drawing.Size(466, 221);
             this.tabPage4.TabIndex = 4;
             this.tabPage4.Text = "Image cutter";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -372,7 +417,7 @@
             // 
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(466, 279);
+            this.tabPage5.Size = new System.Drawing.Size(466, 221);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Image list";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -381,7 +426,7 @@
             // 
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(466, 279);
+            this.tabPage6.Size = new System.Drawing.Size(466, 221);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "Cell list";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -403,7 +448,7 @@
             this.panel3.Controls.Add(this.button_cancel);
             this.panel3.Controls.Add(this.button_Apply);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 305);
+            this.panel3.Location = new System.Drawing.Point(0, 247);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(474, 30);
             this.panel3.TabIndex = 2;
@@ -418,39 +463,14 @@
             this.button_cancel.Text = "Cancel";
             this.button_cancel.UseVisualStyleBackColor = true;
             // 
-            // textBox_name
-            // 
-            this.textBox_name.Location = new System.Drawing.Point(52, 29);
-            this.textBox_name.Name = "textBox_name";
-            this.textBox_name.Size = new System.Drawing.Size(173, 19);
-            this.textBox_name.TabIndex = 6;
-            // 
-            // textBox_Dir
-            // 
-            this.textBox_Dir.Location = new System.Drawing.Point(52, 53);
-            this.textBox_Dir.Multiline = true;
-            this.textBox_Dir.Name = "textBox_Dir";
-            this.textBox_Dir.Size = new System.Drawing.Size(173, 65);
-            this.textBox_Dir.TabIndex = 7;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 56);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(35, 12);
-            this.label11.TabIndex = 9;
-            this.label11.Text = "Memo";
-            // 
             // FormSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 335);
+            this.ClientSize = new System.Drawing.Size(474, 277);
             this.ControlBox = false;
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel3);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormSetting";
             this.ShowIcon = false;
             this.Text = "Setting";
@@ -508,5 +528,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBox_Dir;
         private System.Windows.Forms.TextBox textBox_name;
+        private System.Windows.Forms.Panel panel_prepre;
+        private System.Windows.Forms.Panel panel_prerate;
     }
 }
