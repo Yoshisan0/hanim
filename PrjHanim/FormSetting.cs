@@ -72,6 +72,8 @@ namespace PrjHikariwoAnim
             {
                 Panel clPanel = (Panel)sender;
                 clPanel.BackColor = cdg.Color;
+                panel_prepre.Refresh();
+                panel_prerate.Refresh();
             }
             cdg.Dispose();
         }
@@ -84,6 +86,56 @@ namespace PrjHikariwoAnim
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             ClsSystem.mSetting.mProjectAutoReload = this.check_AutoReload.Checked;
+        }
+
+        private void panel_prepre_Paint(object sender, PaintEventArgs e)
+        {
+            //preView of PreView
+            Size ps = panel_prepre.Size;
+            e.Graphics.FillRectangle(new SolidBrush( panel_MainBackColor.BackColor), new Rectangle(0, 0, this.ClientSize.Width,this.ClientSize.Height));
+            Pen pCol = new Pen(panel_MainGridColor.BackColor);
+            for (int yCnt=0;yCnt <ps.Height;yCnt+=8)
+            {
+                e.Graphics.DrawLine(pCol,0,yCnt,ps.Width,yCnt);
+            }
+            for (int xCnt = 0; xCnt < ps.Width; xCnt += 8)
+            {
+                e.Graphics.DrawLine(pCol,xCnt,0,xCnt,ps.Height);
+            }
+            pCol = new Pen(panel_MainCenterLineColor.BackColor);
+            e.Graphics.DrawLine(pCol,ps.Width /2,0,ps.Width/2,ps.Height);
+            e.Graphics.DrawLine(pCol,0,ps.Height/2, ps.Width,ps.Height/2);
+        }
+
+        private void panel_prerate_Paint(object sender, PaintEventArgs e)
+        {
+            //preView of PreRAte
+            Size ps = panel_prerate.Size;
+            e.Graphics.FillRectangle(new SolidBrush(panel_RateGraphBackColor.BackColor), new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height));
+            Pen pCol = new Pen(panel_RateGraphGridColor.BackColor);
+            for (int yCnt = 0; yCnt < ps.Height; yCnt += 8)
+            {
+                e.Graphics.DrawLine(pCol, 0, yCnt, ps.Width, yCnt);
+            }
+            for (int xCnt = 0; xCnt < ps.Width; xCnt += 8)
+            {
+                e.Graphics.DrawLine(pCol, xCnt, 0, xCnt, ps.Height);
+            }
+            pCol = new Pen(panel_RateGraphCenterLineColor.BackColor);
+            e.Graphics.DrawLine(pCol, ps.Width / 2, 0, ps.Width / 2, ps.Height);
+            e.Graphics.DrawLine(pCol, 0, ps.Height / 2, ps.Width, ps.Height / 2);
+
+            pCol = new Pen(panel_RateGraphGraphColor.BackColor);
+            //e.Graphics.DrawLine(pCol, 0, ps.Height, ps.Width, 0);
+            e.Graphics.DrawArc(pCol,-ps.Width/2,0, ps.Width, ps.Height, 0, 90);
+            e.Graphics.DrawArc(pCol, ps.Width/2, 0, ps.Width, ps.Height,180,270);
+
+            pCol = new Pen(panel_RateGraphForceColor.BackColor);
+            e.Graphics.DrawLine(pCol,0,ps.Height, ps.Width/4, ps.Height/2);
+            e.Graphics.DrawEllipse(pCol, ps.Width / 4-4, ps.Height / 2-4, 8, 8);
+            e.Graphics.DrawLine(pCol,ps.Width,0,  ps.Width-ps.Width/4, ps.Height/2);
+            e.Graphics.DrawEllipse(pCol,ps.Width - ps.Width / 4-4, ps.Height / 2-4, 8, 8);
+
         }
     }
 }
