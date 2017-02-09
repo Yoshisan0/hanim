@@ -13,9 +13,7 @@ using System.IO;
 namespace PrjHikariwoAnim
 {
     public partial class FormCell : Form
-    {
-        //このフォームはセル画像情報を管理しとりだすだけで
-        //操作等はしないほうがいいかもしれないので少し考え直し        
+    {        
         public ImageManagerBase ImageMan ;
 
         private int mTumsSize=64;//Thumbnailサイズ
@@ -150,8 +148,7 @@ namespace PrjHikariwoAnim
                         }
                     }
                 }
-            }
-                        
+            }                        
         }
 
         private void panel_list_Paint(object sender, PaintEventArgs e)
@@ -261,7 +258,5 @@ namespace PrjHikariwoAnim
             ofd.Dispose();
             panel_list.Refresh();
         }
-
-
     }
 }

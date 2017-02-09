@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel_menu = new System.Windows.Forms.Panel();
             this.button_OpenDoc = new System.Windows.Forms.Button();
             this.button_LoadPic = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.panel_listBase = new System.Windows.Forms.Panel();
             this.panel_list = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel_menu.SuspendLayout();
             this.panel_listBase.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +65,7 @@
             this.button_OpenDoc.Name = "button_OpenDoc";
             this.button_OpenDoc.Size = new System.Drawing.Size(26, 24);
             this.button_OpenDoc.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.button_OpenDoc, "Open Doc");
             this.button_OpenDoc.UseVisualStyleBackColor = false;
             this.button_OpenDoc.Click += new System.EventHandler(this.button_Doc_Click);
             // 
@@ -78,6 +81,7 @@
             this.button_LoadPic.Name = "button_LoadPic";
             this.button_LoadPic.Size = new System.Drawing.Size(26, 24);
             this.button_LoadPic.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.button_LoadPic, "Open File");
             this.button_LoadPic.UseVisualStyleBackColor = false;
             this.button_LoadPic.Click += new System.EventHandler(this.button_LoadPic_Click);
             // 
@@ -155,5 +159,6 @@
         private System.Windows.Forms.Panel panel_list;
         private System.Windows.Forms.Button button_LoadPic;
         private System.Windows.Forms.Button button_OpenDoc;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

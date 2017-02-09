@@ -58,7 +58,6 @@
             this.AmamiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.popuptestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.YosiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,6 +90,7 @@
             this.Panel_Chip = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.partsFormInMainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -318,7 +318,7 @@
             this.AmamiTestToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeImageListToolStripMenuItem,
             this.readImageListToolStripMenuItem,
-            this.popuptestToolStripMenuItem});
+            this.partsFormInMainToolStripMenuItem});
             this.AmamiTestToolStripMenuItem.Name = "AmamiTestToolStripMenuItem";
             this.AmamiTestToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.AmamiTestToolStripMenuItem.Text = "あまみさんテスト";
@@ -335,13 +335,6 @@
             this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
             this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.readImageListToolStripMenuItem.Text = "ReadImageList";
-            // 
-            // popuptestToolStripMenuItem
-            // 
-            this.popuptestToolStripMenuItem.Name = "popuptestToolStripMenuItem";
-            this.popuptestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.popuptestToolStripMenuItem.Text = "popuptest";
-            this.popuptestToolStripMenuItem.Click += new System.EventHandler(this.popuptestToolStripMenuItem_Click);
             // 
             // YosiTestToolStripMenuItem
             // 
@@ -778,6 +771,13 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // partsFormInMainToolStripMenuItem
+            // 
+            this.partsFormInMainToolStripMenuItem.Name = "partsFormInMainToolStripMenuItem";
+            this.partsFormInMainToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.partsFormInMainToolStripMenuItem.Text = "PartsFormInMain";
+            this.partsFormInMainToolStripMenuItem.Click += new System.EventHandler(this.partsFormInMainToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -879,12 +879,12 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugSave;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugLoad;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ToolStripMenuItem popuptestToolStripMenuItem;
         private System.Windows.Forms.ListView listView_Motion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem projectHistoryToolStripMenuItem;
         private System.Windows.Forms.Panel Panel_Chip;
+        private System.Windows.Forms.ToolStripMenuItem partsFormInMainToolStripMenuItem;
     }
 }
 

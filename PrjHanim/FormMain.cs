@@ -1518,14 +1518,6 @@ namespace PrjHikariwoAnim
             }
         }
 
-        private void popuptestToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormSingleInput frms = new FormSingleInput();
-            frms.Location = this.Location;
-            frms.ShowDialog();
-            frms.Dispose();
-        }
-
         private void ToolStripMenuItem_ExpCellList_Click(object sender, EventArgs e)
         {
             //ExportImageList(XML imageList)
@@ -1536,6 +1528,30 @@ namespace PrjHikariwoAnim
                 ClsSystem.ImageMan.SaveToFile(sfd.FileName,".ximg");
             }
         }
+
+        private void partsFormInMainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mFormCell.TopLevel)
+            {
+                //in
+                mFormCell.TopLevel = false;
+                mFormCell.Location = new Point(0, 0);
+                mFormCell.FormBorderStyle = FormBorderStyle.None;
+                mFormCell.Visible = true;
+                mFormCell.Dock = DockStyle.Fill;                
+                Panel_Chip.Controls.Add(mFormCell);
+            }
+            else
+            {
+                //out
+                Panel_Chip.Controls.Remove(mFormCell);
+                mFormCell.Location = this.Location;
+                mFormCell.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+                mFormCell.Dock = DockStyle.None;
+                mFormCell.TopLevel = true;                
+            }
+        }
+
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
         {
             Dictionary<string, object> clDicFile = new Dictionary<string, object>();
