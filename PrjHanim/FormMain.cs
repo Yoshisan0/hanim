@@ -294,6 +294,10 @@ namespace PrjHikariwoAnim
             ClsSystem.ImageMan.AddArray(clFileData.mListImageChip); //イメージチップ登録
             ClsSystem.ImageMan.RestoreIamgeList();                  //全ての画像再読込
 
+            //以下、親子関連付け用の一時保管辞書
+            Dictionary<int, ClsDatMotion> clDicMotionTmp = new Dictionary<int, ClsDatMotion>();
+            Dictionary<int, ClsDatElem> clDicElemTmp = new Dictionary<int, ClsDatElem>();
+
             //以下、モーション再構築処理
             ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
             int inCnt, inMax = clFileData.mListMotion.Count;
@@ -301,24 +305,55 @@ namespace PrjHikariwoAnim
             {
                 ClsFileMotion clFileMotion = clFileData.mListMotion[inCnt];
 
+                //以下、リストビューに登録する処理
                 ListViewItem clListViewItem = new ListViewItem(clFileMotion.mName, 2);
                 this.listView_Motion.Items.Add(clListViewItem);
                 clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
+                //以下、モーション辞書に登録する処理
                 ClsDatMotion clMotion = new ClsDatMotion(clListViewItem.GetHashCode(), clFileMotion);
                 int inHashCode = clMotion.GetHashCode();
                 ClsSystem.mDicMotion.Add(inHashCode, clMotion);
+
+                //以下、モーション一時辞書に登録する処理
+                clDicMotionTmp.Add(clFileMotion.mIndex, clMotion);
             }
 
+            //以下、エレメント再構築
             inMax = clFileData.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsFileElem clFileElem = clFileData.mListElem[inCnt];
 
-//                ClsDatElem clElem = new ClsDatElem(clFileElem, ClsDatMotion clMotion, ClsDatElem clElem);
-//              ClsDatMotion clMotion = new ClsDatMotion();
+                //以下、親モーションか親エレメントが存在するかチェックする処理
+                bool isExistMotion = clDicMotionTmp.ContainsKey(clFileElem.mIndexParent);
+                bool isExistElem = clDicElemTmp.ContainsKey(clFileElem.mIndexParent);
+                if (!isExistMotion && !isExistElem) continue;
 
-//この辺まだ
+                ClsDatElem clElem = null;
+                if (isExistMotion)
+                {
+                    //以下、親モーションに子エレメントを登録する処理
+                    ClsDatMotion clParentMotion = clDicMotionTmp[clFileElem.mIndexParent];
+                    clElem = new ClsDatElem(clFileElem, clParentMotion, null);
+                    clParentMotion.AddElements(clElem);
+                }
+                else
+                {
+                    //以下、親エレメントに子エレメントを登録する処理
+                    ClsDatElem clParentElem = clDicElemTmp[clFileElem.mIndexParent];
+                    clElem = new ClsDatElem(clFileElem, null, clParentElem);
+                    clParentElem.AddElemChild(clElem);
+                }
+
+                //以下、エレメント一時辞書に登録する処理
+                clDicElemTmp.Add(clFileElem.mIndex, clElem);
+            }
+
+            //以下、モーションの親子関連付け再構築処理
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsSystem.mDicMotion[inKey].Restore();
             }
         }
         /// <summary>
@@ -413,7 +448,7 @@ namespace PrjHikariwoAnim
                 this.mFormImageList.Show();
             }
             else
-            {                                
+            {
                 this.mFormImageList.Close();
                 this.mFormImageList.Dispose();
                 this.mFormImageList = null;

@@ -151,19 +151,23 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsFileMotion : ClsFileObject
     {
+        [XmlElement("Index")]
+        public int mIndex;      //インデックス
         [XmlElement("Name")]
-        public string mName;   //モーション名
+        public string mName;    //モーション名
         [XmlElement("FrameNum")]
-        public int mFrameNum;  //トータルフレーム数
+        public int mFrameNum;   //トータルフレーム数
 
         public ClsFileMotion() : base(0)
         {
+            this.mIndex = 0;
             this.mName = "";
             this.mFrameNum = 0;
         }
 
         public ClsFileMotion(int inIndex, ClsDatMotion clMotion) : base(inIndex)
         {
+            this.mIndex = inIndex;
             this.mName = clMotion.mName;            //モーション名
             this.mFrameNum = clMotion.mFrameNum;    //トータルフレーム数
         }

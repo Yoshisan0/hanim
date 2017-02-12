@@ -58,6 +58,7 @@
             this.AmamiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readImageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.partsFormInMainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.YosiTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugGraph = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugRootOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +91,6 @@
             this.Panel_Chip = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.partsFormInMainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -326,15 +326,22 @@
             // writeImageListToolStripMenuItem
             // 
             this.writeImageListToolStripMenuItem.Name = "writeImageListToolStripMenuItem";
-            this.writeImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.writeImageListToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.writeImageListToolStripMenuItem.Text = "WriteImageList";
             this.writeImageListToolStripMenuItem.Click += new System.EventHandler(this.writeImageListToolStripMenuItem_Click);
             // 
             // readImageListToolStripMenuItem
             // 
             this.readImageListToolStripMenuItem.Name = "readImageListToolStripMenuItem";
-            this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.readImageListToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.readImageListToolStripMenuItem.Text = "ReadImageList";
+            // 
+            // partsFormInMainToolStripMenuItem
+            // 
+            this.partsFormInMainToolStripMenuItem.Name = "partsFormInMainToolStripMenuItem";
+            this.partsFormInMainToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.partsFormInMainToolStripMenuItem.Text = "PartsFormInMain";
+            this.partsFormInMainToolStripMenuItem.Click += new System.EventHandler(this.partsFormInMainToolStripMenuItem_Click);
             // 
             // YosiTestToolStripMenuItem
             // 
@@ -770,13 +777,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // partsFormInMainToolStripMenuItem
-            // 
-            this.partsFormInMainToolStripMenuItem.Name = "partsFormInMainToolStripMenuItem";
-            this.partsFormInMainToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.partsFormInMainToolStripMenuItem.Text = "PartsFormInMain";
-            this.partsFormInMainToolStripMenuItem.Click += new System.EventHandler(this.partsFormInMainToolStripMenuItem_Click);
             // 
             // FormMain
             // 

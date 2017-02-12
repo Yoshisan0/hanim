@@ -267,12 +267,20 @@ namespace PrjHikariwoAnim
         /// <returns>出力テーブル</returns>
         public void Save(int inIndexParent)
         {
+            //以下、自分保存処理
             int inIndexElem = ClsSystem.mFileData.AddElem(inIndexParent, this);
 
+            //以下、子オプション保存処理
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
                 clDatOption.Save(inIndexElem);
+            }
+
+            //以下、子エレメント保存処理
+            foreach (ClsDatElem clDatElem in this.mListElem)
+            {
+                clDatElem.Save(inIndexElem);
             }
         }
 
