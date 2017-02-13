@@ -155,7 +155,6 @@ namespace PrjHikariwoAnim
             if (mFormControl != null) mFormControl.Visible = checkBox_Control.Checked;
             if (mFormAttribute != null) mFormAttribute.Visible = checkBox_Attribute.Checked;
             if (mFormCell != null) mFormCell.Visible = checkBox_CellList.Checked;
-
         }
 
         /// <summary>
@@ -193,14 +192,24 @@ namespace PrjHikariwoAnim
         private void ToolStripMenuItem_New_Click(object sender, EventArgs e)
         {
             //NewProject
-            //ClearAll
-            ClsSystem.ImageMan.RemoveAll();
-            ClsSystem.mDicMotion.Clear();
-            mFormImageList.RemoveAllImage();
 
-            mFormControl.RefreshAll();
-            mFormImageList.Refresh();
-            mFormCell.Refresh();
+            if (MessageBox.Show("新規プロジェクトの作成\n既存データは全て初期化されます\nCreate a New Project.\nClear All is OK?", "Cleate Project", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //ClearAll
+                ClsSystem.ImageMan.RemoveAll();
+                ClsSystem.mDicMotion.Clear();
+                listView_Motion.Clear();
+                mFormImageList.RemoveAllImage();
+
+                ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
+                //Motion選択状態にする 他フォームの準備完了後
+                listView_Motion.Items[0].Selected = true;
+                ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
+
+                mFormControl.RefreshAll();
+                mFormImageList.Refresh();
+                mFormCell.Refresh();
+            }
         }
         /// <summary>
         /// 読み込み
