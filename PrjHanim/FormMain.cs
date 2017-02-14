@@ -1583,12 +1583,12 @@ namespace PrjHikariwoAnim
                 mFormCell.FormBorderStyle = FormBorderStyle.None;
                 mFormCell.Visible = true;
                 mFormCell.Dock = DockStyle.Fill;                
-                Panel_Chip.Controls.Add(mFormCell);
+                panel_chip.Controls.Add(mFormCell);
             }
             else
             {
                 //out
-                Panel_Chip.Controls.Remove(mFormCell);
+                panel_chip.Controls.Remove(mFormCell);
                 mFormCell.Location = this.Location;
                 mFormCell.FormBorderStyle = FormBorderStyle.SizableToolWindow;
                 mFormCell.Dock = DockStyle.None;

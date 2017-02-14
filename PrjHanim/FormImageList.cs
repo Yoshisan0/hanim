@@ -209,6 +209,7 @@ namespace PrjHikariwoAnim
             clItem.Text = listView.Items.Count.ToString();
 
             this.listView.Items.Add(clItem);
+            mFormMain.Refresh();
         }
         public void RemoveAllImage()
         {
@@ -330,9 +331,12 @@ namespace PrjHikariwoAnim
             if (this.listView.SelectedIndices.Count != 1) return;
 
             int inIndex = this.listView.SelectedIndices[0];
+            string md5 = (string)this.listView.Items[inIndex].Tag;
+            ClsSystem.ImageMan.RemoveImageChipMD5(md5);
+
             this.imageList.Images.RemoveAt(inIndex);
             this.listView.Items.RemoveAt(inIndex);
-
+            
             int inCnt, inMax = this.listView.Items.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {

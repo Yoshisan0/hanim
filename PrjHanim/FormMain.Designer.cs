@@ -88,9 +88,9 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
-            this.Panel_Chip = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.panel_chip = new System.Windows.Forms.Panel();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -103,7 +103,6 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).BeginInit();
             this.splitContainerLeft.Panel1.SuspendLayout();
-            this.splitContainerLeft.Panel2.SuspendLayout();
             this.splitContainerLeft.SuspendLayout();
             this.panel_MotionList_Base.SuspendLayout();
             this.SuspendLayout();
@@ -711,22 +710,19 @@
             // 
             // splitContainerLeft.Panel1
             // 
+            this.splitContainerLeft.Panel1.Controls.Add(this.panel_chip);
             this.splitContainerLeft.Panel1.Controls.Add(this.listView_Motion);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel2);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel_MotionList_Base);
-            // 
-            // splitContainerLeft.Panel2
-            // 
-            this.splitContainerLeft.Panel2.Controls.Add(this.Panel_Chip);
             this.splitContainerLeft.Size = new System.Drawing.Size(133, 427);
-            this.splitContainerLeft.SplitterDistance = 170;
+            this.splitContainerLeft.SplitterDistance = 369;
             this.splitContainerLeft.SplitterWidth = 5;
             this.splitContainerLeft.TabIndex = 2;
             // 
             // listView_Motion
             // 
             this.listView_Motion.BackColor = System.Drawing.Color.Black;
-            this.listView_Motion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView_Motion.Dock = System.Windows.Forms.DockStyle.Top;
             this.listView_Motion.ForeColor = System.Drawing.Color.White;
             this.listView_Motion.LabelEdit = true;
             this.listView_Motion.LabelWrap = false;
@@ -762,21 +758,19 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
-            // Panel_Chip
-            // 
-            this.Panel_Chip.AutoScroll = true;
-            this.Panel_Chip.BackColor = System.Drawing.SystemColors.Control;
-            this.Panel_Chip.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_Chip.Location = new System.Drawing.Point(0, 0);
-            this.Panel_Chip.Name = "Panel_Chip";
-            this.Panel_Chip.Size = new System.Drawing.Size(133, 252);
-            this.Panel_Chip.TabIndex = 0;
-            // 
             // SubMenu_Prpject
             // 
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
+            // 
+            // panel_chip
+            // 
+            this.panel_chip.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_chip.Location = new System.Drawing.Point(0, 170);
+            this.panel_chip.Name = "panel_chip";
+            this.panel_chip.Size = new System.Drawing.Size(133, 199);
+            this.panel_chip.TabIndex = 5;
             // 
             // FormMain
             // 
@@ -814,7 +808,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainerLeft.Panel1.ResumeLayout(false);
             this.splitContainerLeft.Panel1.PerformLayout();
-            this.splitContainerLeft.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).EndInit();
             this.splitContainerLeft.ResumeLayout(false);
             this.panel_MotionList_Base.ResumeLayout(false);
@@ -883,8 +876,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem projectHistoryToolStripMenuItem;
-        private System.Windows.Forms.Panel Panel_Chip;
         private System.Windows.Forms.ToolStripMenuItem partsFormInMainToolStripMenuItem;
+        private System.Windows.Forms.Panel panel_chip;
     }
 }
 

@@ -201,14 +201,22 @@ namespace PrjHikariwoAnim
             }
             return idx;
         }
+        /// <summary>
+        /// index番号で削除
+        /// </summary>
+        /// <param name="index">Index</param>
         public void RemoveImageChip(int index)
         {
             ImageChipList.RemoveAt(index);
         }
+        /// <summary>
+        /// imgID(hash)で削除
+        /// </summary>
+        /// <param name="imgID">int imgID(hash)</param>
         public void RemoveImageChipID(int imgID)
         {
             //
-            for(int cnt=ImageChipList.Count;cnt > 0;cnt--)
+            for(int cnt=ImageChipList.Count-1;cnt >= 0;cnt--)
             {
                 if(ImageChipList[cnt].SrcID == imgID)
                 {
@@ -216,6 +224,24 @@ namespace PrjHikariwoAnim
                 }
             }
         }
+        /// <summary>
+        /// md5で削除
+        /// </summary>
+        /// <param name="md5">string</param>
+        public void RemoveImageChipMD5(string md5)
+        {
+            //
+            for (int cnt = ImageChipList.Count-1; cnt >= 0; cnt--)
+            {
+                if (ImageChipList[cnt].StrMD5 == md5)
+                {
+                    ImageChipList.RemoveAt(cnt);
+                }
+            }
+        }
+        /// <summary>
+        /// selectフラグがtrueな物をすべて削除
+        /// </summary>
         public void RemoveSelectedCell()
         {
             for (int cnt = ImageChipList.Count; cnt > 0; cnt--)
