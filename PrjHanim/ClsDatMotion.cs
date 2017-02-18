@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -33,21 +34,6 @@ namespace PrjHikariwoAnim
             this.mID = inID;
             this.mName = clName;
             this.mFrameNum = 1;
-            this.mSelectFrame = -1;
-            this.mSelectLineNo = -1;
-            this.mListElem = new List<ClsDatElem>();
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="inID">TreeNodeのハッシュコード</param>
-        /// <param name="clFileMotion">モーション管理クラスの保存データ</param>
-        public ClsDatMotion(int inID, ClsFileMotion clFileMotion)
-        {
-            this.mID = inID;
-            this.mName = clFileMotion.mName;            //モーション名
-            this.mFrameNum = clFileMotion.mFrameNum;    //トータルフレーム数
             this.mSelectFrame = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -224,16 +210,31 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        public void Save()
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            int inIndexMotion = ClsSystem.mFileData.AddMotion(this);
-            
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            //以下、モーション保存処理
+            ClsSystem.SaveElementStart(clHeader, "Motion");
+            ClsSystem.SaveElement(clHeader + "\t", "Name", this.mName);
+            ClsSystem.SaveElement(clHeader + "\t", "FrameNum", this.mFrameNum);
+
+            //以下、エレメントリスト保存処理
+            ClsSystem.SaveElement(clHeader + "\t", "ElemListCount", this.mListElem.Count);
+            ClsSystem.SaveElementStart(clHeader + "\t", "ElemList");
+            foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.Save(inIndexMotion);
+                clDatElem.Save(clHeader + "\t\t");
             }
+            ClsSystem.SaveElementEnd(clHeader + "\t", "ElemList");
+
+            ClsSystem.SaveElementEnd(clHeader, "Motion");
+        }
+
+        /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        public void Load()
+        {
         }
 
         /// <summary>

@@ -85,12 +85,12 @@
             this.button_MotionNew = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
+            this.panel_chip = new System.Windows.Forms.Panel();
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.panel_chip = new System.Windows.Forms.Panel();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -719,6 +719,14 @@
             this.splitContainerLeft.SplitterWidth = 5;
             this.splitContainerLeft.TabIndex = 2;
             // 
+            // panel_chip
+            // 
+            this.panel_chip.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_chip.Location = new System.Drawing.Point(0, 170);
+            this.panel_chip.Name = "panel_chip";
+            this.panel_chip.Size = new System.Drawing.Size(133, 199);
+            this.panel_chip.TabIndex = 5;
+            // 
             // listView_Motion
             // 
             this.listView_Motion.BackColor = System.Drawing.Color.Black;
@@ -763,14 +771,6 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
-            // panel_chip
-            // 
-            this.panel_chip.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_chip.Location = new System.Drawing.Point(0, 170);
-            this.panel_chip.Name = "panel_chip";
-            this.panel_chip.Size = new System.Drawing.Size(133, 199);
-            this.panel_chip.TabIndex = 5;
             // 
             // FormMain
             // 

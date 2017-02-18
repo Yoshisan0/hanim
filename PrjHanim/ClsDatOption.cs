@@ -104,16 +104,24 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        /// <param name="inIndexParent">親のインデックス</param>
-        public void Save(int inIndexParent)
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            int inIndexOption = ClsSystem.mFileData.AddOption(inIndexParent, this);
+            //以下、オプション保存処理
+            ClsSystem.SaveElementStart(clHeader, "Option");
+            ClsSystem.SaveElement(clHeader + "\t", "TypeOption", this.mTypeOption.ToString());
 
+            //以下、キーフレーム保存処理
+            ClsSystem.SaveElement(clHeader + "\t", "KeyFrameListCount", this.mDicKeyFrame.Count);
+            ClsSystem.SaveElementStart(clHeader + "\t", "KeyFrameList");
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
                 ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
-                clKeyFrame.Save(inIndexOption);
+                clKeyFrame.Save(clHeader + "\t\t");
             }
+            ClsSystem.SaveElementEnd(clHeader + "\t", "KeyFrameList");
+
+            ClsSystem.SaveElementEnd(clHeader, "Option");
         }
 
         /// <summary>

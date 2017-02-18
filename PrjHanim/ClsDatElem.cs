@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -48,34 +49,6 @@ namespace PrjHikariwoAnim
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="clFileElem">親エレメントの保存データ</param>
-        /// <param name="clMotion">親モーション</param>
-        /// <param name="clElem">親エレメント</param>
-        public ClsDatElem(ClsFileElem clFileElem, ClsDatMotion clMotion, ClsDatElem clElem)
-        {
-            this.mTypeItem = TYPE_ITEM.ELEM;
-
-            this.mMotion = clMotion;
-            this.mElem = clElem;
-            this.mListElem = new List<ClsDatElem>();
-            this.mName = clFileElem.mName;
-            this.mType = ELEMENTS_TYPE.Image;
-            this.mStyle = ELEMENTS_STYLE.Rect;
-            this.isVisible = clFileElem.isVisible;  //表示非表示(目)
-            this.isLocked = clFileElem.isLocked;    //ロック状態(鍵)
-            this.isOpen = clFileElem.isOpen;        //属性開閉状態(+-)
-            this.mAttInit = new AttributeBase();
-            this.mImageChipID = clFileElem.mImageChipID;
-
-            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
-            this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
-        }
 
         /// <summary>
         /// コンストラクタ
@@ -263,25 +236,37 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
-        /// <param name="inIndexParent">親のインデックス</param>
-        /// <returns>出力テーブル</returns>
-        public void Save(int inIndexParent)
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            //以下、自分保存処理
-            int inIndexElem = ClsSystem.mFileData.AddElem(inIndexParent, this);
+            //以下、エレメント保存処理
+            ClsSystem.SaveElementStart(clHeader, "Elem");
+            ClsSystem.SaveElement(clHeader + "\t", "Name", this.mName);
+            ClsSystem.SaveElement(clHeader + "\t", "Visible", this.isVisible);
+            ClsSystem.SaveElement(clHeader + "\t", "Locked", this.isLocked);
+            ClsSystem.SaveElement(clHeader + "\t", "Open", this.isOpen);
+            ClsSystem.SaveElement(clHeader + "\t", "ImageChipID", this.mImageChipID);
 
-            //以下、子オプション保存処理
+            //以下、オプションリスト保存処理
+            ClsSystem.SaveElement(clHeader + "\t", "OptionListCount", this.mDicOption.Count);
+            ClsSystem.SaveElementStart(clHeader + "\t", "OptionList");
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
-                clDatOption.Save(inIndexElem);
+                clDatOption.Save(clHeader + "\t\t");
             }
+            ClsSystem.SaveElementEnd(clHeader + "\t", "OptionList");
 
-            //以下、子エレメント保存処理
+            //以下、エレメントリスト保存処理
+            ClsSystem.SaveElement(clHeader + "\t", "ElemListCount", this.mListElem.Count);
+            ClsSystem.SaveElementStart(clHeader + "\t", "ElemList");
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(inIndexElem);
+                clDatElem.Save(clHeader + "\t\t");
             }
+            ClsSystem.SaveElementEnd(clHeader + "\t", "ElemList");
+
+            ClsSystem.SaveElementEnd(clHeader, "Elem");
         }
 
         /// <summary>

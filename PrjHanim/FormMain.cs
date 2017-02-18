@@ -285,6 +285,7 @@ namespace PrjHikariwoAnim
             }
             */
 
+            /*
             //mDicMotion全削除
             ClsSystem.mDicMotion.Clear();
             //listView_Motion.Items全削除                    
@@ -358,6 +359,7 @@ namespace PrjHikariwoAnim
                 //以下、エレメント一時辞書に登録する処理
                 clDicElemTmp.Add(clFileElem.mIndex, clElem);
             }
+            */
 
             //以下、モーションの親子関連付け再構築処理
             foreach (int inKey in ClsSystem.mDicMotion.Keys)

@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
@@ -19,7 +20,7 @@ namespace PrjHikariwoAnim
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
         public static ImageManagerBase ImageMan;
-        public static ClsFileData mFileData;
+        public static StringBuilder mFileBuffer;
 
         /// <summary>
         /// 初期化処理
@@ -80,30 +81,45 @@ namespace PrjHikariwoAnim
         /// <param name="clFilePath">ファイルパス</param>
         public static void Save(string clFilePath)
         {
-            ClsSystem.mFileData = new ClsFileData();
-            ClsSystem.mFileData.mMotionSelectKey = ClsSystem.mMotionSelectKey;
-            ClsSystem.mFileData.mMotionCount = ClsSystem.mDicMotion.Count;
+            ClsSystem.mFileBuffer = new StringBuilder();
 
+            //以下、プロジェクトファイル保存処理
+            string clLine = "? xml version=\"1.0\" encoding=\"utf-8\" ?";
+            ClsSystem.SaveElementStart("", clLine);
+
+            clLine = "HanimProjectData xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            ClsSystem.SaveElementStart("", clLine);
+
+            string clHeader = "\t";
+            string clHeaderName = "hap";
+            ClsSystem.SaveElement(clHeader, "Header", clHeaderName);
+
+            int inVersion = 1;
+            ClsSystem.SaveElement(clHeader, "Ver", inVersion);
+
+            ClsSystem.SaveElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
+
+            //以下、モーションリスト保存処理
+            ClsSystem.SaveElement(clHeader, "MotionListCount", ClsSystem.mDicMotion.Count);
+            ClsSystem.SaveElementStart(clHeader, "MotionList");
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
-                clMotion.Save();
+                clMotion.Save(clHeader + "\t");
             }
+            ClsSystem.SaveElementEnd(clHeader, "MotionList");
+
+
 
             //ここでImageをToArray
 
 
 
-            //名前空間出力抑制
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add(String.Empty, String.Empty);
-            XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
-            using (StreamWriter sw = new StreamWriter(clFilePath))
-            {
-                //全自動シリアライズテスト
-                xs.Serialize(sw, ClsSystem.mFileData);
-                sw.Close();
-            }
+            ClsSystem.SaveElementEnd("", "HanimProjectData");
+
+            //以下、プロジェクトファイル保存処理
+            string clBuffer = ClsSystem.mFileBuffer.ToString();
+            File.WriteAllText(clFilePath, clBuffer, Encoding.UTF8);
         }
 
         public static string GetAppFileName()
@@ -200,6 +216,90 @@ namespace PrjHikariwoAnim
 
             string clResultName = clWindowName + clName;
             return (clResultName);
+        }
+
+        /// <summary>
+        /// xml形式でベクター３を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        public static void SaveVector3(string clHeader, string clName, Vector3 clVec)
+        {
+            ClsSystem.SaveElementStart(clHeader, clName);
+            ClsSystem.SaveElement(clHeader + "\t", "X", clVec.X);
+            ClsSystem.SaveElement(clHeader + "\t", "Y", clVec.Y);
+            ClsSystem.SaveElement(clHeader + "\t", "Z", clVec.Z);
+            ClsSystem.SaveElementEnd(clHeader, clName);
+        }
+
+        /// <summary>
+        /// xml形式で開始要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        public static void SaveElementStart(string clHeader, string clName)
+        {
+            string clLine = string.Format("{0}<{1}>", clHeader, clName);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で終了要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        public static void SaveElementEnd(string clHeader, string clName)
+        {
+            string clLine = string.Format("{0}</{1}>", clHeader, clName);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="clValue">値</param>
+        public static void SaveElement(string clHeader, string clName, string clValue)
+        {
+            string clValueEscape = SecurityElement.Escape(clValue);
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, clValueEscape);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="flValue">値</param>
+        public static void SaveElement(string clHeader, string clName, float flValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, flValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="isValue">値</param>
+        public static void SaveElement(string clHeader, string clName, bool isValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, isValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="inValue">値</param>
+        public static void SaveElement(string clHeader, string clName, int inValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, inValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
         }
 
         public static string DictionaryToJson(Dictionary<string, object> clDic)
