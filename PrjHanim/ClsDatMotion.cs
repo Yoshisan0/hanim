@@ -214,20 +214,20 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、モーション保存処理
-            ClsSystem.SaveElementStart(clHeader, "Motion");
-            ClsSystem.SaveElement(clHeader + "\t", "Name", this.mName);
-            ClsSystem.SaveElement(clHeader + "\t", "FrameNum", this.mFrameNum);
+            ClsSystem.AppendElementStart(clHeader, "Motion");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
 
             //以下、エレメントリスト保存処理
-            ClsSystem.SaveElement(clHeader + "\t", "ElemListCount", this.mListElem.Count);
-            ClsSystem.SaveElementStart(clHeader + "\t", "ElemList");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ElemListCount", this.mListElem.Count);
+            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "ElemList");
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(clHeader + "\t\t");
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.SaveElementEnd(clHeader + "\t", "ElemList");
+            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "ElemList");
 
-            ClsSystem.SaveElementEnd(clHeader, "Motion");
+            ClsSystem.AppendElementEnd(clHeader, "Motion");
         }
 
         /// <summary>

@@ -84,15 +84,15 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、トゥイーン保存処理
-            ClsSystem.SaveElementStart(clHeader, "Tween");
-            ClsSystem.SaveElement(clHeader + "\t", "Param", this.mParam.ToString());
-            ClsSystem.SaveElement(clHeader + "\t", "FrmStart", this.mFrmStart);
-            ClsSystem.SaveElement(clHeader + "\t", "FrmEnd", this.mFrmEnd);
-            ClsSystem.SaveVector3(clHeader + "\t", "Pos", this.mPos);
+            ClsSystem.AppendElementStart(clHeader, "Tween");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Param", this.mParam.ToString());
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrmStart", this.mFrmStart);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrmEnd", this.mFrmEnd);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Pos", this.mPos);
 
             //以下、ベクトルリスト保存処理
-            ClsSystem.SaveElement(clHeader + "\t", "VecListCount", this.mListVec.Length);
-            ClsSystem.SaveElementStart(clHeader + "\t", "VecList");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "VecListCount", this.mListVec.Length);
+            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "VecList");
             int inMax = this.mListVec.Length;
             if (inMax >= 1)
             {
@@ -101,12 +101,12 @@ namespace PrjHikariwoAnim
                 int inCnt;
                 for (inCnt = 0; inCnt < inMax; inCnt++)
                 {
-                    ClsSystem.SaveVector3(clHeader + "\t\t", "Vec", this.mListVec[inCnt]);
+                    ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
                 }
             }
-            ClsSystem.SaveElementEnd(clHeader + "\t", "VecList");
+            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "VecList");
 
-            ClsSystem.SaveElementEnd(clHeader, "Tween");
+            ClsSystem.AppendElementEnd(clHeader, "Tween");
         }
 
         public void Load()

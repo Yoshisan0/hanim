@@ -47,15 +47,15 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、キーフレーム保存処理
-            ClsSystem.SaveElementStart(clHeader, "KeyFrame");
+            ClsSystem.AppendElementStart(clHeader, "KeyFrame");
 
             //以下、トゥイーン保存処理
             if (this.mTween != null)
             {
-                this.mTween.Save(clHeader + "\t");
+                this.mTween.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
-            ClsSystem.SaveElementEnd(clHeader, "KeyFrame");
+            ClsSystem.AppendElementEnd(clHeader, "KeyFrame");
         }
     }
 }

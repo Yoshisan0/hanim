@@ -15,6 +15,7 @@ namespace PrjHikariwoAnim
 {
      public class ClsSystem
     {
+        public static string FILE_TAG = "  ";
         public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
@@ -85,29 +86,29 @@ namespace PrjHikariwoAnim
 
             //以下、プロジェクトファイル保存処理
             string clLine = "? xml version=\"1.0\" encoding=\"utf-8\" ?";
-            ClsSystem.SaveElementStart("", clLine);
+            ClsSystem.AppendElementStart("", clLine);
 
             clLine = "HanimProjectData xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
-            ClsSystem.SaveElementStart("", clLine);
+            ClsSystem.AppendElementStart("", clLine);
 
-            string clHeader = "\t";
+            string clHeader = ClsSystem.FILE_TAG;
             string clHeaderName = "hap";
-            ClsSystem.SaveElement(clHeader, "Header", clHeaderName);
+            ClsSystem.AppendElement(clHeader, "Header", clHeaderName);
 
             int inVersion = 1;
-            ClsSystem.SaveElement(clHeader, "Ver", inVersion);
+            ClsSystem.AppendElement(clHeader, "Ver", inVersion);
 
-            ClsSystem.SaveElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
+            ClsSystem.AppendElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
 
             //以下、モーションリスト保存処理
-            ClsSystem.SaveElement(clHeader, "MotionListCount", ClsSystem.mDicMotion.Count);
-            ClsSystem.SaveElementStart(clHeader, "MotionList");
+            ClsSystem.AppendElement(clHeader, "MotionListCount", ClsSystem.mDicMotion.Count);
+            ClsSystem.AppendElementStart(clHeader, "MotionList");
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
-                clMotion.Save(clHeader + "\t");
+                clMotion.Save(clHeader + ClsSystem.FILE_TAG);
             }
-            ClsSystem.SaveElementEnd(clHeader, "MotionList");
+            ClsSystem.AppendElementEnd(clHeader, "MotionList");
 
 
 
@@ -115,7 +116,7 @@ namespace PrjHikariwoAnim
 
 
 
-            ClsSystem.SaveElementEnd("", "HanimProjectData");
+            ClsSystem.AppendElementEnd("", "HanimProjectData");
 
             //以下、プロジェクトファイル保存処理
             string clBuffer = ClsSystem.mFileBuffer.ToString();
@@ -219,24 +220,11 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// xml形式でベクター３を ClsSystem.mFileBuffer に出力する処理
-        /// </summary>
-        /// <param name="clHeader">ヘッダー</param>
-        public static void SaveVector3(string clHeader, string clName, Vector3 clVec)
-        {
-            ClsSystem.SaveElementStart(clHeader, clName);
-            ClsSystem.SaveElement(clHeader + "\t", "X", clVec.X);
-            ClsSystem.SaveElement(clHeader + "\t", "Y", clVec.Y);
-            ClsSystem.SaveElement(clHeader + "\t", "Z", clVec.Z);
-            ClsSystem.SaveElementEnd(clHeader, clName);
-        }
-
-        /// <summary>
         /// xml形式で開始要素を ClsSystem.mFileBuffer に出力する処理
         /// </summary>
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
-        public static void SaveElementStart(string clHeader, string clName)
+        public static void AppendElementStart(string clHeader, string clName)
         {
             string clLine = string.Format("{0}<{1}>", clHeader, clName);
             ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
@@ -247,7 +235,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
-        public static void SaveElementEnd(string clHeader, string clName)
+        public static void AppendElementEnd(string clHeader, string clName)
         {
             string clLine = string.Format("{0}</{1}>", clHeader, clName);
             ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
@@ -259,7 +247,7 @@ namespace PrjHikariwoAnim
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
         /// <param name="clValue">値</param>
-        public static void SaveElement(string clHeader, string clName, string clValue)
+        public static void AppendElement(string clHeader, string clName, string clValue)
         {
             string clValueEscape = SecurityElement.Escape(clValue);
             string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, clValueEscape);
@@ -272,7 +260,7 @@ namespace PrjHikariwoAnim
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
         /// <param name="flValue">値</param>
-        public static void SaveElement(string clHeader, string clName, float flValue)
+        public static void AppendElement(string clHeader, string clName, float flValue)
         {
             string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, flValue);
             ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
@@ -284,7 +272,7 @@ namespace PrjHikariwoAnim
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
         /// <param name="isValue">値</param>
-        public static void SaveElement(string clHeader, string clName, bool isValue)
+        public static void AppendElement(string clHeader, string clName, bool isValue)
         {
             string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, isValue);
             ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
@@ -296,10 +284,23 @@ namespace PrjHikariwoAnim
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
         /// <param name="inValue">値</param>
-        public static void SaveElement(string clHeader, string clName, int inValue)
+        public static void AppendElement(string clHeader, string clName, int inValue)
         {
             string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, inValue);
             ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式でベクター３を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        public static void AppendElement(string clHeader, string clName, Vector3 clVec)
+        {
+            ClsSystem.AppendElementStart(clHeader, clName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "X", clVec.X);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Y", clVec.Y);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Z", clVec.Z);
+            ClsSystem.AppendElementEnd(clHeader, clName);
         }
 
         public static string DictionaryToJson(Dictionary<string, object> clDic)

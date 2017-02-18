@@ -108,20 +108,20 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、オプション保存処理
-            ClsSystem.SaveElementStart(clHeader, "Option");
-            ClsSystem.SaveElement(clHeader + "\t", "TypeOption", this.mTypeOption.ToString());
+            ClsSystem.AppendElementStart(clHeader, "Option");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "TypeOption", this.mTypeOption.ToString());
 
             //以下、キーフレーム保存処理
-            ClsSystem.SaveElement(clHeader + "\t", "KeyFrameListCount", this.mDicKeyFrame.Count);
-            ClsSystem.SaveElementStart(clHeader + "\t", "KeyFrameList");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "KeyFrameListCount", this.mDicKeyFrame.Count);
+            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "KeyFrameList");
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
                 ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
-                clKeyFrame.Save(clHeader + "\t\t");
+                clKeyFrame.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.SaveElementEnd(clHeader + "\t", "KeyFrameList");
+            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "KeyFrameList");
 
-            ClsSystem.SaveElementEnd(clHeader, "Option");
+            ClsSystem.AppendElementEnd(clHeader, "Option");
         }
 
         /// <summary>

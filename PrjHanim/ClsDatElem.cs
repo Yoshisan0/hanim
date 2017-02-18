@@ -240,33 +240,33 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、エレメント保存処理
-            ClsSystem.SaveElementStart(clHeader, "Elem");
-            ClsSystem.SaveElement(clHeader + "\t", "Name", this.mName);
-            ClsSystem.SaveElement(clHeader + "\t", "Visible", this.isVisible);
-            ClsSystem.SaveElement(clHeader + "\t", "Locked", this.isLocked);
-            ClsSystem.SaveElement(clHeader + "\t", "Open", this.isOpen);
-            ClsSystem.SaveElement(clHeader + "\t", "ImageChipID", this.mImageChipID);
+            ClsSystem.AppendElementStart(clHeader, "Elem");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isVisible);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageChipID", this.mImageChipID);
 
             //以下、オプションリスト保存処理
-            ClsSystem.SaveElement(clHeader + "\t", "OptionListCount", this.mDicOption.Count);
-            ClsSystem.SaveElementStart(clHeader + "\t", "OptionList");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "OptionListCount", this.mDicOption.Count);
+            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "OptionList");
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
-                clDatOption.Save(clHeader + "\t\t");
+                clDatOption.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.SaveElementEnd(clHeader + "\t", "OptionList");
+            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "OptionList");
 
             //以下、エレメントリスト保存処理
-            ClsSystem.SaveElement(clHeader + "\t", "ElemListCount", this.mListElem.Count);
-            ClsSystem.SaveElementStart(clHeader + "\t", "ElemList");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ElemListCount", this.mListElem.Count);
+            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "ElemList");
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(clHeader + "\t\t");
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.SaveElementEnd(clHeader + "\t", "ElemList");
+            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "ElemList");
 
-            ClsSystem.SaveElementEnd(clHeader, "Elem");
+            ClsSystem.AppendElementEnd(clHeader, "Elem");
         }
 
         /// <summary>
