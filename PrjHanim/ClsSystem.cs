@@ -6,20 +6,25 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
      public class ClsSystem
     {
+        public static string FILE_TAG = "  ";
         public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
         public static ImageManagerBase ImageMan;
-        public static ClsFileData mFileData;
+        public static StringBuilder mFileBuffer;
 
         /// <summary>
         /// 初期化処理
@@ -75,35 +80,118 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clListView">モーションリストビュー</param>
+        /// <param name="clFilePath">ファイルパス</param>
+        public static void Load(ListView clListView, string clFilePath)
+        {
+            XmlDocument clXmlDoc = new XmlDocument();
+            try
+            {
+                clXmlDoc.Load(clFilePath);
+
+                IEnumerator iEnum = clXmlDoc.DocumentElement.GetEnumerator();
+                while (iEnum.MoveNext())
+                {
+                    XmlElement clXmlElem = iEnum.Current as XmlElement;
+
+                    if ("Header".Equals(clXmlElem.Name))
+                    {
+                        if (!"hap".Equals(clXmlElem.InnerText))
+                        {
+                            throw new Exception("this is not hanim project file.");
+                        }
+                        continue;
+                    }
+
+                    if ("Ver".Equals(clXmlElem.Name))
+                    {
+                        Match clMatch = Regex.Match(clXmlElem.InnerText, "^\\d+$");
+                        if (!clMatch.Success)
+                        {
+                            throw new Exception("this is not allowed version.");
+                        }
+                        continue;
+                    }
+
+                    if ("MotionSelectKey".Equals(clXmlElem.Name))
+                    {
+                        Match clMatch = Regex.Match(clXmlElem.InnerText, "^\\d+$");
+                        if (!clMatch.Success)
+                        {
+                            throw new Exception("this is abnormality MotionSelectKey.");
+                        }
+
+                        ClsSystem.mMotionSelectKey = Convert.ToInt32(clXmlElem.InnerText);
+                        continue;
+                    }
+
+                    if ("Motion".Equals(clXmlElem.Name))
+                    {
+                        ClsDatMotion clMotion = new ClsDatMotion(0, "");
+                        clMotion.Load(clXmlElem);
+
+                        ListViewItem clListViewItem = new ListViewItem(clMotion.mName, 2);
+                        clListView.Items.Add(clListViewItem);
+                        clListViewItem.Tag = ClsSystem.mDicMotion.Count;
+
+                        clMotion.mID = clListViewItem.GetHashCode();
+                        ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
+                        continue;
+                    }
+
+                    throw new Exception("this is abnormality format.");
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
         /// <param name="clFilePath">ファイルパス</param>
         public static void Save(string clFilePath)
         {
-            ClsSystem.mFileData = new ClsFileData();
-            ClsSystem.mFileData.mMotionSelectKey = ClsSystem.mMotionSelectKey;
-            ClsSystem.mFileData.mMotionCount = ClsSystem.mDicMotion.Count;
+            ClsSystem.mFileBuffer = new StringBuilder();
 
+            //以下、プロジェクトファイル保存処理
+            string clLine = "?xml version=\"1.0\" encoding=\"utf-8\"?";
+            ClsSystem.AppendElementStart("", clLine);
+
+            clLine = "HanimProjectData xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            ClsSystem.AppendElementStart("", clLine);
+
+            string clHeader = ClsSystem.FILE_TAG;
+            string clHeaderName = "hap";
+            ClsSystem.AppendElement(clHeader, "Header", clHeaderName);
+
+            int inVersion = 1;
+            ClsSystem.AppendElement(clHeader, "Ver", inVersion);
+
+            ClsSystem.AppendElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
+
+            //以下、モーションリスト保存処理
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
-                clMotion.Save();
+                clMotion.Save(clHeader + ClsSystem.FILE_TAG);
             }
+
+
 
             //ここでImageをToArray
 
 
 
-            //名前空間出力抑制
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add(String.Empty, String.Empty);
-            XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
-            using (StreamWriter sw = new StreamWriter(clFilePath))
-            {
-                //全自動シリアライズテスト
-                xs.Serialize(sw, ClsSystem.mFileData);
-                sw.Close();
-            }
+            ClsSystem.AppendElementEnd("", "HanimProjectData");
+
+            //以下、プロジェクトファイル保存処理
+            string clBuffer = ClsSystem.mFileBuffer.ToString();
+            File.WriteAllText(clFilePath, clBuffer, Encoding.UTF8);
         }
 
         public static string GetAppFileName()
@@ -200,6 +288,126 @@ namespace PrjHikariwoAnim
 
             string clResultName = clWindowName + clName;
             return (clResultName);
+        }
+
+        /// <summary>
+        /// xml形式で開始要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        public static void AppendElementStart(string clHeader, string clName)
+        {
+            string clLine = string.Format("{0}<{1}>", clHeader, clName);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で終了要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        public static void AppendElementEnd(string clHeader, string clName)
+        {
+            string clLine = string.Format("{0}</{1}>", clHeader, clName);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="clValue">値</param>
+        public static void AppendElement(string clHeader, string clName, string clValue)
+        {
+            string clValueEscape = SecurityElement.Escape(clValue);
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, clValueEscape);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="flValue">値</param>
+        public static void AppendElement(string clHeader, string clName, float flValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, flValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="isValue">値</param>
+        public static void AppendElement(string clHeader, string clName, bool isValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, isValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        /// <param name="clName">要素名</param>
+        /// <param name="inValue">値</param>
+        public static void AppendElement(string clHeader, string clName, int inValue)
+        {
+            string clLine = string.Format("{0}<{1}>{2}</{1}>", clHeader, clName, inValue);
+            ClsSystem.mFileBuffer.Append(clLine + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// xml形式でベクター３を ClsSystem.mFileBuffer に出力する処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        public static void AppendElement(string clHeader, string clName, Vector3 clVec)
+        {
+            ClsSystem.AppendElementStart(clHeader, clName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "X", clVec.X);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Y", clVec.Y);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Z", clVec.Z);
+            ClsSystem.AppendElementEnd(clHeader, clName);
+        }
+
+        /// <summary>
+        /// XmlNodeからVector3を生成して返す
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        /// <returns>Vector3</returns>
+        public static Vector3 GetVecFromXmlNode(XmlNode clXmlNode)
+        {
+            Vector3 clVec = new Vector3();
+
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("X".Equals(clNode.Name))
+                {
+                    clVec.X = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Y".Equals(clNode.Name))
+                {
+                    clVec.Y = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Z".Equals(clNode.Name))
+                {
+                    clVec.Z = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Vec.");
+            }
+
+            return (clVec);
         }
 
         public static string DictionaryToJson(Dictionary<string, object> clDic)

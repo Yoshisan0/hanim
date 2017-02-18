@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -33,21 +36,6 @@ namespace PrjHikariwoAnim
             this.mID = inID;
             this.mName = clName;
             this.mFrameNum = 1;
-            this.mSelectFrame = -1;
-            this.mSelectLineNo = -1;
-            this.mListElem = new List<ClsDatElem>();
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="inID">TreeNodeのハッシュコード</param>
-        /// <param name="clFileMotion">モーション管理クラスの保存データ</param>
-        public ClsDatMotion(int inID, ClsFileMotion clFileMotion)
-        {
-            this.mID = inID;
-            this.mName = clFileMotion.mName;            //モーション名
-            this.mFrameNum = clFileMotion.mFrameNum;    //トータルフレーム数
             this.mSelectFrame = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -222,18 +210,70 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlElem">xmlエレメント</param>
+        public void Load(XmlElement clXmlElem)
+        {
+            XmlNodeList clListNode = clXmlElem.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("Name".Equals(clNode.Name))
+                {
+                    this.mName = clNode.InnerText;
+                    continue;
+                }
+
+                if ("FrameNum".Equals(clNode.Name))
+                {
+                    Match clMatch = Regex.Match(clNode.InnerText, "^\\d+$");
+                    if (!clMatch.Success)
+                    {
+                        throw new Exception("this is not normal FrameNum. Motion Name=" + this.mName);
+                    }
+
+                    this.mFrameNum = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Elem".Equals(clNode.Name))
+                {
+                    ClsDatElem clDatElem = new ClsDatElem(this, null);
+                    clDatElem.Load(clNode);
+
+                    this.mListElem.Add(clDatElem);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Motion. Motion Name=" + this.mName);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
-        public void Save()
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            int inIndexMotion = ClsSystem.mFileData.AddMotion(this);
-            
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            //以下、モーション保存処理
+            ClsSystem.AppendElementStart(clHeader, "Motion");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
+
+            //以下、エレメントリスト保存処理
+            foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.Save(inIndexMotion);
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
+
+            ClsSystem.AppendElementEnd(clHeader, "Motion");
+        }
+
+        /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        public void Load()
+        {
         }
 
         /// <summary>
