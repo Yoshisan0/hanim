@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace PrjHikariwoAnim
 {
@@ -102,18 +103,51 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        public void Load(XmlNode clXmlNode)
+        {
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("TypeOption".Equals(clNode.Name))
+                {
+                    this.mTypeOption = (TYPE_OPTION)Enum.Parse(typeof(TYPE_OPTION), clNode.InnerText);
+                    continue;
+                }
+
+                if ("KeyFrame".Equals(clNode.Name))
+                {
+                    ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(0);
+                    clDatKeyFrame.Load(clNode);
+
+                    this.mDicKeyFrame[clDatKeyFrame.mFrame] = clDatKeyFrame;
+                    continue;
+                }
+
+                throw new Exception("this is not normal Option. TypeOption=" + this.mTypeOption);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
-        /// <param name="inIndexParent">親のインデックス</param>
-        public void Save(int inIndexParent)
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            int inIndexOption = ClsSystem.mFileData.AddOption(inIndexParent, this);
+            //以下、オプション保存処理
+            ClsSystem.AppendElementStart(clHeader, "Option");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "TypeOption", this.mTypeOption.ToString());
 
+            //以下、キーフレーム保存処理
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
-                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
-                clKeyFrame.Save(inIndexOption);
+                ClsDatKeyFrame clDatKeyFrame = this.mDicKeyFrame[inKey];
+                clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
+
+            ClsSystem.AppendElementEnd(clHeader, "Option");
         }
 
         /// <summary>

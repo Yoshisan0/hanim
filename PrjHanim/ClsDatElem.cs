@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security;
+using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -48,34 +51,6 @@ namespace PrjHikariwoAnim
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="clFileElem">親エレメントの保存データ</param>
-        /// <param name="clMotion">親モーション</param>
-        /// <param name="clElem">親エレメント</param>
-        public ClsDatElem(ClsFileElem clFileElem, ClsDatMotion clMotion, ClsDatElem clElem)
-        {
-            this.mTypeItem = TYPE_ITEM.ELEM;
-
-            this.mMotion = clMotion;
-            this.mElem = clElem;
-            this.mListElem = new List<ClsDatElem>();
-            this.mName = clFileElem.mName;
-            this.mType = ELEMENTS_TYPE.Image;
-            this.mStyle = ELEMENTS_STYLE.Rect;
-            this.isVisible = clFileElem.isVisible;  //表示非表示(目)
-            this.isLocked = clFileElem.isLocked;    //ロック状態(鍵)
-            this.isOpen = clFileElem.isOpen;        //属性開閉状態(+-)
-            this.mAttInit = new AttributeBase();
-            this.mImageChipID = clFileElem.mImageChipID;
-
-            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
-            this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
-        }
 
         /// <summary>
         /// コンストラクタ
@@ -261,27 +236,94 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        public void Load(XmlNode clXmlNode)
+        {
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("Name".Equals(clNode.Name))
+                {
+                    this.mName = clNode.InnerText;
+                    continue;
+                }
+
+                if ("Visible".Equals(clNode.Name))
+                {
+                    this.isVisible = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Locked".Equals(clNode.Name))
+                {
+                    this.isLocked = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Open".Equals(clNode.Name))
+                {
+                    this.isOpen = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("ImageChipID".Equals(clNode.Name))
+                {
+                    this.mImageChipID = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Option".Equals(clNode.Name))
+                {
+                    ClsDatOption clDatOption = new ClsDatOption();
+                    clDatOption.Load(clNode);
+
+                    this.mDicOption[clDatOption.mTypeOption] = clDatOption;
+                    continue;
+                }
+
+                if ("Elem".Equals(clNode.Name))
+                {
+                    ClsDatElem clDatElem = new ClsDatElem(null, this);
+                    clDatElem.Load(clNode);
+
+                    this.mListElem.Add(clDatElem);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Elem. Elem Name=" + this.mName);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
-        /// <param name="inIndexParent">親のインデックス</param>
-        /// <returns>出力テーブル</returns>
-        public void Save(int inIndexParent)
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
         {
-            //以下、自分保存処理
-            int inIndexElem = ClsSystem.mFileData.AddElem(inIndexParent, this);
+            //以下、エレメント保存処理
+            ClsSystem.AppendElementStart(clHeader, "Elem");
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isVisible);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageChipID", this.mImageChipID);
 
-            //以下、子オプション保存処理
+            //以下、オプションリスト保存処理
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
-                clDatOption.Save(inIndexElem);
+                clDatOption.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
 
-            //以下、子エレメント保存処理
+            //以下、エレメントリスト保存処理
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(inIndexElem);
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
+
+            ClsSystem.AppendElementEnd(clHeader, "Elem");
         }
 
         /// <summary>

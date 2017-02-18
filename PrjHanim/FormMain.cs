@@ -15,6 +15,8 @@ using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Collections;
+using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace PrjHikariwoAnim
 {
@@ -285,15 +287,16 @@ namespace PrjHikariwoAnim
             }
             */
 
-            //mDicMotion全削除
-            ClsSystem.mDicMotion.Clear();
-            //listView_Motion.Items全削除                    
-            listView_Motion.Items.Clear();
-            //ImageList.Items全削除
-            mFormImageList.RemoveAllImage();
-            //ImageMan全削除
-            ClsSystem.ImageMan.RemoveAll();
+            //以下、初期化処理
+            ClsSystem.mDicMotion.Clear();           //mDicMotion全削除
+            this.listView_Motion.Items.Clear();     //listView_Motion.Items全削除
+            this.mFormImageList.RemoveAllImage();   //ImageList.Items全削除
+            ClsSystem.ImageMan.RemoveAll();         //ImageMan全削除
 
+            //以下、プロジェクトファイル読み込み処理
+            ClsSystem.Load(this.listView_Motion, clFilePath);
+
+            /*
             XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
             StreamReader sr = new StreamReader(clFilePath);
             ClsFileData clFileData = new ClsFileData();
@@ -358,6 +361,7 @@ namespace PrjHikariwoAnim
                 //以下、エレメント一時辞書に登録する処理
                 clDicElemTmp.Add(clFileElem.mIndex, clElem);
             }
+            */
 
             //以下、モーションの親子関連付け再構築処理
             foreach (int inKey in ClsSystem.mDicMotion.Keys)

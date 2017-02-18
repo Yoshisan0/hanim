@@ -28,22 +28,22 @@ namespace PrjHikariwoAnim
         private static float SIZE_ELLIPSE = 15.0f;  //円の直径
         private static int MAX_X = 256;             //保存用データの長さ
 
-        private bool mPush;         //マウスを押しているかどうかのフラグ
-        private int mFrmStart;      //開始フレーム
-        private int mFrmEnd;        //終了フレーム
-        private int mFrmCurrent;    //カレントフレーム
-        private Pen mPenRed;        //赤いラインのペン
-        private Pen mPenForce;      //ベクトルのペン
-        private Pen mPenGraph;      //ラインのペン
-        private Pen mPenGrid;       //グリッドのペン
-        private Pen mPenCenterLine; //カレントフレームのペン
-        private Vector3[] mListPos; //ポイントのリスト
-        private Vector3[] mListVec; //ベクトルのリスト
-        private int mGripNo;        //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
-        private Bitmap mImage0;     //イメージ
-        private Bitmap mImage1;     //イメージ
-        private bool mChange;       //変更フラグ
-        private FormMain mFormMain; //メインフォーム
+        private bool mPush;             //マウスを押しているかどうかのフラグ
+        private int mFrmStart;          //開始フレーム
+        private int mFrmEnd;            //終了フレーム
+        private int mFrmCurrent;        //カレントフレーム
+        private Pen mPenRed;            //赤いラインのペン
+        private Pen mPenForce;          //ベクトルのペン
+        private Pen mPenGraph;          //ラインのペン
+        private Pen mPenGrid;           //グリッドのペン
+        private Pen mPenCenterLine;     //カレントフレームのペン
+        private List<Vector3> mListPos; //ポイントのリスト
+        private List<Vector3> mListVec; //ベクトルのリスト
+        private int mGripNo;            //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
+        private Bitmap mImage0;         //イメージ
+        private Bitmap mImage1;         //イメージ
+        private bool mChange;           //変更フラグ
+        private FormMain mFormMain;     //メインフォーム
         private ClsDatTween.EnmParam mParam;    //パラメーター種別
 
         /// <summary>
@@ -67,15 +67,15 @@ namespace PrjHikariwoAnim
             this.mFrmEnd = inFrmEnd;
             this.mFrmCurrent = inFrmCurrent;
 
-            this.mListPos = new Vector3[3];
-            this.mListPos[0] = new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f);
-            this.mListPos[1] = new Vector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f);
-            this.mListPos[2] = new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f);
+            this.mListPos = new List<Vector3>();
+            this.mListPos.Add(new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
+            this.mListPos.Add(new Vector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f));
+            this.mListPos.Add(new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
 
-            this.mListVec = new Vector3[3];
-            this.mListVec[0] = new Vector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f);
-            this.mListVec[1] = new Vector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f);
-            this.mListVec[2] = new Vector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f);
+            this.mListVec = new List<Vector3>();
+            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f));
+            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f));
+            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f));
 
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
@@ -104,16 +104,16 @@ namespace PrjHikariwoAnim
             this.mFrmEnd = inFrmEnd;
             this.mFrmCurrent = inFrmCurrent;
 
-            this.mListPos = new Vector3[3];
-            this.mListPos[0] = new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f);
-            this.mListPos[1] = new Vector3(clPos.X, clPos.Y, clPos.Z);
-            this.mListPos[2] = new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f);
+            this.mListPos = new List<Vector3>();
+            this.mListPos.Add(new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
+            this.mListPos.Add(new Vector3(clPos.X, clPos.Y, clPos.Z));
+            this.mListPos.Add(new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
 
-            this.mListVec = new Vector3[3];
+            this.mListVec = new List<Vector3>();
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                this.mListVec[inCnt] = new Vector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z);
+                this.mListVec.Add(new Vector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z));
             }
 
             //panel_PreView.DoubleBuuferd = true;
@@ -155,23 +155,23 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 重みを返す処理
         /// </summary>
-        /// <param name="clTween">トゥイーン情報</param>
+        /// <param name="clDatTween">トゥイーン情報</param>
         /// <param name="puchRate">重みリスト</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <returns>重み(0.0～1.0)</returns>
-        public static float GetRate(ClsDatTween clTween, byte[] puchRate, int inFrmCurrent)
+        public static float GetRate(ClsDatKeyFrame clDatKeyFrame, ClsDatTween clDatTween, byte[] puchRate, int inFrmCurrent)
         {
-            if (clTween == null) return (0.0f);
+            if (clDatTween == null) return (0.0f);
             if (puchRate == null)
             {
-                puchRate = FormRateGraph.CreateSaveData(clTween);
+                puchRate = FormRateGraph.CreateSaveData(clDatTween);
                 if (puchRate == null) return (0.0f);
             }
-            if (!(clTween.mFrmStart <= inFrmCurrent && inFrmCurrent <= clTween.mFrmEnd)) return (0.0f);
+            if (!(clDatKeyFrame.mFrame <= inFrmCurrent && inFrmCurrent <= clDatKeyFrame.mFrame + clDatTween.mLength)) return (0.0f);
 
-            float flFrmSize = clTween.mFrmEnd - clTween.mFrmStart;
-            inFrmCurrent -= clTween.mFrmStart;
-            byte uchRate = (byte)((float)inFrmCurrent / flFrmSize * puchRate.Length);
+            float flFrmLength = clDatTween.mLength;
+            inFrmCurrent -= clDatKeyFrame.mFrame;
+            byte uchRate = (byte)((float)inFrmCurrent / flFrmLength * puchRate.Length);
             float flRate = (float)uchRate / byte.MaxValue;
 
             return (flRate);
@@ -276,7 +276,7 @@ namespace PrjHikariwoAnim
         /// <returns>トゥイーン情報</returns>
         public ClsDatTween GetTween()
         {
-            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mListPos[1], this.mListVec);
+            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mFrmEnd - this.mFrmStart, this.mListPos[1], this.mListVec);
             return (clTween);
         }
 
