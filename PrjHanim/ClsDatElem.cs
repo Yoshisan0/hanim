@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Security;
+using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -234,6 +236,67 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        public void Load(XmlNode clXmlNode)
+        {
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("Name".Equals(clNode.Name))
+                {
+                    this.mName = clNode.InnerText;
+                    continue;
+                }
+
+                if ("Visible".Equals(clNode.Name))
+                {
+                    this.isVisible = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Locked".Equals(clNode.Name))
+                {
+                    this.isLocked = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Open".Equals(clNode.Name))
+                {
+                    this.isOpen = Convert.ToBoolean(clNode.InnerText);
+                    continue;
+                }
+
+                if ("ImageChipID".Equals(clNode.Name))
+                {
+                    this.mImageChipID = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Option".Equals(clNode.Name))
+                {
+                    ClsDatOption clDatOption = new ClsDatOption();
+                    clDatOption.Load(clNode);
+
+                    this.mDicOption[clDatOption.mTypeOption] = clDatOption;
+                    continue;
+                }
+
+                if ("Elem".Equals(clNode.Name))
+                {
+                    ClsDatElem clDatElem = new ClsDatElem(null, this);
+                    clDatElem.Load(clNode);
+
+                    this.mListElem.Add(clDatElem);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Elem. Elem Name=" + this.mName);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
         /// <param name="clHeader">ヘッダー</param>
@@ -248,23 +311,17 @@ namespace PrjHikariwoAnim
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageChipID", this.mImageChipID);
 
             //以下、オプションリスト保存処理
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "OptionListCount", this.mDicOption.Count);
-            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "OptionList");
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
                 clDatOption.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "OptionList");
 
             //以下、エレメントリスト保存処理
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ElemListCount", this.mListElem.Count);
-            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "ElemList");
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "ElemList");
 
             ClsSystem.AppendElementEnd(clHeader, "Elem");
         }

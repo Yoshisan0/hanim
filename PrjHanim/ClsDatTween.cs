@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace PrjHikariwoAnim
 {
@@ -31,40 +32,43 @@ namespace PrjHikariwoAnim
         }
 
         public EnmParam mParam;
-        public int mFrmStart;
-        public int mFrmEnd;
+        public int mLength;         //継続フレーム数
         public Vector3 mPos;
-        public Vector3[] mListVec;
+        public List<Vector3> mListVec;
 
         //シリアライザ用
         public ClsDatTween() { }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="enParam">種別</param>
-        /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="clPos">座標</param>
         /// <param name="pclVec">各ベクトル</param>
-        public ClsDatTween(EnmParam enParam, int inFrmStart, int inFrmEnd, Vector3 clPos, Vector3[] pclVec)
+        public ClsDatTween(EnmParam enParam, int inLength, Vector3 clPos, List<Vector3> pclVec)
         {
             this.mParam = enParam;
-            this.mFrmStart = inFrmStart;
-            this.mFrmEnd = inFrmEnd;
+            this.mLength = inLength;
 
             this.mPos = new Vector3(clPos.X, clPos.Y, 0.0f);
 
-            this.mListVec = new Vector3[3];
+            this.mListVec = new List<Vector3>();
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                this.mListVec[inCnt] = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
+                Vector3 clVec = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
+                this.mListVec.Add(clVec);
             }
         }
 
         public void RemoveAll()
         {
-            this.mListVec = null;
+            if (this.mListVec != null)
+            {
+                this.mListVec.Clear();
+                this.mListVec = null;
+            }
         }
 
         /// <summary>
@@ -73,8 +77,46 @@ namespace PrjHikariwoAnim
         /// <returns>トゥイーン情報</returns>
         public ClsDatTween Clone()
         {
-            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mFrmStart, this.mFrmEnd, this.mPos, this.mListVec);
+            ClsDatTween clTween = new ClsDatTween(this.mParam, this.mLength, this.mPos, this.mListVec);
             return (clTween);
+        }
+
+        /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        public void Load(XmlNode clXmlNode)
+        {
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("Param".Equals(clNode.Name))
+                {
+                    this.mParam = (EnmParam)Enum.Parse(typeof(EnmParam), clNode.InnerText);
+                    continue;
+                }
+
+                if ("Length".Equals(clNode.Name))
+                {
+                    this.mLength = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Pos".Equals(clNode.Name))
+                {
+                    this.mPos = ClsSystem.GetVecFromXmlNode(clNode);
+                    continue;
+                }
+
+                if ("Vec".Equals(clNode.Name))
+                {
+                    Vector3 clVec = ClsSystem.GetVecFromXmlNode(clNode);
+                    this.mListVec.Add(clVec);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Tween.");
+            }
         }
 
         /// <summary>
@@ -86,25 +128,19 @@ namespace PrjHikariwoAnim
             //以下、トゥイーン保存処理
             ClsSystem.AppendElementStart(clHeader, "Tween");
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Param", this.mParam.ToString());
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrmStart", this.mFrmStart);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrmEnd", this.mFrmEnd);
+            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Length", this.mLength);
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Pos", this.mPos);
 
             //以下、ベクトルリスト保存処理
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "VecListCount", this.mListVec.Length);
-            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "VecList");
-            int inMax = this.mListVec.Length;
+            int inMax = this.mListVec.Count;
             if (inMax >= 1)
             {
-                this.mListVec = new Vector3[inMax];
-
                 int inCnt;
                 for (inCnt = 0; inCnt < inMax; inCnt++)
                 {
                     ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
                 }
             }
-            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "VecList");
 
             ClsSystem.AppendElementEnd(clHeader, "Tween");
         }

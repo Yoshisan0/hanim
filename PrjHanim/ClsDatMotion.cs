@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -208,6 +210,46 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlElem">xmlエレメント</param>
+        public void Load(XmlElement clXmlElem)
+        {
+            XmlNodeList clListNode = clXmlElem.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("Name".Equals(clNode.Name))
+                {
+                    this.mName = clNode.InnerText;
+                    continue;
+                }
+
+                if ("FrameNum".Equals(clNode.Name))
+                {
+                    Match clMatch = Regex.Match(clNode.InnerText, "^\\d+$");
+                    if (!clMatch.Success)
+                    {
+                        throw new Exception("this is not normal FrameNum. Motion Name=" + this.mName);
+                    }
+
+                    this.mFrameNum = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Elem".Equals(clNode.Name))
+                {
+                    ClsDatElem clDatElem = new ClsDatElem(this, null);
+                    clDatElem.Load(clNode);
+
+                    this.mListElem.Add(clDatElem);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Motion. Motion Name=" + this.mName);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
         /// <param name="clHeader">ヘッダー</param>
@@ -219,13 +261,10 @@ namespace PrjHikariwoAnim
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
 
             //以下、エレメントリスト保存処理
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ElemListCount", this.mListElem.Count);
-            ClsSystem.AppendElementStart(clHeader + ClsSystem.FILE_TAG, "ElemList");
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
             }
-            ClsSystem.AppendElementEnd(clHeader + ClsSystem.FILE_TAG, "ElemList");
 
             ClsSystem.AppendElementEnd(clHeader, "Motion");
         }

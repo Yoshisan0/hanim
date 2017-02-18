@@ -9,6 +9,9 @@ using System.Runtime.Serialization.Json;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
@@ -77,6 +80,77 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clListView">モーションリストビュー</param>
+        /// <param name="clFilePath">ファイルパス</param>
+        public static void Load(ListView clListView, string clFilePath)
+        {
+            XmlDocument clXmlDoc = new XmlDocument();
+            try
+            {
+                clXmlDoc.Load(clFilePath);
+
+                IEnumerator iEnum = clXmlDoc.DocumentElement.GetEnumerator();
+                while (iEnum.MoveNext())
+                {
+                    XmlElement clXmlElem = iEnum.Current as XmlElement;
+
+                    if ("Header".Equals(clXmlElem.Name))
+                    {
+                        if (!"hap".Equals(clXmlElem.InnerText))
+                        {
+                            throw new Exception("this is not hanim project file.");
+                        }
+                        continue;
+                    }
+
+                    if ("Ver".Equals(clXmlElem.Name))
+                    {
+                        Match clMatch = Regex.Match(clXmlElem.InnerText, "^\\d+$");
+                        if (!clMatch.Success)
+                        {
+                            throw new Exception("this is not allowed version.");
+                        }
+                        continue;
+                    }
+
+                    if ("MotionSelectKey".Equals(clXmlElem.Name))
+                    {
+                        Match clMatch = Regex.Match(clXmlElem.InnerText, "^\\d+$");
+                        if (!clMatch.Success)
+                        {
+                            throw new Exception("this is abnormality MotionSelectKey.");
+                        }
+
+                        ClsSystem.mMotionSelectKey = Convert.ToInt32(clXmlElem.InnerText);
+                        continue;
+                    }
+
+                    if ("Motion".Equals(clXmlElem.Name))
+                    {
+                        ClsDatMotion clMotion = new ClsDatMotion(0, "");
+                        clMotion.Load(clXmlElem);
+
+                        ListViewItem clListViewItem = new ListViewItem(clMotion.mName, 2);
+                        clListView.Items.Add(clListViewItem);
+                        clListViewItem.Tag = ClsSystem.mDicMotion.Count;
+
+                        clMotion.mID = clListViewItem.GetHashCode();
+                        ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
+                        continue;
+                    }
+
+                    throw new Exception("this is abnormality format.");
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+        /// <summary>
         /// 保存処理
         /// </summary>
         /// <param name="clFilePath">ファイルパス</param>
@@ -85,7 +159,7 @@ namespace PrjHikariwoAnim
             ClsSystem.mFileBuffer = new StringBuilder();
 
             //以下、プロジェクトファイル保存処理
-            string clLine = "? xml version=\"1.0\" encoding=\"utf-8\" ?";
+            string clLine = "?xml version=\"1.0\" encoding=\"utf-8\"?";
             ClsSystem.AppendElementStart("", clLine);
 
             clLine = "HanimProjectData xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
@@ -101,14 +175,11 @@ namespace PrjHikariwoAnim
             ClsSystem.AppendElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
 
             //以下、モーションリスト保存処理
-            ClsSystem.AppendElement(clHeader, "MotionListCount", ClsSystem.mDicMotion.Count);
-            ClsSystem.AppendElementStart(clHeader, "MotionList");
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
                 clMotion.Save(clHeader + ClsSystem.FILE_TAG);
             }
-            ClsSystem.AppendElementEnd(clHeader, "MotionList");
 
 
 
@@ -301,6 +372,42 @@ namespace PrjHikariwoAnim
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Y", clVec.Y);
             ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Z", clVec.Z);
             ClsSystem.AppendElementEnd(clHeader, clName);
+        }
+
+        /// <summary>
+        /// XmlNodeからVector3を生成して返す
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        /// <returns>Vector3</returns>
+        public static Vector3 GetVecFromXmlNode(XmlNode clXmlNode)
+        {
+            Vector3 clVec = new Vector3();
+
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            foreach (XmlNode clNode in clListNode)
+            {
+                if ("X".Equals(clNode.Name))
+                {
+                    clVec.X = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Y".Equals(clNode.Name))
+                {
+                    clVec.Y = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                if ("Z".Equals(clNode.Name))
+                {
+                    clVec.Z = Convert.ToSingle(clNode.InnerText);
+                    continue;
+                }
+
+                throw new Exception("this is not normal Vec.");
+            }
+
+            return (clVec);
         }
 
         public static string DictionaryToJson(Dictionary<string, object> clDic)

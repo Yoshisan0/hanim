@@ -1154,7 +1154,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、キーフレーム作成処理
-            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame();
+            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame(inIndex);
 
             //以下、コントロール更新処理
             this.RefreshControl();
