@@ -276,8 +276,9 @@ namespace PrjHikariwoAnim
 
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption();
+                    ClsDatOption clDatOption = new ClsDatOption(null, ClsDatOption.TYPE_OPTION.NONE);
                     clDatOption.Load(clNode);
+                    clDatOption.mElem = this;
 
                     this.mDicOption[clDatOption.mTypeOption] = clDatOption;
                     continue;

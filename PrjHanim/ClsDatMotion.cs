@@ -226,12 +226,6 @@ namespace PrjHikariwoAnim
 
                 if ("FrameNum".Equals(clNode.Name))
                 {
-                    Match clMatch = Regex.Match(clNode.InnerText, "^\\d+$");
-                    if (!clMatch.Success)
-                    {
-                        throw new Exception("this is not normal FrameNum. Motion Name=" + this.mName);
-                    }
-
                     this.mFrameNum = Convert.ToInt32(clNode.InnerText);
                     continue;
                 }
