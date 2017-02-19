@@ -166,7 +166,7 @@ namespace PrjHikariwoAnim
         {
             //ImageManへの登録
             ImageChip chip = new ImageChip();
-            chip.FromPngFile(clPath,true);
+            chip.FromPath(clPath,true);
             ClsSystem.ImageMan.AddImageChip(chip);
 
             //以下、MD5重複チェック処理
@@ -397,7 +397,7 @@ namespace PrjHikariwoAnim
 
                 ImageChip ic = new ImageChip();
                 ic.Path = clPath;
-                ic.FromPngFile(ic.Path,true);
+                ic.FromPath(ic.Path,true);
 
                 ic.Rect = clFormImageCut.GetRectangle();
                 ic.ImageCut(ic, ic.Rect);

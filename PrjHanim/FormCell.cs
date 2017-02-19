@@ -96,7 +96,7 @@ namespace PrjHikariwoAnim
                     if (ext == ".png")
                     {
                         ImageChip c = new ImageChip();
-                        c.FromPngFile(str,true);
+                        c.FromPath(str,true);
                         ImageMan.AddImageChip(c);
                         //ImageListへ登録と更新
                         //CellListの表示更新
@@ -251,7 +251,7 @@ namespace PrjHikariwoAnim
                 foreach (string fn in ofd.FileNames)
                 {
                     ImageChip ic = new ImageChip();
-                    ic.FromPngFile(fn, true);
+                    ic.FromPath(fn, true);
                     ImageMan.AddImageChip(ic);
                 }
             }

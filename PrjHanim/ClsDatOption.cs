@@ -138,7 +138,7 @@ namespace PrjHikariwoAnim
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
                 ClsDatKeyFrame clDatKeyFrame = this.mDicKeyFrame[inKey];
-                clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
+                clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
             ClsSystem.AppendElementEnd(clHeader, "Option");
