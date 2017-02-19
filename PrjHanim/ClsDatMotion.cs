@@ -174,7 +174,7 @@ namespace PrjHikariwoAnim
             //ElementList再構築
             foreach(ClsDatElem clElem in this.mListElem)
             {
-                clElem.mMotion = this;   //親の再指定
+                clElem.mMotion = this;  //親の再指定
                 clElem.Restore();
             }
         }
@@ -226,12 +226,6 @@ namespace PrjHikariwoAnim
 
                 if ("FrameNum".Equals(clNode.Name))
                 {
-                    Match clMatch = Regex.Match(clNode.InnerText, "^\\d+$");
-                    if (!clMatch.Success)
-                    {
-                        throw new Exception("this is not normal FrameNum. Motion Name=" + this.mName);
-                    }
-
                     this.mFrameNum = Convert.ToInt32(clNode.InnerText);
                     continue;
                 }
@@ -263,7 +257,7 @@ namespace PrjHikariwoAnim
             //以下、エレメントリスト保存処理
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
             ClsSystem.AppendElementEnd(clHeader, "Motion");

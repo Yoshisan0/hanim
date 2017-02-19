@@ -19,6 +19,8 @@ namespace PrjHikariwoAnim
      public class ClsSystem
     {
         public static string FILE_TAG = "  ";
+        public static string mHeader;
+        public static int mVer;
         public static Hashtable mTblImage;  //キーはstringのMD5　値はClsImage
         public static ClsSetting mSetting = null;   //保存データ
         public static int mMotionSelectKey;//現在編集中のモーションキー（TreeNodeのハッシュコード）
@@ -86,11 +88,15 @@ namespace PrjHikariwoAnim
         /// <param name="clFilePath">ファイルパス</param>
         public static void Load(ListView clListView, string clFilePath)
         {
+            ClsSystem.mMotionSelectKey = -1;
+
             XmlDocument clXmlDoc = new XmlDocument();
             try
             {
+                //以下、xmlファイル読み込み処理
                 clXmlDoc.Load(clFilePath);
 
+                //以下、プロジェクトファイル読み込み処理
                 IEnumerator iEnum = clXmlDoc.DocumentElement.GetEnumerator();
                 while (iEnum.MoveNext())
                 {
@@ -102,6 +108,8 @@ namespace PrjHikariwoAnim
                         {
                             throw new Exception("this is not hanim project file.");
                         }
+
+                        ClsSystem.mHeader = clXmlElem.InnerText;
                         continue;
                     }
 
@@ -112,18 +120,23 @@ namespace PrjHikariwoAnim
                         {
                             throw new Exception("this is not allowed version.");
                         }
+
+                        ClsSystem.mVer = Convert.ToInt32(clXmlElem.InnerText);
                         continue;
                     }
 
-                    if ("MotionSelectKey".Equals(clXmlElem.Name))
+                    if ("Image".Equals(clXmlElem.Name))
                     {
-                        Match clMatch = Regex.Match(clXmlElem.InnerText, "^\\d+$");
-                        if (!clMatch.Success)
+                        string clPath = clXmlElem.InnerText;
+                        bool isExist = File.Exists(clPath);
+                        if (isExist)
                         {
-                            throw new Exception("this is abnormality MotionSelectKey.");
+                            ClsSystem.ImageMan.AddCellFromPath(clPath);
                         }
-
-                        ClsSystem.mMotionSelectKey = Convert.ToInt32(clXmlElem.InnerText);
+                        else
+                        {
+                            ClsSystem.ImageMan.AddCellFromImage(Properties.Resources.error);
+                        }
                         continue;
                     }
 
@@ -137,11 +150,19 @@ namespace PrjHikariwoAnim
                         clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
                         clMotion.mID = clListViewItem.GetHashCode();
+                        clMotion.Restore();     //モーションの親子関連付け再構築処理
+                        clMotion.Assignment();  //行番号などを設定する処理
                         ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
                         continue;
                     }
 
                     throw new Exception("this is abnormality format.");
+                }
+
+                //以下、デフォルトで選択しているモーションを設定する処理
+                if (clListView.Items.Count >= 1)
+                {
+                    ClsSystem.mMotionSelectKey = clListView.Items[0].GetHashCode();
                 }
             }
             catch (Exception err)
@@ -172,20 +193,23 @@ namespace PrjHikariwoAnim
             int inVersion = 1;
             ClsSystem.AppendElement(clHeader, "Ver", inVersion);
 
-            ClsSystem.AppendElement(clHeader, "MotionSelectKey", ClsSystem.mMotionSelectKey);
+            //以下、イメージリスト保存処理
+            int inIndex = 0;
+            while (true)
+            {
+                ImageChip clImage = ClsSystem.ImageMan.GetImageChipFromIndex(inIndex);
+                if (clImage == null) break;
+
+                ClsSystem.AppendElement(clHeader, "Image", clImage.Path);
+                inIndex++;
+            }
 
             //以下、モーションリスト保存処理
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
-                clMotion.Save(clHeader + ClsSystem.FILE_TAG);
+                clMotion.Save(clHeader);
             }
-
-
-
-            //ここでImageをToArray
-
-
 
             ClsSystem.AppendElementEnd("", "HanimProjectData");
 

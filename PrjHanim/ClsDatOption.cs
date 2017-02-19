@@ -33,12 +33,6 @@ namespace PrjHikariwoAnim
         public TYPE_OPTION mTypeOption;  //タイプ
         public Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
 
-        //シリアライズにはパラメータなしコンストラクタが必用らしいので追加
-        public ClsDatOption()
-        {
-
-        }
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -62,8 +56,8 @@ namespace PrjHikariwoAnim
             //以下、キーフレーム全削除処理
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
-                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inKey];
-                clKeyFrame.RemoveAll();
+                ClsDatKeyFrame clDatKeyFrame = this.mDicKeyFrame[inKey];
+                clDatKeyFrame.RemoveAll();
             }
             this.mDicKeyFrame.Clear();
         }
@@ -144,7 +138,7 @@ namespace PrjHikariwoAnim
             foreach (int inKey in this.mDicKeyFrame.Keys)
             {
                 ClsDatKeyFrame clDatKeyFrame = this.mDicKeyFrame[inKey];
-                clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
+                clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
             ClsSystem.AppendElementEnd(clHeader, "Option");

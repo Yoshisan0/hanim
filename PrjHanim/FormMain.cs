@@ -228,10 +228,10 @@ namespace PrjHikariwoAnim
 
                 this.listView_Motion.Refresh();
 
-                //最初のモーションを選択する
-                ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();
-                System.Media.SystemSounds.Exclamation.Play();//読込完了音
+                System.Media.SystemSounds.Exclamation.Play();   //読込完了音
+                this.panel_PreView.Refresh();
                 this.mFormCell.Refresh();
+                this.mFormControl.RefreshAll();
             }
             ofd.Dispose();
         }
@@ -241,52 +241,6 @@ namespace PrjHikariwoAnim
         /// <param name="clFilePath">ファイルパス</param>
         public void LoadProject(string clFilePath)
         {
-            /*
-            if (ClsSystem.mDicMotion != null)
-            {
-                //mDicMotion全削除
-                ClsSystem.mDicMotion.Clear();
-                //listView_Motion.Items全削除                    
-                listView_Motion.Items.Clear();
-                //ImageList.Items全削除
-                mFormImageList.RemoveAllImage();
-                //ImageMan全削除
-                ClsSystem.ImageMan.RemoveAll();
-
-                //ファイルを読み込み
-                //モーション数確認し
-                //ListView_MotionとmDicMotionの同時再作成
-                //初期モーションを指定し再描画
-                //の流れ　かな
-
-                XmlSerializer xs = new XmlSerializer(typeof(ProjectSaveData));
-                StreamReader sr = new StreamReader(fname);
-                //仮データ
-                ProjectSaveData psd = new ProjectSaveData();
-                psd = (ProjectSaveData)xs.Deserialize(sr);//デシリアライズ
-
-                //ImageMan再構築
-                ClsSystem.ImageMan.AddArray(psd.ImageChipList);//イメージチップ登録
-                ClsSystem.ImageMan.RestoreIamgeList();//全ての画像再読込
-                mFormImageList.Restore();
-
-                //Motion再構築
-                int cnt = psd.arryMotion.Count();
-                foreach (ClsDatMotion m in psd.arryMotion)
-                {
-                    //Motion登録
-                    ListViewItem lvi = new ListViewItem(m.mName, 2);
-                    listView_Motion.Items.Add(lvi);
-                    lvi.Tag = ClsSystem.mDicMotion.Count;
-
-                    ClsSystem.mDicMotion.Add(lvi.GetHashCode(), m);
-                    //ElementList再構築
-                    m.Restore();
-                }
-                sr.Close();
-            }
-            */
-
             //以下、初期化処理
             ClsSystem.mDicMotion.Clear();           //mDicMotion全削除
             this.listView_Motion.Items.Clear();     //listView_Motion.Items全削除
@@ -295,80 +249,8 @@ namespace PrjHikariwoAnim
 
             //以下、プロジェクトファイル読み込み処理
             ClsSystem.Load(this.listView_Motion, clFilePath);
-
-            /*
-            XmlSerializer xs = new XmlSerializer(typeof(ClsFileData));
-            StreamReader sr = new StreamReader(clFilePath);
-            ClsFileData clFileData = new ClsFileData();
-            clFileData = (ClsFileData)xs.Deserialize(sr);//デシリアライズ
-
-            //ImageMan再構築
-            ClsSystem.ImageMan.AddArray(clFileData.mListImageChip); //イメージチップ登録
-            ClsSystem.ImageMan.RestoreIamgeList();                  //全ての画像再読込
-
-            //以下、親子関連付け用の一時保管辞書
-            Dictionary<int, ClsDatMotion> clDicMotionTmp = new Dictionary<int, ClsDatMotion>();
-            Dictionary<int, ClsDatElem> clDicElemTmp = new Dictionary<int, ClsDatElem>();
-
-            //以下、モーション再構築処理
-            ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
-            int inCnt, inMax = clFileData.mListMotion.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsFileMotion clFileMotion = clFileData.mListMotion[inCnt];
-
-                //以下、リストビューに登録する処理
-                ListViewItem clListViewItem = new ListViewItem(clFileMotion.mName, 2);
-                this.listView_Motion.Items.Add(clListViewItem);
-                clListViewItem.Tag = ClsSystem.mDicMotion.Count;
-
-                //以下、モーション辞書に登録する処理
-                ClsDatMotion clMotion = new ClsDatMotion(clListViewItem.GetHashCode(), clFileMotion);
-                int inHashCode = clMotion.GetHashCode();
-                ClsSystem.mDicMotion.Add(inHashCode, clMotion);
-
-                //以下、モーション一時辞書に登録する処理
-                clDicMotionTmp.Add(clFileMotion.mIndex, clMotion);
-            }
-
-            //以下、エレメント再構築
-            inMax = clFileData.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsFileElem clFileElem = clFileData.mListElem[inCnt];
-
-                //以下、親モーションか親エレメントが存在するかチェックする処理
-                bool isExistMotion = clDicMotionTmp.ContainsKey(clFileElem.mIndexParent);
-                bool isExistElem = clDicElemTmp.ContainsKey(clFileElem.mIndexParent);
-                if (!isExistMotion && !isExistElem) continue;
-
-                ClsDatElem clElem = null;
-                if (isExistMotion)
-                {
-                    //以下、親モーションに子エレメントを登録する処理
-                    ClsDatMotion clParentMotion = clDicMotionTmp[clFileElem.mIndexParent];
-                    clElem = new ClsDatElem(clFileElem, clParentMotion, null);
-                    clParentMotion.AddElements(clElem);
-                }
-                else
-                {
-                    //以下、親エレメントに子エレメントを登録する処理
-                    ClsDatElem clParentElem = clDicElemTmp[clFileElem.mIndexParent];
-                    clElem = new ClsDatElem(clFileElem, null, clParentElem);
-                    clParentElem.AddElemChild(clElem);
-                }
-
-                //以下、エレメント一時辞書に登録する処理
-                clDicElemTmp.Add(clFileElem.mIndex, clElem);
-            }
-            */
-
-            //以下、モーションの親子関連付け再構築処理
-            foreach (int inKey in ClsSystem.mDicMotion.Keys)
-            {
-                ClsSystem.mDicMotion[inKey].Restore();
-            }
         }
+
         /// <summary>
         /// 保存
         /// </summary>
@@ -1155,7 +1037,7 @@ namespace PrjHikariwoAnim
                     if (ext == ".png")
                     {
                         ImageChip c = new ImageChip();
-                        c.FromPngFile(str,true);
+                        c.FromPath(str,true);
 
                         c =  ClsSystem.ImageMan.AddImageChip(c);
                         this.listView_Motion_AddElements(c, sPos.X, sPos.Y);

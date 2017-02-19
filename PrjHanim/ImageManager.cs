@@ -72,10 +72,12 @@ namespace PrjHikariwoAnim
             ImageChipList.Clear();
             //ImageHashTable.Clear();
         }
+        /*
         public Image GetImageFromIndex(int index)
         {
             return ImageChipList[index].Img;
         }
+        */
         /// <summary>
         /// イメージリストの保存
         /// </summary>
@@ -113,7 +115,7 @@ namespace PrjHikariwoAnim
                 //イメージ再読み込みとmd5生成
                 foreach(ImageChip ic in work)
                 {
-                    ic.FromPngFile(ic.Path,false);
+                    ic.FromPath(ic.Path,false);
                 }
                 //仮配列から戻し
                 ImageChipList.Clear();
@@ -185,9 +187,9 @@ namespace PrjHikariwoAnim
         /// PNGファイルから読み込みCELLを作成
         /// 既存CELLがあればその番号を返す
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">イメージパス</param>
         /// <returns>CellIndex</returns>
-        public int AddCellFromPNG(string path)
+        public int AddCellFromPath(string path)
         {
             //既存チェック
             int idx = GetIndexFromPath(path);
@@ -195,12 +197,31 @@ namespace PrjHikariwoAnim
             {
                 //it's new
                 ImageChip c = new ImageChip();
-                c.FromPngFile(path,true);
+                c.FromPath(path,true);
                 ImageChipList.Add(c);
                 idx = ImageChipList.Count;
             }
+
             return idx;
         }
+
+        /// <summary>
+        /// PNGファイルから読み込みCELLを作成
+        /// 既存CELLがあっても追加するので注意（エラー画像読み込みに利用している）
+        /// </summary>
+        /// <param name="clBmp">イメージ管理クラス</param>
+        /// <returns>CellIndex</returns>
+        public int AddCellFromImage(Bitmap clBmp)
+        {
+            //it's new
+            ImageChip c = new ImageChip();
+            c.FromImage("", clBmp, true);
+            ImageChipList.Add(c);
+            int idx = ImageChipList.Count;
+
+            return idx;
+        }
+
         /// <summary>
         /// index番号で削除
         /// </summary>
@@ -289,7 +310,7 @@ namespace PrjHikariwoAnim
         }
         public ImageChip GetImageChipFromIndex(int idx)
         {
-            if (idx < 0 || idx > ImageChipList.Count) return null;
+            if (idx < 0 || idx >= ImageChipList.Count) return null;
             return ImageChipList[idx];
         }
         public ImageChip GetImageChipFromID(int ID)
@@ -363,7 +384,6 @@ namespace PrjHikariwoAnim
         [XmlIgnore]
         public string ImgStrBase64;//XML JSON用テスト
 
-        
         public ImageChip()
         {
             SrcID = 0;
@@ -447,32 +467,47 @@ namespace PrjHikariwoAnim
             fs.Close();
             
         }
+
         //事前にImageManagerレベルで重複チェックすること
         //通常はImagemanager.AddPngFileを使う事！
         /// <summary>
-        /// psthからファイルを読み込む
+        /// pathからファイルを読み込む
         /// </summary>
         /// <param name="path">filePath</param>
         /// <param name="hashset">SrcIDにhashを入れるか指定</param>
         /// <returns></returns>
-        public ImageChip FromPngFile(string path,bool hashset)
+        public ImageChip FromPath(string path,bool hashset)
         {
             Bitmap work = new Bitmap(path);//FileLockの可能性？
-            Img = work;
-            StrMD5 = ClsSystem.GetMD5FromImage(work);
-            Path = path;
-            //重複チェック
-            if(hashset) SrcID = this.GetHashCode();
-            Rect = new Rectangle(0, 0, work.Width, work.Height);
-            Name = System.IO.Path.GetFileNameWithoutExtension(path);
+            this.FromImage(path, work, hashset);
             return this ;
         }
+
+        /// <summary>
+        /// イメージ管理クラスを設定する
+        /// </summary>
+        /// <param name="path">filepath</param>
+        /// <param name="clBmp">イメージ管理クラス</param>
+        /// <param name="hashset">SrcIDにhashを入れるか指定</param>
+        /// <returns></returns>
+        public ImageChip FromImage(string path, Bitmap clBmp, bool hashset)
+        {
+            Img = clBmp;
+            StrMD5 = ClsSystem.GetMD5FromImage(clBmp);
+            Path = path;
+            //重複チェック
+            if (hashset) SrcID = this.GetHashCode();
+            Rect = new Rectangle(0, 0, clBmp.Width, clBmp.Height);
+            Name = System.IO.Path.GetFileNameWithoutExtension(path);
+            return this;
+        }
+
         /// <summary>
         /// イメージの再読込
         /// </summary>
         public void RestoreImage()
         {
-            this.FromPngFile(this.Path,false);
+            this.FromPath(this.Path,false);
             //部分取込
             if (Img.Width != Rect.Width || Img.Height != Rect.Height)
             {

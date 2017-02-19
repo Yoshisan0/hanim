@@ -276,8 +276,9 @@ namespace PrjHikariwoAnim
 
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption();
+                    ClsDatOption clDatOption = new ClsDatOption(null, ClsDatOption.TYPE_OPTION.NONE);
                     clDatOption.Load(clNode);
+                    clDatOption.mElem = this;
 
                     this.mDicOption[clDatOption.mTypeOption] = clDatOption;
                     continue;
@@ -314,13 +315,13 @@ namespace PrjHikariwoAnim
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
-                clDatOption.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
+                clDatOption.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
             //以下、エレメントリスト保存処理
             foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clDatElem.Save(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG);
+                clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
             ClsSystem.AppendElementEnd(clHeader, "Elem");

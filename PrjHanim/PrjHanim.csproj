@@ -237,6 +237,7 @@
     <None Include="glyph\hanimL.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\error.PNG" />
     <None Include="Resources\plus.PNG" />
     <None Include="Resources\minus.PNG" />
     <None Include="Resources\checkA2.PNG" />
@@ -263,6 +264,7 @@
     <None Include="glyph\markRed.PNG" />
     <None Include="glyph\markYellow.PNG" />
     <None Include="glyph\repeat.PNG" />
+    <Content Include="glyph\error.PNG" />
     <Content Include="hanimL.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -138,7 +138,7 @@ namespace PrjHikariwoAnim
                 int inCnt;
                 for (inCnt = 0; inCnt < inMax; inCnt++)
                 {
-                    ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
+                    ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
                 }
             }
 
