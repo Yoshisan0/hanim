@@ -12,15 +12,17 @@ namespace PrjHikariwoAnim
     public class ImageManagerBase
     {
         /*
+         取説:
             プロジェクトで使うイメージリスト
             重複ファイルは登録しない
             パスと検索用のファイル名を記録しIDで管理
 
-            ImageChipListはさらにその画像の一部分を表現
-            ImageChipとImage分離するか悩む
-            あ、参照カウンタも必要か？
+            private List<ImageChip>ImageChipList
+            class:ImageChip:画像データ(参照カウンタ完備)
 
-            ImageChip:画像データ
+            SAVE&LOADについて
+            ImageChipListをXMLシリアライズにてストリームで読み書き
+
             
         */
         // member:
@@ -272,7 +274,6 @@ namespace PrjHikariwoAnim
                     ImageChipList.RemoveAt(cnt-1);
                 }
             }
-
         }
         
         /// <summary>
@@ -421,7 +422,11 @@ namespace PrjHikariwoAnim
         }
 
         //参照カウンタ回り
-        
+        /// <summary>
+        /// 参照カウンタ
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public bool refCountUp(int i)
         {
             Refcount += i;
@@ -503,7 +508,7 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// イメージの再読込
+        /// Pathからイメージの再読込
         /// </summary>
         public void RestoreImage()
         {
@@ -514,6 +519,11 @@ namespace PrjHikariwoAnim
                 this.Img = this.ImageCut(this, this.Rect);
             }
         }
+
+        /// <summary>
+        /// ImaghChipのバイナリ書込
+        /// </summary>
+        /// <param name="bw">BinaryWriter</param>
         public void BinaryToStream(BinaryWriter bw)
         {
                 bw.Write(ID);
@@ -525,7 +535,10 @@ namespace PrjHikariwoAnim
                 bw.Write(Rect.Height);
                 Img.Save(bw.BaseStream, System.Drawing.Imaging.ImageFormat.Png);         
         }
-
+        /// <summary>
+        /// ImageChipのバイナリ読出
+        /// </summary>
+        /// <param name="stm"></param>
         public void BinaryFromStream(Stream stm)
         {
             StreamReader sw = new StreamReader(stm);
@@ -546,9 +559,11 @@ namespace PrjHikariwoAnim
 
             Img.Save(stm, System.Drawing.Imaging.ImageFormat.Png);
             sw.Close();
-        }
-
-        
+        }   
+        /// <summary>
+        /// ImageChipのXML保存
+        /// </summary>
+        /// <param name="fname"></param>
         public void ToXMLFile(string fname)
         {
             ImgStrBase64 = ClsSystem.ImageToBase64(Img); 
@@ -556,7 +571,10 @@ namespace PrjHikariwoAnim
             ToStreamXML(fs);
             fs.Close();
         }
-
+        /// <summary>
+        /// ImageChipのXML読出
+        /// </summary>
+        /// <param name="stm"></param>
         public void ToStreamXML(Stream stm)
         {
             //bitmapはシリアライズされない
@@ -565,7 +583,6 @@ namespace PrjHikariwoAnim
             //imgを元に戻す
             this.Img = ClsSystem.ImageFromBase64(this.ImgStrBase64);
         }
-
     }
 
 }
