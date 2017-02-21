@@ -228,10 +228,22 @@ namespace PrjHikariwoAnim
 
                 this.listView_Motion.Refresh();
 
-                System.Media.SystemSounds.Exclamation.Play();   //読込完了音
+                //以下、選択中のライン番号初期化処理
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.SetSelectFromLineNo(-1);
+
+                //以下、各種コントロール設定処理
+                //以下、ウィンドウ名を修正する処理
+                this.SetName(clMotion);
+                this.mFormControl.SetMotion(clMotion);
+                this.mFormAttribute.Init(null);
+
+                //以下、各種ウィンドウ更新処理
                 this.panel_PreView.Refresh();
                 this.mFormCell.Refresh();
                 this.mFormControl.RefreshAll();
+
+                System.Media.SystemSounds.Exclamation.Play();   //読込完了音
             }
             ofd.Dispose();
         }
