@@ -14,8 +14,6 @@ namespace PrjHikariwoAnim
 {
     public partial class FormCell : Form
     {        
-        public ImageManagerBase ImageMan ;
-
         private int mTumsSize=64;//Thumbnailサイズ
         private FormMain mFormMain;
         private Point mMouseDownPoint = Point.Empty; //ドラックドロップ開始点
@@ -25,8 +23,6 @@ namespace PrjHikariwoAnim
         public FormCell(FormMain form)
         {
             InitializeComponent();
-            //ImageMan = new ImageManagerBase();
-            ImageMan = ClsSystem.ImageMan;
             mFormMain = form;
         }
         private void FormCell_Load(object sender, EventArgs e)
@@ -46,7 +42,7 @@ namespace PrjHikariwoAnim
         private void FormCell_Resize(object sender, EventArgs e)
         {
             panel_list.Width = panel_listBase.Width;
-            panel_list.Height = mTumsSize * (ImageMan.ChipCount() / (panel_list.Width / mTumsSize));
+            panel_list.Height = mTumsSize * (ClsSystem.mListImage.Count / (panel_list.Width / mTumsSize));
             if (panel_list.Height < panel_listBase.Height) panel_list.Height = panel_listBase.Height;
             panel_listBase.Refresh();
         }
@@ -95,9 +91,9 @@ namespace PrjHikariwoAnim
                     string ext = System.IO.Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        ImageChip c = new ImageChip();
-                        c.FromPath(str,true);
-                        ImageMan.AddImageChip(c);
+                        ClsDatImage c = new ClsDatImage();
+                        c.SetImageFromFilePath(str);
+                        ClsSystem.mListImage.Add(c);
                         //ImageListへ登録と更新
                         //CellListの表示更新
                         Refresh();
@@ -138,9 +134,9 @@ namespace PrjHikariwoAnim
                 {
                     //ドラッグ開始
                     int selectIndex = PointToItemIndex(e.X , e.Y );
-                    if (selectIndex >=0 && selectIndex < ImageMan.ChipCount())
-                    {                        
-                        DragDropEffects rete = panel_listBase.DoDragDrop(ImageMan.GetImageChipFromIndex(selectIndex), DragDropEffects.Copy);
+                    if (selectIndex >=0 && selectIndex < ClsSystem.mListImage.Count)
+                    {
+                        DragDropEffects rete = panel_listBase.DoDragDrop(ClsSystem.mListImage[selectIndex], DragDropEffects.Copy);
                         if(rete==DragDropEffects.Copy)
                         {
                             //正常完了
@@ -164,11 +160,11 @@ namespace PrjHikariwoAnim
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はクリックセレクトの関係から縦横固定サイズが望ましい
 
-            if (ImageMan.ChipCount() <= 0) return;
+            if (ClsSystem.mListImage.Count <= 0) return;
 
-            while (dpY < panel_listBase.Height && cnt < ImageMan.ChipCount())
+            while (dpY < panel_listBase.Height && cnt < ClsSystem.mListImage.Count)
             {
-                Image src = ImageMan.GetImageChipFromIndex(cnt).Img;
+                Image src = ClsSystem.mListImage[cnt].Origin;
                 if (src == null)
                 {
                     Console.Out.Write("CellImage is Null");
@@ -184,7 +180,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawImage(src, dpX+(bSize / 2 - (ds.X / 2)), dpY + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
-                if (ImageMan.GetImageChipFromIndex(cnt).Selected)
+                if (ClsSystem.mListImage[cnt].mSelect)
                 {
                     e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(dpX,dpY, bSize - 1, bSize - 1));
                 }
@@ -202,9 +198,9 @@ namespace PrjHikariwoAnim
         {
             //Cell Select
             int sel = PointToItemIndex(mMouseDownPoint.X, mMouseDownPoint.Y);
-            if (sel >= 0 && sel < ClsSystem.ImageMan.ChipCount())
+            if (sel >= 0 && sel < ClsSystem.mListImage.Count)
             {
-                ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected = !ClsSystem.ImageMan.GetImageChipFromIndex(sel).Selected;
+                ClsSystem.mListImage[sel].mSelect = !ClsSystem.mListImage[sel].mSelect;
                 panel_listBase.Refresh();
             }
         }
@@ -212,15 +208,15 @@ namespace PrjHikariwoAnim
         {
             //Call ImageCuter
             int idx = PointToItemIndex(e.X, e.Y);
-            ImageChip ic = ImageMan.GetImageChipFromIndex(idx);
+            ClsDatImage ic = ClsSystem.mListImage[idx];
 
-            FormImageCut fic = new FormImageCut(this.mFormMain, ic.Img, ic.Path);
+            FormImageCut fic = new FormImageCut(this.mFormMain, ic.Origin, ic.mPath);
             if (fic.ShowDialog() == DialogResult.OK)
             {
-                ImageChip[] ica = fic.ImageManager.ToArray();
-                ImageMan.AddArray(ica);
-                panel_list.Refresh();
+                
             }
+
+            panel_list.Refresh();
         }
         private int PointToItemIndex(int x,int y)
         {
@@ -229,15 +225,6 @@ namespace PrjHikariwoAnim
             return (cy * (panel_list.Width / mTumsSize)) + cx;
         }
 
-        private void button_Del_Click(object sender, EventArgs e)
-        {
-            ClsSystem.ImageMan.RemoveSelectedCell();         
-            panel_listBase.Refresh();
-        }
-        private void button_Doc_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-        }
         private void button_LoadPic_Click(object sender, EventArgs e)
         {
             //LoadImage
@@ -246,17 +233,69 @@ namespace PrjHikariwoAnim
             ofd.Multiselect = true;
             ofd.Filter = "png|*.png";
             ofd.InitialDirectory = ClsSystem.mSetting.mLastImageDirectory;
-            if(ofd.ShowDialog()==DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 foreach (string fn in ofd.FileNames)
                 {
-                    ImageChip ic = new ImageChip();
-                    ic.FromPath(fn, true);
-                    ImageMan.AddImageChip(ic);
+                    ClsDatImage ic = new ClsDatImage();
+                    ic.SetImageFromFilePath(fn);
+                    ClsSystem.mListImage.Add(ic);
                 }
             }
             ofd.Dispose();
             panel_list.Refresh();
+        }
+
+        private void button_Doc_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        }
+
+        private void button_Cut_Click(object sender, EventArgs e)
+        {
+            /*
+            if (this.listView.SelectedIndices.Count != 1) return;
+
+            int inIndex = this.listView.SelectedIndices[0];
+
+            string clPath = this.listView.Items[inIndex].SubItems[1].Text;
+            Image clImageSrc = this.mListImage[inIndex] as Image;
+
+            FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clImageSrc, clPath);
+            DialogResult enResult = clFormImageCut.ShowDialog();
+            if (enResult == DialogResult.OK)
+            {
+                //以下、画像切り取り処理
+                AddItem(clImageSrc, clFormImageCut.GetRectangle(), clPath);
+
+                ImageChip ic = new ImageChip();
+                ic.Path = clPath;
+                ic.FromPath(ic.Path, true);
+
+                ic.Rect = clFormImageCut.GetRectangle();
+                ic.ImageCut(ic, ic.Rect);
+                ClsSystem.ImageMan.AddImageChip(ic);
+                this.listView.Items[inIndex + 1].Tag = ic.StrMD5;
+            }
+            clFormImageCut.Dispose();
+            clFormImageCut = null;
+            */
+        }
+
+        private void button_Delete_Click(object sender, EventArgs e)
+        {
+            List<string> clListRemove = new List<string>();
+            int inCnt, inMax = ClsSystem.mListImage.Count;
+            for (inCnt= inMax- 1; inCnt>= 0;inCnt--)
+            {
+                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                if (!clDatImage.mSelect) continue;
+
+                clDatImage.Remove();
+                ClsSystem.mListImage.RemoveAt(inCnt);
+            }
+
+            panel_listBase.Refresh();
         }
     }
 }

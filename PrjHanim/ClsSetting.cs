@@ -17,7 +17,6 @@ namespace PrjHikariwoAnim
         public ClsSettingWindow mWindowCell;
         public ClsSettingWindow mWindowControl;
         public ClsSettingWindow mWindowImageCut;
-        public ClsSettingWindow mWindowImageList;
         public ClsSettingWindow mWindowRateGraph;
         public ClsSettingWindow mWindowSetting;
         public Color mMainColorBack;
@@ -31,7 +30,6 @@ namespace PrjHikariwoAnim
         public bool mWindowMain_DrawGird;
         public bool mWindowMain_DrawCross;
         public bool mWindowMain_GridSnap;
-        public bool mWindowMain_ImageList;
         public bool mWindowMain_Control;
         public bool mWindowMain_Attribute;
         public bool mWindowMain_CellList;
@@ -54,7 +52,6 @@ namespace PrjHikariwoAnim
             this.mWindowCell = new ClsSettingWindow(0, 0, 188, 280);
             this.mWindowControl = new ClsSettingWindow(0, 0, 700, 280);
             this.mWindowImageCut = new ClsSettingWindow(0, 0, 627, 360);
-            this.mWindowImageList = new ClsSettingWindow(0, 0, 512, 512);
             this.mWindowRateGraph = new ClsSettingWindow(0, 0, 568, 621);
             this.mWindowSetting = new ClsSettingWindow(0, 0, 640, 480);
             this.mMainColorBack = Color.Black;
@@ -68,7 +65,6 @@ namespace PrjHikariwoAnim
             this.mWindowMain_DrawCross = true;
             this.mWindowMain_WidthGrid = 10;
             this.mWindowMain_GridSnap = true;
-            this.mWindowMain_ImageList = true;
             this.mWindowMain_Control = true;
             this.mWindowMain_Attribute = true;
             this.mWindowMain_CellList = true;
@@ -84,7 +80,7 @@ namespace PrjHikariwoAnim
         public void Save()
         {
             //以下、パス生成処理
-            string clFileName = ClsSystem.GetAppFileName();
+            string clFileName = ClsTool.GetAppFileName();
             string clPath = ClsPath.GetPath(clFileName + ".setting");
 
             //以下、Json作成処理

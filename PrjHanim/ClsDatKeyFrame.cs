@@ -79,8 +79,8 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、キーフレーム保存処理
-            ClsSystem.AppendElementStart(clHeader, "KeyFrame");
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Frame", this.mFrame);
+            ClsTool.AppendElementStart(clHeader, "KeyFrame");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Frame", this.mFrame);
 
             //以下、トゥイーン保存処理
             if (this.mTween != null)
@@ -88,7 +88,7 @@ namespace PrjHikariwoAnim
                 this.mTween.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
-            ClsSystem.AppendElementEnd(clHeader, "KeyFrame");
+            ClsTool.AppendElementEnd(clHeader, "KeyFrame");
         }
     }
 }

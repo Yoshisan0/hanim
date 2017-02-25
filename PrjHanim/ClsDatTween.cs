@@ -104,13 +104,13 @@ namespace PrjHikariwoAnim
 
                 if ("Pos".Equals(clNode.Name))
                 {
-                    this.mPos = ClsSystem.GetVecFromXmlNode(clNode);
+                    this.mPos = ClsTool.GetVecFromXmlNode(clNode);
                     continue;
                 }
 
                 if ("Vec".Equals(clNode.Name))
                 {
-                    Vector3 clVec = ClsSystem.GetVecFromXmlNode(clNode);
+                    Vector3 clVec = ClsTool.GetVecFromXmlNode(clNode);
                     this.mListVec.Add(clVec);
                     continue;
                 }
@@ -126,10 +126,10 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、トゥイーン保存処理
-            ClsSystem.AppendElementStart(clHeader, "Tween");
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Param", this.mParam.ToString());
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Length", this.mLength);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Pos", this.mPos);
+            ClsTool.AppendElementStart(clHeader, "Tween");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Param", this.mParam.ToString());
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Length", this.mLength);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Pos", this.mPos);
 
             //以下、ベクトルリスト保存処理
             int inMax = this.mListVec.Count;
@@ -138,11 +138,11 @@ namespace PrjHikariwoAnim
                 int inCnt;
                 for (inCnt = 0; inCnt < inMax; inCnt++)
                 {
-                    ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
+                    ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Vec", this.mListVec[inCnt]);
                 }
             }
 
-            ClsSystem.AppendElementEnd(clHeader, "Tween");
+            ClsTool.AppendElementEnd(clHeader, "Tween");
         }
 
         public void Load()

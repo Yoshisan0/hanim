@@ -47,7 +47,7 @@ namespace PrjHikariwoAnim
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
-        public int mImageChipID;            //イメージID
+        public int mImageIndex;             //イメージインデックス
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
@@ -71,7 +71,7 @@ namespace PrjHikariwoAnim
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
             this.mAttInit = new AttributeBase();
-            this.mImageChipID = 0;
+            this.mImageIndex = -1;
 
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
@@ -268,9 +268,9 @@ namespace PrjHikariwoAnim
                     continue;
                 }
 
-                if ("ImageChipID".Equals(clNode.Name))
+                if ("ImageIndex".Equals(clNode.Name))
                 {
-                    this.mImageChipID = Convert.ToInt32(clNode.InnerText);
+                    this.mImageIndex = Convert.ToInt32(clNode.InnerText);
                     continue;
                 }
 
@@ -304,12 +304,12 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、エレメント保存処理
-            ClsSystem.AppendElementStart(clHeader, "Elem");
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isVisible);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageChipID", this.mImageChipID);
+            ClsTool.AppendElementStart(clHeader, "Elem");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isVisible);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageIndex", this.mImageIndex);
 
             //以下、オプションリスト保存処理
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
@@ -324,7 +324,7 @@ namespace PrjHikariwoAnim
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
-            ClsSystem.AppendElementEnd(clHeader, "Elem");
+            ClsTool.AppendElementEnd(clHeader, "Elem");
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ namespace PrjHikariwoAnim
             ia.SetColorMatrix(colmat);
 
             //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-            ImageChip c = ClsSystem.ImageMan.GetImageChipFromID(this.mImageChipID);
+            ClsDatImage c = ClsSystem.mListImage[this.mImageIndex];
             if (c == null) { Console.WriteLine("Image:null"); return; }
 
             //原点を部品中心に
@@ -791,12 +791,12 @@ namespace PrjHikariwoAnim
             //Draw
             if (atr.isTransparrency || atr.isColor)
             {
-                g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Img.Width, c.Img.Height, GraphicsUnit.Pixel, ia);
+                g.DrawImage(c.Origin, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.Origin.Width, c.Origin.Height, GraphicsUnit.Pixel, ia);
             }
             else
             {
                 //透明化カラー補正なし
-                g.DrawImage(c.Img, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
+                g.DrawImage(c.Origin, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
             }
 
 /*

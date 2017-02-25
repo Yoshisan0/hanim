@@ -43,9 +43,8 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// モーションの全てを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
-        public void RemoveAll()
+        public void Remove()
         {
             //以下、エレメント全削除処理
             int inCnt, inMax = this.mListElem.Count;
@@ -250,9 +249,9 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、モーション保存処理
-            ClsSystem.AppendElementStart(clHeader, "Motion");
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
+            ClsTool.AppendElementStart(clHeader, "Motion");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
 
             //以下、エレメントリスト保存処理
             foreach (ClsDatElem clDatElem in this.mListElem)
@@ -260,7 +259,7 @@ namespace PrjHikariwoAnim
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
-            ClsSystem.AppendElementEnd(clHeader, "Motion");
+            ClsTool.AppendElementEnd(clHeader, "Motion");
         }
 
         /// <summary>

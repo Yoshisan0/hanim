@@ -72,7 +72,6 @@
             this.checkBox_CellList = new System.Windows.Forms.CheckBox();
             this.checkBox_Attribute = new System.Windows.Forms.CheckBox();
             this.checkBox_Control = new System.Windows.Forms.CheckBox();
-            this.checkBox_ImageList = new System.Windows.Forms.CheckBox();
             this.Spaceer1 = new System.Windows.Forms.Panel();
             this.checkBox_Snap = new System.Windows.Forms.CheckBox();
             this.HScrollBar_ZoomLevel = new System.Windows.Forms.HScrollBar();
@@ -287,7 +286,6 @@
             this.ToolStripMenuItem_ImageList.Name = "ToolStripMenuItem_ImageList";
             this.ToolStripMenuItem_ImageList.Size = new System.Drawing.Size(140, 22);
             this.ToolStripMenuItem_ImageList.Text = "ImageList (&I)";
-            this.ToolStripMenuItem_ImageList.Click += new System.EventHandler(this.TSMenu_ImageList_Click);
             // 
             // ToolStripMenuItem_Control
             // 
@@ -428,7 +426,6 @@
             this.panel1.Controls.Add(this.checkBox_CellList);
             this.panel1.Controls.Add(this.checkBox_Attribute);
             this.panel1.Controls.Add(this.checkBox_Control);
-            this.panel1.Controls.Add(this.checkBox_ImageList);
             this.panel1.Controls.Add(this.Spaceer1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(131, 0);
@@ -440,7 +437,7 @@
             // 
             this.button_AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
-            this.button_AlingForm.Location = new System.Drawing.Point(130, 0);
+            this.button_AlingForm.Location = new System.Drawing.Point(100, 0);
             this.button_AlingForm.Margin = new System.Windows.Forms.Padding(0);
             this.button_AlingForm.Name = "button_AlingForm";
             this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
@@ -459,7 +456,7 @@
             this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
-            this.checkBox_CellList.Location = new System.Drawing.Point(100, 0);
+            this.checkBox_CellList.Location = new System.Drawing.Point(70, 0);
             this.checkBox_CellList.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_CellList.Name = "checkBox_CellList";
             this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
@@ -478,7 +475,7 @@
             this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
-            this.checkBox_Attribute.Location = new System.Drawing.Point(70, 0);
+            this.checkBox_Attribute.Location = new System.Drawing.Point(40, 0);
             this.checkBox_Attribute.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Attribute.Name = "checkBox_Attribute";
             this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
@@ -497,7 +494,7 @@
             this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
-            this.checkBox_Control.Location = new System.Drawing.Point(40, 0);
+            this.checkBox_Control.Location = new System.Drawing.Point(10, 0);
             this.checkBox_Control.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Control.Name = "checkBox_Control";
             this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
@@ -505,25 +502,6 @@
             this.toolTipMain.SetToolTip(this.checkBox_Control, "コントロールフォーム表示");
             this.checkBox_Control.UseVisualStyleBackColor = false;
             this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
-            // 
-            // checkBox_ImageList
-            // 
-            this.checkBox_ImageList.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_ImageList.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.checkBox_ImageList.Checked = true;
-            this.checkBox_ImageList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ImageList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_ImageList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_ImageList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ImageList.Location = new System.Drawing.Point(10, 0);
-            this.checkBox_ImageList.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_ImageList.Name = "checkBox_ImageList";
-            this.checkBox_ImageList.Size = new System.Drawing.Size(30, 30);
-            this.checkBox_ImageList.TabIndex = 0;
-            this.checkBox_ImageList.Text = "絵";
-            this.toolTipMain.SetToolTip(this.checkBox_ImageList, "イメージフォーム表示");
-            this.checkBox_ImageList.UseVisualStyleBackColor = false;
-            this.checkBox_ImageList.CheckedChanged += new System.EventHandler(this.CB_ImageList_CheckedChanged);
             // 
             // Spaceer1
             // 
@@ -853,7 +831,6 @@
         public System.Windows.Forms.CheckBox checkBox_CellList;
         public System.Windows.Forms.CheckBox checkBox_Attribute;
         public System.Windows.Forms.CheckBox checkBox_Control;
-        public System.Windows.Forms.CheckBox checkBox_ImageList;
         private System.Windows.Forms.CheckBox checkBox_Helper;
         private System.Windows.Forms.ToolTip toolTipMain;
         private System.Windows.Forms.SplitContainer splitContainerLeft;

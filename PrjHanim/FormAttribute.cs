@@ -78,7 +78,7 @@ namespace PrjHikariwoAnim
             }
             else
             {
-                this.Text = ClsSystem.GetWindowName("Attribute", clElem);
+                this.Text = ClsTool.GetWindowName("Attribute", clElem);
                 this.panel_Attribute_Base.Enabled = true;
                 //this.Enabled = true;
 
@@ -280,7 +280,8 @@ namespace PrjHikariwoAnim
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
 
-        FRAME test = null;
+//        FRAME test = null;
+        //※FRAMEとはなんでしょう？
 
         private void button_X_Click(object sender, EventArgs e)
         {

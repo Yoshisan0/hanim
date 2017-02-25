@@ -131,8 +131,8 @@ namespace PrjHikariwoAnim
         public void Save(string clHeader)
         {
             //以下、オプション保存処理
-            ClsSystem.AppendElementStart(clHeader, "Option");
-            ClsSystem.AppendElement(clHeader + ClsSystem.FILE_TAG, "TypeOption", this.mTypeOption.ToString());
+            ClsTool.AppendElementStart(clHeader, "Option");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "TypeOption", this.mTypeOption.ToString());
 
             //以下、キーフレーム保存処理
             foreach (int inKey in this.mDicKeyFrame.Keys)
@@ -141,7 +141,7 @@ namespace PrjHikariwoAnim
                 clDatKeyFrame.Save(clHeader + ClsSystem.FILE_TAG);
             }
 
-            ClsSystem.AppendElementEnd(clHeader, "Option");
+            ClsTool.AppendElementEnd(clHeader, "Option");
         }
 
         /// <summary>

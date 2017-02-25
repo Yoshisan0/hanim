@@ -30,9 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel_menu = new System.Windows.Forms.Panel();
+            this.button_Delete = new System.Windows.Forms.Button();
+            this.button_Cut = new System.Windows.Forms.Button();
             this.button_OpenDoc = new System.Windows.Forms.Button();
             this.button_LoadPic = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel_listBase = new System.Windows.Forms.Panel();
             this.panel_list = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -44,14 +45,47 @@
             // 
             this.panel_menu.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel_menu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_menu.Controls.Add(this.button_Delete);
+            this.panel_menu.Controls.Add(this.button_Cut);
             this.panel_menu.Controls.Add(this.button_OpenDoc);
             this.panel_menu.Controls.Add(this.button_LoadPic);
-            this.panel_menu.Controls.Add(this.button1);
             this.panel_menu.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_menu.Location = new System.Drawing.Point(0, 0);
             this.panel_menu.Name = "panel_menu";
-            this.panel_menu.Size = new System.Drawing.Size(112, 26);
+            this.panel_menu.Size = new System.Drawing.Size(194, 26);
             this.panel_menu.TabIndex = 0;
+            // 
+            // button_Delete
+            // 
+            this.button_Delete.BackColor = System.Drawing.Color.DimGray;
+            this.button_Delete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Delete.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_Delete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button_Delete.Image = global::PrjHikariwoAnim.Properties.Resources.delete;
+            this.button_Delete.Location = new System.Drawing.Point(166, 0);
+            this.button_Delete.Name = "button_Delete";
+            this.button_Delete.Size = new System.Drawing.Size(26, 24);
+            this.button_Delete.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.button_Delete, "Open Doc");
+            this.button_Delete.UseVisualStyleBackColor = false;
+            this.button_Delete.Click += new System.EventHandler(this.button_Delete_Click);
+            // 
+            // button_Cut
+            // 
+            this.button_Cut.BackColor = System.Drawing.Color.DimGray;
+            this.button_Cut.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_Cut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Cut.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_Cut.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button_Cut.Image = global::PrjHikariwoAnim.Properties.Resources.cut;
+            this.button_Cut.Location = new System.Drawing.Point(52, 0);
+            this.button_Cut.Name = "button_Cut";
+            this.button_Cut.Size = new System.Drawing.Size(26, 24);
+            this.button_Cut.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.button_Cut, "Open Doc");
+            this.button_Cut.UseVisualStyleBackColor = false;
+            this.button_Cut.Click += new System.EventHandler(this.button_Cut_Click);
             // 
             // button_OpenDoc
             // 
@@ -85,17 +119,6 @@
             this.button_LoadPic.UseVisualStyleBackColor = false;
             this.button_LoadPic.Click += new System.EventHandler(this.button_LoadPic_Click);
             // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(78, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 24);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Del";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button_Del_Click);
-            // 
             // panel_listBase
             // 
             this.panel_listBase.AllowDrop = true;
@@ -105,7 +128,7 @@
             this.panel_listBase.Location = new System.Drawing.Point(0, 26);
             this.panel_listBase.MinimumSize = new System.Drawing.Size(64, 64);
             this.panel_listBase.Name = "panel_listBase";
-            this.panel_listBase.Size = new System.Drawing.Size(112, 215);
+            this.panel_listBase.Size = new System.Drawing.Size(194, 215);
             this.panel_listBase.TabIndex = 1;
             // 
             // panel_list
@@ -129,7 +152,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(112, 241);
+            this.ClientSize = new System.Drawing.Size(194, 241);
             this.Controls.Add(this.panel_listBase);
             this.Controls.Add(this.panel_menu);
             this.DoubleBuffered = true;
@@ -155,10 +178,11 @@
 
         private System.Windows.Forms.Panel panel_menu;
         private System.Windows.Forms.Panel panel_listBase;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel_list;
         private System.Windows.Forms.Button button_LoadPic;
         private System.Windows.Forms.Button button_OpenDoc;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button_Cut;
+        private System.Windows.Forms.Button button_Delete;
     }
 }

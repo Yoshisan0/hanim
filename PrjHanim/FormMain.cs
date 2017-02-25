@@ -42,15 +42,14 @@ namespace PrjHikariwoAnim
     {
         private const float mParZOOM = 10f;//Zoom倍率の固定値
 
-        public FormImageList mFormImageList;
         public FormControl mFormControl;
         public FormAttribute mFormAttribute;
         public FormCell mFormCell;
 
         private Point mMouseDownPoint = Point.Empty;
-        private Point mMouseDownShift;
+        //private Point mMouseDownShift;
         private Point mScreenScroll;
-        private bool mMouseLDown = false;//L
+        //private bool mMouseLDown = false;//L
         //private bool mMouseRDown = false;//R
         //private bool mMouseMDown = false;//M
         private int mWheelDelta;//Wheel
@@ -63,7 +62,7 @@ namespace PrjHikariwoAnim
         //private string mNowMotionName;//選択中モーション名
 
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
-        private DragState mDragState = DragState.none;
+        //private DragState mDragState = DragState.none;
 
         private Point PreViewCenter;//PanelPreView Centerセンターポジション
         
@@ -94,7 +93,6 @@ namespace PrjHikariwoAnim
             this.checkBox_CellList.Checked = ClsSystem.mSetting.mWindowMain_CellList;
             this.checkBox_Attribute.Checked = ClsSystem.mSetting.mWindowMain_Attribute;
             this.checkBox_Control.Checked = ClsSystem.mSetting.mWindowMain_Control;
-            this.checkBox_ImageList.Checked = ClsSystem.mSetting.mWindowMain_ImageList;
             this.checkBox_Snap.Checked = ClsSystem.mSetting.mWindowMain_GridSnap;
             this.numericUpDown_Grid.Value = ClsSystem.mSetting.mWindowMain_WidthGrid;
 
@@ -105,9 +103,6 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
             mScreenScroll = new Point(0, 0);
-
-            this.mFormImageList = new FormImageList(this);
-            this.mFormImageList.Show();
 
             this.mFormControl = new FormControl(this);
             this.mFormControl.SetMotion(clMotion);
@@ -153,7 +148,6 @@ namespace PrjHikariwoAnim
             this.SetStyle(ControlStyles.Opaque, true);
 
             //以下、各フォーム表示・非表示処理
-            if (mFormImageList != null) mFormImageList.Visible = checkBox_ImageList.Checked;
             if (mFormControl != null) mFormControl.Visible = checkBox_Control.Checked;
             if (mFormAttribute != null) mFormAttribute.Visible = checkBox_Attribute.Checked;
             if (mFormCell != null) mFormCell.Visible = checkBox_CellList.Checked;
@@ -165,8 +159,8 @@ namespace PrjHikariwoAnim
         /// <param name="clMotion">選択中のモーション管理クラス</param>
         public void SetName(ClsDatMotion clMotion)
         {
-            string clAppName = ClsSystem.GetAppFileName();
-            this.Text = ClsSystem.GetWindowName(clAppName, clMotion);
+            string clAppName = ClsTool.GetAppFileName();
+            this.Text = ClsTool.GetWindowName(clAppName, clMotion);
         }
 
         public void AttributeUpdate()
@@ -197,11 +191,23 @@ namespace PrjHikariwoAnim
 
             if (MessageBox.Show("新規プロジェクトの作成\n既存データは全て初期化されます\nCreate a New Project.\nClear All is OK?", "Cleate Project", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                //ClearAll
-                ClsSystem.ImageMan.RemoveAll();
+                //以下、イメージクリア処理
+                int inCnt, inMax = ClsSystem.mListImage.Count;
+                for(inCnt= 0;inCnt< inMax;inCnt++)
+                {
+                    ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                    clDatImage.Remove();
+                }
+                ClsSystem.mListImage.Clear();
+
+                //以下、モーションクリア処理
+                foreach (int inKey in ClsSystem.mDicMotion.Keys)
+                {
+                    ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
+                    clDatMotion.Remove();
+                }
                 ClsSystem.mDicMotion.Clear();
                 listView_Motion.Clear();
-                mFormImageList.RemoveAllImage();
 
                 ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
                 //Motion選択状態にする 他フォームの準備完了後
@@ -209,7 +215,6 @@ namespace PrjHikariwoAnim
                 ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
 
                 mFormControl.RefreshAll();
-                mFormImageList.Refresh();
                 mFormCell.Refresh();
             }
         }
@@ -253,14 +258,26 @@ namespace PrjHikariwoAnim
         /// <param name="clFilePath">ファイルパス</param>
         public void LoadProject(string clFilePath)
         {
-            //以下、初期化処理
+            //以下、イメージクリア処理
+            int inCnt, inMax = ClsSystem.mListImage.Count;
+            for(inCnt= 0;inCnt< inMax;inCnt++)
+            {
+                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                clDatImage.Remove();
+            }
+            ClsSystem.mListImage.Clear();    //イメージ全削除
+
+            //以下、モーションクリア処理
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
+                clDatMotion.Remove();
+            }
             ClsSystem.mDicMotion.Clear();           //mDicMotion全削除
             this.listView_Motion.Items.Clear();     //listView_Motion.Items全削除
-            this.mFormImageList.RemoveAllImage();   //ImageList.Items全削除
-            ClsSystem.ImageMan.RemoveAll();         //ImageMan全削除
 
             //以下、プロジェクトファイル読み込み処理
-            ClsSystem.Load(this.listView_Motion, clFilePath);
+            //ClsSystem.Load(this.mFormImageList, this.listView_Motion, clFilePath);
         }
 
         /// <summary>
@@ -347,20 +364,6 @@ namespace PrjHikariwoAnim
             ToolStripMenuItem ts = (ToolStripMenuItem)sender;
             LoadProject(ts.Text);
         }
-        private void TSMenu_ImageList_Click(object sender, EventArgs e)
-        {
-            if (this.mFormImageList == null)
-            {
-                this.mFormImageList = new FormImageList(this);
-                this.mFormImageList.Show();
-            }
-            else
-            {
-                this.mFormImageList.Close();
-                this.mFormImageList.Dispose();
-                this.mFormImageList = null;
-            }
-        }
         private void TSMenu_Control_Click(object sender, EventArgs e)
         {
         }
@@ -371,10 +374,6 @@ namespace PrjHikariwoAnim
         {
         }
 
-        private void CB_ImageList_CheckedChanged(object sender, EventArgs e)
-        {
-            if (mFormImageList != null) mFormImageList.Visible = checkBox_ImageList.Checked;
-        }
         private void CB_Control_CheckedChanged(object sender, EventArgs e)
         {
             if(mFormControl!=null) mFormControl.Visible = checkBox_Control.Checked;
@@ -398,7 +397,6 @@ namespace PrjHikariwoAnim
             //アトリビュート
             this.mFormAttribute.Location = new Point(Location.X + Width, Location.Y);
             this.mFormControl.Location   = new Point(Location.X, Location.Y + Height);
-            this.mFormImageList.Location = new Point(Location.X - this.mFormImageList.Width, Location.Y);
             this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y + Height);
         }
 
@@ -424,7 +422,7 @@ namespace PrjHikariwoAnim
                         listView_Motion.SelectedItems[0].Remove();
                         //mDicMotionからの削除
                         ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
-                        clMotion.RemoveAll();
+                        clMotion.Remove();
                         ClsSystem.mDicMotion.Remove(inHash);    //モーションクラス削除処理
 
                         //編集中のモーションが削除されたので、
@@ -449,8 +447,6 @@ namespace PrjHikariwoAnim
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             //以下、ウィンドウ情報保存処理
-            ClsSystem.mSetting.mWindowImageList.mLocation = this.mFormImageList.Location;
-            ClsSystem.mSetting.mWindowImageList.mSize = this.mFormImageList.Size;
             ClsSystem.mSetting.mWindowControl.mLocation = this.mFormControl.Location;
             ClsSystem.mSetting.mWindowControl.mSize = this.mFormControl.Size;
             ClsSystem.mSetting.mWindowAttribute.mLocation = this.mFormAttribute.Location;
@@ -466,7 +462,6 @@ namespace PrjHikariwoAnim
             ClsSystem.mSetting.mWindowMain_CellList = this.checkBox_CellList.Checked;
             ClsSystem.mSetting.mWindowMain_Attribute = this.checkBox_Attribute.Checked;
             ClsSystem.mSetting.mWindowMain_Control = this.checkBox_Control.Checked;
-            ClsSystem.mSetting.mWindowMain_ImageList = this.checkBox_ImageList.Checked;
             ClsSystem.mSetting.mWindowMain_GridSnap = this.checkBox_Snap.Checked;
             ClsSystem.mSetting.mWindowMain_WidthGrid = (int)this.numericUpDown_Grid.Value;
 
@@ -479,15 +474,6 @@ namespace PrjHikariwoAnim
         }
         private void timerMain_Tick(object sender, EventArgs e)
         {
-            if (this.mFormImageList != null)
-            {
-                if (this.mFormImageList.IsDisposed)
-                {
-                    this.mFormImageList.Dispose();
-                    this.mFormImageList = null;
-                }
-            }
-
             if (this.mFormControl != null)
             {
                 if (this.mFormControl.IsDisposed)
@@ -506,7 +492,6 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            this.ToolStripMenuItem_ImageList.Checked = (this.mFormImageList != null);
             this.ToolStripMenuItem_Control.Checked = (this.mFormControl != null);
             this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
         }
@@ -784,10 +769,12 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
-        /// <param name="work"></param>
+        /// <param name="inIndex">イメージインデックス</param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        private void listView_Motion_AddElements(ImageChip work, int x, int y)
+        /// <param name="w">イメージの幅</param>
+        /// <param name="h">イメージの高さ</param>
+        private void listView_Motion_AddElements(int inIndex, int x, int y, int w, int h)
         {
             //モーション選択無し
             if (ClsSystem.mMotionSelectKey < 0) return;
@@ -804,9 +791,9 @@ namespace PrjHikariwoAnim
 
             //アイテムの登録
             ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.mImageChipID = work.ID;// work.GetHashCode();
-            elem.mAttInit.Width = work.Img.Width;
-            elem.mAttInit.Height = work.Img.Height;
+            elem.mImageIndex = inIndex;
+            elem.mAttInit.Width = w;
+            elem.mAttInit.Height = h;
 
             //センターからの距離に変換
             x -= panel_PreView.Width / 2;
@@ -1045,18 +1032,17 @@ namespace PrjHikariwoAnim
                 string[] AllPaths = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string str in AllPaths)
                 {
-                    string ext = System.IO.Path.GetExtension(str).ToLower();
+                    string ext = Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        ImageChip c = new ImageChip();
-                        c.FromPath(str,true);
+//※ここで画像の重複チェック
 
-                        c =  ClsSystem.ImageMan.AddImageChip(c);
-                        this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
+                        ClsDatImage c = new ClsDatImage();
+                        c.SetImageFromFilePath(str);
 
-                        //ImageListへ登録と更新
-                        this.mFormImageList.AddItem(str);
-                        this.mFormImageList.Refresh();
+                        ClsSystem.mListImage.Add(c);
+                        int inIndex = ClsSystem.mListImage.Count - 1;
+                        this.listView_Motion_AddElements(inIndex, sPos.X, sPos.Y, c.Origin.Width, c.Origin.Height);
 
                         //CellListの表示更新
                         this.mFormCell.Refresh();
@@ -1065,12 +1051,13 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.Copy;
             }
 
+            /*
             //ListViewItem受け入れ
             if (e.Data.GetDataPresent(typeof(ListViewItem)))
             {
                 ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
                 //ImageChipの登録
-                ImageChip work;
+                ClsDatImage work;
                 
                 //work.Img = (Bitmap)lvi.ImageList.Images[lvi.ImageIndex];
                 string md5 = (string)lvi.Tag;//ListViewのTagからMD5を取得
@@ -1086,25 +1073,33 @@ namespace PrjHikariwoAnim
                     System.Console.WriteLine("ListViewからのドロップ時MD5不詳");
                 }
             }
+            */
+            //※一旦コメントアウト
+            //ここがD&Dの中核処理と思われる
 
             //ImageChip 受け入れ
-            if (e.Data.GetDataPresent(typeof(ImageChip)))
+            if (e.Data.GetDataPresent(typeof(ClsDatImage)))
             {
                 //Store Cell Item
-                ImageChip work = (ImageChip)e.Data.GetData(typeof(ImageChip));
-                work = ClsSystem.ImageMan.AddImageChip(work);//画像登録
+                ClsDatImage work = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
+                ClsSystem.mListImage.Add(work);//画像登録
 
                 //PreViewに配置し更新
+                int inIndex = ClsSystem.mListImage.Count - 1;
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                listView_Motion_AddElements(work, a.X, a.Y);
+                listView_Motion_AddElements(inIndex, a.X, a.Y, work.Origin.Width, work.Origin.Height);
 
                 e.Effect = DragDropEffects.Copy;
             }
 
+            /*
             if (e.Data.GetType() == typeof(ELEMENTS))
             {
                 e.Effect = DragDropEffects.Copy;
             }
+            */
+            //※ここが分からない
+            //ELEMENTSとはなんでしょう？？
 
             if (e.Data.GetType() == typeof(Image))
             {
@@ -1121,7 +1116,7 @@ namespace PrjHikariwoAnim
             {
                 e.Effect = DragDropEffects.Copy;
             }
-            if (e.Data.GetDataPresent(typeof(ImageChip)))
+            if (e.Data.GetDataPresent(typeof(ClsDatImage)))
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -1195,10 +1190,10 @@ namespace PrjHikariwoAnim
         private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
         {
             //releaseMouse
-            mMouseLDown = false;
+            //mMouseLDown = false;
             //mMouseMDown = false;
             //mMouseRDown = false;
-            mDragState = DragState.none;
+            //mDragState = DragState.none;
         }
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1462,6 +1457,7 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_ExpCellList_Click(object sender, EventArgs e)
         {
+            /*
             //ExportImageList(XML imageList)
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = ".ximg";
@@ -1469,6 +1465,8 @@ namespace PrjHikariwoAnim
             { 
                 ClsSystem.ImageMan.SaveToFile(sfd.FileName,".ximg");
             }
+            */
+            //※一旦コメントアウト
         }
 
         private void partsFormInMainToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1502,6 +1500,7 @@ namespace PrjHikariwoAnim
             clDicFile["ver"] = "0.0.1";
             clDicFile["hogehoge"] = 99;
 
+            /*
             //以下、イメージ出力処理
             int inCnt, inMax = ClsSystem.ImageMan.ChipCount();
             for (inCnt = 0; inCnt < inMax; inCnt++)
@@ -1510,8 +1509,9 @@ namespace PrjHikariwoAnim
                 string clKey = clCell.ID.ToString();
                 clDicFile[clKey] = clCell.Export();
             }
+            */
 
-/*
+            /*
             //以下、アニメ出力処理
             if (ClsSystem.mEditMotionKey >= 0)
             {
@@ -1522,10 +1522,10 @@ namespace PrjHikariwoAnim
                     clDicFile["frm_" + inCnt] = clFrame.Export();   //ここのキーはアニメ名（ユニーク制約にしないとダメ＞＜）としたい
                 }
             }
-*/
+            */
 
             //以下、DictionaryをJson形式に変換する処理
-            string clJsonData = ClsSystem.DictionaryToJson(clDicFile);
+            string clJsonData = ClsTool.DictionaryToJson(clDicFile);
 
             //以下、ファイル出力処理
             string clPath = ClsPath.GetPath();

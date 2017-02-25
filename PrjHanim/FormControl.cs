@@ -121,7 +121,7 @@ namespace PrjHikariwoAnim
         public void SetMotion(ClsDatMotion clMotion)
         {
             this.mMotion = clMotion;
-            this.Text = ClsSystem.GetWindowName("Control", clMotion);
+            this.Text = ClsTool.GetWindowName("Control", clMotion);
 
             this.RefreshAll();
         }
