@@ -1035,7 +1035,7 @@ namespace PrjHikariwoAnim
                     string ext = Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        int inIndex = ClsSystem.CreateImage(str);
+                        int inIndex = ClsSystem.CreateImageFromFile(str);
                         if (inIndex >= 0)
                         {
                             ClsDatImage c = ClsSystem.mListImage[inIndex];

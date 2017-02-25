@@ -91,7 +91,7 @@ namespace PrjHikariwoAnim
                     string ext = System.IO.Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        ClsSystem.CreateImage(str);
+                        ClsSystem.CreateImageFromFile(str);
 
                         //ImageListへ登録と更新
                         //CellListの表示更新
@@ -238,7 +238,7 @@ namespace PrjHikariwoAnim
             {
                 foreach (string fn in ofd.FileNames)
                 {
-                    ClsSystem.CreateImage(fn);
+                    ClsSystem.CreateImageFromFile(fn);
                 }
             }
             ofd.Dispose();
@@ -253,33 +253,38 @@ namespace PrjHikariwoAnim
 
         private void button_Cut_Click(object sender, EventArgs e)
         {
-            /*
-            if (this.listView.SelectedIndices.Count != 1) return;
+            List<int> clListIndex = ClsSystem.GetImageSelectIndex();
+            if (clListIndex.Count<= 0) return;
 
-            int inIndex = this.listView.SelectedIndices[0];
+            int inIndex = clListIndex[0];
+            ClsDatImage clDatImage = ClsSystem.mListImage[inIndex];
 
-            string clPath = this.listView.Items[inIndex].SubItems[1].Text;
-            Image clImageSrc = this.mListImage[inIndex] as Image;
-
-            FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clImageSrc, clPath);
+            FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clDatImage.Origin, clDatImage.mPath);
             DialogResult enResult = clFormImageCut.ShowDialog();
             if (enResult == DialogResult.OK)
             {
                 //以下、画像切り取り処理
+                Image clImage = clDatImage.Origin;
+                //↑ここでイメージをカットしてclImageに格納する
+
+                //以下、画像登録処理
+                ClsSystem.CreateImageFromImage(clImage);
+
+                /*
                 AddItem(clImageSrc, clFormImageCut.GetRectangle(), clPath);
 
+                ClsSystem.CreateImageFromImage();
                 ImageChip ic = new ImageChip();
                 ic.Path = clPath;
                 ic.FromPath(ic.Path, true);
-
                 ic.Rect = clFormImageCut.GetRectangle();
                 ic.ImageCut(ic, ic.Rect);
                 ClsSystem.ImageMan.AddImageChip(ic);
                 this.listView.Items[inIndex + 1].Tag = ic.StrMD5;
+                */
             }
             clFormImageCut.Dispose();
             clFormImageCut = null;
-            */
         }
 
         private void button_Delete_Click(object sender, EventArgs e)

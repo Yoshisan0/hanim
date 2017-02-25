@@ -86,9 +86,22 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clFilePath">イメージファイルパス</param>
         /// <returns>イメージインデックス</returns>
-        public static int CreateImage(string clFilePath)
+        public static int CreateImageFromFile(string clFilePath)
         {
             Image clImage = Bitmap.FromFile(clFilePath);
+            int inIndex = ClsSystem.CreateImageFromImage(clImage);
+            return (inIndex);
+        }
+
+        /// <summary>
+        /// イメージを作成する
+        /// イメージをSystem.mListImageに追加して、インデックスを返します
+        /// ただし、すでにSystem.mListImageに存在していた場合は、リストに追加せずに、そのインデックスを返します
+        /// </summary>
+        /// <param name="clImage"></param>
+        /// <returns></returns>
+        public static int CreateImageFromImage(Image clImage)
+        {
             string clHash = ClsTool.GetMD5FromImage(clImage);
 
             //以下、イメージが作成済みかチェックする処理
@@ -112,6 +125,26 @@ namespace PrjHikariwoAnim
             int inIndex = ClsSystem.mListImage.Count - 1;
 
             return (inIndex);
+        }
+
+        /// <summary>
+        /// 選択中のインデックスのリストを取得する
+        /// </summary>
+        /// <returns>選択中のインデックスのリスト</returns>
+        public static List<int> GetImageSelectIndex()
+        {
+            List<int> clListIndex = new List<int>();
+
+            int inCnt, inMax = ClsSystem.mListImage.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                if (!clDatImage.mSelect) continue;
+
+                clListIndex.Add(inCnt);
+            }
+
+            return (clListIndex);
         }
 
         /// <summary>

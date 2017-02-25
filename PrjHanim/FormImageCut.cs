@@ -14,26 +14,29 @@ namespace PrjHikariwoAnim
 {
     public partial class FormImageCut : Form
     {
+        private static readonly int WIDTH_THUMS = 64;  //サムネイル幅高
         private FormMain mFormMain = null;
         private bool mRectStart;
         private bool mRectEnd;
-        private Point mPosStart;    //左上のポジション
-        private Point mPosEnd;  //右下のポジション
-        private Image mImage = null;
+        private Point mPosStart;        //左上のポジション
+        private Point mPosEnd;          //右下のポジション
+        private Image mImage;           //オリジナルのイメージ
         private string mImagePath;
         private double mMag;
-        private bool mMouseDown;    //マウスが押されたらtrueになる
-        private bool mShiftDown;    //シフトキーが押されたらtrueになる
+        private bool mMouseDown;        //マウスが押されたらtrueになる
+        private bool mShiftDown;        //シフトキーが押されたらtrueになる
         private Point mOld;
         private Pen mPenGrid;
         private SolidBrush mBrushRect;
         private Color mBrushRectColor;
 
-        private int mThumsWidth = 64;//サムネイル幅高
+        public List<ClsDatCutImage> mListCutImage;  //カットしたイメージのリスト
 
         public FormImageCut(FormMain form, Image clImage, string fullpath)
         {
-            mImagePath = fullpath;
+            this.mImagePath = fullpath;
+            this.mListCutImage = new List<ClsDatCutImage>();
+
             InitializeComponent();
 
             //以下、初期化処理
@@ -84,6 +87,15 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウ情報保存処理
             ClsSystem.mSetting.mWindowImageCut.mLocation = this.Location;
             ClsSystem.mSetting.mWindowImageCut.mSize = this.Size;
+
+            //以下、カットされたイメージのリスト
+            int inCnt, inMax = this.mListCutImage.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatCutImage clDatCutImage = this.mListCutImage[inCnt];
+                clDatCutImage.Remove();
+            }
+            this.mListCutImage.Clear();
         }
 
         private void button_Cut_Click(object sender, EventArgs e)
@@ -110,16 +122,16 @@ namespace PrjHikariwoAnim
 
             Size wh = new Size((mPosEnd.X - mPosStart.X), (mPosEnd.Y - mPosStart.Y));
             Rectangle r = new Rectangle(mPosStart, wh);
-            ClsDatImage c = new ClsDatImage();
-            c.mRect = r;
-//            ImageManager.AddImageChipFromImage(mImage, c);
-            //※ここでイメージをカットして追加する？
 
-            //
-            panel_CellList.Height = (ClsSystem.mListImage.Count/(panel_CellList.Width/ mThumsWidth))*mThumsWidth;
-            splitContainerBase.Panel2.Refresh();
+            //以下、イメージ切り取り処理
+            Bitmap clBmpSrc = new Bitmap(this.mImage);
+            ClsDatCutImage clDatCutImage = new ClsDatCutImage();
+            clDatCutImage.mImage = clBmpSrc.Clone(r, clBmpSrc.PixelFormat);
+            clDatCutImage.mSelect = false;
+            this.mListCutImage.Add(clDatCutImage);
 
-            //this.DialogResult = DialogResult.OK;
+            this.panel_CellList.Height = (this.mListCutImage.Count/(panel_CellList.Width/ FormImageCut.WIDTH_THUMS))* FormImageCut.WIDTH_THUMS;
+            this.splitContainerBase.Panel2.Refresh();
         }
 
         private void panel_Paint(object sender, PaintEventArgs e)
@@ -360,14 +372,14 @@ namespace PrjHikariwoAnim
             //描画開始番号
             //Selectedは枠色で表現?網かけ？
             int cnt = 0;//初期インデックス
-            int bSize = mThumsWidth;//BoxSize
+            int bSize = FormImageCut.WIDTH_THUMS;//BoxSize
             //int drawXPos = 0;//描画横幅累計 コンポーネント横幅まで描画
             //int drawYPos = 0;//
 
             int cvx = panel_CellList.Width  / bSize; //横に並ぶ数
             int cvy = panel_CellList.Height / bSize; //縦に並ぶ数
             //ImageManager.CellList.Count / cx;
-            if(ClsSystem.mListImage.Count <= 0) return;
+            if(this.mListCutImage.Count <= 0) return;
 
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //サムネイル表示はセレクトの関係から縦横固定サイズが望ましい
@@ -376,24 +388,25 @@ namespace PrjHikariwoAnim
             {
                 for(int cx = 0; cx < cvx;cx++)
                 {
-                    if (cnt < ClsSystem.mListImage.Count)
+                    if (cnt < this.mListCutImage.Count)
                     {
-                        Image src = ClsSystem.mListImage[cnt].Origin;
-                        if (src == null)
+                        ClsDatCutImage clDatCutImage = this.mListCutImage[cnt];
+                        if (clDatCutImage == null)
                         {
                             Console.Out.Write("CellImage is Null");
                             return;
                         }
-                        //Thumbnail Resize
-                        float rw = (float)bSize / src.Width;
-                        float rh = (float)bSize / src.Height;
-                        float rf = Math.Min(rw, rh);
-                        Point ds = new Point((int)(src.Width * rf), (int)(src.Height * rf));
 
-                        e.Graphics.DrawImage(src, (cx*bSize) + (bSize / 2 - (ds.X / 2)), (cy*bSize) + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
+                        //Thumbnail Resize
+                        float rw = (float)bSize / clDatCutImage.mImage.Width;
+                        float rh = (float)bSize / clDatCutImage.mImage.Height;
+                        float rf = Math.Min(rw, rh);
+                        Point ds = new Point((int)(clDatCutImage.mImage.Width * rf), (int)(clDatCutImage.mImage.Height * rf));
+
+                        e.Graphics.DrawImage(clDatCutImage.mImage, (cx*bSize) + (bSize / 2 - (ds.X / 2)), (cy*bSize) + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                         //DrawFlame
-                        if (ClsSystem.mListImage[cnt].mSelect)
+                        if (this.mListCutImage[cnt].mSelect)
                         {
                             e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(cx*bSize,cy*bSize, bSize - 1, bSize - 1));
                         }
@@ -409,13 +422,13 @@ namespace PrjHikariwoAnim
         private void panel_CellList_MouseUp(object sender, MouseEventArgs e)
         {
             //Cell Select
-            int selX = e.X / mThumsWidth;
-            int selY = e.Y / mThumsWidth;
-            int sel = (selY * (panel_CellList.Width/ mThumsWidth)) + selX;
-            if (sel < ClsSystem.mListImage.Count)
+            int selX = e.X / FormImageCut.WIDTH_THUMS;
+            int selY = e.Y / FormImageCut.WIDTH_THUMS;
+            int sel = (selY * (panel_CellList.Width/ FormImageCut.WIDTH_THUMS)) + selX;
+            if (sel < this.mListCutImage.Count)
             {
-                ClsSystem.mListImage[sel].mSelect = !ClsSystem.mListImage[sel].mSelect;
-                splitContainerBase.Refresh();
+                this.mListCutImage[sel].mSelect = !this.mListCutImage[sel].mSelect;
+                this.splitContainerBase.Refresh();
             }
         }
 
@@ -425,10 +438,10 @@ namespace PrjHikariwoAnim
             //
 //            ImageManager.RemoveSelectedCell();
             //※ここで編集中のイメージを削除する？
-            //というかウィンドウを閉じて良いのでは？
 
             splitContainerBase.Refresh();
         }
+
         private void button_Divid_Click(object sender, EventArgs e)
         {
             //等間隔分割
@@ -451,25 +464,25 @@ namespace PrjHikariwoAnim
             mPosEnd = new Point(dx, dy);//仮
 
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
-            panel_CellList.Height = (ClsSystem.mListImage.Count / (panel_CellList.Width / mThumsWidth) + 1) * mThumsWidth;
+            panel_CellList.Height = (this.mListCutImage.Count / (panel_CellList.Width / FormImageCut.WIDTH_THUMS) + 1) * FormImageCut.WIDTH_THUMS;
             //splitContainerBase.Refresh();
         }
         private void button_Clear_Click(object sender, EventArgs e)
         {
             //全セルの削除
-            int inCnt, inMax = ClsSystem.mListImage.Count;
+            int inCnt, inMax = this.mListCutImage.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
-                clDatImage.Remove();
+                ClsDatCutImage clDatCutImage = this.mListCutImage[inCnt];
+                clDatCutImage.Remove();
             }
-            ClsSystem.mListImage.Clear();
+            this.mListCutImage.Clear();
 
             splitContainerBase.Refresh();
         }
         private void CellSave_Click(object sender, EventArgs e)
         {
-            if(ClsSystem.mListImage.Count >0)
+            if(this.mListCutImage.Count >0)
             {
                 SaveFileDialog sd = new SaveFileDialog();
                 sd.DefaultExt = "cell";
@@ -477,7 +490,7 @@ namespace PrjHikariwoAnim
                 {
 //                    ImageManager.SaveToFile(sd.FileName,"");
                     //※ここで編集中のイメージを保存する？
-                    //というかこの機能は必要ないのでは？
+                    //というかこの機能は必要？
 
                     //ImageManager.GetImageChipFromIndex(0).ToBinaryFile(sd.FileName);
                 }
@@ -487,8 +500,35 @@ namespace PrjHikariwoAnim
         private void splitContainerBase_Panel2_Resize(object sender, EventArgs e)
         {
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
-            panel_CellList.Height = (ClsSystem.mListImage.Count / (panel_CellList.Width / mThumsWidth)+1) * mThumsWidth;
+            panel_CellList.Height = (this.mListCutImage.Count / (panel_CellList.Width / FormImageCut.WIDTH_THUMS) +1) * FormImageCut.WIDTH_THUMS;
             splitContainerBase.Refresh();
+        }
+    }
+
+    public class ClsDatCutImage
+    {
+        public Image mImage;
+        public bool mSelect;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ClsDatCutImage()
+        {
+            this.mImage = null;
+            this.mSelect = false;
+        }
+
+        /// <summary>
+        /// イメージ削除処理
+        /// </summary>
+        public void Remove()
+        {
+            if (this.mImage != null)
+            {
+                this.mImage.Dispose();
+                this.mImage = null;
+            }
         }
     }
 }
