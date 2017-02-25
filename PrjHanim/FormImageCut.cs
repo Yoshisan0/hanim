@@ -87,15 +87,6 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウ情報保存処理
             ClsSystem.mSetting.mWindowImageCut.mLocation = this.Location;
             ClsSystem.mSetting.mWindowImageCut.mSize = this.Size;
-
-            //以下、カットされたイメージのリスト
-            int inCnt, inMax = this.mListCutImage.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatCutImage clDatCutImage = this.mListCutImage[inCnt];
-                clDatCutImage.Remove();
-            }
-            this.mListCutImage.Clear();
         }
 
         private void button_Cut_Click(object sender, EventArgs e)
@@ -378,7 +369,7 @@ namespace PrjHikariwoAnim
 
             int cvx = panel_CellList.Width  / bSize; //横に並ぶ数
             int cvy = panel_CellList.Height / bSize; //縦に並ぶ数
-            //ImageManager.CellList.Count / cx;
+            //this.mListCutImage.Count / cx;
             if(this.mListCutImage.Count <= 0) return;
 
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -435,11 +426,17 @@ namespace PrjHikariwoAnim
         //CEll削除 セレクトしたもののみ削除
         private void button_CellDelete_Click(object sender, EventArgs e)
         {
-            //
-//            ImageManager.RemoveSelectedCell();
-            //※ここで編集中のイメージを削除する？
+            int inCnt, inMax = this.mListCutImage.Count;
+            for (inCnt = inMax- 1; inCnt >= 0; inCnt--)
+            {
+                ClsDatCutImage clDatCutImage = this.mListCutImage[inCnt];
+                if (!clDatCutImage.mSelect) continue;
 
-            splitContainerBase.Refresh();
+                clDatCutImage.Remove();
+                this.mListCutImage.RemoveAt(inCnt);
+            }
+
+            this.splitContainerBase.Refresh();
         }
 
         private void button_Divid_Click(object sender, EventArgs e)
@@ -502,6 +499,11 @@ namespace PrjHikariwoAnim
             panel_CellList.Width = splitContainerBase.ClientSize.Width;
             panel_CellList.Height = (this.mListCutImage.Count / (panel_CellList.Width / FormImageCut.WIDTH_THUMS) +1) * FormImageCut.WIDTH_THUMS;
             splitContainerBase.Refresh();
+        }
+
+        private void button_OK_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
         }
     }
 

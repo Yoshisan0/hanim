@@ -259,32 +259,24 @@ namespace PrjHikariwoAnim
             int inIndex = clListIndex[0];
             ClsDatImage clDatImage = ClsSystem.mListImage[inIndex];
 
+            //以下、イメージカットウィンドウ表示処理
             FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clDatImage.Origin, clDatImage.mPath);
             DialogResult enResult = clFormImageCut.ShowDialog();
             if (enResult == DialogResult.OK)
             {
-                //以下、画像切り取り処理
-                Image clImage = clDatImage.Origin;
-                //↑ここでイメージをカットしてclImageに格納する
-
-                //以下、画像登録処理
-                ClsSystem.CreateImageFromImage(clImage);
-
-                /*
-                AddItem(clImageSrc, clFormImageCut.GetRectangle(), clPath);
-
-                ClsSystem.CreateImageFromImage();
-                ImageChip ic = new ImageChip();
-                ic.Path = clPath;
-                ic.FromPath(ic.Path, true);
-                ic.Rect = clFormImageCut.GetRectangle();
-                ic.ImageCut(ic, ic.Rect);
-                ClsSystem.ImageMan.AddImageChip(ic);
-                this.listView.Items[inIndex + 1].Tag = ic.StrMD5;
-                */
+                int inCnt, inMax = clFormImageCut.mListCutImage.Count;
+                for (inCnt = 0; inCnt < inMax; inCnt++)
+                {
+                    //以下、画像登録処理
+                    ClsDatCutImage clDatCutImage = clFormImageCut.mListCutImage[inCnt];
+                    ClsSystem.CreateImageFromImage(clDatCutImage.mImage);
+                }
             }
             clFormImageCut.Dispose();
             clFormImageCut = null;
+
+            //以下、リフレッシュ処理
+            this.Refresh();
         }
 
         private void button_Delete_Click(object sender, EventArgs e)
