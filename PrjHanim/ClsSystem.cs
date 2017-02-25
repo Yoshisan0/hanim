@@ -80,6 +80,82 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// イメージインデックスを取得する
+        /// </summary>
+        /// <param name="clFilePath">イメージファイルパス</param>
+        /// <returns>イメージインデックス</returns>
+        public static int GetImageIndexFromFile(string clFilePath)
+        {
+            Image clImage = Bitmap.FromFile(clFilePath);
+            int inIndex = ClsSystem.GetImageIndexFromImage(clImage);
+            return (inIndex);
+        }
+
+        /// <summary>
+        /// イメージインデックスを取得する
+        /// </summary>
+        /// <param name="clImage">イメージ</param>
+        /// <returns>イメージインデックス</returns>
+        public static int GetImageIndexFromImage(Image clImage)
+        {
+            if (clImage == null) return (-1);
+
+            string clHash = ClsTool.GetMD5FromImage(clImage);
+
+            int inCnt, inMax = ClsSystem.mListImage.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                if (clDatImage.Origin == null) continue;
+
+                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.Origin);
+                if (!clHashTmp.Equals(clHash)) continue;
+
+                return (inCnt);
+            }
+
+            return (-1);
+        }
+
+        /// <summary>
+        /// 同じイメージが存在するかチェックする
+        /// </summary>
+        /// <param name="clFilePath">イメージファイルパス</param>
+        /// <returns>存在フラグ</returns>
+        public static bool IsExistImageFromFile(string clFilePath)
+        {
+            Image clImage = Bitmap.FromFile(clFilePath);
+            bool isExist = ClsSystem.IsExistImageFromImage(clImage);
+            return (isExist);
+        }
+
+        /// <summary>
+        /// 同じイメージが存在するかチェックする
+        /// </summary>
+        /// <param name="clImage">イメージ</param>
+        /// <returns>存在フラグ</returns>
+        public static bool IsExistImageFromImage(Image clImage)
+        {
+            if (clImage == null) return (false);
+
+            string clHash = ClsTool.GetMD5FromImage(clImage);
+
+            int inCnt, inMax = ClsSystem.mListImage.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                if (clDatImage.Origin == null) continue;
+
+                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.Origin);
+                if (!clHashTmp.Equals(clHash)) continue;
+
+                return (true);
+            }
+
+            return (false);
+        }
+
+        /// <summary>
         /// 読み込み処理
         /// </summary>
         /// <param name="clFormImageList">イメージリストフォーム</param>
