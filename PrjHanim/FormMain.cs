@@ -1035,22 +1035,12 @@ namespace PrjHikariwoAnim
                     string ext = Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        ClsDatImage c = null;
-                        int inIndex = ClsSystem.GetImageIndexFromFile(str);
+                        int inIndex = ClsSystem.CreateImage(str);
                         if (inIndex >= 0)
                         {
-                            c = ClsSystem.mListImage[inIndex];
+                            ClsDatImage c = ClsSystem.mListImage[inIndex];
+                            this.listView_Motion_AddElements(inIndex, sPos.X, sPos.Y, c.Origin.Width, c.Origin.Height);
                         }
-                        else
-                        {
-                            c = new ClsDatImage();
-                            c.SetImageFromFilePath(str);
-                            ClsSystem.mListImage.Add(c);
-
-                            inIndex = ClsSystem.mListImage.Count - 1;
-                        }
-
-                        this.listView_Motion_AddElements(inIndex, sPos.X, sPos.Y, c.Origin.Width, c.Origin.Height);
 
                         //CellListの表示更新
                         this.mFormCell.Refresh();

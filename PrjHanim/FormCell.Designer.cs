@@ -101,7 +101,7 @@
             this.button_OpenDoc.TabIndex = 2;
             this.toolTip1.SetToolTip(this.button_OpenDoc, "Open Doc");
             this.button_OpenDoc.UseVisualStyleBackColor = false;
-            this.button_OpenDoc.Click += new System.EventHandler(this.button_Doc_Click);
+            this.button_OpenDoc.Click += new System.EventHandler(this.button_OpenDoc_Click);
             // 
             // button_LoadPic
             // 

@@ -91,14 +91,14 @@ namespace PrjHikariwoAnim
                     string ext = System.IO.Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        ClsDatImage c = new ClsDatImage();
-                        c.SetImageFromFilePath(str);
-                        ClsSystem.mListImage.Add(c);
+                        ClsSystem.CreateImage(str);
+
                         //ImageListへ登録と更新
                         //CellListの表示更新
                         Refresh();
                     }
                 }
+
                 e.Effect = DragDropEffects.Copy;
             }
             else
@@ -129,6 +129,7 @@ namespace PrjHikariwoAnim
                     mMouseDownPoint.Y - SystemInformation.DragSize.Height / 2,
                     SystemInformation.DragSize.Width,
                     SystemInformation.DragSize.Height);
+
                 //DragSize外に出たらドラッグ開始とする
                 if (!dragRegion.Contains(e.X,e.Y))
                 {
@@ -207,8 +208,8 @@ namespace PrjHikariwoAnim
         private void panel_list_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //Call ImageCuter
-            int idx = PointToItemIndex(e.X, e.Y);
-            ClsDatImage ic = ClsSystem.mListImage[idx];
+            int inIndex = PointToItemIndex(e.X, e.Y);
+            ClsDatImage ic = ClsSystem.mListImage[inIndex];
 
             FormImageCut fic = new FormImageCut(this.mFormMain, ic.Origin, ic.mPath);
             if (fic.ShowDialog() == DialogResult.OK)
@@ -237,16 +238,15 @@ namespace PrjHikariwoAnim
             {
                 foreach (string fn in ofd.FileNames)
                 {
-                    ClsDatImage ic = new ClsDatImage();
-                    ic.SetImageFromFilePath(fn);
-                    ClsSystem.mListImage.Add(ic);
+                    ClsSystem.CreateImage(fn);
                 }
             }
             ofd.Dispose();
+
             panel_list.Refresh();
         }
 
-        private void button_Doc_Click(object sender, EventArgs e)
+        private void button_OpenDoc_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
         }
@@ -286,7 +286,7 @@ namespace PrjHikariwoAnim
         {
             List<string> clListRemove = new List<string>();
             int inCnt, inMax = ClsSystem.mListImage.Count;
-            for (inCnt= inMax- 1; inCnt>= 0;inCnt--)
+            for (inCnt= inMax- 1; inCnt>= 0;inCnt--)    //複数削除の可能性があるので、後ろからなめる
             {
                 ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
                 if (!clDatImage.mSelect) continue;
