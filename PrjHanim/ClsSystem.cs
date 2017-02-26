@@ -22,9 +22,8 @@ namespace PrjHikariwoAnim
         public static string mHeader;
         public static int mVer;
         public static ClsSetting mSetting = null;   //保存データ
-        public static int mImageSelectKey;   //現在選択中のイメージインデックス
         public static int mMotionSelectKey;  //現在選択中のモーションキー
-        public static List<ClsDatImage> mListImage; //値はイメージ管理クラス
+        public static Dictionary<string, ClsDatImage> mDicImage;   //キーは ClsDatImage の Hash　値はClsDatImage
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
 
@@ -61,8 +60,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、データ初期化処理
-            ClsSystem.mImageSelectKey = -1;
-            ClsSystem.mListImage = new List<ClsDatImage>();
+            ClsSystem.mDicImage = new Dictionary<string, ClsDatImage>();
             ClsSystem.mMotionSelectKey = -1;
             ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
         }
@@ -80,17 +78,65 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// イメージ削除処理
+        /// </summary>
+        /// <param name="clKey">イメージキー</param>
+        public static void RemoveImage(string clKey)
+        {
+            if (clKey == null) return;
+
+            bool isExist = ClsSystem.mDicImage.ContainsKey(clKey);
+            if (!isExist) return;
+
+            ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+            clDatImage.Remove();
+
+            ClsSystem.mDicImage.Remove(clKey);
+        }
+
+        /// <summary>
+        /// イメージ全削除処理
+        /// </summary>
+        public static void RemoveAllImage()
+        {
+            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            {
+                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                clDatImage.Remove();
+            }
+            ClsSystem.mDicImage.Clear();
+        }
+
+        /// <summary>
+        /// モーション全削除処理
+        /// </summary>
+        public static void RemoveAllMotion()
+        {
+            //以下、モーションクリア処理
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
+                clDatMotion.Remove();
+            }
+            ClsSystem.mDicMotion.Clear();
+        }
+
+        /// <summary>
         /// イメージを作成する
         /// イメージファイルパスからファイルを読み込んでSystem.mListImageに追加して、インデックスを返します
         /// ただし、すでにSystem.mListImageに存在していた場合は、リストに追加せずに、そのインデックスを返します
         /// </summary>
         /// <param name="clFilePath">イメージファイルパス</param>
-        /// <returns>イメージインデックス</returns>
-        public static int CreateImageFromFile(string clFilePath)
+        /// <returns>イメージキー</returns>
+        public static string CreateImageFromFile(string clFilePath)
         {
             Image clImage = Bitmap.FromFile(clFilePath);
-            int inIndex = ClsSystem.CreateImageFromImage(clImage);
-            return (inIndex);
+            string clKey = ClsSystem.CreateImageFromImage(clImage);
+
+            ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+            clDatImage.mPath = clFilePath;
+
+            return (clKey);
         }
 
         /// <summary>
@@ -98,50 +144,38 @@ namespace PrjHikariwoAnim
         /// イメージをSystem.mListImageに追加して、インデックスを返します
         /// ただし、すでにSystem.mListImageに存在していた場合は、リストに追加せずに、そのインデックスを返します
         /// </summary>
-        /// <param name="clImage"></param>
-        /// <returns></returns>
-        public static int CreateImageFromImage(Image clImage)
+        /// <param name="clImage">イメージ</param>
+        /// <returns>イメージキー</returns>
+        public static string CreateImageFromImage(Image clImage)
         {
-            string clHash = ClsTool.GetMD5FromImage(clImage);
+            string clKeyNew = ClsTool.GetMD5FromImage(clImage);
 
-            //以下、イメージが作成済みかチェックする処理
-            ClsDatImage clDatImage = null;
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                clDatImage = ClsSystem.mListImage[inCnt];
-                if (clDatImage.Origin == null) continue;
-
-                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.Origin);
-                if (!clHashTmp.Equals(clHash)) continue;
-
-                return (inCnt);
-            }
+            bool isExist = ClsSystem.mDicImage.ContainsKey(clKeyNew);
+            if (isExist) return (clKeyNew);
 
             //以下、イメージを新規作成して、そのインデックスを返す処理
-            clDatImage = new ClsDatImage();
+            ClsDatImage clDatImage = new ClsDatImage();
             clDatImage.SetImage(clImage);
-            ClsSystem.mListImage.Add(clDatImage);
-            int inIndex = ClsSystem.mListImage.Count - 1;
+            clKeyNew = clDatImage.GetImageKey();
+            ClsSystem.mDicImage.Add(clKeyNew, clDatImage);
 
-            return (inIndex);
+            return (clKeyNew);
         }
 
         /// <summary>
         /// 選択中のインデックスのリストを取得する
         /// </summary>
         /// <returns>選択中のインデックスのリスト</returns>
-        public static List<int> GetImageSelectIndex()
+        public static List<string> GetImageSelectIndex()
         {
-            List<int> clListIndex = new List<int>();
+            List<string> clListIndex = new List<string>();
 
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            foreach(string clKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
                 if (!clDatImage.mSelect) continue;
 
-                clListIndex.Add(inCnt);
+                clListIndex.Add(clKey);
             }
 
             return (clListIndex);
@@ -152,11 +186,11 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clFilePath">イメージファイルパス</param>
         /// <returns>イメージインデックス</returns>
-        public static int GetImageIndexFromFile(string clFilePath)
+        public static string GetImageIndexFromFile(string clFilePath)
         {
             Image clImage = Bitmap.FromFile(clFilePath);
-            int inIndex = ClsSystem.GetImageIndexFromImage(clImage);
-            return (inIndex);
+            string clKey = ClsSystem.GetImageIndexFromImage(clImage);
+            return (clKey);
         }
 
         /// <summary>
@@ -164,25 +198,24 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clImage">イメージ</param>
         /// <returns>イメージインデックス</returns>
-        public static int GetImageIndexFromImage(Image clImage)
+        public static string GetImageIndexFromImage(Image clImage)
         {
-            if (clImage == null) return (-1);
+            if (clImage == null) return (null);
 
             string clHash = ClsTool.GetMD5FromImage(clImage);
 
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            foreach(string clKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
-                if (clDatImage.Origin == null) continue;
+                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                if (clDatImage.mImgOrigin == null) continue;
 
-                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.Origin);
+                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.mImgOrigin);
                 if (!clHashTmp.Equals(clHash)) continue;
 
-                return (inCnt);
+                return (clKey);
             }
 
-            return (-1);
+            return (null);
         }
 
         /// <summary>
@@ -208,13 +241,12 @@ namespace PrjHikariwoAnim
 
             string clHash = ClsTool.GetMD5FromImage(clImage);
 
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
+            foreach(string clKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
-                if (clDatImage.Origin == null) continue;
+                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                if (clDatImage.mImgOrigin == null) continue;
 
-                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.Origin);
+                string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.mImgOrigin);
                 if (!clHashTmp.Equals(clHash)) continue;
 
                 return (true);
@@ -270,31 +302,12 @@ namespace PrjHikariwoAnim
 
                     if ("Image".Equals(clXmlElem.Name))
                     {
-/*
-                        ClsDatImage clImage = new ClsDatImage();
-                        clImage.Load(clXmlElem);
+                        ClsDatImage clDatImage = new ClsDatImage();
+                        clDatImage.Load(clXmlElem);
 
-                        clFormImageList.AddItem(clImage.Origin, clImage.mRect);
-*/
-
-                        /*
-                        string clPath = clXmlElem.InnerText;
-                        bool isExist = File.Exists(clPath);
-                        if (isExist)
-                        {
-                            ClsSystem.ImageMan.AddCellFromPath(clPath);
-                        }
-                        else
-                        {
-                            ClsSystem.ImageMan.AddCellFromImage(Properties.Resources.error);
-                        }
-                        */
-
-/*
-                        ClsSystem.mDicImage.Add(clImage.mHash, clImage);
-                                                
+                        string clKey = clDatImage.GetImageKey();
+                        ClsSystem.mDicImage.Add(clKey, clDatImage);
                         continue;
-*/
                     }
 
                     if ("Motion".Equals(clXmlElem.Name))
@@ -351,10 +364,9 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElement(clHeader, "Ver", inVersion);
 
             //以下、イメージリスト保存処理
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for(inCnt= 0;inCnt< inMax;inCnt++)
+            foreach(string clKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clImage = ClsSystem.mListImage[inCnt];
+                ClsDatImage clImage = ClsSystem.mDicImage[clKey];
                 clImage.Save(clHeader);
             }
 

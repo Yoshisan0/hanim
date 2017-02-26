@@ -181,22 +181,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// xml形式で要素を ClsSystem.mFileBuffer に出力する処理
-        /// </summary>
-        /// <param name="clHeader">ヘッダー</param>
-        /// <param name="clName">要素名</param>
-        /// <param name="stRect">値</param>
-        public static void AppendElement(string clHeader, string clName, Rectangle stRect)
-        {
-            ClsTool.AppendElementStart(clHeader, clName);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "X", stRect.X);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Y", stRect.Y);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Width", stRect.Width);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Height", stRect.Height);
-            ClsTool.AppendElementEnd(clHeader, clName);
-        }
-
-        /// <summary>
         /// xml形式でベクター３を ClsSystem.mFileBuffer に出力する処理
         /// </summary>
         /// <param name="clHeader">ヘッダー</param>
@@ -209,48 +193,6 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Y", clVec.Y);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Z", clVec.Z);
             ClsTool.AppendElementEnd(clHeader, clName);
-        }
-
-        /// <summary>
-        /// XmlNodeからRectangleを生成して返す
-        /// </summary>
-        /// <param name="clXmlNode">xmlノード</param>
-        /// <returns>Rectangle</returns>
-        public static Rectangle GetRectFromXmlNode(XmlNode clXmlNode)
-        {
-            Rectangle stRect = new Rectangle();
-
-            XmlNodeList clListNode = clXmlNode.ChildNodes;
-            foreach (XmlNode clNode in clListNode)
-            {
-                if ("X".Equals(clNode.Name))
-                {
-                    stRect.X = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Y".Equals(clNode.Name))
-                {
-                    stRect.Y = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Width".Equals(clNode.Name))
-                {
-                    stRect.Width = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Height".Equals(clNode.Name))
-                {
-                    stRect.Height = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                throw new Exception("this is not normal Rectangle.");
-            }
-
-            return (stRect);
         }
 
         /// <summary>

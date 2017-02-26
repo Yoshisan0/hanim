@@ -119,6 +119,10 @@ namespace PrjHikariwoAnim
             ClsDatCutImage clDatCutImage = new ClsDatCutImage();
             clDatCutImage.mImage = clBmpSrc.Clone(r, clBmpSrc.PixelFormat);
             clDatCutImage.mSelect = false;
+            clDatCutImage.mX = r.X;
+            clDatCutImage.mY = r.Y;
+            clDatCutImage.mW = r.Width;
+            clDatCutImage.mH = r.Height;
             this.mListCutImage.Add(clDatCutImage);
 
             this.panel_CellList.Height = (this.mListCutImage.Count/(panel_CellList.Width/ FormImageCut.WIDTH_THUMS))* FormImageCut.WIDTH_THUMS;
@@ -449,10 +453,8 @@ namespace PrjHikariwoAnim
             {
                 for (int cx=0;cx<(mImage.Width/dx);cx++)
                 {
-                    Rectangle r = new Rectangle(cx*dx,cy*dy,dx,dy);
                     ClsDatImage c = new ClsDatImage();
-                    c.mRect = r;
-                    c.mName = cy.ToString("00") +":"+ cx.ToString("00");
+                    c.mRect = new ClsDatRect(cx * dx, cy * dy, dx, dy);
 //                    ImageManager.AddImageChipFromImage(mImage, c);
                     //※ここでイメージをカットする？
                 }
@@ -507,18 +509,29 @@ namespace PrjHikariwoAnim
         }
     }
 
+    /// <summary>
+    /// FormImageCut専用のカット画像管理クラス
+    /// </summary>
     public class ClsDatCutImage
     {
-        public Image mImage;
         public bool mSelect;
+        public Image mImage;
+        public int mX;
+        public int mY;
+        public int mW;
+        public int mH;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ClsDatCutImage()
         {
-            this.mImage = null;
             this.mSelect = false;
+            this.mImage = null;
+            this.mX = 0;
+            this.mY = 0;
+            this.mW = 0;
+            this.mH = 0;
         }
 
         /// <summary>

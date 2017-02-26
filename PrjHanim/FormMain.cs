@@ -192,21 +192,10 @@ namespace PrjHikariwoAnim
             if (MessageBox.Show("新規プロジェクトの作成\n既存データは全て初期化されます\nCreate a New Project.\nClear All is OK?", "Cleate Project", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 //以下、イメージクリア処理
-                int inCnt, inMax = ClsSystem.mListImage.Count;
-                for(inCnt= 0;inCnt< inMax;inCnt++)
-                {
-                    ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
-                    clDatImage.Remove();
-                }
-                ClsSystem.mListImage.Clear();
+                ClsSystem.RemoveAllImage();
 
                 //以下、モーションクリア処理
-                foreach (int inKey in ClsSystem.mDicMotion.Keys)
-                {
-                    ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
-                    clDatMotion.Remove();
-                }
-                ClsSystem.mDicMotion.Clear();
+                ClsSystem.RemoveAllMotion();
                 listView_Motion.Clear();
 
                 ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
@@ -259,25 +248,14 @@ namespace PrjHikariwoAnim
         public void LoadProject(string clFilePath)
         {
             //以下、イメージクリア処理
-            int inCnt, inMax = ClsSystem.mListImage.Count;
-            for(inCnt= 0;inCnt< inMax;inCnt++)
-            {
-                ClsDatImage clDatImage = ClsSystem.mListImage[inCnt];
-                clDatImage.Remove();
-            }
-            ClsSystem.mListImage.Clear();    //イメージ全削除
+            ClsSystem.RemoveAllImage();
 
             //以下、モーションクリア処理
-            foreach (int inKey in ClsSystem.mDicMotion.Keys)
-            {
-                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
-                clDatMotion.Remove();
-            }
-            ClsSystem.mDicMotion.Clear();           //mDicMotion全削除
+            ClsSystem.RemoveAllMotion();
             this.listView_Motion.Items.Clear();     //listView_Motion.Items全削除
 
             //以下、プロジェクトファイル読み込み処理
-            //ClsSystem.Load(this.mFormImageList, this.listView_Motion, clFilePath);
+            ClsSystem.Load(this.listView_Motion, clFilePath);
         }
 
         /// <summary>
@@ -769,12 +747,10 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
-        /// <param name="inIndex">イメージインデックス</param>
+        /// <param name="c">イメージ管理クラス</param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        /// <param name="w">イメージの幅</param>
-        /// <param name="h">イメージの高さ</param>
-        private void listView_Motion_AddElements(int inIndex, int x, int y, int w, int h)
+        private void listView_Motion_AddElements(ClsDatImage c, int x, int y)
         {
             //モーション選択無し
             if (ClsSystem.mMotionSelectKey < 0) return;
@@ -791,9 +767,9 @@ namespace PrjHikariwoAnim
 
             //アイテムの登録
             ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.mImageIndex = inIndex;
-            elem.mAttInit.Width = w;
-            elem.mAttInit.Height = h;
+            elem.mImageKey = c.GetImageKey();
+            elem.mAttInit.Width = c.mImgOrigin.Width;
+            elem.mAttInit.Height = c.mImgOrigin.Height;
 
             //センターからの距離に変換
             x -= panel_PreView.Width / 2;
@@ -1035,11 +1011,11 @@ namespace PrjHikariwoAnim
                     string ext = Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        int inIndex = ClsSystem.CreateImageFromFile(str);
-                        if (inIndex >= 0)
+                        string clKey = ClsSystem.CreateImageFromFile(str);
+                        if (clKey!= null)
                         {
-                            ClsDatImage c = ClsSystem.mListImage[inIndex];
-                            this.listView_Motion_AddElements(inIndex, sPos.X, sPos.Y, c.Origin.Width, c.Origin.Height);
+                            ClsDatImage c = ClsSystem.mDicImage[clKey];
+                            this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
                         }
 
                         //CellListの表示更新
@@ -1080,12 +1056,11 @@ namespace PrjHikariwoAnim
             {
                 //Store Cell Item
                 ClsDatImage work = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
-                ClsSystem.mListImage.Add(work);//画像登録
 
                 //PreViewに配置し更新
-                int inIndex = ClsSystem.mListImage.Count - 1;
+                int inKey = work.GetHashCode();
                 Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                listView_Motion_AddElements(inIndex, a.X, a.Y, work.Origin.Width, work.Origin.Height);
+                listView_Motion_AddElements(work, a.X, a.Y);
 
                 e.Effect = DragDropEffects.Copy;
             }
