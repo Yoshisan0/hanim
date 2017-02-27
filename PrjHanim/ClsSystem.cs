@@ -23,8 +23,8 @@ namespace PrjHikariwoAnim
         public static int mVer;
         public static ClsSetting mSetting = null;   //保存データ
         public static int mMotionSelectKey;  //現在選択中のモーションキー
-        public static Dictionary<string, ClsDatImage> mDicImage;   //キーは ClsDatImage の Hash　値はClsDatImage
-        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーは TreeNode の HashCode　値はモーション管理クラス
+        public static Dictionary<int, ClsDatImage> mDicImage;   //キーはランダム値　値はClsDatImage
+        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、データ初期化処理
-            ClsSystem.mDicImage = new Dictionary<string, ClsDatImage>();
+            ClsSystem.mDicImage = new Dictionary<int, ClsDatImage>();
             ClsSystem.mMotionSelectKey = -1;
             ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
         }
@@ -78,20 +78,66 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 新しいイメージキー
+        /// </summary>
+        /// <returns>イメージキー</returns>
+        public static int GetNewImageKey()
+        {
+            Random clRand = new Random();
+            int inRand = clRand.Next();
+            foreach (int inKey in ClsSystem.mDicImage.Keys)
+            {
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
+                if (clDatImage.mID == inRand)
+                {
+                    inRand = clRand.Next();
+                    continue;
+                }
+
+                break;
+            }
+            
+            return (inRand);
+        }
+
+        /// <summary>
+        /// 新しいモーションキー
+        /// </summary>
+        /// <returns>モーションキー</returns>
+        public static int GetNewMotionKey()
+        {
+            Random clRand = new Random();
+            int inRand = clRand.Next();
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
+                if (clDatMotion.mID == inRand)
+                {
+                    inRand = clRand.Next();
+                    continue;
+                }
+
+                break;
+            }
+
+            return (inRand);
+        }
+
+        /// <summary>
         /// イメージ削除処理
         /// </summary>
-        /// <param name="clKey">イメージキー</param>
-        public static void RemoveImage(string clKey)
+        /// <param name="inKey">イメージキー</param>
+        public static void RemoveImage(int inKey)
         {
-            if (clKey == null) return;
+            if (inKey <= 0) return;
 
-            bool isExist = ClsSystem.mDicImage.ContainsKey(clKey);
+            bool isExist = ClsSystem.mDicImage.ContainsKey(inKey);
             if (!isExist) return;
 
-            ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+            ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
             clDatImage.Remove();
 
-            ClsSystem.mDicImage.Remove(clKey);
+            ClsSystem.mDicImage.Remove(inKey);
         }
 
         /// <summary>
@@ -99,9 +145,9 @@ namespace PrjHikariwoAnim
         /// </summary>
         public static void RemoveAllImage()
         {
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 clDatImage.Remove();
             }
             ClsSystem.mDicImage.Clear();
@@ -128,15 +174,15 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clFilePath">イメージファイルパス</param>
         /// <returns>イメージキー</returns>
-        public static string CreateImageFromFile(string clFilePath)
+        public static int CreateImageFromFile(string clFilePath)
         {
             Image clImage = Bitmap.FromFile(clFilePath);
-            string clKey = ClsSystem.CreateImageFromImage(clImage);
 
-            ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+            int inKey = ClsSystem.CreateImageFromImage(clImage);
+            ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
             clDatImage.mPath = clFilePath;
 
-            return (clKey);
+            return (inKey);
         }
 
         /// <summary>
@@ -146,36 +192,34 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clImage">イメージ</param>
         /// <returns>イメージキー</returns>
-        public static string CreateImageFromImage(Image clImage)
+        public static int CreateImageFromImage(Image clImage)
         {
-            string clKeyNew = ClsTool.GetMD5FromImage(clImage);
-
-            bool isExist = ClsSystem.mDicImage.ContainsKey(clKeyNew);
-            if (isExist) return (clKeyNew);
+            int inKey = ClsSystem.GetImageIndexFromImage(clImage);
+            if (inKey >= 0) return (inKey);
 
             //以下、イメージを新規作成して、そのインデックスを返す処理
             ClsDatImage clDatImage = new ClsDatImage();
             clDatImage.SetImage(clImage);
-            clKeyNew = clDatImage.GetImageKey();
-            ClsSystem.mDicImage.Add(clKeyNew, clDatImage);
+            clDatImage.mID = ClsSystem.GetNewImageKey();
+            ClsSystem.mDicImage.Add(clDatImage.mID, clDatImage);
 
-            return (clKeyNew);
+            return (clDatImage.mID);
         }
 
         /// <summary>
         /// 選択中のインデックスのリストを取得する
         /// </summary>
         /// <returns>選択中のインデックスのリスト</returns>
-        public static List<string> GetImageSelectIndex()
+        public static List<int> GetImageSelectIndex()
         {
-            List<string> clListIndex = new List<string>();
+            List<int> clListIndex = new List<int>();
 
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 if (!clDatImage.mSelect) continue;
 
-                clListIndex.Add(clKey);
+                clListIndex.Add(inKey);
             }
 
             return (clListIndex);
@@ -186,11 +230,11 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clFilePath">イメージファイルパス</param>
         /// <returns>イメージインデックス</returns>
-        public static string GetImageIndexFromFile(string clFilePath)
+        public static int GetImageIndexFromFile(string clFilePath)
         {
             Image clImage = Bitmap.FromFile(clFilePath);
-            string clKey = ClsSystem.GetImageIndexFromImage(clImage);
-            return (clKey);
+            int inKey = ClsSystem.GetImageIndexFromImage(clImage);
+            return (inKey);
         }
 
         /// <summary>
@@ -198,24 +242,24 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clImage">イメージ</param>
         /// <returns>イメージインデックス</returns>
-        public static string GetImageIndexFromImage(Image clImage)
+        public static int GetImageIndexFromImage(Image clImage)
         {
-            if (clImage == null) return (null);
+            if (clImage == null) return (-1);
 
             string clHash = ClsTool.GetMD5FromImage(clImage);
 
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 if (clDatImage.mImgOrigin == null) continue;
 
                 string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.mImgOrigin);
                 if (!clHashTmp.Equals(clHash)) continue;
 
-                return (clKey);
+                return (inKey);
             }
 
-            return (null);
+            return (-1);
         }
 
         /// <summary>
@@ -241,9 +285,9 @@ namespace PrjHikariwoAnim
 
             string clHash = ClsTool.GetMD5FromImage(clImage);
 
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 if (clDatImage.mImgOrigin == null) continue;
 
                 string clHashTmp = ClsTool.GetMD5FromImage(clDatImage.mImgOrigin);
@@ -305,24 +349,23 @@ namespace PrjHikariwoAnim
                         ClsDatImage clDatImage = new ClsDatImage();
                         clDatImage.Load(clXmlElem);
 
-                        string clKey = clDatImage.GetImageKey();
-                        ClsSystem.mDicImage.Add(clKey, clDatImage);
+                        ClsSystem.mDicImage.Add(clDatImage.mID, clDatImage);
                         continue;
                     }
 
                     if ("Motion".Equals(clXmlElem.Name))
                     {
-                        ClsDatMotion clMotion = new ClsDatMotion(0, "");
-                        clMotion.Load(clXmlElem);
+                        ClsDatMotion clDatMotion = new ClsDatMotion(0, "");
+                        clDatMotion.Load(clXmlElem);
 
-                        ListViewItem clListViewItem = new ListViewItem(clMotion.mName, 2);
+                        ListViewItem clListViewItem = new ListViewItem(clDatMotion.mName, 2);
                         clListView.Items.Add(clListViewItem);
                         clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
-                        clMotion.mID = clListViewItem.GetHashCode();
-                        clMotion.Restore();     //モーションの親子関連付け再構築処理
-                        clMotion.Assignment();  //行番号などを設定する処理
-                        ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
+                        clDatMotion.mTreeNodeHashCode = clListViewItem.GetHashCode();
+                        clDatMotion.Restore();     //モーションの親子関連付け再構築処理
+                        clDatMotion.Assignment();  //行番号などを設定する処理
+                        ClsSystem.mDicMotion.Add(clDatMotion.mID, clDatMotion);
                         continue;
                     }
 
@@ -364,17 +407,17 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElement(clHeader, "Ver", inVersion);
 
             //以下、イメージリスト保存処理
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clImage = ClsSystem.mDicImage[clKey];
-                clImage.Save(clHeader);
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
+                clDatImage.Save(clHeader);
             }
 
             //以下、モーションリスト保存処理
             foreach (int inKey in ClsSystem.mDicMotion.Keys)
             {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
-                clMotion.Save(clHeader);
+                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
+                clDatMotion.Save(clHeader);
             }
 
             ClsTool.AppendElementEnd("", "HanimProjectData");

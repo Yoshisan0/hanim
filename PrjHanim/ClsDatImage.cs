@@ -9,6 +9,7 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatImage
     {
+        public int mID;             //ランダム値（ClsSystem.mDicImageのキー）
         public bool mSelect;        //選択フラグ
         public string mPath;        //ファイルパス（画像 or カット画像の場合は元画像パス）
         public ClsDatRect mRect;    //切り取り情報（null:元画像 null以外:カット画像）
@@ -38,16 +39,6 @@ namespace PrjHikariwoAnim
             this.mPath = clFilePath;
             Image clImage = Bitmap.FromFile(clFilePath);
             this.SetImage(clImage);
-        }
-
-        /// <summary>
-        /// イメージのハッシュキーを取得する
-        /// </summary>
-        /// <returns>イメージのハッシュキー</returns>
-        public string GetImageKey()
-        {
-            string clHash = ClsTool.GetMD5FromImage(this.mImgOrigin);
-            return (clHash);
         }
 
         /// <summary>
@@ -152,6 +143,12 @@ namespace PrjHikariwoAnim
             XmlNodeList clListNode = clXmlElem.ChildNodes;
             foreach (XmlNode clNode in clListNode)
             {
+                if ("ID".Equals(clNode.Name))
+                {
+                    this.mID = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
                 if ("Path".Equals(clNode.Name))
                 {
                     this.mPath = clNode.InnerText;
@@ -187,6 +184,7 @@ namespace PrjHikariwoAnim
         {
             //以下、イメージ保存処理
             ClsTool.AppendElementStart(clHeader, "Image");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ID", this.mID);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Path", this.mPath);
             if (this.mRect != null)
             {

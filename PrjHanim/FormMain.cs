@@ -223,13 +223,18 @@ namespace PrjHikariwoAnim
                 this.listView_Motion.Refresh();
 
                 //以下、選択中のライン番号初期化処理
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.SetSelectFromLineNo(-1);
+                foreach (int inKey in ClsSystem.mDicMotion.Keys)
+                {
+                    ClsSystem.mMotionSelectKey = inKey;
+                    break;
+                }
+                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clDatMotion.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
-                this.SetName(clMotion);
-                this.mFormControl.SetMotion(clMotion);
+                this.SetName(clDatMotion);
+                this.mFormControl.SetMotion(clDatMotion);
                 this.mFormAttribute.Init(null);
 
                 //以下、各種ウィンドウ更新処理
@@ -767,7 +772,7 @@ namespace PrjHikariwoAnim
 
             //アイテムの登録
             ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.mImageKey = c.GetImageKey();
+            elem.mImageKey = c.mID;
             elem.mAttInit.Width = c.mImgOrigin.Width;
             elem.mAttInit.Height = c.mImgOrigin.Height;
 
@@ -1011,10 +1016,10 @@ namespace PrjHikariwoAnim
                     string ext = Path.GetExtension(str).ToLower();
                     if (ext == ".png")
                     {
-                        string clKey = ClsSystem.CreateImageFromFile(str);
-                        if (clKey!= null)
+                        int inKey = ClsSystem.CreateImageFromFile(str);
+                        if (inKey >= 0)
                         {
-                            ClsDatImage c = ClsSystem.mDicImage[clKey];
+                            ClsDatImage c = ClsSystem.mDicImage[inKey];
                             this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
                         }
 

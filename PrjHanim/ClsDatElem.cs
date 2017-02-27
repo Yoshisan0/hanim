@@ -47,7 +47,7 @@ namespace PrjHikariwoAnim
         public bool isVisible;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
-        public string mImageKey;            //イメージインデックス
+        public int mImageKey;               //イメージインデックス
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public AttributeBase mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
@@ -71,7 +71,7 @@ namespace PrjHikariwoAnim
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
             this.mAttInit = new AttributeBase();
-            this.mImageKey = null;
+            this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
@@ -270,7 +270,7 @@ namespace PrjHikariwoAnim
 
                 if ("ImageKey".Equals(clNode.Name))
                 {
-                    this.mImageKey = clNode.InnerText;
+                    this.mImageKey = Convert.ToInt32(clNode.InnerText);
                     continue;
                 }
 

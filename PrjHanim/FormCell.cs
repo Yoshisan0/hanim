@@ -134,10 +134,10 @@ namespace PrjHikariwoAnim
                 if (!dragRegion.Contains(e.X,e.Y))
                 {
                     //ドラッグ開始
-                    string clSelectKey = PointToItemIndex(e.X , e.Y );
-                    if (clSelectKey!= null)
+                    int inSelectKey = PointToItemIndex(e.X , e.Y );
+                    if (inSelectKey >= 0)
                     {
-                        DragDropEffects rete = panel_listBase.DoDragDrop(ClsSystem.mDicImage[clSelectKey], DragDropEffects.Copy);
+                        DragDropEffects rete = panel_listBase.DoDragDrop(ClsSystem.mDicImage[inSelectKey], DragDropEffects.Copy);
                         if(rete==DragDropEffects.Copy)
                         {
                             //正常完了
@@ -163,9 +163,9 @@ namespace PrjHikariwoAnim
 
             if (ClsSystem.mDicImage.Count <= 0) return;
 
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                Image src = ClsSystem.mDicImage[clKey].mImgOrigin;
+                Image src = ClsSystem.mDicImage[inKey].mImgOrigin;
                 if (src == null)
                 {
                     Console.Out.Write("CellImage is Null");
@@ -182,7 +182,7 @@ namespace PrjHikariwoAnim
                 e.Graphics.DrawImage(src, dpX+(bSize / 2 - (ds.X / 2)), dpY + (bSize / 2 - (ds.Y / 2)), ds.X, ds.Y);
 
                 //DrawFlame
-                if (ClsSystem.mDicImage[clKey].mSelect)
+                if (ClsSystem.mDicImage[inKey].mSelect)
                 {
                     e.Graphics.DrawRectangle(Pens.GreenYellow, new Rectangle(dpX,dpY, bSize - 1, bSize - 1));
                 }
@@ -200,10 +200,10 @@ namespace PrjHikariwoAnim
         private void panel_list_Click(object sender, EventArgs e)
         {
             //Cell Select
-            string clSelectKey = PointToItemIndex(mMouseDownPoint.X, mMouseDownPoint.Y);
-            if (clSelectKey!= null)
+            int inSelectKey = PointToItemIndex(mMouseDownPoint.X, mMouseDownPoint.Y);
+            if (inSelectKey >= 0)
             {
-                ClsSystem.mDicImage[clSelectKey].mSelect = !ClsSystem.mDicImage[clSelectKey].mSelect;
+                ClsSystem.mDicImage[inSelectKey].mSelect = !ClsSystem.mDicImage[inSelectKey].mSelect;
             }
 
             this.panel_listBase.Refresh();
@@ -213,21 +213,21 @@ namespace PrjHikariwoAnim
             this.button_Cut_Click(sender, e);
         }
 
-        private string PointToItemIndex(int x,int y)
+        private int PointToItemIndex(int x,int y)
         {
             int cx = x / mTumsSize;
             int cy = y / mTumsSize;
             int inIndex = (cy * (panel_list.Width / mTumsSize)) + cx;
-            foreach (string clKey in ClsSystem.mDicImage.Keys)
+            foreach (int inKey in ClsSystem.mDicImage.Keys)
             {
                 inIndex--;
                 if (inIndex < 0)
                 {
-                    return (clKey);
+                    return (inKey);
                 }
             }
 
-            return (null);
+            return (-1);
         }
 
         private void button_LoadPic_Click(object sender, EventArgs e)
@@ -257,12 +257,12 @@ namespace PrjHikariwoAnim
 
         private void button_Cut_Click(object sender, EventArgs e)
         {
-            List<string> clListIndex = ClsSystem.GetImageSelectIndex();
+            List<int> clListIndex = ClsSystem.GetImageSelectIndex();
             if (clListIndex.Count<= 0) return;
 
             //以下、元画像取得処理
-            string clSelectKey = clListIndex[0];
-            ClsDatImage clDatImageSrc = ClsSystem.mDicImage[clSelectKey];
+            int inSelectKey = clListIndex[0];
+            ClsDatImage clDatImageSrc = ClsSystem.mDicImage[inSelectKey];
 
             //以下、イメージカットウィンドウ表示処理
             FormImageCut clFormImageCut = new FormImageCut(this.mFormMain, clDatImageSrc.mImgOrigin, clDatImageSrc.mPath);
@@ -274,14 +274,15 @@ namespace PrjHikariwoAnim
                 {
                     //以下、画像登録処理
                     ClsDatCutImage clDatCutImage = clFormImageCut.mListCutImage[inCnt];
-                    string clKey = ClsSystem.CreateImageFromImage(clDatCutImage.mImage);
+                    int inKey = ClsSystem.CreateImageFromImage(clDatCutImage.mImage);
 
                     //以下、カット画像管理クラスにカット情報を登録する処理
-                    ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                    ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                     clDatImage.mPath = clDatImageSrc.mPath;
                     clDatImage.mRect = new ClsDatRect(clDatCutImage.mX, clDatCutImage.mY, clDatCutImage.mW, clDatCutImage.mH);
                 }
             }
+            clFormImageCut.Close();
             clFormImageCut.Dispose();
             clFormImageCut = null;
 
@@ -291,26 +292,26 @@ namespace PrjHikariwoAnim
 
         private void button_Delete_Click(object sender, EventArgs e)
         {
-            List<string> clListRemove = new List<string>();
-            foreach(string clKey in ClsSystem.mDicImage.Keys)
+            List<int> clListRemove = new List<int>();
+            foreach(int inKey in ClsSystem.mDicImage.Keys)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 if (!clDatImage.mSelect) continue;
 
-                clListRemove.Add(clKey);
+                clListRemove.Add(inKey);
             }
 
             int inCnt, inMax = clListRemove.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                string clKey = clListRemove[inCnt];
-                bool isExist = ClsSystem.mDicImage.ContainsKey(clKey);
+                int inKey = clListRemove[inCnt];
+                bool isExist = ClsSystem.mDicImage.ContainsKey(inKey);
                 if (!isExist) continue;
 
-                ClsDatImage clDatImage = ClsSystem.mDicImage[clKey];
+                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                 if (clDatImage == null) continue;
 
-                ClsSystem.RemoveImage(clKey);
+                ClsSystem.RemoveImage(inKey);
             }
 
             panel_listBase.Refresh();

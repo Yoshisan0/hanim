@@ -13,11 +13,12 @@ namespace PrjHikariwoAnim
 {
     public class ClsDatMotion
     {
-        public int mID;         //TreeNodeのHashCode
-        public string mName;    //モーション名
-        public int mFrameNum;   //トータルフレーム数
-        public int mSelectFrame;    //現在選択中のフレーム
-        public int mSelectLineNo;   //現在選択中の行数
+        public int mID;                     //ランダム値（ClsSystem.mDicMotionのキー）
+        public int mTreeNodeHashCode;       //TreeNodeのHashCode
+        public string mName;                //モーション名
+        public int mFrameNum;               //トータルフレーム数
+        public int mSelectFrame;            //現在選択中のフレーム
+        public int mSelectLineNo;           //現在選択中の行数
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -217,6 +218,12 @@ namespace PrjHikariwoAnim
             XmlNodeList clListNode = clXmlElem.ChildNodes;
             foreach (XmlNode clNode in clListNode)
             {
+                if ("ID".Equals(clNode.Name))
+                {
+                    this.mID = Convert.ToInt32(clNode.InnerText);
+                    continue;
+                }
+
                 if ("Name".Equals(clNode.Name))
                 {
                     this.mName = clNode.InnerText;
@@ -250,6 +257,7 @@ namespace PrjHikariwoAnim
         {
             //以下、モーション保存処理
             ClsTool.AppendElementStart(clHeader, "Motion");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ID", this.mID);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
 
