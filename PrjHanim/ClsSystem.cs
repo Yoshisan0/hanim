@@ -302,7 +302,6 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 読み込み処理
         /// </summary>
-        /// <param name="clFormImageList">イメージリストフォーム</param>
         /// <param name="clListView">モーションリストビュー</param>
         /// <param name="clFilePath">ファイルパス</param>
         public static void Load(ListView clListView, string clFilePath)
@@ -362,7 +361,7 @@ namespace PrjHikariwoAnim
                         clListView.Items.Add(clListViewItem);
                         clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
-                        clDatMotion.mTreeNodeHashCode = clListViewItem.GetHashCode();
+                        clDatMotion.mItemHashCode = clListViewItem.GetHashCode();
                         clDatMotion.Restore();     //モーションの親子関連付け再構築処理
                         clDatMotion.Assignment();  //行番号などを設定する処理
                         ClsSystem.mDicMotion.Add(clDatMotion.mID, clDatMotion);

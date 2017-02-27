@@ -14,7 +14,7 @@ namespace PrjHikariwoAnim
     public class ClsDatMotion
     {
         public int mID;                     //ランダム値（ClsSystem.mDicMotionのキー）
-        public int mTreeNodeHashCode;       //TreeNodeのHashCode
+        public int mItemHashCode;           //TreeNodeのHashCode
         public string mName;                //モーション名
         public int mFrameNum;               //トータルフレーム数
         public int mSelectFrame;            //現在選択中のフレーム
