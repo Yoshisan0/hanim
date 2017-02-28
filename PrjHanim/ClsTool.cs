@@ -231,6 +231,108 @@ namespace PrjHikariwoAnim
             return (clVec);
         }
 
+        /// <summary>
+        /// XmlNodeListからintを生成して返す
+        /// </summary>
+        /// <param name="clListNode">ノードリスト</param>
+        /// <param name="clName">要素名</param>
+        /// <returns>int値</returns>
+        public static int GetIntFromXmlNodeList(XmlNodeList clListNode, string clName)
+        {
+            foreach (XmlNode clNode in clListNode)
+            {
+                if (clName.Equals(clNode.Name))
+                {
+                    int inValue = Convert.ToInt32(clNode.InnerText);
+                    return (inValue);
+                }
+            }
+
+            return (0);
+        }
+
+        /// <summary>
+        /// XmlNodeListからboolを生成して返す
+        /// </summary>
+        /// <param name="clListNode">ノードリスト</param>
+        /// <param name="clName">要素名</param>
+        /// <returns>int値</returns>
+        public static bool GetBoolFromXmlNodeList(XmlNodeList clListNode, string clName)
+        {
+            foreach (XmlNode clNode in clListNode)
+            {
+                if (clName.Equals(clNode.Name))
+                {
+                    bool isValue = Convert.ToBoolean(clNode.InnerText);
+                    return (isValue);
+                }
+            }
+
+            return (false);
+        }
+
+        /// <summary>
+        /// XmlNodeListからfloatを生成して返す
+        /// </summary>
+        /// <param name="clListNode">ノードリスト</param>
+        /// <param name="clName">要素名</param>
+        /// <returns>int値</returns>
+        public static float GetFloatFromXmlNodeList(XmlNodeList clListNode, string clName)
+        {
+            foreach (XmlNode clNode in clListNode)
+            {
+                if (clName.Equals(clNode.Name))
+                {
+                    float flValue = Convert.ToSingle(clNode.InnerText);
+                    return (flValue);
+                }
+            }
+
+            return (0.0f);
+        }
+
+        /// <summary>
+        /// XmlNodeListからVector3を生成して返す
+        /// </summary>
+        /// <param name="clListNode">ノードリスト</param>
+        /// <param name="clName">要素名</param>
+        /// <returns>int値</returns>
+        public static Vector3 GetVecFromXmlNodeList(XmlNodeList clListNode, string clName)
+        {
+            Vector3 clValue = null;
+
+            foreach (XmlNode clNode in clListNode)
+            {
+                if (clName.Equals(clNode.Name))
+                {
+                    clValue = ClsTool.GetVecFromXmlNode(clNode);
+                    return (clValue);
+                }
+            }
+
+            clValue = new Vector3();
+            return (clValue);
+        }
+
+        /// <summary>
+        /// XmlNodeListからstringを生成して返す
+        /// </summary>
+        /// <param name="clListNode">ノードリスト</param>
+        /// <param name="clName">要素名</param>
+        /// <returns>int値</returns>
+        public static string GetStringFromXmlNodeList(XmlNodeList clListNode, string clName)
+        {
+            foreach (XmlNode clNode in clListNode)
+            {
+                if (clName.Equals(clNode.Name))
+                {
+                    return (clNode.InnerText);
+                }
+            }
+
+            return ("");
+        }
+
         public static string DictionaryToJson(Dictionary<string, object> clDic)
         {
             string clJsonData = "";

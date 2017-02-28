@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO;
-
+using System.Xml;
 
 namespace PrjHikariwoAnim
 {
@@ -20,7 +20,7 @@ namespace PrjHikariwoAnim
     ///位置情報クラスベース
     ///親子関係や付随する上位情報は継承先か管理クラスで行う
     ///</summary>
-    public class AttributeBase
+    public class ClsDatAttr
     {
         //public enum ImageType { Origin, Cut };
         //public enum ObjectType { Image, Joint, Bone };
@@ -85,7 +85,7 @@ namespace PrjHikariwoAnim
         private PointF[] DrawPointF3;//描画用座標配列
 
         //method
-        public AttributeBase()
+        public ClsDatAttr()
         {
             Position = new Vector3(0,0,0);
             Radius   = new Vector3(0,0,0);
@@ -99,7 +99,7 @@ namespace PrjHikariwoAnim
             Collision = true;
         }
 
-        public AttributeBase(AttributeBase src)
+        public ClsDatAttr(ClsDatAttr src)
         {
             //return (AttributeBase)MemberwiseClone();
             //CellID = src.CellID;
@@ -163,25 +163,25 @@ namespace PrjHikariwoAnim
 
             return (clDic);
         }
-        public AttributeBase Copy(AttributeBase src)
+        public ClsDatAttr Copy(ClsDatAttr src)
         {
-            return (AttributeBase)MemberwiseClone();
+            return (ClsDatAttr)MemberwiseClone();
         }
 
-        public AttributeBase Clone()
+        public ClsDatAttr Clone()
         {
-            return new AttributeBase(this);
+            return new ClsDatAttr(this);
         }
         public string ToJson()
         {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(AttributeBase));
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ClsDatAttr));
             MemoryStream ms = new MemoryStream();
             serializer.WriteObject(ms, this);
             return Encoding.UTF8.GetString(ms.ToArray());
         }
         public string ToXML()
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(AttributeBase));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(ClsDatAttr));
             MemoryStream ms = new MemoryStream();
             serializer.WriteObject(ms, this);
             return Encoding.UTF8.GetString(ms.ToArray());
@@ -274,7 +274,7 @@ namespace PrjHikariwoAnim
         /// 指定属性を親とした計算
         /// </summary>
         /// <param name="atr">計算元とする属性</param>
-        public void CalcPosWithRot(AttributeBase atr)
+        public void CalcPosWithRot(ClsDatAttr atr)
         {
 
         }
@@ -282,7 +282,7 @@ namespace PrjHikariwoAnim
         /// Position Radiun(360丸め)単純加算
         /// </summary>
         /// <param name="atr"></param>
-        public void Add(AttributeBase atr)
+        public void Add(ClsDatAttr atr)
         {
             Position += atr.Position;
             Radius 　+= atr.Radius;
@@ -301,6 +301,82 @@ namespace PrjHikariwoAnim
             Radius.X %= 360f;
             Radius.Y %= 360f;
             Radius.Z %= 360f; 
+        }
+
+        /// <summary>
+        /// 読み込み処理
+        /// </summary>
+        /// <param name="clXmlNode">xmlノード</param>
+        public void Load(XmlNode clXmlNode)
+        {
+            XmlNodeList clListNode = clXmlNode.ChildNodes;
+            this.ElementID = ClsTool.GetIntFromXmlNodeList(clListNode, "ElementID");
+            this.Value = ClsTool.GetIntFromXmlNodeList(clListNode, "Value");
+            this.Position = ClsTool.GetVecFromXmlNodeList(clListNode, "Position");
+            this.isX = ClsTool.GetBoolFromXmlNodeList(clListNode, "isX");
+            this.isY = ClsTool.GetBoolFromXmlNodeList(clListNode, "isY");
+            this.isZ = ClsTool.GetBoolFromXmlNodeList(clListNode, "isZ");
+            this.Radius = ClsTool.GetVecFromXmlNodeList(clListNode, "Radius");
+            this.isRX = ClsTool.GetBoolFromXmlNodeList(clListNode, "isRX");
+            this.isRY = ClsTool.GetBoolFromXmlNodeList(clListNode, "isRY");
+            this.isRZ = ClsTool.GetBoolFromXmlNodeList(clListNode, "isRZ");
+            this.Scale = ClsTool.GetVecFromXmlNodeList(clListNode, "Scale");
+            this.isSX = ClsTool.GetBoolFromXmlNodeList(clListNode, "isSX");
+            this.isSY = ClsTool.GetBoolFromXmlNodeList(clListNode, "isSY");
+            this.isSZ = ClsTool.GetBoolFromXmlNodeList(clListNode, "isSZ");
+            this.Offset = ClsTool.GetVecFromXmlNodeList(clListNode, "Offset");
+            this.Width = ClsTool.GetIntFromXmlNodeList(clListNode, "Width");
+            this.Height = ClsTool.GetIntFromXmlNodeList(clListNode, "Height");
+            this.FlipH = ClsTool.GetBoolFromXmlNodeList(clListNode, "FlipH");
+            this.FlipV = ClsTool.GetBoolFromXmlNodeList(clListNode, "FlipV");
+            this.isTransparrency = ClsTool.GetBoolFromXmlNodeList(clListNode, "isTransparrency");
+            this.Transparency = ClsTool.GetIntFromXmlNodeList(clListNode, "Transparency");
+            this.Enable = ClsTool.GetBoolFromXmlNodeList(clListNode, "Enable");
+            this.Visible = ClsTool.GetBoolFromXmlNodeList(clListNode, "Visible");
+            this.Collision = ClsTool.GetBoolFromXmlNodeList(clListNode, "Collision");
+            this.isColor = ClsTool.GetBoolFromXmlNodeList(clListNode, "isColor");
+            this.Color = ClsTool.GetIntFromXmlNodeList(clListNode, "Color");
+            this.ColorRate = ClsTool.GetIntFromXmlNodeList(clListNode, "ColorRate");
+            this.Text = ClsTool.GetStringFromXmlNodeList(clListNode, "Text");
+        }
+
+        /// <summary>
+        /// 保存処理
+        /// </summary>
+        /// <param name="clHeader">ヘッダー</param>
+        public void Save(string clHeader)
+        {
+            //以下、アトリビュート保存処理
+            ClsTool.AppendElementStart(clHeader, "Attr");
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ElementID", this.ElementID);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Value", this.Value);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Position", this.Position);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isX", this.isX);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isY", this.isY);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isZ", this.isZ);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Radius", this.Radius);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isRX", this.isRX);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isRY", this.isRY);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isRZ", this.isRZ);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Scale", this.Scale);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isSX", this.isSX);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isSY", this.isSY);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isSZ", this.isSZ);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Offset", this.Offset);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Width", this.Width);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Height", this.Height);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FlipH", this.FlipH);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FlipV", this.FlipV);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isTransparrency", this.isTransparrency);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Transparency", this.Transparency);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Enable", this.Enable);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.Visible);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Collision", this.Collision);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "isColor", this.isColor);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Color", this.Color);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ColorRate", this.ColorRate);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Text", this.Text);
+            ClsTool.AppendElementEnd(clHeader, "Attr");
         }
     }
 

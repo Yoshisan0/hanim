@@ -141,28 +141,18 @@ namespace PrjHikariwoAnim
         public void Load(XmlElement clXmlElem)
         {
             XmlNodeList clListNode = clXmlElem.ChildNodes;
+            this.mID = ClsTool.GetIntFromXmlNodeList(clListNode, "ID");
+            this.mPath = ClsTool.GetStringFromXmlNodeList(clListNode, "Path");
+
+            //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
-                if ("ID".Equals(clNode.Name))
-                {
-                    this.mID = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Path".Equals(clNode.Name))
-                {
-                    this.mPath = clNode.InnerText;
-                    continue;
-                }
-
                 if ("Rect".Equals(clNode.Name))
                 {
                     this.mRect = new ClsDatRect();
                     this.mRect.Load(clNode);
                     continue;
                 }
-
-                throw new Exception("this is not normal Image. Image Path=" + this.mPath);
             }
 
             //以下、イメージ復元処理

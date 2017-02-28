@@ -46,34 +46,10 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlElem)
         {
             XmlNodeList clListNode = clXmlElem.ChildNodes;
-            foreach (XmlNode clNode in clListNode)
-            {
-                if ("X".Equals(clNode.Name))
-                {
-                    this.mX = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Y".Equals(clNode.Name))
-                {
-                    this.mY = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("W".Equals(clNode.Name))
-                {
-                    this.mW = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("H".Equals(clNode.Name))
-                {
-                    this.mH = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                throw new Exception("this is not normal Rect.");
-            }
+            this.mX = ClsTool.GetIntFromXmlNodeList(clListNode, "X");
+            this.mY = ClsTool.GetIntFromXmlNodeList(clListNode, "Y");
+            this.mW = ClsTool.GetIntFromXmlNodeList(clListNode, "W");
+            this.mH = ClsTool.GetIntFromXmlNodeList(clListNode, "H");
         }
 
         /// <summary>

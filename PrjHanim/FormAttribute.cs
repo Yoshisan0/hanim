@@ -14,7 +14,7 @@ namespace PrjHikariwoAnim
 
         //一時記録用
         //AllSet,AllGet時に更新
-        private AttributeBase ValuesPool;
+        private ClsDatAttr ValuesPool;
         private bool isLocked;      //パラメータ変更中にロック
         private FormMain mFormMain;
         private ClsDatElem mElem;   //ターゲットとなるエレメント
@@ -103,7 +103,7 @@ namespace PrjHikariwoAnim
         /// フォームにパラメータをセットします
         /// </summary>
         /// <param name="atr"></param>
-        public void SetAllParam(AttributeBase atr)
+        public void SetAllParam(ClsDatAttr atr)
         {
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
@@ -159,7 +159,7 @@ namespace PrjHikariwoAnim
         /// フォーム上パラメータを取得します
         /// </summary>
         /// <param name="atr">参照</param>
-        public AttributeBase GetAllParam(ref AttributeBase atr)
+        public ClsDatAttr GetAllParam(ref ClsDatAttr atr)
         {
             //isLocked = true;
             //パラメータ手動変更があった時のみ取得出来る

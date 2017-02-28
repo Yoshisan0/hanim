@@ -51,14 +51,11 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlNode)
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
+            this.mFrame = ClsTool.GetIntFromXmlNodeList(clListNode, "Frame");
+
+            //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
-                if ("Frame".Equals(clNode.Name))
-                {
-                    this.mFrame = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
                 if ("Tween".Equals(clNode.Name))
                 {
                     ClsDatTween clDatTween = new ClsDatTween();
@@ -67,8 +64,6 @@ namespace PrjHikariwoAnim
                     this.mTween = clDatTween;
                     continue;
                 }
-
-                throw new Exception("this is not normal KeyFrame.");
             }
         }
 

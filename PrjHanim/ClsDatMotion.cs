@@ -216,26 +216,13 @@ namespace PrjHikariwoAnim
         public void Load(XmlElement clXmlElem)
         {
             XmlNodeList clListNode = clXmlElem.ChildNodes;
+            this.mID = ClsTool.GetIntFromXmlNodeList(clListNode, "ID");
+            this.mName = ClsTool.GetStringFromXmlNodeList(clListNode, "Name");
+            this.mFrameNum = ClsTool.GetIntFromXmlNodeList(clListNode, "FrameNum");
+
+            //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
-                if ("ID".Equals(clNode.Name))
-                {
-                    this.mID = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Name".Equals(clNode.Name))
-                {
-                    this.mName = clNode.InnerText;
-                    continue;
-                }
-
-                if ("FrameNum".Equals(clNode.Name))
-                {
-                    this.mFrameNum = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
                 if ("Elem".Equals(clNode.Name))
                 {
                     ClsDatElem clDatElem = new ClsDatElem(this, null);
@@ -244,8 +231,6 @@ namespace PrjHikariwoAnim
                     this.mListElem.Add(clDatElem);
                     continue;
                 }
-
-                throw new Exception("this is not normal Motion. Motion Name=" + this.mName);
             }
         }
 

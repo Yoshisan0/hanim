@@ -88,34 +88,20 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlNode)
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
+            string clParam = ClsTool.GetStringFromXmlNodeList(clListNode, "Param");
+            this.mParam = (EnmParam)Enum.Parse(typeof(EnmParam), clParam);
+            this.mLength = ClsTool.GetIntFromXmlNodeList(clListNode, "Length");
+            this.mPos = ClsTool.GetVecFromXmlNodeList(clListNode, "Pos");
+
+            //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
-                if ("Param".Equals(clNode.Name))
-                {
-                    this.mParam = (EnmParam)Enum.Parse(typeof(EnmParam), clNode.InnerText);
-                    continue;
-                }
-
-                if ("Length".Equals(clNode.Name))
-                {
-                    this.mLength = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Pos".Equals(clNode.Name))
-                {
-                    this.mPos = ClsTool.GetVecFromXmlNode(clNode);
-                    continue;
-                }
-
                 if ("Vec".Equals(clNode.Name))
                 {
                     Vector3 clVec = ClsTool.GetVecFromXmlNode(clNode);
                     this.mListVec.Add(clVec);
                     continue;
                 }
-
-                throw new Exception("this is not normal Tween.");
             }
         }
 

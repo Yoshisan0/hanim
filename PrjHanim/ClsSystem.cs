@@ -81,46 +81,31 @@ namespace PrjHikariwoAnim
         /// 新しいイメージキー
         /// </summary>
         /// <returns>イメージキー</returns>
-        public static int GetNewImageKey()
+        public static int GetNewID()
         {
             Random clRand = new Random();
-            int inRand = clRand.Next();
-            foreach (int inKey in ClsSystem.mDicImage.Keys)
+            int inKey = clRand.Next();
+            bool isLoop = true;
+            while(isLoop)
             {
-                ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
-                if (clDatImage.mID == inRand)
+                bool isExist = ClsSystem.mDicImage.ContainsKey(inKey);
+                if(isExist)
                 {
-                    inRand = clRand.Next();
+                    inKey = clRand.Next();
                     continue;
                 }
 
-                break;
-            }
-            
-            return (inRand);
-        }
-
-        /// <summary>
-        /// 新しいモーションキー
-        /// </summary>
-        /// <returns>モーションキー</returns>
-        public static int GetNewMotionKey()
-        {
-            Random clRand = new Random();
-            int inRand = clRand.Next();
-            foreach (int inKey in ClsSystem.mDicMotion.Keys)
-            {
-                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[inKey];
-                if (clDatMotion.mID == inRand)
+                isExist = ClsSystem.mDicMotion.ContainsKey(inKey);
+                if (isExist)
                 {
-                    inRand = clRand.Next();
+                    inKey = clRand.Next();
                     continue;
                 }
 
                 break;
             }
 
-            return (inRand);
+            return (inKey);
         }
 
         /// <summary>
@@ -200,7 +185,7 @@ namespace PrjHikariwoAnim
             //以下、イメージを新規作成して、そのインデックスを返す処理
             ClsDatImage clDatImage = new ClsDatImage();
             clDatImage.SetImage(clImage);
-            clDatImage.mID = ClsSystem.GetNewImageKey();
+            clDatImage.mID = ClsSystem.GetNewID();
             ClsSystem.mDicImage.Add(clDatImage.mID, clDatImage);
 
             return (clDatImage.mID);

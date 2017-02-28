@@ -103,14 +103,12 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlNode)
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
+            string clTypeOption = ClsTool.GetStringFromXmlNodeList(clListNode, "TypeOption");
+            this.mTypeOption = (TYPE_OPTION)Enum.Parse(typeof(TYPE_OPTION), clTypeOption);
+
+            //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
-                if ("TypeOption".Equals(clNode.Name))
-                {
-                    this.mTypeOption = (TYPE_OPTION)Enum.Parse(typeof(TYPE_OPTION), clNode.InnerText);
-                    continue;
-                }
-
                 if ("KeyFrame".Equals(clNode.Name))
                 {
                     ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(0);
@@ -119,8 +117,6 @@ namespace PrjHikariwoAnim
                     this.mDicKeyFrame[clDatKeyFrame.mFrame] = clDatKeyFrame;
                     continue;
                 }
-
-                throw new Exception("this is not normal Option. TypeOption=" + this.mTypeOption);
             }
         }
 

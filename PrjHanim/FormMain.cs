@@ -98,7 +98,7 @@ namespace PrjHikariwoAnim
 
             //以下、TreeNode作成処理
             //初期モーションTreeの追加
-            ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
+            ClsDatMotion clMotion = this.AddMotion("DefMotion");
 
             //以下、初期化処理
             PreViewCenter = new Point(0, 0);
@@ -198,7 +198,7 @@ namespace PrjHikariwoAnim
                 ClsSystem.RemoveAllMotion();
                 listView_Motion.Clear();
 
-                ClsDatMotion clMotion = this.listView_AddMotion("DefMotion");
+                ClsDatMotion clMotion = this.AddMotion("DefMotion");
                 //Motion選択状態にする 他フォームの準備完了後
                 listView_Motion.Items[0].Selected = true;
                 ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
@@ -752,69 +752,39 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// CellからElementを作成し追加
         /// </summary>
-        /// <param name="c">イメージ管理クラス</param>
+        /// <param name="clDatMotion">モーション管理クラス</param>
+        /// <param name="clDatImage">イメージ管理クラス</param>
         /// <param name="x">クリック座標(Cliant)</param>
         /// <param name="y">クリック座標(Cliant)</param>
-        private void listView_Motion_AddElements(ClsDatImage c, int x, int y)
+        private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int x, int y)
         {
-            //モーション選択無し
-            if (ClsSystem.mMotionSelectKey < 0) return;
-
-            //TreeNode clTreeNode = this.FindSelectTreeNode();
-            //if (clTreeNode == null) return;
-
-            //辞書にもモーション無し
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (!isExist) return;
-
-            //現在のモーション取得
-            ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-
             //アイテムの登録
-            ClsDatElem elem = new ClsDatElem(clMotion, null);
-            elem.mImageKey = c.mID;
-            elem.mAttInit.Width = c.mImgOrigin.Width;
-            elem.mAttInit.Height = c.mImgOrigin.Height;
+            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null);
+            clDatElem.SetImage(clDatImage);
 
             //センターからの距離に変換
             x -= panel_PreView.Width / 2;
             y -= panel_PreView.Height / 2;
 
             //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= elem.mAttInit.Width / 2;
-            y -= elem.mAttInit.Height / 2;
+            x -= clDatElem.mAttInit.Width / 2;
+            y -= clDatElem.mAttInit.Height / 2;
 
-            elem.mAttInit.Position = new Vector3(x, y, 0);
+            clDatElem.mAttInit.Position = new Vector3(x, y, 0);
 
             //Show - Attribute
-            this.mFormAttribute.SetAllParam(elem.mAttInit);
+            this.mFormAttribute.SetAllParam(clDatElem.mAttInit);
 
-            clMotion.AddElements(elem);//Elements登録
-            //clMotion.Store();//
+            clDatMotion.AddElements(clDatElem);  //Elements登録
 
             //以下、行番号とタブを割り振る処理
-            clMotion.Assignment();
-
-            /*
-            //TreeViewへの登録
-            //TreeViewの選択中Motionを取得
-            TreeNode clTreeNodeAdd = clTreeNode.Nodes.Add(elem.mName, elem.mName);
-            clTreeNode.Expand();
-            clTreeNode.Nodes[elem.mName].Tag = elem.GetHashCode();
-            clTreeNode.Nodes[elem.mName].ImageIndex = 4;
-            clTreeNode.Nodes[elem.mName].SelectedImageIndex = 3;
-            */
+            clDatMotion.Assignment();
 
             //Control更新
             this.mFormControl.Refresh();
         }
-        /*
-        private void treeView_Project_RemoveElements(string name)
-        {
-            //Elements選択中のDelキー
-        }
-        */
-        private ClsDatMotion listView_AddMotion(string clMotionName)
+
+        private ClsDatMotion AddMotion(string clMotionName)
         {
             ListViewItem clListViewItem = new ListViewItem(clMotionName, 2);
             listView_Motion.Items.Add(clListViewItem);
@@ -853,7 +823,7 @@ namespace PrjHikariwoAnim
 
         private void button_MotionNew_Click(object sender, EventArgs e)
         {
-            this.listView_AddMotion("NewMotion");
+            this.AddMotion("NewMotion");
             
             //モーションである事を示すタグを付加する？
         }
@@ -1019,8 +989,19 @@ namespace PrjHikariwoAnim
                         int inKey = ClsSystem.CreateImageFromFile(str);
                         if (inKey >= 0)
                         {
-                            ClsDatImage c = ClsSystem.mDicImage[inKey];
-                            this.listView_Motion_AddElements(c, sPos.X, sPos.Y);
+                            //以下、選択中のモーションがあるかチェック
+                            if (ClsSystem.mMotionSelectKey >= 0)
+                            {
+                                //以下、辞書に選択中のモーションが存在するかチェック
+                                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+                                if (isExist)
+                                {
+                                    //以下、エレメント追加
+                                    ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                                    ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
+                                    this.AddElement(clDatMotion, clDatImage, sPos.X, sPos.Y);
+                                }
+                            }
                         }
 
                         //CellListの表示更新
@@ -1059,13 +1040,20 @@ namespace PrjHikariwoAnim
             //ImageChip 受け入れ
             if (e.Data.GetDataPresent(typeof(ClsDatImage)))
             {
-                //Store Cell Item
-                ClsDatImage work = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
-
-                //PreViewに配置し更新
-                int inKey = work.GetHashCode();
-                Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                listView_Motion_AddElements(work, a.X, a.Y);
+                //以下、選択中のモーションがあるかチェック
+                if (ClsSystem.mMotionSelectKey >= 0)
+                {
+                    //以下、辞書に選択中のモーションが存在するかチェック
+                    bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+                    if (isExist)
+                    {
+                        //以下、エレメント追加
+                        ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                        ClsDatImage clDatImage = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
+                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                        this.AddElement(clDatMotion, clDatImage, a.X, a.Y);
+                    }
+                }
 
                 e.Effect = DragDropEffects.Copy;
             }

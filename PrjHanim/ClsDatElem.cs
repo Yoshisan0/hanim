@@ -49,7 +49,7 @@ namespace PrjHikariwoAnim
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
-        public AttributeBase mAttInit;      //初期情報
+        public ClsDatAttr mAttInit;      //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
         /// <summary>
@@ -70,13 +70,24 @@ namespace PrjHikariwoAnim
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.mAttInit = new AttributeBase();
+            this.mAttInit = new ClsDatAttr();
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
             this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
+        }
+
+        /// <summary>
+        /// イメージ設定処理
+        /// </summary>
+        /// <param name="clDatImage">イメージ管理クラス</param>
+        public void SetImage(ClsDatImage clDatImage)
+        {
+            this.mImageKey = clDatImage.mID;
+            this.mAttInit.Width = clDatImage.mImgOrigin.Width;
+            this.mAttInit.Height = clDatImage.mImgOrigin.Height;
         }
 
         /// <summary>
@@ -89,16 +100,16 @@ namespace PrjHikariwoAnim
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RemoveAll();
+                ClsDatElem clDatElem = this.mListElem[inCnt];
+                clDatElem.RemoveAll();
             }
             this.mListElem.Clear();
 
             //以下、オプション全削除処理
             foreach (ClsDatOption.TYPE_OPTION enKey in this.mDicOption.Keys)
             {
-                ClsDatOption clOption = this.mDicOption[enKey];
-                clOption.RemoveAll();
+                ClsDatOption clDatOption = this.mDicOption[enKey];
+                clDatOption.RemoveAll();
             }
             this.mDicOption.Clear();
         }
@@ -114,20 +125,20 @@ namespace PrjHikariwoAnim
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                int inHashCodeTmp = clElem.GetHashCode();
+                ClsDatElem clDatElem = this.mListElem[inCnt];
+                int inHashCodeTmp = clDatElem.GetHashCode();
                 if (inHashCode == inHashCodeTmp)
                 {
                     if (isRemove)
                     {
-                        clElem.RemoveAll();
+                        clDatElem.RemoveAll();
                     }
 
                     this.mListElem.RemoveAt(inCnt);
                     return;
                 }
 
-                clElem.RemoveElemFromHashCode(inHashCode, isRemove);
+                clDatElem.RemoveElemFromHashCode(inHashCode, isRemove);
             }
         }
 
@@ -144,19 +155,19 @@ namespace PrjHikariwoAnim
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                if (inLineNo == clElem.mLineNo)
+                ClsDatElem clDatElem = this.mListElem[inCnt];
+                if (inLineNo == clDatElem.mLineNo)
                 {
                     if (isRemove)
                     {
-                        clElem.RemoveAll();
+                        clDatElem.RemoveAll();
                     }
 
                     this.mListElem.RemoveAt(inCnt);
                     return;
                 }
 
-                clElem.RemoveElemFromLineNo(inLineNo, isRemove);
+                clDatElem.RemoveElemFromLineNo(inLineNo, isRemove);
             }
         }
 
@@ -174,18 +185,18 @@ namespace PrjHikariwoAnim
 
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                if (clOption.mLineNo != inLineNo) continue;
+                ClsDatOption clDatOption = this.mDicOption[enType];
+                if (clDatOption.mLineNo != inLineNo) continue;
 
                 if (!isForce)
                 {
-                    bool isRemoveOK = clOption.IsRemoveOK();
+                    bool isRemoveOK = clDatOption.IsRemoveOK();
                     if (!isRemoveOK) continue;
                 }
 
                 if (isRemove)
                 {
-                    clOption.RemoveAll();
+                    clDatOption.RemoveAll();
                 }
 
                 this.mDicOption.Remove(enType);
@@ -206,17 +217,17 @@ namespace PrjHikariwoAnim
         public void Restore()
         {
             //以下、子エレメントの親設定
-            foreach (ClsDatElem clElem in this.mListElem)
+            foreach (ClsDatElem clDatElem in this.mListElem)
             {
-                clElem.mElem = this;
-                clElem.Restore();
+                clDatElem.mElem = this;
+                clDatElem.Restore();
             }
 
             //以下、オプションの親設定
             foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
             {
-                ClsDatOption clOption = this.mDicOption[enType];
-                clOption.mElem = this;
+                ClsDatOption clDatOption = this.mDicOption[enType];
+                clDatOption.mElem = this;
             }
         }
 
@@ -242,38 +253,18 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlNode)
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
+            this.mName = ClsTool.GetStringFromXmlNodeList(clListNode, "Name");
+            this.isVisible = ClsTool.GetBoolFromXmlNodeList(clListNode, "Visible");
+            this.isLocked = ClsTool.GetBoolFromXmlNodeList(clListNode, "Locked");
+            this.isOpen = ClsTool.GetBoolFromXmlNodeList(clListNode, "Open");
+            this.mImageKey = ClsTool.GetIntFromXmlNodeList(clListNode, "ImageKey");
+
+            //以下、各管理クラス作成処理
+            ClsDatImage clDatImage = ClsSystem.mDicImage[this.mImageKey];
+            this.SetImage(clDatImage);  //ここでSetImageを利用するよりも、AttributeBaseを復元したほうがいいかも
+
             foreach (XmlNode clNode in clListNode)
             {
-                if ("Name".Equals(clNode.Name))
-                {
-                    this.mName = clNode.InnerText;
-                    continue;
-                }
-
-                if ("Visible".Equals(clNode.Name))
-                {
-                    this.isVisible = Convert.ToBoolean(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Locked".Equals(clNode.Name))
-                {
-                    this.isLocked = Convert.ToBoolean(clNode.InnerText);
-                    continue;
-                }
-
-                if ("Open".Equals(clNode.Name))
-                {
-                    this.isOpen = Convert.ToBoolean(clNode.InnerText);
-                    continue;
-                }
-
-                if ("ImageKey".Equals(clNode.Name))
-                {
-                    this.mImageKey = Convert.ToInt32(clNode.InnerText);
-                    continue;
-                }
-
                 if ("Option".Equals(clNode.Name))
                 {
                     ClsDatOption clDatOption = new ClsDatOption(null, ClsDatOption.TYPE_OPTION.NONE);
@@ -292,8 +283,6 @@ namespace PrjHikariwoAnim
                     this.mListElem.Add(clDatElem);
                     continue;
                 }
-
-                throw new Exception("this is not normal Elem. Elem Name=" + this.mName);
             }
         }
 
@@ -712,7 +701,7 @@ namespace PrjHikariwoAnim
         /// <param name="inCY">中心Ｙ座標</param>
         public void DrawPreview(Graphics g, int inCX, int inCY)
         {
-            AttributeBase atr = this.mAttInit;
+            ClsDatAttr atr = this.mAttInit;
 
             Matrix Back = g.Transform;
             Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
