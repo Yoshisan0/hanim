@@ -49,7 +49,7 @@ namespace PrjHikariwoAnim
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
         public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
-        public ClsDatAttr mAttInit;      //初期情報
+        public ClsDatAttr mAttrInit;        //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PrjHikariwoAnim
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.mAttInit = new ClsDatAttr();
+            this.mAttrInit = new ClsDatAttr();
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
@@ -86,8 +86,8 @@ namespace PrjHikariwoAnim
         public void SetImage(ClsDatImage clDatImage)
         {
             this.mImageKey = clDatImage.mID;
-            this.mAttInit.Width = clDatImage.mImgOrigin.Width;
-            this.mAttInit.Height = clDatImage.mImgOrigin.Height;
+            this.mAttrInit.Width = clDatImage.mImgOrigin.Width;
+            this.mAttrInit.Height = clDatImage.mImgOrigin.Height;
         }
 
         /// <summary>
@@ -260,9 +260,6 @@ namespace PrjHikariwoAnim
             this.mImageKey = ClsTool.GetIntFromXmlNodeList(clListNode, "ImageKey");
 
             //以下、各管理クラス作成処理
-            ClsDatImage clDatImage = ClsSystem.mDicImage[this.mImageKey];
-            this.SetImage(clDatImage);  //ここでSetImageを利用するよりも、AttributeBaseを復元したほうがいいかも
-
             foreach (XmlNode clNode in clListNode)
             {
                 if ("Option".Equals(clNode.Name))
@@ -281,6 +278,15 @@ namespace PrjHikariwoAnim
                     clDatElem.Load(clNode);
 
                     this.mListElem.Add(clDatElem);
+                    continue;
+                }
+
+                if ("Attr".Equals(clNode.Name))
+                {
+                    ClsDatAttr clDatAttr = new ClsDatAttr();
+                    clDatAttr.Load(clNode);
+
+                    this.mAttrInit = clDatAttr;
                     continue;
                 }
             }
@@ -312,6 +318,9 @@ namespace PrjHikariwoAnim
             {
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
+
+            //以下、アトリビュート保存処理
+            this.mAttrInit.Save(clHeader + ClsSystem.FILE_TAG);
 
             ClsTool.AppendElementEnd(clHeader, "Elem");
         }
@@ -701,7 +710,7 @@ namespace PrjHikariwoAnim
         /// <param name="inCY">中心Ｙ座標</param>
         public void DrawPreview(Graphics g, int inCX, int inCY)
         {
-            ClsDatAttr atr = this.mAttInit;
+            ClsDatAttr atr = this.mAttrInit;
 
             Matrix Back = g.Transform;
             Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用

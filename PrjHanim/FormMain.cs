@@ -767,13 +767,13 @@ namespace PrjHikariwoAnim
             y -= panel_PreView.Height / 2;
 
             //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= clDatElem.mAttInit.Width / 2;
-            y -= clDatElem.mAttInit.Height / 2;
+            x -= clDatElem.mAttrInit.Width / 2;
+            y -= clDatElem.mAttrInit.Height / 2;
 
-            clDatElem.mAttInit.Position = new Vector3(x, y, 0);
+            clDatElem.mAttrInit.Position = new Vector3(x, y, 0);
 
             //Show - Attribute
-            this.mFormAttribute.SetAllParam(clDatElem.mAttInit);
+            this.mFormAttribute.SetAllParam(clDatElem.mAttrInit);
 
             clDatMotion.AddElements(clDatElem);  //Elements登録
 
