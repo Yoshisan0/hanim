@@ -65,7 +65,7 @@ namespace PrjHikariwoAnim
 
         private Point mMouseOldPoint = Point.Empty;
         private Point mPreViewCenter;   //PanelPreView Centerセンターポジション
-        
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -872,9 +872,9 @@ namespace PrjHikariwoAnim
 
             //画像で背景fill
             //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
-            if (zoom < 0.2) zoom = 0.2f;//下限を(0.2)1/5とする
-            float grid = zoom * (float)numericUpDown_Grid.Value;
+            float flZoom = HScrollBar_ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
+            if (flZoom < 0.2) flZoom = 0.2f;//下限を(0.2)1/5とする
+            float flGrid = flZoom * (float)numericUpDown_Grid.Value;
 
             /*
             e.Graphics.TranslateTransform(
@@ -887,15 +887,22 @@ namespace PrjHikariwoAnim
             //以下、グリッド表示処理
             if (this.checkBox_GridCheck.Checked)
             {
-                //以下、垂直ライン描画処理
                 Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
-                for (float flCnt = ((float)this.panel_PreView.Width / 2) % (grid); flCnt < this.panel_PreView.Width; flCnt += (grid))
+
+                //以下、垂直ライン描画処理
+                float flStartX = this.mPreViewCenter.X + this.panel_PreView.Width / 2;
+                while (flStartX >= 0) flStartX -= flGrid;
+
+                for (float flCnt = flStartX; flCnt < this.panel_PreView.Width; flCnt += (flGrid))
                 {
                     e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.panel_PreView.Height);
                 }
 
                 //以下、水平ライン描画処理
-                for (float flCnt = ((float)(this.panel_PreView.Height / 2) % (grid)); flCnt < this.panel_PreView.Height; flCnt += (grid))
+                float flStartY = this.mPreViewCenter.Y + this.panel_PreView.Height / 2;
+                while (flStartY >= 0) flStartY -= flGrid;
+
+                for (float flCnt = flStartY; flCnt < this.panel_PreView.Height; flCnt += (flGrid))
                 {
                     e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
                 }
@@ -916,8 +923,8 @@ namespace PrjHikariwoAnim
                 Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
                 float flX = this.mPreViewCenter.X + this.panel_PreView.Width / 2;
                 float flY = this.mPreViewCenter.Y + this.panel_PreView.Height / 2;
-                e.Graphics.DrawLine(clPen, flX, 0, flX, panel_PreView.Height);//V
-                e.Graphics.DrawLine(clPen, 0, flY, panel_PreView.Width, flY);//H
+                e.Graphics.DrawLine(clPen, flX, 0, flX, this.panel_PreView.Height);  //垂直ライン
+                e.Graphics.DrawLine(clPen, 0, flY, this.panel_PreView.Width, flY);   //水平ライン
             }
         }
 
