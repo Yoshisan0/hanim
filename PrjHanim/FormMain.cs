@@ -46,10 +46,9 @@ namespace PrjHikariwoAnim
         public FormAttribute mFormAttribute;
         public FormCell mFormCell;
 
-        private Point mMouseDownPoint = Point.Empty;
         //private Point mMouseDownShift;
         private Point mScreenScroll;
-        //private bool mMouseLDown = false;//L
+        private bool mMouseDownL = false;//L
         //private bool mMouseRDown = false;//R
         //private bool mMouseMDown = false;//M
         private int mWheelDelta;//Wheel
@@ -61,9 +60,10 @@ namespace PrjHikariwoAnim
         
         //private string mNowMotionName;//選択中モーション名
 
-        enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
+        enum DragState { none,Move, Angle, Scale,Scroll, Joint };
         //private DragState mDragState = DragState.none;
 
+        private Point mMouseOldPoint = Point.Empty;
         private Point mPreViewCenter;   //PanelPreView Centerセンターポジション
         
         /// <summary>
@@ -913,12 +913,14 @@ namespace PrjHikariwoAnim
             //CrossBar スクリーン移動時は原点に沿う形に
             if(checkBox_CrossBar.Checked)
             {
-                var p1 = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
-                e.Graphics.DrawLine(p1,panel_PreView.Width / 2, 0, panel_PreView.Width/2, panel_PreView.Height);//V
-                e.Graphics.DrawLine(p1, 0, panel_PreView.Height/2, panel_PreView.Width,panel_PreView.Height/2);//H
+                Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
+                float flX = this.mPreViewCenter.X + this.panel_PreView.Width / 2;
+                float flY = this.mPreViewCenter.Y + this.panel_PreView.Height / 2;
+                e.Graphics.DrawLine(clPen, flX, 0, flX, panel_PreView.Height);//V
+                e.Graphics.DrawLine(clPen, 0, flY, panel_PreView.Width, flY);//H
             }
-            
         }
+
         /// <summary>
         /// モーション描画処理
         /// </summary>
@@ -1129,14 +1131,7 @@ namespace PrjHikariwoAnim
 
             this.panel_PreView.Refresh();
         }
-        private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
-        {
-            //releaseMouse
-            //mMouseLDown = false;
-            //mMouseMDown = false;
-            //mMouseRDown = false;
-            //mDragState = DragState.none;
-        }
+
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
             //e.X,Yからステージ上の座標にする
@@ -1144,10 +1139,12 @@ namespace PrjHikariwoAnim
             float stPosX = ((e.X -(panel_PreView.Width  / 2)) / zoom);
             float stPosY = ((e.Y -(panel_PreView.Height / 2)) / zoom);
 
-            
+            this.mMouseDownL = false;
+
             if (e.Button == MouseButtons.Left)
             {
-                mMouseDownPoint = new Point(e.X-(panel_PreView.Width/2),e.Y-(panel_PreView.Height/2));
+                this.mMouseDownL = true;
+                this.mMouseOldPoint = new Point(e.X, e.Y);
 
                 //アイテム検索
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1180,12 +1177,22 @@ namespace PrjHikariwoAnim
                 }
             }
         }
+
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
         {
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
             //e.X,Yからステージ上の座標にする
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
+
+            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
+            if (this.mMouseDownL)
+            {
+                this.mPreViewCenter.X += e.X - this.mMouseOldPoint.X;
+                this.mPreViewCenter.Y += e.Y - this.mMouseOldPoint.Y;
+                this.mMouseOldPoint.X = e.X;
+                this.mMouseOldPoint.Y = e.Y;
+            }
 
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
@@ -1246,7 +1253,25 @@ namespace PrjHikariwoAnim
                 StatusLabel2.Text = $" [Select:{ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
                 */
             }
+
+            this.panel_PreView.Refresh();
         }
+
+        private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
+        {
+            //releaseMouse
+            //mMouseLDown = false;
+            //mMouseMDown = false;
+            //mMouseRDown = false;
+            //mDragState = DragState.none;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                this.mMouseDownL = false;
+                this.mMouseOldPoint = Point.Empty;
+            }
+        }
+
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //previewKey
