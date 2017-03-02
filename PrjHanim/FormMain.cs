@@ -64,7 +64,7 @@ namespace PrjHikariwoAnim
         enum DragState { none,Move, Angle, Scale,Scroll, Joint }; 
         //private DragState mDragState = DragState.none;
 
-        private Point PreViewCenter;//PanelPreView Centerセンターポジション
+        private Point mPreViewCenter;   //PanelPreView Centerセンターポジション
         
         /// <summary>
         /// コンストラクタ
@@ -101,8 +101,8 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = this.AddMotion("DefMotion");
 
             //以下、初期化処理
-            PreViewCenter = new Point(0, 0);
-            mScreenScroll = new Point(0, 0);
+            this.mPreViewCenter = new Point(0, 0);
+            this.mScreenScroll = new Point(0, 0);
 
             this.mFormControl = new FormControl(this);
             this.mFormControl.SetMotion(clMotion);
@@ -874,39 +874,42 @@ namespace PrjHikariwoAnim
             //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
             float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
             if (zoom < 0.2) zoom = 0.2f;//下限を(0.2)1/5とする
-            float grid = (float)numericUpDown_Grid.Value;
+            float grid = zoom * (float)numericUpDown_Grid.Value;
 
-            e.Graphics.TranslateTransform(  panel_PreView.Width/2 -panel_PreView.Width/2*zoom,
-                                            panel_PreView.Height/2 -panel_PreView.Height/2*zoom);
+            /*
+            e.Graphics.TranslateTransform(
+                this.panel_PreView.Width/2 -this.panel_PreView.Width/2*zoom,
+                this.panel_PreView.Height/2 -this.panel_PreView.Height/2*zoom
+            );
             e.Graphics.ScaleTransform(zoom, zoom);
-            //GridBar
-            if (checkBox_GridCheck.Checked)
+            */
+
+            //以下、グリッド表示処理
+            if (this.checkBox_GridCheck.Checked)
             {
-                //Grid Draw
-                // V
-                var p1 = new Pen(ClsSystem.mSetting.mMainColorGrid);
-                for (float cnt = ((float)panel_PreView.Width / 2) % (grid ); cnt < panel_PreView.Width; cnt += (grid))
+                //以下、垂直ライン描画処理
+                Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
+                for (float flCnt = ((float)this.panel_PreView.Width / 2) % (grid); flCnt < this.panel_PreView.Width; flCnt += (grid))
                 {
-                    e.Graphics.DrawLine(p1, cnt, 0.0f, cnt, panel_PreView.Height);
+                    e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.panel_PreView.Height);
                 }
-                //H
-                for (float cnt = ((float)(panel_PreView.Height / 2) % (grid )); cnt < panel_PreView.Height; cnt += (grid))
+
+                //以下、水平ライン描画処理
+                for (float flCnt = ((float)(this.panel_PreView.Height / 2) % (grid)); flCnt < this.panel_PreView.Height; flCnt += (grid))
                 {
-                    e.Graphics.DrawLine(p1, 0.0f, cnt, panel_PreView.Width, cnt);
+                    e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
                 }
             }
 
-            // 各種Itemの描画処理
+            // モーション描画処理
             // DrawItems
             Matrix back = e.Graphics.Transform;
             if (ClsSystem.mMotionSelectKey >= 0)
             {
-//              if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame != null)
-                {
-                    PanelPreview_Paint_DrawParts(sender, e.Graphics);
-                }
+                this.DrawPreview(e.Graphics);
             }
             e.Graphics.Transform = back;
+
             //CrossBar スクリーン移動時は原点に沿う形に
             if(checkBox_CrossBar.Checked)
             {
@@ -917,11 +920,10 @@ namespace PrjHikariwoAnim
             
         }
         /// <summary>
-        /// 1エレメント描画処理
+        /// モーション描画処理
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="g"></param>
-        private void PanelPreview_Paint_DrawParts(object sender, Graphics g)
+        private void DrawPreview(Graphics g)
         {
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
@@ -1009,7 +1011,6 @@ namespace PrjHikariwoAnim
             }
             */
             //※一旦コメントアウト
-            //ここがD&Dの中核処理と思われる
 
             //ImageChip 受け入れ
             if (e.Data.GetDataPresent(typeof(ClsDatImage)))
@@ -1038,8 +1039,7 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.Copy;
             }
             */
-            //※ここが分からない
-            //ELEMENTSとはなんでしょう？？
+            //※ここがよく分からない
 
             if (e.Data.GetType() == typeof(Image))
             {
@@ -1068,7 +1068,21 @@ namespace PrjHikariwoAnim
         }
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
-            mWheelDelta = (e.Delta > 0)? + 1:-1 ;//+/-に適正化
+            mWheelDelta = (e.Delta > 0) ? +1 : -1;//+/-に適正化
+
+            //画面の拡大縮小
+            if (mWheelDelta > 0)
+            {
+                if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum) HScrollBar_ZoomLevel.Value += mWheelDelta;
+            }
+            else
+            {
+                if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value += mWheelDelta;
+            }
+
+            mWheelDelta = 0;
+
+            
 
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
@@ -1110,22 +1124,10 @@ namespace PrjHikariwoAnim
                 panel_PreView.Refresh();
                 */
             }
-            else
-            {
-                //画面の拡大縮小
-                if (mWheelDelta > 0)
-                {
-                    if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
-                }
-                else
-                {
-                    if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum) HScrollBar_ZoomLevel.Value -= mWheelDelta;
-                }
-
-                mWheelDelta = 0;
-            }
 
             StatusLabel2.Text = $"{mWheelDelta}";
+
+            this.panel_PreView.Refresh();
         }
         private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
         {
@@ -1430,6 +1432,11 @@ namespace PrjHikariwoAnim
                 mFormCell.Dock = DockStyle.None;
                 mFormCell.TopLevel = true;                
             }
+        }
+
+        private void numericUpDown_Grid_ValueChanged(object sender, EventArgs e)
+        {
+            this.panel_PreView.Refresh();
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

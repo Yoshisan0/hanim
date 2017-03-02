@@ -549,12 +549,12 @@
             this.numericUpDown_Grid.Location = new System.Drawing.Point(60, 0);
             this.numericUpDown_Grid.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDown_Grid.Maximum = new decimal(new int[] {
-            32,
+            16,
             0,
             0,
             0});
             this.numericUpDown_Grid.Minimum = new decimal(new int[] {
-            8,
+            1,
             0,
             0,
             0});
@@ -564,10 +564,11 @@
             this.numericUpDown_Grid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTipMain.SetToolTip(this.numericUpDown_Grid, "グリッドサイズ");
             this.numericUpDown_Grid.Value = new decimal(new int[] {
-            10,
+            8,
             0,
             0,
             0});
+            this.numericUpDown_Grid.ValueChanged += new System.EventHandler(this.numericUpDown_Grid_ValueChanged);
             // 
             // checkBox_GridCheck
             // 
