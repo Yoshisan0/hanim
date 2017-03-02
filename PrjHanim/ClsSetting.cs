@@ -39,6 +39,7 @@ namespace PrjHikariwoAnim
         
         //FileHistory 先頭が新しくなる セーブ時最大数に制限
         public List<string> mFileHistory;
+
         //自動リロード
         public bool mProjectAutoReload;
 

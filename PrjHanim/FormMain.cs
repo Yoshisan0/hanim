@@ -134,12 +134,14 @@ namespace PrjHikariwoAnim
                 projectHistoryToolStripMenuItem.DropDown.Items.Add(tsi);
                 //FileToolStripMenuItem.DropDown.Items.Add(tsi);
             }
+
             //
             if(ClsSystem.mSetting.mProjectAutoReload)
             {
                 if (ClsSystem.mSetting.mFileHistory.Count > 1)
                 {
-                    this.LoadProject(ClsSystem.mSetting.mFileHistory[0]);
+                    string clFilePath = ClsSystem.mSetting.mFileHistory[0];
+                    this.LoadProject(clFilePath);
                 }
             }
 
@@ -214,11 +216,13 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void LoadProject_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".hap";
-            if (ofd.ShowDialog()==DialogResult.OK)
+            OpenFileDialog clLoadDialog = new OpenFileDialog();
+            clLoadDialog.DefaultExt = ".hap";
+            clLoadDialog.Filter = "hanim project file(*.hap)|*.hap|all file(*.*)|*.*";
+            clLoadDialog.FilterIndex = 1;
+            if (clLoadDialog.ShowDialog()==DialogResult.OK)
             {
-                this.LoadProject(ofd.FileName);
+                this.LoadProject(clLoadDialog.FileName);
 
                 this.listView_Motion.Refresh();
 
@@ -244,8 +248,9 @@ namespace PrjHikariwoAnim
 
                 System.Media.SystemSounds.Exclamation.Play();   //読込完了音
             }
-            ofd.Dispose();
+            clLoadDialog.Dispose();
         }
+
         /// <summary>
         /// プロジェクト読み込み処理
         /// </summary>
@@ -270,48 +275,15 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void SaveProject_Click(object sender, EventArgs e)
         {
-            //.hapに含むもの
-            //1:全体プロジェクトデータ
-            // Project
-            //  -string:FileHeader
-            //   {
-            //    -FileDiscription
-            //    -string:Version {Master:major:minor:Option}
-            //    -string:ProjectName
-            //    -string:Creator?
-            //    -int:ImageManager.Count
-            //    -int:MotionCount
-            //    }
-            //     ImageManagerData
-            //      -ImageManager[]
-            //      -ClsImageData{ }
+            if (ClsSystem.mSetting.mFileHistory.Count >= 1)
+            {
+                string clFilePath = ClsSystem.mSetting.mFileHistory[0];
+                this.SaveProject(clFilePath);
 
-            //     MotionData(mDicMotionの中身)
-            //      -Motion[]
-            //      {
-            //          -ElementList[] 
-            //      }
-                
-            /*
-            //名前空間出力抑制
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add(String.Empty, String.Empty);
-            XmlSerializer xs=new XmlSerializer(typeof (ProjectSaveData));
-            //StreamWriter sw = new StreamWriter(sfd.FileName);
-            FileStream sw = new FileStream(sfd.FileName, FileMode.Create);
-
-            //全自動シリアライズテスト
-            ProjectSaveData psd = new ProjectSaveData();
-            psd.mMotionSelectKey = ClsSystem.mMotionSelectKey;
-            psd.MotionCount = ClsSystem.mDicMotion.Count;
-            psd.arryMotion = ClsSystem.mDicMotion.Values.ToArray();
-            //psd.mDicMotion = ClsSystem.mDicMotion;
-            psd.ImageChipList = ClsSystem.ImageMan.ToArray();
-            xs.Serialize(sw,psd);
-            */
-
-            //ClsSystem.Save(sfd.FileName);
+                System.Media.SystemSounds.Exclamation.Play();   //保存完了音
+            }
         }
+
         /// <summary>
         /// 名前を付けて保存
         /// </summary>
@@ -319,20 +291,22 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".hap";
-            if (sfd.ShowDialog() == DialogResult.OK)
+            SaveFileDialog clSaveDialog = new SaveFileDialog();
+            clSaveDialog.DefaultExt = ".hap";
+            clSaveDialog.Filter = "hanim project file(*.hap)|*.hap|all file(*.*)|*.*";
+            clSaveDialog.FilterIndex = 1;
+            if (clSaveDialog.ShowDialog() == DialogResult.OK)
             {
-                this.SaveProject(sfd.FileName);
+                this.SaveProject(clSaveDialog.FileName);
 
-                this.listView_Motion.Refresh();
+                //FileHistory Store
+                ClsSystem.mSetting.mFileHistory.Insert(0, clSaveDialog.FileName);
 
                 System.Media.SystemSounds.Exclamation.Play();   //保存完了音
-                //FileHistory Store
-                ClsSystem.mSetting.mFileHistory.Add(sfd.FileName);
             }
-            sfd.Dispose();
+            clSaveDialog.Dispose();
         }
+
         /// <summary>
         /// プロジェクト保存処理
         /// </summary>
