@@ -40,7 +40,7 @@ namespace PrjHikariwoAnim
 
     public partial class FormMain : Form
     {
-        private const float mParZOOM = 10f;//Zoom倍率の固定値
+        private const float PAR_ZOOM = 10f;//Zoom倍率の固定値
 
         public FormControl mFormControl;
         public FormAttribute mFormAttribute;
@@ -51,7 +51,6 @@ namespace PrjHikariwoAnim
         private bool mMouseDownL = false;//L
         //private bool mMouseRDown = false;//R
         //private bool mMouseMDown = false;//M
-        private int mWheelDelta;//Wheel
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
         //編集中の選択中エレメントのインデックス 非選択=null
@@ -63,8 +62,9 @@ namespace PrjHikariwoAnim
         enum DragState { none,Move, Angle, Scale,Scroll, Joint };
         //private DragState mDragState = DragState.none;
 
-        private Point mMouseOldPoint = Point.Empty;
-        private Point mPreViewCenter;   //PanelPreView Centerセンターポジション
+        //private Point mMouseDebug = new Point(0, 0);  //デバッグ用座標
+        private Point mPosMouseOld = Point.Empty;
+        private Point mPosCamera;   //カメラ座標
 
         /// <summary>
         /// コンストラクタ
@@ -74,8 +74,7 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //以下、初期化処理
-            //panel_PreView.DoubleBuuferd = true;
-            panel_PreView.GetType().InvokeMember("DoubleBuffered",BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,null,panel_PreView,new object[] { true });
+            panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -101,7 +100,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = this.AddMotion("DefMotion");
 
             //以下、初期化処理
-            this.mPreViewCenter = new Point(0, 0);
+            this.mPosCamera = new Point(0, 0);
             this.mScreenScroll = new Point(0, 0);
 
             this.mFormControl = new FormControl(this);
@@ -864,67 +863,83 @@ namespace PrjHikariwoAnim
         //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(ClsSystem.mSetting.mMainColorBack);
-
-            //以下、拡大してボケないようにする処理
-            e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-            //e.Graphics.PixelOffsetMode   = PixelOffsetMode.HighQuality;
-
-            //画像で背景fill
-            //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
-            float flZoom = HScrollBar_ZoomLevel.Value / mParZOOM;//ZoomLevel(2-80)1/10にして使う
-            if (flZoom < 0.2) flZoom = 0.2f;//下限を(0.2)1/5とする
-            float flGrid = flZoom * (float)numericUpDown_Grid.Value;
-
-            /*
-            e.Graphics.TranslateTransform(
-                this.panel_PreView.Width/2 -this.panel_PreView.Width/2*zoom,
-                this.panel_PreView.Height/2 -this.panel_PreView.Height/2*zoom
-            );
-            e.Graphics.ScaleTransform(zoom, zoom);
-            */
-
-            //以下、グリッド表示処理
-            if (this.checkBox_GridCheck.Checked)
+            try
             {
-                Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
+                e.Graphics.Clear(ClsSystem.mSetting.mMainColorBack);
 
-                //以下、垂直ライン描画処理
-                float flStartX = this.mPreViewCenter.X + this.panel_PreView.Width / 2;
-                while (flStartX >= 0) flStartX -= flGrid;
+                //以下、拡大してボケないようにする処理
+                e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                //e.Graphics.PixelOffsetMode   = PixelOffsetMode.HighQuality;
 
-                for (float flCnt = flStartX; flCnt < this.panel_PreView.Width; flCnt += (flGrid))
+                //画像で背景fill
+                //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
+                float flZoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;//ZoomLevel(2-80)1/10にして使う
+                if (flZoom < 0.2) flZoom = 0.2f;//下限を(0.2)1/5とする
+                float flGrid = flZoom * (float)numericUpDown_Grid.Value;
+
+                /*
+                e.Graphics.TranslateTransform(
+                    this.panel_PreView.Width/2 -this.panel_PreView.Width/2*zoom,
+                    this.panel_PreView.Height/2 -this.panel_PreView.Height/2*zoom
+                );
+                e.Graphics.ScaleTransform(zoom, zoom);
+                */
+
+                //以下、グリッド表示処理
+                if (this.checkBox_GridCheck.Checked)
                 {
-                    e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.panel_PreView.Height);
+                    Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
+
+                    //以下、垂直ライン描画処理
+                    float flStartX = this.mPosCamera.X + this.panel_PreView.Width / 2;
+                    while (flStartX >= 0) flStartX -= flGrid;
+
+                    for (float flCnt = flStartX; flCnt < this.panel_PreView.Width; flCnt += (flGrid))
+                    {
+                        e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.panel_PreView.Height);
+                    }
+
+                    //以下、水平ライン描画処理
+                    float flStartY = this.mPosCamera.Y + this.panel_PreView.Height / 2;
+                    while (flStartY >= 0) flStartY -= flGrid;
+
+                    for (float flCnt = flStartY; flCnt < this.panel_PreView.Height; flCnt += (flGrid))
+                    {
+                        e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
+                    }
                 }
 
-                //以下、水平ライン描画処理
-                float flStartY = this.mPreViewCenter.Y + this.panel_PreView.Height / 2;
-                while (flStartY >= 0) flStartY -= flGrid;
+                //以下、デバッグ描画処理
+                /*
+                float flDebugX = ClsTool.WorldPos2CameraPos(this.panel_PreView.Width, this.mPosCamera.X, this.mMouseDebug.X);
+                float flDebugY = ClsTool.WorldPos2CameraPos(this.panel_PreView.Height, this.mPosCamera.Y, this.mMouseDebug.Y);
+                e.Graphics.FillRectangle(Brushes.Orange, flDebugX, flDebugY, 10, 10);
+                Font clFont = new Font("ＭＳ ゴシック", 12);
+                e.Graphics.DrawString("(" + this.mMouseDebug.X + "," + this.mMouseDebug.Y + ")", clFont, Brushes.White, flDebugX, flDebugY);
+                */
 
-                for (float flCnt = flStartY; flCnt < this.panel_PreView.Height; flCnt += (flGrid))
+                // モーション描画処理
+                // DrawItems
+                Matrix back = e.Graphics.Transform;
+                if (ClsSystem.mMotionSelectKey >= 0)
                 {
-                    e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
+                    this.DrawPreview(e.Graphics);
+                }
+                e.Graphics.Transform = back;
+
+                //CrossBar スクリーン移動時は原点に沿う形に
+                if (checkBox_CrossBar.Checked)
+                {
+                    Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
+                    float flX = ClsTool.WorldPos2CameraPos(this.panel_PreView.Width, this.mPosCamera.X, 0);
+                    float flY = ClsTool.WorldPos2CameraPos(this.panel_PreView.Height, this.mPosCamera.Y, 0);
+                    e.Graphics.DrawLine(clPen, flX, 0, flX, this.panel_PreView.Height);  //垂直ライン
+                    e.Graphics.DrawLine(clPen, 0, flY, this.panel_PreView.Width, flY);   //水平ライン
                 }
             }
-
-            // モーション描画処理
-            // DrawItems
-            Matrix back = e.Graphics.Transform;
-            if (ClsSystem.mMotionSelectKey >= 0)
+            catch (Exception err)
             {
-                this.DrawPreview(e.Graphics);
-            }
-            e.Graphics.Transform = back;
-
-            //CrossBar スクリーン移動時は原点に沿う形に
-            if(checkBox_CrossBar.Checked)
-            {
-                Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
-                float flX = this.mPreViewCenter.X + this.panel_PreView.Width / 2;
-                float flY = this.mPreViewCenter.Y + this.panel_PreView.Height / 2;
-                e.Graphics.DrawLine(clPen, flX, 0, flX, this.panel_PreView.Height);  //垂直ライン
-                e.Graphics.DrawLine(clPen, 0, flY, this.panel_PreView.Width, flY);   //水平ライン
+                Console.WriteLine(err.Message);
             }
         }
 
@@ -936,7 +951,7 @@ namespace PrjHikariwoAnim
         {
             //表示の仕方も悩む　親もマーク表示するか　等
             //StageInfomation
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
             if (zoom < 0.2) zoom = 0.2f;//縮小Zoom制限 制限しないと0除算エラー
 
             //View Center X,Y
@@ -957,7 +972,7 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void PanelPreView_DragDrop(object sender, DragEventArgs e)
         {
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
             Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
 
             //PNGファイル直受け入れ
@@ -1077,81 +1092,101 @@ namespace PrjHikariwoAnim
         }
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
-            mWheelDelta = (e.Delta > 0) ? +1 : -1;//+/-に適正化
-
-            //画面の拡大縮小
-            if (mWheelDelta > 0)
+            try
             {
-                if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum) HScrollBar_ZoomLevel.Value += mWheelDelta;
-            }
-            else
-            {
-                if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum) HScrollBar_ZoomLevel.Value += mWheelDelta;
-            }
-
-            mWheelDelta = 0;
-
-            
-
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
-            {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
-                //アイテム選択中のホイール操作
-                if (mKeysSP == Keys.Shift)
+                if (e.Delta > 0)
                 {
-                    //Shift+Wheel 部品の拡縮 0.1単位 最小0.1に制限
-                    mDragState = DragState.Scale;
-                    nowEle.Atr.Scale.X += ((nowEle.Atr.Scale.X + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                    nowEle.Atr.Scale.Y += ((nowEle.Atr.Scale.Y + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                    //nowEle.Atr.Scale.Z += ((nowEle.Atr.Scale.Z + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                }
-                if (mKeysSP == Keys.Control)
-                {
-                    //Ctrl+Wheel 回転 1度単位
-                    mDragState = DragState.Angle;
+                    //以下、画面拡大処理
+                    if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
+                    {
+                        int inMouseX = ClsTool.CameraPos2WorldPos(this.panel_PreView.Width, this.mPosCamera.X, e.X);
+                        int inMouseY = ClsTool.CameraPos2WorldPos(this.panel_PreView.Height, this.mPosCamera.Y, e.Y);
+                        this.mPosCamera.X -= (int)(inMouseX / HScrollBar_ZoomLevel.Value);
+                        this.mPosCamera.Y -= (int)(inMouseY / HScrollBar_ZoomLevel.Value);
+                        //this.mMouseDebug = new Point(inMouseX, inMouseY);
 
-                    float w = nowEle.Atr.Radius.Z + mWheelDelta;
-                    if (w >= 360)
-                    {
-                        nowEle.Atr.Radius.Z = w % 360;
-                    }
-                    else if (w < 0)
-                    {
-                        //nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
-                        nowEle.Atr.Radius.Z = (w % 360) + 360;
-                    }
-                    else
-                    {
-                        nowEle.Atr.Radius.Z += mWheelDelta;
+                        HScrollBar_ZoomLevel.Value += 1;
                     }
                 }
-                mFormAttribute.SetAllParam(nowEle.Atr);
-                panel_PreView.Refresh();
-                */
+                else if (e.Delta < 0)
+                {
+                    //以下、画面縮小処理
+                    if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
+                    {
+                        int inMouseX = ClsTool.CameraPos2WorldPos(this.panel_PreView.Width, this.mPosCamera.X, e.X);
+                        int inMouseY = ClsTool.CameraPos2WorldPos(this.panel_PreView.Height, this.mPosCamera.Y, e.Y);
+                        this.mPosCamera.X += (int)(inMouseX / HScrollBar_ZoomLevel.Value);
+                        this.mPosCamera.Y += (int)(inMouseY / HScrollBar_ZoomLevel.Value);
+                        //this.mMouseDebug = new Point(inMouseX, inMouseY);
+
+                        HScrollBar_ZoomLevel.Value -= 1;
+                    }
+                }
+
+                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+                if (isExist)
+                {
+                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+
+                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                    ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
+                    //アイテム選択中のホイール操作
+                    if (mKeysSP == Keys.Shift)
+                    {
+                        //Shift+Wheel 部品の拡縮 0.1単位 最小0.1に制限
+                        mDragState = DragState.Scale;
+                        nowEle.Atr.Scale.X += ((nowEle.Atr.Scale.X + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
+                        nowEle.Atr.Scale.Y += ((nowEle.Atr.Scale.Y + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
+                        //nowEle.Atr.Scale.Z += ((nowEle.Atr.Scale.Z + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
+                    }
+                    if (mKeysSP == Keys.Control)
+                    {
+                        //Ctrl+Wheel 回転 1度単位
+                        mDragState = DragState.Angle;
+
+                        float w = nowEle.Atr.Radius.Z + mWheelDelta;
+                        if (w >= 360)
+                        {
+                            nowEle.Atr.Radius.Z = w % 360;
+                        }
+                        else if (w < 0)
+                        {
+                            //nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
+                            nowEle.Atr.Radius.Z = (w % 360) + 360;
+                        }
+                        else
+                        {
+                            nowEle.Atr.Radius.Z += mWheelDelta;
+                        }
+                    }
+                    mFormAttribute.SetAllParam(nowEle.Atr);
+                    panel_PreView.Refresh();
+                    */
+                }
+
+                StatusLabel2.Text = $"";
+
+                this.panel_PreView.Refresh();
             }
-
-            StatusLabel2.Text = $"{mWheelDelta}";
-
-            this.panel_PreView.Refresh();
+            catch (Exception err)
+            {
+                Console.WriteLine(err.Message);
+            }
         }
 
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
             //e.X,Yからステージ上の座標にする
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
-            float stPosX = ((e.X -(panel_PreView.Width  / 2)) / zoom);
-            float stPosY = ((e.Y -(panel_PreView.Height / 2)) / zoom);
+            float flZoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
+            float flStPosX = ((e.X -(panel_PreView.Width  / 2)) / flZoom);
+            float flStPosY = ((e.Y -(panel_PreView.Height / 2)) / flZoom);
 
             this.mMouseDownL = false;
 
             if (e.Button == MouseButtons.Left)
             {
                 this.mMouseDownL = true;
-                this.mMouseOldPoint = new Point(e.X, e.Y);
+                this.mPosMouseOld = new Point(e.X, e.Y);
 
                 //アイテム検索
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1187,7 +1222,7 @@ namespace PrjHikariwoAnim
 
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
         {
-            float zoom = HScrollBar_ZoomLevel.Value / mParZOOM;
+            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
             //e.X,Yからステージ上の座標にする
             float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
             float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
@@ -1195,10 +1230,10 @@ namespace PrjHikariwoAnim
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                this.mPreViewCenter.X += e.X - this.mMouseOldPoint.X;
-                this.mPreViewCenter.Y += e.Y - this.mMouseOldPoint.Y;
-                this.mMouseOldPoint.X = e.X;
-                this.mMouseOldPoint.Y = e.Y;
+                this.mPosCamera.X += e.X - this.mPosMouseOld.X;
+                this.mPosCamera.Y += e.Y - this.mPosMouseOld.Y;
+                this.mPosMouseOld.X = e.X;
+                this.mPosMouseOld.Y = e.Y;
             }
 
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1275,7 +1310,7 @@ namespace PrjHikariwoAnim
             if (e.Button == MouseButtons.Left)
             {
                 this.mMouseDownL = false;
-                this.mMouseOldPoint = Point.Empty;
+                this.mPosMouseOld = Point.Empty;
             }
         }
 
