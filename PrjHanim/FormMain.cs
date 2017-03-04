@@ -64,7 +64,6 @@ namespace PrjHikariwoAnim
 
         //private Point mMouseDebug = new Point(0, 0);  //デバッグ用座標
         private Point mPosMouseOld = Point.Empty;
-        private Point mPosCamera;   //カメラ座標
 
         /// <summary>
         /// コンストラクタ
@@ -100,7 +99,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = this.AddMotion("DefMotion");
 
             //以下、初期化処理
-            this.mPosCamera = new Point(0, 0);
+            ClsView.Init(this.panel_PreView);
             this.mScreenScroll = new Point(0, 0);
 
             this.mFormControl = new FormControl(this);
@@ -891,7 +890,7 @@ namespace PrjHikariwoAnim
                     Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
 
                     //以下、垂直ライン描画処理
-                    float flStartX = this.mPosCamera.X + this.panel_PreView.Width / 2;
+                    float flStartX = ClsView.WorldPosX2CameraPosX(0);
                     while (flStartX >= 0) flStartX -= flGrid;
 
                     for (float flCnt = flStartX; flCnt < this.panel_PreView.Width; flCnt += (flGrid))
@@ -900,7 +899,7 @@ namespace PrjHikariwoAnim
                     }
 
                     //以下、水平ライン描画処理
-                    float flStartY = this.mPosCamera.Y + this.panel_PreView.Height / 2;
+                    float flStartY = ClsView.WorldPosY2CameraPosY(0);
                     while (flStartY >= 0) flStartY -= flGrid;
 
                     for (float flCnt = flStartY; flCnt < this.panel_PreView.Height; flCnt += (flGrid))
@@ -931,8 +930,8 @@ namespace PrjHikariwoAnim
                 if (checkBox_CrossBar.Checked)
                 {
                     Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
-                    float flX = ClsTool.WorldPos2CameraPos(this.panel_PreView.Width, this.mPosCamera.X, 0);
-                    float flY = ClsTool.WorldPos2CameraPos(this.panel_PreView.Height, this.mPosCamera.Y, 0);
+                    float flX = ClsView.WorldPosX2CameraPosX(0);
+                    float flY = ClsView.WorldPosY2CameraPosY(0);
                     e.Graphics.DrawLine(clPen, flX, 0, flX, this.panel_PreView.Height);  //垂直ライン
                     e.Graphics.DrawLine(clPen, 0, flY, this.panel_PreView.Width, flY);   //水平ライン
                 }
@@ -1099,10 +1098,10 @@ namespace PrjHikariwoAnim
                     //以下、画面拡大処理
                     if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
                     {
-                        int inMouseX = ClsTool.CameraPos2WorldPos(this.panel_PreView.Width, this.mPosCamera.X, e.X);
-                        int inMouseY = ClsTool.CameraPos2WorldPos(this.panel_PreView.Height, this.mPosCamera.Y, e.Y);
-                        this.mPosCamera.X -= (int)(inMouseX / HScrollBar_ZoomLevel.Value);
-                        this.mPosCamera.Y -= (int)(inMouseY / HScrollBar_ZoomLevel.Value);
+                        int inMouseX = ClsView.CameraPosX2WorldPosX(e.X);
+                        int inMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
+                        ClsView.mX -= (int)(inMouseX / HScrollBar_ZoomLevel.Value);
+                        ClsView.mY -= (int)(inMouseY / HScrollBar_ZoomLevel.Value);
                         //this.mMouseDebug = new Point(inMouseX, inMouseY);
 
                         HScrollBar_ZoomLevel.Value += 1;
@@ -1113,10 +1112,10 @@ namespace PrjHikariwoAnim
                     //以下、画面縮小処理
                     if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
                     {
-                        int inMouseX = ClsTool.CameraPos2WorldPos(this.panel_PreView.Width, this.mPosCamera.X, e.X);
-                        int inMouseY = ClsTool.CameraPos2WorldPos(this.panel_PreView.Height, this.mPosCamera.Y, e.Y);
-                        this.mPosCamera.X += (int)(inMouseX / HScrollBar_ZoomLevel.Value);
-                        this.mPosCamera.Y += (int)(inMouseY / HScrollBar_ZoomLevel.Value);
+                        int inMouseX = ClsView.CameraPosX2WorldPosX(e.X);
+                        int inMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
+                        ClsView.mX += (int)(inMouseX / HScrollBar_ZoomLevel.Value);
+                        ClsView.mY += (int)(inMouseY / HScrollBar_ZoomLevel.Value);
                         //this.mMouseDebug = new Point(inMouseX, inMouseY);
 
                         HScrollBar_ZoomLevel.Value -= 1;
@@ -1230,8 +1229,8 @@ namespace PrjHikariwoAnim
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                this.mPosCamera.X += e.X - this.mPosMouseOld.X;
-                this.mPosCamera.Y += e.Y - this.mPosMouseOld.Y;
+                ClsView.mX += e.X - this.mPosMouseOld.X;
+                ClsView.mY += e.Y - this.mPosMouseOld.Y;
                 this.mPosMouseOld.X = e.X;
                 this.mPosMouseOld.Y = e.Y;
             }
@@ -1504,6 +1503,12 @@ namespace PrjHikariwoAnim
         private void numericUpDown_Grid_ValueChanged(object sender, EventArgs e)
         {
             this.panel_PreView.Refresh();
+        }
+
+        private void panel_PreView_Resize(object sender, EventArgs e)
+        {
+            ClsView.mWidth = this.panel_PreView.Width;
+            ClsView.mHeight = this.panel_PreView.Height;
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

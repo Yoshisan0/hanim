@@ -372,31 +372,5 @@ namespace PrjHikariwoAnim
 
             return (clJsonData);
         }
-
-        /// <summary>
-        /// ワールド座標系からカメラ座標系に変換する
-        /// </summary>
-        /// <param name="inCanvasSize">サイズ</param>
-        /// <param name="inCameraPos">カメラの中心座標</param>
-        /// <param name="inPos">座標</param>
-        /// <returns>カメラ座標</returns>
-        public static int WorldPos2CameraPos(int inCanvasSize, int inCameraPos, int inPos)
-        {
-            int inPosNew = inCameraPos + inPos + inCanvasSize / 2;
-            return (inPosNew);
-        }
-
-        /// <summary>
-        /// カメラ座標系からワールド座標系に変換する
-        /// </summary>
-        /// <param name="inCanvasSize">サイズ</param>
-        /// <param name="inCameraPos">カメラの中心座標</param>
-        /// <param name="inPos">座標</param>
-        /// <returns>ワールド座標</returns>
-        public static int CameraPos2WorldPos(int inCanvasSize, int inCameraPos, int inPos)
-        {
-            int inPosNew = inPos - inCanvasSize / 2 - inCameraPos;
-            return (inPosNew);
-        }
     }
 }

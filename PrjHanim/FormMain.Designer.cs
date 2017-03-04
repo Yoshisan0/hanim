@@ -151,6 +151,7 @@
             this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseUp);
             this.panel_PreView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseWheel);
             this.panel_PreView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PanelPreView_PreviewKeyDown);
+            this.panel_PreView.Resize += new System.EventHandler(this.panel_PreView_Resize);
             // 
             // menuStrip1
             // 
