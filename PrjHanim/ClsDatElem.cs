@@ -706,9 +706,7 @@ namespace PrjHikariwoAnim
         /// パーツの描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="inCX">中心Ｘ座標</param>
-        /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawPreview(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g)
         {
             ClsDatAttr atr = this.mAttrInit;
 
@@ -718,8 +716,8 @@ namespace PrjHikariwoAnim
             //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
 
             //スケールにあわせた部品の大きさを算出
-            float vsx = atr.Width * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
-            float vsy = atr.Height * atr.Scale.Y;// * zoom;//SizeY
+            float flWidth = atr.Width * ClsView.mScale * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+            float flHeight = atr.Height * ClsView.mScale * atr.Scale.Y;// * zoom;//SizeY
 
             //パーツの中心点
             float pcx = atr.Position.X + atr.Offset.X;
@@ -760,14 +758,20 @@ namespace PrjHikariwoAnim
             //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
             //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
 
+            /*
             //中心に平行移動
-            g.TranslateTransform(inCX + atr.Position.X + atr.Offset.X, inCY + atr.Position.Y + atr.Offset.Y);
+            float flX = ClsView.WorldPosX2CameraPosX((int)(atr.Position.X + atr.Offset.X));
+            float flY = ClsView.WorldPosY2CameraPosY((int)(atr.Position.Y + atr.Offset.Y));
+            g.TranslateTransform(flX, flY);
+            */
 
+            /*
             //回転角指定
             g.RotateTransform(atr.Radius.Z);
+            */
 
             //スケーリング調
-            g.ScaleTransform(atr.Scale.X, atr.Scale.X);
+            g.ScaleTransform(atr.Scale.X, atr.Scale.Y);
             //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
 
             //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
@@ -787,14 +791,16 @@ namespace PrjHikariwoAnim
             //g.Transform = MatObj;
 
             //Draw
+            float flPosX = ClsView.WorldPosX2CameraPosX(atr.Position.X + atr.Offset.X);
+            float flPosY = ClsView.WorldPosY2CameraPosY(atr.Position.Y + atr.Offset.Y);
             if (atr.isTransparrency || atr.isColor)
             {
-                g.DrawImage(c.mImgOrigin, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy), 0, 0, c.mImgOrigin.Width, c.mImgOrigin.Height, GraphicsUnit.Pixel, ia);
+                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight), 0, 0, c.mImgOrigin.Width, c.mImgOrigin.Height, GraphicsUnit.Pixel, ia);
             }
             else
             {
                 //透明化カラー補正なし
-                g.DrawImage(c.mImgOrigin, new Rectangle((int)(atr.Offset.X - (atr.Width * atr.Scale.X) / 2), (int)(atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2), (int)vsx, (int)vsy));
+                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight));
             }
 
 /*
@@ -831,7 +837,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(g, inCX, inCY);
+                clElem.DrawPreview(g);
             }
         }
 

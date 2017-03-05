@@ -534,8 +534,8 @@
             this.HScrollBar_ZoomLevel.Dock = System.Windows.Forms.DockStyle.Right;
             this.HScrollBar_ZoomLevel.LargeChange = 1;
             this.HScrollBar_ZoomLevel.Location = new System.Drawing.Point(468, 0);
-            this.HScrollBar_ZoomLevel.Maximum = 80;
-            this.HScrollBar_ZoomLevel.Minimum = 2;
+            this.HScrollBar_ZoomLevel.Maximum = 160;
+            this.HScrollBar_ZoomLevel.Minimum = 1;
             this.HScrollBar_ZoomLevel.Name = "HScrollBar_ZoomLevel";
             this.HScrollBar_ZoomLevel.Size = new System.Drawing.Size(80, 30);
             this.HScrollBar_ZoomLevel.TabIndex = 6;
@@ -550,7 +550,7 @@
             this.numericUpDown_Grid.Location = new System.Drawing.Point(60, 0);
             this.numericUpDown_Grid.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDown_Grid.Maximum = new decimal(new int[] {
-            16,
+            64,
             0,
             0,
             0});

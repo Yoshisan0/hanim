@@ -465,16 +465,14 @@ namespace PrjHikariwoAnim
         /// プレビュー上のパーツの描画処理
         /// </summary>
         /// <param name="g">描画管理クラス</param>
-        /// <param name="inCX">中心Ｘ座標</param>
-        /// <param name="inCY">中心Ｙ座標</param>
-        public void DrawPreview(Graphics g, int inCX, int inCY)
+        public void DrawPreview(Graphics g)
         {
             //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(g, inCX, inCY);
+                clElem.DrawPreview(g);
             }
         }
 

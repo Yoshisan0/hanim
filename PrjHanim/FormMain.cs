@@ -47,7 +47,6 @@ namespace PrjHikariwoAnim
         public FormCell mFormCell;
 
         //private Point mMouseDownShift;
-        private Point mScreenScroll;
         private bool mMouseDownL = false;//L
         //private bool mMouseRDown = false;//R
         //private bool mMouseMDown = false;//M
@@ -62,7 +61,6 @@ namespace PrjHikariwoAnim
         enum DragState { none,Move, Angle, Scale,Scroll, Joint };
         //private DragState mDragState = DragState.none;
 
-        //private Point mMouseDebug = new Point(0, 0);  //デバッグ用座標
         private Point mPosMouseOld = Point.Empty;
 
         /// <summary>
@@ -100,7 +98,6 @@ namespace PrjHikariwoAnim
 
             //以下、初期化処理
             ClsView.Init(this.panel_PreView);
-            this.mScreenScroll = new Point(0, 0);
 
             this.mFormControl = new FormControl(this);
             this.mFormControl.SetMotion(clMotion);
@@ -452,7 +449,11 @@ namespace PrjHikariwoAnim
         }
         private void ZoomLevel_ValueChanged(object sender, EventArgs e)
         {
-            panel_PreView.Refresh();
+            ClsView.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
+
+            this.panel_PreView.Refresh();
+
+            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + ClsView.mScale;
         }
 
         //TreeView_Project
@@ -866,27 +867,19 @@ namespace PrjHikariwoAnim
             {
                 e.Graphics.Clear(ClsSystem.mSetting.mMainColorBack);
 
-                //以下、拡大してボケないようにする処理
+                //以下、拡大してボケないようにする
                 e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                //e.Graphics.PixelOffsetMode   = PixelOffsetMode.HighQuality;
+
+                //以下、半ドットずらして表示する
+                e.Graphics.PixelOffsetMode   = PixelOffsetMode.Half;
 
                 //画像で背景fill
                 //e.Graphics.FillRectangle(new TextureBrush(Properties.Resources.Blank),new Rectangle(0,0,PanelPreView.Width,PanelPreView.Height));
-                float flZoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;//ZoomLevel(2-80)1/10にして使う
-                if (flZoom < 0.2) flZoom = 0.2f;//下限を(0.2)1/5とする
-                float flGrid = flZoom * (float)numericUpDown_Grid.Value;
-
-                /*
-                e.Graphics.TranslateTransform(
-                    this.panel_PreView.Width/2 -this.panel_PreView.Width/2*zoom,
-                    this.panel_PreView.Height/2 -this.panel_PreView.Height/2*zoom
-                );
-                e.Graphics.ScaleTransform(zoom, zoom);
-                */
 
                 //以下、グリッド表示処理
                 if (this.checkBox_GridCheck.Checked)
                 {
+                    float flGrid = ClsView.mScale * (float)numericUpDown_Grid.Value;
                     Pen clPen = new Pen(ClsSystem.mSetting.mMainColorGrid);
 
                     //以下、垂直ライン描画処理
@@ -907,15 +900,6 @@ namespace PrjHikariwoAnim
                         e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
                     }
                 }
-
-                //以下、デバッグ描画処理
-                /*
-                float flDebugX = ClsTool.WorldPos2CameraPos(this.panel_PreView.Width, this.mPosCamera.X, this.mMouseDebug.X);
-                float flDebugY = ClsTool.WorldPos2CameraPos(this.panel_PreView.Height, this.mPosCamera.Y, this.mMouseDebug.Y);
-                e.Graphics.FillRectangle(Brushes.Orange, flDebugX, flDebugY, 10, 10);
-                Font clFont = new Font("ＭＳ ゴシック", 12);
-                e.Graphics.DrawString("(" + this.mMouseDebug.X + "," + this.mMouseDebug.Y + ")", clFont, Brushes.White, flDebugX, flDebugY);
-                */
 
                 // モーション描画処理
                 // DrawItems
@@ -949,21 +933,14 @@ namespace PrjHikariwoAnim
         private void DrawPreview(Graphics g)
         {
             //表示の仕方も悩む　親もマーク表示するか　等
-            //StageInfomation
-            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
-            if (zoom < 0.2) zoom = 0.2f;//縮小Zoom制限 制限しないと0除算エラー
-
-            //View Center X,Y
-            int vcx = mScreenScroll.X + panel_PreView.Width / 2;//ViewCenter X
-            int vcy = mScreenScroll.Y + panel_PreView.Height / 2;//ViewCenter Y
-
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawPreview(g, vcx, vcy);
+                clMotion.DrawPreview(g);
             }
         }
+
         /// <summary>
         /// ドラッグアンドドロップ処理
         /// </summary>
@@ -971,7 +948,6 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void PanelPreView_DragDrop(object sender, DragEventArgs e)
         {
-            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
             Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
 
             //PNGファイル直受け入れ
@@ -1098,11 +1074,10 @@ namespace PrjHikariwoAnim
                     //以下、画面拡大処理
                     if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
                     {
-                        int inMouseX = ClsView.CameraPosX2WorldPosX(e.X);
-                        int inMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
-                        ClsView.mX -= (int)(inMouseX / HScrollBar_ZoomLevel.Value);
-                        ClsView.mY -= (int)(inMouseY / HScrollBar_ZoomLevel.Value);
-                        //this.mMouseDebug = new Point(inMouseX, inMouseY);
+                        float flMouseX = ClsView.CameraPosX2WorldPosX(e.X);
+                        float flMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
+                        ClsView.mX -= flMouseX * ClsView.mScale / HScrollBar_ZoomLevel.Value;
+                        ClsView.mY -= flMouseY * ClsView.mScale / HScrollBar_ZoomLevel.Value;
 
                         HScrollBar_ZoomLevel.Value += 1;
                     }
@@ -1112,11 +1087,10 @@ namespace PrjHikariwoAnim
                     //以下、画面縮小処理
                     if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
                     {
-                        int inMouseX = ClsView.CameraPosX2WorldPosX(e.X);
-                        int inMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
-                        ClsView.mX += (int)(inMouseX / HScrollBar_ZoomLevel.Value);
-                        ClsView.mY += (int)(inMouseY / HScrollBar_ZoomLevel.Value);
-                        //this.mMouseDebug = new Point(inMouseX, inMouseY);
+                        float flMouseX = ClsView.CameraPosX2WorldPosX(e.X);
+                        float flMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
+                        ClsView.mX += flMouseX * ClsView.mScale / HScrollBar_ZoomLevel.Value;
+                        ClsView.mY += flMouseY * ClsView.mScale / HScrollBar_ZoomLevel.Value;
 
                         HScrollBar_ZoomLevel.Value -= 1;
                     }
@@ -1163,8 +1137,6 @@ namespace PrjHikariwoAnim
                     */
                 }
 
-                StatusLabel2.Text = $"";
-
                 this.panel_PreView.Refresh();
             }
             catch (Exception err)
@@ -1175,11 +1147,6 @@ namespace PrjHikariwoAnim
 
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
-            //e.X,Yからステージ上の座標にする
-            float flZoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
-            float flStPosX = ((e.X -(panel_PreView.Width  / 2)) / flZoom);
-            float flStPosY = ((e.Y -(panel_PreView.Height / 2)) / flZoom);
-
             this.mMouseDownL = false;
 
             if (e.Button == MouseButtons.Left)
@@ -1221,11 +1188,6 @@ namespace PrjHikariwoAnim
 
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
         {
-            float zoom = HScrollBar_ZoomLevel.Value / PAR_ZOOM;
-            //e.X,Yからステージ上の座標にする
-            float stPosX = (e.X - (panel_PreView.Width  / 2)) / zoom;
-            float stPosY = (e.Y - (panel_PreView.Height / 2)) / zoom;
-
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
