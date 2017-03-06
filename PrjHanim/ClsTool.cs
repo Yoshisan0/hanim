@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace PrjHikariwoAnim

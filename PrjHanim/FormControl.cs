@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Reflection;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PrjHikariwoAnim
@@ -16,31 +11,31 @@ namespace PrjHikariwoAnim
     /// 左ObjectTree
     /// 右TimeLine
     /// </summary>
-    
+
     //Memo
     //このフォームはタイムライン操作に専念する
     /* 左ペイン
      Elements 選択 入れ替え ロック 表示スイッチ
 
      */
-     /*
-     name:操作系
-     TimeLine範囲ドラッグ可能
-     Cut Copy Paste Fill
-     ダブルクリック ->キーフレームをそこに作成
-     Delキー 現在のフレームを削除
-     Insキー 現在のフレームに挿入
-      
-     */
-      
-     /*右ペイン
-      * mListLine:
-      フレーム操作:
-      前後移動:左右カーソル
+    /*
+    name:操作系
+    TimeLine範囲ドラッグ可能
+    Cut Copy Paste Fill
+    ダブルクリック ->キーフレームをそこに作成
+    Delキー 現在のフレームを削除
+    Insキー 現在のフレームに挿入
 
-      キーフレーム登録(Enter)/削除(Del)
-      範囲　削除/追加/挿入
-      */
+    */
+
+    /*右ペイン
+     * mListLine:
+     フレーム操作:
+     前後移動:左右カーソル
+
+     キーフレーム登録(Enter)/削除(Del)
+     範囲　削除/追加/挿入
+     */
     public partial class FormControl : Form
     {
         public static readonly int HEAD_HEIGHT = 20;

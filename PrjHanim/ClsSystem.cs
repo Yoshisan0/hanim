@@ -3,16 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
-using System.Security;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {

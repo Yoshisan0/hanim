@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Security;
-using System.Text.RegularExpressions;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
@@ -765,10 +762,8 @@ namespace PrjHikariwoAnim
             g.TranslateTransform(flX, flY);
             */
 
-            /*
             //回転角指定
-            g.RotateTransform(atr.Radius.Z);
-            */
+            g.RotateTransform(1.6f);
 
             //スケーリング調
             g.ScaleTransform(atr.Scale.X, atr.Scale.Y);

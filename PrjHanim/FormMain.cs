@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Reflection;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization.Json;
-using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Soap;
-using System.Collections;
-using System.Xml;
-using System.Text.RegularExpressions;
 
 namespace PrjHikariwoAnim
 {

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace PrjHikariwoAnim
 {
