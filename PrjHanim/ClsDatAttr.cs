@@ -38,19 +38,19 @@ namespace PrjHikariwoAnim
         [DataMember]
         public int Value;
         [DataMember]
-        public Vector3 Position;//LocalPosition
+        public ClsVector3 Position;//LocalPosition
         [DataMember]
         public bool isX, isY, isZ;
         [DataMember]
-        public Vector3 Radius;//Radius
+        public ClsVector3 Radius;//Radius
         [DataMember]
         public bool isRX, isRY, isRZ;
         [DataMember]
-        public Vector3 Scale;//Scale
+        public ClsVector3 Scale;//Scale
         [DataMember]
         public bool isSX, isSY, isSZ;
         [DataMember]
-        public Vector3 Offset;//offset
+        public ClsVector3 Offset;//offset
         [DataMember]
         public int Width;//work(not ImageSize)not Scaled
         [DataMember]
@@ -84,10 +84,10 @@ namespace PrjHikariwoAnim
         //method
         public ClsDatAttr()
         {
-            Position = new Vector3(0,0,0);
-            Radius   = new Vector3(0,0,0);
-            Scale    = new Vector3(1,1,1);
-            Offset   = new Vector3(0,0,0);
+            Position = new ClsVector3(0,0,0);
+            Radius   = new ClsVector3(0,0,0);
+            Scale    = new ClsVector3(1,1,1);
+            Offset   = new ClsVector3(0,0,0);
             Transparency = 100;
             Color = -1;//White 0xFFFFFFFF
             ColorRate = 100;
@@ -228,7 +228,7 @@ namespace PrjHikariwoAnim
         /// Set後DrawRect再計算
         /// </summary>
         /// <param name="v"></param>
-        public void SetPosition(Vector3 v)
+        public void SetPosition(ClsVector3 v)
         {
             Position = v;
             //CalcDrawRect
@@ -284,15 +284,15 @@ namespace PrjHikariwoAnim
             Position += atr.Position;
             Radius 　+= atr.Radius;
         }
-        public void AddPosition(Vector3 vec)
+        public void AddPosition(ClsVector3 vec)
         {
             Position += vec;
         }
-        public void SubPosition(Vector3 vec)
+        public void SubPosition(ClsVector3 vec)
         {
             Position -= vec;
         }
-        public void AddRadius(Vector3 vec)
+        public void AddRadius(ClsVector3 vec)
         {
             Radius += vec;
             Radius.X %= 360f;
@@ -381,7 +381,7 @@ namespace PrjHikariwoAnim
     //うーん・・・まぁいいか
 
     [Serializable]
-    public class Vector3
+    public class ClsVector3
     {
         [DataMember]
         public float X;
@@ -390,13 +390,13 @@ namespace PrjHikariwoAnim
         [DataMember]
         public float Z;
 
-        public Vector3()
+        public ClsVector3()
         {
             this.X = 0;
             this.Y = 0;
             this.Z = 0;
         }
-        public Vector3(float x, float y, float z)
+        public ClsVector3(float x, float y, float z)
         {
             this.X = x;
             this.Y = y;
@@ -404,57 +404,57 @@ namespace PrjHikariwoAnim
         }
 
         //Copy
-        public Vector3(Vector3 c)
+        public ClsVector3(ClsVector3 c)
         {
             this.X = c.X;
             this.Y = c.Y;
             this.Z = c.Z;
         }
-        public Vector3 Clone()
+        public ClsVector3 Clone()
         {
-            return new Vector3(this);
+            return new ClsVector3(this);
         }
-        public static Vector3 operator +(Vector3 v1, Vector3 v2)
+        public static ClsVector3 operator +(ClsVector3 v1, ClsVector3 v2)
         {
-            return new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+            return new ClsVector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         }
-        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        public static ClsVector3 operator -(ClsVector3 v1, ClsVector3 v2)
         {
-            return new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+            return new ClsVector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         }
         //v2の要素0はv1を適用
-        public static Vector3 operator /(Vector3 v1,Vector3 v2)
+        public static ClsVector3 operator /(ClsVector3 v1,ClsVector3 v2)
         {
-            Vector3 ret = new Vector3();
+            ClsVector3 ret = new ClsVector3();
             ret.X = (v2.X == 0) ? v1.X :( v1.X / v2.X);
             ret.Y = (v2.Y == 0) ? v1.Y : (v1.Y / v2.Y);
             ret.Z = (v2.Z == 0) ? v1.Z : (v1.Z / v2.Z);
             return ret;
         }
         //f=0はV1を返す
-        public static Vector3 operator /(Vector3 v1,float f)
+        public static ClsVector3 operator /(ClsVector3 v1,float f)
         {
             if (f == 0) return v1;
-            return new Vector3(v1.X/f,v1.Y/f,v1.Z/f);
+            return new ClsVector3(v1.X/f,v1.Y/f,v1.Z/f);
         }
-        public static Vector3 operator /(Vector3 v1,double d)
+        public static ClsVector3 operator /(ClsVector3 v1,double d)
         {
             if (d == 0) return v1;
-            return new Vector3((float)(v1.X / d), (float)(v1.Y / d),(float) (v1.Z / d));
+            return new ClsVector3((float)(v1.X / d), (float)(v1.Y / d),(float) (v1.Z / d));
         }
-        public static Vector3 operator *(Vector3 v1, Vector3 v2)
+        public static ClsVector3 operator *(ClsVector3 v1, ClsVector3 v2)
         {
-            return new Vector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
+            return new ClsVector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
         }
-        public static Vector3 operator *(Vector3 v1, float f)
+        public static ClsVector3 operator *(ClsVector3 v1, float f)
         {
-            return new Vector3(v1.X * f, v1.Y * f, v1.Z * f);
+            return new ClsVector3(v1.X * f, v1.Y * f, v1.Z * f);
         }
-        public static Vector3 operator *(Vector3 v1, double d)
+        public static ClsVector3 operator *(ClsVector3 v1, double d)
         {
-            return new Vector3((float)(v1.X * d),(float) (v1.Y * d), (float)(v1.Z * d));
+            return new ClsVector3((float)(v1.X * d),(float) (v1.Y * d), (float)(v1.Z * d));
         }
-        public static float Angle(Vector3 v1,Vector3 v2)
+        public static float Angle(ClsVector3 v1,ClsVector3 v2)
         {
             double fs = Math.Sqrt(v1.Length() * v2.Length());
             if(fs != 0f)return 0;
@@ -468,42 +468,42 @@ namespace PrjHikariwoAnim
             this.Y = y;
             this.Z = z;
         }
-        public void Add(Vector3 b)
+        public void Add(ClsVector3 b)
         {
             X += b.X;
             Y += b.Y;
             Z += b.Z;
         }
-        public Vector3 Add(Vector3 a,Vector3 b)
+        public ClsVector3 Add(ClsVector3 a,ClsVector3 b)
         {
-            Vector3 ret =  new Vector3(a);
+            ClsVector3 ret =  new ClsVector3(a);
             ret.Add(b);
             return ret;
         }
 
         //Maxim
-        public void Max(Vector3 c)
+        public void Max(ClsVector3 c)
         {
             this.X = (this.X > c.X) ? this.X : c.X;
             this.Y = (this.Y > c.Y) ? this.Y : c.Y;
             this.Z = (this.Z > c.Z) ? this.X : c.Z;
         }
         //Minimum
-        public void Min(Vector3 c)
+        public void Min(ClsVector3 c)
         {
             this.X = (this.X < c.X) ? this.X : c.X;
             this.Y = (this.Y < c.Y) ? this.Y : c.Y;
             this.Z = (this.Z < c.Z) ? this.X : c.Z;
         }
         //ret:new Vector = this - B
-        public void Distance(Vector3 b)
+        public void Distance(ClsVector3 b)
         {
             X -= b.X;
             Y -= b.Y;
             Z -= b.Z;
         }
         //this*Vector3(*= Vector3)
-        public void Scale(Vector3 s)
+        public void Scale(ClsVector3 s)
         {
             X *= s.X;
             Y *= s.Y;
@@ -517,23 +517,23 @@ namespace PrjHikariwoAnim
             Z *= s;
         }
         //内積
-        public float Dot(Vector3 v1,Vector3 v2)
+        public float Dot(ClsVector3 v1,ClsVector3 v2)
         {
             return (v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z);
         }
         //外積
-        public static Vector3 Cross(Vector3 v1,Vector3 v2)
+        public static ClsVector3 Cross(ClsVector3 v1,ClsVector3 v2)
         {
-            return new Vector3(
+            return new ClsVector3(
             v1.Y * v2.Z - v1.Z * v2.Y,
             v1.Z * v2.X - v1.X * v2.Z,
             v1.X * v2.Y - v1.Y * v2.X);
         }
 
         //正規化
-        public Vector3 Normalize()
+        public ClsVector3 Normalize()
         {
-            Vector3 v = new Vector3();
+            ClsVector3 v = new ClsVector3();
             float leng = this.Length();
             if(leng!=0)  v = this / leng;           
             return v;
@@ -549,9 +549,9 @@ namespace PrjHikariwoAnim
         }
 
         //2点間線形補完Linear(rate 0-1)
-        public static Vector3 Linear(Vector3 v1,Vector3 v2,double rate)
+        public static ClsVector3 Linear(ClsVector3 v1,ClsVector3 v2,double rate)
         {
-            Vector3 ret = new Vector3();
+            ClsVector3 ret = new ClsVector3();
             if (rate < 0.0f) rate = 0.0f;
             if (rate > 1.0f) rate = 1.0f;//clamp
             //ret = v1 * (1.0f - rate) + v2 * rate;
@@ -559,9 +559,9 @@ namespace PrjHikariwoAnim
             return ret;
         }
         //3次補完 Lerp
-        public static Vector3 Lerp(Vector3 v1, Vector3 v2, double rate)
+        public static ClsVector3 Lerp(ClsVector3 v1, ClsVector3 v2, double rate)
         {
-            Vector3 ret = new Vector3();
+            ClsVector3 ret = new ClsVector3();
             if (rate < 0.0f) rate = 0.0f;
             if (rate > 1.0f) rate = 1.0f;//clamp
             rate=rate * rate * (3.0f - 2.0f * rate);//ここの違いで色々?
@@ -569,7 +569,7 @@ namespace PrjHikariwoAnim
             return ret;
         }
         //角度計算
-        public static float ToAngle(Vector3 from,Vector3 to)
+        public static float ToAngle(ClsVector3 from,ClsVector3 to)
         {
             //note: Degress = radians * (180/Math.PI);
             //2D θ=arcTan(x,y)

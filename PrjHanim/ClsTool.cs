@@ -185,7 +185,7 @@ namespace PrjHikariwoAnim
         /// <param name="clHeader">ヘッダー</param>
         /// <param name="clName">要素名</param>
         /// <param name="clVec">ベクトル</param>
-        public static void AppendElement(string clHeader, string clName, Vector3 clVec)
+        public static void AppendElement(string clHeader, string clName, ClsVector3 clVec)
         {
             ClsTool.AppendElementStart(clHeader, clName);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "X", clVec.X);
@@ -199,9 +199,9 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clXmlNode">xmlノード</param>
         /// <returns>Vector3</returns>
-        public static Vector3 GetVecFromXmlNode(XmlNode clXmlNode)
+        public static ClsVector3 GetVecFromXmlNode(XmlNode clXmlNode)
         {
-            Vector3 clVec = new Vector3();
+            ClsVector3 clVec = new ClsVector3();
 
             XmlNodeList clListNode = clXmlNode.ChildNodes;
             foreach (XmlNode clNode in clListNode)
@@ -296,9 +296,9 @@ namespace PrjHikariwoAnim
         /// <param name="clListNode">ノードリスト</param>
         /// <param name="clName">要素名</param>
         /// <returns>int値</returns>
-        public static Vector3 GetVecFromXmlNodeList(XmlNodeList clListNode, string clName)
+        public static ClsVector3 GetVecFromXmlNodeList(XmlNodeList clListNode, string clName)
         {
-            Vector3 clValue = null;
+            ClsVector3 clValue = null;
 
             foreach (XmlNode clNode in clListNode)
             {
@@ -309,7 +309,7 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            clValue = new Vector3();
+            clValue = new ClsVector3();
             return (clValue);
         }
 

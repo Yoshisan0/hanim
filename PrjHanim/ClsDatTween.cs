@@ -31,8 +31,8 @@ namespace PrjHikariwoAnim
 
         public EnmParam mParam;
         public int mLength;         //継続フレーム数
-        public Vector3 mPos;
-        public List<Vector3> mListVec;
+        public ClsVector3 mPos;
+        public List<ClsVector3> mListVec;
 
         //シリアライザ用
         public ClsDatTween() { }
@@ -44,18 +44,18 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="clPos">座標</param>
         /// <param name="pclVec">各ベクトル</param>
-        public ClsDatTween(EnmParam enParam, int inLength, Vector3 clPos, List<Vector3> pclVec)
+        public ClsDatTween(EnmParam enParam, int inLength, ClsVector3 clPos, List<ClsVector3> pclVec)
         {
             this.mParam = enParam;
             this.mLength = inLength;
 
-            this.mPos = new Vector3(clPos.X, clPos.Y, 0.0f);
+            this.mPos = new ClsVector3(clPos.X, clPos.Y, 0.0f);
 
-            this.mListVec = new List<Vector3>();
+            this.mListVec = new List<ClsVector3>();
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                Vector3 clVec = new Vector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
+                ClsVector3 clVec = new ClsVector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
                 this.mListVec.Add(clVec);
             }
         }
@@ -96,7 +96,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Vec".Equals(clNode.Name))
                 {
-                    Vector3 clVec = ClsTool.GetVecFromXmlNode(clNode);
+                    ClsVector3 clVec = ClsTool.GetVecFromXmlNode(clNode);
                     this.mListVec.Add(clVec);
                     continue;
                 }

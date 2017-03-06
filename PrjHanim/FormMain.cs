@@ -733,7 +733,7 @@ namespace PrjHikariwoAnim
             x -= clDatElem.mAttrInit.Width / 2;
             y -= clDatElem.mAttrInit.Height / 2;
 
-            clDatElem.mAttrInit.Position = new Vector3(x, y, 0);
+            clDatElem.mAttrInit.Position = new ClsVector3(x, y, 0);
 
             //Show - Attribute
             this.mFormAttribute.SetAllParam(clDatElem.mAttrInit);
@@ -1461,6 +1461,12 @@ namespace PrjHikariwoAnim
         {
             ClsView.mWidth = this.panel_PreView.Width;
             ClsView.mHeight = this.panel_PreView.Height;
+        }
+
+        private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)
+        {
+            FormOpenGLTest clForm = new FormOpenGLTest();
+            clForm.ShowDialog();
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

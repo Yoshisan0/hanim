@@ -90,6 +90,7 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.ToolStripMenuItem_DebugOpenGL = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -348,7 +349,8 @@
             this.ToolStripMenuItem_DebugRootOpen,
             this.ToolStripMenuItem_DebugExport,
             this.ToolStripMenuItem_DebugSave,
-            this.ToolStripMenuItem_DebugLoad});
+            this.ToolStripMenuItem_DebugLoad,
+            this.ToolStripMenuItem_DebugOpenGL});
             this.YosiTestToolStripMenuItem.Name = "YosiTestToolStripMenuItem";
             this.YosiTestToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.YosiTestToolStripMenuItem.Text = "よしさんテスト";
@@ -752,6 +754,13 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
+            // ToolStripMenuItem_DebugOpenGL
+            // 
+            this.ToolStripMenuItem_DebugOpenGL.Name = "ToolStripMenuItem_DebugOpenGL";
+            this.ToolStripMenuItem_DebugOpenGL.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugOpenGL.Text = "OpenGLテスト";
+            this.ToolStripMenuItem_DebugOpenGL.Click += new System.EventHandler(this.ToolStripMenuItem_DebugOpenGL_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -857,6 +866,7 @@
         private System.Windows.Forms.ToolStripMenuItem projectHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem partsFormInMainToolStripMenuItem;
         private System.Windows.Forms.Panel panel_chip;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugOpenGL;
     }
 }
 

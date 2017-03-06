@@ -763,7 +763,7 @@ namespace PrjHikariwoAnim
             */
 
             //回転角指定
-            g.RotateTransform(1.6f);
+            g.RotateTransform(atr.Radius.Z);
 
             //スケーリング調
             g.ScaleTransform(atr.Scale.X, atr.Scale.Y);

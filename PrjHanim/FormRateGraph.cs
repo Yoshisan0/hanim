@@ -32,8 +32,8 @@ namespace PrjHikariwoAnim
         private Pen mPenGraph;          //ラインのペン
         private Pen mPenGrid;           //グリッドのペン
         private Pen mPenCenterLine;     //カレントフレームのペン
-        private List<Vector3> mListPos; //ポイントのリスト
-        private List<Vector3> mListVec; //ベクトルのリスト
+        private List<ClsVector3> mListPos; //ポイントのリスト
+        private List<ClsVector3> mListVec; //ベクトルのリスト
         private int mGripNo;            //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
         private Bitmap mImage0;         //イメージ
         private Bitmap mImage1;         //イメージ
@@ -62,15 +62,15 @@ namespace PrjHikariwoAnim
             this.mFrmEnd = inFrmEnd;
             this.mFrmCurrent = inFrmCurrent;
 
-            this.mListPos = new List<Vector3>();
-            this.mListPos.Add(new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
-            this.mListPos.Add(new Vector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f));
-            this.mListPos.Add(new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
+            this.mListPos = new List<ClsVector3>();
+            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
+            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f));
+            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
 
-            this.mListVec = new List<Vector3>();
-            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f));
-            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f));
-            this.mListVec.Add(new Vector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f));
+            this.mListVec = new List<ClsVector3>();
+            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f));
+            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f));
+            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f));
 
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
@@ -86,7 +86,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, Vector3 clPos, Vector3[] pclListVec)
+        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
         {
             InitializeComponent();
 
@@ -99,16 +99,16 @@ namespace PrjHikariwoAnim
             this.mFrmEnd = inFrmEnd;
             this.mFrmCurrent = inFrmCurrent;
 
-            this.mListPos = new List<Vector3>();
-            this.mListPos.Add(new Vector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
-            this.mListPos.Add(new Vector3(clPos.X, clPos.Y, clPos.Z));
-            this.mListPos.Add(new Vector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
+            this.mListPos = new List<ClsVector3>();
+            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
+            this.mListPos.Add(new ClsVector3(clPos.X, clPos.Y, clPos.Z));
+            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
 
-            this.mListVec = new List<Vector3>();
+            this.mListVec = new List<ClsVector3>();
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                this.mListVec.Add(new Vector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z));
+                this.mListVec.Add(new ClsVector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z));
             }
 
             //panel_PreView.DoubleBuuferd = true;
