@@ -34,7 +34,6 @@
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
-            this.panel_PreView = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_New = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +64,7 @@
             this.ToolStripMenuItem_DebugExport = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugSave = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugLoad = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_DebugOpenGL = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -90,7 +90,7 @@
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.ToolStripMenuItem_DebugOpenGL = new System.Windows.Forms.ToolStripMenuItem();
+            this.userControlOpenGL1 = new PrjHikariwoAnim.UserControlOpenGL();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -133,26 +133,6 @@
             // timerMain
             // 
             this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
-            // 
-            // panel_PreView
-            // 
-            this.panel_PreView.AllowDrop = true;
-            this.panel_PreView.BackColor = System.Drawing.Color.Black;
-            this.panel_PreView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_PreView.Location = new System.Drawing.Point(0, 30);
-            this.panel_PreView.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_PreView.Name = "panel_PreView";
-            this.panel_PreView.Size = new System.Drawing.Size(548, 397);
-            this.panel_PreView.TabIndex = 2;
-            this.panel_PreView.DragDrop += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragDrop);
-            this.panel_PreView.DragEnter += new System.Windows.Forms.DragEventHandler(this.PanelPreView_DragEnter);
-            this.panel_PreView.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelPreView_Paint);
-            this.panel_PreView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseDown);
-            this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseMove);
-            this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseUp);
-            this.panel_PreView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PanelPreView_MouseWheel);
-            this.panel_PreView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PanelPreView_PreviewKeyDown);
-            this.panel_PreView.Resize += new System.EventHandler(this.panel_PreView_Resize);
             // 
             // menuStrip1
             // 
@@ -389,6 +369,13 @@
             this.ToolStripMenuItem_DebugLoad.Size = new System.Drawing.Size(175, 22);
             this.ToolStripMenuItem_DebugLoad.Text = "読み込みテスト";
             this.ToolStripMenuItem_DebugLoad.Click += new System.EventHandler(this.ToolStripMenuItem_DebugLoad_Click);
+            // 
+            // ToolStripMenuItem_DebugOpenGL
+            // 
+            this.ToolStripMenuItem_DebugOpenGL.Name = "ToolStripMenuItem_DebugOpenGL";
+            this.ToolStripMenuItem_DebugOpenGL.Size = new System.Drawing.Size(175, 22);
+            this.ToolStripMenuItem_DebugOpenGL.Text = "OpenGLテスト";
+            this.ToolStripMenuItem_DebugOpenGL.Click += new System.EventHandler(this.ToolStripMenuItem_DebugOpenGL_Click);
             // 
             // panel_ToolBase
             // 
@@ -675,7 +662,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel_PreView);
+            this.splitContainer1.Panel2.Controls.Add(this.userControlOpenGL1);
             this.splitContainer1.Panel2.Controls.Add(this.panel_ToolBase);
             this.splitContainer1.Size = new System.Drawing.Size(684, 427);
             this.splitContainer1.SplitterDistance = 133;
@@ -754,12 +741,13 @@
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
-            // ToolStripMenuItem_DebugOpenGL
+            // userControlOpenGL1
             // 
-            this.ToolStripMenuItem_DebugOpenGL.Name = "ToolStripMenuItem_DebugOpenGL";
-            this.ToolStripMenuItem_DebugOpenGL.Size = new System.Drawing.Size(175, 22);
-            this.ToolStripMenuItem_DebugOpenGL.Text = "OpenGLテスト";
-            this.ToolStripMenuItem_DebugOpenGL.Click += new System.EventHandler(this.ToolStripMenuItem_DebugOpenGL_Click);
+            this.userControlOpenGL1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userControlOpenGL1.Location = new System.Drawing.Point(0, 30);
+            this.userControlOpenGL1.Name = "userControlOpenGL1";
+            this.userControlOpenGL1.Size = new System.Drawing.Size(548, 397);
+            this.userControlOpenGL1.TabIndex = 5;
             // 
             // FormMain
             // 
@@ -808,7 +796,6 @@
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.Timer timerMain;
-        private System.Windows.Forms.Panel panel_PreView;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem WindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ImageList;
@@ -867,6 +854,8 @@
         private System.Windows.Forms.ToolStripMenuItem partsFormInMainToolStripMenuItem;
         private System.Windows.Forms.Panel panel_chip;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugOpenGL;
+        private UserControlOpenGL userControlOpenGL;
+        private UserControlOpenGL userControlOpenGL1;
     }
 }
 

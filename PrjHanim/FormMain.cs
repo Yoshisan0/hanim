@@ -61,7 +61,7 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //以下、初期化処理
-            panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
+//            panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = this.AddMotion("DefMotion");
 
             //以下、初期化処理
-            ClsView.Init(this.panel_PreView);
+//            ClsView.Init(this.panel_PreView);
 
             this.mFormControl = new FormControl(this);
             this.mFormControl.SetMotion(clMotion);
@@ -227,7 +227,7 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.Init(null);
 
                 //以下、各種ウィンドウ更新処理
-                this.panel_PreView.Refresh();
+//                this.panel_PreView.Refresh();
                 this.mFormCell.Refresh();
                 this.mFormControl.RefreshAll();
 
@@ -356,34 +356,34 @@ namespace PrjHikariwoAnim
             {
 //ここで確認ダイアログ表示（編集中のモーションを保存しますか？）
 
-                    //以下、ListView_Motion.Items 削除処理
-                    if(listView_Motion.SelectedItems.Count>=1)
-                    {
-                        //複数同時選択は禁止になってるので選択の0番目のみでOK　のはず
-                        int inHash = listView_Motion.SelectedItems[0].GetHashCode();
-                        listView_Motion.SelectedItems[0].Remove();
-                        //mDicMotionからの削除
-                        ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
-                        clMotion.Remove();
-                        ClsSystem.mDicMotion.Remove(inHash);    //モーションクラス削除処理
+                //以下、ListView_Motion.Items 削除処理
+                if(listView_Motion.SelectedItems.Count>=1)
+                {
+                    //複数同時選択は禁止になってるので選択の0番目のみでOK　のはず
+                    int inHash = listView_Motion.SelectedItems[0].GetHashCode();
+                    listView_Motion.SelectedItems[0].Remove();
+                    //mDicMotionからの削除
+                    ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
+                    clMotion.Remove();
+                    ClsSystem.mDicMotion.Remove(inHash);    //モーションクラス削除処理
 
-                        //編集中のモーションが削除されたので、
-                        //コントロールウィンドウとメインウィンドウの情報をクリアする
+                    //編集中のモーションが削除されたので、
+                    //コントロールウィンドウとメインウィンドウの情報をクリアする
 
-                        ClsSystem.mMotionSelectKey = -1;
+                    ClsSystem.mMotionSelectKey = -1;
 
-                        //以下、コントロール設定処理
-                        this.SetName(null);
-                        this.mFormControl.SetMotion(null);
-                        this.mFormAttribute.Init(null);
+                    //以下、コントロール設定処理
+                    this.SetName(null);
+                    this.mFormControl.SetMotion(null);
+                    this.mFormAttribute.Init(null);
 
-                        this.panel_PreView.Refresh();
-                    }                
+//                  this.panel_PreView.Refresh();
+                }
             }
         }
         private void FormMain_Resize(object sender, EventArgs e)
         {
-            panel_PreView.Refresh();
+//            panel_PreView.Refresh();
         }
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -412,7 +412,7 @@ namespace PrjHikariwoAnim
         }
         private void CheckButton_Changed(object sender, EventArgs e)
         {
-            panel_PreView.Refresh();
+//            panel_PreView.Refresh();
         }
         private void timerMain_Tick(object sender, EventArgs e)
         {
@@ -441,7 +441,7 @@ namespace PrjHikariwoAnim
         {
             ClsView.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
 
-            this.panel_PreView.Refresh();
+//            this.panel_PreView.Refresh();
 
             StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + ClsView.mScale;
         }
@@ -726,8 +726,8 @@ namespace PrjHikariwoAnim
             clDatElem.SetImage(clDatImage);
 
             //センターからの距離に変換
-            x -= panel_PreView.Width / 2;
-            y -= panel_PreView.Height / 2;
+//            x -= panel_PreView.Width / 2;
+//            y -= panel_PreView.Height / 2;
 
             //さらに画像サイズ半分シフトして画像中心をセンターに
             x -= clDatElem.mAttrInit.Width / 2;
@@ -847,9 +847,10 @@ namespace PrjHikariwoAnim
                 this.mFormControl.SetMotion(null);
                 this.mFormAttribute.Init(null);
             }
-            this.panel_PreView.Refresh();
+//            this.panel_PreView.Refresh();
         }
 
+/*
         //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
@@ -876,18 +877,18 @@ namespace PrjHikariwoAnim
                     float flStartX = ClsView.WorldPosX2CameraPosX(0);
                     while (flStartX >= 0) flStartX -= flGrid;
 
-                    for (float flCnt = flStartX; flCnt < this.panel_PreView.Width; flCnt += (flGrid))
+                    for (float flCnt = flStartX; flCnt < this.userControlOpenGL.Width; flCnt += (flGrid))
                     {
-                        e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.panel_PreView.Height);
+                        e.Graphics.DrawLine(clPen, flCnt, 0.0f, flCnt, this.userControlOpenGL.Height);
                     }
 
                     //以下、水平ライン描画処理
                     float flStartY = ClsView.WorldPosY2CameraPosY(0);
                     while (flStartY >= 0) flStartY -= flGrid;
 
-                    for (float flCnt = flStartY; flCnt < this.panel_PreView.Height; flCnt += (flGrid))
+                    for (float flCnt = flStartY; flCnt < this.userControlOpenGL.Height; flCnt += (flGrid))
                     {
-                        e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.panel_PreView.Width, flCnt);
+                        e.Graphics.DrawLine(clPen, 0.0f, flCnt, this.userControlOpenGL.Width, flCnt);
                     }
                 }
 
@@ -906,8 +907,8 @@ namespace PrjHikariwoAnim
                     Pen clPen = new Pen(ClsSystem.mSetting.mMainColorCenterLine);
                     float flX = ClsView.WorldPosX2CameraPosX(0);
                     float flY = ClsView.WorldPosY2CameraPosY(0);
-                    e.Graphics.DrawLine(clPen, flX, 0, flX, this.panel_PreView.Height);  //垂直ライン
-                    e.Graphics.DrawLine(clPen, 0, flY, this.panel_PreView.Width, flY);   //水平ライン
+                    e.Graphics.DrawLine(clPen, flX, 0, flX, this.userControlOpenGL.Height);  //垂直ライン
+                    e.Graphics.DrawLine(clPen, 0, flY, this.userControlOpenGL.Width, flY);   //水平ライン
                 }
             }
             catch (Exception err)
@@ -915,6 +916,7 @@ namespace PrjHikariwoAnim
                 Console.WriteLine(err.Message);
             }
         }
+*/
 
         /// <summary>
         /// モーション描画処理
@@ -938,7 +940,8 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void PanelPreView_DragDrop(object sender, DragEventArgs e)
         {
-            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
+//            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
+            Point sPos = new Point(0, 0);
 
             //PNGファイル直受け入れ
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1014,7 +1017,8 @@ namespace PrjHikariwoAnim
                         //以下、エレメント追加
                         ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
                         ClsDatImage clDatImage = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
-                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+//                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                        Point a = new Point(0, 0);
                         this.AddElement(clDatMotion, clDatImage, a.X, a.Y);
                     }
                 }
@@ -1035,7 +1039,7 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.Copy;
             }
 
-            panel_PreView.Refresh();
+//            panel_PreView.Refresh();
         }
         private void PanelPreView_DragEnter(object sender, DragEventArgs e)
         {
@@ -1127,7 +1131,7 @@ namespace PrjHikariwoAnim
                     */
                 }
 
-                this.panel_PreView.Refresh();
+//                this.panel_PreView.Refresh();
             }
             catch (Exception err)
             {
@@ -1247,7 +1251,7 @@ namespace PrjHikariwoAnim
                 */
             }
 
-            this.panel_PreView.Refresh();
+//            this.panel_PreView.Refresh();
         }
 
         private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
@@ -1454,19 +1458,17 @@ namespace PrjHikariwoAnim
 
         private void numericUpDown_Grid_ValueChanged(object sender, EventArgs e)
         {
-            this.panel_PreView.Refresh();
+//            this.panel_PreView.Refresh();
         }
 
         private void panel_PreView_Resize(object sender, EventArgs e)
         {
-            ClsView.mWidth = this.panel_PreView.Width;
-            ClsView.mHeight = this.panel_PreView.Height;
+            ClsView.mWidth = this.userControlOpenGL.Width;
+            ClsView.mHeight = this.userControlOpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)
         {
-            FormOpenGLTest clForm = new FormOpenGLTest();
-            clForm.ShowDialog();
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)
