@@ -123,9 +123,18 @@ namespace PrjHikariwoAnim
   
   			//バッファをクリア
   			Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-  
-  			//ビューポートの設定
-  			Gl.glViewport(0, 0, this.ClientRectangle.Width, this.ClientRectangle.Height);
+
+            //ビューポートの設定
+            if (this.Width > this.Height)
+            {
+                int inY = -(this.Width - this.Height) / 2;
+                Gl.glViewport(0, inY, this.Width, this.Width);
+            }
+            else
+            {
+                int inX = -(this.Height - this.Width) / 2;
+                Gl.glViewport(inX, 0, this.Height, this.Height);
+            }
   
   			//射影行列の設定
   			Gl.glMatrixMode(Gl.GL_PROJECTION);
@@ -133,16 +142,37 @@ namespace PrjHikariwoAnim
   
   			//モデルビュー行列の設定
   			Gl.glMatrixMode(Gl.GL_MODELVIEW);
-  			Gl.glLoadIdentity();			
-  
-  			//三角形を描画
-  			Gl.glBegin(Gl.GL_TRIANGLES);
+  			Gl.glLoadIdentity();
+
+            //以下、グリッドライン描画処理
+            Gl.glBegin(Gl.GL_LINES);
+
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(-1.0f, 0.0f, 0.0f);
+
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(1.0f, 0.0f, 0.0f);
+
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(0.0f, -1.0f, 0.0f);
+
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(0.0f, 1.0f, 0.0f);
+
+            Gl.glEnd();
+
+            //三角形を描画
+            Gl.glBegin(Gl.GL_TRIANGLES);
+
   			Gl.glColor3f(1.0f, 0.0f, 0.0f);
-  			Gl.glVertex3f(-0.5f, -0.5f, 0.0f);
+  			Gl.glVertex3f(0.0f, 0.0f, 0.0f);
+
   			Gl.glColor3f(0.0f, 1.0f, 0.0f);
-  			Gl.glVertex3f(0.0f, 0.5f, 0.0f);
+  			Gl.glVertex3f(0.0f, 1.0f, 0.0f);
+
   			Gl.glColor3f(0.0f, 0.0f, 1.0f);
-  			Gl.glVertex3f(0.5f, -0.5f, 0.0f);
+  			Gl.glVertex3f(1.0f, 1.0f, 0.0f);
+
   			Gl.glEnd();
   
   			//ダブルバッファ

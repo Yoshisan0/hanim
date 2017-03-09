@@ -739,7 +739,7 @@
             // 
             this.userControlOpenGL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.userControlOpenGL.Location = new System.Drawing.Point(0, 30);
-            this.userControlOpenGL.Name = "userControlOpenGL2";
+            this.userControlOpenGL.Name = "userControlOpenGL";
             this.userControlOpenGL.Size = new System.Drawing.Size(548, 397);
             this.userControlOpenGL.TabIndex = 5;
             // 
