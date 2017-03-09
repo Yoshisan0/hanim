@@ -11,27 +11,40 @@ using Tao.Platform.Windows;
 
 namespace PrjHikariwoAnim
 {
-    public partial class UserControlOpenGL : UserControl
+    public partial class ComponentOpenGL : UserControl
     {
-  		#region Fields
-  		//
-  		// Fields
-  		//
-  		private IntPtr hRC = IntPtr.Zero;
+        public static float mScale;
+        public static float mX;
+        public static float mY;
+        public static int mWidth;
+        public static int mHeight;
+
+        #region Fields
+        //
+        // Fields
+        //
+        private IntPtr hRC = IntPtr.Zero;
   		private IntPtr hDC = IntPtr.Zero;
   
   		#endregion
 
-        public UserControlOpenGL()
+        public ComponentOpenGL()
         {
             InitializeComponent();
+
+            //以下、初期化処理
+            ComponentOpenGL.mScale = 1.0f;
+            ComponentOpenGL.mX = 0.0f;
+            ComponentOpenGL.mY = 0.0f;
+            ComponentOpenGL.mWidth = this.Width;
+            ComponentOpenGL.mHeight = this.Height;
         }
 
-  		/// <summary>
-  		/// 生成時の処理
-  		/// </summary>
-  		/// <param name="e"></param>
-  		protected override void OnHandleCreated(EventArgs e)
+        /// <summary>
+        /// 生成時の処理
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnHandleCreated(EventArgs e)
   		{
   			base.OnHandleCreated(e);
   
@@ -174,9 +187,59 @@ namespace PrjHikariwoAnim
   			Gl.glVertex3f(1.0f, 1.0f, 0.0f);
 
   			Gl.glEnd();
-  
-  			//ダブルバッファ
-  			Wgl.wglSwapBuffers(this.hDC);
+
+            //以下、中心ライン描画処理
+
+            //以下、グリッド表示処理
+
+            //以下、各エレメント表示処理
+
+            //ダブルバッファ
+            Wgl.wglSwapBuffers(this.hDC);
   		}
+
+        /// <summary>
+        /// ワールド座標系からカメラ座標系に変換する
+        /// </summary>
+        /// <param name="flPosX">Ｘ座標</param>
+        /// <returns>カメラ座標</returns>
+        public static float WorldPosX2CameraPosX(float flPosX)
+        {
+            float flPosXNew = ComponentOpenGL.mX + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mWidth / 2;
+            return (flPosXNew);
+        }
+
+        /// <summary>
+        /// ワールド座標系からカメラ座標系に変換する
+        /// </summary>
+        /// <param name="flPosY">Ｙ座標</param>
+        /// <returns>カメラ座標</returns>
+        public static float WorldPosY2CameraPosY(float flPosY)
+        {
+            float flPosYNew = ComponentOpenGL.mY + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mHeight / 2;
+            return (flPosYNew);
+        }
+
+        /// <summary>
+        /// カメラ座標系からワールド座標系に変換する
+        /// </summary>
+        /// <param name="flPosX">Ｘ座標</param>
+        /// <returns>ワールド座標</returns>
+        public static float CameraPosX2WorldPosX(float flPosX)
+        {
+            float flPosXNew = (flPosX - ComponentOpenGL.mWidth / 2 - ComponentOpenGL.mX) / ComponentOpenGL.mScale;
+            return (flPosXNew);
+        }
+
+        /// <summary>
+        /// カメラ座標系からワールド座標系に変換する
+        /// </summary>
+        /// <param name="inPosY">Ｙ座標</param>
+        /// <returns>ワールド座標</returns>
+        public static float CameraPosY2WorldPosY(float flPosY)
+        {
+            float flPosYNew = (flPosY - ComponentOpenGL.mHeight / 2 - ComponentOpenGL.mY) / ComponentOpenGL.mScale;
+            return (flPosYNew);
+        }
     }
 }

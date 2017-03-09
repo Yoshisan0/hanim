@@ -71,7 +71,6 @@
     <Compile Include="ClsSetting.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsDatTween.cs" />
-    <Compile Include="ClsView.cs" />
     <Compile Include="ClsWin32.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>
@@ -134,11 +133,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControlOpenGL.cs">
+    <Compile Include="ComponentOpenGL.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControlOpenGL.Designer.cs">
-      <DependentUpon>UserControlOpenGL.cs</DependentUpon>
+    <Compile Include="ComponentOpenGL.Designer.cs">
+      <DependentUpon>ComponentOpenGL.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FormAttribute.resx">
       <DependentUpon>FormAttribute.cs</DependentUpon>

@@ -713,8 +713,8 @@ namespace PrjHikariwoAnim
             //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
 
             //スケールにあわせた部品の大きさを算出
-            float flWidth = atr.Width * ClsView.mScale * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
-            float flHeight = atr.Height * ClsView.mScale * atr.Scale.Y;// * zoom;//SizeY
+            float flWidth = atr.Width * ComponentOpenGL.mScale * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+            float flHeight = atr.Height * ComponentOpenGL.mScale * atr.Scale.Y;// * zoom;//SizeY
 
             //パーツの中心点
             float pcx = atr.Position.X + atr.Offset.X;
@@ -786,8 +786,8 @@ namespace PrjHikariwoAnim
             //g.Transform = MatObj;
 
             //Draw
-            float flPosX = ClsView.WorldPosX2CameraPosX(atr.Position.X + atr.Offset.X);
-            float flPosY = ClsView.WorldPosY2CameraPosY(atr.Position.Y + atr.Offset.Y);
+            float flPosX = ComponentOpenGL.WorldPosX2CameraPosX(atr.Position.X + atr.Offset.X);
+            float flPosY = ComponentOpenGL.WorldPosY2CameraPosY(atr.Position.Y + atr.Offset.Y);
             if (atr.isTransparrency || atr.isColor)
             {
                 g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight), 0, 0, c.mImgOrigin.Width, c.mImgOrigin.Height, GraphicsUnit.Pixel, ia);

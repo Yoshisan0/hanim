@@ -1,6 +1,6 @@
 ﻿namespace PrjHikariwoAnim
 {
-    partial class UserControlOpenGL
+    partial class ComponentOpenGL
     {
         /// <summary> 
         /// 必要なデザイナー変数です。

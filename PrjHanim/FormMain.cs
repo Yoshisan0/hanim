@@ -439,11 +439,11 @@ namespace PrjHikariwoAnim
         }
         private void ZoomLevel_ValueChanged(object sender, EventArgs e)
         {
-            ClsView.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
+            ComponentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
 
 //            this.panel_PreView.Refresh();
 
-            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + ClsView.mScale;
+            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + ComponentOpenGL.mScale;
         }
 
         //TreeView_Project
@@ -1068,10 +1068,10 @@ namespace PrjHikariwoAnim
                     //以下、画面拡大処理
                     if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
                     {
-                        float flMouseX = ClsView.CameraPosX2WorldPosX(e.X);
-                        float flMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
-                        ClsView.mX -= flMouseX * ClsView.mScale / HScrollBar_ZoomLevel.Value;
-                        ClsView.mY -= flMouseY * ClsView.mScale / HScrollBar_ZoomLevel.Value;
+                        float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
+                        float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
+                        ComponentOpenGL.mX -= flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
+                        ComponentOpenGL.mY -= flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
 
                         HScrollBar_ZoomLevel.Value += 1;
                     }
@@ -1081,10 +1081,10 @@ namespace PrjHikariwoAnim
                     //以下、画面縮小処理
                     if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
                     {
-                        float flMouseX = ClsView.CameraPosX2WorldPosX(e.X);
-                        float flMouseY = ClsView.CameraPosY2WorldPosY(e.Y);
-                        ClsView.mX += flMouseX * ClsView.mScale / HScrollBar_ZoomLevel.Value;
-                        ClsView.mY += flMouseY * ClsView.mScale / HScrollBar_ZoomLevel.Value;
+                        float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
+                        float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
+                        ComponentOpenGL.mX += flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
+                        ComponentOpenGL.mY += flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
 
                         HScrollBar_ZoomLevel.Value -= 1;
                     }
@@ -1185,8 +1185,8 @@ namespace PrjHikariwoAnim
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                ClsView.mX += e.X - this.mPosMouseOld.X;
-                ClsView.mY += e.Y - this.mPosMouseOld.Y;
+                ComponentOpenGL.mX += e.X - this.mPosMouseOld.X;
+                ComponentOpenGL.mY += e.Y - this.mPosMouseOld.Y;
                 this.mPosMouseOld.X = e.X;
                 this.mPosMouseOld.Y = e.Y;
             }
@@ -1463,8 +1463,8 @@ namespace PrjHikariwoAnim
 
         private void panel_PreView_Resize(object sender, EventArgs e)
         {
-            ClsView.mWidth = this.userControlOpenGL.Width;
-            ClsView.mHeight = this.userControlOpenGL.Height;
+            ComponentOpenGL.mWidth = this.userControl_OpenGL.Width;
+            ComponentOpenGL.mHeight = this.userControl_OpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)
