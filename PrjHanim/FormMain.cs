@@ -1066,28 +1066,32 @@ namespace PrjHikariwoAnim
                 if (e.Delta > 0)
                 {
                     //以下、画面拡大処理
+                    /*
                     if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
                     {
                         float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
                         float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mX -= flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
-                        ComponentOpenGL.mY -= flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
+                        ComponentOpenGL.mCanvas.X -= (int)(flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.Y -= (int)(flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
 
                         HScrollBar_ZoomLevel.Value += 1;
                     }
+                    */
                 }
                 else if (e.Delta < 0)
                 {
                     //以下、画面縮小処理
+                    /*
                     if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
                     {
                         float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
                         float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mX += flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
-                        ComponentOpenGL.mY += flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value;
+                        ComponentOpenGL.mCanvas.X += (int)(flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.Y += (int)(flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
 
                         HScrollBar_ZoomLevel.Value -= 1;
                     }
+                    */
                 }
 
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1185,8 +1189,8 @@ namespace PrjHikariwoAnim
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                ComponentOpenGL.mX += e.X - this.mPosMouseOld.X;
-                ComponentOpenGL.mY += e.Y - this.mPosMouseOld.Y;
+                ComponentOpenGL.mCanvas.X += e.X - this.mPosMouseOld.X;
+                ComponentOpenGL.mCanvas.Y += e.Y - this.mPosMouseOld.Y;
                 this.mPosMouseOld.X = e.X;
                 this.mPosMouseOld.Y = e.Y;
             }
@@ -1463,8 +1467,8 @@ namespace PrjHikariwoAnim
 
         private void panel_PreView_Resize(object sender, EventArgs e)
         {
-            ComponentOpenGL.mWidth = this.userControl_OpenGL.Width;
-            ComponentOpenGL.mHeight = this.userControl_OpenGL.Height;
+            ComponentOpenGL.mCanvas.Width = this.userControl_OpenGL.Width;
+            ComponentOpenGL.mCanvas.Height = this.userControl_OpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)

@@ -14,10 +14,9 @@ namespace PrjHikariwoAnim
     public partial class ComponentOpenGL : UserControl
     {
         public static float mScale;
-        public static float mX;
-        public static float mY;
-        public static int mWidth;
-        public static int mHeight;
+        public static Rectangle mCanvas;
+
+        public static uint[] texture;
 
         #region Fields
         //
@@ -34,10 +33,7 @@ namespace PrjHikariwoAnim
 
             //以下、初期化処理
             ComponentOpenGL.mScale = 1.0f;
-            ComponentOpenGL.mX = 0.0f;
-            ComponentOpenGL.mY = 0.0f;
-            ComponentOpenGL.mWidth = this.Width;
-            ComponentOpenGL.mHeight = this.Height;
+            ComponentOpenGL.mCanvas = new Rectangle(0, 0, this.Width, this.Height);
         }
 
         /// <summary>
@@ -55,8 +51,26 @@ namespace PrjHikariwoAnim
   			this.SetStyle(ControlStyles.ResizeRedraw, true);
   
   			SetupPixelFormat();	//ピクセルフォーマットの設定
-  			SetupOpenGL();		//OpenGLの初期設定
-  		}
+  			SetupOpenGL();      //OpenGLの初期設定
+
+
+
+
+            texture = new uint[6];
+
+            Bitmap image = new Bitmap("D:\\GameDev\\PrjHikariwo\\PrjHanim\\PrjHanim\\test2.png");
+            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            System.Drawing.Imaging.BitmapData bitmapdata;
+            Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
+
+            bitmapdata = image.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            Gl.glGenTextures(1, texture);
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
+            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, (int)Gl.GL_RGB8, image.Width, image.Height, 0, Gl.GL_BGR_EXT, Gl.GL_UNSIGNED_BYTE, bitmapdata.Scan0);
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
+        }
   
   		/// <summary>
   		/// ピクセルフォーマットの設定をする
@@ -113,8 +127,11 @@ namespace PrjHikariwoAnim
   			Gl.glDepthFunc(Gl.GL_LEQUAL);
   
   			//スムースシェイディング
-  			Gl.glShadeModel(Gl.GL_SMOOTH);	
-  		}
+  			Gl.glShadeModel(Gl.GL_SMOOTH);
+
+            //以下、テクスチャー表示有効化設定
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+        }
   
   		/// <summary>
   		/// 後片付け
@@ -133,7 +150,7 @@ namespace PrjHikariwoAnim
   		{
   			//レンダリングコンテキストをカレントにする
   			Wgl.wglMakeCurrent(this.hDC, this.hRC);
-  
+
   			//バッファをクリア
   			Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
 
@@ -148,32 +165,16 @@ namespace PrjHikariwoAnim
                 int inX = -(this.Height - this.Width) / 2;
                 Gl.glViewport(inX, 0, this.Height, this.Height);
             }
-  
-  			//射影行列の設定
-  			Gl.glMatrixMode(Gl.GL_PROJECTION);
+
+            //射影行列の設定
+            Gl.glMatrixMode(Gl.GL_PROJECTION);
   			Gl.glLoadIdentity();
-  
+
   			//モデルビュー行列の設定
   			Gl.glMatrixMode(Gl.GL_MODELVIEW);
   			Gl.glLoadIdentity();
 
-            //以下、グリッドライン描画処理
-            Gl.glBegin(Gl.GL_LINES);
-
-            Gl.glColor3f(1.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(-1.0f, 0.0f, 0.0f);
-
-            Gl.glColor3f(1.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(1.0f, 0.0f, 0.0f);
-
-            Gl.glColor3f(1.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(0.0f, -1.0f, 0.0f);
-
-            Gl.glColor3f(1.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(0.0f, 1.0f, 0.0f);
-
-            Gl.glEnd();
-
+            /*
             //三角形を描画
             Gl.glBegin(Gl.GL_TRIANGLES);
 
@@ -187,10 +188,66 @@ namespace PrjHikariwoAnim
   			Gl.glVertex3f(1.0f, 1.0f, 0.0f);
 
   			Gl.glEnd();
+            */
 
             //以下、中心ライン描画処理
+            float flXL = ComponentOpenGL.WorldPosX2CameraPosX(-50.0f);
+            float flXR = ComponentOpenGL.WorldPosX2CameraPosX(50.0f);
+            float flYU = ComponentOpenGL.WorldPosY2CameraPosY(-50.0f);
+            float flYD = ComponentOpenGL.WorldPosY2CameraPosY(50.0f);
 
-            //以下、グリッド表示処理
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
+
+            Gl.glBegin(Gl.GL_POLYGON);
+
+            Gl.glColor3f(1.0f, 1.0f, 1.0f);
+            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
+            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
+
+            Gl.glEnd();
+            Gl.glFlush();
+
+
+
+
+
+            Gl.glBegin(Gl.GL_LINES);
+
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(flXL, 0.0f, 0.0f);
+            Gl.glVertex3f(flXR, 0.0f, 0.0f);
+            Gl.glVertex3f(0.0f, flYU, 0.0f);
+            Gl.glVertex3f(0.0f, flYD, 0.0f);
+
+            Gl.glEnd();
+
+            /*
+            //以下、グリッドライン表示処理
+            Gl.glBegin(Gl.GL_LINES);
+
+            Gl.glColor3f(0.0f, 1.0f, 0.0f);
+            Gl.glVertex3f(-1.0f, -0.95f, 0.0f);
+            Gl.glVertex3f(1.0f, -0.95f, 0.0f);
+            Gl.glVertex3f(-0.95f, -1.0f, 0.0f);
+            Gl.glVertex3f(-0.95f, 1.0f, 0.0f);
+
+            Gl.glEnd();
+
+
+
+            Gl.glBegin(Gl.GL_LINE_STRIP);
+
+            Gl.glColor3f(0.0f, 1.0f, 0.0f);
+            Gl.glVertex3f(0.5f, 0.95f, 0.0f);
+            Gl.glVertex3f(0.95f, 0.95f, 0.0f);
+            Gl.glVertex3f(0.95f, 0.5f, 0.0f);
+            Gl.glVertex3f(0.5f, 0.5f, 0.0f);
+            Gl.glVertex3f(0.5f, 0.95f, 0.0f);
+
+            Gl.glEnd();
+            */
 
             //以下、各エレメント表示処理
 
@@ -205,7 +262,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosX2CameraPosX(float flPosX)
         {
-            float flPosXNew = ComponentOpenGL.mX + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mWidth / 2;
+            float flPosXNew = ComponentOpenGL.mCanvas.X + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Width / 2;
             return (flPosXNew);
         }
 
@@ -216,7 +273,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosY2CameraPosY(float flPosY)
         {
-            float flPosYNew = ComponentOpenGL.mY + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mHeight / 2;
+            float flPosYNew = ComponentOpenGL.mCanvas.Y + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Height / 2;
             return (flPosYNew);
         }
 
@@ -225,21 +282,25 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="flPosX">Ｘ座標</param>
         /// <returns>ワールド座標</returns>
+        /*
         public static float CameraPosX2WorldPosX(float flPosX)
         {
-            float flPosXNew = (flPosX - ComponentOpenGL.mWidth / 2 - ComponentOpenGL.mX) / ComponentOpenGL.mScale;
+            float flPosXNew = (flPosX - ComponentOpenGL.mWidth / 2 - ComponentOpenGL.mCanvasX) / ComponentOpenGL.mScale;
             return (flPosXNew);
         }
+        */
 
         /// <summary>
         /// カメラ座標系からワールド座標系に変換する
         /// </summary>
         /// <param name="inPosY">Ｙ座標</param>
         /// <returns>ワールド座標</returns>
+        /*
         public static float CameraPosY2WorldPosY(float flPosY)
         {
-            float flPosYNew = (flPosY - ComponentOpenGL.mHeight / 2 - ComponentOpenGL.mY) / ComponentOpenGL.mScale;
+            float flPosYNew = (flPosY - ComponentOpenGL.mHeight / 2 - ComponentOpenGL.mCanvasY) / ComponentOpenGL.mScale;
             return (flPosYNew);
         }
+        */
     }
 }
