@@ -334,12 +334,13 @@ namespace PrjHikariwoAnim
         }
         private void AlingForms()
         {
-            //AllForm Alingment
+            // AllForm Alingment
+
             //フォームをメイン基準で並べる
             //アトリビュート
             this.mFormAttribute.Location = new Point(Location.X + Width, Location.Y);
             this.mFormControl.Location   = new Point(Location.X, Location.Y + Height);
-            this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y + Height);
+            this.mFormCell.Location      = new Point(Location.X - this.mFormCell.Width, Location.Y);
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
@@ -1467,8 +1468,8 @@ namespace PrjHikariwoAnim
 
         private void panel_PreView_Resize(object sender, EventArgs e)
         {
-            ComponentOpenGL.mCanvas.Width = this.userControl_OpenGL.Width;
-            ComponentOpenGL.mCanvas.Height = this.userControl_OpenGL.Height;
+            ComponentOpenGL.mCanvas.Width = this.componentOpenGL.Width;
+            ComponentOpenGL.mCanvas.Height = this.componentOpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)

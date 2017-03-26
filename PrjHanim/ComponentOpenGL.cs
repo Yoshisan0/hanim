@@ -13,6 +13,8 @@ namespace PrjHikariwoAnim
 {
     public partial class ComponentOpenGL : UserControl
     {
+        public static float mCenterX;
+        public static float mCenterY;
         public static float mScale;
         public static Rectangle mCanvas;
 
@@ -32,6 +34,8 @@ namespace PrjHikariwoAnim
             InitializeComponent();
 
             //以下、初期化処理
+            ComponentOpenGL.mCenterX = 0.0f;
+            ComponentOpenGL.mCenterY = 0.0f;
             ComponentOpenGL.mScale = 1.0f;
             ComponentOpenGL.mCanvas = new Rectangle(0, 0, this.Width, this.Height);
         }
@@ -174,28 +178,13 @@ namespace PrjHikariwoAnim
   			Gl.glMatrixMode(Gl.GL_MODELVIEW);
   			Gl.glLoadIdentity();
 
-            /*
-            //三角形を描画
-            Gl.glBegin(Gl.GL_TRIANGLES);
+            //以下、中心座標変換処理
+            float flCX = ComponentOpenGL.WorldPosX2CameraPosX(ComponentOpenGL.mCenterX);
+            float flCY = ComponentOpenGL.WorldPosY2CameraPosY(ComponentOpenGL.mCenterY);
 
-  			Gl.glColor3f(1.0f, 0.0f, 0.0f);
-  			Gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            //以下、各エレメント表示処理
 
-  			Gl.glColor3f(0.0f, 1.0f, 0.0f);
-  			Gl.glVertex3f(0.0f, 1.0f, 0.0f);
-
-  			Gl.glColor3f(0.0f, 0.0f, 1.0f);
-  			Gl.glVertex3f(1.0f, 1.0f, 0.0f);
-
-  			Gl.glEnd();
-            */
-
-            //以下、中心ライン描画処理
-            float flXL = ComponentOpenGL.WorldPosX2CameraPosX(-50.0f);
-            float flXR = ComponentOpenGL.WorldPosX2CameraPosX(50.0f);
-            float flYU = ComponentOpenGL.WorldPosY2CameraPosY(-50.0f);
-            float flYD = ComponentOpenGL.WorldPosY2CameraPosY(50.0f);
-
+            /*  プリミティブ描画テスト
             Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
 
             Gl.glBegin(Gl.GL_POLYGON);
@@ -208,48 +197,21 @@ namespace PrjHikariwoAnim
 
             Gl.glEnd();
             Gl.glFlush();
+            */
 
-
-
-
+            //以下、中心ライン描画処理
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
 
             Gl.glBegin(Gl.GL_LINES);
 
             Gl.glColor3f(1.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(flXL, 0.0f, 0.0f);
-            Gl.glVertex3f(flXR, 0.0f, 0.0f);
-            Gl.glVertex3f(0.0f, flYU, 0.0f);
-            Gl.glVertex3f(0.0f, flYD, 0.0f);
+            Gl.glVertex3f(flCX, -1.0f, 0.0f);
+            Gl.glVertex3f(flCX, 1.0f, 0.0f);
+            Gl.glVertex3f(-1.0f, flCY, 0.0f);
+            Gl.glVertex3f(1.0f, flCY, 0.0f);
 
             Gl.glEnd();
-
-            /*
-            //以下、グリッドライン表示処理
-            Gl.glBegin(Gl.GL_LINES);
-
-            Gl.glColor3f(0.0f, 1.0f, 0.0f);
-            Gl.glVertex3f(-1.0f, -0.95f, 0.0f);
-            Gl.glVertex3f(1.0f, -0.95f, 0.0f);
-            Gl.glVertex3f(-0.95f, -1.0f, 0.0f);
-            Gl.glVertex3f(-0.95f, 1.0f, 0.0f);
-
-            Gl.glEnd();
-
-
-
-            Gl.glBegin(Gl.GL_LINE_STRIP);
-
-            Gl.glColor3f(0.0f, 1.0f, 0.0f);
-            Gl.glVertex3f(0.5f, 0.95f, 0.0f);
-            Gl.glVertex3f(0.95f, 0.95f, 0.0f);
-            Gl.glVertex3f(0.95f, 0.5f, 0.0f);
-            Gl.glVertex3f(0.5f, 0.5f, 0.0f);
-            Gl.glVertex3f(0.5f, 0.95f, 0.0f);
-
-            Gl.glEnd();
-            */
-
-            //以下、各エレメント表示処理
+            Gl.glFlush();
 
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
@@ -262,7 +224,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosX2CameraPosX(float flPosX)
         {
-            float flPosXNew = ComponentOpenGL.mCanvas.X + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Width / 2;
+            float flPosXNew = 0.0f; // ComponentOpenGL.mCanvas.X + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Width / 2;
             return (flPosXNew);
         }
 
@@ -273,7 +235,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosY2CameraPosY(float flPosY)
         {
-            float flPosYNew = ComponentOpenGL.mCanvas.Y + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Height / 2;
+            float flPosYNew = 0.0f; // ComponentOpenGL.mCanvas.Y + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Height / 2;
             return (flPosYNew);
         }
 

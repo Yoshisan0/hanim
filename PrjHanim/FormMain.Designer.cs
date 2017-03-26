@@ -88,7 +88,7 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
-            this.userControl_OpenGL = new PrjHikariwoAnim.ComponentOpenGL();
+            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip.SuspendLayout();
@@ -662,7 +662,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.userControl_OpenGL);
+            this.splitContainer1.Panel2.Controls.Add(this.componentOpenGL);
             this.splitContainer1.Panel2.Controls.Add(this.panel_ToolBase);
             this.splitContainer1.Size = new System.Drawing.Size(684, 427);
             this.splitContainer1.SplitterDistance = 133;
@@ -735,13 +735,15 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
-            // userControl_OpenGL
+            // componentOpenGL
             // 
-            this.userControl_OpenGL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userControl_OpenGL.Location = new System.Drawing.Point(0, 30);
-            this.userControl_OpenGL.Name = "userControl_OpenGL";
-            this.userControl_OpenGL.Size = new System.Drawing.Size(548, 397);
-            this.userControl_OpenGL.TabIndex = 5;
+            this.componentOpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
+            this.componentOpenGL.Name = "componentOpenGL";
+            this.componentOpenGL.Size = new System.Drawing.Size(543, 391);
+            this.componentOpenGL.TabIndex = 5;
             // 
             // SubMenu_Prpject
             // 
@@ -854,7 +856,7 @@
         private System.Windows.Forms.ToolStripMenuItem partsFormInMainToolStripMenuItem;
         private System.Windows.Forms.Panel panel_chip;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugOpenGL;
-        private ComponentOpenGL userControl_OpenGL;
+        private ComponentOpenGL componentOpenGL;
     }
 }
 
