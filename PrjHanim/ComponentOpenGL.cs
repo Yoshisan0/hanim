@@ -59,10 +59,10 @@ namespace PrjHikariwoAnim
 
 
 
-
+            /*
             texture = new uint[6];
 
-            Bitmap image = new Bitmap("D:\\GameDev\\PrjHikariwo\\PrjHanim\\PrjHanim\\test2.png");
+            Bitmap image = new Bitmap("test2.png");
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
             System.Drawing.Imaging.BitmapData bitmapdata;
             Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
@@ -74,6 +74,7 @@ namespace PrjHikariwoAnim
             Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, (int)Gl.GL_RGB8, image.Width, image.Height, 0, Gl.GL_BGR_EXT, Gl.GL_UNSIGNED_BYTE, bitmapdata.Scan0);
             Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
             Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
+            */
         }
   
   		/// <summary>
@@ -184,21 +185,6 @@ namespace PrjHikariwoAnim
 
             //以下、各エレメント表示処理
 
-            /*  プリミティブ描画テスト
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
-
-            Gl.glBegin(Gl.GL_POLYGON);
-
-            Gl.glColor3f(1.0f, 1.0f, 1.0f);
-            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
-            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
-
-            Gl.glEnd();
-            Gl.glFlush();
-            */
-
             //以下、中心ライン描画処理
             Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
 
@@ -213,6 +199,36 @@ namespace PrjHikariwoAnim
             Gl.glEnd();
             Gl.glFlush();
 
+            //以下、矩形ライン描画テスト
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
+
+            Gl.glBegin(Gl.GL_LINES);
+
+            Gl.glColor3f(0.0f, 1.0f, 0.0f);
+            Gl.glVertex3f(0.0f, -1.0f, 0.0f);
+            Gl.glVertex3f(0.0f, 1.0f, 0.0f);
+            Gl.glVertex3f(-1.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(1.0f, 0.0f, 0.0f);
+
+            Gl.glEnd();
+            Gl.glFlush();
+
+            /*
+            //プリミティブ描画テスト
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
+
+            Gl.glBegin(Gl.GL_POLYGON);
+
+            Gl.glColor3f(1.0f, 1.0f, 1.0f);
+            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
+            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
+
+            Gl.glEnd();
+            Gl.glFlush();
+            */
+
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
   		}
@@ -224,7 +240,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosX2CameraPosX(float flPosX)
         {
-            float flPosXNew = 0.0f; // ComponentOpenGL.mCanvas.X + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Width / 2;
+            float flPosXNew = flPosX; // ComponentOpenGL.mCanvas.X + flPosX * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Width / 2;
             return (flPosXNew);
         }
 
@@ -235,7 +251,7 @@ namespace PrjHikariwoAnim
         /// <returns>カメラ座標</returns>
         public static float WorldPosY2CameraPosY(float flPosY)
         {
-            float flPosYNew = 0.0f; // ComponentOpenGL.mCanvas.Y + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Height / 2;
+            float flPosYNew = flPosY; // ComponentOpenGL.mCanvas.Y + flPosY * ComponentOpenGL.mScale + ComponentOpenGL.mCanvas.Height / 2;
             return (flPosYNew);
         }
 
