@@ -33,6 +33,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_DebugSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,7 +112,8 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabel,
-            this.StatusLabel2});
+            this.StatusLabel2,
+            this.toolStripStatusLabel_DebugSize});
             this.statusStrip.Location = new System.Drawing.Point(0, 451);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(684, 22);
@@ -129,6 +131,12 @@
             this.StatusLabel2.Name = "StatusLabel2";
             this.StatusLabel2.Size = new System.Drawing.Size(32, 17);
             this.StatusLabel2.Text = "Pos2";
+            // 
+            // toolStripStatusLabel_DebugSize
+            // 
+            this.toolStripStatusLabel_DebugSize.Name = "toolStripStatusLabel_DebugSize";
+            this.toolStripStatusLabel_DebugSize.Size = new System.Drawing.Size(172, 17);
+            this.toolStripStatusLabel_DebugSize.Text = "toolStripStatusLabel_DebugSize";
             // 
             // timerMain
             // 
@@ -742,7 +750,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(543, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(545, 391);
             this.componentOpenGL.TabIndex = 5;
             // 
             // SubMenu_Prpject
@@ -857,6 +865,7 @@
         private System.Windows.Forms.Panel panel_chip;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugOpenGL;
         private ComponentOpenGL componentOpenGL;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DebugSize;
     }
 }
 

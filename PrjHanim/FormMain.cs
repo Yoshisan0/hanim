@@ -384,8 +384,11 @@ namespace PrjHikariwoAnim
         }
         private void FormMain_Resize(object sender, EventArgs e)
         {
-//            panel_PreView.Refresh();
+            //panel_PreView.Refresh();
+
+            this.toolStripStatusLabel_DebugSize.Text = "Width=" + this.componentOpenGL.Width + " Height=" + this.componentOpenGL.Height;
         }
+
         /// 終了処理
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -413,8 +416,12 @@ namespace PrjHikariwoAnim
         }
         private void CheckButton_Changed(object sender, EventArgs e)
         {
-//            panel_PreView.Refresh();
+            //panel_PreView.Refresh();
+            this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
+            this.componentOpenGL.mGridVisible = this.checkBox_GridCheck.Checked;
+            this.componentOpenGL.Refresh();
         }
+
         private void timerMain_Tick(object sender, EventArgs e)
         {
             if (this.mFormControl != null)
@@ -440,11 +447,11 @@ namespace PrjHikariwoAnim
         }
         private void ZoomLevel_ValueChanged(object sender, EventArgs e)
         {
-            ComponentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
+            //this.panel_PreView.Refresh();
+            this.componentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
+            this.componentOpenGL.Refresh();
 
-//            this.panel_PreView.Refresh();
-
-            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + ComponentOpenGL.mScale;
+            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + this.componentOpenGL.mScale;
         }
 
         //TreeView_Project
@@ -1190,8 +1197,6 @@ namespace PrjHikariwoAnim
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                ComponentOpenGL.mCanvas.X += e.X - this.mPosMouseOld.X;
-                ComponentOpenGL.mCanvas.Y += e.Y - this.mPosMouseOld.Y;
                 this.mPosMouseOld.X = e.X;
                 this.mPosMouseOld.Y = e.Y;
             }
@@ -1463,13 +1468,15 @@ namespace PrjHikariwoAnim
 
         private void numericUpDown_Grid_ValueChanged(object sender, EventArgs e)
         {
-//            this.panel_PreView.Refresh();
+            //this.panel_PreView.Refresh();
+            this.componentOpenGL.mGridSpan = (int)this.numericUpDown_Grid.Value;
+            this.componentOpenGL.Refresh();
         }
 
         private void panel_PreView_Resize(object sender, EventArgs e)
         {
-            ComponentOpenGL.mCanvas.Width = this.componentOpenGL.Width;
-            ComponentOpenGL.mCanvas.Height = this.componentOpenGL.Height;
+            this.componentOpenGL.mCanvasWidth = this.componentOpenGL.Width;
+            this.componentOpenGL.mCanvasHeight = this.componentOpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)

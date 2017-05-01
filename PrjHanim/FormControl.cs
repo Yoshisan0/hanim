@@ -413,6 +413,8 @@ namespace PrjHikariwoAnim
 
         private void panel_Time_MouseDown(object sender, MouseEventArgs e)
         {
+            if (this.mMotion == null) return;
+
             int cx = e.X / FormControl.CELL_WIDTH;
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
