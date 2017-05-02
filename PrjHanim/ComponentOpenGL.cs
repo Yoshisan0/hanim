@@ -143,7 +143,7 @@ namespace PrjHikariwoAnim
             this.mCanvasHeight = this.Height;
             this.mCrossBarVisible = true;
             this.mGridVisible = true;
-            this.mGridSpan = 10.0f;
+            this.mGridSpan = 16.0f;
         }
   
   		/// <summary>

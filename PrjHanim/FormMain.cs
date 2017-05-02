@@ -414,12 +414,17 @@ namespace PrjHikariwoAnim
             //以下、終了処理
             ClsSystem.Exit();
         }
-        private void CheckButton_Changed(object sender, EventArgs e)
+
+        private void SetOpenGLStatus(object sender, EventArgs e)
         {
-            //panel_PreView.Refresh();
             this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
             this.componentOpenGL.mGridVisible = this.checkBox_GridCheck.Checked;
+            this.componentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / FormMain.PAR_ZOOM;
+            this.componentOpenGL.mCanvasWidth = this.componentOpenGL.Width;
+            this.componentOpenGL.mCanvasHeight = this.componentOpenGL.Height;
             this.componentOpenGL.Refresh();
+
+            this.StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + this.componentOpenGL.mScale;
         }
 
         private void timerMain_Tick(object sender, EventArgs e)
@@ -444,14 +449,6 @@ namespace PrjHikariwoAnim
 
             this.ToolStripMenuItem_Control.Checked = (this.mFormControl != null);
             this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
-        }
-        private void ZoomLevel_ValueChanged(object sender, EventArgs e)
-        {
-            //this.panel_PreView.Refresh();
-            this.componentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / PAR_ZOOM;
-            this.componentOpenGL.Refresh();
-
-            StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + this.componentOpenGL.mScale;
         }
 
         //TreeView_Project
@@ -1471,12 +1468,6 @@ namespace PrjHikariwoAnim
             //this.panel_PreView.Refresh();
             this.componentOpenGL.mGridSpan = (int)this.numericUpDown_Grid.Value;
             this.componentOpenGL.Refresh();
-        }
-
-        private void panel_PreView_Resize(object sender, EventArgs e)
-        {
-            this.componentOpenGL.mCanvasWidth = this.componentOpenGL.Width;
-            this.componentOpenGL.mCanvasHeight = this.componentOpenGL.Height;
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)
