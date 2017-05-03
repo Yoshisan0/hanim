@@ -22,8 +22,6 @@ namespace PrjHikariwoAnim
         public bool mGridVisible;
         public float mGridSpan;
 
-        public uint[] texture;
-
         #region Fields
         //
         // Fields
@@ -54,25 +52,6 @@ namespace PrjHikariwoAnim
   
   			SetupPixelFormat();	//ピクセルフォーマットの設定
   			SetupOpenGL();      //OpenGLの初期設定
-
-
-
-            /*
-            texture = new uint[6];
-
-            Bitmap image = new Bitmap("test2.png");
-            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            System.Drawing.Imaging.BitmapData bitmapdata;
-            Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
-
-            bitmapdata = image.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            Gl.glGenTextures(1, texture);
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
-            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, (int)Gl.GL_RGB8, image.Width, image.Height, 0, Gl.GL_BGR_EXT, Gl.GL_UNSIGNED_BYTE, bitmapdata.Scan0);
-            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
-            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
-            */
         }
 
   		/// <summary>
@@ -134,6 +113,10 @@ namespace PrjHikariwoAnim
 
             //以下、テクスチャー表示有効化設定
             Gl.glEnable(Gl.GL_TEXTURE_2D);
+
+            //以下、テクスチャー設定
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
 
             //以下、初期化処理
             this.mCenterX = 0;
@@ -227,26 +210,14 @@ namespace PrjHikariwoAnim
             Gl.glFlush();
             */
 
-            /*
-            //プリミティブ描画テスト
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
-
-            Gl.glBegin(Gl.GL_POLYGON);
-
-            Gl.glColor3f(1.0f, 1.0f, 1.0f);
-            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
-            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
-
-            Gl.glEnd();
-            Gl.glFlush();
-            */
-
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
   		}
 
+        /// <summary>
+        /// 中心ライン描画処理
+        /// </summary>
+        /// <param name="stCol">中心ラインの色</param>
         public void DrawCrossBarLine(Color stCol)
         {
             int inWidth = (int)this.mCanvasWidth;
@@ -259,6 +230,11 @@ namespace PrjHikariwoAnim
             this.DrawLine(stCol, -inWidth / 2, this.mCenterY, inWidth / 2, this.mCenterY);
         }
 
+        /// <summary>
+        /// グリッドライン描画処理
+        /// </summary>
+        /// <param name="stCol">グリッドラインの色</param>
+        /// <param name="flGridSpan">グリッドラインの間隔</param>
         public void DrawGridLine(Color stCol, float flGridSpan)
         {
             int inWidth = (int)this.mCanvasWidth;
@@ -291,6 +267,14 @@ namespace PrjHikariwoAnim
             }
         }
 
+        /// <summary>
+        /// 線分描画処理
+        /// </summary>
+        /// <param name="stCol">線分の色</param>
+        /// <param name="flX1">線分始点Ｘ座標</param>
+        /// <param name="flY1">線分始点Ｙ座標</param>
+        /// <param name="flX2">線分終点Ｘ座標</param>
+        /// <param name="flY2">線分終点Ｙ座標</param>
         public void DrawLine(Color stCol, float flX1, float flY1, float flX2, float flY2)
         {
             //以下、テクスチャー初期化処理
@@ -309,8 +293,47 @@ namespace PrjHikariwoAnim
             Gl.glFlush();
         }
 
-        public void DrawImage(int inX, int inY, int inW, int inH)
+        /// <summary>
+        /// 画像描画処理
+        /// </summary>
+        /// <param name="uinTexNo">テクスチャー番号</param>
+        /// <param name="inX">Ｘ座標</param>
+        /// <param name="inY">Ｙ座標</param>
+        /// <param name="inW">幅</param>
+        /// <param name="inH">高さ</param>
+        public void DrawImage(uint uinTexNo, int inX, int inY, int inW, int inH)
         {
+            //以下、テクスチャー設定
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, uinTexNo);
+
+            //以下、色設定処理
+            Gl.glColor3f(1.0f, 1.0f, 1.0f);
+
+            //以下、ポリゴン描画処理
+            Gl.glBegin(Gl.GL_POLYGON);
+            
+            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
+            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
+
+            Gl.glEnd();
+            Gl.glFlush();
+
+            /*
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, texture[0]);
+
+            Gl.glBegin(Gl.GL_POLYGON);
+
+            Gl.glColor3f(1.0f, 1.0f, 1.0f);
+            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
+            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
+            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
+
+            Gl.glEnd();
+            Gl.glFlush();
+            */
         }
     }
 }

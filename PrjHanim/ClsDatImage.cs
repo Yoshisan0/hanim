@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using System.Xml;
+using System.Drawing.Imaging;
+using Tao.OpenGl;
 
 namespace PrjHikariwoAnim
 {
@@ -10,8 +12,8 @@ namespace PrjHikariwoAnim
         public string mPath;        //ファイルパス（画像 or カット画像の場合は元画像パス）
         public ClsDatRect mRect;    //切り取り情報（null:元画像 null以外:カット画像）
         public Image mImgOrigin;    //オリジナル画像
-        public Image mImgBig;       //拡大画像
         public Image mImgSmall;     //縮小画像
+        public uint[] mListTex;     //OpenGLで管理するイメージ
 
         /// <summary>
         /// コンストラクタ
@@ -22,8 +24,8 @@ namespace PrjHikariwoAnim
             this.mPath = null;
             this.mRect = null;
             this.mImgOrigin = null;
-            this.mImgBig = null;
             this.mImgSmall = null;
+            this.mListTex = new uint[6];
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace PrjHikariwoAnim
         public void SetImage(Image clImage)
         {
             this.mImgOrigin = clImage;
-            ClsDatImage.CreateImage(clImage, ref this.mImgBig, ref this.mImgSmall);
+            this.CreateImage(clImage, ref this.mImgSmall);
         }
 
         /// <summary>
@@ -58,12 +60,6 @@ namespace PrjHikariwoAnim
                 this.mImgOrigin = null;
             }
 
-            if (this.mImgBig != null)
-            {
-                this.mImgBig.Dispose();
-                this.mImgBig = null;
-            }
-
             if (this.mImgSmall != null)
             {
                 this.mImgSmall.Dispose();
@@ -75,36 +71,12 @@ namespace PrjHikariwoAnim
         /// イメージ作成処理
         /// </summary>
         /// <param name="clImageSrc">オリジナル画像</param>
-        /// <param name="clImageBig">拡大画像</param>
         /// <param name="clImageSmall">縮小画像</param>
-        private static void CreateImage(Image clImageSrc, ref Image clImageBig, ref Image clImageSmall)
+        private void CreateImage(Image clImageSrc, ref Image clImageSmall)
         {
             Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);
 
-            clImageBig = new Bitmap(128, 128);
-            using (Graphics g = Graphics.FromImage(clImageBig))
-            {
-                int inWidth, inHeight;
-                if (clImageSrc.Width == clImageSrc.Height)
-                {
-                    inWidth = 128;
-                    inHeight = 128;
-                }
-                else if (clImageSrc.Width < clImageSrc.Height)
-                {
-                    inWidth = clImageSrc.Width * 128 / clImageSrc.Height;
-                    inHeight = 128;
-                }
-                else
-                {
-                    inWidth = 128;
-                    inHeight = clImageSrc.Height * 128 / clImageSrc.Width;
-                }
-
-                Rectangle stRectDst = new Rectangle((128 - inWidth) / 2, (128 - inHeight) / 2, inWidth, inHeight);
-                g.DrawImage(clImageSrc, stRectDst, stRectSrc, GraphicsUnit.Pixel);
-            }
-
+            //以下、縮小画像作成処理
             clImageSmall = new Bitmap(32, 32);
             using (Graphics g = Graphics.FromImage(clImageSmall))
             {
@@ -128,6 +100,15 @@ namespace PrjHikariwoAnim
                 Rectangle stRectDst = new Rectangle((32 - inWidth) / 2, (32 - inHeight) / 2, inWidth, inHeight);
                 g.DrawImage(clImageSrc, stRectDst, stRectSrc, GraphicsUnit.Pixel);
             }
+
+            //以下、OpenGL用の画像を作成する処理
+            Bitmap clBitmap = clImageSrc as Bitmap;
+            clBitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            Rectangle stRect = new Rectangle(0, 0, clBitmap.Width, clBitmap.Height);
+            BitmapData clBitmapData = clBitmap.LockBits(stRect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            Gl.glGenTextures(1, this.mListTex);
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, this.mListTex[0]);
+            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, (int)Gl.GL_RGB8, clBitmap.Width, clBitmap.Height, 0, Gl.GL_BGR_EXT, Gl.GL_UNSIGNED_BYTE, clBitmapData.Scan0);
         }
 
         /// <summary>
