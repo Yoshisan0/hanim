@@ -457,15 +457,15 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// プレビュー上のパーツの描画処理
         /// </summary>
-        /// <param name="g">描画管理クラス</param>
-        public void DrawPreview(Graphics g)
+        /// <param name="clGL">OpenGLコンポーネント</param>
+        public void DrawPreview(ComponentOpenGL clGL)
         {
             //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(g);
+                clElem.DrawPreview(clGL);
             }
         }
 

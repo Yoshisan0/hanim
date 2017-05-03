@@ -102,13 +102,15 @@ namespace PrjHikariwoAnim
             }
 
             //以下、OpenGL用の画像を作成する処理
-            Bitmap clBitmap = clImageSrc as Bitmap;
+            Bitmap clBitmap = (Bitmap)clImageSrc.Clone();
             clBitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             Rectangle stRect = new Rectangle(0, 0, clBitmap.Width, clBitmap.Height);
-            BitmapData clBitmapData = clBitmap.LockBits(stRect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData clBitmapData = clBitmap.LockBits(stRect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             Gl.glGenTextures(1, this.mListTex);
             Gl.glBindTexture(Gl.GL_TEXTURE_2D, this.mListTex[0]);
-            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, (int)Gl.GL_RGB8, clBitmap.Width, clBitmap.Height, 0, Gl.GL_BGR_EXT, Gl.GL_UNSIGNED_BYTE, clBitmapData.Scan0);
+            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, Gl.GL_RGBA8, clBitmap.Width, clBitmap.Height, 0, Gl.GL_BGRA, Gl.GL_UNSIGNED_BYTE, clBitmapData.Scan0);
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_NEAREST);
+            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_NEAREST);
         }
 
         /// <summary>

@@ -74,6 +74,7 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowMain.mSize;
 
             //以下、コントロール初期化処理
+            this.componentOpenGL.MouseWheel += new MouseEventHandler(this.componentOpenGL_MouseWheel);
             this.checkBox_GridCheck.Checked = ClsSystem.mSetting.mWindowMain_DrawGird;
             this.checkBox_CrossBar.Checked = ClsSystem.mSetting.mWindowMain_DrawCross;
             this.checkBox_CellList.Checked = ClsSystem.mSetting.mWindowMain_CellList;
@@ -413,7 +414,10 @@ namespace PrjHikariwoAnim
         private void RefreshViewer(object sender, EventArgs e)
         {
             this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
+            this.componentOpenGL.mCrossColor = ClsSystem.mSetting.mMainColorCenterLine;
             this.componentOpenGL.mGridVisible = this.checkBox_GridCheck.Checked;
+            this.componentOpenGL.mGridColor = ClsSystem.mSetting.mMainColorGrid;
+            this.componentOpenGL.mGridSpan = (int)this.numericUpDown_Grid.Value;
             this.componentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / FormMain.PAR_ZOOM;
             this.componentOpenGL.mCanvasWidth = this.componentOpenGL.Width;
             this.componentOpenGL.mCanvasHeight = this.componentOpenGL.Height;
@@ -920,40 +924,7 @@ namespace PrjHikariwoAnim
         }
         */
 
-        //----------------------------------------------------------------
-        //
-        //  2017/05/03 comment by yoshi
-        //  以下、旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定
-        //
-        //----------------------------------------------------------------
-
-        /// <summary>
-        /// モーション描画処理
-        /// </summary>
-        /// <param name="g"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void DrawPreview(Graphics g)
-        {
-            //表示の仕方も悩む　親もマーク表示するか　等
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
-            {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.DrawPreview(g);
-            }
-        }
-
-        /// <summary>
-        /// ドラッグアンドドロップ処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_DragDrop(object sender, DragEventArgs e)
+        private void componentOpenGL_DragDrop(object sender, DragEventArgs e)
         {
 //            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
             Point sPos = new Point(0, 0);
@@ -1032,7 +1003,7 @@ namespace PrjHikariwoAnim
                         //以下、エレメント追加
                         ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
                         ClsDatImage clDatImage = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
-//                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                        //                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
                         Point a = new Point(0, 0);
                         this.AddElement(clDatMotion, clDatImage, a.X, a.Y);
                     }
@@ -1057,15 +1028,7 @@ namespace PrjHikariwoAnim
             this.RefreshViewer(sender, e);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_DragEnter(object sender, DragEventArgs e)
+        private void componentOpenGL_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.None;
             //Drop受け入れ準備
@@ -1081,18 +1044,137 @@ namespace PrjHikariwoAnim
             {
                 e.Effect = DragDropEffects.Copy;
             }
-
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
+        private void componentOpenGL_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.mMouseDownL = false;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                this.mMouseDownL = true;
+                this.mPosMouseOld = new Point(e.X, e.Y);
+
+                //アイテム検索
+                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+                if (isExist)
+                {
+                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                    /* こういう風にする？
+                    ClsDatElem clElem = clMotion.FindElemFromPosition((int)stPosX, (int)stPosY);
+                    if(clElem!= null)
+                    {
+                    }
+                    */
+
+                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2016/01/09
+                    this.SetNowElementsIndex(clMotion.EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
+                    ELEMENTS nowEle = clMotion.EditFrame.GetActiveElements();
+
+                    //Item選択中なら移動変形処理等の準備
+                    if (nowEle != null)
+                    {
+                        mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
+                        mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
+                    }
+
+                    this.mMouseLDown = true;
+                    this.panel_PreView.Refresh();
+                    this.treeView_Project.Refresh();
+                    this.mFormControl.Refresh();
+                    */
+                }
+            }
+        }
+
+        private void componentOpenGL_MouseMove(object sender, MouseEventArgs e)
+        {
+            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
+            if (this.mMouseDownL)
+            {
+                this.mPosMouseOld.X = e.X;
+                this.mPosMouseOld.Y = e.Y;
+            }
+
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+            if (isExist)
+            {
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+
+                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
+                if (nowEle != null)
+                {
+                    //移動処理
+                    if (mMouseLDown)
+                    {
+                        if (nowEle != null)
+                        {
+                            //+CTRL マウスでの回転 左周りにしかなってない
+                            if (mKeysSP == Keys.Control)
+                            {
+                                int w = (int)nowEle.Atr.Radius.Z + ((int)stPosX - mMouseDownPoint.X) / 4;
+                                if (w < 0)
+                                {
+                                    //右回転
+                                    w = 360 + (w % 360);
+                                    nowEle.Atr.Radius.Z = w;
+                                }
+                                else
+                                {
+                                    //左回転
+                                    w %= 360;
+                                    nowEle.Atr.Radius.Z = w;
+                                }
+                                //別キーも押されていれば別軸回転 等(将来)
+                            }
+                            //if( mKeysSP==Keys.Alt) //将来用
+                            else
+                            {
+                                //移動
+                                //差分加算
+                                mDragState = DragState.Move;
+                                nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
+                                nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
+                                //mFormAttribute.SetAllParam(nowEle.Atr);
+                            }
+                        }
+                        else
+                        {
+                            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
+                            mDragState = DragState.Scroll;
+                            mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
+                            mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
+                        }
+                        mFormAttribute.SetAllParam(nowEle.Atr);
+                        panel_PreView.Refresh();
+                    }
+                }
+                
+                StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
+                StatusLabel2.Text = $" [Select:{ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
+                */
+            }
+
+            this.RefreshViewer(sender, e);
+        }
+
+        private void componentOpenGL_MouseUp(object sender, MouseEventArgs e)
+        {
+            //releaseMouse
+            //mMouseLDown = false;
+            //mMouseMDown = false;
+            //mMouseRDown = false;
+            //mDragState = DragState.none;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                this.mMouseDownL = false;
+                this.mPosMouseOld = Point.Empty;
+            }
+        }
+
+        private void componentOpenGL_MouseWheel(object sender, MouseEventArgs e)
         {
             try
             {
@@ -1176,166 +1258,12 @@ namespace PrjHikariwoAnim
             }
         }
 
+        /*
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
-        {
-            this.mMouseDownL = false;
-
-            if (e.Button == MouseButtons.Left)
-            {
-                this.mMouseDownL = true;
-                this.mPosMouseOld = new Point(e.X, e.Y);
-
-                //アイテム検索
-                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                if (isExist)
-                {
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    /* こういう風にする？
-                    ClsDatElem clElem = clMotion.FindElemFromPosition((int)stPosX, (int)stPosY);
-                    if(clElem!= null)
-                    {
-                    }
-                    */
-
-                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2016/01/09
-                    this.SetNowElementsIndex(clMotion.EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
-                    ELEMENTS nowEle = clMotion.EditFrame.GetActiveElements();
-
-                    //Item選択中なら移動変形処理等の準備
-                    if (nowEle != null)
-                    {
-                        mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
-                        mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
-                    }
-
-                    this.mMouseLDown = true;
-                    this.panel_PreView.Refresh();
-                    this.treeView_Project.Refresh();
-                    this.mFormControl.Refresh();
-                    */
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
-        {
-            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
-            if (this.mMouseDownL)
-            {
-                this.mPosMouseOld.X = e.X;
-                this.mPosMouseOld.Y = e.Y;
-            }
-
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
-            {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
-                if (nowEle != null)
-                {
-                    //移動処理
-                    if (mMouseLDown)
-                    {
-                        if (nowEle != null)
-                        {
-                            //+CTRL マウスでの回転 左周りにしかなってない
-                            if (mKeysSP == Keys.Control)
-                            {
-                                int w = (int)nowEle.Atr.Radius.Z + ((int)stPosX - mMouseDownPoint.X) / 4;
-                                if (w < 0)
-                                {
-                                    //右回転
-                                    w = 360 + (w % 360);
-                                    nowEle.Atr.Radius.Z = w;
-                                }
-                                else
-                                {
-                                    //左回転
-                                    w %= 360;
-                                    nowEle.Atr.Radius.Z = w;
-                                }
-                                //別キーも押されていれば別軸回転 等(将来)
-                            }
-                            //if( mKeysSP==Keys.Alt) //将来用
-                            else
-                            {
-                                //移動
-                                //差分加算
-                                mDragState = DragState.Move;
-                                nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
-                                nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
-                                //mFormAttribute.SetAllParam(nowEle.Atr);
-                            }
-                        }
-                        else
-                        {
-                            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
-                            mDragState = DragState.Scroll;
-                            mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
-                            mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
-                        }
-                        mFormAttribute.SetAllParam(nowEle.Atr);
-                        panel_PreView.Refresh();
-                    }
-                }
-                
-                StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
-                StatusLabel2.Text = $" [Select:{ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
-                */
-            }
-
-//            this.panel_PreView.Refresh();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
-        {
-            //releaseMouse
-            //mMouseLDown = false;
-            //mMouseMDown = false;
-            //mMouseRDown = false;
-            //mDragState = DragState.none;
-
-            if (e.Button == MouseButtons.Left)
-            {
-                this.mMouseDownL = false;
-                this.mPosMouseOld = Point.Empty;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
-        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //previewKey
@@ -1384,12 +1312,7 @@ namespace PrjHikariwoAnim
                 //clMotion.RemoveElem(inElementKey);
             }
         }
-
-//----------------------------------------------------------------
-//
-//  ここまで
-//
-//----------------------------------------------------------------
+        */
 
         /// <summary>
         /// エディット中の選択エレメントをインデックス指定と関連画面更新
@@ -1474,8 +1397,7 @@ namespace PrjHikariwoAnim
             DialogResult enResult = clFormSetting.ShowDialog();
             if (enResult != DialogResult.OK) return;
 
-            //以下、設定処理
-//ここで背景色を変えたり、グリッド色を変えたりする？
+            this.RefreshViewer(sender, e);
         }
 
         private void ToolStripMenuItem_DebugSave_Click(object sender, EventArgs e)
@@ -1528,13 +1450,6 @@ namespace PrjHikariwoAnim
                 mFormCell.Dock = DockStyle.None;
                 mFormCell.TopLevel = true;                
             }
-        }
-
-        private void numericUpDown_Grid_ValueChanged(object sender, EventArgs e)
-        {
-            //this.panel_PreView.Refresh();
-            this.componentOpenGL.mGridSpan = (int)this.numericUpDown_Grid.Value;
-            this.componentOpenGL.Refresh();
         }
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)

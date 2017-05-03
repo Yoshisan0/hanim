@@ -13,14 +13,17 @@ namespace PrjHikariwoAnim
 {
     public partial class ComponentOpenGL : UserControl
     {
-        public float mCenterX;
-        public float mCenterY;
-        public float mScale;
-        public float mCanvasWidth;
-        public float mCanvasHeight;
-        public bool mCrossBarVisible;
-        public bool mGridVisible;
-        public float mGridSpan;
+        public Color mBackColor = Color.Black;
+        public float mCenterX = 0.0f;
+        public float mCenterY = 0.0f;
+        public float mScale = 1.0f;
+        public bool mCrossBarVisible = true;
+        public Color mCrossColor = Color.Red;
+        public bool mGridVisible = true;
+        public Color mGridColor = Color.Green;
+        public float mGridSpan = 16.0f;
+        public float mCanvasWidth = 800.0f;
+        public float mCanvasHeight = 600.0f;
 
         #region Fields
         //
@@ -101,32 +104,26 @@ namespace PrjHikariwoAnim
   		/// </summary>
   		private void SetupOpenGL()
   		{
-  			//バッファをクリアする色
-  			Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  
-  			//深度テストを有効
+            //以下、初期化処理
+            this.mCanvasWidth = this.Width;
+            this.mCanvasHeight = this.Height;
+
+            //以下、背景色初期化処理
+            Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
+
+  			//以下、深度テストを有効化
   			Gl.glEnable(Gl.GL_DEPTH_TEST);
   			Gl.glDepthFunc(Gl.GL_LEQUAL);
-  
-  			//スムースシェイディング
-  			Gl.glShadeModel(Gl.GL_SMOOTH);
+
+            //以下、半透明設定
+            Gl.glEnable(Gl.GL_BLEND);
+            Gl.glBlendFunc(Gl.GL_SRC_ALPHA, Gl.GL_ONE_MINUS_SRC_ALPHA);
+
+            //以下、スムースシェイディング設定
+            Gl.glShadeModel(Gl.GL_SMOOTH);
 
             //以下、テクスチャー表示有効化設定
             Gl.glEnable(Gl.GL_TEXTURE_2D);
-
-            //以下、テクスチャー設定
-            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
-            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);   // Gl.GL_POINT);
-
-            //以下、初期化処理
-            this.mCenterX = 0;
-            this.mCenterY = 0;
-            this.mScale = 1.0f;
-            this.mCanvasWidth = this.Width;
-            this.mCanvasHeight = this.Height;
-            this.mCrossBarVisible = true;
-            this.mGridVisible = true;
-            this.mGridSpan = 16.0f;
         }
   
   		/// <summary>
@@ -152,10 +149,13 @@ namespace PrjHikariwoAnim
             //レンダリングコンテキストをカレントにする
             Wgl.wglMakeCurrent(this.hDC, this.hRC);
 
-            //バッファをクリア
+            //以下、背景色設定処理
+            Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
+
+            //以下、バッファをクリアする処理
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
 
-            //以下、ビューポートの設定
+            //以下、ビューポートの設定処理
             Gl.glViewport(0, 0, inWidth, inHeight);
             /*
             if (this.Width > this.Height)
@@ -170,7 +170,7 @@ namespace PrjHikariwoAnim
             }
             */
 
-            //射影行列の設定
+            //以下、射影行列の設定処理
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
             Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, -1.0, 1.0);
@@ -182,16 +182,25 @@ namespace PrjHikariwoAnim
             //以下、グリッドライン描画処理
             if (this.mGridVisible)
             {
-                this.DrawGridLine(Color.Green, this.mGridSpan * this.mScale);
+                this.DrawGridLine(this.mGridColor, this.mGridSpan * this.mScale);
             }
 
             //以下、中心ライン描画処理
             if (this.mCrossBarVisible)
             {
-                this.DrawCrossBarLine(Color.Red);
+                this.DrawCrossBarLine(this.mCrossColor);
             }
 
-            //以下、各エレメント表示処理
+            //以下、モーション描画処理
+            if (ClsSystem.mDicMotion != null)
+            {
+                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+                if (isExist)
+                {
+                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                    clMotion.DrawPreview(this);
+                }
+            }
 
             /*
             //以下、矩形ライン描画テスト（グリーンの矩形）
@@ -294,28 +303,41 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 画像描画処理
+        /// テクスチャー設定処理
         /// </summary>
         /// <param name="uinTexNo">テクスチャー番号</param>
+        public void SetTexture(uint uinTexNo)
+        {
+            //以下、テクスチャー設定
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, uinTexNo);
+        }
+
+        /// <summary>
+        /// 色設定処理
+        /// </summary>
+        /// <param name="stColor">色</param>
+        public void SetColor(Color stColor)
+        {
+            //以下、色設定処理
+            Gl.glColor3f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f);
+        }
+
+        /// <summary>
+        /// ポリゴン描画処理
+        /// </summary>
         /// <param name="inX">Ｘ座標</param>
         /// <param name="inY">Ｙ座標</param>
         /// <param name="inW">幅</param>
         /// <param name="inH">高さ</param>
-        public void DrawImage(uint uinTexNo, int inX, int inY, int inW, int inH)
+        public void DrawPolygon(int inX, int inY, int inW, int inH)
         {
-            //以下、テクスチャー設定
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, uinTexNo);
-
-            //以下、色設定処理
-            Gl.glColor3f(1.0f, 1.0f, 1.0f);
-
             //以下、ポリゴン描画処理
             Gl.glBegin(Gl.GL_POLYGON);
             
-            Gl.glTexCoord2f(0, 0); Gl.glVertex2f(-0.9f, -0.9f);
-            Gl.glTexCoord2f(0, 1); Gl.glVertex2f(-0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 1); Gl.glVertex2f(0.9f, 0.9f);
-            Gl.glTexCoord2f(1, 0); Gl.glVertex2f(0.9f, -0.9f);
+            Gl.glTexCoord2f(0, 0); Gl.glVertex3f(inX, inY, 0.0f);
+            Gl.glTexCoord2f(0, 1); Gl.glVertex3f(inX, inY + inH, 0.0f);
+            Gl.glTexCoord2f(1, 1); Gl.glVertex3f(inX + inW, inY + inH, 0.0f);
+            Gl.glTexCoord2f(1, 0); Gl.glVertex3f(inX + inW, inY, 0.0f);
 
             Gl.glEnd();
             Gl.glFlush();

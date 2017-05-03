@@ -702,137 +702,159 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// パーツの描画処理
         /// </summary>
-        /// <param name="g">描画管理クラス</param>
-        public void DrawPreview(Graphics g)
+        /// <param name="clGL">OpenGLコンポーネント</param>
+        public void DrawPreview(ComponentOpenGL clGL)
         {
-            ClsDatAttr atr = this.mAttrInit;
+            ClsDatAttr clAttr = this.mAttrInit;
 
-            Matrix Back = g.Transform;
-            Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
-
-            //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
-
-            //スケールにあわせた部品の大きさを算出
-            float flWidth = atr.Width * 1.0f/*ComponentOpenGL.mScale*/ * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
-            float flHeight = atr.Height * 1.0f/*ComponentOpenGL.mScale*/ * atr.Scale.Y;// * zoom;//SizeY
-
-            //パーツの中心点
-            float pcx = atr.Position.X + atr.Offset.X;
-            float pcy = atr.Position.X + atr.Offset.X;
-            Color Col = Color.FromArgb(atr.Color);
-
-            //カラーマトリックス作成
-            System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
-            if (atr.isColor)
+            bool isExist = ClsSystem.mDicImage.ContainsKey(this.mImageKey);
+            if (isExist)
             {
-                colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
-                colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
-                colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
-            }
-            else
-            {
-                colmat.Matrix00 = 1;//Red
-                colmat.Matrix11 = 1;//Green
-                colmat.Matrix22 = 1;//Blue
-            }
-            if (atr.isTransparrency)
-            {
-                colmat.Matrix33 = (atr.Transparency / 100f);
-            }
-            else
-            {
-                colmat.Matrix33 = 1;
-            }
-            colmat.Matrix44 = 1;//w
-            System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
-            ia.SetColorMatrix(colmat);
-
-            //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
-            ClsDatImage c = ClsSystem.mDicImage[this.mImageKey];
-            if (c == null) { Console.WriteLine("Image:null"); return; }
-
-            //原点を部品中心に
-            //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
-            //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
-
-            /*
-            //中心に平行移動
-            float flX = ClsView.WorldPosX2CameraPosX((int)(atr.Position.X + atr.Offset.X));
-            float flY = ClsView.WorldPosY2CameraPosY((int)(atr.Position.Y + atr.Offset.Y));
-            g.TranslateTransform(flX, flY);
-            */
-
-            //回転角指定
-            g.RotateTransform(atr.Radius.Z);
-
-            //スケーリング調
-            g.ScaleTransform(atr.Scale.X, atr.Scale.Y);
-            //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
-
-            //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
-            //MatObj.Translate(0, 0);
-            //MatObj.Scale(atr.Scale.X,atr.Scale.Y,MatrixOrder.Append);
-            //MatObj.Rotate(atr.Radius.X,MatrixOrder.Append);
-            //MatObj.Translate((vcx + atr.Position.X + (atr.Width / 2)) * atr.Scale.Y, (vcy + atr.Position.Y + (atr.Height / 2)) * atr.Scale.Y,MatrixOrder.Append);
-
-            //g.TranslateTransform(vcx, vcy);
-            //描画
-
-            //g.DrawImage(c.Img,
-            //    -(atr.Width  * atr.Scale.X * zoom )/2,
-            //    -(atr.Height * atr.Scale.Y * zoom )/2,
-            //    vsx,vsy);
-            //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
-            //g.Transform = MatObj;
-
-            //Draw
-            float flPosX = atr.Position.X + atr.Offset.X;
-            float flPosY = atr.Position.Y + atr.Offset.Y;
-            if (atr.isTransparrency || atr.isColor)
-            {
-                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight), 0, 0, c.mImgOrigin.Width, c.mImgOrigin.Height, GraphicsUnit.Pixel, ia);
-            }
-            else
-            {
-                //透明化カラー補正なし
-                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight));
-            }
-
-/*
-            //Draw Helper
-            if (checkBox_Helper.Checked)
-            {
-                //中心点やその他のサポート表示
-                //CenterPosition
-                g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
-
-                //Selected DrawBounds
-                if (e.isSelect)
+                ClsDatImage clImage = ClsSystem.mDicImage[this.mImageKey];
+                if (clImage != null)
                 {
-                    g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
-                }
-                //test Hit範囲をボックス描画
-                //ElementsType
-                if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
-                {
-                    g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
-                }
-                if (e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
-                {
-                    g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
+                    //以下、テクスチャー設定
+                    clGL.SetTexture(clImage.mListTex[0]);
+
+                    //以下、色設定
+                    clGL.SetColor(Color.White);
+
+                    //以下、ポリゴン描画
+                    clGL.DrawPolygon(0, 0, clImage.mImgOrigin.Width, clImage.mImgOrigin.Height);
                 }
             }
-*/
-            g.Transform = Back;//restore Matrix
 
-            //Cuurent Draw Grip
+//            ClsDatAttr atr = this.mAttrInit;
+//
+//            Matrix Back = g.Transform;
+//            Matrix MatObj = new Matrix();//今はgのMatrixを使っているので未使用
+//
+//            //以後 将来親子関係が付く場合は親をあわせた処理にする事となる
+//
+//            //スケールにあわせた部品の大きさを算出
+//            float flWidth = atr.Width * 1.0f/*ComponentOpenGL.mScale*/ * atr.Scale.X;// * zoom;//SizeX 画面ズームは1段手前でmatrixで行っている
+//            float flHeight = atr.Height * 1.0f/*ComponentOpenGL.mScale*/ * atr.Scale.Y;// * zoom;//SizeY
+//
+//            //パーツの中心点
+//            float pcx = atr.Position.X + atr.Offset.X;
+//            float pcy = atr.Position.X + atr.Offset.X;
+//            Color Col = Color.FromArgb(atr.Color);
+//
+//            //カラーマトリックス作成
+//            System.Drawing.Imaging.ColorMatrix colmat = new System.Drawing.Imaging.ColorMatrix();
+//            if (atr.isColor)
+//            {
+//                colmat.Matrix00 = (float)(Col.R * (atr.ColorRate / 100f));//Red  Col.R * Col.Rate
+//                colmat.Matrix11 = (float)(Col.G * (atr.ColorRate / 100f));//Green
+//                colmat.Matrix22 = (float)(Col.B * (atr.ColorRate / 100f));//Blue
+//            }
+//            else
+//            {
+//                colmat.Matrix00 = 1;//Red
+//                colmat.Matrix11 = 1;//Green
+//                colmat.Matrix22 = 1;//Blue
+//            }
+//            if (atr.isTransparrency)
+//            {
+//                colmat.Matrix33 = (atr.Transparency / 100f);
+//            }
+//            else
+//            {
+//                colmat.Matrix33 = 1;
+//            }
+//            colmat.Matrix44 = 1;//w
+//            System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
+//            ia.SetColorMatrix(colmat);
+//
+//            //Cell画像存在確認 画像の無いサポート部品の場合もありえるかも
+//            ClsDatImage c = ClsSystem.mDicImage[this.mImageKey];
+//            if (c == null) { Console.WriteLine("Image:null"); return; }
+//
+//            //原点を部品中心に
+//            //g.TranslateTransform(   vcx + (atr.Position.X + atr.Width/2)  * atr.Scale.X *zoom,
+//            //                        vcy + (atr.Position.Y + atr.Height/2) * atr.Scale.Y *zoom);//部品中心座標か？
+//
+//            /*
+//            //中心に平行移動
+//            float flX = ClsView.WorldPosX2CameraPosX((int)(atr.Position.X + atr.Offset.X));
+//            float flY = ClsView.WorldPosY2CameraPosY((int)(atr.Position.Y + atr.Offset.Y));
+//            g.TranslateTransform(flX, flY);
+//            */
+//
+//            //回転角指定
+//            g.RotateTransform(atr.Radius.Z);
+//
+//            //スケーリング調
+//            g.ScaleTransform(atr.Scale.X, atr.Scale.Y);
+//            //g.TranslateTransform(vcx + (atr.Position.X * atr.Scale.X), vcy + (atr.Position.Y * atr.Scale.Y));
+//
+//            //MatObj.Translate(-(vcx + atr.Position.X +(atr.Width /2))*atr.Scale.X,-(vcy + atr.Position.Y +(atr.Height/2))*atr.Scale.Y,MatrixOrder.Append);
+//            //MatObj.Translate(0, 0);
+//            //MatObj.Scale(atr.Scale.X,atr.Scale.Y,MatrixOrder.Append);
+//            //MatObj.Rotate(atr.Radius.X,MatrixOrder.Append);
+//            //MatObj.Translate((vcx + atr.Position.X + (atr.Width / 2)) * atr.Scale.Y, (vcy + atr.Position.Y + (atr.Height / 2)) * atr.Scale.Y,MatrixOrder.Append);
+//
+//            //g.TranslateTransform(vcx, vcy);
+//            //描画
+//
+//            //g.DrawImage(c.Img,
+//            //    -(atr.Width  * atr.Scale.X * zoom )/2,
+//            //    -(atr.Height * atr.Scale.Y * zoom )/2,
+//            //    vsx,vsy);
+//            //g.DrawImage(c.Img,vcx+ (now.Position.X*zoom)-(vsx/2),vcy+ (now.Position.Y*zoom)-(vsy/2),vsx,vsy);
+//            //g.Transform = MatObj;
+//
+//            /*
+//            //Draw
+//            float flPosX = atr.Position.X + atr.Offset.X;
+//            float flPosY = atr.Position.Y + atr.Offset.Y;
+//            if (atr.isTransparrency || atr.isColor)
+//            {
+//                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight), 0, 0, c.mImgOrigin.Width, c.mImgOrigin.Height, GraphicsUnit.Pixel, ia);
+//            }
+//            else
+//            {
+//                //透明化カラー補正なし
+//                g.DrawImage(c.mImgOrigin, new Rectangle((int)flPosX, (int)flPosY, (int)flWidth, (int)flHeight));
+//            }
+//            */
+//
+//            /*
+//            //Draw Helper
+//            if (checkBox_Helper.Checked)
+//            {
+//                //中心点やその他のサポート表示
+//                //CenterPosition
+//                g.DrawEllipse(Pens.OrangeRed, -4, -4, 8, 8);
+//
+//                //Selected DrawBounds
+//                if (e.isSelect)
+//                {
+//                    g.DrawRectangle(Pens.DarkCyan, atr.Offset.X - (atr.Width * atr.Scale.X) / 2, atr.Offset.Y - (atr.Height * atr.Scale.Y) / 2, vsx - 1, vsy - 1);
+//                }
+//                //test Hit範囲をボックス描画
+//                //ElementsType
+//                if (e.Style == ELEMENTS.ELEMENTSSTYLE.Rect)
+//                {
+//                    g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
+//                }
+//                if (e.Style == ELEMENTS.ELEMENTSSTYLE.Circle)
+//                {
+//                    g.FillEllipse(new SolidBrush(Color.FromArgb(128, Color.Orange)), (-(atr.Width * atr.Scale.X) / 2), (-(atr.Height * atr.Scale.Y) / 2), vsx - 1, vsy - 1);
+//                }
+//            }
+//            */
+//
+//            g.Transform = Back;//restore Matrix
+//
+//            //Cuurent Draw Grip
 
             //以下、子供のエレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(g);
+                clElem.DrawPreview(clGL);
             }
         }
 

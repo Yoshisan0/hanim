@@ -566,7 +566,7 @@
             0,
             0,
             0});
-            this.numericUpDown_Grid.ValueChanged += new System.EventHandler(this.numericUpDown_Grid_ValueChanged);
+            this.numericUpDown_Grid.ValueChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_GridCheck
             // 
@@ -745,13 +745,19 @@
             // 
             // componentOpenGL
             // 
+            this.componentOpenGL.AllowDrop = true;
             this.componentOpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(548, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(551, 391);
             this.componentOpenGL.TabIndex = 5;
+            this.componentOpenGL.DragDrop += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragDrop);
+            this.componentOpenGL.DragEnter += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragEnter);
+            this.componentOpenGL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseDown);
+            this.componentOpenGL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseMove);
+            this.componentOpenGL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseUp);
             // 
             // SubMenu_Prpject
             // 
