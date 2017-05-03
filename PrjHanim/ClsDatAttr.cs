@@ -377,6 +377,18 @@ namespace PrjHikariwoAnim
         }
     }
 
+    public class ClsVector2
+    {
+        public float X;
+        public float Y;
+
+        public ClsVector2(float flX, float flY)
+        {
+            this.X = flX;
+            this.Y = flY;
+        }
+    }
+
     //floatで誤差でるかなぁ・・9/20 amami
     //うーん・・・まぁいいか
 
@@ -591,5 +603,4 @@ namespace PrjHikariwoAnim
             return $"{X},{Y},{Z},";
         }
     }
-
 }

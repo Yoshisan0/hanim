@@ -720,7 +720,22 @@ namespace PrjHikariwoAnim
                     clGL.SetColor(Color.White);
 
                     //以下、ポリゴン描画
-                    clGL.DrawPolygon(0, 0, clImage.mImgOrigin.Width, clImage.mImgOrigin.Height);
+                    if (clImage.mRect == null)
+                    {
+                        clGL.SetUV(0, 0.0f, 0.0f);
+                        clGL.SetUV(1, 0.0f, 1.0f);
+                        clGL.SetUV(2, 1.0f, 1.0f);
+                        clGL.SetUV(3, 1.0f, 0.0f);
+                        clGL.DrawPolygon(clGL.mCenterX, clGL.mCenterY, clImage.mImgOrigin.Width * clGL.mScale, clImage.mImgOrigin.Height * clGL.mScale);
+                    }
+                    else
+                    {
+                        clGL.SetUV(0, 0.0f, 0.0f);
+                        clGL.SetUV(1, 0.0f, 1.0f);
+                        clGL.SetUV(2, 1.0f, 1.0f);
+                        clGL.SetUV(3, 1.0f, 0.0f);
+                        clGL.DrawPolygon(clGL.mCenterX, clGL.mCenterY, clImage.mImgOrigin.Width * clGL.mScale, clImage.mImgOrigin.Height * clGL.mScale);
+                    }
                 }
             }
 

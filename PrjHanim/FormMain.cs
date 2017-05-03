@@ -30,8 +30,6 @@ namespace PrjHikariwoAnim
 
     public partial class FormMain : Form
     {
-        private const float PAR_ZOOM = 10f;//Zoom倍率の固定値
-
         public FormControl mFormControl;
         public FormAttribute mFormAttribute;
         public FormCell mFormCell;
@@ -52,6 +50,7 @@ namespace PrjHikariwoAnim
         //private DragState mDragState = DragState.none;
 
         private Point mPosMouseOld = Point.Empty;
+        private float[] mListScale;
 
         /// <summary>
         /// コンストラクタ
@@ -66,6 +65,8 @@ namespace PrjHikariwoAnim
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            this.mListScale = new float[8] { 0.125f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f, 16.0f };
+
             //以下、システム初期化処理
             ClsSystem.Init();
 
@@ -82,6 +83,7 @@ namespace PrjHikariwoAnim
             this.checkBox_Control.Checked = ClsSystem.mSetting.mWindowMain_Control;
             this.checkBox_Snap.Checked = ClsSystem.mSetting.mWindowMain_GridSnap;
             this.numericUpDown_Grid.Value = ClsSystem.mSetting.mWindowMain_WidthGrid;
+            this.comboBox_Zoom.SelectedIndex = 3;
 
             //以下、TreeNode作成処理
             //初期モーションTreeの追加
@@ -413,17 +415,20 @@ namespace PrjHikariwoAnim
 
         private void RefreshViewer(object sender, EventArgs e)
         {
+            int inIndex = this.comboBox_Zoom.SelectedIndex;
+            if (inIndex < 0 || inIndex >= 8) inIndex = 3;
+
+            this.componentOpenGL.mScale = this.mListScale[inIndex];
             this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
             this.componentOpenGL.mCrossColor = ClsSystem.mSetting.mMainColorCenterLine;
             this.componentOpenGL.mGridVisible = this.checkBox_GridCheck.Checked;
             this.componentOpenGL.mGridColor = ClsSystem.mSetting.mMainColorGrid;
             this.componentOpenGL.mGridSpan = (int)this.numericUpDown_Grid.Value;
-            this.componentOpenGL.mScale = this.HScrollBar_ZoomLevel.Value / FormMain.PAR_ZOOM;
             this.componentOpenGL.mCanvasWidth = this.componentOpenGL.Width;
             this.componentOpenGL.mCanvasHeight = this.componentOpenGL.Height;
             this.componentOpenGL.Refresh();
 
-            this.StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + this.componentOpenGL.mScale;
+            this.StatusLabel2.Text = "zoom=" + this.componentOpenGL.mScale;
             this.toolStripStatusLabel_DebugSize.Text = "Width=" + this.componentOpenGL.Width + " Height=" + this.componentOpenGL.Height;
         }
 
@@ -1181,32 +1186,32 @@ namespace PrjHikariwoAnim
                 if (e.Delta > 0)
                 {
                     //以下、画面拡大処理
-                    /*
-                    if (HScrollBar_ZoomLevel.Value < HScrollBar_ZoomLevel.Maximum)
+                    if (this.comboBox_Zoom.SelectedIndex < 7)
                     {
+                        /*
                         float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
                         float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mCanvas.X -= (int)(flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
-                        ComponentOpenGL.mCanvas.Y -= (int)(flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.X -= (int)(flMouseX * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.Y -= (int)(flMouseY * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        */
 
-                        HScrollBar_ZoomLevel.Value += 1;
+                        this.comboBox_Zoom.SelectedIndex += 1;
                     }
-                    */
                 }
                 else if (e.Delta < 0)
                 {
                     //以下、画面縮小処理
-                    /*
-                    if (HScrollBar_ZoomLevel.Value > HScrollBar_ZoomLevel.Minimum)
+                    if (this.comboBox_Zoom.SelectedIndex > 0)
                     {
+                        /*
                         float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
                         float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mCanvas.X += (int)(flMouseX * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
-                        ComponentOpenGL.mCanvas.Y += (int)(flMouseY * ComponentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.X += (int)(flMouseX * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        ComponentOpenGL.mCanvas.Y += (int)(flMouseY * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        */
 
-                        HScrollBar_ZoomLevel.Value -= 1;
+                        this.comboBox_Zoom.SelectedIndex -= 1;
                     }
-                    */
                 }
 
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);

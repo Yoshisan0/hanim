@@ -67,6 +67,7 @@
             this.ToolStripMenuItem_DebugLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_DebugOpenGL = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_ToolBase = new System.Windows.Forms.Panel();
+            this.comboBox_Zoom = new System.Windows.Forms.ComboBox();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_AlingForm = new System.Windows.Forms.Button();
@@ -75,7 +76,6 @@
             this.checkBox_Control = new System.Windows.Forms.CheckBox();
             this.Spaceer1 = new System.Windows.Forms.Panel();
             this.checkBox_Snap = new System.Windows.Forms.CheckBox();
-            this.HScrollBar_ZoomLevel = new System.Windows.Forms.HScrollBar();
             this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.checkBox_CrossBar = new System.Windows.Forms.CheckBox();
@@ -89,9 +89,9 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
-            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -388,10 +388,10 @@
             // panel_ToolBase
             // 
             this.panel_ToolBase.BackColor = System.Drawing.SystemColors.Control;
+            this.panel_ToolBase.Controls.Add(this.comboBox_Zoom);
             this.panel_ToolBase.Controls.Add(this.checkBox_Helper);
             this.panel_ToolBase.Controls.Add(this.panel1);
             this.panel_ToolBase.Controls.Add(this.checkBox_Snap);
-            this.panel_ToolBase.Controls.Add(this.HScrollBar_ZoomLevel);
             this.panel_ToolBase.Controls.Add(this.numericUpDown_Grid);
             this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
             this.panel_ToolBase.Controls.Add(this.checkBox_CrossBar);
@@ -401,6 +401,27 @@
             this.panel_ToolBase.Name = "panel_ToolBase";
             this.panel_ToolBase.Size = new System.Drawing.Size(548, 30);
             this.panel_ToolBase.TabIndex = 4;
+            // 
+            // comboBox_Zoom
+            // 
+            this.comboBox_Zoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox_Zoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Zoom.FormattingEnabled = true;
+            this.comboBox_Zoom.Items.AddRange(new object[] {
+            "12.5%",
+            "25%",
+            "50%",
+            "100%",
+            "200%",
+            "400%",
+            "800%",
+            "1600%"});
+            this.comboBox_Zoom.Location = new System.Drawing.Point(489, 5);
+            this.comboBox_Zoom.Name = "comboBox_Zoom";
+            this.comboBox_Zoom.Size = new System.Drawing.Size(56, 20);
+            this.comboBox_Zoom.TabIndex = 12;
+            this.comboBox_Zoom.SelectedIndexChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_Helper
             // 
@@ -525,19 +546,6 @@
             this.checkBox_Snap.TabIndex = 7;
             this.toolTipMain.SetToolTip(this.checkBox_Snap, "スナップ");
             this.checkBox_Snap.UseVisualStyleBackColor = false;
-            // 
-            // HScrollBar_ZoomLevel
-            // 
-            this.HScrollBar_ZoomLevel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.HScrollBar_ZoomLevel.LargeChange = 1;
-            this.HScrollBar_ZoomLevel.Location = new System.Drawing.Point(468, 0);
-            this.HScrollBar_ZoomLevel.Maximum = 160;
-            this.HScrollBar_ZoomLevel.Minimum = 1;
-            this.HScrollBar_ZoomLevel.Name = "HScrollBar_ZoomLevel";
-            this.HScrollBar_ZoomLevel.Size = new System.Drawing.Size(80, 30);
-            this.HScrollBar_ZoomLevel.TabIndex = 6;
-            this.HScrollBar_ZoomLevel.Value = 10;
-            this.HScrollBar_ZoomLevel.ValueChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // numericUpDown_Grid
             // 
@@ -743,6 +751,12 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
+            // 
             // componentOpenGL
             // 
             this.componentOpenGL.AllowDrop = true;
@@ -751,19 +765,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(551, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(555, 391);
             this.componentOpenGL.TabIndex = 5;
             this.componentOpenGL.DragDrop += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragDrop);
             this.componentOpenGL.DragEnter += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragEnter);
             this.componentOpenGL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseDown);
             this.componentOpenGL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseMove);
             this.componentOpenGL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseUp);
-            // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 
@@ -819,7 +827,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Attribute;
         private System.Windows.Forms.Panel panel_ToolBase;
         private System.Windows.Forms.CheckBox checkBox_Snap;
-        private System.Windows.Forms.HScrollBar HScrollBar_ZoomLevel;
         private System.Windows.Forms.NumericUpDown numericUpDown_Grid;
         private System.Windows.Forms.CheckBox checkBox_GridCheck;
         private System.Windows.Forms.CheckBox checkBox_CrossBar;
@@ -872,6 +879,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DebugOpenGL;
         private ComponentOpenGL componentOpenGL;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DebugSize;
+        private System.Windows.Forms.ComboBox comboBox_Zoom;
     }
 }
 

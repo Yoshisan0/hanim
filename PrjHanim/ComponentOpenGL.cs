@@ -24,6 +24,7 @@ namespace PrjHikariwoAnim
         public float mGridSpan = 16.0f;
         public float mCanvasWidth = 800.0f;
         public float mCanvasHeight = 600.0f;
+        public ClsVector2[] mListUV;
 
         #region Fields
         //
@@ -37,6 +38,13 @@ namespace PrjHikariwoAnim
         public ComponentOpenGL()
         {
             InitializeComponent();
+
+            //以下、初期化処理
+            this.mListUV = new ClsVector2[4];
+            this.mListUV[0] = new ClsVector2(0.0f, 0.0f);
+            this.mListUV[1] = new ClsVector2(0.0f, 1.0f);
+            this.mListUV[2] = new ClsVector2(1.0f, 1.0f);
+            this.mListUV[3] = new ClsVector2(1.0f, 0.0f);
         }
 
         /// <summary>
@@ -323,21 +331,36 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// UV設定処理
+        /// </summary>
+        /// <param name="inIndex">インデックス</param>
+        /// <param name="flU">Ｕ値</param>
+        /// <param name="flV">Ｖ値</param>
+        public void SetUV(int inIndex, float flU, float flV)
+        {
+            if (inIndex < 0) return;
+            if (inIndex > 3) return;
+
+            this.mListUV[inIndex].X = flU;
+            this.mListUV[inIndex].Y = flV;
+        }
+
+        /// <summary>
         /// ポリゴン描画処理
         /// </summary>
-        /// <param name="inX">Ｘ座標</param>
-        /// <param name="inY">Ｙ座標</param>
-        /// <param name="inW">幅</param>
-        /// <param name="inH">高さ</param>
-        public void DrawPolygon(int inX, int inY, int inW, int inH)
+        /// <param name="flX">Ｘ座標</param>
+        /// <param name="flY">Ｙ座標</param>
+        /// <param name="flW">幅</param>
+        /// <param name="flH">高さ</param>
+        public void DrawPolygon(float flX, float flY, float flW, float flH)
         {
             //以下、ポリゴン描画処理
             Gl.glBegin(Gl.GL_POLYGON);
             
-            Gl.glTexCoord2f(0, 0); Gl.glVertex3f(inX, inY, 0.0f);
-            Gl.glTexCoord2f(0, 1); Gl.glVertex3f(inX, inY + inH, 0.0f);
-            Gl.glTexCoord2f(1, 1); Gl.glVertex3f(inX + inW, inY + inH, 0.0f);
-            Gl.glTexCoord2f(1, 0); Gl.glVertex3f(inX + inW, inY, 0.0f);
+            Gl.glTexCoord2f(this.mListUV[0].X, this.mListUV[0].Y); Gl.glVertex3f(flX - 0.5f, flY + 0.5f, 0.0f);
+            Gl.glTexCoord2f(this.mListUV[1].X, this.mListUV[1].Y); Gl.glVertex3f(flX - 0.5f, flY + flH + 0.5f, 0.0f);
+            Gl.glTexCoord2f(this.mListUV[2].X, this.mListUV[2].Y); Gl.glVertex3f(flX + flW - 0.5f, flY + flH + 0.5f, 0.0f);
+            Gl.glTexCoord2f(this.mListUV[3].X, this.mListUV[3].Y); Gl.glVertex3f(flX + flW - 0.5f, flY + 0.5f, 0.0f);
 
             Gl.glEnd();
             Gl.glFlush();
