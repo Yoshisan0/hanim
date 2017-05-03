@@ -36,14 +36,15 @@ namespace PrjHikariwoAnim
         public FormCell mFormCell;
 
         //以下、OpenGLコンポーネントに引き継ぐための一時保持領域
-        private Point mPosMouseOld = Point.Empty;
+        private Point mPosMouseLOld = Point.Empty;
+        private Point mPosMouseROld = Point.Empty;
         private float[] mListScale = new float[8] { 0.125f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f, 16.0f };   //スケールリスト
         private float mCenterX = 0.0f;  //中心Ｘ座標
         private float mCenterY = 0.0f;  //中心Ｙ座標
 
         //private Point mMouseDownShift;
         private bool mMouseDownL = false;//L
-        //private bool mMouseRDown = false;//R
+        private bool mMouseDownR = false;//R
         //private bool mMouseMDown = false;//M
         private Keys mKeys,mKeysSP;//キー情報 通常キー,スペシャルキー
 
@@ -104,16 +105,16 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
 
             //Ver2
-            mFormCell = new FormCell(this);
+            this.mFormCell = new FormCell(this);
             //mFormCell.TopLevel = false;
             //mFormCell.FormBorderStyle = FormBorderStyle.None;
             //mFormCell.Visible = true;
             //mFormCell.Dock = DockStyle.Fill;
-            mFormCell.Show();
+            this.mFormCell.Show();
             //Panel_Chip.Controls.Add(mFormCell);
 
             //Motion選択状態にする 他フォームの準備完了後
-            listView_Motion.Items[0].Selected = true;
+            this.listView_Motion.Items[0].Selected = true;
             ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
 
             //FileHistory追加
@@ -1059,12 +1060,10 @@ namespace PrjHikariwoAnim
 
         private void componentOpenGL_MouseDown(object sender, MouseEventArgs e)
         {
-            this.mMouseDownL = false;
-
             if (e.Button == MouseButtons.Left)
             {
                 this.mMouseDownL = true;
-                this.mPosMouseOld = new Point(e.X, e.Y);
+                this.mPosMouseLOld = new Point(e.X, e.Y);
 
                 //アイテム検索
                 bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1096,20 +1095,21 @@ namespace PrjHikariwoAnim
                     */
                 }
             }
+            else if (e.Button == MouseButtons.Right)
+            {
+                this.mMouseDownR = true;
+                this.mPosMouseROld = new Point(e.X, e.Y);
+            }
         }
 
         private void componentOpenGL_MouseMove(object sender, MouseEventArgs e)
         {
             bool isRefresh = false;
 
-            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
-                this.mCenterX += e.X - this.mPosMouseOld.X;
-                this.mCenterY -= e.Y - this.mPosMouseOld.Y;
-
-                this.mPosMouseOld.X = e.X;
-                this.mPosMouseOld.Y = e.Y;
+                this.mPosMouseLOld.X = e.X;
+                this.mPosMouseLOld.Y = e.Y;
 
                 isRefresh = true;
             }
@@ -1174,6 +1174,18 @@ namespace PrjHikariwoAnim
                 */
             }
 
+            //以下、スクリーン座標移動処理
+            if (this.mMouseDownR)
+            {
+                this.mCenterX += e.X - this.mPosMouseROld.X;
+                this.mCenterY -= e.Y - this.mPosMouseROld.Y;
+
+                this.mPosMouseROld.X = e.X;
+                this.mPosMouseROld.Y = e.Y;
+
+                isRefresh = true;
+            }
+
             if (isRefresh)
             {
                 this.RefreshViewer(sender, e);
@@ -1191,7 +1203,12 @@ namespace PrjHikariwoAnim
             if (e.Button == MouseButtons.Left)
             {
                 this.mMouseDownL = false;
-                this.mPosMouseOld = Point.Empty;
+                this.mPosMouseLOld = Point.Empty;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                this.mMouseDownR = false;
+                this.mPosMouseROld = Point.Empty;
             }
         }
 

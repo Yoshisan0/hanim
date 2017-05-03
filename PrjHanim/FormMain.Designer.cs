@@ -69,12 +69,10 @@
             this.panel_ToolBase = new System.Windows.Forms.Panel();
             this.comboBox_Zoom = new System.Windows.Forms.ComboBox();
             this.checkBox_Helper = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.button_AlingForm = new System.Windows.Forms.Button();
             this.checkBox_CellList = new System.Windows.Forms.CheckBox();
             this.checkBox_Attribute = new System.Windows.Forms.CheckBox();
             this.checkBox_Control = new System.Windows.Forms.CheckBox();
-            this.Spaceer1 = new System.Windows.Forms.Panel();
             this.checkBox_Snap = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Grid = new System.Windows.Forms.NumericUpDown();
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
@@ -89,13 +87,12 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
-            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).BeginInit();
             this.panel_ProjectTopBase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -390,22 +387,24 @@
             this.panel_ToolBase.BackColor = System.Drawing.SystemColors.Control;
             this.panel_ToolBase.Controls.Add(this.comboBox_Zoom);
             this.panel_ToolBase.Controls.Add(this.checkBox_Helper);
-            this.panel_ToolBase.Controls.Add(this.panel1);
+            this.panel_ToolBase.Controls.Add(this.button_AlingForm);
             this.panel_ToolBase.Controls.Add(this.checkBox_Snap);
+            this.panel_ToolBase.Controls.Add(this.checkBox_CellList);
+            this.panel_ToolBase.Controls.Add(this.checkBox_Attribute);
             this.panel_ToolBase.Controls.Add(this.numericUpDown_Grid);
+            this.panel_ToolBase.Controls.Add(this.checkBox_Control);
             this.panel_ToolBase.Controls.Add(this.checkBox_GridCheck);
             this.panel_ToolBase.Controls.Add(this.checkBox_CrossBar);
             this.panel_ToolBase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_ToolBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ToolBase.Margin = new System.Windows.Forms.Padding(0);
             this.panel_ToolBase.Name = "panel_ToolBase";
-            this.panel_ToolBase.Size = new System.Drawing.Size(548, 30);
+            this.panel_ToolBase.Size = new System.Drawing.Size(550, 36);
             this.panel_ToolBase.TabIndex = 4;
             // 
             // comboBox_Zoom
             // 
-            this.comboBox_Zoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox_Zoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox_Zoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Zoom.FormattingEnabled = true;
             this.comboBox_Zoom.Items.AddRange(new object[] {
@@ -417,7 +416,7 @@
             "400%",
             "800%",
             "1600%"});
-            this.comboBox_Zoom.Location = new System.Drawing.Point(489, 5);
+            this.comboBox_Zoom.Location = new System.Drawing.Point(491, 9);
             this.comboBox_Zoom.Name = "comboBox_Zoom";
             this.comboBox_Zoom.Size = new System.Drawing.Size(56, 20);
             this.comboBox_Zoom.TabIndex = 12;
@@ -429,34 +428,20 @@
             this.checkBox_Helper.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.checkBox_Helper.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.period;
             this.checkBox_Helper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.checkBox_Helper.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Helper.Location = new System.Drawing.Point(302, 0);
+            this.checkBox_Helper.Location = new System.Drawing.Point(260, 3);
             this.checkBox_Helper.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Helper.Name = "checkBox_Helper";
             this.checkBox_Helper.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Helper.TabIndex = 10;
+            this.checkBox_Helper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
             this.checkBox_Helper.UseVisualStyleBackColor = false;
             this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button_AlingForm);
-            this.panel1.Controls.Add(this.checkBox_CellList);
-            this.panel1.Controls.Add(this.checkBox_Attribute);
-            this.panel1.Controls.Add(this.checkBox_Control);
-            this.panel1.Controls.Add(this.Spaceer1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(131, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(171, 30);
-            this.panel1.TabIndex = 8;
-            // 
             // button_AlingForm
             // 
-            this.button_AlingForm.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_AlingForm.Image = global::PrjHikariwoAnim.Properties.Resources.alingment;
-            this.button_AlingForm.Location = new System.Drawing.Point(100, 0);
+            this.button_AlingForm.Location = new System.Drawing.Point(230, 3);
             this.button_AlingForm.Margin = new System.Windows.Forms.Padding(0);
             this.button_AlingForm.Name = "button_AlingForm";
             this.button_AlingForm.Size = new System.Drawing.Size(30, 30);
@@ -471,15 +456,15 @@
             this.checkBox_CellList.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.checkBox_CellList.Checked = true;
             this.checkBox_CellList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CellList.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CellList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CellList.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_CellList.Image = global::PrjHikariwoAnim.Properties.Resources.partslist;
-            this.checkBox_CellList.Location = new System.Drawing.Point(70, 0);
+            this.checkBox_CellList.Location = new System.Drawing.Point(200, 3);
             this.checkBox_CellList.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_CellList.Name = "checkBox_CellList";
             this.checkBox_CellList.Size = new System.Drawing.Size(30, 30);
             this.checkBox_CellList.TabIndex = 4;
+            this.checkBox_CellList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_CellList, "セルフォーム表示");
             this.checkBox_CellList.UseVisualStyleBackColor = false;
             this.checkBox_CellList.CheckedChanged += new System.EventHandler(this.CB_CellList_CheckedChanged);
@@ -490,15 +475,15 @@
             this.checkBox_Attribute.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.checkBox_Attribute.Checked = true;
             this.checkBox_Attribute.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Attribute.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Attribute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Attribute.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_Attribute.Image = global::PrjHikariwoAnim.Properties.Resources.property;
-            this.checkBox_Attribute.Location = new System.Drawing.Point(40, 0);
+            this.checkBox_Attribute.Location = new System.Drawing.Point(169, 3);
             this.checkBox_Attribute.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Attribute.Name = "checkBox_Attribute";
             this.checkBox_Attribute.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Attribute.TabIndex = 3;
+            this.checkBox_Attribute.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_Attribute, "プロパティフォーム表示");
             this.checkBox_Attribute.UseVisualStyleBackColor = false;
             this.checkBox_Attribute.CheckedChanged += new System.EventHandler(this.CB_Attribute_CheckedChanged);
@@ -509,26 +494,18 @@
             this.checkBox_Control.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.checkBox_Control.Checked = true;
             this.checkBox_Control.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Control.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Control.Font = new System.Drawing.Font("MS UI Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.checkBox_Control.Image = global::PrjHikariwoAnim.Properties.Resources.control;
-            this.checkBox_Control.Location = new System.Drawing.Point(10, 0);
+            this.checkBox_Control.Location = new System.Drawing.Point(138, 3);
             this.checkBox_Control.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Control.Name = "checkBox_Control";
             this.checkBox_Control.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Control.TabIndex = 2;
+            this.checkBox_Control.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_Control, "コントロールフォーム表示");
             this.checkBox_Control.UseVisualStyleBackColor = false;
             this.checkBox_Control.CheckedChanged += new System.EventHandler(this.CB_Control_CheckedChanged);
-            // 
-            // Spaceer1
-            // 
-            this.Spaceer1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Spaceer1.Location = new System.Drawing.Point(0, 0);
-            this.Spaceer1.Name = "Spaceer1";
-            this.Spaceer1.Size = new System.Drawing.Size(10, 30);
-            this.Spaceer1.TabIndex = 1;
             // 
             // checkBox_Snap
             // 
@@ -538,21 +515,20 @@
             this.checkBox_Snap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.checkBox_Snap.Checked = true;
             this.checkBox_Snap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Snap.Dock = System.Windows.Forms.DockStyle.Left;
-            this.checkBox_Snap.Location = new System.Drawing.Point(101, 0);
+            this.checkBox_Snap.Location = new System.Drawing.Point(108, 3);
             this.checkBox_Snap.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_Snap.Name = "checkBox_Snap";
             this.checkBox_Snap.Size = new System.Drawing.Size(30, 30);
             this.checkBox_Snap.TabIndex = 7;
+            this.checkBox_Snap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_Snap, "スナップ");
             this.checkBox_Snap.UseVisualStyleBackColor = false;
             // 
             // numericUpDown_Grid
             // 
             this.numericUpDown_Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown_Grid.Dock = System.Windows.Forms.DockStyle.Left;
             this.numericUpDown_Grid.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.numericUpDown_Grid.Location = new System.Drawing.Point(60, 0);
+            this.numericUpDown_Grid.Location = new System.Drawing.Point(66, 5);
             this.numericUpDown_Grid.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDown_Grid.Maximum = new decimal(new int[] {
             64,
@@ -584,13 +560,13 @@
             this.checkBox_GridCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.checkBox_GridCheck.Checked = true;
             this.checkBox_GridCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_GridCheck.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_GridCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_GridCheck.Location = new System.Drawing.Point(30, 0);
+            this.checkBox_GridCheck.Location = new System.Drawing.Point(34, 3);
             this.checkBox_GridCheck.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_GridCheck.Name = "checkBox_GridCheck";
             this.checkBox_GridCheck.Size = new System.Drawing.Size(30, 30);
             this.checkBox_GridCheck.TabIndex = 2;
+            this.checkBox_GridCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
             this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.RefreshViewer);
@@ -598,15 +574,13 @@
             // checkBox_CrossBar
             // 
             this.checkBox_CrossBar.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox_CrossBar.AutoSize = true;
             this.checkBox_CrossBar.BackColor = System.Drawing.Color.Black;
             this.checkBox_CrossBar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.checkBox_CrossBar.Checked = true;
             this.checkBox_CrossBar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CrossBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.checkBox_CrossBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_CrossBar.Image = global::PrjHikariwoAnim.Properties.Resources.cross;
-            this.checkBox_CrossBar.Location = new System.Drawing.Point(0, 0);
+            this.checkBox_CrossBar.Location = new System.Drawing.Point(3, 3);
             this.checkBox_CrossBar.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_CrossBar.Name = "checkBox_CrossBar";
             this.checkBox_CrossBar.Size = new System.Drawing.Size(30, 30);
@@ -637,7 +611,7 @@
             this.panel_ProjectTopBase.Location = new System.Drawing.Point(0, 0);
             this.panel_ProjectTopBase.Margin = new System.Windows.Forms.Padding(0);
             this.panel_ProjectTopBase.Name = "panel_ProjectTopBase";
-            this.panel_ProjectTopBase.Size = new System.Drawing.Size(133, 22);
+            this.panel_ProjectTopBase.Size = new System.Drawing.Size(131, 22);
             this.panel_ProjectTopBase.TabIndex = 0;
             this.panel_ProjectTopBase.Click += new System.EventHandler(this.panel_ProjectTopBase_Click);
             // 
@@ -656,7 +630,7 @@
             // 
             this.button_MotionNew.Dock = System.Windows.Forms.DockStyle.Right;
             this.button_MotionNew.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_MotionNew.Location = new System.Drawing.Point(111, 0);
+            this.button_MotionNew.Location = new System.Drawing.Point(109, 0);
             this.button_MotionNew.Margin = new System.Windows.Forms.Padding(0);
             this.button_MotionNew.Name = "button_MotionNew";
             this.button_MotionNew.Size = new System.Drawing.Size(20, 20);
@@ -681,7 +655,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.componentOpenGL);
             this.splitContainer1.Panel2.Controls.Add(this.panel_ToolBase);
             this.splitContainer1.Size = new System.Drawing.Size(684, 427);
-            this.splitContainer1.SplitterDistance = 133;
+            this.splitContainer1.SplitterDistance = 131;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 6;
             // 
@@ -699,7 +673,7 @@
             this.splitContainerLeft.Panel1.Controls.Add(this.listView_Motion);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel2);
             this.splitContainerLeft.Panel1.Controls.Add(this.panel_MotionList_Base);
-            this.splitContainerLeft.Size = new System.Drawing.Size(133, 427);
+            this.splitContainerLeft.Size = new System.Drawing.Size(131, 427);
             this.splitContainerLeft.SplitterDistance = 369;
             this.splitContainerLeft.SplitterWidth = 5;
             this.splitContainerLeft.TabIndex = 2;
@@ -709,7 +683,7 @@
             this.panel_chip.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_chip.Location = new System.Drawing.Point(0, 170);
             this.panel_chip.Name = "panel_chip";
-            this.panel_chip.Size = new System.Drawing.Size(133, 199);
+            this.panel_chip.Size = new System.Drawing.Size(131, 199);
             this.panel_chip.TabIndex = 5;
             // 
             // listView_Motion
@@ -722,7 +696,7 @@
             this.listView_Motion.Location = new System.Drawing.Point(0, 22);
             this.listView_Motion.MultiSelect = false;
             this.listView_Motion.Name = "listView_Motion";
-            this.listView_Motion.Size = new System.Drawing.Size(133, 148);
+            this.listView_Motion.Size = new System.Drawing.Size(131, 148);
             this.listView_Motion.SmallImageList = this.imageList_Thumb;
             this.listView_Motion.TabIndex = 4;
             this.listView_Motion.UseCompatibleStateImageBehavior = false;
@@ -737,7 +711,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 22);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(133, 0);
+            this.panel2.Size = new System.Drawing.Size(131, 0);
             this.panel2.TabIndex = 3;
             // 
             // panel_MotionList_Base
@@ -748,8 +722,14 @@
             this.panel_MotionList_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_MotionList_Base.Margin = new System.Windows.Forms.Padding(0);
             this.panel_MotionList_Base.Name = "panel_MotionList_Base";
-            this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
+            this.panel_MotionList_Base.Size = new System.Drawing.Size(131, 22);
             this.panel_MotionList_Base.TabIndex = 2;
+            // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // componentOpenGL
             // 
@@ -757,21 +737,15 @@
             this.componentOpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
+            this.componentOpenGL.Location = new System.Drawing.Point(0, 36);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(556, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(551, 391);
             this.componentOpenGL.TabIndex = 5;
             this.componentOpenGL.DragDrop += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragDrop);
             this.componentOpenGL.DragEnter += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragEnter);
             this.componentOpenGL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseDown);
             this.componentOpenGL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseMove);
             this.componentOpenGL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseUp);
-            // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 
@@ -798,8 +772,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel_ToolBase.ResumeLayout(false);
-            this.panel_ToolBase.PerformLayout();
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Grid)).EndInit();
             this.panel_ProjectTopBase.ResumeLayout(false);
             this.panel_ProjectTopBase.PerformLayout();
@@ -831,8 +803,6 @@
         private System.Windows.Forms.CheckBox checkBox_GridCheck;
         private System.Windows.Forms.CheckBox checkBox_CrossBar;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_CellList;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel Spaceer1;
         private System.Windows.Forms.Button button_AlingForm;
         private System.Windows.Forms.Panel panel_ProjectTopBase;
         private System.Windows.Forms.SplitContainer splitContainer1;
