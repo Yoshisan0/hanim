@@ -30,9 +30,16 @@ namespace PrjHikariwoAnim
 
     public partial class FormMain : Form
     {
+        //以下、各種コンポーネント
         public FormControl mFormControl;
         public FormAttribute mFormAttribute;
         public FormCell mFormCell;
+
+        //以下、OpenGLコンポーネントに引き継ぐための一時保持領域
+        private Point mPosMouseOld = Point.Empty;
+        private float[] mListScale = new float[8] { 0.125f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f, 16.0f };   //スケールリスト
+        private float mCenterX = 0.0f;  //中心Ｘ座標
+        private float mCenterY = 0.0f;  //中心Ｙ座標
 
         //private Point mMouseDownShift;
         private bool mMouseDownL = false;//L
@@ -49,9 +56,6 @@ namespace PrjHikariwoAnim
         enum DragState { none,Move, Angle, Scale,Scroll, Joint };
         //private DragState mDragState = DragState.none;
 
-        private Point mPosMouseOld = Point.Empty;
-        private float[] mListScale;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -65,8 +69,6 @@ namespace PrjHikariwoAnim
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            this.mListScale = new float[8] { 0.125f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f, 16.0f };
-
             //以下、システム初期化処理
             ClsSystem.Init();
 
@@ -74,7 +76,11 @@ namespace PrjHikariwoAnim
             this.Location = ClsSystem.mSetting.mWindowMain.mLocation;
             this.Size = ClsSystem.mSetting.mWindowMain.mSize;
 
-            //以下、コントロール初期化処理
+            //以下、TreeNode作成処理
+            //初期モーションTreeの追加
+            ClsDatMotion clMotion = this.AddMotion("DefMotion");
+
+            //以下、コンポーネント初期化処理
             this.componentOpenGL.MouseWheel += new MouseEventHandler(this.componentOpenGL_MouseWheel);
             this.checkBox_GridCheck.Checked = ClsSystem.mSetting.mWindowMain_DrawGird;
             this.checkBox_CrossBar.Checked = ClsSystem.mSetting.mWindowMain_DrawCross;
@@ -85,12 +91,8 @@ namespace PrjHikariwoAnim
             this.numericUpDown_Grid.Value = ClsSystem.mSetting.mWindowMain_WidthGrid;
             this.comboBox_Zoom.SelectedIndex = 3;
 
-            //以下、TreeNode作成処理
-            //初期モーションTreeの追加
-            ClsDatMotion clMotion = this.AddMotion("DefMotion");
-
-            //以下、初期化処理
-//            ClsView.Init(this.panel_PreView);
+            //以下、コントロール初期化処理
+            //ClsView.Init(this.panel_PreView);
 
             this.mFormControl = new FormControl(this);
             this.mFormControl.SetMotion(clMotion);
@@ -98,6 +100,8 @@ namespace PrjHikariwoAnim
 
             this.mFormAttribute = new FormAttribute(this);
             this.mFormAttribute.Show();
+
+            //以下、初期化処理
 
             //Ver2
             mFormCell = new FormCell(this);
@@ -418,6 +422,8 @@ namespace PrjHikariwoAnim
             int inIndex = this.comboBox_Zoom.SelectedIndex;
             if (inIndex < 0 || inIndex >= 8) inIndex = 3;
 
+            this.componentOpenGL.mCenterX = this.mCenterX;
+            this.componentOpenGL.mCenterY = this.mCenterY;
             this.componentOpenGL.mScale = this.mListScale[inIndex];
             this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
             this.componentOpenGL.mCrossColor = ClsSystem.mSetting.mMainColorCenterLine;
@@ -1094,11 +1100,18 @@ namespace PrjHikariwoAnim
 
         private void componentOpenGL_MouseMove(object sender, MouseEventArgs e)
         {
+            bool isRefresh = false;
+
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
             if (this.mMouseDownL)
             {
+                this.mCenterX += e.X - this.mPosMouseOld.X;
+                this.mCenterY -= e.Y - this.mPosMouseOld.Y;
+
                 this.mPosMouseOld.X = e.X;
                 this.mPosMouseOld.Y = e.Y;
+
+                isRefresh = true;
             }
 
             bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
@@ -1161,7 +1174,10 @@ namespace PrjHikariwoAnim
                 */
             }
 
-            this.RefreshViewer(sender, e);
+            if (isRefresh)
+            {
+                this.RefreshViewer(sender, e);
+            }
         }
 
         private void componentOpenGL_MouseUp(object sender, MouseEventArgs e)

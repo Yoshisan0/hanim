@@ -89,9 +89,9 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
+            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -751,12 +751,6 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
             // componentOpenGL
             // 
             this.componentOpenGL.AllowDrop = true;
@@ -765,13 +759,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(555, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(556, 391);
             this.componentOpenGL.TabIndex = 5;
             this.componentOpenGL.DragDrop += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragDrop);
             this.componentOpenGL.DragEnter += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragEnter);
             this.componentOpenGL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseDown);
             this.componentOpenGL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseMove);
             this.componentOpenGL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.componentOpenGL_MouseUp);
+            // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 

@@ -181,11 +181,11 @@ namespace PrjHikariwoAnim
             //以下、射影行列の設定処理
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
-            Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, -1.0, 1.0);
+            Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, 0.0, 1.0);
 
             //モデルビュー行列の設定
-            //Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            //Gl.glLoadIdentity();
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glLoadIdentity();
 
             //以下、グリッドライン描画処理
             if (this.mGridVisible)

@@ -720,13 +720,15 @@ namespace PrjHikariwoAnim
                     clGL.SetColor(Color.White);
 
                     //以下、ポリゴン描画
+                    float flWidth = clImage.mImgOrigin.Width * clGL.mScale;
+                    float flHeight = clImage.mImgOrigin.Height * clGL.mScale;
                     if (clImage.mRect == null)
                     {
                         clGL.SetUV(0, 0.0f, 0.0f);
                         clGL.SetUV(1, 0.0f, 1.0f);
                         clGL.SetUV(2, 1.0f, 1.0f);
                         clGL.SetUV(3, 1.0f, 0.0f);
-                        clGL.DrawPolygon(clGL.mCenterX, clGL.mCenterY, clImage.mImgOrigin.Width * clGL.mScale, clImage.mImgOrigin.Height * clGL.mScale);
+                        clGL.DrawPolygon(clGL.mCenterX - flWidth / 2.0f, clGL.mCenterY - flHeight / 2.0f, flWidth, flHeight);
                     }
                     else
                     {
@@ -734,7 +736,7 @@ namespace PrjHikariwoAnim
                         clGL.SetUV(1, 0.0f, 1.0f);
                         clGL.SetUV(2, 1.0f, 1.0f);
                         clGL.SetUV(3, 1.0f, 0.0f);
-                        clGL.DrawPolygon(clGL.mCenterX, clGL.mCenterY, clImage.mImgOrigin.Width * clGL.mScale, clImage.mImgOrigin.Height * clGL.mScale);
+                        clGL.DrawPolygon(clGL.mCenterX - flWidth / 2.0f, clGL.mCenterY - flHeight / 2.0f, flWidth, flHeight);
                     }
                 }
             }
