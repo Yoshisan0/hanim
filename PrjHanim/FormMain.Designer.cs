@@ -89,9 +89,9 @@
             this.listView_Motion = new System.Windows.Forms.ListView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel_MotionList_Base = new System.Windows.Forms.Panel();
+            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -416,7 +416,7 @@
             this.checkBox_Helper.TabIndex = 10;
             this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
             this.checkBox_Helper.UseVisualStyleBackColor = false;
-            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.SetOpenGLStatus);
+            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // panel1
             // 
@@ -537,7 +537,7 @@
             this.HScrollBar_ZoomLevel.Size = new System.Drawing.Size(80, 30);
             this.HScrollBar_ZoomLevel.TabIndex = 6;
             this.HScrollBar_ZoomLevel.Value = 10;
-            this.HScrollBar_ZoomLevel.ValueChanged += new System.EventHandler(this.SetOpenGLStatus);
+            this.HScrollBar_ZoomLevel.ValueChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // numericUpDown_Grid
             // 
@@ -585,7 +585,7 @@
             this.checkBox_GridCheck.TabIndex = 2;
             this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
-            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.SetOpenGLStatus);
+            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_CrossBar
             // 
@@ -607,7 +607,7 @@
             this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
-            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.SetOpenGLStatus);
+            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // imageList_Thumb
             // 
@@ -743,12 +743,6 @@
             this.panel_MotionList_Base.Size = new System.Drawing.Size(133, 22);
             this.panel_MotionList_Base.TabIndex = 2;
             // 
-            // SubMenu_Prpject
-            // 
-            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
-            this.SubMenu_Prpject.ShowImageMargin = false;
-            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
-            // 
             // componentOpenGL
             // 
             this.componentOpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -756,9 +750,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(3, 33);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(547, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(548, 391);
             this.componentOpenGL.TabIndex = 5;
-            this.componentOpenGL.Resize += new System.EventHandler(this.SetOpenGLStatus);
+            // 
+            // SubMenu_Prpject
+            // 
+            this.SubMenu_Prpject.Name = "SubMenu_Prpject";
+            this.SubMenu_Prpject.ShowImageMargin = false;
+            this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
             // 
             // FormMain
             // 
@@ -779,7 +778,7 @@
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyUp);
-            this.Resize += new System.EventHandler(this.FormMain_Resize);
+            this.Resize += new System.EventHandler(this.RefreshViewer);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);

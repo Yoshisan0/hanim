@@ -227,7 +227,7 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.Init(null);
 
                 //以下、各種ウィンドウ更新処理
-//                this.panel_PreView.Refresh();
+                this.RefreshViewer(sender, e);
                 this.mFormCell.Refresh();
                 this.mFormControl.RefreshAll();
 
@@ -363,6 +363,7 @@ namespace PrjHikariwoAnim
                     //複数同時選択は禁止になってるので選択の0番目のみでOK　のはず
                     int inHash = listView_Motion.SelectedItems[0].GetHashCode();
                     listView_Motion.SelectedItems[0].Remove();
+
                     //mDicMotionからの削除
                     ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
                     clMotion.Remove();
@@ -378,15 +379,9 @@ namespace PrjHikariwoAnim
                     this.mFormControl.SetMotion(null);
                     this.mFormAttribute.Init(null);
 
-//                  this.panel_PreView.Refresh();
+                    this.RefreshViewer(sender, e);
                 }
             }
-        }
-        private void FormMain_Resize(object sender, EventArgs e)
-        {
-            //panel_PreView.Refresh();
-
-            this.toolStripStatusLabel_DebugSize.Text = "Width=" + this.componentOpenGL.Width + " Height=" + this.componentOpenGL.Height;
         }
 
         /// 終了処理
@@ -415,7 +410,7 @@ namespace PrjHikariwoAnim
             ClsSystem.Exit();
         }
 
-        private void SetOpenGLStatus(object sender, EventArgs e)
+        private void RefreshViewer(object sender, EventArgs e)
         {
             this.componentOpenGL.mCrossBarVisible = this.checkBox_CrossBar.Checked;
             this.componentOpenGL.mGridVisible = this.checkBox_GridCheck.Checked;
@@ -425,6 +420,7 @@ namespace PrjHikariwoAnim
             this.componentOpenGL.Refresh();
 
             this.StatusLabel2.Text = "bar=" + this.HScrollBar_ZoomLevel.Value + " zoom=" + this.componentOpenGL.mScale;
+            this.toolStripStatusLabel_DebugSize.Text = "Width=" + this.componentOpenGL.Width + " Height=" + this.componentOpenGL.Height;
         }
 
         private void timerMain_Tick(object sender, EventArgs e)
@@ -852,10 +848,11 @@ namespace PrjHikariwoAnim
                 this.mFormControl.SetMotion(null);
                 this.mFormAttribute.Init(null);
             }
-//            this.panel_PreView.Refresh();
+
+            this.RefreshViewer(sender, e);
         }
 
-/*
+        /*
         //PanelPreView周り
         private void PanelPreView_Paint(object sender, PaintEventArgs e)
         {
@@ -921,12 +918,22 @@ namespace PrjHikariwoAnim
                 Console.WriteLine(err.Message);
             }
         }
-*/
+        */
+
+        //----------------------------------------------------------------
+        //
+        //  2017/05/03 comment by yoshi
+        //  以下、旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定
+        //
+        //----------------------------------------------------------------
 
         /// <summary>
         /// モーション描画処理
         /// </summary>
         /// <param name="g"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void DrawPreview(Graphics g)
         {
             //表示の仕方も悩む　親もマーク表示するか　等
@@ -943,6 +950,9 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_DragDrop(object sender, DragEventArgs e)
         {
 //            Point sPos = panel_PreView.PointToClient(new Point(e.X, e.Y));
@@ -1044,8 +1054,17 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.Copy;
             }
 
-//            panel_PreView.Refresh();
+            this.RefreshViewer(sender, e);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.None;
@@ -1064,6 +1083,15 @@ namespace PrjHikariwoAnim
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_MouseWheel(object sender, MouseEventArgs e)
         {
             try
@@ -1140,7 +1168,7 @@ namespace PrjHikariwoAnim
                     */
                 }
 
-//                this.panel_PreView.Refresh();
+                this.RefreshViewer(sender, e);
             }
             catch (Exception err)
             {
@@ -1148,6 +1176,14 @@ namespace PrjHikariwoAnim
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_MouseDown(object sender, MouseEventArgs e)
         {
             this.mMouseDownL = false;
@@ -1189,6 +1225,14 @@ namespace PrjHikariwoAnim
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_MouseMove(object sender, MouseEventArgs e)
         {
             //アイテム選択が無い場合のLドラッグはステージのXYスクロール
@@ -1261,6 +1305,14 @@ namespace PrjHikariwoAnim
 //            this.panel_PreView.Refresh();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_MouseUp(object sender, MouseEventArgs e)
         {
             //releaseMouse
@@ -1276,6 +1328,14 @@ namespace PrjHikariwoAnim
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
+        /// <example>※　旧プレビューのメソッドなので、新しく作ったComponentOpenGLに組み込む予定　※</example>
         private void PanelPreView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //previewKey
@@ -1324,6 +1384,13 @@ namespace PrjHikariwoAnim
                 //clMotion.RemoveElem(inElementKey);
             }
         }
+
+//----------------------------------------------------------------
+//
+//  ここまで
+//
+//----------------------------------------------------------------
+
         /// <summary>
         /// エディット中の選択エレメントをインデックス指定と関連画面更新
         /// </summary>
