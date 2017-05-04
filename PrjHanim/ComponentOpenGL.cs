@@ -24,7 +24,6 @@ namespace PrjHikariwoAnim
         public float mGridSpan = 16.0f;
         public float mCanvasWidth = 800.0f;
         public float mCanvasHeight = 600.0f;
-        public ClsVector2[] mListUV;
 
         #region Fields
         //
@@ -38,13 +37,6 @@ namespace PrjHikariwoAnim
         public ComponentOpenGL()
         {
             InitializeComponent();
-
-            //以下、初期化処理
-            this.mListUV = new ClsVector2[4];
-            this.mListUV[0] = new ClsVector2(0.0f, 0.0f);
-            this.mListUV[1] = new ClsVector2(0.0f, 1.0f);
-            this.mListUV[2] = new ClsVector2(1.0f, 1.0f);
-            this.mListUV[3] = new ClsVector2(1.0f, 0.0f);
         }
 
         /// <summary>
@@ -182,6 +174,13 @@ namespace PrjHikariwoAnim
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
             Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, 0.0, 1.0);
+
+            /*
+            //視点の設定
+            Gl.glLookAt(150.0, 100.0, -200.0, //カメラの座標
+                 0.0, 0.0, 0.0, // 注視点の座標
+                0.0, 1.0, 0.0); // 画面の上方向を指すベクトル
+            */
 
             //モデルビュー行列の設定
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
@@ -331,36 +330,57 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// UV設定処理
+        /// マトリクス初期化処理
         /// </summary>
-        /// <param name="inIndex">インデックス</param>
-        /// <param name="flU">Ｕ値</param>
-        /// <param name="flV">Ｖ値</param>
-        public void SetUV(int inIndex, float flU, float flV)
+        public void InitMat()
         {
-            if (inIndex < 0) return;
-            if (inIndex > 3) return;
+            Gl.glLoadIdentity();
+        }
 
-            this.mListUV[inIndex].X = flU;
-            this.mListUV[inIndex].Y = flV;
+        /// <summary>
+        /// スケール設定処理（掛け合わせ可能）
+        /// </summary>
+        /// <param name="clScale">スケール</param>
+        public void SetScale(ClsVector2 clScale)
+        {
+            Gl.glScalef(clScale.X, clScale.Y, 1.0f);
+        }
+
+        /// <summary>
+        /// 回転設定処理（掛け合わせ可能）
+        /// </summary>
+        /// <param name="flAngle">回転値</param>
+        public void SetRotate(float flAngle)
+        {
+            Gl.glRotatef(flAngle, 0.0f, 0.0f, 1.0f);
+        }
+
+        /// <summary>
+        /// 座標設定処理（掛け合わせ可能）
+        /// </summary>
+        /// <param name="clPosition">座標</param>
+        public void SetTranslate(ClsVector2 clPosition)
+        {
+            Gl.glTranslatef(clPosition.X, clPosition.Y, 0.0f);
         }
 
         /// <summary>
         /// ポリゴン描画処理
         /// </summary>
-        /// <param name="flX">Ｘ座標</param>
-        /// <param name="flY">Ｙ座標</param>
+        /// <param name="pclListUV">ＵＶ座標のリスト</param>
+        /// <param name="flOffsetX">オフセットＸ座標</param>
+        /// <param name="flOffsetY">オフセットＹ座標</param>
         /// <param name="flW">幅</param>
         /// <param name="flH">高さ</param>
-        public void DrawPolygon(float flX, float flY, float flW, float flH)
+        public void DrawPolygon(ClsVector2[] pclListUV, float flOffsetX, float flOffsetY, float flW, float flH)
         {
             //以下、ポリゴン描画処理
             Gl.glBegin(Gl.GL_POLYGON);
             
-            Gl.glTexCoord2f(this.mListUV[0].X, this.mListUV[0].Y); Gl.glVertex3f(flX - 0.5f, flY + 0.5f, 0.0f);
-            Gl.glTexCoord2f(this.mListUV[1].X, this.mListUV[1].Y); Gl.glVertex3f(flX - 0.5f, flY + flH + 0.5f, 0.0f);
-            Gl.glTexCoord2f(this.mListUV[2].X, this.mListUV[2].Y); Gl.glVertex3f(flX + flW - 0.5f, flY + flH + 0.5f, 0.0f);
-            Gl.glTexCoord2f(this.mListUV[3].X, this.mListUV[3].Y); Gl.glVertex3f(flX + flW - 0.5f, flY + 0.5f, 0.0f);
+            Gl.glTexCoord2f(pclListUV[0].X, pclListUV[0].Y); Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
+            Gl.glTexCoord2f(pclListUV[1].X, pclListUV[1].Y); Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
+            Gl.glTexCoord2f(pclListUV[2].X, pclListUV[2].Y); Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
+            Gl.glTexCoord2f(pclListUV[3].X, pclListUV[3].Y); Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
 
             Gl.glEnd();
             Gl.glFlush();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Xml;
+using Tao.OpenGl;
 
 namespace PrjHikariwoAnim
 {
@@ -49,6 +50,19 @@ namespace PrjHikariwoAnim
         public ClsDatAttr mAttrInit;        //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
+        //以下、ＵＶ値
+        public ClsVector2[] mListUV;
+
+        //以下、座標
+        public ClsVector2 mOffset;      //中心座標
+        public ClsVector2 mPosition;
+
+        //以下、回転値
+        public float mAngle;
+
+        //以下、スケール
+        public ClsVector2 mScale;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -58,6 +72,7 @@ namespace PrjHikariwoAnim
         {
             this.mTypeItem = TYPE_ITEM.ELEM;
 
+            //以下、初期化処理
             this.mMotion = clMotion;
             this.mElem = clElem;
             this.mListElem = new List<ClsDatElem>();
@@ -74,6 +89,23 @@ namespace PrjHikariwoAnim
             this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
             this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
+
+            //以下、UV値初期化処理
+            this.mListUV = new ClsVector2[4];
+            this.mListUV[0] = new ClsVector2(0.0f, 0.0f);
+            this.mListUV[1] = new ClsVector2(0.0f, 1.0f);
+            this.mListUV[2] = new ClsVector2(1.0f, 1.0f);
+            this.mListUV[3] = new ClsVector2(1.0f, 0.0f);
+
+            //以下、座標
+            this.mOffset = new ClsVector2(12.0f, 14.0f);      //中心座標
+            this.mPosition = new ClsVector2(20.0f, 0.0f);
+
+            //以下、回転値
+            this.mAngle = 180.0f;
+
+            //以下、スケール
+            this.mScale = new ClsVector2(1.0f, 2.0f);
         }
 
         /// <summary>
@@ -719,24 +751,22 @@ namespace PrjHikariwoAnim
                     //以下、色設定
                     clGL.SetColor(Color.White);
 
+                    //以下、マトリクス設定
+                    clGL.InitMat();
+                    clGL.SetTranslate(this.mPosition);
+                    clGL.SetRotate(this.mAngle);
+                    clGL.SetScale(this.mScale);
+
                     //以下、ポリゴン描画
-                    float flWidth = clImage.mImgOrigin.Width * clGL.mScale;
-                    float flHeight = clImage.mImgOrigin.Height * clGL.mScale;
+                    float flWidth = clImage.mImgOrigin.Width;
+                    float flHeight = clImage.mImgOrigin.Height;
                     if (clImage.mRect == null)
                     {
-                        clGL.SetUV(0, 0.0f, 0.0f);
-                        clGL.SetUV(1, 0.0f, 1.0f);
-                        clGL.SetUV(2, 1.0f, 1.0f);
-                        clGL.SetUV(3, 1.0f, 0.0f);
-                        clGL.DrawPolygon(clGL.mCenterX - flWidth / 2.0f, clGL.mCenterY - flHeight / 2.0f, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, this.mOffset.X, this.mOffset.Y, flWidth, flHeight);
                     }
                     else
                     {
-                        clGL.SetUV(0, 0.0f, 0.0f);
-                        clGL.SetUV(1, 0.0f, 1.0f);
-                        clGL.SetUV(2, 1.0f, 1.0f);
-                        clGL.SetUV(3, 1.0f, 0.0f);
-                        clGL.DrawPolygon(clGL.mCenterX - flWidth / 2.0f, clGL.mCenterY - flHeight / 2.0f, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, this.mOffset.X, this.mOffset.Y, flWidth, flHeight);
                     }
                 }
             }

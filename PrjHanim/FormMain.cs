@@ -436,7 +436,6 @@ namespace PrjHikariwoAnim
             this.componentOpenGL.Refresh();
 
             this.StatusLabel2.Text = "zoom=" + this.componentOpenGL.mScale;
-            this.toolStripStatusLabel_DebugSize.Text = "Width=" + this.componentOpenGL.Width + " Height=" + this.componentOpenGL.Height;
         }
 
         private void timerMain_Tick(object sender, EventArgs e)
@@ -1222,13 +1221,17 @@ namespace PrjHikariwoAnim
                     if (this.comboBox_Zoom.SelectedIndex < 7)
                     {
                         /*
-                        float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
-                        float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mCanvas.X -= (int)(flMouseX * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
-                        ComponentOpenGL.mCanvas.Y -= (int)(flMouseY * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        int inIndex = this.comboBox_Zoom.SelectedIndex;
+                        float flScale = this.mListScale[inIndex];
+                        float flMouseX = this.MousePosX2WorldPosX(e.X);
+                        float flMouseY = this.MousePosY2WorldPosY(e.Y);
+                        this.mCenterX -= (int)(flMouseX * flScale);
+                        this.mCenterY -= (int)(flMouseY * flScale);
                         */
 
                         this.comboBox_Zoom.SelectedIndex += 1;
+
+                        this.toolStripStatusLabel_DebugSize.Text = "x=" + e.X + " y=" + e.Y;
                     }
                 }
                 else if (e.Delta < 0)
@@ -1237,13 +1240,17 @@ namespace PrjHikariwoAnim
                     if (this.comboBox_Zoom.SelectedIndex > 0)
                     {
                         /*
-                        float flMouseX = ComponentOpenGL.CameraPosX2WorldPosX(e.X);
-                        float flMouseY = ComponentOpenGL.CameraPosY2WorldPosY(e.Y);
-                        ComponentOpenGL.mCanvas.X += (int)(flMouseX * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
-                        ComponentOpenGL.mCanvas.Y += (int)(flMouseY * this.componentOpenGL.mScale / HScrollBar_ZoomLevel.Value);
+                        int inIndex = this.comboBox_Zoom.SelectedIndex;
+                        float flScale = this.mListScale[inIndex];
+                        float flMouseX = this.MousePosX2WorldPosX(e.X);
+                        float flMouseY = this.MousePosY2WorldPosY(e.Y);
+                        this.mCenterX += (int)(flMouseX * flScale);
+                        this.mCenterY += (int)(flMouseY * flScale);
                         */
 
                         this.comboBox_Zoom.SelectedIndex -= 1;
+
+                        this.toolStripStatusLabel_DebugSize.Text = "x=" + e.X + " y=" + e.Y;
                     }
                 }
 
@@ -1294,6 +1301,16 @@ namespace PrjHikariwoAnim
             {
                 Console.WriteLine(err.Message);
             }
+        }
+
+        public float MousePosX2WorldPosX(float flX)
+        {
+            return (flX);
+        }
+
+        public float MousePosY2WorldPosY(float flY)
+        {
+            return (flY);
         }
 
         /*
