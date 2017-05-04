@@ -637,21 +637,34 @@ namespace PrjHikariwoAnim
                     {
                         //以下、エレメント設定
                         ClsDatElem clElem = null;
+                        ClsDatOption clOption = null;
                         if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                         {
                             clElem = clItem as ClsDatElem;
+                            clOption = clElem.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
                         }
                         else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                         {
-                            ClsDatOption clOption = clItem as ClsDatOption;
+                            clOption = clItem as ClsDatOption;
                             clElem = clOption.mElem;
                         }
 
-                        //以下、アトリビュートウィンドウ初期化処理
-                        this.mFormMain.mFormAttribute.Init(clElem);
-
-                        //以下、アイテム選択処理
-                        this.mMotion.SetSelectFromLineNo(inLineNo);
+                        //以下、キーフレーム存在チェック処理
+                        if (clOption != null)
+                        {
+                            int inIndex = (int)this.numericUpDown_NowFlame.Value;
+                            bool isExist = (inIndex == 0) ? true : clOption.mDicKeyFrame.ContainsKey(inIndex);
+                            if (isExist)
+                            {
+                                //以下、アトリビュートウィンドウ初期化処理
+                                this.mFormMain.mFormAttribute.Init(clElem);
+                            }
+                            else
+                            {
+                                //以下、アトリビュートウィンドウ初期化処理
+                                this.mFormMain.mFormAttribute.Init(null);
+                            }
+                        }
                     }
                 }
             }

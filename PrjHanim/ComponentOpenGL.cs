@@ -64,9 +64,7 @@ namespace PrjHikariwoAnim
   		{
   			//PIXELFORMATDESCRIPTORの設定
   			Gdi.PIXELFORMATDESCRIPTOR pfd = new Gdi.PIXELFORMATDESCRIPTOR();
-  			pfd.dwFlags = Gdi.PFD_SUPPORT_OPENGL |
-  				Gdi.PFD_DRAW_TO_WINDOW |
-  				Gdi.PFD_DOUBLEBUFFER;
+  			pfd.dwFlags = Gdi.PFD_SUPPORT_OPENGL | Gdi.PFD_DRAW_TO_WINDOW | Gdi.PFD_DOUBLEBUFFER;
   			pfd.iPixelType = Gdi.PFD_TYPE_RGBA;
   			pfd.cColorBits = 32;
   			pfd.cAlphaBits = 8;
@@ -146,11 +144,29 @@ namespace PrjHikariwoAnim
             int inWidth = this.Width;
             int inHeight = this.Height;
 
+            //以下、一番引きのスクリーンでのグリッド表示処理を決める
+            //（一番引きのスクリーンでは、グリッド間隔を最大にしても密度が濃くてラインで描く必要がないのと、ラインを大量に描画する必要があり重いため）
+            bool isDammyGrid = false;
+            if (this.mGridVisible)
+            {
+                if (this.mScale <= 0.125f)
+                {
+                    isDammyGrid = true;
+                }
+            }
+
             //レンダリングコンテキストをカレントにする
             Wgl.wglMakeCurrent(this.hDC, this.hRC);
 
             //以下、背景色設定処理
-            Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
+            if (isDammyGrid)
+            {
+                Gl.glClearColor(this.mGridColor.R / 255.0f, this.mGridColor.G / 255.0f, this.mGridColor.B / 255.0f, 1.0f);
+            }
+            else
+            {
+                Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
+            }
 
             //以下、バッファをクリアする処理
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
@@ -173,23 +189,22 @@ namespace PrjHikariwoAnim
             //以下、射影行列の設定処理
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
-            Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, 0.0, 1.0);
+            Gl.glOrtho(-inWidth / 2, inWidth / 2, -inHeight / 2, inHeight / 2, 0.0, 4.0);
 
-            /*
-            //視点の設定
-            Gl.glLookAt(150.0, 100.0, -200.0, //カメラの座標
-                 0.0, 0.0, 0.0, // 注視点の座標
-                0.0, 1.0, 0.0); // 画面の上方向を指すベクトル
-            */
+            //以下、カメラの位置を設定する処理
+            Glu.gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); //視点の設定
 
-            //モデルビュー行列の設定
+            //以下、モデルビュー行列の設定
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glLoadIdentity();
 
             //以下、グリッドライン描画処理
             if (this.mGridVisible)
             {
-                this.DrawGridLine(this.mGridColor, this.mGridSpan * this.mScale);
+                if (!isDammyGrid)
+                {
+                    this.DrawGridLine(this.mGridColor, this.mGridSpan * this.mScale);
+                }
             }
 
             //以下、中心ライン描画処理
@@ -240,10 +255,10 @@ namespace PrjHikariwoAnim
             int inHeight = (int)this.mCanvasHeight;
 
             //以下、垂直ラインを描画する処理
-            this.DrawLine(stCol, this.mCenterX, -inHeight / 2, this.mCenterX, inHeight / 2);
+            this.DrawLine(stCol, this.mCenterX, -inHeight, this.mCenterX, inHeight);
 
             //以下、水平ラインを描画する処理
-            this.DrawLine(stCol, -inWidth / 2, this.mCenterY, inWidth / 2, this.mCenterY);
+            this.DrawLine(stCol, -inWidth, this.mCenterY, inWidth, this.mCenterY);
         }
 
         /// <summary>
@@ -258,7 +273,7 @@ namespace PrjHikariwoAnim
 
             //以下、センターラインよりも右側の垂直ラインを描画する処理
             float flX;
-            for (flX = this.mCenterX; flX < inWidth; flX+= flGridSpan)
+            for (flX = this.mCenterX; flX < inWidth; flX += flGridSpan)
             {
                 this.DrawLine(stCol, flX, -inHeight / 2, flX, inHeight / 2);
             }
@@ -330,38 +345,30 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// マトリクス初期化処理
+        /// マトリクス設定処理
         /// </summary>
-        public void InitMat()
+        /// <param name="clAttr">各パラメーター管理クラス</param>
+        public void SetMatrix(ClsDatAttr clAttr)
         {
             Gl.glLoadIdentity();
-        }
 
-        /// <summary>
-        /// スケール設定処理（掛け合わせ可能）
-        /// </summary>
-        /// <param name="clScale">スケール</param>
-        public void SetScale(ClsVector2 clScale)
-        {
-            Gl.glScalef(clScale.X, clScale.Y, 1.0f);
-        }
+            //以下、ワールド設定処理
+            Gl.glTranslatef(this.mCenterX, this.mCenterY, 0.0f);
+            Gl.glScalef(this.mScale, this.mScale, 1.0f);
 
-        /// <summary>
-        /// 回転設定処理（掛け合わせ可能）
-        /// </summary>
-        /// <param name="flAngle">回転値</param>
-        public void SetRotate(float flAngle)
-        {
-            Gl.glRotatef(flAngle, 0.0f, 0.0f, 1.0f);
-        }
+            //以下、ローカル設定処理
+            float flX = (clAttr.isX) ? clAttr.Position.X : 0.0f;
+            float flY = (clAttr.isY) ? clAttr.Position.Y : 0.0f;
+            float flZ = (clAttr.isZ) ? clAttr.Position.Z : 0.0f;
+            Gl.glTranslatef(flX, flY, flZ);
 
-        /// <summary>
-        /// 座標設定処理（掛け合わせ可能）
-        /// </summary>
-        /// <param name="clPosition">座標</param>
-        public void SetTranslate(ClsVector2 clPosition)
-        {
-            Gl.glTranslatef(clPosition.X, clPosition.Y, 0.0f);
+            flZ = (clAttr.isRZ) ? clAttr.Radius.Z : 0.0f;
+            Gl.glRotatef(flZ, 0.0f, 0.0f, 1.0f);
+
+            flX = (clAttr.isSX) ? clAttr.Scale.X : 1.0f;
+            flY = (clAttr.isSY) ? clAttr.Scale.Y : 1.0f;
+            flZ = (clAttr.isSZ) ? clAttr.Scale.Z : 1.0f;
+            Gl.glScalef(flX, flY, flZ);
         }
 
         /// <summary>

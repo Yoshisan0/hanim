@@ -53,16 +53,6 @@ namespace PrjHikariwoAnim
         //以下、ＵＶ値
         public ClsVector2[] mListUV;
 
-        //以下、座標
-        public ClsVector2 mOffset;      //中心座標
-        public ClsVector2 mPosition;
-
-        //以下、回転値
-        public float mAngle;
-
-        //以下、スケール
-        public ClsVector2 mScale;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -96,16 +86,6 @@ namespace PrjHikariwoAnim
             this.mListUV[1] = new ClsVector2(0.0f, 1.0f);
             this.mListUV[2] = new ClsVector2(1.0f, 1.0f);
             this.mListUV[3] = new ClsVector2(1.0f, 0.0f);
-
-            //以下、座標
-            this.mOffset = new ClsVector2(12.0f, 14.0f);      //中心座標
-            this.mPosition = new ClsVector2(20.0f, 0.0f);
-
-            //以下、回転値
-            this.mAngle = 180.0f;
-
-            //以下、スケール
-            this.mScale = new ClsVector2(1.0f, 2.0f);
         }
 
         /// <summary>
@@ -752,21 +732,18 @@ namespace PrjHikariwoAnim
                     clGL.SetColor(Color.White);
 
                     //以下、マトリクス設定
-                    clGL.InitMat();
-                    clGL.SetTranslate(this.mPosition);
-                    clGL.SetRotate(this.mAngle);
-                    clGL.SetScale(this.mScale);
+                    clGL.SetMatrix(clAttr);
 
                     //以下、ポリゴン描画
                     float flWidth = clImage.mImgOrigin.Width;
                     float flHeight = clImage.mImgOrigin.Height;
                     if (clImage.mRect == null)
                     {
-                        clGL.DrawPolygon(this.mListUV, this.mOffset.X, this.mOffset.Y, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, clAttr.Offset.X, clAttr.Offset.Y, flWidth, flHeight);
                     }
                     else
                     {
-                        clGL.DrawPolygon(this.mListUV, this.mOffset.X, this.mOffset.Y, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, clAttr.Offset.X, clAttr.Offset.Y, flWidth, flHeight);
                     }
                 }
             }
