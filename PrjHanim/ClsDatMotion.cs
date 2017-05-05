@@ -218,7 +218,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Elem".Equals(clNode.Name))
                 {
-                    ClsDatElem clDatElem = new ClsDatElem(this, null);
+                    ClsDatElem clDatElem = new ClsDatElem(this, null, 0, 0);
                     clDatElem.Load(clNode);
 
                     this.mListElem.Add(clDatElem);

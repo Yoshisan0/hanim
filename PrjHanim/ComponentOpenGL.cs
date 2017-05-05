@@ -347,8 +347,8 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// マトリクス設定処理
         /// </summary>
-        /// <param name="clAttr">各パラメーター管理クラス</param>
-        public void SetMatrix(ClsDatAttr clAttr)
+        /// <param name="clParam">各パラメーター管理クラス</param>
+        public void SetMatrix(ClsParam clParam)
         {
             Gl.glLoadIdentity();
 
@@ -357,17 +357,17 @@ namespace PrjHikariwoAnim
             Gl.glScalef(this.mScale, this.mScale, 1.0f);
 
             //以下、ローカル設定処理
-            float flX = (clAttr.isX) ? clAttr.Position.X : 0.0f;
-            float flY = (clAttr.isY) ? clAttr.Position.Y : 0.0f;
-            float flZ = (clAttr.isZ) ? clAttr.Position.Z : 0.0f;
+            float flX = clParam.Position.X;
+            float flY = clParam.Position.Y;
+            float flZ = clParam.Position.Z;
             Gl.glTranslatef(flX, flY, flZ);
 
-            flZ = (clAttr.isRZ) ? clAttr.Radius.Z : 0.0f;
+            flZ = clParam.Radius.Z;
             Gl.glRotatef(flZ, 0.0f, 0.0f, 1.0f);
 
-            flX = (clAttr.isSX) ? clAttr.Scale.X : 1.0f;
-            flY = (clAttr.isSY) ? clAttr.Scale.Y : 1.0f;
-            flZ = (clAttr.isSZ) ? clAttr.Scale.Z : 1.0f;
+            flX = clParam.Scale.X;
+            flY = clParam.Scale.Y;
+            flZ = clParam.Scale.Z;
             Gl.glScalef(flX, flY, flZ);
         }
 

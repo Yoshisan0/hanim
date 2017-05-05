@@ -22,7 +22,6 @@ namespace PrjHikariwoAnim
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
         public Dictionary<TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
-        public ClsDatAttr mAttrInit;        //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
         //以下、ＵＶ値
@@ -33,7 +32,9 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clMotion">親モーション</param>
         /// <param name="clElem">親エレメント</param>
-        public ClsDatElem(ClsDatMotion clMotion, ClsDatElem clElem)
+        /// <param name="inX">Ｘ座標</param>
+        /// <param name="inY">Ｙ座標</param>
+        public ClsDatElem(ClsDatMotion clMotion, ClsDatElem clElem, int inX, int inY)
         {
             this.mTypeItem = TYPE_ITEM.ELEM;
 
@@ -47,13 +48,12 @@ namespace PrjHikariwoAnim
             this.isVisible = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
-            this.mAttrInit = new ClsDatAttr();
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
-            this.AddOption(TYPE_OPTION.DISPLAY);
-            this.AddOption(TYPE_OPTION.POSITION_X);
-            this.AddOption(TYPE_OPTION.POSITION_Y);
+            this.AddOption(TYPE_OPTION.DISPLAY, true);
+            this.AddOption(TYPE_OPTION.POSITION_X, inX);
+            this.AddOption(TYPE_OPTION.POSITION_Y, inY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -70,8 +70,6 @@ namespace PrjHikariwoAnim
         public void SetImage(ClsDatImage clDatImage)
         {
             this.mImageKey = clDatImage.mID;
-            this.mAttrInit.Width = clDatImage.mImgOrigin.Width;
-            this.mAttrInit.Height = clDatImage.mImgOrigin.Height;
         }
 
         /// <summary>
@@ -248,7 +246,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE);
+                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -258,19 +256,10 @@ namespace PrjHikariwoAnim
 
                 if ("Elem".Equals(clNode.Name))
                 {
-                    ClsDatElem clDatElem = new ClsDatElem(null, this);
+                    ClsDatElem clDatElem = new ClsDatElem(null, this, 0, 0);
                     clDatElem.Load(clNode);
 
                     this.mListElem.Add(clDatElem);
-                    continue;
-                }
-
-                if ("Attr".Equals(clNode.Name))
-                {
-                    ClsDatAttr clDatAttr = new ClsDatAttr();
-                    clDatAttr.Load(clNode);
-
-                    this.mAttrInit = clDatAttr;
                     continue;
                 }
             }
@@ -302,9 +291,6 @@ namespace PrjHikariwoAnim
             {
                 clDatElem.Save(clHeader + ClsSystem.FILE_TAG);
             }
-
-            //以下、アトリビュート保存処理
-            this.mAttrInit.Save(clHeader + ClsSystem.FILE_TAG);
 
             ClsTool.AppendElementEnd(clHeader, "Elem");
         }
@@ -419,12 +405,14 @@ namespace PrjHikariwoAnim
         /// オプション追加処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
-        public void AddOption(TYPE_OPTION enTypeOption)
+        /// <param name="clValue">値</param>
+        public void AddOption(TYPE_OPTION enTypeOption, object clValue)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-            if (!isExist) {
-                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption);
+            if (!isExist)
+            {
+                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, clValue);
             }
         }
 
@@ -692,8 +680,10 @@ namespace PrjHikariwoAnim
         /// <param name="clGL">OpenGLコンポーネント</param>
         public void DrawPreview(ComponentOpenGL clGL)
         {
-            ClsDatAttr clAttr = this.mAttrInit;
+            //以下、現在の値をかき集めてまとめる処理
+//            ClsDatAttr clAttr = this.mAttrInit;
 
+            //以下、ポリゴン描画処理
             bool isExist = ClsSystem.mDicImage.ContainsKey(this.mImageKey);
             if (isExist)
             {
@@ -706,6 +696,7 @@ namespace PrjHikariwoAnim
                     //以下、色設定
                     clGL.SetColor(Color.White);
 
+                    /*
                     //以下、マトリクス設定
                     clGL.SetMatrix(clAttr);
 
@@ -720,6 +711,7 @@ namespace PrjHikariwoAnim
                     {
                         clGL.DrawPolygon(this.mListUV, clAttr.Offset.X, clAttr.Offset.Y, flWidth, flHeight);
                     }
+                    */
                 }
             }
 

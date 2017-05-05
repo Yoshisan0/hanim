@@ -11,19 +11,22 @@ namespace PrjHikariwoAnim
         public ClsDatElem mElem;    //親エレメント
         public TYPE_OPTION mTypeOption;  //タイプ
         public Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
+        public object mValue;   //値（何の値かはタイプに依存する）
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="clElem">親エレメント</param>
         /// <param name="enType">オプションタイプ</param>
-        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enType)
+        /// <param name="clValue">初期状態の値</param>
+        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enType, object clValue)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
             this.mElem = clElem;
             this.mTypeOption = enType;
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
+            this.mValue = clValue;
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(0);
@@ -89,6 +92,34 @@ namespace PrjHikariwoAnim
             string clTypeOption = ClsTool.GetStringFromXmlNodeList(clListNode, "TypeOption");
             this.mTypeOption = (TYPE_OPTION)Enum.Parse(typeof(TYPE_OPTION), clTypeOption);
 
+            string clValue = ClsTool.GetStringFromXmlNodeList(clListNode, "Value");
+            switch (this.mTypeOption) {
+            case TYPE_OPTION.NONE:
+                this.mValue = null;
+                break;
+            case TYPE_OPTION.DISPLAY:
+            case TYPE_OPTION.FLIP_HORIZONAL:
+            case TYPE_OPTION.FLIP_VERTICAL:
+                this.mValue = Convert.ToBoolean(clValue);
+                break;
+            case TYPE_OPTION.POSITION_X:
+            case TYPE_OPTION.POSITION_Y:
+            case TYPE_OPTION.ROTATION:
+            case TYPE_OPTION.SCALE_X:
+            case TYPE_OPTION.SCALE_Y:
+            case TYPE_OPTION.OFFSET_X:
+            case TYPE_OPTION.OFFSET_Y:
+            case TYPE_OPTION.TRANSPARENCY:
+                this.mValue = Convert.ToSingle(clValue);
+                break;
+            case TYPE_OPTION.COLOR:
+                this.mValue = Convert.ToUInt32(clValue);
+                break;
+            case TYPE_OPTION.USER_DATA:
+                this.mValue = clValue;
+                break;
+            }
+
             //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
             {
@@ -112,6 +143,7 @@ namespace PrjHikariwoAnim
             //以下、オプション保存処理
             ClsTool.AppendElementStart(clHeader, "Option");
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "TypeOption", this.mTypeOption.ToString());
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Value", this.mValue.ToString());
 
             //以下、キーフレーム保存処理
             foreach (int inKey in this.mDicKeyFrame.Keys)

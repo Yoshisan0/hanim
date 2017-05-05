@@ -729,7 +729,7 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// CellからElementを作成し追加
+        /// Elementを作成し追加する
         /// </summary>
         /// <param name="clDatMotion">モーション管理クラス</param>
         /// <param name="clDatImage">イメージ管理クラス</param>
@@ -737,22 +737,24 @@ namespace PrjHikariwoAnim
         /// <param name="y">クリック座標(Cliant)</param>
         private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int x, int y)
         {
+            ClsParam clParam = new ClsParam();
+            clParam.Position.X = x;
+            clParam.Position.Y = y;
+
             //アイテムの登録
-            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null);
+            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, x, y);
             clDatElem.SetImage(clDatImage);
 
             //センターからの距離に変換
-//            x -= panel_PreView.Width / 2;
-//            y -= panel_PreView.Height / 2;
+//          x -= panel_PreView.Width / 2;
+//          y -= panel_PreView.Height / 2;
 
             //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= clDatElem.mAttrInit.Width / 2;
-            y -= clDatElem.mAttrInit.Height / 2;
-
-            clDatElem.mAttrInit.Position = new ClsVector3(x, y, 0);
+            x -= clDatImage.mImgOrigin.Width / 2;
+            y -= clDatImage.mImgOrigin.Height / 2;
 
             //Show - Attribute
-            this.mFormAttribute.SetAllParam(clDatElem.mAttrInit);
+            this.mFormAttribute.SetAllParam(clParam);
 
             clDatMotion.AddElements(clDatElem);  //Elements登録
 

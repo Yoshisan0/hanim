@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClsDatAttr.cs" />
     <Compile Include="ClsDatRect.cs" />
     <Compile Include="ClsTool.cs" />
     <Compile Include="ClsDatElem.cs" />
