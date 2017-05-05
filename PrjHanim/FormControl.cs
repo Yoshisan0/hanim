@@ -88,16 +88,16 @@ namespace PrjHikariwoAnim
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
 
-            this.ToolStripMenuItem_AddRotation.Tag = ClsDatOption.TYPE_OPTION.ROTATION;
-            this.ToolStripMenuItem_AddScaleX.Tag = ClsDatOption.TYPE_OPTION.SCALE_X;
-            this.ToolStripMenuItem_AddScaleY.Tag = ClsDatOption.TYPE_OPTION.SCALE_Y;
-            this.ToolStripMenuItem_AddTransparency.Tag = ClsDatOption.TYPE_OPTION.TRANSPARENCY;
-            this.ToolStripMenuItem_AddHorizontalFlip.Tag = ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL;
-            this.ToolStripMenuItem_AddVerticalFlip.Tag = ClsDatOption.TYPE_OPTION.FLIP_VERTICAL;
-            this.ToolStripMenuItem_AddColor.Tag = ClsDatOption.TYPE_OPTION.COLOR;
-            this.ToolStripMenuItem_AddOffsetX.Tag = ClsDatOption.TYPE_OPTION.OFFSET_X;
-            this.ToolStripMenuItem_AddOffsetY.Tag = ClsDatOption.TYPE_OPTION.OFFSET_Y;
-            this.ToolStripMenuItem_AddUserDataText.Tag = ClsDatOption.TYPE_OPTION.USER_DATA;
+            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION;
+            this.ToolStripMenuItem_AddScaleX.Tag = TYPE_OPTION.SCALE_X;
+            this.ToolStripMenuItem_AddScaleY.Tag = TYPE_OPTION.SCALE_Y;
+            this.ToolStripMenuItem_AddTransparency.Tag = TYPE_OPTION.TRANSPARENCY;
+            this.ToolStripMenuItem_AddHorizontalFlip.Tag = TYPE_OPTION.FLIP_HORIZONAL;
+            this.ToolStripMenuItem_AddVerticalFlip.Tag = TYPE_OPTION.FLIP_VERTICAL;
+            this.ToolStripMenuItem_AddColor.Tag = TYPE_OPTION.COLOR;
+            this.ToolStripMenuItem_AddOffsetX.Tag = TYPE_OPTION.OFFSET_X;
+            this.ToolStripMenuItem_AddOffsetY.Tag = TYPE_OPTION.OFFSET_Y;
+            this.ToolStripMenuItem_AddUserDataText.Tag = TYPE_OPTION.USER_DATA;
         }
 
         public void RemoveElementFromKey(int inElementKey)
@@ -635,34 +635,20 @@ namespace PrjHikariwoAnim
                 {
                     if (this.mFormMain.mFormAttribute != null)
                     {
-                        //以下、エレメント設定
-                        ClsDatElem clElem = null;
-                        ClsDatOption clOption = null;
-                        if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+                        ClsDatElem clElem = this.GetElemFromSelectLineNo();
+                        if (clElem != null)
                         {
-                            clElem = clItem as ClsDatElem;
-                            clOption = clElem.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
-                        }
-                        else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
-                        {
-                            clOption = clItem as ClsDatOption;
-                            clElem = clOption.mElem;
-                        }
-
-                        //以下、キーフレーム存在チェック処理
-                        if (clOption != null)
-                        {
-                            int inIndex = (int)this.numericUpDown_NowFlame.Value;
-                            bool isExist = (inIndex == 0) ? true : clOption.mDicKeyFrame.ContainsKey(inIndex);
-                            if (isExist)
+                            //以下、キーフレーム存在チェック処理
+                            ClsDatKeyFrame clKeyFrame = this.GetKeyFrameFromSelectFrame();
+                            if (clKeyFrame == null)
                             {
                                 //以下、アトリビュートウィンドウ初期化処理
-                                this.mFormMain.mFormAttribute.Init(clElem);
+                                this.mFormMain.mFormAttribute.Init(null);
                             }
                             else
                             {
                                 //以下、アトリビュートウィンドウ初期化処理
-                                this.mFormMain.mFormAttribute.Init(null);
+                                this.mFormMain.mFormAttribute.Init(clElem);
                             }
                         }
                     }
@@ -784,6 +770,68 @@ namespace PrjHikariwoAnim
             return (null);
         }
 
+        /// <summary>
+        /// 選択中のアイテムを取得する処理
+        /// </summary>
+        /// <returns>選択中のアイテム</returns>
+        private ClsDatItem GetItemFromSelectLineNo()
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = this.GetItemFromLineNo(inLineNo);
+            return (clItem);
+        }
+
+        /// <summary>
+        /// 行番号からアイテムを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のアイテム</returns>
+        private ClsDatItem GetItemFromLineNo(int inLineNo)
+        {
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+
+            return (clItem);
+        }
+
+        /// <summary>
+        /// 選択中のキーフレームを取得する処理
+        /// </summary>
+        /// <returns>選択中のキーフレーム</returns>
+        private ClsDatKeyFrame GetKeyFrameFromSelectFrame()
+        {
+            //以下、エレメント設定
+            ClsDatItem clItem = this.GetItemFromSelectLineNo();
+            ClsDatElem clElem = null;
+            ClsDatOption clOption = null;
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                clElem = clItem as ClsDatElem;
+                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                clOption = clItem as ClsDatOption;
+                clElem = clOption.mElem;
+            }
+
+            if (clOption == null) return (null);
+
+            int inIndex = (int)this.numericUpDown_NowFlame.Value;
+            if (inIndex != 0)
+            {
+                bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+                if (!isExist) return (null);
+            }
+
+            //以下、キーフレーム取得処理
+            ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
+            return (clKeyFrame);
+        }
+
         private void button_ElemParent_Click(object sender, EventArgs e)
         {
             //一つ上の親になる
@@ -880,19 +928,19 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = this.GetElemFromSelectLineNo();
             if (clElem == null) return;
 
-            Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<ClsDatOption.TYPE_OPTION, ToolStripMenuItem>();
-            clDic[ClsDatOption.TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
-            clDic[ClsDatOption.TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
-            clDic[ClsDatOption.TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
-            clDic[ClsDatOption.TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
-            clDic[ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
-            clDic[ClsDatOption.TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
-            clDic[ClsDatOption.TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
-            clDic[ClsDatOption.TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
-            clDic[ClsDatOption.TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
-            clDic[ClsDatOption.TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
+            Dictionary<TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<TYPE_OPTION, ToolStripMenuItem>();
+            clDic[TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
+            clDic[TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
+            clDic[TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
+            clDic[TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
+            clDic[TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
+            clDic[TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
+            clDic[TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
+            clDic[TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
+            clDic[TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
 
-            foreach (ClsDatOption.TYPE_OPTION enTypeOption in Enum.GetValues(typeof(ClsDatOption.TYPE_OPTION)))
+            foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
             {
                 bool isExist = clDic.ContainsKey(enTypeOption);
                 if (!isExist) continue;
@@ -946,7 +994,7 @@ namespace PrjHikariwoAnim
 
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
-            ClsDatOption.TYPE_OPTION enType = (ClsDatOption.TYPE_OPTION)clITem.Tag;
+            TYPE_OPTION enType = (TYPE_OPTION)clITem.Tag;
             clElem.AddOption(enType);
 
             //以下、行番号振り直し処理
@@ -1016,14 +1064,14 @@ namespace PrjHikariwoAnim
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
-                            ClsDatElem.ELEMENTS_MARK enMark = ClsDatElem.ELEMENTS_MARK.NONE;
+                            ELEMENTS_MARK enMark = ELEMENTS_MARK.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
                                 bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
-                                enMark = (isUp) ? ClsDatElem.ELEMENTS_MARK.UP : ClsDatElem.ELEMENTS_MARK.IN;
+                                enMark = (isUp) ? ELEMENTS_MARK.UP : ELEMENTS_MARK.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -1034,7 +1082,7 @@ namespace PrjHikariwoAnim
                                     clElem = null;
                                 }
 
-                                enMark = ClsDatElem.ELEMENTS_MARK.IN;
+                                enMark = ELEMENTS_MARK.IN;
                             }
 
                             if (clElem != null)
@@ -1084,7 +1132,7 @@ namespace PrjHikariwoAnim
                         bool isHit = false;
 
                         //以下、子供として登録する処理
-                        ClsDatElem clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.IN);
+                        ClsDatElem clElemBase = this.mMotion.FindElemFromMark(ELEMENTS_MARK.IN);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
@@ -1094,7 +1142,7 @@ namespace PrjHikariwoAnim
                         }
 
                         //以下、自分の兄として登録する処理
-                        clElemBase = this.mMotion.FindElemFromMark(ClsDatElem.ELEMENTS_MARK.UP);
+                        clElemBase = this.mMotion.FindElemFromMark(ELEMENTS_MARK.UP);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
@@ -1141,10 +1189,10 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = clItem as ClsDatElem;
                 if (clElem == null) return;
 
-                isExist = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.DISPLAY);
+                isExist = clElem.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
                 if (!isExist) return;
 
-                clOption = clElem.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
+                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
                 if (clOption == null) return;
             }
             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)

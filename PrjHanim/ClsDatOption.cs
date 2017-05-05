@@ -8,24 +8,6 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatOption : ClsDatItem
     {
-        public enum TYPE_OPTION
-        {
-            NONE,
-            DISPLAY,
-            POSITION_X,
-            POSITION_Y,
-            ROTATION,
-            SCALE_X,
-            SCALE_Y,
-            TRANSPARENCY,
-            FLIP_HORIZONAL,
-            FLIP_VERTICAL,
-            COLOR,
-            OFFSET_X,
-            OFFSET_Y,
-            USER_DATA,
-        }
-
         public ClsDatElem mElem;    //親エレメント
         public TYPE_OPTION mTypeOption;  //タイプ
         public Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
@@ -42,6 +24,10 @@ namespace PrjHikariwoAnim
             this.mElem = clElem;
             this.mTypeOption = enType;
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
+
+            //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(0);
+            this.mDicKeyFrame.Add(0, clKeyFrame);
         }
 
         /// <summary>

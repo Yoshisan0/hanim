@@ -32,18 +32,18 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
 
             //以下、チェックボックスの名称を変更する処理
-            //this.InitCheckBox(this.checkBox_X, ClsDatOption.TYPE_OPTION.POSITION_X);
-            //this.InitCheckBox(this.checkBox_Y, ClsDatOption.TYPE_OPTION.POSITION_Y);
-            this.InitCheckBox(this.checkBox_Rot, ClsDatOption.TYPE_OPTION.ROTATION);
-            this.InitCheckBox(this.checkBox_SX, ClsDatOption.TYPE_OPTION.SCALE_X);
-            this.InitCheckBox(this.checkBox_SY, ClsDatOption.TYPE_OPTION.SCALE_Y);
-            this.InitCheckBox(this.checkBox_T, ClsDatOption.TYPE_OPTION.TRANSPARENCY);
-            this.InitCheckBox(this.checkBox_FlipH, ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
-            this.InitCheckBox(this.checkBox_FlipV, ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
-            this.InitCheckBox(this.checkBox_Color, ClsDatOption.TYPE_OPTION.COLOR);
-            this.InitCheckBox(this.checkBox_Xoff, ClsDatOption.TYPE_OPTION.OFFSET_X);
-            this.InitCheckBox(this.checkBox_Yoff, ClsDatOption.TYPE_OPTION.OFFSET_Y);
-            this.InitCheckBox(this.checkBox_UserText, ClsDatOption.TYPE_OPTION.USER_DATA);
+            //this.InitCheckBox(this.checkBox_X, TYPE_OPTION.POSITION_X);
+            //this.InitCheckBox(this.checkBox_Y, TYPE_OPTION.POSITION_Y);
+            this.InitCheckBox(this.checkBox_Rot, TYPE_OPTION.ROTATION);
+            this.InitCheckBox(this.checkBox_SX, TYPE_OPTION.SCALE_X);
+            this.InitCheckBox(this.checkBox_SY, TYPE_OPTION.SCALE_Y);
+            this.InitCheckBox(this.checkBox_T, TYPE_OPTION.TRANSPARENCY);
+            this.InitCheckBox(this.checkBox_FlipH, TYPE_OPTION.FLIP_HORIZONAL);
+            this.InitCheckBox(this.checkBox_FlipV, TYPE_OPTION.FLIP_VERTICAL);
+            this.InitCheckBox(this.checkBox_Color, TYPE_OPTION.COLOR);
+            this.InitCheckBox(this.checkBox_Xoff, TYPE_OPTION.OFFSET_X);
+            this.InitCheckBox(this.checkBox_Yoff, TYPE_OPTION.OFFSET_Y);
+            this.InitCheckBox(this.checkBox_UserText, TYPE_OPTION.USER_DATA);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clCheckBox">チェックボックス</param>
         /// <param name="enTypeOption">オプション種別</param>
-        private void InitCheckBox(CheckBox clCheckBox, ClsDatOption.TYPE_OPTION enTypeOption)
+        private void InitCheckBox(CheckBox clCheckBox, TYPE_OPTION enTypeOption)
         {
             clCheckBox.Text = ClsDatOption.CnvType2Name(enTypeOption);
             clCheckBox.Tag = enTypeOption;
@@ -81,16 +81,16 @@ namespace PrjHikariwoAnim
                 //this.checkBox_Display.Checked = true;
                 //this.checkBox_X.Checked = true;
                 //this.checkBox_Y.Checked = true;
-                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.ROTATION);
-                this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_X);
-                this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.SCALE_Y);
-                this.checkBox_T.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.TRANSPARENCY);
-                this.checkBox_FlipH.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_HORIZONAL);
-                this.checkBox_FlipV.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.FLIP_VERTICAL);
-                this.checkBox_Color.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.COLOR);
-                this.checkBox_Xoff.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_X);
-                this.checkBox_Yoff.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.OFFSET_Y);
-                this.checkBox_UserText.Checked = clElem.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.USER_DATA);
+                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.ROTATION);
+                this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_X);
+                this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_Y);
+                this.checkBox_T.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.TRANSPARENCY);
+                this.checkBox_FlipH.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.FLIP_HORIZONAL);
+                this.checkBox_FlipV.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.FLIP_VERTICAL);
+                this.checkBox_Color.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.COLOR);
+                this.checkBox_Xoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_X);
+                this.checkBox_Yoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_Y);
+                this.checkBox_UserText.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.USER_DATA);
             }
         }
 
@@ -243,7 +243,7 @@ namespace PrjHikariwoAnim
             {
                 if (clCheckBox.Tag != null)
                 {
-                    ClsDatOption.TYPE_OPTION enTypeOption = (ClsDatOption.TYPE_OPTION)clCheckBox.Tag;
+                    TYPE_OPTION enTypeOption = (TYPE_OPTION)clCheckBox.Tag;
                     if (clCheckBox.Checked) this.mElem.AddOption(enTypeOption);
                     else this.mElem.RemoveOption(enTypeOption, false);
 

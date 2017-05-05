@@ -11,31 +11,6 @@ namespace PrjHikariwoAnim
     {
         public static readonly int MAX_NAME = 16;   //エレメントの名前は最大16文字
 
-        // コントロール左側ペインに相当する部分
-        public enum ELEMENTS_TYPE
-        {
-            Image,
-            Shape,
-            Joint,
-            Effect,
-            Accessory,
-            FX
-        }
-
-        public enum ELEMENTS_STYLE
-        {
-            Rect,
-            Circle,
-            Point
-        }
-
-        public enum ELEMENTS_MARK
-        {
-            NONE,
-            UP,
-            IN
-        }
-
         public ClsDatMotion mMotion;        //親モーション
         public ClsDatElem mElem;            //親エレメント
         public List<ClsDatElem> mListElem;  //子エレメント
@@ -46,7 +21,7 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
-        public Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
+        public Dictionary<TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
         public ClsDatAttr mAttrInit;        //初期情報
         public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
@@ -75,10 +50,10 @@ namespace PrjHikariwoAnim
             this.mAttrInit = new ClsDatAttr();
             this.mImageKey = -1;
 
-            this.mDicOption = new Dictionary<ClsDatOption.TYPE_OPTION, ClsDatOption>();
-            this.AddOption(ClsDatOption.TYPE_OPTION.DISPLAY);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_X);
-            this.AddOption(ClsDatOption.TYPE_OPTION.POSITION_Y);
+            this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
+            this.AddOption(TYPE_OPTION.DISPLAY);
+            this.AddOption(TYPE_OPTION.POSITION_X);
+            this.AddOption(TYPE_OPTION.POSITION_Y);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -115,7 +90,7 @@ namespace PrjHikariwoAnim
             this.mListElem.Clear();
 
             //以下、オプション全削除処理
-            foreach (ClsDatOption.TYPE_OPTION enKey in this.mDicOption.Keys)
+            foreach (TYPE_OPTION enKey in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enKey];
                 clDatOption.RemoveAll();
@@ -192,7 +167,7 @@ namespace PrjHikariwoAnim
             if (inLineNo < 0) return;
             if (!this.isOpen) return;
 
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            foreach (TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
                 if (clDatOption.mLineNo != inLineNo) continue;
@@ -233,7 +208,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、オプションの親設定
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            foreach (TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
                 clDatOption.mElem = this;
@@ -273,7 +248,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, ClsDatOption.TYPE_OPTION.NONE);
+                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -316,7 +291,7 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageKey", this.mImageKey);
 
             //以下、オプションリスト保存処理
-            foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+            foreach (TYPE_OPTION enType in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enType];
                 clDatOption.Save(clHeader + ClsSystem.FILE_TAG);
@@ -444,7 +419,7 @@ namespace PrjHikariwoAnim
         /// オプション追加処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
-        public void AddOption(ClsDatOption.TYPE_OPTION enTypeOption)
+        public void AddOption(TYPE_OPTION enTypeOption)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -458,7 +433,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="isForce">強制削除フラグ</param>
-        public void RemoveOption(ClsDatOption.TYPE_OPTION enTypeOption, bool isForce)
+        public void RemoveOption(TYPE_OPTION enTypeOption, bool isForce)
         {
             //以下、オプション削除処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -529,7 +504,7 @@ namespace PrjHikariwoAnim
 
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     clOption.mTab = inTab;  //タブ値設定
@@ -609,7 +584,7 @@ namespace PrjHikariwoAnim
         {
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     if (clOption.mLineNo != inLineNo) continue;
@@ -646,7 +621,7 @@ namespace PrjHikariwoAnim
             //以下、子供のオプションをチェックする処理
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     if (clOption.mLineNo == inLineNo)
@@ -687,7 +662,7 @@ namespace PrjHikariwoAnim
             //以下、子供のオプションをチェックする処理
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     if (clOption.GetHashCode() == inHashCode)
@@ -973,7 +948,7 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
@@ -1045,9 +1020,9 @@ namespace PrjHikariwoAnim
 
             //以下、DISPLAYオプション表示処理
             int inCnt, inMax;
-            bool isExist = this.mDicOption.ContainsKey(ClsDatOption.TYPE_OPTION.DISPLAY);
+            bool isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
             if (isExist) {
-                ClsDatOption clOption = this.mDicOption[ClsDatOption.TYPE_OPTION.DISPLAY];
+                ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
                 if (clOption != null) {
                     foreach (int inKey in clOption.mDicKeyFrame.Keys)
                     {
@@ -1062,7 +1037,7 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (ClsDatOption.TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enType];
                     clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);

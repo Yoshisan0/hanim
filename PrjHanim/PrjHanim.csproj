@@ -72,6 +72,7 @@
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsDatTween.cs" />
     <Compile Include="ClsWin32.cs" />
+    <Compile Include="EnumAll.cs" />
     <Compile Include="FormAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
