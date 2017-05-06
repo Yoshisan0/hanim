@@ -30,7 +30,7 @@ namespace PrjHikariwoAnim
             //以下、チェックボックスの名称を変更する処理
             //this.InitCheckBox(this.checkBox_X, TYPE_OPTION.POSITION_X);
             //this.InitCheckBox(this.checkBox_Y, TYPE_OPTION.POSITION_Y);
-            this.InitCheckBox(this.checkBox_Rot, TYPE_OPTION.ROTATION);
+            this.InitCheckBox(this.checkBox_Rot, TYPE_OPTION.ROTATION_Z);
             this.InitCheckBox(this.checkBox_SX, TYPE_OPTION.SCALE_X);
             this.InitCheckBox(this.checkBox_SY, TYPE_OPTION.SCALE_Y);
             this.InitCheckBox(this.checkBox_T, TYPE_OPTION.TRANSPARENCY);
@@ -77,7 +77,7 @@ namespace PrjHikariwoAnim
                 //this.checkBox_Display.Checked = true;
                 //this.checkBox_X.Checked = true;
                 //this.checkBox_Y.Checked = true;
-                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.ROTATION);
+                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.ROTATION_Z);
                 this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_X);
                 this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_Y);
                 this.checkBox_T.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.TRANSPARENCY);
@@ -99,47 +99,35 @@ namespace PrjHikariwoAnim
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
 
-            UDnumX.Value = (int)clParam.Position.X;
-            UDnumY.Value = (int)clParam.Position.Y;
-            //UDnumZ.Value =(int)atr.Position.Z;
+            UDnumX.Value = (int)clParam.mX;
+            UDnumY.Value = (int)clParam.mY;
 
-            //UDnumRotX.Value = (decimal)atr.Radius.X;
-            //UDnumRotY.Value = (decimal)atr.Radius.Y;
-            UDnumRot.Value = (decimal)clParam.Radius.Z;
+            checkBox_Rot.Checked = clParam.mEnableRZ;
+            UDnumRot.Value = (decimal)clParam.mRZ;
 
-            UDnumSX.Value = (decimal)clParam.Scale.X;
-            UDnumSY.Value = (decimal)clParam.Scale.Y;
-            //UDnumSZ.Value = (decimal)atr.Scale.Z;
+            checkBox_SX.Checked = clParam.mEnableSX;
+            checkBox_SY.Checked = clParam.mEnableSY;
+            UDnumSX.Value = (decimal)clParam.mSX;
+            UDnumSY.Value = (decimal)clParam.mSY;
 
-            //checkBox_X.Checked = atr.isX;
-            //checkBox_Y.Checked = atr.isY;
-            //checkZ.Checked = atr.isZ;
+            checkBox_FlipH.Checked = clParam.mEnableFlipH;
+            checkBox_FlipV.Checked = clParam.mEnableFlipV;
 
-            checkBox_Rot.Checked = clParam.isRZ;
+            checkBox_T.Checked = clParam.mEnableTrans;
+            UDnumT.Value = (decimal)clParam.mTrans;
 
-            checkBox_SX.Checked = clParam.isSX;
-            checkBox_SY.Checked = clParam.isSY;
-            //checkSZ.Checked = atr.isSZ;
+            checkBox_Color.Checked = clParam.mEnableColor;
+            ColorCode.Text = $"{clParam.mColor:X6}";
 
-            checkBox_FlipH.Checked = clParam.FlipH;
-            checkBox_FlipV.Checked = clParam.FlipV;
-            //checkEnable.Checked = atr.Enable;
-            //checkBox_Display.Checked = atr.Visible;
+//          UDnumColRate.Value = (decimal)clParam.ColorRate;
 
-            checkBox_T.Checked = clParam.isTransparrency;
-            UDnumT.Value = clParam.Transparency;
+            checkBox_Xoff.Checked = clParam.mEnableCX;
+            checkBox_Yoff.Checked = clParam.mEnableCY;
+            UDnumXoff.Value = (int)clParam.mCX;
+            UDnumYoff.Value = (int)clParam.mCY;
 
-            checkBox_Color.Checked = clParam.isColor;
-            ColorCode.Text = $"{clParam.Color:X8}";
-            ColorCode.Tag = clParam.Color;
-
-            UDnumColRate.Value = (decimal)clParam.ColorRate;
-
-            UDnumXoff.Value = (int)clParam.Offset.X;
-            UDnumYoff.Value = (int)clParam.Offset.Y;
-            //UDnumZoff.Value = (int)atr.Offset.Z;
-
-            textBox_User.Text = clParam.Text;
+            checkBox_UserText.Checked = clParam.mEnableText;
+            textBox_User.Text = clParam.mText;
 
             //変更完了
             isLocked = false;
@@ -155,45 +143,38 @@ namespace PrjHikariwoAnim
             //パラメータ手動変更があった時のみ取得出来る
             if (isChanged)
             {
-                //AttributeBase atr = new AttributeBase();
-                clParam.Position.X = (int)UDnumX.Value;
-                clParam.Position.Y = (int)UDnumY.Value;
-                //ret.Position.Z = Decimal.ToInt32(UDnumZ.Value);
+                clParam.mX = (int)UDnumX.Value;
+                clParam.mY = (int)UDnumY.Value;
 
-                //atr.Radius.X = (float)UDnumRotX.Value;
-                //atr.Radius.Y = (float)UDnumRotY.Value;
-                clParam.Radius.Z = (float)UDnumRot.Value;
+                clParam.mEnableRZ = checkBox_Rot.Checked;
+                clParam.mRZ = (float)UDnumRot.Value;
 
-                clParam.Scale.X = (float)UDnumSX.Value;
-                clParam.Scale.Y = (float)UDnumSY.Value;
-                //ret.Scale.Z = (float)UDnumSZ.Value;
+                clParam.mEnableSX = checkBox_SX.Checked;
+                clParam.mEnableSY = checkBox_SY.Checked;
+                clParam.mSX = (float)UDnumSX.Value;
+                clParam.mSY = (float)UDnumSY.Value;
 
-                clParam.FlipH = checkBox_FlipH.Checked;
-                clParam.FlipV = checkBox_FlipV.Checked;
+                clParam.mEnableFlipH = checkBox_FlipH.Checked;
+                clParam.mEnableFlipV = checkBox_FlipV.Checked;
 
-                //ret.Enable = checkEnable.Checked;
-                //atr.Visible = checkBox_Display.Checked;
+                clParam.mEnableTrans = checkBox_T.Checked;
+                clParam.mTrans = (int)UDnumT.Value;
 
-                clParam.isTransparrency = checkBox_T.Checked;
-                clParam.Transparency = (int)UDnumT.Value;
+                clParam.mEnableColor = checkBox_Color.Checked;
+                clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
 
-                clParam.isColor = checkBox_Color.Checked;
-                if (ColorCode.Tag != null) clParam.Color = (int)ColorCode.Tag;
-                if (ColorCode.Text != "")
-                { 
-                    //atr.Color = int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber);
-                }
-                clParam.ColorRate = (int)UDnumColRate.Value;
+                clParam.mEnableCX = checkBox_Xoff.Checked;
+                clParam.mEnableCY = checkBox_Yoff.Checked;
+                clParam.mCX = (int)UDnumXoff.Value;
+                clParam.mCY = (int)UDnumYoff.Value;
 
-                clParam.Offset.X = (int)UDnumXoff.Value;
-                clParam.Offset.Y = (int)UDnumYoff.Value;
-                //ret.Offset.Z = (int)UDnumZoff.Value;
-
-                clParam.Text = textBox_User.Text;
+                clParam.mEnableText = checkBox_UserText.Checked;
+                clParam.mText = textBox_User.Text;
 
                 isLocked = false;
                 isChanged = false;
             }
+
             return clParam;
         }
 
@@ -215,8 +196,7 @@ namespace PrjHikariwoAnim
             if(dlg.ShowDialog()==DialogResult.OK)
             {
                 ColorPanel.BackColor = dlg.Color;
-                ColorCode.Tag = dlg.Color.ToArgb();
-                ColorCode.Text = $"{dlg.Color.ToArgb():X8}";//ARGB
+                ColorCode.Text = $"{dlg.Color.ToArgb():X6}";    //RGB
                 //この代入ではバリデードが発生しないらしく更新通知
                 if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
                 //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6

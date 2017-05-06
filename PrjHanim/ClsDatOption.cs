@@ -104,7 +104,7 @@ namespace PrjHikariwoAnim
                 break;
             case TYPE_OPTION.POSITION_X:
             case TYPE_OPTION.POSITION_Y:
-            case TYPE_OPTION.ROTATION:
+            case TYPE_OPTION.ROTATION_Z:
             case TYPE_OPTION.SCALE_X:
             case TYPE_OPTION.SCALE_Y:
             case TYPE_OPTION.OFFSET_X:
@@ -175,7 +175,7 @@ namespace PrjHikariwoAnim
             case TYPE_OPTION.POSITION_Y:
                 clName = "Position Y";
                 break;
-            case TYPE_OPTION.ROTATION:
+            case TYPE_OPTION.ROTATION_Z:
                 clName = "Rotation";
                 break;
             case TYPE_OPTION.SCALE_X:

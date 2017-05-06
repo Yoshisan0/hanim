@@ -374,64 +374,70 @@ namespace PrjHikariwoAnim
 
     public class ClsParam
     {
-        public ClsVector3 Position;//LocalPosition
+        public bool mEnableVisible; //表示フラグ
 
-        public bool isRX, isRY, isRZ;
-        public ClsVector3 Radius;//Radius
+        public int mX;              //Ｘ座標（常に有効）
+        public int mY;              //Ｙ座標（常に有効）
 
-        public bool isSX, isSY, isSZ;
-        public ClsVector3 Scale;//Scale
-        
-        public ClsVector3 Offset;//offset
+        public bool mEnableRZ;      //回転値有効化フラグ
+        public float mRZ;           //回転値
 
-        public bool FlipH;//FlipH
-        public bool FlipV;//FlipV
+        public bool mEnableSX;      //スケールＸ有効化フラグ
+        public bool mEnableSY;      //スケールＹ有効化フラグ
+        public float mSX;           //スケールＸ
+        public float mSY;           //スケールＹ
 
-        public bool isTransparrency;//透明有効化フラグ
-        public int Transparency;//0-100%
+        public bool mEnableCX;      //オフセットＸ座標有効化フラグ
+        public bool mEnableCY;      //オフセットＹ座標有効化フラグ
+        public int mCX;             //オフセットＸ座標
+        public int mCY;             //オフセットＹ座標
 
-        public bool Visible;//みえるかどうか
-        public bool Collision;//Hit判定があるかどうか
+        public bool mEnableFlipH;   //水平反転有効化フラグ
+        public bool mEnableFlipV;   //垂直反転有効化フラグ
 
-        public bool isColor;//カラー有効化フラグ
-        public int Color;
-        public int ColorRate;//0-100%
+        public bool mEnableTrans;   //マテリアル透明有効化フラグ
+        public float mTrans;        //マテリアル透明値0.0～1.0（0%～100%）
 
-        public string Text;//UserData
+        public bool mEnableColor;   //マテリアルカラー有効化フラグ
+        public int mColor;          //マテリアルカラー値（α無し RGBのみ）
+
+        public bool mEnableText;    //ユーザーデータ有効化フラグ
+        public string mText;        //ユーザーデータ
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ClsParam()
         {
-            this.Position = new ClsVector3();
+            this.mEnableVisible = true;
 
-            this.isRX = false;
-            this.isRY = false;
-            this.isRZ = false;
-            this.Radius = new ClsVector3();
+            this.mX = 0;
+            this.mY = 0;
 
-            this.isSX = false;
-            this.isSY = false;
-            this.isSZ = false;
-            this.Scale = new ClsVector3();
+            this.mEnableRZ = false;
+            this.mRZ = 0.0f;
 
-            this.Offset = new ClsVector3();
+            this.mEnableSX = false;
+            this.mEnableSY = false;
+            this.mSX = 1.0f;
+            this.mSY = 1.0f;
 
-            this.FlipH = false;
-            this.FlipV = false;
+            this.mEnableCX = false;
+            this.mEnableCY = false;
+            this.mCX = 0;
+            this.mCY = 0;
 
-            this.isTransparrency = false;
-            this.Transparency = 100;
+            this.mEnableFlipH = false;
+            this.mEnableFlipV = false;
 
-            this.Visible = true;
-            this.Collision = false;
+            this.mEnableTrans = false;
+            this.mTrans = 1.0f;
 
-            this.isColor = false;
-            this.Color = 0;
-            this.ColorRate = 100;
+            this.mEnableColor = false;
+            this.mColor = 0x00FFFFFF;
 
-            this.Text = "";
+            this.mEnableText = false;
+            this.mText = "";
         }
 
         /// <summary>
@@ -456,7 +462,7 @@ namespace PrjHikariwoAnim
             case TYPE_OPTION.POSITION_Y:
                 clValue = 0.0f;
                 break;
-            case TYPE_OPTION.ROTATION:
+            case TYPE_OPTION.ROTATION_Z:
                 clValue = 0.0f;
                 break;
             case TYPE_OPTION.SCALE_X:

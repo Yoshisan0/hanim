@@ -35,7 +35,7 @@ namespace PrjHikariwoAnim
         DISPLAY,
         POSITION_X,
         POSITION_Y,
-        ROTATION,
+        ROTATION_Z,
         SCALE_X,
         SCALE_Y,
         TRANSPARENCY,

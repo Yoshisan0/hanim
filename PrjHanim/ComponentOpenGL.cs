@@ -335,40 +335,42 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 色設定処理
-        /// </summary>
-        /// <param name="stColor">色</param>
-        public void SetColor(Color stColor)
-        {
-            //以下、色設定処理
-            Gl.glColor3f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f);
-        }
-
-        /// <summary>
         /// マトリクス設定処理
         /// </summary>
         /// <param name="clParam">各パラメーター管理クラス</param>
-        public void SetMatrix(ClsParam clParam)
+        public void SetParam(ClsParam clParam)
         {
             Gl.glLoadIdentity();
 
-            //以下、ワールド設定処理
+            //以下、マテリアル色設定
+            float flAlpha = 1.0f;
+            if (clParam.mEnableTrans) flAlpha = clParam.mTrans;
+            Color stColor = Color.White;
+            if (clParam.mEnableColor) stColor = Color.FromArgb(clParam.mColor);
+            Gl.glColor4f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f, flAlpha);
+
+            //以下、ワールド座標設定
             Gl.glTranslatef(this.mCenterX, this.mCenterY, 0.0f);
+
+            //以下、ワールドスケール設定
             Gl.glScalef(this.mScale, this.mScale, 1.0f);
 
-            //以下、ローカル設定処理
-            float flX = clParam.Position.X;
-            float flY = clParam.Position.Y;
-            float flZ = clParam.Position.Z;
-            Gl.glTranslatef(flX, flY, flZ);
+            //以下、ローカル座標設定
+            float flX = clParam.mX;
+            float flY = clParam.mY;
+            Gl.glTranslatef(flX, flY, 0.0f);
 
-            flZ = clParam.Radius.Z;
-            Gl.glRotatef(flZ, 0.0f, 0.0f, 1.0f);
+            //以下、ローカル回転設定
+            float flRZ = 0.0f;
+            if (clParam.mEnableRZ) flRZ = clParam.mRZ;
+            Gl.glRotatef(flRZ, 0.0f, 0.0f, 1.0f);
 
-            flX = clParam.Scale.X;
-            flY = clParam.Scale.Y;
-            flZ = clParam.Scale.Z;
-            Gl.glScalef(flX, flY, flZ);
+            //以下、ローカルスケール設定
+            float flSX = 1.0f;
+            if (clParam.mEnableSX) flSX = clParam.mSX;
+            float flSY = 1.0f;
+            if (clParam.mEnableSY) flSY = clParam.mSY;
+            Gl.glScalef(flSX, flSY, 1.0f);
         }
 
         /// <summary>

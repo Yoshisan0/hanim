@@ -17,7 +17,7 @@ namespace PrjHikariwoAnim
         public string mName;                //エレメント名
         public ELEMENTS_TYPE mType;         //Default Image
         public ELEMENTS_STYLE mStyle;       //Default Rect
-        public bool isVisible;              //表示非表示(目)
+        public bool isDisplay;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
@@ -45,7 +45,7 @@ namespace PrjHikariwoAnim
             this.mName = this.GetHashCode().ToString("X8");//仮名
             this.mType = ELEMENTS_TYPE.Image;
             this.mStyle = ELEMENTS_STYLE.Rect;
-            this.isVisible = true;  //表示非表示(目)
+            this.isDisplay = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
             this.mImageKey = -1;
@@ -236,7 +236,7 @@ namespace PrjHikariwoAnim
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
             this.mName = ClsTool.GetStringFromXmlNodeList(clListNode, "Name");
-            this.isVisible = ClsTool.GetBoolFromXmlNodeList(clListNode, "Visible");
+            this.isDisplay = ClsTool.GetBoolFromXmlNodeList(clListNode, "Visible");
             this.isLocked = ClsTool.GetBoolFromXmlNodeList(clListNode, "Locked");
             this.isOpen = ClsTool.GetBoolFromXmlNodeList(clListNode, "Open");
             this.mImageKey = ClsTool.GetIntFromXmlNodeList(clListNode, "ImageKey");
@@ -274,7 +274,7 @@ namespace PrjHikariwoAnim
             //以下、エレメント保存処理
             ClsTool.AppendElementStart(clHeader, "Elem");
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isVisible);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isDisplay);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageKey", this.mImageKey);
@@ -417,6 +417,23 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// オプション取得処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <returns>値</returns>
+        private object GetOptionValue(TYPE_OPTION enTypeOption)
+        {
+            //以下、オプション追加処理
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            if (!isExist) return (null);
+
+            ClsDatOption clOption = this.mDicOption[enTypeOption];
+            if (clOption == null) return (null);
+
+            return (clOption.mValue);
+        }
+
+        /// <summary>
         /// オプション削除処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
@@ -435,6 +452,17 @@ namespace PrjHikariwoAnim
                     this.mDicOption.Remove(enTypeOption);
                 }
             }
+        }
+
+        /// <summary>
+        /// オプション存在チェック
+        /// </summary>
+        /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <returns>存在フラグ</returns>
+        private bool IsExistOption(TYPE_OPTION enTypeOption)
+        {
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            return (isExist);
         }
 
         /// <summary>
@@ -675,13 +703,47 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// オプションの情報をかき集めてまとめる処理
+        /// </summary>
+        /// <returns>パラメーター管理クラス</returns>
+        public ClsParam GetParam()
+        {
+            ClsParam clParam = new ClsParam();
+            clParam.mEnableVisible = (bool)this.GetOptionValue(TYPE_OPTION.DISPLAY);
+            bool isExist = this.IsExistOption(TYPE_OPTION.POSITION_X);
+            if (isExist) clParam.mX = (int)this.GetOptionValue(TYPE_OPTION.POSITION_X);
+            isExist = this.IsExistOption(TYPE_OPTION.POSITION_Y);
+            if (isExist) clParam.mY = (int)this.GetOptionValue(TYPE_OPTION.POSITION_Y);
+            clParam.mEnableRZ = this.IsExistOption(TYPE_OPTION.ROTATION_Z);
+            if (clParam.mEnableRZ) clParam.mRZ = (float)this.GetOptionValue(TYPE_OPTION.ROTATION_Z);
+            clParam.mEnableSX = this.IsExistOption(TYPE_OPTION.SCALE_X);
+            if (clParam.mEnableSX) clParam.mSX = (float)this.GetOptionValue(TYPE_OPTION.SCALE_X);
+            clParam.mEnableSY = this.IsExistOption(TYPE_OPTION.SCALE_Y);
+            if (clParam.mEnableSY) clParam.mSY = (float)this.GetOptionValue(TYPE_OPTION.SCALE_Y);
+            clParam.mEnableTrans = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
+            if (clParam.mEnableTrans) clParam.mTrans = (float)this.GetOptionValue(TYPE_OPTION.TRANSPARENCY);
+            clParam.mEnableFlipH = this.IsExistOption(TYPE_OPTION.FLIP_HORIZONAL);
+            clParam.mEnableFlipV = this.IsExistOption(TYPE_OPTION.FLIP_VERTICAL);
+            clParam.mEnableColor = this.IsExistOption(TYPE_OPTION.COLOR);
+            if (clParam.mEnableColor) clParam.mColor = (int)this.GetOptionValue(TYPE_OPTION.COLOR);
+            clParam.mEnableCX = this.IsExistOption(TYPE_OPTION.OFFSET_X);
+            if (clParam.mEnableCX) clParam.mCX = (int)this.GetOptionValue(TYPE_OPTION.OFFSET_X);
+            clParam.mEnableCY = this.IsExistOption(TYPE_OPTION.OFFSET_Y);
+            if (clParam.mEnableCY) clParam.mCY = (int)this.GetOptionValue(TYPE_OPTION.OFFSET_Y);
+            clParam.mEnableText = this.IsExistOption(TYPE_OPTION.USER_DATA);
+            if (clParam.mEnableText) clParam.mText = (string)this.GetOptionValue(TYPE_OPTION.USER_DATA);
+
+            return (clParam);
+        }
+
+        /// <summary>
         /// パーツの描画処理
         /// </summary>
         /// <param name="clGL">OpenGLコンポーネント</param>
         public void DrawPreview(ComponentOpenGL clGL)
         {
             //以下、現在の値をかき集めてまとめる処理
-//            ClsDatAttr clAttr = this.mAttrInit;
+            ClsParam clParam = this.GetParam();
 
             //以下、ポリゴン描画処理
             bool isExist = ClsSystem.mDicImage.ContainsKey(this.mImageKey);
@@ -693,25 +755,25 @@ namespace PrjHikariwoAnim
                     //以下、テクスチャー設定
                     clGL.SetTexture(clImage.mListTex[0]);
 
-                    //以下、色設定
-                    clGL.SetColor(Color.White);
-
-                    /*
-                    //以下、マトリクス設定
-                    clGL.SetMatrix(clAttr);
+                    //以下、パラメーター設定
+                    clGL.SetParam(clParam);
 
                     //以下、ポリゴン描画
+                    float flCX = 0.0f;
+                    if (clParam.mEnableCX) flCX = clParam.mCX;
+                    float flCY = 0.0f;
+                    if (clParam.mEnableCY) flCY = clParam.mCY;
+
                     float flWidth = clImage.mImgOrigin.Width;
                     float flHeight = clImage.mImgOrigin.Height;
                     if (clImage.mRect == null)
                     {
-                        clGL.DrawPolygon(this.mListUV, clAttr.Offset.X, clAttr.Offset.Y, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
                     }
                     else
                     {
-                        clGL.DrawPolygon(this.mListUV, clAttr.Offset.X, clAttr.Offset.Y, flWidth, flHeight);
+                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
                     }
-                    */
                 }
             }
 
@@ -894,7 +956,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、「目」アイコン表示処理
-            if (this.isVisible)
+            if (this.isDisplay)
             {
                 g.DrawImage(Properties.Resources.see, 1, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }

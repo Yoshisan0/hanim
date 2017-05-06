@@ -733,16 +733,16 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clDatMotion">モーション管理クラス</param>
         /// <param name="clDatImage">イメージ管理クラス</param>
-        /// <param name="x">クリック座標(Cliant)</param>
-        /// <param name="y">クリック座標(Cliant)</param>
-        private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int x, int y)
+        /// <param name="inX">クリック座標(Client)</param>
+        /// <param name="inY">クリック座標(Client)</param>
+        private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int inX, int inY)
         {
             ClsParam clParam = new ClsParam();
-            clParam.Position.X = x;
-            clParam.Position.Y = y;
+            clParam.mX = inX;
+            clParam.mY = inY;
 
             //アイテムの登録
-            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, x, y);
+            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, inX, inY);
             clDatElem.SetImage(clDatImage);
 
             //センターからの距離に変換
@@ -750,8 +750,8 @@ namespace PrjHikariwoAnim
 //          y -= panel_PreView.Height / 2;
 
             //さらに画像サイズ半分シフトして画像中心をセンターに
-            x -= clDatImage.mImgOrigin.Width / 2;
-            y -= clDatImage.mImgOrigin.Height / 2;
+            inX -= clDatImage.mImgOrigin.Width / 2;
+            inY -= clDatImage.mImgOrigin.Height / 2;
 
             //Show - Attribute
             this.mFormAttribute.SetAllParam(clParam);

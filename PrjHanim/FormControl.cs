@@ -88,7 +88,7 @@ namespace PrjHikariwoAnim
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
 
-            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION;
+            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION_Z;
             this.ToolStripMenuItem_AddScaleX.Tag = TYPE_OPTION.SCALE_X;
             this.ToolStripMenuItem_AddScaleY.Tag = TYPE_OPTION.SCALE_Y;
             this.ToolStripMenuItem_AddTransparency.Tag = TYPE_OPTION.TRANSPARENCY;
@@ -250,7 +250,7 @@ namespace PrjHikariwoAnim
                 //Click Eye
                 if (e.X < 16)
                 {
-                    clElem.isVisible = !clElem.isVisible;
+                    clElem.isDisplay = !clElem.isDisplay;
                 }
 
                 //Click Locked
@@ -929,7 +929,7 @@ namespace PrjHikariwoAnim
             if (clElem == null) return;
 
             Dictionary<TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<TYPE_OPTION, ToolStripMenuItem>();
-            clDic[TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[TYPE_OPTION.ROTATION_Z] = this.ToolStripMenuItem_AddRotation;
             clDic[TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
             clDic[TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
             clDic[TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
