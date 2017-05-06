@@ -74,6 +74,9 @@ namespace PrjHikariwoAnim
                 //this.Enabled = true;
 
                 //以下、チェック状態の設定
+                ClsParam clParam = clElem.GetParam();
+                this.SetParam(clParam);
+                /*
                 //this.checkBox_Display.Checked = true;
                 //this.checkBox_X.Checked = true;
                 //this.checkBox_Y.Checked = true;
@@ -87,6 +90,7 @@ namespace PrjHikariwoAnim
                 this.checkBox_Xoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_X);
                 this.checkBox_Yoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_Y);
                 this.checkBox_UserText.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.USER_DATA);
+                */
             }
         }
 
@@ -94,7 +98,7 @@ namespace PrjHikariwoAnim
         /// フォームにパラメータをセットします
         /// </summary>
         /// <param name="clParam"></param>
-        public void SetAllParam(ClsParam clParam)
+        public void SetParam(ClsParam clParam)
         {
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
@@ -119,8 +123,6 @@ namespace PrjHikariwoAnim
             checkBox_Color.Checked = clParam.mEnableColor;
             ColorCode.Text = $"{clParam.mColor:X6}";
 
-//          UDnumColRate.Value = (decimal)clParam.ColorRate;
-
             checkBox_Xoff.Checked = clParam.mEnableCX;
             checkBox_Yoff.Checked = clParam.mEnableCY;
             UDnumXoff.Value = (int)clParam.mCX;
@@ -137,7 +139,7 @@ namespace PrjHikariwoAnim
         /// フォーム上パラメータを取得します
         /// </summary>
         /// <param name="clParam">参照</param>
-        public ClsParam GetAllParam(ref ClsParam clParam)
+        public ClsParam GetParam(ref ClsParam clParam)
         {
             //isLocked = true;
             //パラメータ手動変更があった時のみ取得出来る

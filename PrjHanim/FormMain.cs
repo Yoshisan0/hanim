@@ -737,24 +737,9 @@ namespace PrjHikariwoAnim
         /// <param name="inY">クリック座標(Client)</param>
         private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int inX, int inY)
         {
-            ClsParam clParam = new ClsParam();
-            clParam.mX = inX;
-            clParam.mY = inY;
-
-            //アイテムの登録
+            //以下、エレメント追加処理
             ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, inX, inY);
             clDatElem.SetImage(clDatImage);
-
-            //センターからの距離に変換
-//          x -= panel_PreView.Width / 2;
-//          y -= panel_PreView.Height / 2;
-
-            //さらに画像サイズ半分シフトして画像中心をセンターに
-            inX -= clDatImage.mImgOrigin.Width / 2;
-            inY -= clDatImage.mImgOrigin.Height / 2;
-
-            //Show - Attribute
-            this.mFormAttribute.SetAllParam(clParam);
 
             clDatMotion.AddElements(clDatElem);  //Elements登録
 

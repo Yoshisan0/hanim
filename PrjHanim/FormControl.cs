@@ -994,9 +994,9 @@ namespace PrjHikariwoAnim
 
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
-            TYPE_OPTION enType = (TYPE_OPTION)clITem.Tag;
-            object clValue = ClsParam.GetDefaultValue(enType);
-            clElem.AddOption(enType, clValue);
+            TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
+            object clValue = ClsParam.GetDefaultValue(enTypeOption);
+            clElem.AddOption(enTypeOption, clValue);
 
             //以下、行番号振り直し処理
             this.mMotion.Assignment();

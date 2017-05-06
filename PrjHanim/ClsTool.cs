@@ -389,8 +389,8 @@ namespace PrjHikariwoAnim
 
         public bool mEnableCX;      //オフセットＸ座標有効化フラグ
         public bool mEnableCY;      //オフセットＹ座標有効化フラグ
-        public int mCX;             //オフセットＸ座標
-        public int mCY;             //オフセットＹ座標
+        public float mCX;           //オフセットＸ座標
+        public float mCY;           //オフセットＹ座標
 
         public bool mEnableFlipH;   //水平反転有効化フラグ
         public bool mEnableFlipV;   //垂直反転有効化フラグ
@@ -424,8 +424,8 @@ namespace PrjHikariwoAnim
 
             this.mEnableCX = false;
             this.mEnableCY = false;
-            this.mCX = 0;
-            this.mCY = 0;
+            this.mCX = 0.0f;
+            this.mCY = 0.0f;
 
             this.mEnableFlipH = false;
             this.mEnableFlipV = false;
@@ -434,7 +434,7 @@ namespace PrjHikariwoAnim
             this.mTrans = 1.0f;
 
             this.mEnableColor = false;
-            this.mColor = 0x00FFFFFF;
+            this.mColor = 0xFFFFFF;
 
             this.mEnableText = false;
             this.mText = "";
@@ -481,7 +481,7 @@ namespace PrjHikariwoAnim
                 clValue = false;
                 break;
             case TYPE_OPTION.COLOR:
-                clValue = (uint)0;
+                clValue = (int)0xFFFFFF;
                 break;
             case TYPE_OPTION.OFFSET_X:
                 clValue = 0.0f;

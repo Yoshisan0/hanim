@@ -113,7 +113,7 @@ namespace PrjHikariwoAnim
                 this.mValue = Convert.ToSingle(clValue);
                 break;
             case TYPE_OPTION.COLOR:
-                this.mValue = Convert.ToUInt32(clValue);
+                this.mValue = Convert.ToInt32(clValue);
                 break;
             case TYPE_OPTION.USER_DATA:
                 this.mValue = clValue;
@@ -166,8 +166,9 @@ namespace PrjHikariwoAnim
 
             switch (enType)
             {
+            case TYPE_OPTION.NONE:
             case TYPE_OPTION.DISPLAY:
-                clName = "Display";
+                clName = "";
                 break;
             case TYPE_OPTION.POSITION_X:
                 clName = "Position X";
@@ -213,13 +214,14 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 表示するオプション種別かチェックする処理
+        /// コントロールに表示するかチェックする処理
         /// </summary>
         /// <param name="enType">オプション種別</param>
         /// <returns>表示フラグ</returns>
         public static bool IsDraw(TYPE_OPTION enType)
         {
-            if (enType == TYPE_OPTION.DISPLAY) return (false);
+            if (enType == TYPE_OPTION.NONE) return (false);
+            if (enType == TYPE_OPTION.DISPLAY) return (false);  //DISPLAYはエレメントとして描画するので、オプションとしては描画しない
 
             return (true);
         }

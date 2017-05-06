@@ -520,9 +520,12 @@ namespace PrjHikariwoAnim
 
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
                 {
-                    ClsDatOption clOption = this.mDicOption[enType];
+                    bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+                    if (!isExist) continue;
+
+                    ClsDatOption clOption = this.mDicOption[enTypeOption];
                     clOption.mTab = inTab;  //タブ値設定
                     clOption.Assignment(clMotion);
                 }
@@ -727,9 +730,9 @@ namespace PrjHikariwoAnim
             clParam.mEnableColor = this.IsExistOption(TYPE_OPTION.COLOR);
             if (clParam.mEnableColor) clParam.mColor = (int)this.GetOptionValue(TYPE_OPTION.COLOR);
             clParam.mEnableCX = this.IsExistOption(TYPE_OPTION.OFFSET_X);
-            if (clParam.mEnableCX) clParam.mCX = (int)this.GetOptionValue(TYPE_OPTION.OFFSET_X);
+            if (clParam.mEnableCX) clParam.mCX = (float)this.GetOptionValue(TYPE_OPTION.OFFSET_X);
             clParam.mEnableCY = this.IsExistOption(TYPE_OPTION.OFFSET_Y);
-            if (clParam.mEnableCY) clParam.mCY = (int)this.GetOptionValue(TYPE_OPTION.OFFSET_Y);
+            if (clParam.mEnableCY) clParam.mCY = (float)this.GetOptionValue(TYPE_OPTION.OFFSET_Y);
             clParam.mEnableText = this.IsExistOption(TYPE_OPTION.USER_DATA);
             if (clParam.mEnableText) clParam.mText = (string)this.GetOptionValue(TYPE_OPTION.USER_DATA);
 
@@ -1002,8 +1005,10 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in Enum.GetValues(typeof(TYPE_OPTION)))
                 {
+                    bool isExist = this.mDicOption.ContainsKey(enType);
+                    if (!isExist) continue;
                     ClsDatOption clOption = this.mDicOption[enType];
                     clOption.DrawControl(g, inSelectLineNo, inWidth, inHeight, clFont);
                 }
@@ -1091,8 +1096,10 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enType in this.mDicOption.Keys)
+                foreach (TYPE_OPTION enType in Enum.GetValues(typeof(TYPE_OPTION)))
                 {
+                    isExist = this.mDicOption.ContainsKey(enType);
+                    if (!isExist) continue;
                     ClsDatOption clOption = this.mDicOption[enType];
                     clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
                 }
