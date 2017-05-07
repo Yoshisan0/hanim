@@ -712,7 +712,7 @@ namespace PrjHikariwoAnim
         public ClsParam GetParam()
         {
             ClsParam clParam = new ClsParam();
-            clParam.mEnableVisible = (bool)this.GetOptionValue(TYPE_OPTION.DISPLAY);
+            clParam.mEnableDisplay = (bool)this.GetOptionValue(TYPE_OPTION.DISPLAY);
             bool isExist = this.IsExistOption(TYPE_OPTION.POSITION_X);
             if (isExist) clParam.mX = (int)this.GetOptionValue(TYPE_OPTION.POSITION_X);
             isExist = this.IsExistOption(TYPE_OPTION.POSITION_Y);

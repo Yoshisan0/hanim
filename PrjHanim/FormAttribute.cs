@@ -9,15 +9,14 @@ namespace PrjHikariwoAnim
         private bool isLocked;      //パラメータ変更中にロック
         private FormMain mFormMain;
         private ClsDatElem mElem;   //ターゲットとなるエレメント
+        public bool isChanged;      //パラメータ変更があった時True 読み出し後False
 
-        public bool isChanged;//パラメータ変更があった時True 読み出し後False
-
-        public FormAttribute(FormMain form)
+        public FormAttribute(FormMain clFormMain)
         {
             InitializeComponent();
 
             //以下、初期化処理
-            this.mFormMain = form;
+            this.mFormMain = clFormMain;
             this.mElem = null;
         }
 
@@ -30,16 +29,16 @@ namespace PrjHikariwoAnim
             //以下、チェックボックスの名称を変更する処理
             //this.InitCheckBox(this.checkBox_X, TYPE_OPTION.POSITION_X);
             //this.InitCheckBox(this.checkBox_Y, TYPE_OPTION.POSITION_Y);
-            this.InitCheckBox(this.checkBox_Rot, TYPE_OPTION.ROTATION_Z);
-            this.InitCheckBox(this.checkBox_SX, TYPE_OPTION.SCALE_X);
-            this.InitCheckBox(this.checkBox_SY, TYPE_OPTION.SCALE_Y);
-            this.InitCheckBox(this.checkBox_T, TYPE_OPTION.TRANSPARENCY);
-            this.InitCheckBox(this.checkBox_FlipH, TYPE_OPTION.FLIP_HORIZONAL);
-            this.InitCheckBox(this.checkBox_FlipV, TYPE_OPTION.FLIP_VERTICAL);
-            this.InitCheckBox(this.checkBox_Color, TYPE_OPTION.COLOR);
-            this.InitCheckBox(this.checkBox_Xoff, TYPE_OPTION.OFFSET_X);
-            this.InitCheckBox(this.checkBox_Yoff, TYPE_OPTION.OFFSET_Y);
-            this.InitCheckBox(this.checkBox_UserText, TYPE_OPTION.USER_DATA);
+            this.InitCheckBox(this.checkBox_EnableRZ, TYPE_OPTION.ROTATION_Z);
+            this.InitCheckBox(this.checkBox_EnableSX, TYPE_OPTION.SCALE_X);
+            this.InitCheckBox(this.checkBox_EnableSY, TYPE_OPTION.SCALE_Y);
+            this.InitCheckBox(this.checkBox_EnableTrans, TYPE_OPTION.TRANSPARENCY);
+            this.InitCheckBox(this.checkBox_EnableFlipH, TYPE_OPTION.FLIP_HORIZONAL);
+            this.InitCheckBox(this.checkBox_EnableFlipV, TYPE_OPTION.FLIP_VERTICAL);
+            this.InitCheckBox(this.checkBox_EnableColor, TYPE_OPTION.COLOR);
+            this.InitCheckBox(this.checkBox_EnableCX, TYPE_OPTION.OFFSET_X);
+            this.InitCheckBox(this.checkBox_EnableCY, TYPE_OPTION.OFFSET_Y);
+            this.InitCheckBox(this.checkBox_EnableText, TYPE_OPTION.USER_DATA);
         }
 
         /// <summary>
@@ -64,33 +63,16 @@ namespace PrjHikariwoAnim
             if (clElem == null)
             {
                 this.Text = "Attribute";
-                this.panel_Attribute_Base.Enabled = false;
-                //this.Enabled = false;
+                this.groupBox_Param.Enabled = false;
             }
             else
             {
                 this.Text = ClsTool.GetWindowName("Attribute", clElem);
-                this.panel_Attribute_Base.Enabled = true;
-                //this.Enabled = true;
+                this.groupBox_Param.Enabled = true;
 
                 //以下、チェック状態の設定
                 ClsParam clParam = clElem.GetParam();
                 this.SetParam(clParam);
-                /*
-                //this.checkBox_Display.Checked = true;
-                //this.checkBox_X.Checked = true;
-                //this.checkBox_Y.Checked = true;
-                this.checkBox_Rot.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.ROTATION_Z);
-                this.checkBox_SX.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_X);
-                this.checkBox_SY.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.SCALE_Y);
-                this.checkBox_T.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.TRANSPARENCY);
-                this.checkBox_FlipH.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.FLIP_HORIZONAL);
-                this.checkBox_FlipV.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.FLIP_VERTICAL);
-                this.checkBox_Color.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.COLOR);
-                this.checkBox_Xoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_X);
-                this.checkBox_Yoff.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.OFFSET_Y);
-                this.checkBox_UserText.Checked = clElem.mDicOption.ContainsKey(TYPE_OPTION.USER_DATA);
-                */
             }
         }
 
@@ -103,32 +85,36 @@ namespace PrjHikariwoAnim
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
 
+            checkBox_Display.Checked = clParam.mEnableDisplay;
+
             UDnumX.Value = (int)clParam.mX;
             UDnumY.Value = (int)clParam.mY;
 
-            checkBox_Rot.Checked = clParam.mEnableRZ;
+            checkBox_EnableRZ.Checked = clParam.mEnableRZ;
             UDnumRot.Value = (decimal)clParam.mRZ;
 
-            checkBox_SX.Checked = clParam.mEnableSX;
-            checkBox_SY.Checked = clParam.mEnableSY;
+            checkBox_EnableSX.Checked = clParam.mEnableSX;
+            checkBox_EnableSY.Checked = clParam.mEnableSY;
             UDnumSX.Value = (decimal)clParam.mSX;
             UDnumSY.Value = (decimal)clParam.mSY;
 
-            checkBox_FlipH.Checked = clParam.mEnableFlipH;
-            checkBox_FlipV.Checked = clParam.mEnableFlipV;
+            checkBox_EnableFlipH.Checked = clParam.mEnableFlipH;
+            checkBox_EnableFlipV.Checked = clParam.mEnableFlipV;
+            checkBox_FlipH.Checked = clParam.mFlipH;
+            checkBox_FlipV.Checked = clParam.mFlipV;
 
-            checkBox_T.Checked = clParam.mEnableTrans;
+            checkBox_EnableTrans.Checked = clParam.mEnableTrans;
             UDnumT.Value = (decimal)clParam.mTrans;
 
-            checkBox_Color.Checked = clParam.mEnableColor;
+            checkBox_EnableColor.Checked = clParam.mEnableColor;
             ColorCode.Text = $"{clParam.mColor:X6}";
 
-            checkBox_Xoff.Checked = clParam.mEnableCX;
-            checkBox_Yoff.Checked = clParam.mEnableCY;
+            checkBox_EnableCX.Checked = clParam.mEnableCX;
+            checkBox_EnableCY.Checked = clParam.mEnableCY;
             UDnumXoff.Value = (int)clParam.mCX;
             UDnumYoff.Value = (int)clParam.mCY;
 
-            checkBox_UserText.Checked = clParam.mEnableText;
+            checkBox_EnableText.Checked = clParam.mEnableText;
             textBox_User.Text = clParam.mText;
 
             //変更完了
@@ -148,29 +134,29 @@ namespace PrjHikariwoAnim
                 clParam.mX = (int)UDnumX.Value;
                 clParam.mY = (int)UDnumY.Value;
 
-                clParam.mEnableRZ = checkBox_Rot.Checked;
+                clParam.mEnableRZ = checkBox_EnableRZ.Checked;
                 clParam.mRZ = (float)UDnumRot.Value;
 
-                clParam.mEnableSX = checkBox_SX.Checked;
-                clParam.mEnableSY = checkBox_SY.Checked;
+                clParam.mEnableSX = checkBox_EnableSX.Checked;
+                clParam.mEnableSY = checkBox_EnableSY.Checked;
                 clParam.mSX = (float)UDnumSX.Value;
                 clParam.mSY = (float)UDnumSY.Value;
 
-                clParam.mEnableFlipH = checkBox_FlipH.Checked;
-                clParam.mEnableFlipV = checkBox_FlipV.Checked;
+                clParam.mEnableFlipH = checkBox_EnableFlipH.Checked;
+                clParam.mEnableFlipV = checkBox_EnableFlipV.Checked;
 
-                clParam.mEnableTrans = checkBox_T.Checked;
+                clParam.mEnableTrans = checkBox_EnableTrans.Checked;
                 clParam.mTrans = (int)UDnumT.Value;
 
-                clParam.mEnableColor = checkBox_Color.Checked;
+                clParam.mEnableColor = checkBox_EnableColor.Checked;
                 clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
 
-                clParam.mEnableCX = checkBox_Xoff.Checked;
-                clParam.mEnableCY = checkBox_Yoff.Checked;
+                clParam.mEnableCX = checkBox_EnableCX.Checked;
+                clParam.mEnableCY = checkBox_EnableCY.Checked;
                 clParam.mCX = (int)UDnumXoff.Value;
                 clParam.mCY = (int)UDnumYoff.Value;
 
-                clParam.mEnableText = checkBox_UserText.Checked;
+                clParam.mEnableText = checkBox_EnableText.Checked;
                 clParam.mText = textBox_User.Text;
 
                 isLocked = false;
@@ -183,11 +169,57 @@ namespace PrjHikariwoAnim
         private void ColorCode_TextChanged(object sender, EventArgs e)
         {
             //PreViewColor
-            if (ColorCode.Text != "")
+            string clTextSrc = ColorCode.Text;
+            if (string.IsNullOrEmpty(ColorCode.Text))
             {
-                ColorPanel.BackColor = Color.FromArgb(int.Parse(ColorCode.Text, System.Globalization.NumberStyles.HexNumber));
+                clTextSrc = "";
             }
-            mFormMain.AttributeUpdate();
+            if (clTextSrc.Length > 6)
+            {
+                clTextSrc = clTextSrc.Substring(0, 6);
+                ColorCode.Text = clTextSrc;
+            }
+
+            //以下、色テキスト設定処理
+            clTextSrc = clTextSrc.ToUpper();
+            int inCnt;
+            string clTextDst = "";
+            for (inCnt = 0; inCnt < clTextSrc.Length; inCnt++)
+            {
+                char chChar = clTextSrc[inCnt];
+                bool isOK = false;
+                if (chChar == '0') isOK = true;
+                if (chChar == '1') isOK = true;
+                if (chChar == '2') isOK = true;
+                if (chChar == '3') isOK = true;
+                if (chChar == '4') isOK = true;
+                if (chChar == '5') isOK = true;
+                if (chChar == '6') isOK = true;
+                if (chChar == '7') isOK = true;
+                if (chChar == '8') isOK = true;
+                if (chChar == '9') isOK = true;
+                if (chChar == 'A') isOK = true;
+                if (chChar == 'B') isOK = true;
+                if (chChar == 'C') isOK = true;
+                if (chChar == 'D') isOK = true;
+                if (chChar == 'E') isOK = true;
+                if (chChar == 'F') isOK = true;
+                if (!isOK) continue;
+
+                clTextDst += clTextSrc[inCnt];
+            }
+            string clTextColor = clTextDst.PadLeft(6, '0');
+
+            //以下、色設定処理
+            string clR = clTextColor.Substring(0, 2);
+            int inR = Convert.ToInt32(clR, 16);
+            string clG = clTextColor.Substring(2, 2);
+            int inG = Convert.ToInt32(clG, 16);
+            string clB = clTextColor.Substring(4, 2);
+            int inB = Convert.ToInt32(clB, 16);
+            ColorPanel.BackColor = Color.FromArgb(255, inR, inG, inB);
+
+            this.mFormMain.UpdateAttribute();
         }
 
         private void ColorPanel_Click(object sender, EventArgs e)
@@ -195,14 +227,17 @@ namespace PrjHikariwoAnim
             //PickUP ColorDialog
             ColorDialog dlg = new ColorDialog();
             dlg.Color = ColorPanel.BackColor;
-            if(dlg.ShowDialog()==DialogResult.OK)
-            {
-                ColorPanel.BackColor = dlg.Color;
-                ColorCode.Text = $"{dlg.Color.ToArgb():X6}";    //RGB
-                //この代入ではバリデードが発生しないらしく更新通知
-                if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
-                //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6
-            }
+            DialogResult enREsult = dlg.ShowDialog();
+            if (enREsult != DialogResult.OK) return;
+
+            ColorPanel.BackColor = dlg.Color;
+            int inColor = dlg.Color.ToArgb();
+            inColor &= 0x00FFFFFF;
+            ColorCode.Text = $"{inColor:X6}";   //RGB
+
+            //この代入ではバリデードが発生しないらしく更新通知
+            if (!isLocked) { isChanged = true; mFormMain.UpdateAttribute(); }
+            //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6
         }
 
         private void checkBox_CheckStateChanged(object sender, EventArgs e)
@@ -211,7 +246,7 @@ namespace PrjHikariwoAnim
             //any Param Update どれかのチェックが変更された通知をメインに送る
             if (!isLocked) {
                 isChanged = true;
-                this.mFormMain.AttributeUpdate();
+                this.mFormMain.UpdateAttribute();
             }
 
             CheckBox clCheckBox = sender as CheckBox;
@@ -220,9 +255,15 @@ namespace PrjHikariwoAnim
                 if (clCheckBox.Tag != null)
                 {
                     TYPE_OPTION enTypeOption = (TYPE_OPTION)clCheckBox.Tag;
-                    object clValue = ClsParam.GetDefaultValue(enTypeOption);
-                    if (clCheckBox.Checked) this.mElem.AddOption(enTypeOption, clValue);
-                    else this.mElem.RemoveOption(enTypeOption, false);
+                    if (clCheckBox.Checked)
+                    {
+                        object clValue = ClsParam.GetDefaultValue(enTypeOption);
+                        this.mElem.AddOption(enTypeOption, clValue);
+                    }
+                    else
+                    {
+                        this.mElem.RemoveOption(enTypeOption, false);
+                    }
 
                     //以下、行番号振り直し処理
                     if (this.mElem.mMotion != null)
@@ -240,7 +281,9 @@ namespace PrjHikariwoAnim
         {
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if (!isLocked) { isChanged = true; mFormMain.AttributeUpdate(); }
+            if (!isLocked) {
+                isChanged = true; mFormMain.UpdateAttribute();
+            }
         }
 
         private void FormAttribute_FormClosing(object sender, FormClosingEventArgs e)

@@ -158,8 +158,10 @@ namespace PrjHikariwoAnim
             this.Text = ClsTool.GetWindowName(clAppName, clMotion);
         }
 
-        public void AttributeUpdate()
+        public void UpdateAttribute()
         {
+            //asdf
+
             /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理

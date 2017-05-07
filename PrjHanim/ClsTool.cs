@@ -374,7 +374,7 @@ namespace PrjHikariwoAnim
 
     public class ClsParam
     {
-        public bool mEnableVisible; //表示フラグ
+        public bool mEnableDisplay; //表示フラグ
 
         public int mX;              //Ｘ座標（常に有効）
         public int mY;              //Ｙ座標（常に有効）
@@ -394,6 +394,8 @@ namespace PrjHikariwoAnim
 
         public bool mEnableFlipH;   //水平反転有効化フラグ
         public bool mEnableFlipV;   //垂直反転有効化フラグ
+        public bool mFlipH;         //水平反転フラグ
+        public bool mFlipV;         //垂直反転フラグ
 
         public bool mEnableTrans;   //マテリアル透明有効化フラグ
         public float mTrans;        //マテリアル透明値0.0～1.0（0%～100%）
@@ -409,7 +411,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public ClsParam()
         {
-            this.mEnableVisible = true;
+            this.mEnableDisplay = true;
 
             this.mX = 0;
             this.mY = 0;

@@ -121,6 +121,15 @@ namespace PrjHikariwoAnim
             this.RefreshAll();
         }
 
+        /// <summary>
+        /// モーションの取得処理
+        /// </summary>
+        /// <returns>モーション管理クラス</returns>
+        public ClsDatMotion GetMotion()
+        {
+            return (this.mMotion);
+        }
+
         private void FormControl_DragEnter(object sender, DragEventArgs e)
         {
             //このフォームは操作に専念するため外部からのD&Dは不要に
@@ -351,7 +360,8 @@ namespace PrjHikariwoAnim
             if (isExist)
             {
                 ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clMotion.mSelectFrame = (int)numericUpDown_NowFlame.Value;
+                int inSelectFrameNo = (int)numericUpDown_NowFlame.Value;
+                clMotion.SetSelectFrameNo(inSelectFrameNo);
                 clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }
         }
@@ -629,29 +639,16 @@ namespace PrjHikariwoAnim
             this.button_ItemRemove.Enabled = isEnable;
 
             //以下、アトリビュートウィンドウ設定
-            if (clItem != null)
+            if (this.mFormMain != null)
             {
-                if (this.mFormMain != null)
+                if (this.mFormMain.mFormAttribute != null)
                 {
-                    if (this.mFormMain.mFormAttribute != null)
+                    ClsDatElem clElem = null;
+                    if (clItem != null)
                     {
-                        ClsDatElem clElem = this.GetElemFromSelectLineNo();
-                        if (clElem != null)
-                        {
-                            //以下、キーフレーム存在チェック処理
-                            ClsDatKeyFrame clKeyFrame = this.GetKeyFrameFromSelectFrame();
-                            if (clKeyFrame == null)
-                            {
-                                //以下、アトリビュートウィンドウ初期化処理
-                                this.mFormMain.mFormAttribute.Init(null);
-                            }
-                            else
-                            {
-                                //以下、アトリビュートウィンドウ初期化処理
-                                this.mFormMain.mFormAttribute.Init(clElem);
-                            }
-                        }
+                        clElem = this.GetElemFromSelectLineNo();
                     }
+                    this.mFormMain.mFormAttribute.Init(clElem);
                 }
             }
 

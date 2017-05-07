@@ -10,8 +10,8 @@ namespace PrjHikariwoAnim
         public int mItemHashCode;           //TreeNodeのHashCode
         public string mName;                //モーション名
         public int mFrameNum;               //トータルフレーム数
-        public int mSelectFrame;            //現在選択中のフレーム
-        public int mSelectLineNo;           //現在選択中の行数
+        private int mSelectFrameNo;         //現在選択中のフレーム番号
+        private int mSelectLineNo;          //現在選択中のライン番号
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -30,7 +30,7 @@ namespace PrjHikariwoAnim
             this.mID = inID;
             this.mName = clName;
             this.mFrameNum = 1;
-            this.mSelectFrame = -1;
+            this.mSelectFrameNo = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
         }
@@ -283,7 +283,7 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// ラインを選択する処理
+        /// 選択中のライン番号を設定する処理
         /// </summary>
         /// <param name="inLineNo">選択中のライン番号</param>
         public void SetSelectFromLineNo(int inLineNo)
@@ -298,6 +298,24 @@ namespace PrjHikariwoAnim
         public int GetSelectLineNo()
         {
             return (this.mSelectLineNo);
+        }
+
+        /// <summary>
+        /// 選択中のフレーム番号を設定する処理
+        /// </summary>
+        /// <param name="inFrame"></param>
+        public void SetSelectFrameNo(int inFrame)
+        {
+            this.mSelectFrameNo = inFrame;
+        }
+
+        /// <summary>
+        /// 選択中のフレーム番号取得処理
+        /// </summary>
+        /// <returns>選択中のフレーム番号</returns>
+        public int GetSelectFrameNo()
+        {
+            return (this.mSelectFrameNo);
         }
 
         /// <summary>
@@ -507,7 +525,7 @@ namespace PrjHikariwoAnim
 
             //以下、選択中フレームのラインを表示する処理
             Brush clBrush = new SolidBrush(Color.DarkGreen);
-            int inX = this.mSelectFrame * FormControl.CELL_WIDTH;
+            int inX = this.mSelectFrameNo * FormControl.CELL_WIDTH;
             g.FillRectangle(clBrush, inX, 0, FormControl.CELL_WIDTH, inHeight);
 
             //以下、エレメント描画処理
@@ -515,7 +533,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrame, inWidth, inHeight);
+                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrameNo, inWidth, inHeight);
             }
 
             //以下、最終フレームの境界線描画処理
