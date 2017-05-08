@@ -24,6 +24,10 @@ namespace PrjHikariwoAnim
         public float mGridSpan = 16.0f;
         public float mCanvasWidth = 800.0f;
         public float mCanvasHeight = 600.0f;
+        private bool mPlay = false;
+        private bool mLoop = false;
+        private int mFrameNoNow = 0;
+        private int mFrameNoMax = 60;
 
         #region Fields
         //
@@ -105,6 +109,10 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
             this.mCanvasWidth = this.Width;
             this.mCanvasHeight = this.Height;
+            this.mPlay = false;
+            this.mLoop = false;
+            this.mFrameNoNow = 0;
+            this.mFrameNoMax = 60;
 
             //以下、背景色初期化処理
             Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
@@ -134,11 +142,63 @@ namespace PrjHikariwoAnim
   		}
 
         /// <summary>
+        /// 再生フラグ設定
+        /// </summary>
+        /// <param name="isPlay">再生フラグ</param>
+        public void SetPlay(bool isPlay)
+        {
+            this.mPlay = isPlay;
+        }
+
+        /// <summary>
+        /// ループ設定処理
+        /// </summary>
+        /// <param name="isLoop">ループフラグ</param>
+        public void SetLoop(bool isLoop)
+        {
+            this.mLoop = isLoop;
+        }
+
+        /// <summary>
+        /// 現在のフレーム番号設定
+        /// </summary>
+        /// <param name="inFrameNoNow">現在のフレーム番号</param>
+        public void SetFrameNoNow(int inFrameNoNow)
+        {
+            this.mFrameNoNow = inFrameNoNow;
+        }
+
+        /// <summary>
+        /// 全体のフレーム数設定
+        /// </summary>
+        /// <param name="inFrameNoNow">全体のフレーム数</param>
+        public void SetFrameNoMax(int inFrameNoMax)
+        {
+            this.mFrameNoMax = inFrameNoMax;
+        }
+
+        /// <summary>
         /// 描画処理
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            //以下、現在のフレーム番号が全フレーム数を超えてしまっていた場合の処理
+            if (this.mFrameNoNow >= this.mFrameNoMax)
+            {
+                if (this.mLoop)
+                {
+                    //以下、ループ再生処理
+                    this.mFrameNoNow = 0;
+                }
+                else
+                {
+                    //以下、最後のフレームで止める処理
+                    this.mFrameNoNow = this.mFrameNoMax - 1;
+                }
+            }
+
+            //以下、キャンバスサイズ設定処理
             this.mCanvasWidth = this.Width;
             this.mCanvasHeight = this.Height;
             int inWidth = this.Width;
@@ -220,7 +280,7 @@ namespace PrjHikariwoAnim
                 if (isExist)
                 {
                     ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    clMotion.DrawPreview(this);
+                    clMotion.DrawPreview(this, this.mFrameNoNow);
                 }
             }
 
@@ -243,7 +303,13 @@ namespace PrjHikariwoAnim
 
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
-  		}
+
+            //以下、再生処理
+            if (this.mPlay)
+            {
+                this.mFrameNoNow++;
+            }
+        }
 
         /// <summary>
         /// 中心ライン描画処理
@@ -362,14 +428,20 @@ namespace PrjHikariwoAnim
 
             //以下、ローカル回転設定
             float flRZ = 0.0f;
-            if (clParam.mEnableRZ) flRZ = clParam.mRZ;
+            if (clParam.mEnableRotation)
+            {
+                flRZ = clParam.mRZ;
+            }
             Gl.glRotatef(flRZ, 0.0f, 0.0f, 1.0f);
 
             //以下、ローカルスケール設定
             float flSX = 1.0f;
-            if (clParam.mEnableSX) flSX = clParam.mSX;
             float flSY = 1.0f;
-            if (clParam.mEnableSY) flSY = clParam.mSY;
+            if (clParam.mEnableScale)
+            {
+                flSX = clParam.mSX;
+                flSY = clParam.mSY;
+            }
             Gl.glScalef(flSX, flSY, 1.0f);
         }
 

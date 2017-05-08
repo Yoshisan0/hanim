@@ -27,28 +27,23 @@ namespace PrjHikariwoAnim
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
 
             //以下、チェックボックスの名称を変更する処理
-            //this.InitCheckBox(this.checkBox_X, TYPE_OPTION.POSITION_X);
-            //this.InitCheckBox(this.checkBox_Y, TYPE_OPTION.POSITION_Y);
-            this.InitCheckBox(this.checkBox_EnableRZ, TYPE_OPTION.ROTATION_Z);
-            this.InitCheckBox(this.checkBox_EnableSX, TYPE_OPTION.SCALE_X);
-            this.InitCheckBox(this.checkBox_EnableSY, TYPE_OPTION.SCALE_Y);
-            this.InitCheckBox(this.checkBox_EnableTrans, TYPE_OPTION.TRANSPARENCY);
-            this.InitCheckBox(this.checkBox_EnableFlipH, TYPE_OPTION.FLIP_HORIZONAL);
-            this.InitCheckBox(this.checkBox_EnableFlipV, TYPE_OPTION.FLIP_VERTICAL);
-            this.InitCheckBox(this.checkBox_EnableColor, TYPE_OPTION.COLOR);
-            this.InitCheckBox(this.checkBox_EnableCX, TYPE_OPTION.OFFSET_X);
-            this.InitCheckBox(this.checkBox_EnableCY, TYPE_OPTION.OFFSET_Y);
-            this.InitCheckBox(this.checkBox_EnableText, TYPE_OPTION.USER_DATA);
+            this.checkBox_EnableRotation.Tag = TYPE_OPTION.ROTATION;
+            this.checkBox_EnableScale.Tag = TYPE_OPTION.SCALE;
+            this.checkBox_EnableOffset.Tag = TYPE_OPTION.OFFSET;
+            this.checkBox_EnableFlip.Tag = TYPE_OPTION.FLIP;
+            this.checkBox_EnableTrans.Tag = TYPE_OPTION.TRANSPARENCY;
+            this.checkBox_EnableColor.Tag = TYPE_OPTION.COLOR;
+            this.checkBox_EnableUserData.Tag = TYPE_OPTION.USER_DATA;
         }
 
         /// <summary>
         /// チェックボックス初期化処理
         /// </summary>
         /// <param name="clCheckBox">チェックボックス</param>
-        /// <param name="enTypeOption">オプション種別</param>
-        private void InitCheckBox(CheckBox clCheckBox, TYPE_OPTION enTypeOption)
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <param name="enTypeParam">パラメータータイプ</param>
+        private void InitCheckBox(CheckBox clCheckBox, TYPE_OPTION enTypeOption, TYPE_PARAM enTypeParam)
         {
-            clCheckBox.Text = ClsDatOption.CnvType2Name(enTypeOption);
             clCheckBox.Tag = enTypeOption;
         }
 
@@ -71,7 +66,7 @@ namespace PrjHikariwoAnim
                 this.groupBox_Param.Enabled = true;
 
                 //以下、チェック状態の設定
-                ClsParam clParam = clElem.GetParam();
+                ClsParam clParam = clElem.GetParam(0);
                 this.SetParam(clParam);
             }
         }
@@ -90,16 +85,14 @@ namespace PrjHikariwoAnim
             UDnumX.Value = (int)clParam.mX;
             UDnumY.Value = (int)clParam.mY;
 
-            checkBox_EnableRZ.Checked = clParam.mEnableRZ;
+            checkBox_EnableRotation.Checked = clParam.mEnableRotation;
             UDnumRot.Value = (decimal)clParam.mRZ;
 
-            checkBox_EnableSX.Checked = clParam.mEnableSX;
-            checkBox_EnableSY.Checked = clParam.mEnableSY;
+            checkBox_EnableScale.Checked = clParam.mEnableScale;
             UDnumSX.Value = (decimal)clParam.mSX;
             UDnumSY.Value = (decimal)clParam.mSY;
 
-            checkBox_EnableFlipH.Checked = clParam.mEnableFlipH;
-            checkBox_EnableFlipV.Checked = clParam.mEnableFlipV;
+            checkBox_EnableFlip.Checked = clParam.mEnableFlip;
             checkBox_FlipH.Checked = clParam.mFlipH;
             checkBox_FlipV.Checked = clParam.mFlipV;
 
@@ -109,13 +102,12 @@ namespace PrjHikariwoAnim
             checkBox_EnableColor.Checked = clParam.mEnableColor;
             ColorCode.Text = $"{clParam.mColor:X6}";
 
-            checkBox_EnableCX.Checked = clParam.mEnableCX;
-            checkBox_EnableCY.Checked = clParam.mEnableCY;
+            checkBox_EnableOffset.Checked = clParam.mEnableOffset;
             UDnumXoff.Value = (int)clParam.mCX;
             UDnumYoff.Value = (int)clParam.mCY;
 
-            checkBox_EnableText.Checked = clParam.mEnableText;
-            textBox_User.Text = clParam.mText;
+            checkBox_EnableUserData.Checked = clParam.mEnableUserData;
+            textBox_User.Text = clParam.mUserData;
 
             //変更完了
             isLocked = false;
@@ -134,16 +126,20 @@ namespace PrjHikariwoAnim
                 clParam.mX = (int)UDnumX.Value;
                 clParam.mY = (int)UDnumY.Value;
 
-                clParam.mEnableRZ = checkBox_EnableRZ.Checked;
+                clParam.mEnableRotation = checkBox_EnableRotation.Checked;
                 clParam.mRZ = (float)UDnumRot.Value;
 
-                clParam.mEnableSX = checkBox_EnableSX.Checked;
-                clParam.mEnableSY = checkBox_EnableSY.Checked;
+                clParam.mEnableScale = checkBox_EnableScale.Checked;
                 clParam.mSX = (float)UDnumSX.Value;
                 clParam.mSY = (float)UDnumSY.Value;
 
-                clParam.mEnableFlipH = checkBox_EnableFlipH.Checked;
-                clParam.mEnableFlipV = checkBox_EnableFlipV.Checked;
+                clParam.mEnableFlip = checkBox_EnableFlip.Checked;
+                clParam.mFlipH = checkBox_FlipH.Checked;
+                clParam.mFlipV = checkBox_FlipV.Checked;
+
+                clParam.mEnableOffset = checkBox_EnableOffset.Checked;
+                clParam.mCX = (int)UDnumXoff.Value;
+                clParam.mCY = (int)UDnumYoff.Value;
 
                 clParam.mEnableTrans = checkBox_EnableTrans.Checked;
                 clParam.mTrans = (int)UDnumT.Value;
@@ -151,13 +147,8 @@ namespace PrjHikariwoAnim
                 clParam.mEnableColor = checkBox_EnableColor.Checked;
                 clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
 
-                clParam.mEnableCX = checkBox_EnableCX.Checked;
-                clParam.mEnableCY = checkBox_EnableCY.Checked;
-                clParam.mCX = (int)UDnumXoff.Value;
-                clParam.mCY = (int)UDnumYoff.Value;
-
-                clParam.mEnableText = checkBox_EnableText.Checked;
-                clParam.mText = textBox_User.Text;
+                clParam.mEnableUserData = checkBox_EnableUserData.Checked;
+                clParam.mUserData = textBox_User.Text;
 
                 isLocked = false;
                 isChanged = false;
@@ -257,8 +248,9 @@ namespace PrjHikariwoAnim
                     TYPE_OPTION enTypeOption = (TYPE_OPTION)clCheckBox.Tag;
                     if (clCheckBox.Checked)
                     {
-                        object clValue = ClsParam.GetDefaultValue(enTypeOption);
-                        this.mElem.AddOption(enTypeOption, clValue);
+                        object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
+                        object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
+                        this.mElem.AddOption(enTypeOption, clValue1, clValue2);
                     }
                     else
                     {

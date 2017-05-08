@@ -88,15 +88,12 @@ namespace PrjHikariwoAnim
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
 
-            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION_Z;
-            this.ToolStripMenuItem_AddScaleX.Tag = TYPE_OPTION.SCALE_X;
-            this.ToolStripMenuItem_AddScaleY.Tag = TYPE_OPTION.SCALE_Y;
+            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION;
+            this.ToolStripMenuItem_AddScale.Tag = TYPE_OPTION.SCALE;
+            this.ToolStripMenuItem_AddOffset.Tag = TYPE_OPTION.OFFSET;
+            this.ToolStripMenuItem_AddFlip.Tag = TYPE_OPTION.FLIP;
             this.ToolStripMenuItem_AddTransparency.Tag = TYPE_OPTION.TRANSPARENCY;
-            this.ToolStripMenuItem_AddHorizontalFlip.Tag = TYPE_OPTION.FLIP_HORIZONAL;
-            this.ToolStripMenuItem_AddVerticalFlip.Tag = TYPE_OPTION.FLIP_VERTICAL;
             this.ToolStripMenuItem_AddColor.Tag = TYPE_OPTION.COLOR;
-            this.ToolStripMenuItem_AddOffsetX.Tag = TYPE_OPTION.OFFSET_X;
-            this.ToolStripMenuItem_AddOffsetY.Tag = TYPE_OPTION.OFFSET_Y;
             this.ToolStripMenuItem_AddUserDataText.Tag = TYPE_OPTION.USER_DATA;
         }
 
@@ -526,56 +523,6 @@ namespace PrjHikariwoAnim
             this.panel_Time_MouseUp(sender, e);
         }
 
-        private void ToolStripMenuItem_AddKey_Click(object sender, EventArgs e)
-        {
-//現在テスト中（ここから）
-            /*
-            FRAME clFrame = this.mMotion.GetFrame(4);
-            if (clFrame != null) return;    //存在チェックはこのような感じ
-
-            clFrame = new FRAME();
-            clFrame.FrameNum = 4;
-            clFrame.Type = FRAME.TYPE.KeyFrame;
-            this.mMotion.AddFrame(clFrame);
-            */
-//現在テスト中（ここまで）
-        }
-
-        private void ToolStripMenuItem_DelKey_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItem_DelFrame_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItem_InsertFrame_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ToolStripMenuItem_Cut_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ToolStripMenuItem_Copy_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ToolStripMenuItem_OverWrite_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ToolStripMenuItem_Insert_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void textBox_Name_Leave(object sender, EventArgs e)
         {
             //以下、テキストボックス削除処理
@@ -795,6 +742,49 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 選択中のオプションを取得する処理
+        /// </summary>
+        /// <returns>選択中のオプション</returns>
+        private ClsDatOption GetOptionFromSelectLineNo()
+        {
+            int inLineNo = this.mMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatOption clOption = this.GetOptionFromLineNo(inLineNo);
+            return (clOption);
+        }
+
+        /// <summary>
+        /// 行番号からオプションを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のオプション</returns>
+        private ClsDatOption GetOptionFromLineNo(int inLineNo)
+        {
+            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inLineNo);
+            if (clItem == null) return (null);
+
+            ClsDatOption clOption = null;
+            bool isExist;
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                ClsDatElem clElem = clItem as ClsDatElem;
+                if (clElem == null) return (null);
+
+                isExist = clElem.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+                if (!isExist) return (null);
+
+                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                clOption = clItem as ClsDatOption;
+            }
+
+            return (clOption);
+        }
+
+        /// <summary>
         /// 選択中のキーフレームを取得する処理
         /// </summary>
         /// <returns>選択中のキーフレーム</returns>
@@ -926,15 +916,12 @@ namespace PrjHikariwoAnim
             if (clElem == null) return;
 
             Dictionary<TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<TYPE_OPTION, ToolStripMenuItem>();
-            clDic[TYPE_OPTION.ROTATION_Z] = this.ToolStripMenuItem_AddRotation;
-            clDic[TYPE_OPTION.SCALE_X] = this.ToolStripMenuItem_AddScaleX;
-            clDic[TYPE_OPTION.SCALE_Y] = this.ToolStripMenuItem_AddScaleY;
+            clDic[TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[TYPE_OPTION.SCALE] = this.ToolStripMenuItem_AddScale;
+            clDic[TYPE_OPTION.OFFSET] = this.ToolStripMenuItem_AddOffset;
+            clDic[TYPE_OPTION.FLIP] = this.ToolStripMenuItem_AddFlip;
             clDic[TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
-            clDic[TYPE_OPTION.FLIP_HORIZONAL] = this.ToolStripMenuItem_AddHorizontalFlip;
-            clDic[TYPE_OPTION.FLIP_VERTICAL] = this.ToolStripMenuItem_AddVerticalFlip;
             clDic[TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
-            clDic[TYPE_OPTION.OFFSET_X] = this.ToolStripMenuItem_AddOffsetX;
-            clDic[TYPE_OPTION.OFFSET_Y] = this.ToolStripMenuItem_AddOffsetY;
             clDic[TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
 
             foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
@@ -992,8 +979,9 @@ namespace PrjHikariwoAnim
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
             TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
-            object clValue = ClsParam.GetDefaultValue(enTypeOption);
-            clElem.AddOption(enTypeOption, clValue);
+            object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
+            object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
+            clElem.AddOption(enTypeOption, clValue1, clValue2);
 
             //以下、行番号振り直し処理
             this.mMotion.Assignment();
@@ -1174,35 +1162,14 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_AddKeyFrame_Click(object sender, EventArgs e)
         {
-            int inSelectLineNo = this.mMotion.GetSelectLineNo();
-            if (inSelectLineNo < 0) return;
+            int inIndex = (int)this.numericUpDown_NowFlame.Value;
+            if (inIndex <= 0) return;   //0フレーム目には作成できない
 
-            ClsDatItem clItem = this.mMotion.FindItemFromLineNo(inSelectLineNo);
-            if (clItem == null) return;
-
-            ClsDatOption clOption = null;
-            bool isExist;
-            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
-            {
-                ClsDatElem clElem = clItem as ClsDatElem;
-                if (clElem == null) return;
-
-                isExist = clElem.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
-                if (!isExist) return;
-
-                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
-                if (clOption == null) return;
-            }
-            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
-            {
-                clOption = clItem as ClsDatOption;
-                if (clOption == null) return;
-            }
+            ClsDatOption clOption = this.GetOptionFromSelectLineNo();
             if (clOption == null) return;
 
             //以下、キーフレーム存在チェック処理
-            int inIndex = (int)this.numericUpDown_NowFlame.Value;
-            isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+            bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
             if (isExist)
             {
                 ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
@@ -1210,7 +1177,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、キーフレーム作成処理
-            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame(inIndex);
+            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, 0, 0);   //現在のclValue1とclValue2をココで設定できると良いが
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -1221,7 +1188,24 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_RemoveKeyframe_Click(object sender, EventArgs e)
         {
+            int inIndex = (int)this.numericUpDown_NowFlame.Value;
+            if (inIndex <= 0) return;   //0フレーム目のキーフレームは消せない
 
+            ClsDatOption clOption = this.GetOptionFromSelectLineNo();
+            if (clOption == null) return;
+
+            //以下、キーフレーム存在チェック処理
+            bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+            if (!isExist) return;
+
+            //以下、キーフレーム削除処理
+            clOption.mDicKeyFrame.Remove(inIndex);
+
+            //以下、コントロール更新処理
+            this.RefreshControl();
+            this.panel_Control.Refresh();
+            this.panel_Time.Refresh();
+            this.mFormMain.Refresh();
         }
     }
 }

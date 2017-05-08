@@ -370,41 +370,142 @@ namespace PrjHikariwoAnim
 
             return (clJsonData);
         }
+
+        /// <summary>
+        /// オプションタイプから文字列に変更する処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <returns>オプションタイプの名称</returns>
+        public static string CnvTypeOption2Name(TYPE_OPTION enTypeOption)
+        {
+            string clName = "";
+
+            switch (enTypeOption)
+            {
+            case TYPE_OPTION.NONE:
+            case TYPE_OPTION.DISPLAY:
+                clName = "";
+                break;
+            case TYPE_OPTION.POSITION:
+                clName = "Position";
+                break;
+            case TYPE_OPTION.ROTATION:
+                clName = "Rotation";
+                break;
+            case TYPE_OPTION.SCALE:
+                clName = "Scale";
+                break;
+            case TYPE_OPTION.OFFSET:
+                clName = "Offset";
+                break;
+            case TYPE_OPTION.FLIP:
+                clName = "Flip";
+                break;
+            case TYPE_OPTION.TRANSPARENCY:
+                clName = "Transparency";
+                break;
+            case TYPE_OPTION.COLOR:
+                clName = "Color";
+                break;
+            case TYPE_OPTION.USER_DATA:
+                clName = "User data(text)";
+                break;
+            default:
+                break;
+            }
+
+            return (clName);
+        }
+
+        /// <summary>
+        /// パラメータータイプから文字列に変更する処理
+        /// </summary>
+        /// <param name="enTypeParam">パラメータータイプ</param>
+        /// <returns>パラメータータイプの名称</returns>
+        public static string CnvTypeParam2Name(TYPE_PARAM enTypeParam)
+        {
+            string clName = "";
+
+            switch (enTypeParam)
+            {
+            case TYPE_PARAM.NONE:
+            case TYPE_PARAM.DISPLAY:
+                clName = "";
+                break;
+            case TYPE_PARAM.POSITION_X:
+                clName = "Position X";
+                break;
+            case TYPE_PARAM.POSITION_Y:
+                clName = "Position Y";
+                break;
+            case TYPE_PARAM.ROTATION_Z:
+                clName = "Rotation Z";
+                break;
+            case TYPE_PARAM.SCALE_X:
+                clName = "Scale X";
+                break;
+            case TYPE_PARAM.SCALE_Y:
+                clName = "Scale Y";
+                break;
+            case TYPE_PARAM.OFFSET_X:
+                clName = "Offset X";
+                break;
+            case TYPE_PARAM.OFFSET_Y:
+                clName = "Offset Y";
+                break;
+            case TYPE_PARAM.FLIP_HORIZONAL:
+                clName = "Flip Horizonal";
+                break;
+            case TYPE_PARAM.FLIP_VERTICAL:
+                clName = "Flip Vertical";
+                break;
+            case TYPE_PARAM.TRANSPARENCY:
+                clName = "Transparency";
+                break;
+            case TYPE_PARAM.COLOR:
+                clName = "Color";
+                break;
+            case TYPE_PARAM.USER_DATA:
+                clName = "User data(text)";
+                break;
+            default:
+                break;
+            }
+
+            return (clName);
+        }
     }
 
     public class ClsParam
     {
-        public bool mEnableDisplay; //表示フラグ
+        public bool mEnableDisplay;     //表示フラグ
 
-        public int mX;              //Ｘ座標（常に有効）
-        public int mY;              //Ｙ座標（常に有効）
+        public int mX;                  //Ｘ座標（常に有効）
+        public int mY;                  //Ｙ座標（常に有効）
 
-        public bool mEnableRZ;      //回転値有効化フラグ
-        public float mRZ;           //回転値
+        public bool mEnableRotation;    //回転値有効化フラグ
+        public float mRZ;               //回転値
 
-        public bool mEnableSX;      //スケールＸ有効化フラグ
-        public bool mEnableSY;      //スケールＹ有効化フラグ
-        public float mSX;           //スケールＸ
-        public float mSY;           //スケールＹ
+        public bool mEnableScale;       //スケール有効化フラグ
+        public float mSX;               //スケールＸ
+        public float mSY;               //スケールＹ
 
-        public bool mEnableCX;      //オフセットＸ座標有効化フラグ
-        public bool mEnableCY;      //オフセットＹ座標有効化フラグ
-        public float mCX;           //オフセットＸ座標
-        public float mCY;           //オフセットＹ座標
+        public bool mEnableOffset;      //オフセット座標有効化フラグ
+        public float mCX;               //オフセットＸ座標
+        public float mCY;               //オフセットＹ座標
 
-        public bool mEnableFlipH;   //水平反転有効化フラグ
-        public bool mEnableFlipV;   //垂直反転有効化フラグ
-        public bool mFlipH;         //水平反転フラグ
-        public bool mFlipV;         //垂直反転フラグ
+        public bool mEnableFlip;        //反転有効化フラグ
+        public bool mFlipH;             //水平反転フラグ
+        public bool mFlipV;             //垂直反転フラグ
 
-        public bool mEnableTrans;   //マテリアル透明有効化フラグ
-        public float mTrans;        //マテリアル透明値0.0～1.0（0%～100%）
+        public bool mEnableTrans;       //マテリアル透明有効化フラグ
+        public float mTrans;            //マテリアル透明値0.0～1.0（0%～100%）
 
-        public bool mEnableColor;   //マテリアルカラー有効化フラグ
-        public int mColor;          //マテリアルカラー値（α無し RGBのみ）
+        public bool mEnableColor;       //マテリアルカラー有効化フラグ
+        public int mColor;              //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mEnableText;    //ユーザーデータ有効化フラグ
-        public string mText;        //ユーザーデータ
+        public bool mEnableUserData;    //ユーザーデータ有効化フラグ
+        public string mUserData;        //ユーザーデータ
 
         /// <summary>
         /// コンストラクタ
@@ -416,21 +517,20 @@ namespace PrjHikariwoAnim
             this.mX = 0;
             this.mY = 0;
 
-            this.mEnableRZ = false;
+            this.mEnableRotation = false;
             this.mRZ = 0.0f;
 
-            this.mEnableSX = false;
-            this.mEnableSY = false;
+            this.mEnableScale = false;
             this.mSX = 1.0f;
             this.mSY = 1.0f;
 
-            this.mEnableCX = false;
-            this.mEnableCY = false;
+            this.mEnableOffset = false;
             this.mCX = 0.0f;
             this.mCY = 0.0f;
 
-            this.mEnableFlipH = false;
-            this.mEnableFlipV = false;
+            this.mEnableFlip = false;
+            this.mFlipH = false;
+            this.mFlipV = false;
 
             this.mEnableTrans = false;
             this.mTrans = 1.0f;
@@ -438,16 +538,118 @@ namespace PrjHikariwoAnim
             this.mEnableColor = false;
             this.mColor = 0xFFFFFF;
 
-            this.mEnableText = false;
-            this.mText = "";
+            this.mEnableUserData = false;
+            this.mUserData = "";
         }
 
         /// <summary>
         /// デフォルトの値取得処理
         /// </summary>
-        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <param name="enTypeParam">パラメータータイプ</param>
         /// <returns>デフォルトの値</returns>
-        public static object GetDefaultValue(TYPE_OPTION enTypeOption)
+        public static object GetDefaultValue(TYPE_PARAM enTypeParam)
+        {
+            object clValue = null;
+            switch (enTypeParam)
+            {
+            case TYPE_PARAM.NONE:
+                clValue = null;
+                break;
+            case TYPE_PARAM.DISPLAY:
+                clValue = true;
+                break;
+            case TYPE_PARAM.POSITION_X:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.POSITION_Y:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.ROTATION_Z:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.SCALE_X:
+                clValue = 1.0f;
+                break;
+            case TYPE_PARAM.SCALE_Y:
+                clValue = 1.0f;
+                break;
+            case TYPE_PARAM.TRANSPARENCY:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.FLIP_HORIZONAL:
+                clValue = false;
+                break;
+            case TYPE_PARAM.FLIP_VERTICAL:
+                clValue = false;
+                break;
+            case TYPE_PARAM.COLOR:
+                clValue = (int)0xFFFFFF;
+                break;
+            case TYPE_PARAM.OFFSET_X:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.OFFSET_Y:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.USER_DATA:
+                clValue = "";
+                break;
+            }
+
+            return (clValue);
+        }
+
+        /// <summary>
+        /// デフォルトの値１取得処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <returns>デフォルトの値１</returns>
+        public static object GetDefaultValue1(TYPE_OPTION enTypeOption)
+        {
+            object clValue = null;
+            switch (enTypeOption)
+            {
+            case TYPE_OPTION.NONE:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.NONE);
+                break;
+            case TYPE_OPTION.DISPLAY:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.DISPLAY);
+                break;
+            case TYPE_OPTION.POSITION:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_X);
+                break;
+            case TYPE_OPTION.ROTATION:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.ROTATION_Z);
+                break;
+            case TYPE_OPTION.SCALE:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_X);
+                break;
+            case TYPE_OPTION.OFFSET:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_X);
+                break;
+            case TYPE_OPTION.FLIP:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_HORIZONAL);
+                break;
+            case TYPE_OPTION.TRANSPARENCY:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.TRANSPARENCY);
+                break;
+            case TYPE_OPTION.COLOR:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.COLOR);
+                break;
+            case TYPE_OPTION.USER_DATA:
+                clValue = "";
+                break;
+            }
+
+            return (clValue);
+        }
+
+        /// <summary>
+        /// デフォルトの値２取得処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <returns>デフォルトの値２</returns>
+        public static object GetDefaultValue2(TYPE_OPTION enTypeOption)
         {
             object clValue = null;
             switch (enTypeOption)
@@ -456,43 +658,31 @@ namespace PrjHikariwoAnim
                 clValue = null;
                 break;
             case TYPE_OPTION.DISPLAY:
-                clValue = true;
+                clValue = null;
                 break;
-            case TYPE_OPTION.POSITION_X:
-                clValue = 0.0f;
+            case TYPE_OPTION.POSITION:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_Y);
                 break;
-            case TYPE_OPTION.POSITION_Y:
-                clValue = 0.0f;
+            case TYPE_OPTION.ROTATION:
+                clValue = null;
                 break;
-            case TYPE_OPTION.ROTATION_Z:
-                clValue = 0.0f;
+            case TYPE_OPTION.SCALE:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_Y);
                 break;
-            case TYPE_OPTION.SCALE_X:
-                clValue = 1.0f;
+            case TYPE_OPTION.OFFSET:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_Y);
                 break;
-            case TYPE_OPTION.SCALE_Y:
-                clValue = 1.0f;
+            case TYPE_OPTION.FLIP:
+                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_VERTICAL);
                 break;
             case TYPE_OPTION.TRANSPARENCY:
-                clValue = 0.0f;
-                break;
-            case TYPE_OPTION.FLIP_HORIZONAL:
-                clValue = false;
-                break;
-            case TYPE_OPTION.FLIP_VERTICAL:
-                clValue = false;
+                clValue = null;
                 break;
             case TYPE_OPTION.COLOR:
-                clValue = (int)0xFFFFFF;
-                break;
-            case TYPE_OPTION.OFFSET_X:
-                clValue = 0.0f;
-                break;
-            case TYPE_OPTION.OFFSET_Y:
-                clValue = 0.0f;
+                clValue = null;
                 break;
             case TYPE_OPTION.USER_DATA:
-                clValue = "";
+                clValue = null;
                 break;
             }
 
