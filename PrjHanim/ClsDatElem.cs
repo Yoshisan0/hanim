@@ -435,6 +435,20 @@ namespace PrjHikariwoAnim
         /// オプション取得処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
+        public ClsDatOption GetOption(TYPE_OPTION enTypeOption)
+        {
+            //以下、オプション追加処理
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            if (!isExist) return (null);
+
+            ClsDatOption clOption = this.mDicOption[enTypeOption];
+            return (clOption);
+        }
+
+        /// <summary>
+        /// フレーム番号のオプションの値を取得する処理
+        /// </summary>
+        /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="inFrameNo">フレーム番号</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
@@ -444,13 +458,10 @@ namespace PrjHikariwoAnim
             clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
 
             //以下、オプション追加処理
-            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-            if (!isExist) return;
-
-            ClsDatOption clOption = this.mDicOption[enTypeOption];
+            ClsDatOption clOption = this.GetOption(enTypeOption);
             if (clOption == null) return;
 
-            isExist = clOption.mDicKeyFrame.ContainsKey(inFrameNo);
+            bool isExist = clOption.mDicKeyFrame.ContainsKey(inFrameNo);
             if (!isExist) return;
 
             ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inFrameNo];

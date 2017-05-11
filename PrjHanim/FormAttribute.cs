@@ -8,8 +8,6 @@ namespace PrjHikariwoAnim
     {
         private bool isLocked;      //パラメータ変更中にロック
         private FormMain mFormMain;
-        private ClsDatElem mElem;   //ターゲットとなるエレメント
-        public bool isChanged;      //パラメータ変更があった時True 読み出し後False
 
         public FormAttribute(FormMain clFormMain)
         {
@@ -17,7 +15,6 @@ namespace PrjHikariwoAnim
 
             //以下、初期化処理
             this.mFormMain = clFormMain;
-            this.mElem = null;
         }
 
         private void FormAttribute_Load(object sender, EventArgs e)
@@ -53,8 +50,6 @@ namespace PrjHikariwoAnim
         /// <param name="clElem">選択中のエレメント</param>
         public void Init(ClsDatElem clElem)
         {
-            this.mElem = clElem;
-
             if (clElem == null)
             {
                 this.Text = "Attribute";
@@ -116,43 +111,43 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// フォーム上パラメータを取得します
         /// </summary>
-        /// <param name="clParam">参照</param>
-        public ClsParam GetParam(ref ClsParam clParam)
+        public ClsParam GetParam()
         {
             //isLocked = true;
-            //パラメータ手動変更があった時のみ取得出来る
-            if (isChanged)
-            {
-                clParam.mX = (int)UDnumX.Value;
-                clParam.mY = (int)UDnumY.Value;
 
-                clParam.mEnableRotation = checkBox_EnableRotation.Checked;
-                clParam.mRZ = (float)UDnumRot.Value;
+            //以下、パラメーター取得処理
+            ClsParam clParam = new ClsParam();
 
-                clParam.mEnableScale = checkBox_EnableScale.Checked;
-                clParam.mSX = (float)UDnumSX.Value;
-                clParam.mSY = (float)UDnumSY.Value;
+            clParam.mEnableDisplay = this.checkBox_Display.Checked;
 
-                clParam.mEnableFlip = checkBox_EnableFlip.Checked;
-                clParam.mFlipH = checkBox_FlipH.Checked;
-                clParam.mFlipV = checkBox_FlipV.Checked;
+            clParam.mX = (int)UDnumX.Value;
+            clParam.mY = (int)UDnumY.Value;
 
-                clParam.mEnableOffset = checkBox_EnableOffset.Checked;
-                clParam.mCX = (int)UDnumXoff.Value;
-                clParam.mCY = (int)UDnumYoff.Value;
+            clParam.mEnableRotation = checkBox_EnableRotation.Checked;
+            clParam.mRZ = (float)UDnumRot.Value;
 
-                clParam.mEnableTrans = checkBox_EnableTrans.Checked;
-                clParam.mTrans = (int)UDnumT.Value;
+            clParam.mEnableScale = checkBox_EnableScale.Checked;
+            clParam.mSX = (float)UDnumSX.Value;
+            clParam.mSY = (float)UDnumSY.Value;
 
-                clParam.mEnableColor = checkBox_EnableColor.Checked;
-                clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
+            clParam.mEnableFlip = checkBox_EnableFlip.Checked;
+            clParam.mFlipH = checkBox_FlipH.Checked;
+            clParam.mFlipV = checkBox_FlipV.Checked;
 
-                clParam.mEnableUserData = checkBox_EnableUserData.Checked;
-                clParam.mUserData = textBox_User.Text;
+            clParam.mEnableOffset = checkBox_EnableOffset.Checked;
+            clParam.mCX = (int)UDnumXoff.Value;
+            clParam.mCY = (int)UDnumYoff.Value;
 
-                isLocked = false;
-                isChanged = false;
-            }
+            clParam.mEnableTrans = checkBox_EnableTrans.Checked;
+            clParam.mTrans = (int)UDnumT.Value;
+
+            clParam.mEnableColor = checkBox_EnableColor.Checked;
+            clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
+
+            clParam.mEnableUserData = checkBox_EnableUserData.Checked;
+            clParam.mUserData = textBox_User.Text;
+
+            isLocked = false;
 
             return clParam;
         }
@@ -210,7 +205,8 @@ namespace PrjHikariwoAnim
             int inB = Convert.ToInt32(clB, 16);
             ColorPanel.BackColor = Color.FromArgb(255, inR, inG, inB);
 
-            this.mFormMain.UpdateAttribute();
+            ClsParam clParam = this.GetParam();
+            this.mFormMain.ChangeElemFromParam(clParam);
         }
 
         private void ColorPanel_Click(object sender, EventArgs e)
@@ -227,54 +223,21 @@ namespace PrjHikariwoAnim
             ColorCode.Text = $"{inColor:X6}";   //RGB
 
             //この代入ではバリデードが発生しないらしく更新通知
-            if (!isLocked) { isChanged = true; mFormMain.UpdateAttribute(); }
-            //ColorCode.Text =  dlg.Color.R.ToString("X2") + dlg.Color.G.ToString("X2") + dlg.Color.B.ToString("X2"); //RGB 6
-        }
-
-        private void checkBox_CheckStateChanged(object sender, EventArgs e)
-        {
-            //チェックボックス系
-            //any Param Update どれかのチェックが変更された通知をメインに送る
-            if (!isLocked) {
-                isChanged = true;
-                this.mFormMain.UpdateAttribute();
-            }
-
-            CheckBox clCheckBox = sender as CheckBox;
-            if (this.mElem != null)
+            if (!isLocked)
             {
-                if (clCheckBox.Tag != null)
-                {
-                    TYPE_OPTION enTypeOption = (TYPE_OPTION)clCheckBox.Tag;
-                    if (clCheckBox.Checked)
-                    {
-                        object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
-                        object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-                        this.mElem.AddOption(enTypeOption, clValue1, clValue2);
-                    }
-                    else
-                    {
-                        this.mElem.RemoveOption(enTypeOption, false);
-                    }
-
-                    //以下、行番号振り直し処理
-                    if (this.mElem.mMotion != null)
-                    {
-                        this.mElem.mMotion.Assignment();
-                    }
-
-                    //以下、コントロールリフレッシュ処理
-                    this.mFormMain.mFormControl.RefreshAll();
-                }
+                ClsParam clParam = this.GetParam();
+                this.mFormMain.ChangeElemFromParam(clParam);
             }
         }
 
-        private void UDnum_ValueChanged(object sender, EventArgs e)
+        private void Param_ValueChanged(object sender, EventArgs e)
         {
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if (!isLocked) {
-                isChanged = true; mFormMain.UpdateAttribute();
+            if (!isLocked)
+            {
+                ClsParam clParam = this.GetParam();
+                this.mFormMain.ChangeElemFromParam(clParam);
             }
         }
 

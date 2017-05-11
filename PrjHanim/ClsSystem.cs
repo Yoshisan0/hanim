@@ -17,7 +17,7 @@ namespace PrjHikariwoAnim
         public static string mHeader;
         public static int mVer;
         public static ClsSetting mSetting = null;   //保存データ
-        public static int mMotionSelectKey;  //現在選択中のモーションキー
+        public static int mMotionSelectKey; //現在選択中のモーションキー
         public static Dictionary<int, ClsDatImage> mDicImage;   //キーはランダム値　値はClsDatImage
         public static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
@@ -184,6 +184,189 @@ namespace PrjHikariwoAnim
             ClsSystem.mDicImage.Add(clDatImage.mID, clDatImage);
 
             return (clDatImage.mID);
+        }
+
+        /// <summary>
+        /// 現在選択中のモーションを取得する
+        /// </summary>
+        /// <returns>現在選択中のモーション</returns>
+        public static ClsDatMotion GetSelectMotion()
+        {
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
+            if (!isExist) return (null);
+
+            ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+            return (clMotion);
+        }
+
+        /// <summary>
+        /// 現在選択中のエレメントを取得する
+        /// オプションを選択中の場合は、その親のエレメントを取得する
+        /// </summary>
+        /// <returns>現在選択中のエレメント</returns>
+        public static ClsDatElem GetElemFromSelectLineNo()
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            int inLineNo = clMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
+            return (clElem);
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを取得する
+        /// その行がオプションの場合は、その親のエレメントを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のエレメント</returns>
+        private static ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            if (clItem == null) return (null);
+
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                ClsDatElem clElem = clItem as ClsDatElem;
+                return (clElem);
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                ClsDatOption clOption = clItem as ClsDatOption;
+                ClsDatElem clElem = clOption.mElem;
+                return (clElem);
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// 選択中のアイテムを取得する処理
+        /// </summary>
+        /// <returns>選択中のアイテム</returns>
+        private static ClsDatItem GetItemFromSelectLineNo()
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            int inLineNo = clMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = ClsSystem.GetItemFromLineNo(inLineNo);
+            return (clItem);
+        }
+
+        /// <summary>
+        /// 行番号からアイテムを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のアイテム</returns>
+        private static ClsDatItem GetItemFromLineNo(int inLineNo)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            if (inLineNo < 0) return (null);
+
+            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+
+            return (clItem);
+        }
+
+        /// <summary>
+        /// 選択中のオプションを取得する処理
+        /// </summary>
+        /// <returns>選択中のオプション</returns>
+        public static ClsDatOption GetOptionFromSelectLineNo()
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            int inLineNo = clMotion.GetSelectLineNo();
+            if (inLineNo < 0) return (null);
+
+            ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inLineNo);
+            return (clOption);
+        }
+
+        /// <summary>
+        /// 行番号からオプションを取得する
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>行番号のオプション</returns>
+        private static ClsDatOption GetOptionFromLineNo(int inLineNo)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            if (clItem == null) return (null);
+
+            ClsDatOption clOption = null;
+            bool isExist;
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                ClsDatElem clElem = clItem as ClsDatElem;
+                if (clElem == null) return (null);
+
+                isExist = clElem.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+                if (!isExist) return (null);
+
+                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                clOption = clItem as ClsDatOption;
+            }
+
+            return (clOption);
+        }
+
+        /// <summary>
+        /// 選択中のキーフレームを取得する処理
+        /// </summary>
+        /// <returns>選択中のキーフレーム</returns>
+        private static ClsDatKeyFrame GetKeyFrameFromSelectFrame()
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return (null);
+
+            ClsDatItem clItem = ClsSystem.GetItemFromSelectLineNo();
+            if (clItem == null) return (null);
+
+            //以下、エレメント設定
+            ClsDatElem clElem = null;
+            ClsDatOption clOption = null;
+            if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
+            {
+                clElem = clItem as ClsDatElem;
+                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+            }
+            else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
+            {
+                clOption = clItem as ClsDatOption;
+                clElem = clOption.mElem;
+            }
+
+            if (clOption == null) return (null);
+
+            int inIndex = clMotion.GetSelectFrameNo();
+            if (inIndex != 0)
+            {
+                bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+                if (!isExist) return (null);
+            }
+
+            //以下、キーフレーム取得処理
+            ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
+            return (clKeyFrame);
         }
 
         /// <summary>

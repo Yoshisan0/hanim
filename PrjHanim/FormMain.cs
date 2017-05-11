@@ -96,7 +96,7 @@ namespace PrjHikariwoAnim
             //ClsView.Init(this.panel_PreView);
 
             this.mFormControl = new FormControl(this);
-            this.mFormControl.SetMotion(clMotion);
+            this.mFormControl.SetName(clMotion);
             this.mFormControl.Show();
 
             this.mFormAttribute = new FormAttribute(this);
@@ -158,25 +158,67 @@ namespace PrjHikariwoAnim
             this.Text = ClsTool.GetWindowName(clAppName, clMotion);
         }
 
-        public void UpdateAttribute()
+        /// <summary>
+        /// オプションの情報を修正する処理
+        /// </summary>
+        /// <param name="clParam">パラメーター情報</param>
+        public void ChangeElemFromParam(ClsParam clParam)
         {
-            //asdf
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return;
 
-            /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
+            ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
+            if (clElem == null) return;
+
+            int inSelectFrameNo = clMotion.GetSelectFrameNo();
+
             //mFormAttributeのパラメータ変更時に呼び出される
             //パラメータ取得処理
             //エディット中アイテムにパラメータ再取得
-            if (ClsSystem.mMotionSelectKey >= 0)
-            {
-                ELEMENTS e = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
-                if (e != null)
-                {
-                    mFormAttribute.GetAllParam(ref e.Atr);
-                    panel_PreView.Refresh();
-                }
-            }
+
+
+            ClsDatOption clOption = clElem.GetOption(TYPE_OPTION.DISPLAY);
+            clOption.mDicKeyFrame[inSelectFrameNo].mValue1 = clParam.mEnableDisplay;
+
+            clOption = clElem.GetOption(TYPE_OPTION.POSITION);
+
+            /*
+            public bool mEnableDisplay;     //表示フラグ
+
+            public int mX;                  //Ｘ座標（常に有効）
+            public int mY;                  //Ｙ座標（常に有効）
+
+            public bool mEnableRotation;    //回転値有効化フラグ
+            public float mRZ;               //回転値
+
+            public bool mEnableScale;       //スケール有効化フラグ
+            public float mSX;               //スケールＸ
+            public float mSY;               //スケールＹ
+
+            public bool mEnableOffset;      //オフセット座標有効化フラグ
+            public float mCX;               //オフセットＸ座標
+            public float mCY;               //オフセットＹ座標
+
+            public bool mEnableFlip;        //反転有効化フラグ
+            public bool mFlipH;             //水平反転フラグ
+            public bool mFlipV;             //垂直反転フラグ
+
+            public bool mEnableTrans;       //マテリアル透明有効化フラグ
+            public float mTrans;            //マテリアル透明値0.0～1.0（0%～100%）
+
+            public bool mEnableColor;       //マテリアルカラー有効化フラグ
+            public int mColor;              //マテリアルカラー値（α無し RGBのみ）
+
+            public bool mEnableUserData;    //ユーザーデータ有効化フラグ
+            public string mUserData;        //ユーザーデータ
             */
+
+            //以下、各種ウィンドウ更新処理
+            this.RefreshViewer(null, null);
+            this.mFormCell.Refresh();
+            this.mFormControl.RefreshAll();
         }
+
         /// <summary>
         /// 新規プロジェクト
         /// </summary>
@@ -227,13 +269,13 @@ namespace PrjHikariwoAnim
                     ClsSystem.mMotionSelectKey = inKey;
                     break;
                 }
-                ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                clDatMotion.SetSelectFromLineNo(-1);
+                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                clMotion.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
-                this.SetName(clDatMotion);
-                this.mFormControl.SetMotion(clDatMotion);
+                this.SetName(clMotion);
+                this.mFormControl.SetName(clMotion);
                 this.mFormAttribute.Init(null);
 
                 //以下、各種ウィンドウ更新処理
@@ -386,7 +428,7 @@ namespace PrjHikariwoAnim
 
                     //以下、コントロール設定処理
                     this.SetName(null);
-                    this.mFormControl.SetMotion(null);
+                    this.mFormControl.SetName(null);
                     this.mFormAttribute.Init(null);
 
                     this.RefreshViewer(sender, e);
@@ -481,7 +523,7 @@ namespace PrjHikariwoAnim
 
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
-                this.mFormControl.SetMotion(clMotion);
+                this.mFormControl.SetName(clMotion);
                 this.mFormAttribute.Init(null);
             }
         }
@@ -817,7 +859,7 @@ namespace PrjHikariwoAnim
 
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
-                this.mFormControl.SetMotion(clMotion);
+                this.mFormControl.SetName(clMotion);
                 this.mFormAttribute.Init(null);
             }
         }
@@ -837,7 +879,7 @@ namespace PrjHikariwoAnim
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
-                this.mFormControl.SetMotion(clMotion);
+                this.mFormControl.SetName(clMotion);
                 this.mFormAttribute.Init(null);
 
                 //新しく選択したモーションをメインウィンドウに表示する
@@ -849,7 +891,7 @@ namespace PrjHikariwoAnim
                 ClsSystem.mMotionSelectKey = -1;
                 //以下、コントロール設定処理
                 this.SetName(null);
-                this.mFormControl.SetMotion(null);
+                this.mFormControl.SetName(null);
                 this.mFormAttribute.Init(null);
             }
 
