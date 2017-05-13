@@ -22,26 +22,6 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウの設定
             this.Location = ClsSystem.mSetting.mWindowAttribute.mLocation;
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
-
-            //以下、チェックボックスの名称を変更する処理
-            this.checkBox_EnableRotation.Tag = TYPE_OPTION.ROTATION;
-            this.checkBox_EnableScale.Tag = TYPE_OPTION.SCALE;
-            this.checkBox_EnableOffset.Tag = TYPE_OPTION.OFFSET;
-            this.checkBox_EnableFlip.Tag = TYPE_OPTION.FLIP;
-            this.checkBox_EnableTrans.Tag = TYPE_OPTION.TRANSPARENCY;
-            this.checkBox_EnableColor.Tag = TYPE_OPTION.COLOR;
-            this.checkBox_EnableUserData.Tag = TYPE_OPTION.USER_DATA;
-        }
-
-        /// <summary>
-        /// チェックボックス初期化処理
-        /// </summary>
-        /// <param name="clCheckBox">チェックボックス</param>
-        /// <param name="enTypeOption">オプションタイプ</param>
-        /// <param name="enTypeParam">パラメータータイプ</param>
-        private void InitCheckBox(CheckBox clCheckBox, TYPE_OPTION enTypeOption, TYPE_PARAM enTypeParam)
-        {
-            clCheckBox.Tag = enTypeOption;
         }
 
         /// <summary>
@@ -75,34 +55,43 @@ namespace PrjHikariwoAnim
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
 
-            checkBox_Display.Checked = clParam.mEnableDisplay;
+            this.checkBox_EnableDisplayKeyFrame.Checked = clParam.mExistDisplayKeyFrame;
+            this.checkBox_Display.Checked = clParam.mDisplay;
 
-            UDnumX.Value = (int)clParam.mX;
-            UDnumY.Value = (int)clParam.mY;
+            this.checkBox_EnablePositionKeyFrame.Checked = clParam.mExistPositionKeyFrame;
+            this.UDnumX.Value = (int)clParam.mX;
+            this.UDnumY.Value = (int)clParam.mY;
 
-            checkBox_EnableRotation.Checked = clParam.mEnableRotation;
-            UDnumRot.Value = (decimal)clParam.mRZ;
+            this.checkBox_EnableRotationOption.Checked = clParam.mExistRotationOption;
+            this.checkBox_EnableRotationKeyFrame.Checked = clParam.mExistRotationKeyFrame;
+            this.UDnumRot.Value = (decimal)clParam.mRZ;
 
-            checkBox_EnableScale.Checked = clParam.mEnableScale;
-            UDnumSX.Value = (decimal)clParam.mSX;
-            UDnumSY.Value = (decimal)clParam.mSY;
+            this.checkBox_EnableScaleOption.Checked = clParam.mExistScaleOption;
+            this.checkBox_EnableScaleKeyFrame.Checked = clParam.mExistScaleKeyFrame;
+            this.UDnumSX.Value = (decimal)clParam.mSX;
+            this.UDnumSY.Value = (decimal)clParam.mSY;
 
-            checkBox_EnableFlip.Checked = clParam.mEnableFlip;
-            checkBox_FlipH.Checked = clParam.mFlipH;
-            checkBox_FlipV.Checked = clParam.mFlipV;
+            this.checkBox_EnableFlipOption.Checked = clParam.mExistFlipOption;
+            this.checkBox_EnableFlipKeyFrame.Checked = clParam.mExistFlipKeyFrame;
+            this.checkBox_FlipH.Checked = clParam.mFlipH;
+            this.checkBox_FlipV.Checked = clParam.mFlipV;
 
-            checkBox_EnableTrans.Checked = clParam.mEnableTrans;
-            UDnumT.Value = (decimal)clParam.mTrans;
+            this.checkBox_EnableTransOption.Checked = clParam.mExistTransOption;
+            this.checkBox_EnableTransKeyFrame.Checked = clParam.mExistTransKeyFrame;
+            this.UDnumT.Value = (decimal)clParam.mTrans;
 
-            checkBox_EnableColor.Checked = clParam.mEnableColor;
-            ColorCode.Text = $"{clParam.mColor:X6}";
+            this.checkBox_EnableColorOption.Checked = clParam.mExistColorOption;
+            this.checkBox_EnableColorKeyFrame.Checked = clParam.mExistColorKeyFrame;
+            this.textBox_C.Text = $"{clParam.mColor:X6}";
 
-            checkBox_EnableOffset.Checked = clParam.mEnableOffset;
-            UDnumXoff.Value = (int)clParam.mCX;
-            UDnumYoff.Value = (int)clParam.mCY;
+            this.checkBox_EnableOffsetOption.Checked = clParam.mExistOffsetOption;
+            this.checkBox_EnableOffsetKeyFrame.Checked = clParam.mExistOffsetKeyFrame;
+            this.UDnumXoff.Value = (int)clParam.mCX;
+            this.UDnumYoff.Value = (int)clParam.mCY;
 
-            checkBox_EnableUserData.Checked = clParam.mEnableUserData;
-            textBox_User.Text = clParam.mUserData;
+            this.checkBox_EnableUserDataOption.Checked = clParam.mExistUserDataOption;
+            this.checkBox_EnableUserDataKeyFrame.Checked = clParam.mExistUserDataKeyFrame;
+            this.textBox_UT.Text = clParam.mUserData;
 
             //変更完了
             isLocked = false;
@@ -118,34 +107,43 @@ namespace PrjHikariwoAnim
             //以下、パラメーター取得処理
             ClsParam clParam = new ClsParam();
 
-            clParam.mEnableDisplay = this.checkBox_Display.Checked;
+            clParam.mExistDisplayKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
+            clParam.mDisplay = this.checkBox_Display.Checked;
 
+            clParam.mExistPositionKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
             clParam.mX = (int)UDnumX.Value;
             clParam.mY = (int)UDnumY.Value;
 
-            clParam.mEnableRotation = checkBox_EnableRotation.Checked;
+            clParam.mExistRotationOption = checkBox_EnableRotationOption.Checked;
+            clParam.mExistRotationKeyFrame = checkBox_EnableRotationKeyFrame.Checked;
             clParam.mRZ = (float)UDnumRot.Value;
 
-            clParam.mEnableScale = checkBox_EnableScale.Checked;
+            clParam.mExistScaleOption = checkBox_EnableScaleOption.Checked;
+            clParam.mExistScaleKeyFrame = checkBox_EnableScaleKeyFrame.Checked;
             clParam.mSX = (float)UDnumSX.Value;
             clParam.mSY = (float)UDnumSY.Value;
 
-            clParam.mEnableFlip = checkBox_EnableFlip.Checked;
+            clParam.mExistFlipOption = checkBox_EnableFlipOption.Checked;
+            clParam.mExistFlipKeyFrame = checkBox_EnableFlipKeyFrame.Checked;
             clParam.mFlipH = checkBox_FlipH.Checked;
             clParam.mFlipV = checkBox_FlipV.Checked;
 
-            clParam.mEnableOffset = checkBox_EnableOffset.Checked;
+            clParam.mExistOffsetOption = checkBox_EnableOffsetOption.Checked;
+            clParam.mExistOffsetKeyFrame = checkBox_EnableOffsetKeyFrame.Checked;
             clParam.mCX = (int)UDnumXoff.Value;
             clParam.mCY = (int)UDnumYoff.Value;
 
-            clParam.mEnableTrans = checkBox_EnableTrans.Checked;
+            clParam.mExistTransOption = checkBox_EnableTransOption.Checked;
+            clParam.mExistTransKeyFrame = checkBox_EnableTransKeyFrame.Checked;
             clParam.mTrans = (int)UDnumT.Value;
 
-            clParam.mEnableColor = checkBox_EnableColor.Checked;
-            clParam.mColor = ColorPanel.BackColor.ToArgb() & 0x00FFFFFF;
+            clParam.mExistColorOption = checkBox_EnableColorOption.Checked;
+            clParam.mExistColorKeyFrame = checkBox_EnableColorKeyFrame.Checked;
+            clParam.mColor = button_C.BackColor.ToArgb() & 0x00FFFFFF;
 
-            clParam.mEnableUserData = checkBox_EnableUserData.Checked;
-            clParam.mUserData = textBox_User.Text;
+            clParam.mExistUserDataOption = checkBox_EnableUserDataOption.Checked;
+            clParam.mExistUserDataKeyFrame = checkBox_EnableUserDataKeyFrame.Checked;
+            clParam.mUserData = textBox_UT.Text;
 
             isLocked = false;
 
@@ -155,15 +153,15 @@ namespace PrjHikariwoAnim
         private void ColorCode_TextChanged(object sender, EventArgs e)
         {
             //PreViewColor
-            string clTextSrc = ColorCode.Text;
-            if (string.IsNullOrEmpty(ColorCode.Text))
+            string clTextSrc = textBox_C.Text;
+            if (string.IsNullOrEmpty(textBox_C.Text))
             {
                 clTextSrc = "";
             }
             if (clTextSrc.Length > 6)
             {
                 clTextSrc = clTextSrc.Substring(0, 6);
-                ColorCode.Text = clTextSrc;
+                textBox_C.Text = clTextSrc;
             }
 
             //以下、色テキスト設定処理
@@ -203,7 +201,7 @@ namespace PrjHikariwoAnim
             int inG = Convert.ToInt32(clG, 16);
             string clB = clTextColor.Substring(4, 2);
             int inB = Convert.ToInt32(clB, 16);
-            ColorPanel.BackColor = Color.FromArgb(255, inR, inG, inB);
+            this.button_C.BackColor = Color.FromArgb(255, inR, inG, inB);
 
             ClsParam clParam = this.GetParam();
             this.mFormMain.ChangeElemFromParam(clParam);
@@ -213,14 +211,14 @@ namespace PrjHikariwoAnim
         {
             //PickUP ColorDialog
             ColorDialog dlg = new ColorDialog();
-            dlg.Color = ColorPanel.BackColor;
+            dlg.Color = this.button_C.BackColor;
             DialogResult enREsult = dlg.ShowDialog();
             if (enREsult != DialogResult.OK) return;
 
-            ColorPanel.BackColor = dlg.Color;
+            this.button_C.BackColor = dlg.Color;
             int inColor = dlg.Color.ToArgb();
             inColor &= 0x00FFFFFF;
-            ColorCode.Text = $"{inColor:X6}";   //RGB
+            textBox_C.Text = $"{inColor:X6}";   //RGB
 
             //この代入ではバリデードが発生しないらしく更新通知
             if (!isLocked)
@@ -239,6 +237,75 @@ namespace PrjHikariwoAnim
                 ClsParam clParam = this.GetParam();
                 this.mFormMain.ChangeElemFromParam(clParam);
             }
+
+            bool isCheckOption;
+            bool isCheckKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
+            this.label_Display.Enabled = isCheckKeyFrame;
+            this.checkBox_Display.Enabled = isCheckKeyFrame;
+
+            isCheckKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
+            this.label_X.Enabled = isCheckKeyFrame;
+            this.label_Y.Enabled = isCheckKeyFrame;
+            this.UDnumX.Enabled = isCheckKeyFrame;
+            this.UDnumY.Enabled = isCheckKeyFrame;
+            this.button_TweenX.Enabled = isCheckKeyFrame;
+            this.button_TweenY.Enabled = isCheckKeyFrame;
+
+            isCheckOption = this.checkBox_EnableRotationOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
+            this.checkBox_EnableRotationKeyFrame.Enabled = isCheckOption;
+            this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenRZ.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableScaleOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
+            this.checkBox_EnableScaleKeyFrame.Enabled = isCheckOption;
+            this.label_SX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumSY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenSX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenSY.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableOffsetOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
+            this.checkBox_EnableOffsetKeyFrame.Enabled = isCheckOption;
+            this.label_CX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.label_CY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumXoff.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumYoff.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenCX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenCY.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableFlipOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
+            this.checkBox_EnableFlipKeyFrame.Enabled = isCheckOption;
+            this.label_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.label_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableTransOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
+            this.checkBox_EnableTransKeyFrame.Enabled = isCheckOption;
+            this.label_T.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.UDnumT.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenT.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableColorOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
+            this.checkBox_EnableColorKeyFrame.Enabled = isCheckOption;
+            this.label_C.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_C.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.textBox_C.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenC.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            isCheckOption = this.checkBox_EnableUserDataOption.Checked;
+            isCheckKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
+            this.checkBox_EnableUserDataKeyFrame.Enabled = isCheckOption;
+            this.label_UT.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.textBox_UT.Enabled = (isCheckOption && isCheckKeyFrame);
         }
 
         private void FormAttribute_FormClosing(object sender, FormClosingEventArgs e)

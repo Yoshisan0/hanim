@@ -410,9 +410,9 @@ namespace PrjHikariwoAnim
 
             //以下、マテリアル色設定
             float flAlpha = 1.0f;
-            if (clParam.mEnableTrans) flAlpha = clParam.mTrans;
+            if (clParam.mExistTransOption) flAlpha = clParam.mTrans;
             Color stColor = Color.White;
-            if (clParam.mEnableColor) stColor = Color.FromArgb(clParam.mColor);
+            if (clParam.mExistColorOption) stColor = Color.FromArgb(clParam.mColor);
             Gl.glColor4f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f, flAlpha);
 
             //以下、ワールド座標設定
@@ -428,7 +428,7 @@ namespace PrjHikariwoAnim
 
             //以下、ローカル回転設定
             float flRZ = 0.0f;
-            if (clParam.mEnableRotation)
+            if (clParam.mExistRotationOption)
             {
                 flRZ = clParam.mRZ;
             }
@@ -437,7 +437,7 @@ namespace PrjHikariwoAnim
             //以下、ローカルスケール設定
             float flSX = 1.0f;
             float flSY = 1.0f;
-            if (clParam.mEnableScale)
+            if (clParam.mExistScaleOption)
             {
                 flSX = clParam.mSX;
                 flSY = clParam.mSY;

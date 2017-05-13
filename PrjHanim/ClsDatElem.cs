@@ -494,10 +494,26 @@ namespace PrjHikariwoAnim
         /// オプション存在チェック
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
-        /// <returns>存在フラグ</returns>
+        /// <returns>オプション存在フラグ</returns>
         private bool IsExistOption(TYPE_OPTION enTypeOption)
         {
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            return (isExist);
+        }
+
+        /// <summary>
+        /// キーフレーム存在チェック
+        /// </summary>
+        /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <param name="inFrameNo">フレーム番号</param>
+        /// <returns>キーフレーム存在フラグ</returns>
+        private bool IsExistKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo)
+        {
+            //以下、オプション追加処理
+            ClsDatOption clOption = this.GetOption(enTypeOption);
+            if (clOption == null) return (false);
+
+            bool isExist = clOption.mDicKeyFrame.ContainsKey(inFrameNo);
             return (isExist);
         }
 
@@ -753,67 +769,50 @@ namespace PrjHikariwoAnim
             object clValue2;
 
             this.GetOptionValue(TYPE_OPTION.DISPLAY, inFrameNo, out clValue1, out clValue2);
-            clParam.mEnableDisplay = (bool)clValue1;
+            clParam.mExistDisplayKeyFrame = (bool)clValue1; //ここは間違っているのでは？
 
-            bool isExist = this.IsExistOption(TYPE_OPTION.POSITION);
-            if (isExist)
-            {
-                this.GetOptionValue(TYPE_OPTION.POSITION, inFrameNo, out clValue1, out clValue2);
-                clParam.mX = (int)clValue1;
-                clParam.mY = (int)clValue2;
-            }
+            clParam.mExistPositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.POSITION, inFrameNo, out clValue1, out clValue2);
+            clParam.mX = (int)clValue1;
+            clParam.mY = (int)clValue2;
 
-            clParam.mEnableRotation = this.IsExistOption(TYPE_OPTION.ROTATION);
-            if (clParam.mEnableRotation)
-            {
-                this.GetOptionValue(TYPE_OPTION.ROTATION, inFrameNo, out clValue1, out clValue2);
-                clParam.mRZ = (float)clValue1;
-            }
+            clParam.mExistRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
+            clParam.mExistRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.ROTATION, inFrameNo, out clValue1, out clValue2);
+            clParam.mRZ = (float)clValue1;
 
-            clParam.mEnableScale = this.IsExistOption(TYPE_OPTION.SCALE);
-            if (clParam.mEnableScale)
-            {
-                this.GetOptionValue(TYPE_OPTION.SCALE, inFrameNo, out clValue1, out clValue2);
-                clParam.mSX = (float)clValue1;
-                clParam.mSY = (float)clValue2;
-            }
+            clParam.mExistScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
+            clParam.mExistScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.SCALE, inFrameNo, out clValue1, out clValue2);
+            clParam.mSX = (float)clValue1;
+            clParam.mSY = (float)clValue2;
 
-            clParam.mEnableOffset = this.IsExistOption(TYPE_OPTION.OFFSET);
-            if (clParam.mEnableOffset)
-            {
-                this.GetOptionValue(TYPE_OPTION.OFFSET, inFrameNo, out clValue1, out clValue2);
-                clParam.mCX = (float)clValue1;
-                clParam.mCY = (float)clValue2;
-            }
+            clParam.mExistOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
+            clParam.mExistOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.OFFSET, inFrameNo, out clValue1, out clValue2);
+            clParam.mCX = (float)clValue1;
+            clParam.mCY = (float)clValue2;
 
-            clParam.mEnableFlip = this.IsExistOption(TYPE_OPTION.FLIP);
-            if (clParam.mEnableFlip)
-            {
-                this.GetOptionValue(TYPE_OPTION.FLIP, inFrameNo, out clValue1, out clValue2);
-                clParam.mFlipH = (bool)clValue1;
-                clParam.mFlipV = (bool)clValue2;
-            }
+            clParam.mExistFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
+            clParam.mExistFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.FLIP, inFrameNo, out clValue1, out clValue2);
+            clParam.mFlipH = (bool)clValue1;
+            clParam.mFlipV = (bool)clValue2;
 
-            clParam.mEnableTrans = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
-            if (clParam.mEnableTrans)
-            {
-                this.GetOptionValue(TYPE_OPTION.TRANSPARENCY, inFrameNo, out clValue1, out clValue2);
-                clParam.mTrans = (float)clValue1;
-            }
+            clParam.mExistTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
+            clParam.mExistTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.TRANSPARENCY, inFrameNo, out clValue1, out clValue2);
+            clParam.mTrans = (float)clValue1;
 
-            clParam.mEnableColor = this.IsExistOption(TYPE_OPTION.COLOR);
-            if (clParam.mEnableColor)
-            {
-                this.GetOptionValue(TYPE_OPTION.COLOR, inFrameNo, out clValue1, out clValue2);
-                clParam.mColor = (int)clValue1;
-            }
+            clParam.mExistColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
+            clParam.mExistColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.COLOR, inFrameNo, out clValue1, out clValue2);
+            clParam.mColor = (int)clValue1;
 
-            clParam.mEnableUserData = this.IsExistOption(TYPE_OPTION.USER_DATA);
-            if (clParam.mEnableUserData)
-            {
-                this.GetOptionValue(TYPE_OPTION.USER_DATA, inFrameNo, out clValue1, out clValue2);
-                clParam.mUserData = (string)clValue1;
-            }
+            clParam.mExistUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
+            clParam.mExistUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
+            this.GetOptionValue(TYPE_OPTION.USER_DATA, inFrameNo, out clValue1, out clValue2);
+            clParam.mUserData = (string)clValue1;
 
             return (clParam);
         }
@@ -844,7 +843,7 @@ namespace PrjHikariwoAnim
                     //以下、ポリゴン描画
                     float flCX = 0.0f;
                     float flCY = 0.0f;
-                    if (clParam.mEnableOffset)
+                    if (clParam.mExistOffsetOption)
                     {
                         flCX = clParam.mCX;
                         flCY = clParam.mCY;

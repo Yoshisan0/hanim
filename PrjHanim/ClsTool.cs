@@ -478,67 +478,84 @@ namespace PrjHikariwoAnim
 
     public class ClsParam
     {
-        public bool mEnableDisplay;     //表示フラグ
+        public bool mExistDisplayKeyFrame;  //表示キーフレーム存在フラグ
+        public bool mDisplay;               //表示フラグ
 
-        public int mX;                  //Ｘ座標（常に有効）
-        public int mY;                  //Ｙ座標（常に有効）
+        public bool mExistPositionKeyFrame; //座標キーフレーム存在フラグ
+        public int mX;                      //Ｘ座標（常に有効）
+        public int mY;                      //Ｙ座標（常に有効）
 
-        public bool mEnableRotation;    //回転値有効化フラグ
-        public float mRZ;               //回転値
+        public bool mExistRotationOption;   //回転オプション存在フラグ
+        public bool mExistRotationKeyFrame; //回転キーフレーム存在フラグ
+        public float mRZ;                   //回転値
 
-        public bool mEnableScale;       //スケール有効化フラグ
-        public float mSX;               //スケールＸ
-        public float mSY;               //スケールＹ
+        public bool mExistScaleOption;      //スケールオプション存在フラグ
+        public bool mExistScaleKeyFrame;    //スケールキーフレーム存在フラグ
+        public float mSX;                   //スケールＸ
+        public float mSY;                   //スケールＹ
 
-        public bool mEnableOffset;      //オフセット座標有効化フラグ
-        public float mCX;               //オフセットＸ座標
-        public float mCY;               //オフセットＹ座標
+        public bool mExistOffsetOption;     //オフセットオプション存在フラグ
+        public bool mExistOffsetKeyFrame;   //オフセットキーフレーム存在フラグ
+        public float mCX;                   //オフセットＸ座標
+        public float mCY;                   //オフセットＹ座標
 
-        public bool mEnableFlip;        //反転有効化フラグ
+        public bool mExistFlipOption;   //反転オプション存在フラグ
+        public bool mExistFlipKeyFrame; //反転キーフレーム存在フラグ
         public bool mFlipH;             //水平反転フラグ
         public bool mFlipV;             //垂直反転フラグ
 
-        public bool mEnableTrans;       //マテリアル透明有効化フラグ
-        public float mTrans;            //マテリアル透明値0.0～1.0（0%～100%）
+        public bool mExistTransOption;      //透明オプション存在フラグ
+        public bool mExistTransKeyFrame;    //透明キーフレーム存在フラグ
+        public float mTrans;                //透明透明値0.0～1.0（0%～100%）
 
-        public bool mEnableColor;       //マテリアルカラー有効化フラグ
-        public int mColor;              //マテリアルカラー値（α無し RGBのみ）
+        public bool mExistColorOption;      //マテリアルカラーオプション存在フラグ
+        public bool mExistColorKeyFrame;    //マテリアルカラーキーフレーム存在フラグ
+        public int mColor;                  //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mEnableUserData;    //ユーザーデータ有効化フラグ
-        public string mUserData;        //ユーザーデータ
+        public bool mExistUserDataOption;   //ユーザーデータオプション存在フラグ
+        public bool mExistUserDataKeyFrame; //ユーザーデータキーフレーム存在フラグ
+        public string mUserData;            //ユーザーデータ
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ClsParam()
         {
-            this.mEnableDisplay = true;
+            this.mExistDisplayKeyFrame = false;
 
+            this.mExistPositionKeyFrame = false;
             this.mX = 0;
             this.mY = 0;
 
-            this.mEnableRotation = false;
+            this.mExistRotationOption = false;
+            this.mExistRotationKeyFrame = false;
             this.mRZ = 0.0f;
 
-            this.mEnableScale = false;
+            this.mExistScaleOption = false;
+            this.mExistScaleKeyFrame = false;
             this.mSX = 1.0f;
             this.mSY = 1.0f;
 
-            this.mEnableOffset = false;
+            this.mExistOffsetOption = false;
+            this.mExistOffsetKeyFrame = false;
             this.mCX = 0.0f;
             this.mCY = 0.0f;
 
-            this.mEnableFlip = false;
+            this.mExistFlipOption = false;
+            this.mExistFlipKeyFrame = false;
             this.mFlipH = false;
             this.mFlipV = false;
 
-            this.mEnableTrans = false;
+            this.mExistTransOption = false;
+            this.mExistTransKeyFrame = false;
             this.mTrans = 1.0f;
 
-            this.mEnableColor = false;
+            this.mExistColorOption = false;
+            this.mExistColorKeyFrame = false;
             this.mColor = 0xFFFFFF;
 
-            this.mEnableUserData = false;
+            this.mExistUserDataOption = false;
+            this.mExistUserDataKeyFrame = false;
             this.mUserData = "";
         }
 

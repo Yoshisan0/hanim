@@ -178,7 +178,7 @@ namespace PrjHikariwoAnim
 
 
             ClsDatOption clOption = clElem.GetOption(TYPE_OPTION.DISPLAY);
-            clOption.mDicKeyFrame[inSelectFrameNo].mValue1 = clParam.mEnableDisplay;
+//            clOption.mDicKeyFrame[inSelectFrameNo].mValue1 = clParam.mExistDisplayKeyFrame;
 
             clOption = clElem.GetOption(TYPE_OPTION.POSITION);
 
