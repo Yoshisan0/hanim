@@ -29,7 +29,7 @@ namespace PrjHikariwoAnim
         {
             this.mID = inID;
             this.mName = clName;
-            this.mMaxFrameNum = 60;
+            this.mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
             this.mSelectFrameNo = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -477,14 +477,15 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clGL">OpenGLコンポーネント</param>
         /// <param name="inFrameNo">フレーム番号</param>
-        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo)
+        /// <param name="inMaxFrameNum">フレーム数</param>
+        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo, int inMaxFrameNum)
         {
             //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(clGL, inFrameNo);
+                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum);
             }
         }
 

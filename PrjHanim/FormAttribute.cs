@@ -30,7 +30,8 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clElem">選択中のエレメント</param>
         /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
-        public void Init(ClsDatElem clElem, int inSelectFrameNo)
+        /// <param name="inMaxFrameNum">フレーム数</param>
+        public void Init(ClsDatElem clElem, int inSelectFrameNo, int inMaxFrameNum)
         {
             if (clElem == null)
             {
@@ -45,7 +46,7 @@ namespace PrjHikariwoAnim
                 this.mSelectFrameNo = inSelectFrameNo;
 
                 //以下、チェック状態の設定
-                ClsParam clParam = clElem.GetParam(inSelectFrameNo);
+                ClsParam clParam = clElem.GetParamNow(inSelectFrameNo, inMaxFrameNum);
                 this.SetParam(clParam, inSelectFrameNo);
             }
         }

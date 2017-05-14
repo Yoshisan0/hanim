@@ -575,6 +575,7 @@ namespace PrjHikariwoAnim
             if (clMotion == null) return;
 
             int inSelectFrameNo = clMotion.GetSelectFrameNo();
+            int inMaxFrameNum = clMotion.GetMaxFrameNum();
             int inSelectLineNo = clMotion.GetSelectLineNo();
             ClsDatItem clItem = clMotion.FindItemFromLineNo(inSelectLineNo);
 
@@ -600,7 +601,7 @@ namespace PrjHikariwoAnim
                 if (this.mFormMain.mFormAttribute != null)
                 {
                     ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
-                    this.mFormMain.mFormAttribute.Init(clElem, inSelectFrameNo);
+                    this.mFormMain.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
                 }
             }
 
@@ -815,15 +816,17 @@ namespace PrjHikariwoAnim
             if (clMotion == null) return;
 
             bool isRemoveElementEnable = false;
+            bool isAddOptionEnable = false;
             bool isRemoveOptionEnable = false;
 
             int inLineNo = clMotion.GetSelectLineNo();
             if (inLineNo >= 0)
             {
-                ClsDatElem clElem = clMotion.FindElemFromLineNo(inLineNo);
-                if (clElem != null)
+                ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+                if (clItem != null)
                 {
                     isRemoveElementEnable = true;
+                    isAddOptionEnable = true;
                 }
 
                 ClsDatOption clOption = clMotion.FindOptionFromLineNo(inLineNo);
@@ -838,6 +841,7 @@ namespace PrjHikariwoAnim
             }
 
             this.ToolStripMenuItem_RemoveElement.Enabled = isRemoveElementEnable;
+            this.ToolStripMenuItem_AddOption.Enabled = isAddOptionEnable;
             this.ToolStripMenuItem_RemoveOption.Enabled = isRemoveOptionEnable;
         }
 

@@ -591,7 +591,10 @@ namespace PrjHikariwoAnim
             case TYPE_PARAM.SCALE_Y:
                 clValue = 1.0f;
                 break;
-            case TYPE_PARAM.TRANSPARENCY:
+            case TYPE_PARAM.OFFSET_X:
+                clValue = 0.0f;
+                break;
+            case TYPE_PARAM.OFFSET_Y:
                 clValue = 0.0f;
                 break;
             case TYPE_PARAM.FLIP_HORIZONAL:
@@ -600,14 +603,11 @@ namespace PrjHikariwoAnim
             case TYPE_PARAM.FLIP_VERTICAL:
                 clValue = false;
                 break;
+            case TYPE_PARAM.TRANSPARENCY:
+                clValue = 1.0f;
+                break;
             case TYPE_PARAM.COLOR:
                 clValue = (int)0xFFFFFF;
-                break;
-            case TYPE_PARAM.OFFSET_X:
-                clValue = 0.0f;
-                break;
-            case TYPE_PARAM.OFFSET_Y:
-                clValue = 0.0f;
                 break;
             case TYPE_PARAM.USER_DATA:
                 clValue = "";

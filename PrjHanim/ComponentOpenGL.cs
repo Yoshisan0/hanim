@@ -26,8 +26,8 @@ namespace PrjHikariwoAnim
         public float mCanvasHeight = 600.0f;
         private bool mPlay = false;
         private bool mLoop = false;
-        private int mFrameNoNow = 0;
-        private int mFrameNoMax = 60;
+        private int mFrameNo = 0;
+        private int mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
 
         #region Fields
         //
@@ -111,8 +111,8 @@ namespace PrjHikariwoAnim
             this.mCanvasHeight = this.Height;
             this.mPlay = false;
             this.mLoop = false;
-            this.mFrameNoNow = 0;
-            this.mFrameNoMax = 60;
+            this.mFrameNo = 0;
+            this.mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
 
             //以下、背景色初期化処理
             Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
@@ -165,7 +165,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrameNoNow">現在のフレーム番号</param>
         public void SetFrameNoNow(int inFrameNoNow)
         {
-            this.mFrameNoNow = inFrameNoNow;
+            this.mFrameNo = inFrameNoNow;
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrameNoNow">全体のフレーム数</param>
         public void SetFrameNoMax(int inFrameNoMax)
         {
-            this.mFrameNoMax = inFrameNoMax;
+            this.mMaxFrameNum = inFrameNoMax;
         }
 
         /// <summary>
@@ -184,17 +184,17 @@ namespace PrjHikariwoAnim
         protected override void OnPaint(PaintEventArgs e)
         {
             //以下、現在のフレーム番号が全フレーム数を超えてしまっていた場合の処理
-            if (this.mFrameNoNow >= this.mFrameNoMax)
+            if (this.mFrameNo >= this.mMaxFrameNum)
             {
                 if (this.mLoop)
                 {
                     //以下、ループ再生処理
-                    this.mFrameNoNow = 0;
+                    this.mFrameNo = 0;
                 }
                 else
                 {
                     //以下、最後のフレームで止める処理
-                    this.mFrameNoNow = this.mFrameNoMax - 1;
+                    this.mFrameNo = this.mMaxFrameNum - 1;
                 }
             }
 
@@ -280,7 +280,7 @@ namespace PrjHikariwoAnim
                 if (isExist)
                 {
                     ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    clMotion.DrawPreview(this, this.mFrameNoNow);
+                    clMotion.DrawPreview(this, this.mFrameNo, this.mMaxFrameNum);
                 }
             }
 
@@ -307,7 +307,7 @@ namespace PrjHikariwoAnim
             //以下、再生処理
             if (this.mPlay)
             {
-                this.mFrameNoNow++;
+                this.mFrameNo++;
             }
         }
 

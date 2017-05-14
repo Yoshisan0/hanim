@@ -451,13 +451,47 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// キーフレーム番号を取得する
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <param name="inFrameNo">現在のフレーム番号</param>
+        /// <param name="inMaxFrameNo">フレーム数</param>
+        /// <param name="inFrameNoBefore">前のフレーム番号</param>
+        /// <param name="inFrameNoAfter">後のフレーム番号</param>
+        private void GetKeyFrameNo(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNo, out int inFrameNoBefore, out int inFrameNoAfter)
+        {
+            inFrameNoBefore = inFrameNo;
+            inFrameNoAfter = inFrameNo;
+
+            //以下、オプション追加処理
+            ClsDatOption clOption = this.GetOption(enTypeOption);
+            if (clOption == null) return;
+
+            bool isExist = clOption.IsExistKeyFrame(inFrameNo);
+            if (isExist) return;
+
+            for (; inFrameNoBefore >= 0; inFrameNoBefore--)
+            {
+                isExist = clOption.IsExistKeyFrame(inFrameNoBefore);
+                if (isExist) break;
+            }
+
+            for (; inFrameNoAfter < inMaxFrameNo; inFrameNoAfter++)
+            {
+                isExist = clOption.IsExistKeyFrame(inFrameNoAfter);
+                if (isExist) break;
+            }
+        }
+
+        /// <summary>
         /// フレーム番号のオプションの値を取得する処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="inFrameNo">フレーム番号</param>
+        /// <param name="inMaxFrameNum">フレーム数</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        private void GetOptionValue(TYPE_OPTION enTypeOption, int inFrameNo, out object clValue1, out object clValue2)
+        private void GetOptionValueNow(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNum, out object clValue1, out object clValue2)
         {
             clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
@@ -467,7 +501,13 @@ namespace PrjHikariwoAnim
             if (clOption == null) return;
 
             bool isExist = clOption.IsExistKeyFrame(inFrameNo);
-            if (!isExist) return;
+            if (!isExist)
+            {
+                int inFrameNoBefore;
+                int inFrameNoAfter;
+                GetKeyFrameNo(enTypeOption, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+                inFrameNo = inFrameNoBefore;
+            }
 
             ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
             clValue1 = clKeyFrame.mValue1;
@@ -753,60 +793,62 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// オプションの情報をかき集めてまとめる処理
+        /// ※Tweenの情報も含めた最新の情報となる
         /// </summary>
         /// <param name="inFrameNo">フレーム番号</param>
+        /// <param name="inMaxFrameNum">フレーム数</param>
         /// <returns>パラメーター管理クラス</returns>
-        public ClsParam GetParam(int inFrameNo)
+        public ClsParam GetParamNow(int inFrameNo, int inMaxFrameNum)
         {
             ClsParam clParam = new ClsParam();
             object clValue1;
             object clValue2;
 
             clParam.mExistDisplayKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.DISPLAY, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.DISPLAY, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.DISPLAY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mDisplay = Convert.ToBoolean(clValue1);
 
             clParam.mExistPositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.POSITION, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.POSITION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
 
             clParam.mExistRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
             clParam.mExistRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.ROTATION, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.ROTATION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mRZ = Convert.ToSingle(clValue1);
 
             clParam.mExistScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
             clParam.mExistScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.SCALE, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.SCALE, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
 
             clParam.mExistOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
             clParam.mExistOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.OFFSET, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.OFFSET, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
 
             clParam.mExistFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
             clParam.mExistFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.FLIP, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.FLIP, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mFlipH = Convert.ToBoolean(clValue1);
             clParam.mFlipV = Convert.ToBoolean(clValue2);
 
             clParam.mExistTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
             clParam.mExistTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.TRANSPARENCY, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.TRANSPARENCY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mTrans = Convert.ToSingle(clValue1);
 
             clParam.mExistColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
             clParam.mExistColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.COLOR, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.COLOR, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mColor = Convert.ToInt32(clValue1);
 
             clParam.mExistUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
             clParam.mExistUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
-            this.GetOptionValue(TYPE_OPTION.USER_DATA, inFrameNo, out clValue1, out clValue2);
+            this.GetOptionValueNow(TYPE_OPTION.USER_DATA, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
             clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);
@@ -817,10 +859,10 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clGL">OpenGLコンポーネント</param>
         /// <param name="inFrameNo">フレーム番号</param>
-        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo)
+        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo, int inMaxFrameNum)
         {
             //以下、現在の値をかき集めてまとめる処理
-            ClsParam clParam = this.GetParam(inFrameNo);
+            ClsParam clParam = this.GetParamNow(inFrameNo, inMaxFrameNum);
 
             //以下、ポリゴン描画処理
             bool isExist = ClsSystem.mDicImage.ContainsKey(this.mImageKey);
@@ -988,7 +1030,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(clGL, inFrameNo);
+                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum);
             }
         }
 

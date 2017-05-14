@@ -325,7 +325,7 @@ namespace PrjHikariwoAnim
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null, 0);
+                this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
 
                 //以下、各種ウィンドウ更新処理
                 this.RefreshViewer(sender, e);
@@ -478,7 +478,7 @@ namespace PrjHikariwoAnim
                     //以下、コントロール設定処理
                     this.SetName(null);
                     this.mFormControl.SetName(null);
-                    this.mFormAttribute.Init(null, 0);
+                    this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
 
                     this.RefreshViewer(sender, e);
                 }
@@ -573,7 +573,7 @@ namespace PrjHikariwoAnim
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null, 0);
+                this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
         }
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
@@ -909,7 +909,7 @@ namespace PrjHikariwoAnim
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null, 0);
+                this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
         }
         private void listView_Motion_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -929,7 +929,7 @@ namespace PrjHikariwoAnim
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null, 0);
+                this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
 
                 //新しく選択したモーションをメインウィンドウに表示する
                 //新しく選択したモーションをコントロールウィンドウに表示する
@@ -941,7 +941,7 @@ namespace PrjHikariwoAnim
                 //以下、コントロール設定処理
                 this.SetName(null);
                 this.mFormControl.SetName(null);
-                this.mFormAttribute.Init(null, 0);
+                this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
 
             this.RefreshViewer(sender, e);

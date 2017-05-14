@@ -13,6 +13,7 @@ namespace PrjHikariwoAnim
 {
     public class ClsSystem
     {
+        public static int DEFAULT_FRAME_NUM = 60;
         public static string FILE_TAG = "  ";
         public static string mHeader;
         public static int mVer;
