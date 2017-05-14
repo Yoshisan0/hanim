@@ -18,9 +18,9 @@ namespace PrjHikariwoAnim
         public static string mHeader;
         public static int mVer;
         public static ClsSetting mSetting = null;   //保存データ
-        public static int mMotionSelectKey; //現在選択中のモーションキー
+        private static int mMotionSelectKey; //現在選択中のモーションキー
         public static Dictionary<int, ClsDatImage> mDicImage;   //キーはランダム値　値はClsDatImage
-        public static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
+        private static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
 
         /// <summary>
@@ -188,16 +188,95 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// イメージ取得処理
+        /// </summary>
+        /// <param name="inKey">イメージキー</param>
+        /// <returns>イメージ管理クラス</returns>
+        public static ClsDatImage GetImage(int inKey)
+        {
+            bool isExist = ClsSystem.mDicImage.ContainsKey(inKey);
+            if (!isExist) return (null);
+
+            ClsDatImage clImage = ClsSystem.mDicImage[inKey];
+            return (clImage);
+        }
+
+        /// <summary>
+        /// モーション取得処理
+        /// </summary>
+        /// <param name="inKey">モーションキー</param>
+        /// <returns>モーション管理クラス</returns>
+        public static ClsDatMotion GetMotion(int inKey)
+        {
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(inKey);
+            if (!isExist) return (null);
+
+            ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
+            return (clMotion);
+        }
+
+        /// <summary>
+        /// モーション追加処理
+        /// </summary>
+        /// <param name="inKey">モーションキー</param>
+        /// <param name="clMotion">モーション管理クラス</param>
+        public static void AddMotion(int inKey, ClsDatMotion clMotion)
+        {
+            ClsSystem.mDicMotion[inKey] = clMotion;
+        }
+
+        /// <summary>
+        /// モーション削除処理
+        /// </summary>
+        /// <param name="inKey">モーションキー</param>
+        public static void RemoveMotion(int inKey)
+        {
+            bool isExist = ClsSystem.mDicMotion.ContainsKey(inKey);
+            if (!isExist) return;
+
+            ClsDatMotion clMotion = ClsSystem.mDicMotion[inKey];
+            clMotion.Remove();
+            ClsSystem.mDicMotion.Remove(inKey);
+        }
+
+        /// <summary>
+        /// デフォルトのモーションを設定する
+        /// </summary>
+        public static void SetSelectMotionDefault()
+        {
+            foreach (int inKey in ClsSystem.mDicMotion.Keys)
+            {
+                ClsSystem.mMotionSelectKey = inKey;
+                break;
+            }
+        }
+
+        /// <summary>
         /// 現在選択中のモーションを取得する
         /// </summary>
         /// <returns>現在選択中のモーション</returns>
         public static ClsDatMotion GetSelectMotion()
         {
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (!isExist) return (null);
-
-            ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+            ClsDatMotion clMotion = ClsSystem.GetMotion(ClsSystem.mMotionSelectKey);
             return (clMotion);
+        }
+
+        /// <summary>
+        /// 選択中のモーションキーを設定する
+        /// </summary>
+        /// <param name="inKey">モーションキー</param>
+        public static void SetSelectMotionKey(int inKey)
+        {
+            ClsSystem.mMotionSelectKey = inKey;
+        }
+
+        /// <summary>
+        /// 選択中のモーションキーを取得する
+        /// </summary>
+        /// <returns>モーションキー</returns>
+        public static int GetSelectMotionKey()
+        {
+            return (ClsSystem.mMotionSelectKey);
         }
 
         /// <summary>

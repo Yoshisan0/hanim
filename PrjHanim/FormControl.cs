@@ -340,25 +340,20 @@ namespace PrjHikariwoAnim
             int inHeight = this.panel_Control.Height;
 
             //以下、モーションのコントロール描画処理
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion != null)
             {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
                 clMotion.DrawControl(e.Graphics, this.panel_Control.Width, this.panel_Control.Height, this.mFont);
             }
         }
 
         private void panel_Time_Paint(object sender, PaintEventArgs e)
         {
-            int inWidth = this.panel_Time.Width;
-            int inHeight = this.panel_Time.Height;
-
             //以下、モーションのコントロール描画処理
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if(clMotion!= null)
             {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                int inSelectFrameNo = (int)numericUpDown_NowFlame.Value;
+                int inSelectFrameNo = (int)this.numericUpDown_NowFlame.Value;
                 clMotion.SetSelectFrameNo(inSelectFrameNo);
                 clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }

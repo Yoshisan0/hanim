@@ -27,7 +27,6 @@ namespace PrjHikariwoAnim
         private bool mPlay = false;
         private bool mLoop = false;
         private int mFrameNo = 0;
-        private int mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
 
         #region Fields
         //
@@ -112,7 +111,6 @@ namespace PrjHikariwoAnim
             this.mPlay = false;
             this.mLoop = false;
             this.mFrameNo = 0;
-            this.mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
 
             //以下、背景色初期化処理
             Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
@@ -169,22 +167,19 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 全体のフレーム数設定
-        /// </summary>
-        /// <param name="inFrameNoNow">全体のフレーム数</param>
-        public void SetFrameNoMax(int inFrameNoMax)
-        {
-            this.mMaxFrameNum = inFrameNoMax;
-        }
-
-        /// <summary>
         /// 描画処理
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return;
+
+            int inMaxFrameNum = clMotion.GetMaxFrameNum();
+            clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+
             //以下、現在のフレーム番号が全フレーム数を超えてしまっていた場合の処理
-            if (this.mFrameNo >= this.mMaxFrameNum)
+            if (this.mFrameNo >= inMaxFrameNum)
             {
                 if (this.mLoop)
                 {
@@ -194,7 +189,7 @@ namespace PrjHikariwoAnim
                 else
                 {
                     //以下、最後のフレームで止める処理
-                    this.mFrameNo = this.mMaxFrameNum - 1;
+                    this.mFrameNo = inMaxFrameNum - 1;
                 }
             }
 
@@ -274,15 +269,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、モーション描画処理
-            if (ClsSystem.mDicMotion != null)
-            {
-                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                if (isExist)
-                {
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    clMotion.DrawPreview(this, this.mFrameNo, this.mMaxFrameNum);
-                }
-            }
+            clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
 
             /*
             //以下、矩形ライン描画テスト（グリーンの矩形）

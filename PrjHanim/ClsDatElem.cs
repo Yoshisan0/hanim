@@ -865,38 +865,35 @@ namespace PrjHikariwoAnim
             ClsParam clParam = this.GetParamNow(inFrameNo, inMaxFrameNum);
 
             //以下、ポリゴン描画処理
-            bool isExist = ClsSystem.mDicImage.ContainsKey(this.mImageKey);
-            if (isExist)
+            ClsDatImage clImage = ClsSystem.GetImage(this.mImageKey);
+            if (clImage != null)
             {
-                ClsDatImage clImage = ClsSystem.mDicImage[this.mImageKey];
-                if (clImage != null)
+                //以下、テクスチャー設定
+                clGL.SetTexture(clImage.mListTex[0]);
+
+                //以下、パラメーター設定
+                clGL.SetParam(clParam);
+                Console.WriteLine("x=" + clParam.mX + " y=" + clParam.mY);
+
+                //以下、ポリゴン描画
+                float flCX = 0.0f;
+                float flCY = 0.0f;
+                if (clParam.mExistOffsetOption)
                 {
-                    //以下、テクスチャー設定
-                    clGL.SetTexture(clImage.mListTex[0]);
+                    flCX = clParam.mCX;
+                    flCY = clParam.mCY;
+                }
 
-                    //以下、パラメーター設定
-                    clGL.SetParam(clParam);
-
-                    //以下、ポリゴン描画
-                    float flCX = 0.0f;
-                    float flCY = 0.0f;
-                    if (clParam.mExistOffsetOption)
-                    {
-                        flCX = clParam.mCX;
-                        flCY = clParam.mCY;
-                    }
-
-                    float flWidth = clImage.mImgOrigin.Width;
-                    float flHeight = clImage.mImgOrigin.Height;
-                    if (clImage.mRect == null)
-                    {
-                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
-                    }
-                    else
-                    {
-                        //UVカットして表示する
-                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
-                    }
+                float flWidth = clImage.mImgOrigin.Width;
+                float flHeight = clImage.mImgOrigin.Height;
+                if (clImage.mRect == null)
+                {
+                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
+                }
+                else
+                {
+                    //UVカットして表示する
+                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
                 }
             }
 

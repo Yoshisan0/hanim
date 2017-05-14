@@ -229,7 +229,7 @@ namespace PrjHikariwoAnim
             this.button_C.BackColor = Color.FromArgb(255, inR, inG, inB);
 
             ClsParam clParam = this.GetParam();
-            this.mFormMain.ChangeElemFromParam(clParam);
+            this.ChangeElemFromParam(clParam);
         }
 
         private void ColorPanel_Click(object sender, EventArgs e)
@@ -249,8 +249,116 @@ namespace PrjHikariwoAnim
             if (!isLocked)
             {
                 ClsParam clParam = this.GetParam();
-                this.mFormMain.ChangeElemFromParam(clParam);
+                this.ChangeElemFromParam(clParam);
             }
+        }
+
+        /// <summary>
+        /// エレメント情報変更処理
+        /// </summary>
+        /// <param name="clElem">変更対象となるエレメント</param>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <param name="inSelectFrameNo">フレーム番号</param>
+        /// <param name="isExistOption">オプション存在フラグ</param>
+        /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
+        /// <param name="clValue1">値１</param>
+        /// <param name="clValue2">値２</param>
+        private void ChangeElem(ClsDatElem clElem, TYPE_OPTION enTypeOption, int inSelectFrameNo, bool isExistOption, bool isExistKeyFrame, object clValue1, object clValue2)
+        {
+            if (isExistOption)
+            {
+                ClsDatOption clOption = null;
+
+                if (inSelectFrameNo == 0)
+                {
+                    bool isExist = clElem.IsExistOption(enTypeOption);
+                    if (isExist)
+                    {
+                        clElem.SetOption(enTypeOption, clValue1, clValue2);
+                    }
+                }
+                else
+                {
+                    bool isExist = clElem.IsExistOption(enTypeOption);
+                    if (isExist)
+                    {
+                        clOption = clElem.GetOption(enTypeOption);
+                    }
+                    else
+                    {
+                        clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
+                        clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
+                        clElem.SetOption(enTypeOption, clValue1, clValue2);
+                        clOption = clElem.GetOption(enTypeOption);
+                    }
+
+                    if (isExistKeyFrame)
+                    {
+                        clOption.SetKeyFrame(inSelectFrameNo, clValue1, clValue2);  //追加または更新
+                    }
+                    else
+                    {
+                        clOption.RemoveKeyFrame(inSelectFrameNo);
+                    }
+                }
+            }
+            else
+            {
+                clElem.RemoveOption(enTypeOption, false);
+            }
+        }
+
+        /// <summary>
+        /// オプションの情報を修正する処理
+        /// </summary>
+        /// <param name="clParam">パラメーター情報</param>
+        public void ChangeElemFromParam(ClsParam clParam)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return;
+
+            ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
+            if (clElem == null) return;
+
+            int inSelectFrameNo = clMotion.GetSelectFrameNo();
+
+            //以下、表示設定
+            object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
+            this.ChangeElem(clElem, TYPE_OPTION.DISPLAY, inSelectFrameNo, true, clParam.mExistDisplayKeyFrame, clParam.mDisplay, clValue2);
+
+            //以下、座標設定
+            this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mExistPositionKeyFrame, clParam.mX, clParam.mY);
+
+            //以下、回転設定
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.ROTATION);
+            this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mExistRotationOption, clParam.mExistRotationKeyFrame, clParam.mRZ, clValue2);
+
+            //以下、スケール設定
+            this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mExistScaleOption, clParam.mExistScaleKeyFrame, clParam.mSX, clParam.mSY);
+
+            //以下、オフセット設定
+            this.ChangeElem(clElem, TYPE_OPTION.OFFSET, inSelectFrameNo, clParam.mExistOffsetOption, clParam.mExistOffsetKeyFrame, clParam.mCX, clParam.mCY);
+
+            //以下、反転設定
+            this.ChangeElem(clElem, TYPE_OPTION.FLIP, inSelectFrameNo, clParam.mExistFlipOption, clParam.mExistFlipKeyFrame, clParam.mFlipH, clParam.mFlipV);
+
+            //以下、透明設定
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.TRANSPARENCY);
+            this.ChangeElem(clElem, TYPE_OPTION.TRANSPARENCY, inSelectFrameNo, clParam.mExistTransOption, clParam.mExistTransKeyFrame, clParam.mTrans, clValue2);
+
+            //以下、カラー設定 
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.COLOR);
+            this.ChangeElem(clElem, TYPE_OPTION.COLOR, inSelectFrameNo, clParam.mExistColorOption, clParam.mExistColorKeyFrame, clParam.mColor, clValue2);
+
+            //以下、ユーザーデータ設定 
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.USER_DATA);
+            this.ChangeElem(clElem, TYPE_OPTION.USER_DATA, inSelectFrameNo, clParam.mExistUserDataOption, clParam.mExistUserDataKeyFrame, clParam.mUserData, clValue2);
+
+            //以下、行番号を振り直す処理
+            clMotion.Assignment();
+
+            //以下、メインウィンドウ更新処理
+            this.mFormMain.Refresh();
         }
 
         private void Param_ValueChanged(object sender, EventArgs e)
@@ -260,7 +368,7 @@ namespace PrjHikariwoAnim
             if (!isLocked)
             {
                 ClsParam clParam = this.GetParam();
-                this.mFormMain.ChangeElemFromParam(clParam);
+                this.ChangeElemFromParam(clParam);
             }
 
             //以下、表示設定

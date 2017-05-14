@@ -115,7 +115,8 @@ namespace PrjHikariwoAnim
 
             //Motion選択状態にする 他フォームの準備完了後
             this.listView_Motion.Items[0].Selected = true;
-            ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
+            int inKey = this.listView_Motion.Items[0].GetHashCode();
+            ClsSystem.SetSelectMotionKey(inKey);    //選択中変更
 
             //FileHistory追加
 
@@ -159,116 +160,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// エレメント情報変更処理
-        /// </summary>
-        /// <param name="clElem">変更対象となるエレメント</param>
-        /// <param name="enTypeOption">オプションタイプ</param>
-        /// <param name="inSelectFrameNo">フレーム番号</param>
-        /// <param name="isExistOption">オプション存在フラグ</param>
-        /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
-        /// <param name="clValue1">値１</param>
-        /// <param name="clValue2">値２</param>
-        private void ChangeElem(ClsDatElem clElem, TYPE_OPTION enTypeOption, int inSelectFrameNo, bool isExistOption, bool isExistKeyFrame, object clValue1, object clValue2)
-        {
-            if (isExistOption)
-            {
-                ClsDatOption clOption = null;
-
-                if (inSelectFrameNo == 0)
-                {
-                    bool isExist = clElem.IsExistOption(enTypeOption);
-                    if (!isExist)
-                    {
-                        clElem.SetOption(enTypeOption, clValue1, clValue2);
-                    }
-                }
-                else
-                {
-                    bool isExist = clElem.IsExistOption(enTypeOption);
-                    if (isExist)
-                    {
-                        clOption = clElem.GetOption(enTypeOption);
-                    }
-                    else
-                    {
-                        clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
-                        clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-                        clElem.SetOption(enTypeOption, clValue1, clValue2);
-                        clOption = clElem.GetOption(enTypeOption);
-                    }
-
-                    if (isExistKeyFrame)
-                    {
-                        clOption.SetKeyFrame(inSelectFrameNo, clValue1, clValue2);  //追加または更新
-                    }
-                    else
-                    {
-                        clOption.RemoveKeyFrame(inSelectFrameNo);
-                    }
-                }
-            }
-            else
-            {
-                clElem.RemoveOption(enTypeOption, false);
-            }
-        }
-
-        /// <summary>
-        /// オプションの情報を修正する処理
-        /// </summary>
-        /// <param name="clParam">パラメーター情報</param>
-        public void ChangeElemFromParam(ClsParam clParam)
-        {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return;
-
-            ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
-            if (clElem == null) return;
-
-            int inSelectFrameNo = clMotion.GetSelectFrameNo();
-
-            //以下、表示設定
-            object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
-            this.ChangeElem(clElem, TYPE_OPTION.DISPLAY, inSelectFrameNo, true, clParam.mExistDisplayKeyFrame, clParam.mDisplay, clValue2);
-
-            //以下、座標設定
-            this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mExistPositionKeyFrame, clParam.mX, clParam.mY);
-
-            //以下、回転設定
-            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.ROTATION);
-            this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mExistRotationOption, clParam.mExistRotationKeyFrame, clParam.mRZ, clValue2);
-
-            //以下、スケール設定
-            this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mExistScaleOption, clParam.mExistScaleKeyFrame, clParam.mSX, clParam.mSY);
-
-            //以下、オフセット設定
-            this.ChangeElem(clElem, TYPE_OPTION.OFFSET, inSelectFrameNo, clParam.mExistOffsetOption, clParam.mExistOffsetKeyFrame, clParam.mCX, clParam.mCY);
-
-            //以下、反転設定
-            this.ChangeElem(clElem, TYPE_OPTION.FLIP, inSelectFrameNo, clParam.mExistFlipOption, clParam.mExistFlipKeyFrame, clParam.mFlipH, clParam.mFlipV);
-
-            //以下、透明設定
-            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.TRANSPARENCY);
-            this.ChangeElem(clElem, TYPE_OPTION.TRANSPARENCY, inSelectFrameNo, clParam.mExistTransOption, clParam.mExistTransKeyFrame, clParam.mTrans, clValue2);
-
-            //以下、カラー設定 
-            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.COLOR);
-            this.ChangeElem(clElem, TYPE_OPTION.COLOR, inSelectFrameNo, clParam.mExistColorOption, clParam.mExistColorKeyFrame, clParam.mColor, clValue2);
-
-            //以下、ユーザーデータ設定 
-            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.USER_DATA);
-            this.ChangeElem(clElem, TYPE_OPTION.USER_DATA, inSelectFrameNo, clParam.mExistUserDataOption, clParam.mExistUserDataKeyFrame, clParam.mUserData, clValue2);
-
-            //以下、行番号を振り直す処理
-            clMotion.Assignment();
-
-            //以下、各種ウィンドウ更新処理
-            this.RefreshViewer(null, null);
-            this.mFormCell.Refresh();
-            this.mFormControl.RefreshAll();
-        }
-
-        /// <summary>
         /// 新規プロジェクト
         /// </summary>
         /// <param name="sender"></param>
@@ -287,9 +178,11 @@ namespace PrjHikariwoAnim
                 listView_Motion.Clear();
 
                 ClsDatMotion clMotion = this.AddMotion("DefMotion");
+
                 //Motion選択状態にする 他フォームの準備完了後
                 listView_Motion.Items[0].Selected = true;
-                ClsSystem.mMotionSelectKey = listView_Motion.Items[0].GetHashCode();//選択中変更
+                int inKey = listView_Motion.Items[0].GetHashCode();
+                ClsSystem.SetSelectMotionKey(inKey);    //選択中変更
 
                 mFormControl.RefreshAll();
                 mFormCell.Refresh();
@@ -313,12 +206,8 @@ namespace PrjHikariwoAnim
                 this.listView_Motion.Refresh();
 
                 //以下、選択中のライン番号初期化処理
-                foreach (int inKey in ClsSystem.mDicMotion.Keys)
-                {
-                    ClsSystem.mMotionSelectKey = inKey;
-                    break;
-                }
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                ClsSystem.SetSelectMotionDefault();
+                ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
                 clMotion.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
@@ -466,14 +355,12 @@ namespace PrjHikariwoAnim
                     listView_Motion.SelectedItems[0].Remove();
 
                     //mDicMotionからの削除
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[inHash];
-                    clMotion.Remove();
-                    ClsSystem.mDicMotion.Remove(inHash);    //モーションクラス削除処理
+                    ClsSystem.RemoveMotion(inHash);    //モーションクラス削除処理
 
                     //編集中のモーションが削除されたので、
                     //コントロールウィンドウとメインウィンドウの情報をクリアする
 
-                    ClsSystem.mMotionSelectKey = -1;
+                    ClsSystem.SetSelectMotionKey(-1);
 
                     //以下、コントロール設定処理
                     this.SetName(null);
@@ -564,7 +451,7 @@ namespace PrjHikariwoAnim
                 //this.mNowMotionName = e.Label;
 
                 int inHashCode = e.Node.GetHashCode();
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                ClsDatMotion clMotion = ClsSystem.GetMotion(inHashCode);
                 if (clMotion != null)
                 {
                     clMotion.SetName(e.Label);
@@ -680,31 +567,16 @@ namespace PrjHikariwoAnim
                     dest.Nodes.Add(cln);
                     dest.Expand();
                     tv.SelectedNode = cln;
-                    //構造をTimelineに反映させる
-                    //src to dest
-                    //destの種類に応じて親になるか子になるか振分
-                    //ルート -> 同レベルの前へ移動
-                    if (dest.Parent == null)
-                    {
-
-                    }
-                    //１つ上がルート ->　同レベルの次へ移動
-                    //上記以外 -> 対象の子へ移動
-                    //※対象がイメージタイプでは無い場合どうするか？
-
-                    if (ClsSystem.mMotionSelectKey >= 0)
-                    {
-                        /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                        if (ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.Move(src.Name, dest.Name, true) == false) {
-                            Console.WriteLine("Elements move False");
-                        }
-                        */
-                    }
-
                 }
-                else e.Effect = DragDropEffects.None;
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
-            else e.Effect = DragDropEffects.None;
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる
@@ -847,10 +719,11 @@ namespace PrjHikariwoAnim
         {
             ListViewItem clListViewItem = new ListViewItem(clMotionName, 2);
             listView_Motion.Items.Add(clListViewItem);
-            clListViewItem.Tag = ClsSystem.mDicMotion.Count;
+//          clListViewItem.Tag = ClsSystem.mDicMotion.Count;
 
-            ClsDatMotion clMotion = new ClsDatMotion(clListViewItem.GetHashCode(), clMotionName);
-            ClsSystem.mDicMotion.Add(clListViewItem.GetHashCode(), clMotion);
+            int inKey = clListViewItem.GetHashCode();
+            ClsDatMotion clMotion = new ClsDatMotion(inKey, clMotionName);
+            ClsSystem.AddMotion(inKey, clMotion);
 
             return (clMotion);
         }
@@ -899,7 +772,7 @@ namespace PrjHikariwoAnim
             if (!e.CancelEdit && e.Label!=null && e.Label!="")
             {
                 int inHashCode = listView_Motion.Items[e.Item].GetHashCode();
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[inHashCode];
+                ClsDatMotion clMotion = ClsSystem.GetMotion(inHashCode);
                 if (clMotion != null)
                 {
                     clMotion.SetName(e.Label);
@@ -917,12 +790,12 @@ namespace PrjHikariwoAnim
             //e==選択されたlistViewItem のはず
             int inHashCode = e.Item.GetHashCode();
 
-            //モーション存在確認   
-            if (ClsSystem.mDicMotion.ContainsKey(inHashCode))
+            //モーション存在確認
+            ClsDatMotion clMotion = ClsSystem.GetMotion(inHashCode);
+            if (clMotion!= null)
             {
                 //アイテムが存在
-                ClsSystem.mMotionSelectKey = inHashCode;//選択中変更
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
+                ClsSystem.SetSelectMotionKey(inHashCode);   //選択中変更
                 clMotion.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
@@ -937,7 +810,8 @@ namespace PrjHikariwoAnim
             else
             {
                 //非選択
-                ClsSystem.mMotionSelectKey = -1;
+                ClsSystem.SetSelectMotionKey(-1);
+
                 //以下、コントロール設定処理
                 this.SetName(null);
                 this.mFormControl.SetName(null);
@@ -1034,16 +908,13 @@ namespace PrjHikariwoAnim
                         int inKey = ClsSystem.CreateImageFromFile(str);
                         if (inKey >= 0)
                         {
-                            //以下、選択中のモーションがあるかチェック
-                            if (ClsSystem.mMotionSelectKey >= 0)
+                            ClsDatMotion clDatMotion = ClsSystem.GetSelectMotion();
+                            if (clDatMotion != null)    //選択中のモーション存在チェック
                             {
-                                //以下、辞書に選択中のモーションが存在するかチェック
-                                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                                if (isExist)
+                                ClsDatImage clDatImage = ClsSystem.GetImage(inKey);
+                                if (clDatImage != null) //イメージ存在チェック
                                 {
                                     //以下、エレメント追加
-                                    ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                                    ClsDatImage clDatImage = ClsSystem.mDicImage[inKey];
                                     this.AddElement(clDatMotion, clDatImage, sPos.X, sPos.Y);
                                 }
                             }
@@ -1084,20 +955,15 @@ namespace PrjHikariwoAnim
             //ImageChip 受け入れ
             if (e.Data.GetDataPresent(typeof(ClsDatImage)))
             {
-                //以下、選択中のモーションがあるかチェック
-                if (ClsSystem.mMotionSelectKey >= 0)
+                //以下、エレメント追加
+                ClsDatMotion clDatMotion = ClsSystem.GetSelectMotion();
+                if (clDatMotion != null)
                 {
-                    //以下、辞書に選択中のモーションが存在するかチェック
-                    bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                    if (isExist)
-                    {
-                        //以下、エレメント追加
-                        ClsDatMotion clDatMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                        ClsDatImage clDatImage = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
-                        //                        Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
-                        Point a = new Point(0, 0);
-                        this.AddElement(clDatMotion, clDatImage, a.X, a.Y);
-                    }
+                    ClsDatImage clDatImage = (ClsDatImage)e.Data.GetData(typeof(ClsDatImage));
+
+//                  Point a = panel_PreView.PointToClient(new Point(e.X, e.Y));
+                    Point a = new Point(0, 0);
+                    this.AddElement(clDatMotion, clDatImage, a.X, a.Y);
                 }
 
                 e.Effect = DragDropEffects.Copy;
@@ -1143,36 +1009,6 @@ namespace PrjHikariwoAnim
             {
                 this.mMouseDownL = true;
                 this.mPosMouseLOld = new Point(e.X, e.Y);
-
-                //アイテム検索
-                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                if (isExist)
-                {
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-                    /* こういう風にする？
-                    ClsDatElem clElem = clMotion.FindElemFromPosition((int)stPosX, (int)stPosY);
-                    if(clElem!= null)
-                    {
-                    }
-                    */
-
-                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2016/01/09
-                    this.SetNowElementsIndex(clMotion.EditFrame.SelectElement((int)stPosX, (int)stPosY, true));
-                    ELEMENTS nowEle = clMotion.EditFrame.GetActiveElements();
-
-                    //Item選択中なら移動変形処理等の準備
-                    if (nowEle != null)
-                    {
-                        mMouseDownShift.X = (int)(nowEle.Atr.Position.X - stPosX);
-                        mMouseDownShift.Y = (int)(nowEle.Atr.Position.Y - stPosY);
-                    }
-
-                    this.mMouseLDown = true;
-                    this.panel_PreView.Refresh();
-                    this.treeView_Project.Refresh();
-                    this.mFormControl.Refresh();
-                    */
-                }
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -1191,66 +1027,6 @@ namespace PrjHikariwoAnim
                 this.mPosMouseLOld.Y = e.Y;
 
                 isRefresh = true;
-            }
-
-            bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-            if (isExist)
-            {
-                ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-
-                /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
-                if (nowEle != null)
-                {
-                    //移動処理
-                    if (mMouseLDown)
-                    {
-                        if (nowEle != null)
-                        {
-                            //+CTRL マウスでの回転 左周りにしかなってない
-                            if (mKeysSP == Keys.Control)
-                            {
-                                int w = (int)nowEle.Atr.Radius.Z + ((int)stPosX - mMouseDownPoint.X) / 4;
-                                if (w < 0)
-                                {
-                                    //右回転
-                                    w = 360 + (w % 360);
-                                    nowEle.Atr.Radius.Z = w;
-                                }
-                                else
-                                {
-                                    //左回転
-                                    w %= 360;
-                                    nowEle.Atr.Radius.Z = w;
-                                }
-                                //別キーも押されていれば別軸回転 等(将来)
-                            }
-                            //if( mKeysSP==Keys.Alt) //将来用
-                            else
-                            {
-                                //移動
-                                //差分加算
-                                mDragState = DragState.Move;
-                                nowEle.Atr.Position.X = stPosX + mMouseDownShift.X;
-                                nowEle.Atr.Position.Y = stPosY + mMouseDownShift.Y;
-                                //mFormAttribute.SetAllParam(nowEle.Atr);
-                            }
-                        }
-                        else
-                        {
-                            //アイテム選択が無い場合のLドラッグはステージのXYスクロール
-                            mDragState = DragState.Scroll;
-                            mScreenScroll.X = (e.X - (panel_PreView.Width / 2)) - mMouseDownPoint.X;
-                            mScreenScroll.Y = (e.Y - (panel_PreView.Height / 2)) - mMouseDownPoint.Y;
-                        }
-                        mFormAttribute.SetAllParam(nowEle.Atr);
-                        panel_PreView.Refresh();
-                    }
-                }
-                
-                StatusLabel.Text = $"[X:{stPosX:####}/Y:{stPosY:####}] [Px:{mMouseDownPoint.X:####}/Py:{mMouseDownPoint.Y:####}][Shift{mMouseDownShift.X}/{mMouseDownShift.Y}]";
-                StatusLabel2.Text = $" [Select:{ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.ActiveIndex}][ScX{mScreenScroll.X:###}/ScY{mScreenScroll.Y:###}] [Zoom:{zoom}]{mDragState.ToString()}:{mWheelDelta}";
-                */
             }
 
             //以下、スクリーン座標移動処理
@@ -1334,47 +1110,6 @@ namespace PrjHikariwoAnim
                     }
                 }
 
-                bool isExist = ClsSystem.mDicMotion.ContainsKey(ClsSystem.mMotionSelectKey);
-                if (isExist)
-                {
-                    ClsDatMotion clMotion = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey];
-
-                    /* ※データ構造が変わったので一旦コメントアウト comment out by yoshi 2017/01/08
-                    ELEMENTS nowEle = ClsSystem.mDicMotion[ClsSystem.mMotionSelectKey].EditFrame.GetActiveElements();
-                    //アイテム選択中のホイール操作
-                    if (mKeysSP == Keys.Shift)
-                    {
-                        //Shift+Wheel 部品の拡縮 0.1単位 最小0.1に制限
-                        mDragState = DragState.Scale;
-                        nowEle.Atr.Scale.X += ((nowEle.Atr.Scale.X + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                        nowEle.Atr.Scale.Y += ((nowEle.Atr.Scale.Y + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                        //nowEle.Atr.Scale.Z += ((nowEle.Atr.Scale.Z + mWheelDelta / 10f) > 0.1f) ? mWheelDelta / 10f : 0.1f;
-                    }
-                    if (mKeysSP == Keys.Control)
-                    {
-                        //Ctrl+Wheel 回転 1度単位
-                        mDragState = DragState.Angle;
-
-                        float w = nowEle.Atr.Radius.Z + mWheelDelta;
-                        if (w >= 360)
-                        {
-                            nowEle.Atr.Radius.Z = w % 360;
-                        }
-                        else if (w < 0)
-                        {
-                            //nowEle.Atr.Radius.Z = 360 - (float)Math.Acos(w % 360);
-                            nowEle.Atr.Radius.Z = (w % 360) + 360;
-                        }
-                        else
-                        {
-                            nowEle.Atr.Radius.Z += mWheelDelta;
-                        }
-                    }
-                    mFormAttribute.SetAllParam(nowEle.Atr);
-                    panel_PreView.Refresh();
-                    */
-                }
-
                 this.RefreshViewer(sender, e);
             }
             catch (Exception err)
@@ -1456,7 +1191,8 @@ namespace PrjHikariwoAnim
         public void SetNowElementsIndex(int? ElementsIndex)
         {
             //現在の選択と違う物であれば変更を行う
-            if (ClsSystem.mMotionSelectKey <= 0) return;
+            int inSelectMotionKey = ClsSystem.GetSelectMotionKey();
+            if (inSelectMotionKey <= 0) return;
 
 /*
             if (ElementsIndex == null)
