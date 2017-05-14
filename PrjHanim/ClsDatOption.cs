@@ -10,7 +10,7 @@ namespace PrjHikariwoAnim
     {
         public ClsDatElem mElem;        //親エレメント
         public TYPE_OPTION mTypeOption; //タイプ
-        public Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
+        private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
 
         /// <summary>
         /// コンストラクタ
@@ -19,7 +19,7 @@ namespace PrjHikariwoAnim
         /// <param name="enType">オプションタイプ</param>
         /// <param name="clValue1">初期状態の値１</param>
         /// <param name="clValue2">初期状態の値２</param>
-        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enTypeOption, object clValue1, object clValue2 = null)
+        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enTypeOption, object clValue1, object clValue2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
@@ -34,7 +34,6 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// オプションの全てを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         public void RemoveAll()
         {
@@ -45,6 +44,22 @@ namespace PrjHikariwoAnim
                 clDatKeyFrame.RemoveAll();
             }
             this.mDicKeyFrame.Clear();
+        }
+
+        /// <summary>
+        /// キーフレーム削除処理
+        /// </summary>
+        /// <param name="inFrameNo">フレーム番号</param>
+        public void RemoveKeyFrame(int inFrameNo)
+        {
+            if (inFrameNo == 0) return; //0フレーム目のキーフレームは消せない
+
+            bool isExist = this.IsExistKeyFrame(inFrameNo);
+            if (!isExist) return;
+
+            ClsDatKeyFrame clDatKeyFrame = this.mDicKeyFrame[inFrameNo];
+            clDatKeyFrame.RemoveAll();
+            this.mDicKeyFrame.Remove(inFrameNo);
         }
 
         /// <summary>
@@ -81,6 +96,38 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// キーフレーム存在チェック処理
+        /// </summary>
+        /// <param name="inFrameNo">フレーム番号</param>
+        /// <returns>存在フラグ</returns>
+        public bool IsExistKeyFrame(int inFrameNo)
+        {
+            bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
+            return (isExist);
+        }
+
+        /// <summary>
+        /// キーフレーム登録・更新処理
+        /// </summary>
+        /// <param name="inFrameNo">フレーム番号</param>
+        /// <param name="clValue1">値１</param>
+        /// <param name="clValue2">値２</param>
+        public void SetKeyFrame(int inFrameNo, object clValue1, object clValue2)
+        {
+            bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
+            if (isExist)
+            {
+                ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNo];
+                clKeyFrame.mValue1 = clValue1;
+                clKeyFrame.mValue2 = clValue2;
+            }
+            else
+            {
+                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, clValue1, clValue2);
+            }
+        }
+
+        /// <summary>
         /// 読み込み処理
         /// </summary>
         /// <param name="clXmlNode">xmlノード</param>
@@ -95,10 +142,12 @@ namespace PrjHikariwoAnim
             {
                 if ("KeyFrame".Equals(clNode.Name))
                 {
-                    ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, null, null);
+                    object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
+                    object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
+                    ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, clValue1, clValue2);
                     clDatKeyFrame.Load(clNode);
 
-                    this.mDicKeyFrame[clDatKeyFrame.mFrame] = clDatKeyFrame;
+                    this.mDicKeyFrame[clDatKeyFrame.mFrameNo] = clDatKeyFrame;
                     continue;
                 }
             }
@@ -150,6 +199,20 @@ namespace PrjHikariwoAnim
             //以下、行番号設定
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
+        }
+
+        /// <summary>
+        /// キーフレーム取得処理
+        /// </summary>
+        /// <param name="inFrameNo">フレーム番号</param>
+        /// <returns>キーフレーム</returns>
+        public ClsDatKeyFrame GetKeyFrame(int inFrameNo)
+        {
+            bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
+            if (!isExist) return (null);
+
+            ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNo];
+            return (clKeyFrame);
         }
 
         /// <summary>

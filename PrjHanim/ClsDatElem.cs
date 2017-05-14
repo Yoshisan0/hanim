@@ -51,8 +51,9 @@ namespace PrjHikariwoAnim
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
-            this.AddOption(TYPE_OPTION.DISPLAY, true);
-            this.AddOption(TYPE_OPTION.POSITION, inX, inY);
+            object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
+            this.SetOption(TYPE_OPTION.DISPLAY, true, clValue2);
+            this.SetOption(TYPE_OPTION.POSITION, inX, inY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -245,7 +246,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, null);
+                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, null, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -401,40 +402,44 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// オプション追加処理
-        /// </summary>
-        /// <param name="enTypeOption">オプションのタイプ</param>
-        /// <param name="clValue">値</param>
-        public void AddOption(TYPE_OPTION enTypeOption, object clValue)
-        {
-            //以下、オプション追加処理
-            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-            if (!isExist)
-            {
-                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, clValue);
-            }
-        }
-
-        /// <summary>
-        /// オプション追加処理
+        /// オプション追加・更新処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="clValue">値１</param>
         /// <param name="clValue">値２</param>
-        public void AddOption(TYPE_OPTION enTypeOption, object clValue1, object clValue2)
+        public void SetOption(TYPE_OPTION enTypeOption, object clValue1, object clValue2)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-            if (!isExist)
+            if (isExist)
+            {
+                ClsDatOption clOption = this.mDicOption[enTypeOption];
+                ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(0);
+                if (enTypeOption != clKeyFrame.mTypeOption) throw new Exception("type error.");
+                clKeyFrame.mValue1 = clValue1;
+                clKeyFrame.mValue2 = clValue2;
+            }
+            else
             {
                 this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, clValue1, clValue2);
             }
         }
 
         /// <summary>
+        /// オプション存在チェック
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <returns>存在フラグ</returns>
+        public bool IsExistOption(TYPE_OPTION enTypeOption)
+        {
+            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+            return (isExist);
+        }
+
+        /// <summary>
         /// オプション取得処理
         /// </summary>
-        /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <param name="enTypeOption">オプションタイプ</param>
         public ClsDatOption GetOption(TYPE_OPTION enTypeOption)
         {
             //以下、オプション追加処理
@@ -461,10 +466,10 @@ namespace PrjHikariwoAnim
             ClsDatOption clOption = this.GetOption(enTypeOption);
             if (clOption == null) return;
 
-            bool isExist = clOption.mDicKeyFrame.ContainsKey(inFrameNo);
+            bool isExist = clOption.IsExistKeyFrame(inFrameNo);
             if (!isExist) return;
 
-            ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inFrameNo];
+            ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
             clValue1 = clKeyFrame.mValue1;
             clValue2 = clKeyFrame.mValue2;
         }
@@ -491,17 +496,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// オプション存在チェック
-        /// </summary>
-        /// <param name="enTypeOption">オプションのタイプ</param>
-        /// <returns>オプション存在フラグ</returns>
-        private bool IsExistOption(TYPE_OPTION enTypeOption)
-        {
-            bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-            return (isExist);
-        }
-
-        /// <summary>
         /// キーフレーム存在チェック
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
@@ -513,7 +507,7 @@ namespace PrjHikariwoAnim
             ClsDatOption clOption = this.GetOption(enTypeOption);
             if (clOption == null) return (false);
 
-            bool isExist = clOption.mDicKeyFrame.ContainsKey(inFrameNo);
+            bool isExist = clOption.IsExistKeyFrame(inFrameNo);
             return (isExist);
         }
 
@@ -768,51 +762,52 @@ namespace PrjHikariwoAnim
             object clValue1;
             object clValue2;
 
+            clParam.mExistDisplayKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.DISPLAY, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.DISPLAY, inFrameNo, out clValue1, out clValue2);
-            clParam.mExistDisplayKeyFrame = (bool)clValue1; //ここは間違っているのでは？
+            clParam.mDisplay = Convert.ToBoolean(clValue1);
 
             clParam.mExistPositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.POSITION, inFrameNo, out clValue1, out clValue2);
-            clParam.mX = (int)clValue1;
-            clParam.mY = (int)clValue2;
+            clParam.mX = Convert.ToSingle(clValue1);
+            clParam.mY = Convert.ToSingle(clValue2);
 
             clParam.mExistRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
             clParam.mExistRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.ROTATION, inFrameNo, out clValue1, out clValue2);
-            clParam.mRZ = (float)clValue1;
+            clParam.mRZ = Convert.ToSingle(clValue1);
 
             clParam.mExistScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
             clParam.mExistScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.SCALE, inFrameNo, out clValue1, out clValue2);
-            clParam.mSX = (float)clValue1;
-            clParam.mSY = (float)clValue2;
+            clParam.mSX = Convert.ToSingle(clValue1);
+            clParam.mSY = Convert.ToSingle(clValue2);
 
             clParam.mExistOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
             clParam.mExistOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.OFFSET, inFrameNo, out clValue1, out clValue2);
-            clParam.mCX = (float)clValue1;
-            clParam.mCY = (float)clValue2;
+            clParam.mCX = Convert.ToSingle(clValue1);
+            clParam.mCY = Convert.ToSingle(clValue2);
 
             clParam.mExistFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
             clParam.mExistFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.FLIP, inFrameNo, out clValue1, out clValue2);
-            clParam.mFlipH = (bool)clValue1;
-            clParam.mFlipV = (bool)clValue2;
+            clParam.mFlipH = Convert.ToBoolean(clValue1);
+            clParam.mFlipV = Convert.ToBoolean(clValue2);
 
             clParam.mExistTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
             clParam.mExistTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.TRANSPARENCY, inFrameNo, out clValue1, out clValue2);
-            clParam.mTrans = (float)clValue1;
+            clParam.mTrans = Convert.ToSingle(clValue1);
 
             clParam.mExistColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
             clParam.mExistColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.COLOR, inFrameNo, out clValue1, out clValue2);
-            clParam.mColor = (int)clValue1;
+            clParam.mColor = Convert.ToInt32(clValue1);
 
             clParam.mExistUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
             clParam.mExistUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
             this.GetOptionValue(TYPE_OPTION.USER_DATA, inFrameNo, out clValue1, out clValue2);
-            clParam.mUserData = (string)clValue1;
+            clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);
         }
@@ -857,6 +852,7 @@ namespace PrjHikariwoAnim
                     }
                     else
                     {
+                        //UVカットして表示する
                         clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
                     }
                 }
@@ -1111,13 +1107,14 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="g">描画管理クラス</param>
         /// <param name="inSelectLineNo">選択中のライン番号</param>
-        /// <param name="inSelectFrame">選択中のフレーム</param>
+        /// <param name="inSelectFrameNo">選択中のフレーム</param>
+        /// <param name="inMaxFrameNum">最大フレーム数</param>
         /// <param name="inWidth">描画先の幅</param>
         /// <param name="ginHeight">描画先の高さ</param>
-        public void DrawTime(Graphics g, int inSelectLineNo, int inSelectFrame, int inWidth, int inHeight)
+        public void DrawTime(Graphics g, int inSelectLineNo, int inSelectFrameNo, int inMaxFrameNum, int inWidth, int inHeight)
         {
             SolidBrush clBrush = null;
-            int inX = inSelectFrame * FormControl.CELL_WIDTH;
+            int inX = inSelectFrameNo * FormControl.CELL_WIDTH;
             int inY = this.mLineNo * FormControl.CELL_HEIGHT;
 
             //以下、背景を塗る処理
@@ -1163,15 +1160,17 @@ namespace PrjHikariwoAnim
             //以下、DISPLAYオプション表示処理
             int inCnt, inMax;
             bool isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
-            if (isExist) {
+            if (isExist)
+            {
                 ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
-                if (clOption != null) {
-                    foreach (int inKey in clOption.mDicKeyFrame.Keys)
+                if (clOption != null)
+                {
+                    for(inCnt= 0;inCnt< inMaxFrameNum; inCnt++)
                     {
-                        ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inKey];
+                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inCnt);
                         if (clKeyFrame == null) continue;
 
-                        g.DrawImage(Properties.Resources.markRed, inKey * FormControl.CELL_WIDTH + 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                        g.DrawImage(Properties.Resources.markRed, inCnt * FormControl.CELL_WIDTH + 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
                     }
                 }
             }
@@ -1184,7 +1183,7 @@ namespace PrjHikariwoAnim
                     isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
-                    clOption.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
+                    clOption.DrawTime(g, inSelectLineNo, inSelectFrameNo, inWidth, inHeight);
                 }
             }
 
@@ -1193,7 +1192,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g, inSelectLineNo, inSelectFrame, inWidth, inHeight);
+                clElem.DrawTime(g, inSelectLineNo, inSelectFrameNo, inMaxFrameNum, inWidth, inHeight);
             }
         }
 

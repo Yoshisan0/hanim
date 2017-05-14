@@ -8,6 +8,7 @@ namespace PrjHikariwoAnim
     {
         private bool isLocked;      //パラメータ変更中にロック
         private FormMain mFormMain;
+        private int mSelectFrameNo; //現在表示中のフレーム番号
 
         public FormAttribute(FormMain clFormMain)
         {
@@ -28,32 +29,55 @@ namespace PrjHikariwoAnim
         /// 初期化処理
         /// </summary>
         /// <param name="clElem">選択中のエレメント</param>
-        public void Init(ClsDatElem clElem)
+        /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
+        public void Init(ClsDatElem clElem, int inSelectFrameNo)
         {
             if (clElem == null)
             {
                 this.Text = "Attribute";
                 this.groupBox_Param.Enabled = false;
+                this.mSelectFrameNo = 0;
             }
             else
             {
-                this.Text = ClsTool.GetWindowName("Attribute", clElem);
+                this.Text = ClsTool.GetWindowName("Attribute", clElem, inSelectFrameNo);
                 this.groupBox_Param.Enabled = true;
+                this.mSelectFrameNo = inSelectFrameNo;
 
                 //以下、チェック状態の設定
-                ClsParam clParam = clElem.GetParam(0);
-                this.SetParam(clParam);
+                ClsParam clParam = clElem.GetParam(inSelectFrameNo);
+                this.SetParam(clParam, inSelectFrameNo);
             }
         }
 
         /// <summary>
         /// フォームにパラメータをセットします
         /// </summary>
-        /// <param name="clParam"></param>
-        public void SetParam(ClsParam clParam)
+        /// <param name="clParam">パラメータ</param>
+        /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
+        private void SetParam(ClsParam clParam, int inSelectFrameNo)
         {
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             isLocked = true;
+
+            if (inSelectFrameNo == 0)
+            {
+                this.checkBox_EnableDisplayKeyFrame.Enabled = false;
+                this.checkBox_EnablePositionKeyFrame.Enabled = false;
+
+                this.checkBox_EnableRotationKeyFrame.Enabled = false;
+                this.checkBox_EnableScaleKeyFrame.Enabled = false;
+                this.checkBox_EnableFlipKeyFrame.Enabled = false;
+                this.checkBox_EnableTransKeyFrame.Enabled = false;
+                this.checkBox_EnableColorKeyFrame.Enabled = false;
+                this.checkBox_EnableOffsetKeyFrame.Enabled = false;
+                this.checkBox_EnableUserDataKeyFrame.Enabled = false;
+            }
+            else
+            {
+                this.checkBox_EnableDisplayKeyFrame.Enabled = true;
+                this.checkBox_EnablePositionKeyFrame.Enabled = true;
+            }
 
             this.checkBox_EnableDisplayKeyFrame.Checked = clParam.mExistDisplayKeyFrame;
             this.checkBox_Display.Checked = clParam.mDisplay;
@@ -238,11 +262,13 @@ namespace PrjHikariwoAnim
                 this.mFormMain.ChangeElemFromParam(clParam);
             }
 
+            //以下、表示設定
             bool isCheckOption;
             bool isCheckKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
             this.label_Display.Enabled = isCheckKeyFrame;
             this.checkBox_Display.Enabled = isCheckKeyFrame;
 
+            //以下、座標設定
             isCheckKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
             this.label_X.Enabled = isCheckKeyFrame;
             this.label_Y.Enabled = isCheckKeyFrame;
@@ -251,16 +277,18 @@ namespace PrjHikariwoAnim
             this.button_TweenX.Enabled = isCheckKeyFrame;
             this.button_TweenY.Enabled = isCheckKeyFrame;
 
+            //以下、回転設定
             isCheckOption = this.checkBox_EnableRotationOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
-            this.checkBox_EnableRotationKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableRotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
             this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenRZ.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、スケール設定
             isCheckOption = this.checkBox_EnableScaleOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
-            this.checkBox_EnableScaleKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableScaleKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_SX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);
@@ -268,9 +296,10 @@ namespace PrjHikariwoAnim
             this.button_TweenSX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenSY.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、オフセット設定
             isCheckOption = this.checkBox_EnableOffsetOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
-            this.checkBox_EnableOffsetKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableOffsetKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_CX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_CY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumXoff.Enabled = (isCheckOption && isCheckKeyFrame);
@@ -278,32 +307,36 @@ namespace PrjHikariwoAnim
             this.button_TweenCX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenCY.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、反転設定
             isCheckOption = this.checkBox_EnableFlipOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
-            this.checkBox_EnableFlipKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableFlipKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
             this.checkBox_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
             this.checkBox_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、透明値設定
             isCheckOption = this.checkBox_EnableTransOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
-            this.checkBox_EnableTransKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableTransKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_T.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumT.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenT.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、色設定
             isCheckOption = this.checkBox_EnableColorOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
-            this.checkBox_EnableColorKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableColorKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenC.Enabled = (isCheckOption && isCheckKeyFrame);
 
+            //以下、ユーザーデータ設定
             isCheckOption = this.checkBox_EnableUserDataOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
-            this.checkBox_EnableUserDataKeyFrame.Enabled = isCheckOption;
+            this.checkBox_EnableUserDataKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_UT.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_UT.Enabled = (isCheckOption && isCheckKeyFrame);
         }
@@ -316,9 +349,6 @@ namespace PrjHikariwoAnim
             //this.Visible = false; //自身で消さなくても下の操作で消える
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
-
-//        FRAME test = null;
-        //※FRAMEとはなんでしょう？
 
         private void button_X_Click(object sender, EventArgs e)
         {

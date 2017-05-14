@@ -159,6 +159,61 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// エレメント情報変更処理
+        /// </summary>
+        /// <param name="clElem">変更対象となるエレメント</param>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <param name="inSelectFrameNo">フレーム番号</param>
+        /// <param name="isExistOption">オプション存在フラグ</param>
+        /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
+        /// <param name="clValue1">値１</param>
+        /// <param name="clValue2">値２</param>
+        private void ChangeElem(ClsDatElem clElem, TYPE_OPTION enTypeOption, int inSelectFrameNo, bool isExistOption, bool isExistKeyFrame, object clValue1, object clValue2)
+        {
+            if (isExistOption)
+            {
+                ClsDatOption clOption = null;
+
+                if (inSelectFrameNo == 0)
+                {
+                    bool isExist = clElem.IsExistOption(enTypeOption);
+                    if (!isExist)
+                    {
+                        clElem.SetOption(enTypeOption, clValue1, clValue2);
+                    }
+                }
+                else
+                {
+                    bool isExist = clElem.IsExistOption(enTypeOption);
+                    if (isExist)
+                    {
+                        clOption = clElem.GetOption(enTypeOption);
+                    }
+                    else
+                    {
+                        clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
+                        clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
+                        clElem.SetOption(enTypeOption, clValue1, clValue2);
+                        clOption = clElem.GetOption(enTypeOption);
+                    }
+
+                    if (isExistKeyFrame)
+                    {
+                        clOption.SetKeyFrame(inSelectFrameNo, clValue1, clValue2);  //追加または更新
+                    }
+                    else
+                    {
+                        clOption.RemoveKeyFrame(inSelectFrameNo);
+                    }
+                }
+            }
+            else
+            {
+                clElem.RemoveOption(enTypeOption, false);
+            }
+        }
+
+        /// <summary>
         /// オプションの情報を修正する処理
         /// </summary>
         /// <param name="clParam">パラメーター情報</param>
@@ -172,46 +227,40 @@ namespace PrjHikariwoAnim
 
             int inSelectFrameNo = clMotion.GetSelectFrameNo();
 
-            //mFormAttributeのパラメータ変更時に呼び出される
-            //パラメータ取得処理
-            //エディット中アイテムにパラメータ再取得
+            //以下、表示設定
+            object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
+            this.ChangeElem(clElem, TYPE_OPTION.DISPLAY, inSelectFrameNo, true, clParam.mExistDisplayKeyFrame, clParam.mDisplay, clValue2);
 
+            //以下、座標設定
+            this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mExistPositionKeyFrame, clParam.mX, clParam.mY);
 
-            ClsDatOption clOption = clElem.GetOption(TYPE_OPTION.DISPLAY);
-//            clOption.mDicKeyFrame[inSelectFrameNo].mValue1 = clParam.mExistDisplayKeyFrame;
+            //以下、回転設定
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.ROTATION);
+            this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mExistRotationOption, clParam.mExistRotationKeyFrame, clParam.mRZ, clValue2);
 
-            clOption = clElem.GetOption(TYPE_OPTION.POSITION);
+            //以下、スケール設定
+            this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mExistScaleOption, clParam.mExistScaleKeyFrame, clParam.mSX, clParam.mSY);
 
-            /*
-            public bool mEnableDisplay;     //表示フラグ
+            //以下、オフセット設定
+            this.ChangeElem(clElem, TYPE_OPTION.OFFSET, inSelectFrameNo, clParam.mExistOffsetOption, clParam.mExistOffsetKeyFrame, clParam.mCX, clParam.mCY);
 
-            public int mX;                  //Ｘ座標（常に有効）
-            public int mY;                  //Ｙ座標（常に有効）
+            //以下、反転設定
+            this.ChangeElem(clElem, TYPE_OPTION.FLIP, inSelectFrameNo, clParam.mExistFlipOption, clParam.mExistFlipKeyFrame, clParam.mFlipH, clParam.mFlipV);
 
-            public bool mEnableRotation;    //回転値有効化フラグ
-            public float mRZ;               //回転値
+            //以下、透明設定
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.TRANSPARENCY);
+            this.ChangeElem(clElem, TYPE_OPTION.TRANSPARENCY, inSelectFrameNo, clParam.mExistTransOption, clParam.mExistTransKeyFrame, clParam.mTrans, clValue2);
 
-            public bool mEnableScale;       //スケール有効化フラグ
-            public float mSX;               //スケールＸ
-            public float mSY;               //スケールＹ
+            //以下、カラー設定 
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.COLOR);
+            this.ChangeElem(clElem, TYPE_OPTION.COLOR, inSelectFrameNo, clParam.mExistColorOption, clParam.mExistColorKeyFrame, clParam.mColor, clValue2);
 
-            public bool mEnableOffset;      //オフセット座標有効化フラグ
-            public float mCX;               //オフセットＸ座標
-            public float mCY;               //オフセットＹ座標
+            //以下、ユーザーデータ設定 
+            clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.USER_DATA);
+            this.ChangeElem(clElem, TYPE_OPTION.USER_DATA, inSelectFrameNo, clParam.mExistUserDataOption, clParam.mExistUserDataKeyFrame, clParam.mUserData, clValue2);
 
-            public bool mEnableFlip;        //反転有効化フラグ
-            public bool mFlipH;             //水平反転フラグ
-            public bool mFlipV;             //垂直反転フラグ
-
-            public bool mEnableTrans;       //マテリアル透明有効化フラグ
-            public float mTrans;            //マテリアル透明値0.0～1.0（0%～100%）
-
-            public bool mEnableColor;       //マテリアルカラー有効化フラグ
-            public int mColor;              //マテリアルカラー値（α無し RGBのみ）
-
-            public bool mEnableUserData;    //ユーザーデータ有効化フラグ
-            public string mUserData;        //ユーザーデータ
-            */
+            //以下、行番号を振り直す処理
+            clMotion.Assignment();
 
             //以下、各種ウィンドウ更新処理
             this.RefreshViewer(null, null);
@@ -276,7 +325,7 @@ namespace PrjHikariwoAnim
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null);
+                this.mFormAttribute.Init(null, 0);
 
                 //以下、各種ウィンドウ更新処理
                 this.RefreshViewer(sender, e);
@@ -429,7 +478,7 @@ namespace PrjHikariwoAnim
                     //以下、コントロール設定処理
                     this.SetName(null);
                     this.mFormControl.SetName(null);
-                    this.mFormAttribute.Init(null);
+                    this.mFormAttribute.Init(null, 0);
 
                     this.RefreshViewer(sender, e);
                 }
@@ -524,7 +573,7 @@ namespace PrjHikariwoAnim
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null);
+                this.mFormAttribute.Init(null, 0);
             }
         }
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
@@ -860,7 +909,7 @@ namespace PrjHikariwoAnim
                 //以下、各コントロールの設定
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null);
+                this.mFormAttribute.Init(null, 0);
             }
         }
         private void listView_Motion_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -880,7 +929,7 @@ namespace PrjHikariwoAnim
                 //以下、ウィンドウ名を修正する処理
                 this.SetName(clMotion);
                 this.mFormControl.SetName(clMotion);
-                this.mFormAttribute.Init(null);
+                this.mFormAttribute.Init(null, 0);
 
                 //新しく選択したモーションをメインウィンドウに表示する
                 //新しく選択したモーションをコントロールウィンドウに表示する
@@ -892,7 +941,7 @@ namespace PrjHikariwoAnim
                 //以下、コントロール設定処理
                 this.SetName(null);
                 this.mFormControl.SetName(null);
-                this.mFormAttribute.Init(null);
+                this.mFormAttribute.Init(null, 0);
             }
 
             this.RefreshViewer(sender, e);

@@ -360,12 +360,12 @@ namespace PrjHikariwoAnim
             int inIndex = clMotion.GetSelectFrameNo();
             if (inIndex != 0)
             {
-                bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+                bool isExist = clOption.IsExistKeyFrame(inIndex);
                 if (!isExist) return (null);
             }
 
             //以下、キーフレーム取得処理
-            ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
+            ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inIndex);
             return (clKeyFrame);
         }
 

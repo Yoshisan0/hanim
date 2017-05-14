@@ -9,7 +9,7 @@ namespace PrjHikariwoAnim
         public int mID;                     //ランダム値（ClsSystem.mDicMotionのキー）
         public int mItemHashCode;           //TreeNodeのHashCode
         public string mName;                //モーション名
-        public int mFrameNum;               //トータルフレーム数
+        public int mMaxFrameNum;            //最大フレーム数
         private int mSelectFrameNo;         //現在選択中のフレーム番号
         private int mSelectLineNo;          //現在選択中のライン番号
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
@@ -29,7 +29,7 @@ namespace PrjHikariwoAnim
         {
             this.mID = inID;
             this.mName = clName;
-            this.mFrameNum = 1;
+            this.mMaxFrameNum = 60;
             this.mSelectFrameNo = -1;
             this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
@@ -211,7 +211,7 @@ namespace PrjHikariwoAnim
             XmlNodeList clListNode = clXmlElem.ChildNodes;
             this.mID = ClsTool.GetIntFromXmlNodeList(clListNode, "ID");
             this.mName = ClsTool.GetStringFromXmlNodeList(clListNode, "Name");
-            this.mFrameNum = ClsTool.GetIntFromXmlNodeList(clListNode, "FrameNum");
+            this.mMaxFrameNum = ClsTool.GetIntFromXmlNodeList(clListNode, "FrameNum");
 
             //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
@@ -237,7 +237,7 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElementStart(clHeader, "Motion");
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ID", this.mID);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mFrameNum);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "FrameNum", this.mMaxFrameNum);
 
             //以下、エレメントリスト保存処理
             foreach (ClsDatElem clDatElem in this.mListElem)
@@ -267,19 +267,19 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// フレーム数変更処理
         /// </summary>
-        /// <param name="inFrameNum">フレーム数</param>
-        public void SetFrameNum(int inFrameNum)
+        /// <param name="inMaxFrameNum">フレーム数</param>
+        public void SetMaxFrameNum(int inMaxFrameNum)
         {
-            /*
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.SetFrameNum(inFrameNum);
-            }
-            */
+            this.mMaxFrameNum = inMaxFrameNum;
+        }
 
-            this.mFrameNum = inFrameNum;
+        /// <summary>
+        /// フレーム数取得処理
+        /// </summary>
+        /// <returns>フレーム数</returns>
+        public int GetMaxFrameNum()
+        {
+            return (this.mMaxFrameNum);
         }
 
         /// <summary>
@@ -534,12 +534,12 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrameNo, inWidth, inHeight);
+                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrameNo, this.mMaxFrameNum, inWidth, inHeight);
             }
 
             //以下、最終フレームの境界線描画処理
             Pen clPen = new Pen(Color.Green);
-            inX = this.mFrameNum * FormControl.CELL_WIDTH;
+            inX = this.mMaxFrameNum * FormControl.CELL_WIDTH;
             g.DrawLine(clPen, inX, 0, inX, inHeight);
         }
 

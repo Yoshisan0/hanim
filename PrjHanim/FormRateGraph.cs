@@ -162,10 +162,10 @@ namespace PrjHikariwoAnim
                 puchRate = FormRateGraph.CreateSaveData(clDatTween);
                 if (puchRate == null) return (0.0f);
             }
-            if (!(clDatKeyFrame.mFrame <= inFrmCurrent && inFrmCurrent <= clDatKeyFrame.mFrame + clDatTween.mLength)) return (0.0f);
+            if (!(clDatKeyFrame.mFrameNo <= inFrmCurrent && inFrmCurrent <= clDatKeyFrame.mFrameNo + clDatTween.mLength)) return (0.0f);
 
             float flFrmLength = clDatTween.mLength;
-            inFrmCurrent -= clDatKeyFrame.mFrame;
+            inFrmCurrent -= clDatKeyFrame.mFrameNo;
             byte uchRate = (byte)((float)inFrmCurrent / flFrmLength * puchRate.Length);
             float flRate = (float)uchRate / byte.MaxValue;
 

@@ -7,7 +7,7 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatKeyFrame
     {
-        public int mFrame;              //フレームNo
+        public int mFrameNo;            //フレームNo
         public ClsDatTween mTween;      //トゥイーン管理クラス
         public TYPE_OPTION mTypeOption; //オプションタイプ
         public object mValue1;          //値（何の値かはタイプに依存する）
@@ -20,10 +20,10 @@ namespace PrjHikariwoAnim
         /// <param name="inFrame">フレームNo</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public ClsDatKeyFrame(TYPE_OPTION enTypeOption, int inFrame, object clValue1, object clValue2)
+        public ClsDatKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo, object clValue1, object clValue2)
         {
             this.mTypeOption = enTypeOption;
-            this.mFrame = inFrame;
+            this.mFrameNo = inFrameNo;
             this.mValue1 = clValue1;
             this.mValue2 = clValue2;
         }
@@ -57,7 +57,7 @@ namespace PrjHikariwoAnim
         public void Load(XmlNode clXmlNode)
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
-            this.mFrame = ClsTool.GetIntFromXmlNodeList(clListNode, "Frame");
+            this.mFrameNo = ClsTool.GetIntFromXmlNodeList(clListNode, "Frame");
 
             string clValue1 = ClsTool.GetStringFromXmlNodeList(clListNode, "Value1");
             string clValue2 = ClsTool.GetStringFromXmlNodeList(clListNode, "Value2");
@@ -113,7 +113,7 @@ namespace PrjHikariwoAnim
         {
             //以下、キーフレーム保存処理
             ClsTool.AppendElementStart(clHeader, "KeyFrame");
-            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Frame", this.mFrame);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Frame", this.mFrameNo);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Value1", this.mValue1.ToString());
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Value2", this.mValue1.ToString());
 

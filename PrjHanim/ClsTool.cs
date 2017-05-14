@@ -95,13 +95,14 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clWindowName">ウィンドウ名</param>
         /// <param name="clElem">エレメント管理クラス</param>
+        /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
         /// <returns>ウィンドウ名</returns>
-        public static string GetWindowName(string clWindowName, ClsDatElem clElem)
+        public static string GetWindowName(string clWindowName, ClsDatElem clElem, int inSelectFrameNo)
         {
             string clName = "";
             if (clElem != null && clElem.mMotion != null)
             {
-                clName = " ( " + clElem.mMotion.mName + " [ " + clElem.mName + " ] )";
+                clName = " ( " + clElem.mMotion.mName + " [ " + clElem.mName + " , " + inSelectFrameNo + " ] )";
             }
 
             string clResultName = clWindowName + clName;
@@ -482,8 +483,8 @@ namespace PrjHikariwoAnim
         public bool mDisplay;               //表示フラグ
 
         public bool mExistPositionKeyFrame; //座標キーフレーム存在フラグ
-        public int mX;                      //Ｘ座標（常に有効）
-        public int mY;                      //Ｙ座標（常に有効）
+        public float mX;                    //Ｘ座標（常に有効）
+        public float mY;                    //Ｙ座標（常に有効）
 
         public bool mExistRotationOption;   //回転オプション存在フラグ
         public bool mExistRotationKeyFrame; //回転キーフレーム存在フラグ
@@ -524,8 +525,8 @@ namespace PrjHikariwoAnim
             this.mExistDisplayKeyFrame = false;
 
             this.mExistPositionKeyFrame = false;
-            this.mX = 0;
-            this.mY = 0;
+            this.mX = 0.0f;
+            this.mY = 0.0f;
 
             this.mExistRotationOption = false;
             this.mExistRotationKeyFrame = false;
@@ -564,7 +565,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeParam">パラメータータイプ</param>
         /// <returns>デフォルトの値</returns>
-        public static object GetDefaultValue(TYPE_PARAM enTypeParam)
+        private static object GetDefaultValue(TYPE_PARAM enTypeParam)
         {
             object clValue = null;
             switch (enTypeParam)

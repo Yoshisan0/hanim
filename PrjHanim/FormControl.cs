@@ -81,7 +81,7 @@ namespace PrjHikariwoAnim
             if (clMotion != null)
             {
                 int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
-                clMotion.SetFrameNum(inFrameNum);
+                clMotion.SetMaxFrameNum(inFrameNum);
             }
 
             this.mFont = new Font("ＭＳ ゴシック", 10.5f);
@@ -185,7 +185,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion != null)
             {
-                clMotion.SetFrameNum(inFrameNum);
+                clMotion.SetMaxFrameNum(inFrameNum);
             }
 
             int inWidth = inFrameNum * FormControl.CELL_WIDTH + 1;
@@ -574,8 +574,9 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int inLineNo = clMotion.GetSelectLineNo();
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            int inSelectFrameNo = clMotion.GetSelectFrameNo();
+            int inSelectLineNo = clMotion.GetSelectLineNo();
+            ClsDatItem clItem = clMotion.FindItemFromLineNo(inSelectLineNo);
 
             //以下、削除ボタン有効化設定
             bool isEnable = false;
@@ -598,12 +599,8 @@ namespace PrjHikariwoAnim
             {
                 if (this.mFormMain.mFormAttribute != null)
                 {
-                    ClsDatElem clElem = null;
-                    if (clItem != null)
-                    {
-                        clElem = ClsSystem.GetElemFromSelectLineNo();
-                    }
-                    this.mFormMain.mFormAttribute.Init(clElem);
+                    ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
+                    this.mFormMain.mFormAttribute.Init(clElem, inSelectFrameNo);
                 }
             }
 
@@ -857,7 +854,7 @@ namespace PrjHikariwoAnim
             TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-            clElem.AddOption(enTypeOption, clValue1, clValue2);
+            clElem.SetOption(enTypeOption, clValue1, clValue2);
 
             //以下、行番号振り直し処理
             clMotion.Assignment();
@@ -1053,16 +1050,11 @@ namespace PrjHikariwoAnim
             ClsDatOption clOption = ClsSystem.GetOptionFromSelectLineNo();
             if (clOption == null) return;
 
-            //以下、キーフレーム存在チェック処理
-            bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
-            if (isExist)
-            {
-                ClsDatKeyFrame clKeyFrame = clOption.mDicKeyFrame[inIndex];
-                if (clKeyFrame != null) return;
-            }
-
-            //以下、キーフレーム作成処理
-            clOption.mDicKeyFrame[inIndex] = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, 0, 0);   //現在のclValue1とclValue2をココで設定できると良いが
+            //以下、キーフレーム作成・更新処理
+            object clValue1 = ClsParam.GetDefaultValue1(clOption.mTypeOption);
+            object clValue2 = ClsParam.GetDefaultValue2(clOption.mTypeOption);
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, clValue1, clValue2);
+            clOption.SetKeyFrame(inIndex, clValue1, clValue2);  //存在していたら更新、存在していなかったら追加
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -1080,11 +1072,11 @@ namespace PrjHikariwoAnim
             if (clOption == null) return;
 
             //以下、キーフレーム存在チェック処理
-            bool isExist = clOption.mDicKeyFrame.ContainsKey(inIndex);
+            bool isExist = clOption.IsExistKeyFrame(inIndex);
             if (!isExist) return;
 
             //以下、キーフレーム削除処理
-            clOption.mDicKeyFrame.Remove(inIndex);
+            clOption.RemoveKeyFrame(inIndex);
 
             //以下、コントロール更新処理
             this.RefreshControl();
