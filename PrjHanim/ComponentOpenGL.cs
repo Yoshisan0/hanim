@@ -172,11 +172,13 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            int inMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return;
-
-            int inMaxFrameNum = clMotion.GetMaxFrameNum();
-            clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+            if (clMotion != null)
+            {
+                inMaxFrameNum = clMotion.GetMaxFrameNum();
+                clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+            }
 
             //以下、現在のフレーム番号が全フレーム数を超えてしまっていた場合の処理
             if (this.mFrameNo >= inMaxFrameNum)
@@ -269,7 +271,10 @@ namespace PrjHikariwoAnim
             }
 
             //以下、モーション描画処理
-            clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+            if (clMotion != null)
+            {
+                clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+            }
 
             /*
             //以下、矩形ライン描画テスト（グリーンの矩形）

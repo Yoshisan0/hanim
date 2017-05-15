@@ -208,6 +208,8 @@ namespace PrjHikariwoAnim
         /// <returns>モーション管理クラス</returns>
         public static ClsDatMotion GetMotion(int inKey)
         {
+            if (ClsSystem.mDicMotion == null) return (null);
+
             bool isExist = ClsSystem.mDicMotion.ContainsKey(inKey);
             if (!isExist) return (null);
 

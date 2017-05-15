@@ -150,6 +150,25 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// リフレッシュ処理
+        /// </summary>
+        public void RefreshAll()
+        {
+            if (this.mFormControl != null)
+            {
+                this.mFormControl.RefreshAll();
+            }
+            if (this.mFormAttribute != null)
+            {
+                this.mFormAttribute.RefreshAll();
+            }
+            if (this.mFormCell != null)
+            {
+                this.mFormCell.RefreshAll();
+            }
+        }
+
+        /// <summary>
         /// ウィンドウ名設定
         /// </summary>
         /// <param name="clMotion">選択中のモーション管理クラス</param>

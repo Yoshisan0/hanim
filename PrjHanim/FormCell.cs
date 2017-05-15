@@ -41,6 +41,15 @@ namespace PrjHikariwoAnim
             if (panel_list.Height < panel_listBase.Height) panel_list.Height = panel_listBase.Height;
             panel_listBase.Refresh();
         }
+
+        /// <summary>
+        /// リフレッシュ処理
+        /// </summary>
+        public void RefreshAll()
+        {
+            this.Refresh();
+        }
+
         private bool ChkImageFile(string clPath)
         {
             try

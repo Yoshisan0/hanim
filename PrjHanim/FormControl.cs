@@ -104,7 +104,7 @@ namespace PrjHikariwoAnim
 
             clMotion.RemoveElemFromIndex(inElementKey);
 
-            RefreshAll();
+            this.RefreshAll();
         }
 
         /// <summary>

@@ -6,10 +6,14 @@ namespace PrjHikariwoAnim
 {
     public partial class FormAttribute : Form
     {
-        private bool isLocked;      //パラメータ変更中にロック
+        private bool mLocked;       //パラメータ変更中にロック
         private FormMain mFormMain;
         private int mSelectFrameNo; //現在表示中のフレーム番号
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="clFormMain">メインフォーム</param>
         public FormAttribute(FormMain clFormMain)
         {
             InitializeComponent();
@@ -23,6 +27,14 @@ namespace PrjHikariwoAnim
             //以下、ウィンドウの設定
             this.Location = ClsSystem.mSetting.mWindowAttribute.mLocation;
             this.Size = ClsSystem.mSetting.mWindowAttribute.mSize;
+        }
+
+        /// <summary>
+        /// リフレッシュ処理
+        /// </summary>
+        public void RefreshAll()
+        {
+            this.Refresh();
         }
 
         /// <summary>
@@ -59,7 +71,7 @@ namespace PrjHikariwoAnim
         private void SetParam(ClsParam clParam, int inSelectFrameNo)
         {
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
-            isLocked = true;
+            this.mLocked = true;
 
             if (inSelectFrameNo == 0)
             {
@@ -119,7 +131,7 @@ namespace PrjHikariwoAnim
             this.textBox_UT.Text = clParam.mUserData;
 
             //変更完了
-            isLocked = false;
+            this.mLocked = false;
         }
 
         /// <summary>
@@ -170,7 +182,7 @@ namespace PrjHikariwoAnim
             clParam.mExistUserDataKeyFrame = checkBox_EnableUserDataKeyFrame.Checked;
             clParam.mUserData = textBox_UT.Text;
 
-            isLocked = false;
+            this.mLocked = false;
 
             return clParam;
         }
@@ -246,7 +258,7 @@ namespace PrjHikariwoAnim
             textBox_C.Text = $"{inColor:X6}";   //RGB
 
             //この代入ではバリデードが発生しないらしく更新通知
-            if (!isLocked)
+            if (!mLocked)
             {
                 ClsParam clParam = this.GetParam();
                 this.ChangeElemFromParam(clParam);
@@ -271,11 +283,7 @@ namespace PrjHikariwoAnim
 
                 if (inSelectFrameNo == 0)
                 {
-                    bool isExist = clElem.IsExistOption(enTypeOption);
-                    if (isExist)
-                    {
-                        clElem.SetOption(enTypeOption, clValue1, clValue2);
-                    }
+                    clElem.SetOption(enTypeOption, clValue1, clValue2);
                 }
                 else
                 {
@@ -358,14 +366,27 @@ namespace PrjHikariwoAnim
             clMotion.Assignment();
 
             //以下、メインウィンドウ更新処理
-            this.mFormMain.Refresh();
+            this.mFormMain.RefreshAll();
         }
 
         private void Param_ValueChanged(object sender, EventArgs e)
         {
+            if (this.mSelectFrameNo == 0)
+            {
+                this.checkBox_EnableDisplayKeyFrame.Checked = true;
+                this.checkBox_EnablePositionKeyFrame.Checked = true;
+                this.checkBox_EnableRotationKeyFrame.Checked = true;
+                this.checkBox_EnableScaleKeyFrame.Checked = true;
+                this.checkBox_EnableOffsetKeyFrame.Checked = true;
+                this.checkBox_EnableFlipKeyFrame.Checked = true;
+                this.checkBox_EnableTransKeyFrame.Checked = true;
+                this.checkBox_EnableColorKeyFrame.Checked = true;
+                this.checkBox_EnableUserDataKeyFrame.Checked = true;
+            }
+
             //アップダウンコントロール系
             //any Param Update どれかのチェックが変更された通知をメインに送る
-            if (!isLocked)
+            if (!this.mLocked)
             {
                 ClsParam clParam = this.GetParam();
                 this.ChangeElemFromParam(clParam);
