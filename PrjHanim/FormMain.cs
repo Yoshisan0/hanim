@@ -166,6 +166,7 @@ namespace PrjHikariwoAnim
             {
                 this.mFormCell.RefreshAll();
             }
+            this.Refresh();
         }
 
         /// <summary>
