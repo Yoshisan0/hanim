@@ -47,6 +47,7 @@
             this.textBox_C = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
             this.groupBox_Param = new System.Windows.Forms.GroupBox();
+            this.button_C = new System.Windows.Forms.Button();
             this.checkBox_EnableDisplayKeyFrame = new System.Windows.Forms.CheckBox();
             this.checkBox_EnablePositionKeyFrame = new System.Windows.Forms.CheckBox();
             this.checkBox_EnableTransKeyFrame = new System.Windows.Forms.CheckBox();
@@ -81,7 +82,6 @@
             this.button_TweenX = new System.Windows.Forms.Button();
             this.button_TweenRZ = new System.Windows.Forms.Button();
             this.button_TweenY = new System.Windows.Forms.Button();
-            this.button_C = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -235,21 +235,20 @@
             // UDnumT
             // 
             this.UDnumT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.UDnumT.DecimalPlaces = 3;
             this.UDnumT.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.UDnumT.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
             this.UDnumT.Location = new System.Drawing.Point(163, 278);
             this.UDnumT.Margin = new System.Windows.Forms.Padding(0);
+            this.UDnumT.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             this.UDnumT.Name = "UDnumT";
             this.UDnumT.Size = new System.Drawing.Size(70, 23);
             this.UDnumT.TabIndex = 37;
             this.UDnumT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.UDnumT.Value = new decimal(new int[] {
-            1,
+            255,
             0,
             0,
             0});
@@ -258,7 +257,7 @@
             // UDnumSY
             // 
             this.UDnumSY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.UDnumSY.DecimalPlaces = 3;
+            this.UDnumSY.DecimalPlaces = 2;
             this.UDnumSY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UDnumSY.Increment = new decimal(new int[] {
             1,
@@ -286,7 +285,7 @@
             // UDnumSX
             // 
             this.UDnumSX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.UDnumSX.DecimalPlaces = 3;
+            this.UDnumSX.DecimalPlaces = 2;
             this.UDnumSX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UDnumSX.Increment = new decimal(new int[] {
             1,
@@ -476,6 +475,16 @@
             this.groupBox_Param.TabIndex = 69;
             this.groupBox_Param.TabStop = false;
             this.groupBox_Param.Text = "Parameter";
+            // 
+            // button_C
+            // 
+            this.button_C.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_C.Location = new System.Drawing.Point(147, 304);
+            this.button_C.Name = "button_C";
+            this.button_C.Size = new System.Drawing.Size(23, 23);
+            this.button_C.TabIndex = 75;
+            this.button_C.UseVisualStyleBackColor = true;
+            this.button_C.Click += new System.EventHandler(this.ColorPanel_Click);
             // 
             // checkBox_EnableDisplayKeyFrame
             // 
@@ -846,16 +855,6 @@
             this.button_TweenY.TabIndex = 51;
             this.button_TweenY.UseVisualStyleBackColor = true;
             this.button_TweenY.Click += new System.EventHandler(this.button_Y_Click);
-            // 
-            // button_C
-            // 
-            this.button_C.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_C.Location = new System.Drawing.Point(147, 304);
-            this.button_C.Name = "button_C";
-            this.button_C.Size = new System.Drawing.Size(23, 23);
-            this.button_C.TabIndex = 75;
-            this.button_C.UseVisualStyleBackColor = true;
-            this.button_C.Click += new System.EventHandler(this.ColorPanel_Click);
             // 
             // FormAttribute
             // 

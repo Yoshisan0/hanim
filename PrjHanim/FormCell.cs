@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace PrjHikariwoAnim
 {
@@ -19,6 +20,9 @@ namespace PrjHikariwoAnim
         {
             InitializeComponent();
             mFormMain = form;
+
+            //ダブルバッファ強制有効化
+//          this.panel_list.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, this.panel_list, new object[] { true });
         }
         private void FormCell_Load(object sender, EventArgs e)
         {

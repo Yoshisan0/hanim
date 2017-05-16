@@ -507,7 +507,7 @@ namespace PrjHikariwoAnim
 
         public bool mExistTransOption;      //透明オプション存在フラグ
         public bool mExistTransKeyFrame;    //透明キーフレーム存在フラグ
-        public float mTrans;                //透明透明値0.0～1.0（0%～100%）
+        public int mTrans;                  //透明透明値0～255
 
         public bool mExistColorOption;      //マテリアルカラーオプション存在フラグ
         public bool mExistColorKeyFrame;    //マテリアルカラーキーフレーム存在フラグ
@@ -549,7 +549,7 @@ namespace PrjHikariwoAnim
 
             this.mExistTransOption = false;
             this.mExistTransKeyFrame = false;
-            this.mTrans = 1.0f;
+            this.mTrans = 255;
 
             this.mExistColorOption = false;
             this.mExistColorKeyFrame = false;
@@ -604,7 +604,7 @@ namespace PrjHikariwoAnim
                 clValue = false;
                 break;
             case TYPE_PARAM.TRANSPARENCY:
-                clValue = 1.0f;
+                clValue = 255;
                 break;
             case TYPE_PARAM.COLOR:
                 clValue = (int)0xFFFFFF;

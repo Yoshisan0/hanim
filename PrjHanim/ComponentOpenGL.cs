@@ -24,9 +24,6 @@ namespace PrjHikariwoAnim
         public float mGridSpan = 16.0f;
         public float mCanvasWidth = 800.0f;
         public float mCanvasHeight = 600.0f;
-        private bool mPlay = false;
-        private bool mLoop = false;
-        private int mFrameNo = 0;
 
         #region Fields
         //
@@ -108,9 +105,6 @@ namespace PrjHikariwoAnim
             //以下、初期化処理
             this.mCanvasWidth = this.Width;
             this.mCanvasHeight = this.Height;
-            this.mPlay = false;
-            this.mLoop = false;
-            this.mFrameNo = 0;
 
             //以下、背景色初期化処理
             Gl.glClearColor(this.mBackColor.R / 255.0f, this.mBackColor.G / 255.0f, this.mBackColor.B / 255.0f, 1.0f);
@@ -140,59 +134,19 @@ namespace PrjHikariwoAnim
   		}
 
         /// <summary>
-        /// 再生フラグ設定
-        /// </summary>
-        /// <param name="isPlay">再生フラグ</param>
-        public void SetPlay(bool isPlay)
-        {
-            this.mPlay = isPlay;
-        }
-
-        /// <summary>
-        /// ループ設定処理
-        /// </summary>
-        /// <param name="isLoop">ループフラグ</param>
-        public void SetLoop(bool isLoop)
-        {
-            this.mLoop = isLoop;
-        }
-
-        /// <summary>
-        /// 現在のフレーム番号設定
-        /// </summary>
-        /// <param name="inFrameNoNow">現在のフレーム番号</param>
-        public void SetFrameNoNow(int inFrameNoNow)
-        {
-            this.mFrameNo = inFrameNoNow;
-        }
-
-        /// <summary>
         /// 描画処理
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            int inFrameNoNow = 0;
             int inMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion != null)
             {
+                inFrameNoNow = clMotion.GetSelectFrameNo();
                 inMaxFrameNum = clMotion.GetMaxFrameNum();
-                clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
-            }
-
-            //以下、現在のフレーム番号が全フレーム数を超えてしまっていた場合の処理
-            if (this.mFrameNo >= inMaxFrameNum)
-            {
-                if (this.mLoop)
-                {
-                    //以下、ループ再生処理
-                    this.mFrameNo = 0;
-                }
-                else
-                {
-                    //以下、最後のフレームで止める処理
-                    this.mFrameNo = inMaxFrameNum - 1;
-                }
+                clMotion.DrawPreview(this, inFrameNoNow, inMaxFrameNum);
             }
 
             //以下、キャンバスサイズ設定処理
@@ -273,7 +227,7 @@ namespace PrjHikariwoAnim
             //以下、モーション描画処理
             if (clMotion != null)
             {
-                clMotion.DrawPreview(this, this.mFrameNo, inMaxFrameNum);
+                clMotion.DrawPreview(this, inFrameNoNow, inMaxFrameNum);
             }
 
             /*
@@ -295,12 +249,6 @@ namespace PrjHikariwoAnim
 
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
-
-            //以下、再生処理
-            if (this.mPlay)
-            {
-                this.mFrameNo++;
-            }
         }
 
         /// <summary>
@@ -402,7 +350,7 @@ namespace PrjHikariwoAnim
 
             //以下、マテリアル色設定
             float flAlpha = 1.0f;
-            if (clParam.mExistTransOption) flAlpha = clParam.mTrans;
+            if (clParam.mExistTransOption) flAlpha = clParam.mTrans / 255.0f;
             Color stColor = Color.White;
             if (clParam.mExistColorOption) stColor = Color.FromArgb(clParam.mColor);
             Gl.glColor4f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f, flAlpha);

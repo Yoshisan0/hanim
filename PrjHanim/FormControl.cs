@@ -359,6 +359,11 @@ namespace PrjHikariwoAnim
             }
         }
 
+        private int GetFrameNoFromPositionX(int inPosX)
+        {
+            return (inPosX / FormControl.CELL_WIDTH);
+        }
+
         private int GetLineNoFromPositionY(int inPosY)
         {
             //ここに垂直スクロールバーの処理を書く
@@ -419,16 +424,17 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int cx = e.X / FormControl.CELL_WIDTH;
+            int inFrameNo = this.GetFrameNoFromPositionX(e.X);
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
-            //以下、アイテム選択処理
+            //以下、現在位置を設定する処理
+            clMotion.SetSelectFrameNo(inFrameNo);
             clMotion.SetSelectFromLineNo(inLineNo);
 
             //以下、フレーム選択処理
-            if (cx <= this.numericUpDown_MaxFrame.Value)
+            if (inFrameNo <= this.numericUpDown_MaxFrame.Value)
             {
-                this.numericUpDown_NowFlame.Value = cx;
+                this.numericUpDown_NowFlame.Value = inFrameNo;
             }
             else
             {
