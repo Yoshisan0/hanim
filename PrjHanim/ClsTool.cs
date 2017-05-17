@@ -500,10 +500,10 @@ namespace PrjHikariwoAnim
         public float mCX;                   //オフセットＸ座標
         public float mCY;                   //オフセットＹ座標
 
-        public bool mExistFlipOption;   //反転オプション存在フラグ
-        public bool mExistFlipKeyFrame; //反転キーフレーム存在フラグ
-        public bool mFlipH;             //水平反転フラグ
-        public bool mFlipV;             //垂直反転フラグ
+        public bool mExistFlipOption;       //反転オプション存在フラグ
+        public bool mExistFlipKeyFrame;     //反転キーフレーム存在フラグ
+        public bool mFlipH;                 //水平反転フラグ
+        public bool mFlipV;                 //垂直反転フラグ
 
         public bool mExistTransOption;      //透明オプション存在フラグ
         public bool mExistTransKeyFrame;    //透明キーフレーム存在フラグ
@@ -523,41 +523,42 @@ namespace PrjHikariwoAnim
         public ClsParam()
         {
             this.mExistDisplayKeyFrame = false;
+            this.mDisplay = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.DISPLAY);
 
             this.mExistPositionKeyFrame = false;
-            this.mX = 0.0f;
-            this.mY = 0.0f;
+            this.mX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_X);
+            this.mY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_Y);
 
             this.mExistRotationOption = false;
             this.mExistRotationKeyFrame = false;
-            this.mRZ = 0.0f;
+            this.mRZ = (float)ClsParam.GetDefaultValue(TYPE_PARAM.ROTATION_Z);
 
             this.mExistScaleOption = false;
             this.mExistScaleKeyFrame = false;
-            this.mSX = 1.0f;
-            this.mSY = 1.0f;
+            this.mSX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_X);
+            this.mSY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_Y);
 
             this.mExistOffsetOption = false;
             this.mExistOffsetKeyFrame = false;
-            this.mCX = 0.0f;
-            this.mCY = 0.0f;
+            this.mCX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_X);
+            this.mCY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_Y);
 
             this.mExistFlipOption = false;
             this.mExistFlipKeyFrame = false;
-            this.mFlipH = false;
-            this.mFlipV = false;
+            this.mFlipH = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_HORIZONAL);
+            this.mFlipV = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_VERTICAL);
 
             this.mExistTransOption = false;
             this.mExistTransKeyFrame = false;
-            this.mTrans = 255;
+            this.mTrans = (int)ClsParam.GetDefaultValue(TYPE_PARAM.TRANSPARENCY);
 
             this.mExistColorOption = false;
             this.mExistColorKeyFrame = false;
-            this.mColor = 0xFFFFFF;
+            this.mColor = (int)ClsParam.GetDefaultValue(TYPE_PARAM.COLOR);
 
             this.mExistUserDataOption = false;
             this.mExistUserDataKeyFrame = false;
-            this.mUserData = "";
+            this.mUserData = (string)ClsParam.GetDefaultValue(TYPE_PARAM.USER_DATA);
         }
 
         /// <summary>

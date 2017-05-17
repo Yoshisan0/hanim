@@ -144,7 +144,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion != null)
             {
-                inFrameNoNow = clMotion.GetSelectFrameNo();
+                inFrameNoNow = ClsSystem.GetSelectFrameNo();
                 inMaxFrameNum = clMotion.GetMaxFrameNum();
                 clMotion.DrawPreview(this, inFrameNoNow, inMaxFrameNum);
             }
@@ -393,15 +393,51 @@ namespace PrjHikariwoAnim
         /// <param name="flOffsetY">オフセットＹ座標</param>
         /// <param name="flW">幅</param>
         /// <param name="flH">高さ</param>
-        public void DrawPolygon(ClsVector2[] pclListUV, float flOffsetX, float flOffsetY, float flW, float flH)
+        /// <param name="isFlipH">水平反転フラグ</param>
+        /// <param name="isFlipV">垂直反転フラグ</param>
+        public void DrawPolygon(ClsVector2[] pclListUV, float flOffsetX, float flOffsetY, float flW, float flH, bool isFlipH, bool isFlipV)
         {
+            int inIndex;
+            int[] pinListIndex = new int[4] { 0,1,2,3 };
+            if (isFlipH)
+            {
+                inIndex = pinListIndex[0];
+                pinListIndex[0] = pinListIndex[3];
+                pinListIndex[3] = inIndex;
+
+                inIndex = pinListIndex[1];
+                pinListIndex[1] = pinListIndex[2];
+                pinListIndex[2] = inIndex;
+            }
+            if (isFlipV)
+            {
+                inIndex = pinListIndex[0];
+                pinListIndex[0] = pinListIndex[1];
+                pinListIndex[1] = inIndex;
+
+                inIndex = pinListIndex[2];
+                pinListIndex[2] = pinListIndex[3];
+                pinListIndex[3] = inIndex;
+            }
+
             //以下、ポリゴン描画処理
             Gl.glBegin(Gl.GL_POLYGON);
-            
-            Gl.glTexCoord2f(pclListUV[0].X, pclListUV[0].Y); Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
-            Gl.glTexCoord2f(pclListUV[1].X, pclListUV[1].Y); Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
-            Gl.glTexCoord2f(pclListUV[2].X, pclListUV[2].Y); Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
-            Gl.glTexCoord2f(pclListUV[3].X, pclListUV[3].Y); Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
+
+            inIndex = pinListIndex[0];
+            Gl.glTexCoord2f(pclListUV[inIndex].X, pclListUV[inIndex].Y);
+            Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
+
+            inIndex = pinListIndex[1];
+            Gl.glTexCoord2f(pclListUV[inIndex].X, pclListUV[inIndex].Y);
+            Gl.glVertex3f(flOffsetX - flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
+
+            inIndex = pinListIndex[2];
+            Gl.glTexCoord2f(pclListUV[inIndex].X, pclListUV[inIndex].Y);
+            Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY + flH / 2.0f, 0.0f);
+
+            inIndex = pinListIndex[3];
+            Gl.glTexCoord2f(pclListUV[inIndex].X, pclListUV[inIndex].Y);
+            Gl.glVertex3f(flOffsetX + flW / 2.0f, flOffsetY - flH / 2.0f, 0.0f);
 
             Gl.glEnd();
             Gl.glFlush();

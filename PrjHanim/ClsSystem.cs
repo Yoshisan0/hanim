@@ -22,6 +22,8 @@ namespace PrjHikariwoAnim
         public static Dictionary<int, ClsDatImage> mDicImage;   //キーはランダム値　値はClsDatImage
         private static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
+        private static int mSelectFrameNo;         //現在選択中のフレーム番号
+        private static int mSelectLineNo;          //現在選択中のライン番号
 
         /// <summary>
         /// 初期化処理
@@ -59,6 +61,8 @@ namespace PrjHikariwoAnim
             ClsSystem.mDicImage = new Dictionary<int, ClsDatImage>();
             ClsSystem.mMotionSelectKey = -1;
             ClsSystem.mDicMotion = new Dictionary<int, ClsDatMotion>();
+            ClsSystem.mSelectFrameNo = -1;
+            ClsSystem.mSelectLineNo = -1;
         }
 
         /// <summary>
@@ -202,6 +206,42 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 選択中のライン番号を設定する処理
+        /// </summary>
+        /// <param name="inLineNo">選択中のライン番号</param>
+        public static void SetSelectFromLineNo(int inLineNo)
+        {
+            ClsSystem.mSelectLineNo = inLineNo;
+        }
+
+        /// <summary>
+        /// 選択中のライン番号取得処理
+        /// </summary>
+        /// <returns>選択中のライン番号</returns>
+        public static int GetSelectLineNo()
+        {
+            return (ClsSystem.mSelectLineNo);
+        }
+
+        /// <summary>
+        /// 選択中のフレーム番号を設定する処理
+        /// </summary>
+        /// <param name="inFrame"></param>
+        public static void SetSelectFrameNo(int inFrame)
+        {
+            ClsSystem.mSelectFrameNo = inFrame;
+        }
+
+        /// <summary>
+        /// 選択中のフレーム番号取得処理
+        /// </summary>
+        /// <returns>選択中のフレーム番号</returns>
+        public static int GetSelectFrameNo()
+        {
+            return (ClsSystem.mSelectFrameNo);
+        }
+
+        /// <summary>
         /// モーション取得処理
         /// </summary>
         /// <param name="inKey">モーションキー</param>
@@ -288,10 +328,7 @@ namespace PrjHikariwoAnim
         /// <returns>現在選択中のエレメント</returns>
         public static ClsDatElem GetElemFromSelectLineNo()
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return (null);
 
             ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
@@ -335,10 +372,7 @@ namespace PrjHikariwoAnim
         /// <returns>選択中のアイテム</returns>
         private static ClsDatItem GetItemFromSelectLineNo()
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return (null);
 
             ClsDatItem clItem = ClsSystem.GetItemFromLineNo(inLineNo);
@@ -368,10 +402,7 @@ namespace PrjHikariwoAnim
         /// <returns>選択中のオプション</returns>
         public static ClsDatOption GetOptionFromSelectLineNo()
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return (null);
 
             ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inLineNo);
@@ -417,9 +448,6 @@ namespace PrjHikariwoAnim
         /// <returns>選択中のキーフレーム</returns>
         private static ClsDatKeyFrame GetKeyFrameFromSelectFrame()
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
             ClsDatItem clItem = ClsSystem.GetItemFromSelectLineNo();
             if (clItem == null) return (null);
 
@@ -439,7 +467,7 @@ namespace PrjHikariwoAnim
 
             if (clOption == null) return (null);
 
-            int inIndex = clMotion.GetSelectFrameNo();
+            int inIndex = ClsSystem.GetSelectFrameNo();
             if (inIndex != 0)
             {
                 bool isExist = clOption.IsExistKeyFrame(inIndex);

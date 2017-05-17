@@ -328,7 +328,7 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
             if (clElem == null) return;
 
-            int inSelectFrameNo = clMotion.GetSelectFrameNo();
+            int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
 
             //以下、表示設定
             object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);

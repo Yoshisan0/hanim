@@ -10,8 +10,6 @@ namespace PrjHikariwoAnim
         public int mItemHashCode;           //TreeNodeのHashCode
         public string mName;                //モーション名
         public int mMaxFrameNum;            //最大フレーム数
-        private int mSelectFrameNo;         //現在選択中のフレーム番号
-        private int mSelectLineNo;          //現在選択中のライン番号
         public List<ClsDatElem> mListElem;  //エレメント管理クラスのリスト
 
         //以下、作業領域
@@ -30,8 +28,6 @@ namespace PrjHikariwoAnim
             this.mID = inID;
             this.mName = clName;
             this.mMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
-            this.mSelectFrameNo = -1;
-            this.mSelectLineNo = -1;
             this.mListElem = new List<ClsDatElem>();
         }
 
@@ -218,7 +214,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Elem".Equals(clNode.Name))
                 {
-                    ClsDatElem clDatElem = new ClsDatElem(this, null, 0, 0);
+                    ClsDatElem clDatElem = new ClsDatElem(this, null, 0.0f, 0.0f);
                     clDatElem.Load(clNode);
 
                     this.mListElem.Add(clDatElem);
@@ -283,42 +279,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 選択中のライン番号を設定する処理
-        /// </summary>
-        /// <param name="inLineNo">選択中のライン番号</param>
-        public void SetSelectFromLineNo(int inLineNo)
-        {
-            this.mSelectLineNo = inLineNo;
-        }
-
-        /// <summary>
-        /// 選択中のライン番号取得処理
-        /// </summary>
-        /// <returns>選択中のライン番号</returns>
-        public int GetSelectLineNo()
-        {
-            return (this.mSelectLineNo);
-        }
-
-        /// <summary>
-        /// 選択中のフレーム番号を設定する処理
-        /// </summary>
-        /// <param name="inFrame"></param>
-        public void SetSelectFrameNo(int inFrame)
-        {
-            this.mSelectFrameNo = inFrame;
-        }
-
-        /// <summary>
-        /// 選択中のフレーム番号取得処理
-        /// </summary>
-        /// <returns>選択中のフレーム番号</returns>
-        public int GetSelectFrameNo()
-        {
-            return (this.mSelectFrameNo);
-        }
-
-        /// <summary>
         /// アイテムを選択する処理
         /// </summary>
         /// <param name="clItem">アイテム</param>
@@ -327,7 +287,7 @@ namespace PrjHikariwoAnim
             if (clItem == null) return;
 
             int inLineNo = this.GetLineNoFromItem(clItem);
-            this.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
         }
 
         /// <summary>
@@ -498,12 +458,14 @@ namespace PrjHikariwoAnim
         /// <param name="clFont">フォント管理クラス</param>
         public void DrawControl(Graphics g, int inWidth, int inHeight, Font clFont)
         {
+            int inLineNo = ClsSystem.GetSelectLineNo();
+
             //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawControl(g, this.mSelectLineNo, inWidth, inHeight, clFont);
+                clElem.DrawControl(g, inLineNo, inWidth, inHeight, clFont);
             }
         }
 
@@ -525,9 +487,12 @@ namespace PrjHikariwoAnim
             }
             */
 
+            int inLineNo = ClsSystem.GetSelectLineNo();
+            int inFrameNo = ClsSystem.GetSelectFrameNo();
+
             //以下、選択中フレームのラインを表示する処理
             Brush clBrush = new SolidBrush(Color.DarkGreen);
-            int inX = this.mSelectFrameNo * FormControl.CELL_WIDTH;
+            int inX = inFrameNo * FormControl.CELL_WIDTH;
             g.FillRectangle(clBrush, inX, 0, FormControl.CELL_WIDTH, inHeight);
 
             //以下、エレメント描画処理
@@ -535,7 +500,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawTime(g, this.mSelectLineNo, this.mSelectFrameNo, this.mMaxFrameNum, inWidth, inHeight);
+                clElem.DrawTime(g, inLineNo, inFrameNo, this.mMaxFrameNum, inWidth, inHeight);
             }
 
             //以下、最終フレームの境界線描画処理

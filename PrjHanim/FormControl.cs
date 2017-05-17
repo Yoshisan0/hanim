@@ -288,7 +288,7 @@ namespace PrjHikariwoAnim
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
             //以下、エレメント選択処理
-            clMotion.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
 
             //Item最大数を確認
             ClsDatElem clElem = clMotion.FindElemFromLineNo(inLineNo);
@@ -354,7 +354,8 @@ namespace PrjHikariwoAnim
             if(clMotion!= null)
             {
                 int inSelectFrameNo = (int)this.numericUpDown_NowFlame.Value;
-                clMotion.SetSelectFrameNo(inSelectFrameNo);
+                ClsSystem.SetSelectFrameNo(inSelectFrameNo);
+
                 clMotion.DrawTime(e.Graphics, this.panel_Time.Width, this.panel_Time.Height);
             }
         }
@@ -428,8 +429,8 @@ namespace PrjHikariwoAnim
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
             //以下、現在位置を設定する処理
-            clMotion.SetSelectFrameNo(inFrameNo);
-            clMotion.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFrameNo(inFrameNo);
 
             //以下、フレーム選択処理
             if (inFrameNo <= this.numericUpDown_MaxFrame.Value)
@@ -575,9 +576,9 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int inSelectFrameNo = clMotion.GetSelectFrameNo();
+            int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
             int inMaxFrameNum = clMotion.GetMaxFrameNum();
-            int inSelectLineNo = clMotion.GetSelectLineNo();
+            int inSelectLineNo = ClsSystem.GetSelectLineNo();
             ClsDatItem clItem = clMotion.FindItemFromLineNo(inSelectLineNo);
 
             //以下、削除ボタン有効化設定
@@ -666,7 +667,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return;
 
             //以下、アイテム削除処理
@@ -697,7 +698,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return;
 
             ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
@@ -719,7 +720,7 @@ namespace PrjHikariwoAnim
             clMotion.Assignment();
 
             //以下、改めてアイテムを選択する処理
-            clMotion.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
+            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -733,7 +734,7 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return;
 
             ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
@@ -755,7 +756,7 @@ namespace PrjHikariwoAnim
             clMotion.Assignment();
 
             //以下、改めてアイテムを選択する処理
-            clMotion.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
+            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -820,7 +821,7 @@ namespace PrjHikariwoAnim
             bool isAddOptionEnable = false;
             bool isRemoveOptionEnable = false;
 
-            int inLineNo = clMotion.GetSelectLineNo();
+            int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo >= 0)
             {
                 ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
@@ -881,7 +882,7 @@ namespace PrjHikariwoAnim
 
             //以下、アイテム選択処理
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
-            clMotion.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
 
             if (e.Button == MouseButtons.Left)
             {
@@ -924,7 +925,7 @@ namespace PrjHikariwoAnim
 
                 if (isExist)
                 {
-                    int inSelectLineNo = clMotion.GetSelectLineNo();
+                    int inSelectLineNo = ClsSystem.GetSelectLineNo();
                     int inLineNo = this.GetLineNoFromPositionY(e.Y);
                     if (inSelectLineNo != inLineNo)
                     {
@@ -966,7 +967,7 @@ namespace PrjHikariwoAnim
                 else
                 {
                     //以下、掴んでいるエレメントを別ウィンドウで表示する処理
-                    int inLineNo = clMotion.GetSelectLineNo();
+                    int inLineNo = ClsSystem.GetSelectLineNo();
                     ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
                     if (clItem != null)
                     {

@@ -228,7 +228,7 @@ namespace PrjHikariwoAnim
                 //以下、選択中のライン番号初期化処理
                 ClsSystem.SetSelectMotionDefault();
                 ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-                clMotion.SetSelectFromLineNo(-1);
+                ClsSystem.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
@@ -718,12 +718,12 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clDatMotion">モーション管理クラス</param>
         /// <param name="clDatImage">イメージ管理クラス</param>
-        /// <param name="inX">クリック座標(Client)</param>
-        /// <param name="inY">クリック座標(Client)</param>
-        private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, int inX, int inY)
+        /// <param name="flX">クリック座標(Client)</param>
+        /// <param name="flY">クリック座標(Client)</param>
+        private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, float flX, float flY)
         {
             //以下、エレメント追加処理
-            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, inX, inY);
+            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, flX, flY);
             clDatElem.SetImage(clDatImage);
 
             clDatMotion.AddElements(clDatElem);  //Elements登録
@@ -816,7 +816,7 @@ namespace PrjHikariwoAnim
             {
                 //アイテムが存在
                 ClsSystem.SetSelectMotionKey(inHashCode);   //選択中変更
-                clMotion.SetSelectFromLineNo(-1);
+                ClsSystem.SetSelectFromLineNo(-1);
 
                 //以下、各種コントロール設定処理
                 //以下、ウィンドウ名を修正する処理
@@ -1043,6 +1043,66 @@ namespace PrjHikariwoAnim
 
             if (this.mMouseDownL)
             {
+                ClsDatOption clOption = ClsSystem.GetOptionFromSelectLineNo();
+                if (clOption != null)
+                {
+                    int inFrameNo = ClsSystem.GetSelectFrameNo();
+                    if (inFrameNo >= 0)
+                    {
+                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
+                        if (clKeyFrame != null)
+                        {
+                            switch (clOption.mTypeOption)
+                            {
+                            case TYPE_OPTION.DISPLAY:
+                                break;
+                            case TYPE_OPTION.POSITION:
+                                {
+                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
+                                    clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
+                                }
+                                break;
+                            case TYPE_OPTION.ROTATION:
+                                {
+                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
+                                }
+                                break;
+                            case TYPE_OPTION.SCALE:
+                                {
+                                    float flScaleX = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X) * 0.01f;
+                                    if (flScaleX <= 0.0f) flScaleX = 0.0f;
+                                    clKeyFrame.mValue1 = flScaleX;
+
+                                    float flScaleY = (float)clKeyFrame.mValue2 + (float)(e.Y - this.mPosMouseLOld.Y) * 0.01f;
+                                    if (flScaleY <= 0.0f) flScaleY = 0.0f;
+                                    clKeyFrame.mValue2 = flScaleY;
+                                }
+                                break;
+                            case TYPE_OPTION.OFFSET:
+                                {
+                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
+                                    clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
+                                }
+                                break;
+                            case TYPE_OPTION.FLIP:
+                                break;
+                            case TYPE_OPTION.TRANSPARENCY:
+                                {
+                                    int inTrans = (int)clKeyFrame.mValue1 + (int)(e.X - this.mPosMouseLOld.X);
+                                    if (inTrans <= 0) inTrans = 0;
+                                    if (inTrans >= 255) inTrans = 255;
+                                    clKeyFrame.mValue1 = inTrans;
+                                }
+                                break;
+                            case TYPE_OPTION.COLOR:
+                                break;
+                            case TYPE_OPTION.USER_DATA:
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 this.mPosMouseLOld.X = e.X;
                 this.mPosMouseLOld.Y = e.Y;
 

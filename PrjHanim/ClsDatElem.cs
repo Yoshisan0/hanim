@@ -32,9 +32,9 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clMotion">親モーション</param>
         /// <param name="clElem">親エレメント</param>
-        /// <param name="inX">Ｘ座標</param>
-        /// <param name="inY">Ｙ座標</param>
-        public ClsDatElem(ClsDatMotion clMotion, ClsDatElem clElem, int inX, int inY)
+        /// <param name="flX">Ｘ座標</param>
+        /// <param name="flY">Ｙ座標</param>
+        public ClsDatElem(ClsDatMotion clMotion, ClsDatElem clElem, float flX, float flY)
         {
             this.mTypeItem = TYPE_ITEM.ELEM;
 
@@ -53,7 +53,7 @@ namespace PrjHikariwoAnim
             this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
             object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
             this.SetOption(TYPE_OPTION.DISPLAY, true, clValue2);
-            this.SetOption(TYPE_OPTION.POSITION, inX, inY);
+            this.SetOption(TYPE_OPTION.POSITION, flX, flY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -256,7 +256,7 @@ namespace PrjHikariwoAnim
 
                 if ("Elem".Equals(clNode.Name))
                 {
-                    ClsDatElem clDatElem = new ClsDatElem(null, this, 0, 0);
+                    ClsDatElem clDatElem = new ClsDatElem(null, this, 0.0f, 0.0f);
                     clDatElem.Load(clNode);
 
                     this.mListElem.Add(clDatElem);
@@ -889,14 +889,21 @@ namespace PrjHikariwoAnim
 
                 float flWidth = clImage.mImgOrigin.Width;
                 float flHeight = clImage.mImgOrigin.Height;
+                bool isFlipH = false;
+                bool isFlipV = false;
+                if (clParam.mExistFlipOption)
+                {
+                    isFlipH = clParam.mFlipH;
+                    isFlipV = clParam.mFlipV;
+                }
                 if (clImage.mRect == null)
                 {
-                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
+                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
                 }
                 else
                 {
                     //UVカットして表示する
-                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight);
+                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
                 }
             }
 
