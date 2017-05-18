@@ -1048,66 +1048,63 @@ namespace PrjHikariwoAnim
                 if (clOption != null)
                 {
                     int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
-                    if (inSelectFrameNo >= 0)
+                    ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inSelectFrameNo);
+                    if (clKeyFrame != null)
                     {
-                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inSelectFrameNo);
-                        if (clKeyFrame != null)
+                        switch (clOption.mTypeOption)
                         {
-                            switch (clOption.mTypeOption)
+                        case TYPE_OPTION.DISPLAY:
+                            break;
+                        case TYPE_OPTION.POSITION:
                             {
-                            case TYPE_OPTION.DISPLAY:
-                                break;
-                            case TYPE_OPTION.POSITION:
-                                {
-                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
-                                    clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
-                                }
-                                break;
-                            case TYPE_OPTION.ROTATION:
-                                {
-                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
-                                }
-                                break;
-                            case TYPE_OPTION.SCALE:
-                                {
-                                    float flScaleX = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X) * 0.01f;
-                                    if (flScaleX <= 0.0f) flScaleX = 0.0f;
-                                    clKeyFrame.mValue1 = flScaleX;
-
-                                    float flScaleY = (float)clKeyFrame.mValue2 + (float)(e.Y - this.mPosMouseLOld.Y) * 0.01f;
-                                    if (flScaleY <= 0.0f) flScaleY = 0.0f;
-                                    clKeyFrame.mValue2 = flScaleY;
-                                }
-                                break;
-                            case TYPE_OPTION.OFFSET:
-                                {
-                                    clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
-                                    clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
-                                }
-                                break;
-                            case TYPE_OPTION.FLIP:
-                                break;
-                            case TYPE_OPTION.TRANSPARENCY:
-                                {
-                                    int inTrans = (int)clKeyFrame.mValue1 + (int)(e.X - this.mPosMouseLOld.X);
-                                    if (inTrans <= 0) inTrans = 0;
-                                    if (inTrans >= 255) inTrans = 255;
-                                    clKeyFrame.mValue1 = inTrans;
-                                }
-                                break;
-                            case TYPE_OPTION.COLOR:
-                                break;
-                            case TYPE_OPTION.USER_DATA:
-                                break;
+                                clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
+                                clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
                             }
-
-                            //以下、アトリビュートウィンドウ設定処理
-                            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-                            if (clMotion != null) {
-                                ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inSelectLineNo);
-                                int inMaxFrameNum = clMotion.GetMaxFrameNum();
-                                this.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
+                            break;
+                        case TYPE_OPTION.ROTATION:
+                            {
+                                clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
                             }
+                            break;
+                        case TYPE_OPTION.SCALE:
+                            {
+                                float flScaleX = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X) * 0.01f;
+                                if (flScaleX <= 0.0f) flScaleX = 0.0f;
+                                clKeyFrame.mValue1 = flScaleX;
+
+                                float flScaleY = (float)clKeyFrame.mValue2 + (float)(e.Y - this.mPosMouseLOld.Y) * 0.01f;
+                                if (flScaleY <= 0.0f) flScaleY = 0.0f;
+                                clKeyFrame.mValue2 = flScaleY;
+                            }
+                            break;
+                        case TYPE_OPTION.OFFSET:
+                            {
+                                clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
+                                clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
+                            }
+                            break;
+                        case TYPE_OPTION.FLIP:
+                            break;
+                        case TYPE_OPTION.TRANSPARENCY:
+                            {
+                                int inTrans = (int)clKeyFrame.mValue1 + (int)(e.X - this.mPosMouseLOld.X);
+                                if (inTrans <= 0) inTrans = 0;
+                                if (inTrans >= 255) inTrans = 255;
+                                clKeyFrame.mValue1 = inTrans;
+                            }
+                            break;
+                        case TYPE_OPTION.COLOR:
+                            break;
+                        case TYPE_OPTION.USER_DATA:
+                            break;
+                        }
+
+                        //以下、アトリビュートウィンドウ設定処理
+                        ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+                        if (clMotion != null) {
+                            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inSelectLineNo);
+                            int inMaxFrameNum = clMotion.GetMaxFrameNum();
+                            this.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
                         }
                     }
                 }
@@ -1414,6 +1411,57 @@ namespace PrjHikariwoAnim
 
         private void ToolStripMenuItem_DebugOpenGL_Click(object sender, EventArgs e)
         {
+        }
+
+        private void componentOpenGL_MouseEnter(object sender, EventArgs e)
+        {
+            //以下、マウスカーソル変更処理
+            int inSelectLineNo = ClsSystem.GetSelectLineNo();
+            if (inSelectLineNo < 0) return;
+
+            ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inSelectLineNo);
+            if (clOption == null) return;
+
+            int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
+            if (inSelectFrameNo < 0) return;
+
+            ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inSelectFrameNo);
+            if (clKeyFrame == null) return;
+
+            switch (clOption.mTypeOption)
+            {
+            case TYPE_OPTION.POSITION:
+                {
+                    this.Cursor = Cursors.SizeAll;
+                }
+                break;
+            case TYPE_OPTION.ROTATION:
+                {
+                    this.Cursor = Cursors.SizeWE;
+                }
+                break;
+            case TYPE_OPTION.SCALE:
+                {
+                    this.Cursor = Cursors.SizeAll;
+                }
+                break;
+            case TYPE_OPTION.OFFSET:
+                {
+                    this.Cursor = Cursors.SizeAll;
+                }
+                break;
+            case TYPE_OPTION.TRANSPARENCY:
+                {
+                    this.Cursor = Cursors.SizeWE;
+                }
+                break;
+            }
+        }
+
+        private void componentOpenGL_MouseLeave(object sender, EventArgs e)
+        {
+            //以下、マウスカーソルを元に戻す処理
+            this.Cursor = Cursors.Default;
         }
 
         private void ToolStripMenuItem_DebugExport_Click(object sender, EventArgs e)

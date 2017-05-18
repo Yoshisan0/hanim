@@ -187,7 +187,7 @@ namespace PrjHikariwoAnim
 
             this.mLocked = false;
 
-            return clParam;
+            return (clParam);
         }
 
         private void ColorCode_TextChanged(object sender, EventArgs e)
