@@ -70,7 +70,7 @@ namespace PrjHikariwoAnim
         /// <param name="isRemove">実体削除フラグ</param>
         public void RemoveItemFromLineNo(int inLineNo, bool isForce, bool isRemove)
         {
-            ClsDatItem clItem = this.FindItemFromLineNo(inLineNo);
+            ClsDatItem clItem = ClsSystem.GetItemFromLineNo(inLineNo);
             if (clItem == null) return;
 
             switch(clItem.mTypeItem) {
@@ -286,8 +286,7 @@ namespace PrjHikariwoAnim
         {
             if (clItem == null) return;
 
-            int inLineNo = this.GetLineNoFromItem(clItem);
-            ClsSystem.SetSelectFromLineNo(inLineNo);
+            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);
         }
 
         /// <summary>
@@ -315,121 +314,6 @@ namespace PrjHikariwoAnim
                 clElem.mTab = inTab;
                 clElem.Assignment(this, inTab + 1);
             }
-        }
-
-        /// <summary>
-        /// 行番号からアイテムを検索する処理
-        /// </summary>
-        /// <param name="inLineNo">行番号</param>
-        /// <returns>アイテム</returns>
-        public ClsDatItem FindItemFromLineNo(int inLineNo)
-        {
-            this.mWorkItem = null;
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindItemFromLineNo(this, inLineNo);
-
-                if (this.mWorkItem != null)
-                {
-                    return (this.mWorkItem);
-                }
-            }
-
-            return (null);
-        }
-
-        public ClsDatItem FindItemFromHashCode(int inHashCode)
-        {
-            this.mWorkItem = null;
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindItemFromHashCode(this, inHashCode);
-
-                if (this.mWorkItem != null)
-                {
-                    return (this.mWorkItem);
-                }
-            }
-
-            return (null);
-        }
-
-        /// <summary>
-        /// 挿入可能マークからエレメントを検索する処理
-        /// </summary>
-        /// <param name="enMark">挿入可能マーク</param>
-        /// <returns>エレメント</returns>
-        public ClsDatElem FindElemFromMark(ELEMENTS_MARK enMark)
-        {
-            this.mWorkElem = null;
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindElemFromMark(this, enMark);
-
-                if (this.mWorkElem != null)
-                {
-                    return (this.mWorkElem);
-                }
-            }
-
-            return (null);
-        }
-
-        /// <summary>
-        /// 行番号からエレメントを検索する処理
-        /// </summary>
-        /// <param name="inLineNo">行番号</param>
-        /// <returns>エレメント</returns>
-        public ClsDatElem FindElemFromLineNo(int inLineNo)
-        {
-            this.mWorkElem = null;
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindElemFromLineNo(this, inLineNo);
-
-                if (this.mWorkElem != null)
-                {
-                    return (this.mWorkElem);
-                }
-            }
-
-            return (null);
-        }
-
-        /// <summary>
-        /// 行番号からオプションを検索する処理
-        /// </summary>
-        /// <param name="inLineNo">行番号</param>
-        /// <returns>オプション</returns>
-        public ClsDatOption FindOptionFromLineNo(int inLineNo)
-        {
-            this.mWorkOption = null;
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.FindOptionFromLineNo(this, inLineNo);
-
-                if (this.mWorkOption != null)
-                {
-                    return (this.mWorkOption);
-                }
-            }
-
-            return (null);
         }
 
         /// <summary>
@@ -550,21 +434,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// アイテム管理クラスから行番号を取得する処理
-        /// </summary>
-        /// <param name="clItem">アイテム</param>
-        /// <returns>行番号</returns>
-        public int GetLineNoFromItem(ClsDatItem clItem)
-        {
-            int inHashCode = clItem.GetHashCode();
-            ClsDatItem clItemTmp = this.FindItemFromHashCode(inHashCode);
-            if (clItemTmp == null) return (-1);
-
-            int inLineNo = clItemTmp.mLineNo;
-            return (inLineNo);
-        }
-
-        /// <summary>
         /// エレメント検索処理
         /// </summary>
         /// <param name="clElem">エレメント</param>
@@ -621,17 +490,27 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// 挿入可能マークのクリア
+        /// 行番号からアイテムを検索する処理
         /// </summary>
-        public void ClearInsertMark()
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>アイテム</returns>
+        public ClsDatItem GetItemFromLineNo(int inLineNo)
         {
-            //以下、子エレメントの挿入マークを消す処理
+            this.mWorkItem = null;
+
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.ClearInsertMark();
+                clElem.FindItemFromLineNo(this, inLineNo);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
             }
+
+            return (null);
         }
     }
 }

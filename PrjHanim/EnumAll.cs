@@ -22,13 +22,6 @@ namespace PrjHikariwoAnim
         Point
     }
 
-    public enum ELEMENTS_MARK
-    {
-        NONE,
-        UP,
-        IN
-    }
-
     public enum TYPE_PARAM
     {
         NONE,

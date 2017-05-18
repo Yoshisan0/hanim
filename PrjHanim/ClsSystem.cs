@@ -341,14 +341,11 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <returns>行番号のエレメント</returns>
-        private static ClsDatElem GetElemFromLineNo(int inLineNo)
+        public static ClsDatElem GetElemFromLineNo(int inLineNo)
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
             if (inLineNo < 0) return (null);
 
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            ClsDatItem clItem = ClsSystem.GetItemFromLineNo(inLineNo);
             if (clItem == null) return (null);
 
             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
@@ -384,15 +381,14 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <returns>行番号のアイテム</returns>
-        private static ClsDatItem GetItemFromLineNo(int inLineNo)
+        public static ClsDatItem GetItemFromLineNo(int inLineNo)
         {
+            if (inLineNo < 0) return (null);
+
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return (null);
 
-            if (inLineNo < 0) return (null);
-
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
-
+            ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
             return (clItem);
         }
 
@@ -409,17 +405,88 @@ namespace PrjHikariwoAnim
             return (clOption);
         }
 
+
+
+
+        /// <summary>
+        /// 行番号からアイテムを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>アイテム</returns>
+/*
+        public ClsDatItem GetItemFromLineNo(int inLineNo)
+        {
+            this.mWorkItem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromLineNo(this, inLineNo);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        public ClsDatItem GetItemFromHashCode(int inHashCode)
+        {
+            this.mWorkItem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromHashCode(this, inHashCode);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// 行番号からエレメントを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>エレメント</returns>
+        public ClsDatElem GetElemFromLineNo(int inLineNo)
+        {
+            this.mWorkElem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindElemFromLineNo(this, inLineNo);
+
+                if (this.mWorkElem != null)
+                {
+                    return (this.mWorkElem);
+                }
+            }
+
+            return (null);
+        }
+        */
+
+
+
         /// <summary>
         /// 行番号からオプションを取得する
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <returns>行番号のオプション</returns>
-        private static ClsDatOption GetOptionFromLineNo(int inLineNo)
+        public static ClsDatOption GetOptionFromLineNo(int inLineNo)
         {
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) return (null);
-
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            ClsDatItem clItem = ClsSystem.GetItemFromLineNo(inLineNo);
             if (clItem == null) return (null);
 
             ClsDatOption clOption = null;

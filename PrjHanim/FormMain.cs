@@ -1043,13 +1043,14 @@ namespace PrjHikariwoAnim
 
             if (this.mMouseDownL)
             {
-                ClsDatOption clOption = ClsSystem.GetOptionFromSelectLineNo();
+                int inSelectLineNo = ClsSystem.GetSelectLineNo();
+                ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inSelectLineNo);
                 if (clOption != null)
                 {
-                    int inFrameNo = ClsSystem.GetSelectFrameNo();
-                    if (inFrameNo >= 0)
+                    int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
+                    if (inSelectFrameNo >= 0)
                     {
-                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
+                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inSelectFrameNo);
                         if (clKeyFrame != null)
                         {
                             switch (clOption.mTypeOption)
@@ -1098,6 +1099,14 @@ namespace PrjHikariwoAnim
                                 break;
                             case TYPE_OPTION.USER_DATA:
                                 break;
+                            }
+
+                            //以下、アトリビュートウィンドウ設定処理
+                            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+                            if (clMotion != null) {
+                                ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inSelectLineNo);
+                                int inMaxFrameNum = clMotion.GetMaxFrameNum();
+                                this.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
                             }
                         }
                     }

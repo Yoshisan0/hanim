@@ -132,6 +132,9 @@ namespace PrjHikariwoAnim
 
             //変更完了
             this.mLocked = false;
+
+            //以下、リフレッシュ処理
+            this.Refresh();
         }
 
         /// <summary>

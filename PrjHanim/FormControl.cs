@@ -248,7 +248,7 @@ namespace PrjHikariwoAnim
             //Item選択
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
 
-            ClsDatElem clElem = clMotion.FindElemFromLineNo(inLineNo);
+            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
             {
                 //Click Eye
@@ -291,7 +291,7 @@ namespace PrjHikariwoAnim
             ClsSystem.SetSelectFromLineNo(inLineNo);
 
             //Item最大数を確認
-            ClsDatElem clElem = clMotion.FindElemFromLineNo(inLineNo);
+            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
             {
                 if (e.X > 52)
@@ -551,7 +551,7 @@ namespace PrjHikariwoAnim
 
             //以下、名前設定処理
             int inLineNo = (int)this.mTextBox.Tag;
-            ClsDatElem clElem = clMotion.FindElemFromLineNo(inLineNo);
+            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
             {
                 string clName = this.mTextBox.Text;
@@ -579,7 +579,7 @@ namespace PrjHikariwoAnim
             int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
             int inMaxFrameNum = clMotion.GetMaxFrameNum();
             int inSelectLineNo = ClsSystem.GetSelectLineNo();
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inSelectLineNo);
+            ClsDatItem clItem = clMotion.GetItemFromLineNo(inSelectLineNo);
 
             //以下、削除ボタン有効化設定
             bool isEnable = false;
@@ -701,7 +701,7 @@ namespace PrjHikariwoAnim
             int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return;
 
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
             if (clItem == null) return;
             if (clItem.mTypeItem != ClsDatItem.TYPE_ITEM.ELEM) return;
 
@@ -737,7 +737,7 @@ namespace PrjHikariwoAnim
             int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo < 0) return;
 
-            ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+            ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
             if (clItem == null) return;
             if (clItem.mTypeItem != ClsDatItem.TYPE_ITEM.ELEM) return;
 
@@ -824,14 +824,14 @@ namespace PrjHikariwoAnim
             int inLineNo = ClsSystem.GetSelectLineNo();
             if (inLineNo >= 0)
             {
-                ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+                ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
                 if (clItem != null)
                 {
                     isRemoveElementEnable = true;
                     isAddOptionEnable = true;
                 }
 
-                ClsDatOption clOption = clMotion.FindOptionFromLineNo(inLineNo);
+                ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inLineNo);
                 if (clOption != null)
                 {
                     bool isRemoveOK = clOption.IsRemoveOK();
@@ -887,7 +887,7 @@ namespace PrjHikariwoAnim
             if (e.Button == MouseButtons.Left)
             {
                 //以下、掴んでいるエレメントを別ウィンドウで表示する処理
-                ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+                ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
                 if (clItem != null && clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                 {
                     int inX = Cursor.Position.X;
@@ -920,9 +920,6 @@ namespace PrjHikariwoAnim
                     }
                 }
 
-                //以下、挿入マーククリア処理
-                clMotion.ClearInsertMark();
-
                 if (isExist)
                 {
                     int inSelectLineNo = ClsSystem.GetSelectLineNo();
@@ -930,19 +927,17 @@ namespace PrjHikariwoAnim
                     if (inSelectLineNo != inLineNo)
                     {
                         //以下、挿入先チェック処理
-                        ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+                        ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
                         if (clItem != null)
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
-                            ELEMENTS_MARK enMark = ELEMENTS_MARK.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
                                 bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
-                                enMark = (isUp) ? ELEMENTS_MARK.UP : ELEMENTS_MARK.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -952,14 +947,10 @@ namespace PrjHikariwoAnim
                                 {
                                     clElem = null;
                                 }
-
-                                enMark = ELEMENTS_MARK.IN;
                             }
 
                             if (clElem != null)
                             {
-                                //以下、挿入可能な旨をエレメントに通知する処理
-                                clElem.SetInsertMark(enMark);
                             }
                         }
                     }
@@ -968,7 +959,7 @@ namespace PrjHikariwoAnim
                 {
                     //以下、掴んでいるエレメントを別ウィンドウで表示する処理
                     int inLineNo = ClsSystem.GetSelectLineNo();
-                    ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
+                    ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
                     if (clItem != null)
                     {
                         int inXDiff = (Cursor.Position.X - this.mPosStartCatch.X);
@@ -1001,44 +992,10 @@ namespace PrjHikariwoAnim
             {
                 if (this.mFormDragLabel != null)
                 {
-                    if (!this.mFormDragLabel.IsDisposed)
-                    {
-                        bool isHit = false;
-
-                        //以下、子供として登録する処理
-                        ClsDatElem clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.IN);
-                        if (clElemBase != null)
-                        {
-                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
-                            clElemBase.AddElemChild(clElem);
-
-                            isHit = true;
-                        }
-
-                        //以下、自分の兄として登録する処理
-                        clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.UP);
-                        if (clElemBase != null)
-                        {
-                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
-                            clElemBase.AddElemBigBrother(clElem);
-
-                            isHit = true;
-                        }
-
-                        //以下、行番号割り振り処理
-                        if (isHit)
-                        {
-                            clMotion.Assignment();
-                        }
-                    }
-
                     this.mFormDragLabel.Close();
                     this.mFormDragLabel.Dispose();
                     this.mFormDragLabel = null;
                 }
-
-                //以下、挿入マークをクリアする処理
-                clMotion.ClearInsertMark();
 
                 //以下、コントロール更新処理
                 this.RefreshControl();
