@@ -15,8 +15,6 @@ namespace PrjHikariwoAnim
         public ClsDatElem mElem;            //親エレメント
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
-        public ELEMENTS_TYPE mType;         //Default Image
-        public ELEMENTS_STYLE mStyle;       //Default Rect
         public bool isDisplay;              //表示非表示(目)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
@@ -43,8 +41,6 @@ namespace PrjHikariwoAnim
             this.mElem = clElem;
             this.mListElem = new List<ClsDatElem>();
             this.mName = this.GetHashCode().ToString("X8");//仮名
-            this.mType = ELEMENTS_TYPE.Image;
-            this.mStyle = ELEMENTS_STYLE.Rect;
             this.isDisplay = true;  //表示非表示(目)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
