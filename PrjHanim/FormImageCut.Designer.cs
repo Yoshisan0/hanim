@@ -87,9 +87,10 @@
             // panel_Image
             // 
             this.panel_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_Image.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Image.Location = new System.Drawing.Point(0, 0);
             this.panel_Image.Name = "panel_Image";
-            this.panel_Image.Size = new System.Drawing.Size(64, 64);
+            this.panel_Image.Size = new System.Drawing.Size(609, 162);
             this.panel_Image.TabIndex = 0;
             this.panel_Image.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Image_Paint);
             this.panel_Image.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Image_MouseDown);
@@ -349,10 +350,11 @@
             // panel_CellList
             // 
             this.panel_CellList.AutoScroll = true;
+            this.panel_CellList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_CellList.Location = new System.Drawing.Point(0, 0);
             this.panel_CellList.Margin = new System.Windows.Forms.Padding(0);
             this.panel_CellList.Name = "panel_CellList";
-            this.panel_CellList.Size = new System.Drawing.Size(64, 64);
+            this.panel_CellList.Size = new System.Drawing.Size(611, 91);
             this.panel_CellList.TabIndex = 7;
             this.panel_CellList.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_CellList_Paint);
             this.panel_CellList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_CellList_MouseUp);

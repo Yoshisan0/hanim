@@ -512,5 +512,67 @@ namespace PrjHikariwoAnim
 
             return (null);
         }
+
+        /// <summary>
+        /// 挿入可能マークからエレメントを検索する処理
+        /// </summary>
+        /// <param name="enMark">挿入可能マーク</param>
+        /// <returns>エレメント</returns>
+        public ClsDatElem FindElemFromMark(ELEMENTS_MARK enMark)
+        {
+            this.mWorkElem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindElemFromMark(this, enMark);
+
+                if (this.mWorkElem != null)
+                {
+                    return (this.mWorkElem);
+                }
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// 行番号からアイテムを検索する処理
+        /// </summary>
+        /// <param name="inLineNo">行番号</param>
+        /// <returns>アイテム</returns>
+        public ClsDatItem FindItemFromLineNo(int inLineNo)
+        {
+            this.mWorkItem = null;
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.FindItemFromLineNo(this, inLineNo);
+
+                if (this.mWorkItem != null)
+                {
+                    return (this.mWorkItem);
+                }
+            }
+
+            return (null);
+        }
+
+        /// <summary>
+        /// 挿入可能マークのクリア
+        /// </summary>
+        public void ClearInsertMark()
+        {
+            //以下、子エレメントの挿入マークを消す処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.ClearInsertMark();
+            }
+        }
     }
 }

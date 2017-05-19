@@ -22,6 +22,7 @@ namespace PrjHikariwoAnim
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
         public Dictionary<TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
+        public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
 
         //以下、ＵＶ値
         public ClsVector2[] mListUV;
@@ -903,23 +904,32 @@ namespace PrjHikariwoAnim
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             //以下、背景を塗る処理
-            if (inSelectLineNo == this.mLineNo)
+            if (this.mInsertMark == ELEMENTS_MARK.IN)
             {
-                //選択中Elementsの背景強調
-                SolidBrush sb = new SolidBrush(Color.DarkGreen);
+                //以下、挿入可能エレメント描画処理
+                SolidBrush sb = new SolidBrush(Color.Orange);
                 g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
             }
             else
             {
-                if (this.mLineNo % 2 == 0)
+                if (inSelectLineNo == this.mLineNo)
                 {
-                    SolidBrush sb = new SolidBrush(Color.Black);
+                    //選択中Elementsの背景強調
+                    SolidBrush sb = new SolidBrush(Color.DarkGreen);
                     g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
                 }
                 else
                 {
-                    SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
-                    g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    if (this.mLineNo % 2 == 0)
+                    {
+                        SolidBrush sb = new SolidBrush(Color.Black);
+                        g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    }
+                    else
+                    {
+                        SolidBrush sb = new SolidBrush(Color.FromArgb(0xFF, 20, 20, 30));
+                        g.FillRectangle(sb, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, FormControl.CELL_HEIGHT);
+                    }
                 }
             }
 
@@ -958,6 +968,13 @@ namespace PrjHikariwoAnim
             {
                 string clBlank = this.GetTabBlank();
                 g.DrawString(clBlank + this.mName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
+            }
+
+            //以下、挿入可能ライン描画処理
+            if (this.mInsertMark == ELEMENTS_MARK.UP)
+            {
+                g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
+                g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
             }
 
             //以下、オプション描画処理
@@ -1190,6 +1207,58 @@ namespace PrjHikariwoAnim
             ClsDatElem clElemTmp = this.mListElem[inIndex + 1];
             this.mListElem[inIndex + 1] = clElem;
             this.mListElem[inIndex] = clElemTmp;
+        }
+
+        /// <summary>
+        /// 挿入可能マークからエレメントを取得する処理
+        /// </summary>
+        /// <param name="clMotion">モーション管理クラス</param>
+        /// <param name="enMark">挿入可能マーク</param>
+        public void FindElemFromMark(ClsDatMotion clMotion, ELEMENTS_MARK enMark)
+        {
+            if (this.mInsertMark == enMark)
+            {
+                clMotion.mWorkElem = this;
+                return;
+            }
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                if (clElem.mInsertMark == enMark)
+                {
+                    clMotion.mWorkElem = clElem;
+                    return;
+                }
+
+                clElem.FindElemFromMark(clMotion, enMark);
+            }
+        }
+
+        /// <summary>
+        /// 挿入可能マークのクリア
+        /// </summary>
+        public void ClearInsertMark()
+        {
+            this.mInsertMark = ELEMENTS_MARK.NONE;
+
+            //以下、子エレメントの挿入マークを消す処理
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.ClearInsertMark();
+            }
+        }
+
+        /// <summary>
+        /// 挿入可能マークの設定
+        /// </summary>
+        /// <param name="enMark">挿入可能マーク</param>
+        public void SetInsertMark(ELEMENTS_MARK enMark)
+        {
+            this.mInsertMark = enMark;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace PrjHikariwoAnim
         //private bool mMouseDownL=false; 一旦コメントアウト 2017/01/31 comment out by yoshi
         //private bool mMouseDownR=false;
         //private bool mMouseDownM=false;
-        private Point mPosStartCatch;
+        private Point mCatchPosStart;
         private FormDragLabel mFormDragLabel = null;
 
         //メインフォームにセットしてもらう
@@ -245,8 +245,9 @@ namespace PrjHikariwoAnim
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
             if (clMotion == null) return;
 
-            //Item選択
+            //以下、アイテム選択処理
             int inLineNo = this.GetLineNoFromPositionY(e.Y);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
 
             ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
@@ -375,6 +376,10 @@ namespace PrjHikariwoAnim
         //Right Paine
         private void panel_Time_MouseClick(object sender, MouseEventArgs e)
         {
+            //以下、アイテム選択処理
+            int inLineNo = this.GetLineNoFromPositionY(e.Y);
+            ClsSystem.SetSelectFromLineNo(inLineNo);
+
             /* 一旦コメントアウト 2017/01/31 comment out by yoshi
             //Flameクリック処理
             //フレーム検出
@@ -892,7 +897,7 @@ namespace PrjHikariwoAnim
                 {
                     int inX = Cursor.Position.X;
                     int inY = Cursor.Position.Y;
-                    this.mPosStartCatch = new Point(inX, inY);
+                    this.mCatchPosStart = new Point(inX, inY);
                 }
             }
 
@@ -920,6 +925,9 @@ namespace PrjHikariwoAnim
                     }
                 }
 
+                //以下、挿入マーククリア処理
+                clMotion.ClearInsertMark();
+
                 if (isExist)
                 {
                     int inSelectLineNo = ClsSystem.GetSelectLineNo();
@@ -932,12 +940,14 @@ namespace PrjHikariwoAnim
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
+                            ELEMENTS_MARK enMark = ELEMENTS_MARK.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
                                 bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
+                                enMark = (isUp) ? ELEMENTS_MARK.UP : ELEMENTS_MARK.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -947,10 +957,14 @@ namespace PrjHikariwoAnim
                                 {
                                     clElem = null;
                                 }
+
+                                enMark = ELEMENTS_MARK.IN;
                             }
 
                             if (clElem != null)
                             {
+                                //以下、挿入可能な旨をエレメントに通知する処理
+                                clElem.SetInsertMark(enMark);
                             }
                         }
                     }
@@ -959,11 +973,11 @@ namespace PrjHikariwoAnim
                 {
                     //以下、掴んでいるエレメントを別ウィンドウで表示する処理
                     int inLineNo = ClsSystem.GetSelectLineNo();
-                    ClsDatItem clItem = clMotion.GetItemFromLineNo(inLineNo);
+                    ClsDatItem clItem = clMotion.FindItemFromLineNo(inLineNo);
                     if (clItem != null)
                     {
-                        int inXDiff = (Cursor.Position.X - this.mPosStartCatch.X);
-                        int inYDiff = (Cursor.Position.Y - this.mPosStartCatch.Y);
+                        int inXDiff = (Cursor.Position.X - this.mCatchPosStart.X);
+                        int inYDiff = (Cursor.Position.Y - this.mCatchPosStart.Y);
                         double doLen = Math.Sqrt(inXDiff * inXDiff + inYDiff * inYDiff);
                         if (doLen >= 5.0)
                         {
@@ -992,10 +1006,44 @@ namespace PrjHikariwoAnim
             {
                 if (this.mFormDragLabel != null)
                 {
+                    if (!this.mFormDragLabel.IsDisposed)
+                    {
+                        bool isHit = false;
+
+                        //以下、子供として登録する処理
+                        ClsDatElem clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.IN);
+                        if (clElemBase != null)
+                        {
+                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
+                            clElemBase.AddElemChild(clElem);
+
+                            isHit = true;
+                        }
+
+                        //以下、自分の兄として登録する処理
+                        clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.UP);
+                        if (clElemBase != null)
+                        {
+                            ClsDatElem clElem = this.mFormDragLabel.GetElem();
+                            clElemBase.AddElemBigBrother(clElem);
+
+                            isHit = true;
+                        }
+
+                        //以下、行番号割り振り処理
+                        if (isHit)
+                        {
+                            clMotion.Assignment();
+                        }
+                    }
+
                     this.mFormDragLabel.Close();
                     this.mFormDragLabel.Dispose();
                     this.mFormDragLabel = null;
                 }
+
+                //以下、マークをクリアする処理
+                clMotion.ClearInsertMark();
 
                 //以下、コントロール更新処理
                 this.RefreshControl();

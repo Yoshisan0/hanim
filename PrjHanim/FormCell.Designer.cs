@@ -52,7 +52,7 @@
             this.panel_menu.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel_menu.Location = new System.Drawing.Point(0, 0);
             this.panel_menu.Name = "panel_menu";
-            this.panel_menu.Size = new System.Drawing.Size(194, 26);
+            this.panel_menu.Size = new System.Drawing.Size(284, 26);
             this.panel_menu.TabIndex = 0;
             // 
             // button_Delete
@@ -63,7 +63,7 @@
             this.button_Delete.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button_Delete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button_Delete.Image = global::PrjHikariwoAnim.Properties.Resources.delete;
-            this.button_Delete.Location = new System.Drawing.Point(166, 0);
+            this.button_Delete.Location = new System.Drawing.Point(256, 0);
             this.button_Delete.Name = "button_Delete";
             this.button_Delete.Size = new System.Drawing.Size(26, 24);
             this.button_Delete.TabIndex = 4;
@@ -128,16 +128,17 @@
             this.panel_listBase.Location = new System.Drawing.Point(0, 26);
             this.panel_listBase.MinimumSize = new System.Drawing.Size(64, 64);
             this.panel_listBase.Name = "panel_listBase";
-            this.panel_listBase.Size = new System.Drawing.Size(194, 215);
+            this.panel_listBase.Size = new System.Drawing.Size(284, 235);
             this.panel_listBase.TabIndex = 1;
             // 
             // panel_list
             // 
             this.panel_list.AllowDrop = true;
             this.panel_list.BackgroundImage = global::PrjHikariwoAnim.Properties.Resources.Blank;
+            this.panel_list.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_list.Location = new System.Drawing.Point(0, 0);
             this.panel_list.Name = "panel_list";
-            this.panel_list.Size = new System.Drawing.Size(79, 78);
+            this.panel_list.Size = new System.Drawing.Size(284, 235);
             this.panel_list.TabIndex = 1;
             this.panel_list.Click += new System.EventHandler(this.panel_list_Click);
             this.panel_list.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_list_DragDrop);
@@ -152,7 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(194, 241);
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.panel_listBase);
             this.Controls.Add(this.panel_menu);
             this.DoubleBuffered = true;

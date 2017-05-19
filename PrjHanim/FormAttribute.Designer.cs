@@ -386,7 +386,7 @@
             this.textBox_UT.Margin = new System.Windows.Forms.Padding(0);
             this.textBox_UT.Multiline = true;
             this.textBox_UT.Name = "textBox_UT";
-            this.textBox_UT.Size = new System.Drawing.Size(253, 107);
+            this.textBox_UT.Size = new System.Drawing.Size(253, 71);
             this.textBox_UT.TabIndex = 47;
             this.textBox_UT.TextChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
@@ -409,7 +409,7 @@
             this.panel_Attribute_Base.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Attribute_Base.Location = new System.Drawing.Point(0, 0);
             this.panel_Attribute_Base.Name = "panel_Attribute_Base";
-            this.panel_Attribute_Base.Size = new System.Drawing.Size(289, 497);
+            this.panel_Attribute_Base.Size = new System.Drawing.Size(289, 461);
             this.panel_Attribute_Base.TabIndex = 49;
             // 
             // groupBox_Param
@@ -471,7 +471,7 @@
             this.groupBox_Param.Controls.Add(this.UDnumSY);
             this.groupBox_Param.Location = new System.Drawing.Point(12, 12);
             this.groupBox_Param.Name = "groupBox_Param";
-            this.groupBox_Param.Size = new System.Drawing.Size(265, 473);
+            this.groupBox_Param.Size = new System.Drawing.Size(265, 437);
             this.groupBox_Param.TabIndex = 69;
             this.groupBox_Param.TabStop = false;
             this.groupBox_Param.Text = "Parameter";
@@ -860,7 +860,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 497);
+            this.ClientSize = new System.Drawing.Size(289, 461);
             this.Controls.Add(this.panel_Attribute_Base);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(305, 470);
