@@ -518,7 +518,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enMark">挿入可能マーク</param>
         /// <returns>エレメント</returns>
-        public ClsDatElem FindElemFromMark(ELEMENTS_MARK enMark)
+        public ClsDatElem FindElemFromMark(MARK_ELEMENT enMark)
         {
             this.mWorkElem = null;
 

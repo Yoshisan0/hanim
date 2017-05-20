@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    public enum ELEMENTS_MARK
+    public enum MARK_ELEMENT
     {
         NONE,
         UP,

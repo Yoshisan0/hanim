@@ -20,7 +20,7 @@ namespace PrjHikariwoAnim
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
         public Dictionary<TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
-        public ELEMENTS_MARK mInsertMark = ELEMENTS_MARK.NONE;
+        public MARK_ELEMENT mInsertMark = MARK_ELEMENT.NONE;
 
         //以下、ＵＶ値
         public ClsVector2[] mListUV;
@@ -900,7 +900,7 @@ namespace PrjHikariwoAnim
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             //以下、背景を塗る処理
-            if (this.mInsertMark == ELEMENTS_MARK.IN)
+            if (this.mInsertMark == MARK_ELEMENT.IN)
             {
                 //以下、挿入可能エレメント描画処理
                 SolidBrush sb = new SolidBrush(Color.Orange);
@@ -967,7 +967,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、挿入可能ライン描画処理
-            if (this.mInsertMark == ELEMENTS_MARK.UP)
+            if (this.mInsertMark == MARK_ELEMENT.UP)
             {
                 g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
                 g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
@@ -1210,7 +1210,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
         /// <param name="enMark">挿入可能マーク</param>
-        public void FindElemFromMark(ClsDatMotion clMotion, ELEMENTS_MARK enMark)
+        public void FindElemFromMark(ClsDatMotion clMotion, MARK_ELEMENT enMark)
         {
             if (this.mInsertMark == enMark)
             {
@@ -1237,7 +1237,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void ClearInsertMark()
         {
-            this.mInsertMark = ELEMENTS_MARK.NONE;
+            this.mInsertMark = MARK_ELEMENT.NONE;
 
             //以下、子エレメントの挿入マークを消す処理
             int inCnt, inMax = this.mListElem.Count;
@@ -1252,7 +1252,7 @@ namespace PrjHikariwoAnim
         /// 挿入可能マークの設定
         /// </summary>
         /// <param name="enMark">挿入可能マーク</param>
-        public void SetInsertMark(ELEMENTS_MARK enMark)
+        public void SetInsertMark(MARK_ELEMENT enMark)
         {
             this.mInsertMark = enMark;
         }

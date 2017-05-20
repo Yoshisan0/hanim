@@ -940,14 +940,14 @@ namespace PrjHikariwoAnim
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
-                            ELEMENTS_MARK enMark = ELEMENTS_MARK.NONE;
+                            MARK_ELEMENT enMark = MARK_ELEMENT.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
                                 bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
-                                enMark = (isUp) ? ELEMENTS_MARK.UP : ELEMENTS_MARK.IN;
+                                enMark = (isUp) ? MARK_ELEMENT.UP : MARK_ELEMENT.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -958,7 +958,7 @@ namespace PrjHikariwoAnim
                                     clElem = null;
                                 }
 
-                                enMark = ELEMENTS_MARK.IN;
+                                enMark = MARK_ELEMENT.IN;
                             }
 
                             if (clElem != null)
@@ -1011,7 +1011,7 @@ namespace PrjHikariwoAnim
                         bool isHit = false;
 
                         //以下、子供として登録する処理
-                        ClsDatElem clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.IN);
+                        ClsDatElem clElemBase = clMotion.FindElemFromMark(MARK_ELEMENT.IN);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
@@ -1021,7 +1021,7 @@ namespace PrjHikariwoAnim
                         }
 
                         //以下、自分の兄として登録する処理
-                        clElemBase = clMotion.FindElemFromMark(ELEMENTS_MARK.UP);
+                        clElemBase = clMotion.FindElemFromMark(MARK_ELEMENT.UP);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
