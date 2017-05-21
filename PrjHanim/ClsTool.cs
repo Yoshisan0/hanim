@@ -388,13 +388,13 @@ namespace PrjHikariwoAnim
                 clName = "";
                 break;
             case TYPE_OPTION.POSITION:
-                clName = "Position";
+                clName = "Position *";  //親の影響を受けるのでアスタリスクを付ける
                 break;
             case TYPE_OPTION.ROTATION:
-                clName = "Rotation";
+                clName = "Rotation *";  //親の影響を受けるのでアスタリスクを付ける
                 break;
             case TYPE_OPTION.SCALE:
-                clName = "Scale";
+                clName = "Scale *"; //親の影響を受けるのでアスタリスクを付ける
                 break;
             case TYPE_OPTION.OFFSET:
                 clName = "Offset";

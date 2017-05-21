@@ -501,7 +501,7 @@ namespace PrjHikariwoAnim
             {
                 int inFrameNoBefore;
                 int inFrameNoAfter;
-                GetKeyFrameNo(enTypeOption, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+                this.GetKeyFrameNo(enTypeOption, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
                 inFrameNo = inFrameNoBefore;
             }
 
@@ -828,51 +828,83 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clGL">OpenGLコンポーネント</param>
         /// <param name="inFrameNo">フレーム番号</param>
-        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo, int inMaxFrameNum)
+        /// <param name="clParamParent">親のパラメータ</param>
+        /// <param name="pflMatParent">親のマトリクス</param>
+        public void DrawPreview(ComponentOpenGL clGL, int inFrameNo, int inMaxFrameNum, ClsParam clParamParent, float[] pflMatParent)
         {
+            ClsParam clParamMe = new ClsParam();
+            float[] pflMatMe = new float[16];
+
             //以下、現在の値をかき集めてまとめる処理
-            ClsParam clParam = this.GetParamNow(inFrameNo, inMaxFrameNum);
+            ClsParam clParamNow = this.GetParamNow(inFrameNo, inMaxFrameNum);
+
+            //以下、親元のパラメータとミックスする処理
+            clParamMe.mDisplay = clParamNow.mDisplay;   //表示フラグ
+
+            clParamMe.mX = clParamNow.mX;   //Ｘ座標（常に有効）
+            clParamMe.mY = clParamNow.mY;   //Ｙ座標（常に有効）
+
+            clParamMe.mRZ = clParamNow.mRZ; //回転値
+
+            clParamMe.mSX = clParamNow.mSX; //スケールＸ
+            clParamMe.mSY = clParamNow.mSY; //スケールＹ
+
+            clParamMe.mCX = clParamNow.mCX; //オフセットＸ座標
+            clParamMe.mCY = clParamNow.mCY; //オフセットＹ座標
+
+            clParamMe.mFlipH = clParamNow.mFlipH; //水平反転フラグ
+
+            clParamMe.mFlipV = clParamNow.mFlipV; //垂直反転フラグ
+
+            int inTrans = clParamNow.mTrans;    //透明透明値0～255
+            if (inTrans < 0) inTrans = 0;
+            if (inTrans > 255) inTrans = 255;
+            clParamMe.mTrans = inTrans;
+
+            int inR = (clParamNow.mColor & 0x00FF0000) >> 16;
+            int inG = (clParamNow.mColor & 0x0000FF00) >> 8;
+            int inB = (clParamNow.mColor & 0x000000FF);
+            if (inR < 0) inR = 0;
+            if (inR > 255) inR = 255;
+            if (inG < 0) inG = 0;
+            if (inG > 255) inG = 255;
+            if (inB < 0) inB = 0;
+            if (inB > 255) inB = 255;
+            clParamMe.mColor = (inR << 16) | (inG << 8) | inB;    //マテリアルカラー値（α無し RGBのみ）
+
+            //以下、マテリアル設定
+            clGL.SetMaterial(clParamMe);
+
+            //以下、マトリクス設定
+            pflMatMe = clGL.SetElemMatrix(clParamMe, pflMatParent);
 
             //以下、表示チェック処理
-            if (!clParam.mDisplay) return;
-
-            //以下、ポリゴン描画処理
-            ClsDatImage clImage = ClsSystem.GetImage(this.mImageKey);
-            if (clImage != null)
+            if (clParamMe.mDisplay)
             {
-                //以下、テクスチャー設定
-                clGL.SetTexture(clImage.mListTex[0]);
+                //以下、ポリゴン描画処理
+                ClsDatImage clImage = ClsSystem.GetImage(this.mImageKey);
+                if (clImage != null)
+                {
+                    //以下、テクスチャー設定
+                    clGL.SetTexture(clImage.mListTex[0]);
 
-                //以下、パラメーター設定
-                clGL.SetParam(clParam);
-                Console.WriteLine("x=" + clParam.mX + " y=" + clParam.mY);
+                    //以下、ポリゴン描画
+                    float flCX = clParamMe.mCX;
+                    float flCY = clParamMe.mCY;
 
-                //以下、ポリゴン描画
-                float flCX = 0.0f;
-                float flCY = 0.0f;
-                if (clParam.mExistOffsetOption)
-                {
-                    flCX = clParam.mCX;
-                    flCY = clParam.mCY;
-                }
-
-                float flWidth = clImage.mImgOrigin.Width;
-                float flHeight = clImage.mImgOrigin.Height;
-                bool isFlipH = false;
-                bool isFlipV = false;
-                if (clParam.mExistFlipOption)
-                {
-                    isFlipH = clParam.mFlipH;
-                    isFlipV = clParam.mFlipV;
-                }
-                if (clImage.mRect == null)
-                {
-                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
-                }
-                else
-                {
-                    //UVカットして表示する
-                    clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
+                    float flWidth = clImage.mImgOrigin.Width;
+                    float flHeight = clImage.mImgOrigin.Height;
+                    bool isFlipH = clParamMe.mFlipH;
+                    bool isFlipV = clParamMe.mFlipV;
+                    if (clImage.mRect == null)
+                    {
+                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
+                    }
+                    else
+                    {
+                        //UVカットして表示する
+                        clGL.DrawPolygon(this.mListUV, flCX, flCY, flWidth, flHeight, isFlipH, isFlipV);
+                    }
                 }
             }
 
@@ -881,7 +913,7 @@ namespace PrjHikariwoAnim
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum);
+                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum, clParamMe, pflMatMe);
             }
         }
 

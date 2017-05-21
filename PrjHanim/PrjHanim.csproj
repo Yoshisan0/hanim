@@ -139,6 +139,9 @@
     <Compile Include="ComponentOpenGL.Designer.cs">
       <DependentUpon>ComponentOpenGL.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ComponentOpenGL.resx">
+      <DependentUpon>ComponentOpenGL.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAttribute.resx">
       <DependentUpon>FormAttribute.cs</DependentUpon>
     </EmbeddedResource>

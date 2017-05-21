@@ -80,7 +80,7 @@
             this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel.Location = new System.Drawing.Point(0, 0);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(611, 164);
+            this.panel.Size = new System.Drawing.Size(584, 126);
             this.panel.TabIndex = 6;
             this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
             // 
@@ -90,7 +90,7 @@
             this.panel_Image.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_Image.Location = new System.Drawing.Point(0, 0);
             this.panel_Image.Name = "panel_Image";
-            this.panel_Image.Size = new System.Drawing.Size(609, 162);
+            this.panel_Image.Size = new System.Drawing.Size(582, 124);
             this.panel_Image.TabIndex = 0;
             this.panel_Image.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Image_Paint);
             this.panel_Image.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Image_MouseDown);
@@ -109,7 +109,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 32);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(611, 0);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(584, 0);
             this.flowLayoutPanel1.TabIndex = 17;
             // 
             // panel_Menu
@@ -122,13 +122,13 @@
             this.panel_Menu.Location = new System.Drawing.Point(0, 0);
             this.panel_Menu.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Menu.Name = "panel_Menu";
-            this.panel_Menu.Size = new System.Drawing.Size(611, 32);
+            this.panel_Menu.Size = new System.Drawing.Size(584, 32);
             this.panel_Menu.TabIndex = 1;
             // 
             // button_Divid
             // 
             this.button_Divid.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_Divid.Location = new System.Drawing.Point(483, 0);
+            this.button_Divid.Location = new System.Drawing.Point(456, 0);
             this.button_Divid.Name = "button_Divid";
             this.button_Divid.Size = new System.Drawing.Size(53, 32);
             this.button_Divid.TabIndex = 30;
@@ -142,7 +142,7 @@
             this.button_Cut.Dock = System.Windows.Forms.DockStyle.Right;
             this.button_Cut.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_Cut.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button_Cut.Location = new System.Drawing.Point(536, 0);
+            this.button_Cut.Location = new System.Drawing.Point(509, 0);
             this.button_Cut.Name = "button_Cut";
             this.button_Cut.Size = new System.Drawing.Size(75, 32);
             this.button_Cut.TabIndex = 29;
@@ -343,8 +343,8 @@
             this.splitContainerBase.Panel2.AutoScroll = true;
             this.splitContainerBase.Panel2.Controls.Add(this.panel_CellList);
             this.splitContainerBase.Panel2.Resize += new System.EventHandler(this.splitContainerBase_Panel2_Resize);
-            this.splitContainerBase.Size = new System.Drawing.Size(611, 259);
-            this.splitContainerBase.SplitterDistance = 164;
+            this.splitContainerBase.Size = new System.Drawing.Size(584, 199);
+            this.splitContainerBase.SplitterDistance = 126;
             this.splitContainerBase.TabIndex = 18;
             // 
             // panel_CellList
@@ -354,7 +354,7 @@
             this.panel_CellList.Location = new System.Drawing.Point(0, 0);
             this.panel_CellList.Margin = new System.Windows.Forms.Padding(0);
             this.panel_CellList.Name = "panel_CellList";
-            this.panel_CellList.Size = new System.Drawing.Size(611, 91);
+            this.panel_CellList.Size = new System.Drawing.Size(584, 69);
             this.panel_CellList.TabIndex = 7;
             this.panel_CellList.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_CellList_Paint);
             this.panel_CellList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_CellList_MouseUp);
@@ -366,9 +366,9 @@
             this.panel2.Controls.Add(this.button_CellDelete);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 291);
+            this.panel2.Location = new System.Drawing.Point(0, 231);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(611, 30);
+            this.panel2.Size = new System.Drawing.Size(584, 30);
             this.panel2.TabIndex = 6;
             // 
             // button_CellSave
@@ -406,7 +406,7 @@
             this.panel3.Controls.Add(this.button_Cancel);
             this.panel3.Controls.Add(this.button_OK);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(447, 0);
+            this.panel3.Location = new System.Drawing.Point(420, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(164, 30);
             this.panel3.TabIndex = 0;
@@ -436,7 +436,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(611, 321);
+            this.ClientSize = new System.Drawing.Size(584, 261);
             this.Controls.Add(this.splitContainerBase);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.flowLayoutPanel1);

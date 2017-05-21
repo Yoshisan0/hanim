@@ -341,25 +341,92 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// マトリクス設定処理
+        /// マテリアル設定
         /// </summary>
-        /// <param name="clParam">各パラメーター管理クラス</param>
-        public void SetParam(ClsParam clParam)
+        /// <param name="clParam"></param>
+        public void SetMaterial(ClsParam clParam)
         {
-            Gl.glLoadIdentity();
-
             //以下、マテリアル色設定
-            float flAlpha = 1.0f;
-            if (clParam.mExistTransOption) flAlpha = clParam.mTrans / 255.0f;
-            Color stColor = Color.White;
-            if (clParam.mExistColorOption) stColor = Color.FromArgb(clParam.mColor);
+            float flAlpha = clParam.mTrans / 255.0f;
+            Color stColor = Color.FromArgb(clParam.mColor);
             Gl.glColor4f(stColor.R / 255.0f, stColor.G / 255.0f, stColor.B / 255.0f, flAlpha);
+        }
+
+        /*
+        /// <summary>
+        /// マトリクス初期化処理
+        /// </summary>
+        /// <param name="pflMat">マトリクス</param>
+        public void InitMatrix(float[] pflMat)
+        {
+            //以下、マトリクス初期化処理
+            Gl.glLoadMatrixf(pflMat);
 
             //以下、ワールド座標設定
             Gl.glTranslatef(this.mCenterX, this.mCenterY, 0.0f);
 
             //以下、ワールドスケール設定
             Gl.glScalef(this.mScale, this.mScale, 1.0f);
+        }
+
+        /// <summary>
+        /// マトリクス設定処理
+        /// </summary>
+        /// <param name="clParam">各パラメーター管理クラス</param>
+        public void SetElemMatrix(ClsParam clParam)
+        {
+            //以下、ローカル座標設定
+            float flX = clParam.mX;
+            float flY = clParam.mY;
+            Gl.glTranslatef(flX, flY, 0.0f);
+
+            //以下、ローカル回転設定
+            float flRZ = clParam.mRZ;
+            Gl.glRotatef(flRZ, 0.0f, 0.0f, 1.0f);
+
+            //以下、ローカルスケール設定
+            float flSX = clParam.mSX;
+            float flSY = clParam.mSY;
+            Gl.glScalef(flSX, flSY, 1.0f);
+        }
+        */
+
+        /// <summary>
+        /// マトリクス初期化処理
+        /// </summary>
+        /// <returns>マトリクス</returns>
+        public float[] InitElemMatrix()
+        {
+            float[] pflMat = new float[16];
+
+            //以下、マトリクス初期化処理
+            Gl.glLoadIdentity();
+
+            //以下、移動設定処理
+            Gl.glTranslatef(this.mCenterX, this.mCenterY, 0.0f);
+
+            //以下、スケール設定処理
+            Gl.glScalef(this.mScale, this.mScale, 1.0f);
+
+            //以下、マトリクス取得処理
+            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, pflMat);
+
+            return (pflMat);
+        }
+
+        /// <summary>
+        /// マトリクス設定処理
+        /// </summary>
+        /// <param name="clParam">各パラメーター管理クラス</param>
+        public float[] SetElemMatrix(ClsParam clParam, float[] pflMatBase)
+        {
+            float[] pflMat = new float[16];
+
+            //以下、マトリクス初期化処理
+            Gl.glLoadIdentity();
+
+            //以下、親のマトリクス設定
+            Gl.glLoadMatrixf(pflMatBase);
 
             //以下、ローカル座標設定
             float flX = clParam.mX;
@@ -367,22 +434,18 @@ namespace PrjHikariwoAnim
             Gl.glTranslatef(flX, flY, 0.0f);
 
             //以下、ローカル回転設定
-            float flRZ = 0.0f;
-            if (clParam.mExistRotationOption)
-            {
-                flRZ = clParam.mRZ;
-            }
+            float flRZ = clParam.mRZ;
             Gl.glRotatef(flRZ, 0.0f, 0.0f, 1.0f);
 
             //以下、ローカルスケール設定
-            float flSX = 1.0f;
-            float flSY = 1.0f;
-            if (clParam.mExistScaleOption)
-            {
-                flSX = clParam.mSX;
-                flSY = clParam.mSY;
-            }
+            float flSX = clParam.mSX;
+            float flSY = clParam.mSY;
             Gl.glScalef(flSX, flSY, 1.0f);
+
+            //以下、マトリクス取得処理
+            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, pflMat);
+
+            return (pflMat);
         }
 
         /// <summary>

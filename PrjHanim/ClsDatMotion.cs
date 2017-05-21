@@ -324,12 +324,16 @@ namespace PrjHikariwoAnim
         /// <param name="inMaxFrameNum">フレーム数</param>
         public void DrawPreview(ComponentOpenGL clGL, int inFrameNo, int inMaxFrameNum)
         {
-            //以下、エレメント描画処理
             int inCnt, inMax = this.mListElem.Count;
             for (inCnt = 0; inCnt < inMax; inCnt++)
             {
+                //以下、マトリクス初期化処理
+                float[] pflMat = clGL.InitElemMatrix();
+
+                //以下、エレメント描画処理
                 ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum);
+                ClsParam clParam = new ClsParam();
+                clElem.DrawPreview(clGL, inFrameNo, inMaxFrameNum, clParam, pflMat);
             }
         }
 
