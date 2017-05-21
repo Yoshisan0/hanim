@@ -47,9 +47,12 @@ namespace PrjHikariwoAnim
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.DISPLAY);
+            object clValue1 = ClsParam.GetDefaultValue1(TYPE_OPTION.DISPLAY);
             object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
-            this.SetOption(TYPE_OPTION.DISPLAY, true, clValue2);
-            this.SetOption(TYPE_OPTION.POSITION, flX, flY);
+            this.SetOption(TYPE_OPTION.DISPLAY, isParentFlag, clValue1, clValue2);
+            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
+            this.SetOption(TYPE_OPTION.POSITION, isParentFlag, flX, flY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -242,7 +245,8 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, null, null);
+                    bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.NONE);
+                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, isParentFlag, null, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -401,9 +405,10 @@ namespace PrjHikariwoAnim
         /// オプション追加・更新処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
+        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue">値１</param>
         /// <param name="clValue">値２</param>
-        public void SetOption(TYPE_OPTION enTypeOption, object clValue1, object clValue2)
+        public void SetOption(TYPE_OPTION enTypeOption, bool isParentFlag, object clValue1, object clValue2)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -412,12 +417,13 @@ namespace PrjHikariwoAnim
                 ClsDatOption clOption = this.mDicOption[enTypeOption];
                 ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(0);
                 if (enTypeOption != clKeyFrame.mTypeOption) throw new Exception("type error.");
+                clKeyFrame.mParentFlag = isParentFlag;
                 clKeyFrame.mValue1 = clValue1;
                 clKeyFrame.mValue2 = clValue2;
             }
             else
             {
-                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, clValue1, clValue2);
+                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, isParentFlag, clValue1, clValue2);
             }
         }
 
@@ -485,10 +491,12 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="inFrameNo">フレーム番号</param>
         /// <param name="inMaxFrameNum">フレーム数</param>
+        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        private void GetOptionValueNow(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNum, out object clValue1, out object clValue2)
+        private void GetOptionValueNow(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isParentFlag, out object clValue1, out object clValue2)
         {
+            isParentFlag = ClsParam.GetDefaultParentFlag(enTypeOption);
             clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
 
@@ -506,6 +514,7 @@ namespace PrjHikariwoAnim
             }
 
             ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
+            isParentFlag = clKeyFrame.mParentFlag;
             clValue1 = clKeyFrame.mValue1;
             clValue2 = clKeyFrame.mValue2;
         }
@@ -770,54 +779,63 @@ namespace PrjHikariwoAnim
         public ClsParam GetParamNow(int inFrameNo, int inMaxFrameNum)
         {
             ClsParam clParam = new ClsParam();
+            bool isParentFlag;
             object clValue1;
             object clValue2;
 
-            clParam.mExistDisplayKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.DISPLAY, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.DISPLAY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableDisplayKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.DISPLAY, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.DISPLAY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableDisplayParent = isParentFlag;
             clParam.mDisplay = Convert.ToBoolean(clValue1);
 
-            clParam.mExistPositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.POSITION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnablePositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.POSITION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnablePositionParent = isParentFlag;
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
 
-            clParam.mExistRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
-            clParam.mExistRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.ROTATION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
+            clParam.mEnableRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.ROTATION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableRotationParent = isParentFlag;
             clParam.mRZ = Convert.ToSingle(clValue1);
 
-            clParam.mExistScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
-            clParam.mExistScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.SCALE, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
+            clParam.mEnableScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.SCALE, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableScaleParent = isParentFlag;
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
 
-            clParam.mExistOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
-            clParam.mExistOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.OFFSET, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
+            clParam.mEnableOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.OFFSET, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableOffsetParent = isParentFlag;
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
 
-            clParam.mExistFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
-            clParam.mExistFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.FLIP, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
+            clParam.mEnableFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.FLIP, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableFlipParent = isParentFlag;
             clParam.mFlipH = Convert.ToBoolean(clValue1);
             clParam.mFlipV = Convert.ToBoolean(clValue2);
 
-            clParam.mExistTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
-            clParam.mExistTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.TRANSPARENCY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
+            clParam.mEnableTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableTransParent = isParentFlag;
             clParam.mTrans = Convert.ToInt32(clValue1);
 
-            clParam.mExistColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
-            clParam.mExistColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.COLOR, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
+            clParam.mEnableColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.COLOR, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableColorParent = isParentFlag;
             clParam.mColor = Convert.ToInt32(clValue1);
 
-            clParam.mExistUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
-            clParam.mExistUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.USER_DATA, inFrameNo, inMaxFrameNum, out clValue1, out clValue2);
+            clParam.mEnableUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
+            clParam.mEnableUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
+            this.GetOptionValueNow(TYPE_OPTION.USER_DATA, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);
@@ -1063,14 +1081,47 @@ namespace PrjHikariwoAnim
                 }
             }
 
+            //以下、フレームの背景（親の影響を受けるかどうかと、Tweenの影響下にあるかどうか）を表示する処理
+            bool isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+            if (isExist)
+            {
+                ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
+
+                Color stColorParent = Color.FromArgb(128, Color.LightPink);
+                SolidBrush clBrushParent = new SolidBrush(stColorParent);
+                Color stColorTween = Color.FromArgb(128, Color.LightBlue);
+                SolidBrush clBrushTween = new SolidBrush(stColorTween);
+                bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.DISPLAY);
+                int inFrameNo = 0;
+                for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+                {
+                    ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
+                    if(clKeyFrame!= null)
+                    {
+                        isParentFlag = clKeyFrame.mParentFlag;
+                    }
+
+                    if (isParentFlag)
+                    {
+                        inX = inFrameNo * FormControl.CELL_WIDTH;
+                        inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                        g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                    }
+                }
+            }
+
             //以下、選択中のフレーム描画処理
+            inX = inSelectFrameNo * FormControl.CELL_WIDTH;
+            inY = this.mLineNo * FormControl.CELL_HEIGHT;
             if (inSelectLineNo == this.mLineNo)
             {
-                clBrush = new SolidBrush(Color.Green);
+                Color stColor = Color.FromArgb(128, Color.Green);
+                clBrush = new SolidBrush(stColor);
             }
             else
             {
-                clBrush = new SolidBrush(Color.DarkGreen);
+                Color stColor = Color.FromArgb(128, Color.DarkGreen);
+                clBrush = new SolidBrush(stColor);
             }
             g.FillRectangle(clBrush, inX, inY, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT);
 
@@ -1079,18 +1130,15 @@ namespace PrjHikariwoAnim
             inY = this.mLineNo * FormControl.CELL_HEIGHT + FormControl.CELL_HEIGHT - 1;
             g.DrawLine(clPen, 0, inY, inWidth, inY);
 
-            //以下、0フレーム目のマーカー表示処理
-            g.DrawImage(Properties.Resources.markRed, 2, this.mLineNo * FormControl.CELL_HEIGHT + 1);
-
             //以下、DISPLAYオプション表示処理
             int inCnt, inMax;
-            bool isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+            isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
             if (isExist)
             {
                 ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
                 if (clOption != null)
                 {
-                    for(inCnt= 0;inCnt< inMaxFrameNum; inCnt++)
+                    for (inCnt = 0; inCnt < inMaxFrameNum; inCnt++)
                     {
                         ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inCnt);
                         if (clKeyFrame == null) continue;
@@ -1108,7 +1156,7 @@ namespace PrjHikariwoAnim
                     isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
-                    clOption.DrawTime(g, inSelectLineNo, inSelectFrameNo, inWidth, inHeight);
+                    clOption.DrawTime(g, inSelectLineNo, inSelectFrameNo, inMaxFrameNum, inWidth, inHeight);
                 }
             }
 

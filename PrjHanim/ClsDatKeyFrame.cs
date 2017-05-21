@@ -8,6 +8,7 @@ namespace PrjHikariwoAnim
     public class ClsDatKeyFrame
     {
         public int mFrameNo;            //フレームNo
+        public bool mParentFlag;        //親の設定に依存するかどうかのフラグ
         public ClsDatTween mTween;      //トゥイーン管理クラス
         public TYPE_OPTION mTypeOption; //オプションタイプ
         public object mValue1;          //値（何の値かはタイプに依存する）
@@ -18,12 +19,15 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inFrame">フレームNo</param>
+        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public ClsDatKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo, object clValue1, object clValue2)
+        public ClsDatKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo, bool isParentFlag, object clValue1, object clValue2)
         {
-            this.mTypeOption = enTypeOption;
             this.mFrameNo = inFrameNo;
+            this.mParentFlag = isParentFlag;
+            this.mTween = null;
+            this.mTypeOption = enTypeOption;
             this.mValue1 = clValue1;
             this.mValue2 = clValue2;
         }

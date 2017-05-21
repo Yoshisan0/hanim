@@ -863,9 +863,10 @@ namespace PrjHikariwoAnim
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
             TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(enTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-            clElem.SetOption(enTypeOption, clValue1, clValue2);
+            clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2);
 
             //以下、行番号振り直し処理
             clMotion.Assignment();
@@ -1062,10 +1063,11 @@ namespace PrjHikariwoAnim
             if (clOption == null) return;
 
             //以下、キーフレーム作成・更新処理
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(clOption.mTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(clOption.mTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(clOption.mTypeOption);
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, clValue1, clValue2);
-            clOption.SetKeyFrame(inIndex, clValue1, clValue2);  //存在していたら更新、存在していなかったら追加
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2);
+            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2);  //存在していたら更新、存在していなかったら追加
 
             //以下、コントロール更新処理
             this.RefreshControl();

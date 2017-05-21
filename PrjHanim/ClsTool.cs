@@ -333,6 +333,11 @@ namespace PrjHikariwoAnim
             return ("");
         }
 
+        /// <summary>
+        /// 辞書をJsonに変更する処理
+        /// </summary>
+        /// <param name="clDic">辞書</param>
+        /// <returns>Json</returns>
         public static string DictionaryToJson(Dictionary<string, object> clDic)
         {
             string clJsonData = "";
@@ -388,13 +393,13 @@ namespace PrjHikariwoAnim
                 clName = "";
                 break;
             case TYPE_OPTION.POSITION:
-                clName = "Position *";  //親の影響を受けるのでアスタリスクを付ける
+                clName = "Position";
                 break;
             case TYPE_OPTION.ROTATION:
-                clName = "Rotation *";  //親の影響を受けるのでアスタリスクを付ける
+                clName = "Rotation";
                 break;
             case TYPE_OPTION.SCALE:
-                clName = "Scale *"; //親の影響を受けるのでアスタリスクを付ける
+                clName = "Scale";
                 break;
             case TYPE_OPTION.OFFSET:
                 clName = "Offset";
@@ -479,86 +484,140 @@ namespace PrjHikariwoAnim
 
     public class ClsParam
     {
-        public bool mExistDisplayKeyFrame;  //表示キーフレーム存在フラグ
-        public bool mDisplay;               //表示フラグ
+        public bool mEnableDisplayKeyFrame;     //表示キーフレーム存在フラグ
+        public bool mEnableDisplayParent;       //親の設定依存フラグ
+        public bool mDisplay;                   //表示フラグ
 
-        public bool mExistPositionKeyFrame; //座標キーフレーム存在フラグ
-        public float mX;                    //Ｘ座標（常に有効）
-        public float mY;                    //Ｙ座標（常に有効）
+        public bool mEnablePositionKeyFrame;    //座標キーフレーム存在フラグ
+        public bool mEnablePositionParent;      //親の設定依存フラグ
+        public float mX;                        //Ｘ座標（常に有効）
+        public float mY;                        //Ｙ座標（常に有効）
 
-        public bool mExistRotationOption;   //回転オプション存在フラグ
-        public bool mExistRotationKeyFrame; //回転キーフレーム存在フラグ
-        public float mRZ;                   //回転値
+        public bool mEnableRotationOption;      //回転オプション存在フラグ
+        public bool mEnableRotationKeyFrame;    //回転キーフレーム存在フラグ
+        public bool mEnableRotationParent;      //親の設定依存フラグ
+        public float mRZ;                       //回転値
 
-        public bool mExistScaleOption;      //スケールオプション存在フラグ
-        public bool mExistScaleKeyFrame;    //スケールキーフレーム存在フラグ
-        public float mSX;                   //スケールＸ
-        public float mSY;                   //スケールＹ
+        public bool mEnableScaleOption;         //スケールオプション存在フラグ
+        public bool mEnableScaleKeyFrame;       //スケールキーフレーム存在フラグ
+        public bool mEnableScaleParent;         //親の設定依存フラグ
+        public float mSX;                       //スケールＸ
+        public float mSY;                       //スケールＹ
 
-        public bool mExistOffsetOption;     //オフセットオプション存在フラグ
-        public bool mExistOffsetKeyFrame;   //オフセットキーフレーム存在フラグ
-        public float mCX;                   //オフセットＸ座標
-        public float mCY;                   //オフセットＹ座標
+        public bool mEnableOffsetOption;        //オフセットオプション存在フラグ
+        public bool mEnableOffsetKeyFrame;      //オフセットキーフレーム存在フラグ
+        public bool mEnableOffsetParent;        //親の設定依存フラグ
+        public float mCX;                       //オフセットＸ座標
+        public float mCY;                       //オフセットＹ座標
 
-        public bool mExistFlipOption;       //反転オプション存在フラグ
-        public bool mExistFlipKeyFrame;     //反転キーフレーム存在フラグ
-        public bool mFlipH;                 //水平反転フラグ
-        public bool mFlipV;                 //垂直反転フラグ
+        public bool mEnableFlipOption;          //反転オプション存在フラグ
+        public bool mEnableFlipKeyFrame;        //反転キーフレーム存在フラグ
+        public bool mEnableFlipParent;          //親の設定依存フラグ
+        public bool mFlipH;                     //水平反転フラグ
+        public bool mFlipV;                     //垂直反転フラグ
 
-        public bool mExistTransOption;      //透明オプション存在フラグ
-        public bool mExistTransKeyFrame;    //透明キーフレーム存在フラグ
-        public int mTrans;                  //透明透明値0～255
+        public bool mEnableTransOption;         //透明オプション存在フラグ
+        public bool mEnableTransKeyFrame;       //透明キーフレーム存在フラグ
+        public bool mEnableTransParent;         //親の設定依存フラグ
+        public int mTrans;                      //透明透明値0～255
 
-        public bool mExistColorOption;      //マテリアルカラーオプション存在フラグ
-        public bool mExistColorKeyFrame;    //マテリアルカラーキーフレーム存在フラグ
-        public int mColor;                  //マテリアルカラー値（α無し RGBのみ）
+        public bool mEnableColorOption;         //マテリアルカラーオプション存在フラグ
+        public bool mEnableColorKeyFrame;       //マテリアルカラーキーフレーム存在フラグ
+        public bool mEnableColorParent;         //親の設定依存フラグ
+        public int mColor;                      //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mExistUserDataOption;   //ユーザーデータオプション存在フラグ
-        public bool mExistUserDataKeyFrame; //ユーザーデータキーフレーム存在フラグ
-        public string mUserData;            //ユーザーデータ
+        public bool mEnableUserDataOption;      //ユーザーデータオプション存在フラグ
+        public bool mEnableUserDataKeyFrame;    //ユーザーデータキーフレーム存在フラグ
+        public string mUserData;                //ユーザーデータ
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ClsParam()
         {
-            this.mExistDisplayKeyFrame = false;
+            this.mEnableDisplayKeyFrame = false;
             this.mDisplay = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.DISPLAY);
 
-            this.mExistPositionKeyFrame = false;
+            this.mEnablePositionKeyFrame = false;
             this.mX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_X);
             this.mY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_Y);
 
-            this.mExistRotationOption = false;
-            this.mExistRotationKeyFrame = false;
+            this.mEnableRotationOption = false;
+            this.mEnableRotationKeyFrame = false;
             this.mRZ = (float)ClsParam.GetDefaultValue(TYPE_PARAM.ROTATION_Z);
 
-            this.mExistScaleOption = false;
-            this.mExistScaleKeyFrame = false;
+            this.mEnableScaleOption = false;
+            this.mEnableScaleKeyFrame = false;
             this.mSX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_X);
             this.mSY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_Y);
 
-            this.mExistOffsetOption = false;
-            this.mExistOffsetKeyFrame = false;
+            this.mEnableOffsetOption = false;
+            this.mEnableOffsetKeyFrame = false;
             this.mCX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_X);
             this.mCY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_Y);
 
-            this.mExistFlipOption = false;
-            this.mExistFlipKeyFrame = false;
+            this.mEnableFlipOption = false;
+            this.mEnableFlipKeyFrame = false;
             this.mFlipH = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_HORIZONAL);
             this.mFlipV = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_VERTICAL);
 
-            this.mExistTransOption = false;
-            this.mExistTransKeyFrame = false;
+            this.mEnableTransOption = false;
+            this.mEnableTransKeyFrame = false;
             this.mTrans = (int)ClsParam.GetDefaultValue(TYPE_PARAM.TRANSPARENCY);
 
-            this.mExistColorOption = false;
-            this.mExistColorKeyFrame = false;
+            this.mEnableColorOption = false;
+            this.mEnableColorKeyFrame = false;
             this.mColor = (int)ClsParam.GetDefaultValue(TYPE_PARAM.COLOR);
 
-            this.mExistUserDataOption = false;
-            this.mExistUserDataKeyFrame = false;
+            this.mEnableUserDataOption = false;
+            this.mEnableUserDataKeyFrame = false;
             this.mUserData = (string)ClsParam.GetDefaultValue(TYPE_PARAM.USER_DATA);
+        }
+
+        /// <summary>
+        /// デフォルトの親に影響を受けるかどうか
+        /// </summary>
+        /// <param name="enTypeOption">オプションタイプ</param>
+        /// <returns>デフォルトの値</returns>
+        public static bool GetDefaultParentFlag(TYPE_OPTION enTypeOption)
+        {
+            bool isParent = false;
+
+            switch (enTypeOption)
+            {
+            case TYPE_OPTION.NONE:
+                isParent = false;
+                break;
+            case TYPE_OPTION.DISPLAY:
+                isParent = true;
+                break;
+            case TYPE_OPTION.POSITION:
+                isParent = true;
+                break;
+            case TYPE_OPTION.ROTATION:
+                isParent = true;
+                break;
+            case TYPE_OPTION.SCALE:
+                isParent = true;
+                break;
+            case TYPE_OPTION.OFFSET:
+                isParent = false;
+                break;
+            case TYPE_OPTION.FLIP:
+                isParent = true;
+                break;
+            case TYPE_OPTION.TRANSPARENCY:
+                isParent = true;
+                break;
+            case TYPE_OPTION.COLOR:
+                isParent = false;
+                break;
+            case TYPE_OPTION.USER_DATA:
+                isParent = false;
+                break;
+            }
+
+            return (isParent);
         }
 
         /// <summary>
