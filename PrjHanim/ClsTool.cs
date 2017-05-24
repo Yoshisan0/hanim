@@ -489,18 +489,15 @@ namespace PrjHikariwoAnim
         public bool mDisplay;                   //表示フラグ
 
         public bool mEnablePositionKeyFrame;    //座標キーフレーム存在フラグ
-        public bool mEnablePositionParent;      //親の設定依存フラグ
         public float mX;                        //Ｘ座標（常に有効）
         public float mY;                        //Ｙ座標（常に有効）
 
         public bool mEnableRotationOption;      //回転オプション存在フラグ
         public bool mEnableRotationKeyFrame;    //回転キーフレーム存在フラグ
-        public bool mEnableRotationParent;      //親の設定依存フラグ
         public float mRZ;                       //回転値
 
         public bool mEnableScaleOption;         //スケールオプション存在フラグ
         public bool mEnableScaleKeyFrame;       //スケールキーフレーム存在フラグ
-        public bool mEnableScaleParent;         //親の設定依存フラグ
         public float mSX;                       //スケールＸ
         public float mSY;                       //スケールＹ
 

@@ -790,20 +790,17 @@ namespace PrjHikariwoAnim
 
             clParam.mEnablePositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
             this.GetOptionValueNow(TYPE_OPTION.POSITION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
-            clParam.mEnablePositionParent = isParentFlag;
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
 
             clParam.mEnableRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
             clParam.mEnableRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
             this.GetOptionValueNow(TYPE_OPTION.ROTATION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
-            clParam.mEnableRotationParent = isParentFlag;
             clParam.mRZ = Convert.ToSingle(clValue1);
 
             clParam.mEnableScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
             clParam.mEnableScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
             this.GetOptionValueNow(TYPE_OPTION.SCALE, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
-            clParam.mEnableScaleParent = isParentFlag;
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
 
@@ -856,39 +853,109 @@ namespace PrjHikariwoAnim
             //以下、現在の値をかき集めてまとめる処理
             ClsParam clParamNow = this.GetParamNow(inFrameNo, inMaxFrameNum);
 
-            //以下、親元のパラメータとミックスする処理
-            clParamMe.mDisplay = clParamNow.mDisplay;   //表示フラグ
+            //以下、表示フラグ設定
+            if (clParamNow.mEnableDisplayParent)
+            {
+                clParamMe.mDisplay = clParamParent.mDisplay & clParamNow.mDisplay;
+            }
+            else
+            {
+                clParamMe.mDisplay = clParamNow.mDisplay;   
+            }
 
-            clParamMe.mX = clParamNow.mX;   //Ｘ座標（常に有効）
-            clParamMe.mY = clParamNow.mY;   //Ｙ座標（常に有効）
+            //以下、座標設定
+            clParamMe.mX = clParamNow.mX;
+            clParamMe.mY = clParamNow.mY;
 
-            clParamMe.mRZ = clParamNow.mRZ; //回転値
+            //以下、回転値設定
+            clParamMe.mRZ = clParamNow.mRZ;
 
-            clParamMe.mSX = clParamNow.mSX; //スケールＸ
-            clParamMe.mSY = clParamNow.mSY; //スケールＹ
+            //以下、スケール値設定
+            clParamMe.mSX = clParamNow.mSX;
+            clParamMe.mSY = clParamNow.mSY;
 
-            clParamMe.mCX = clParamNow.mCX; //オフセットＸ座標
-            clParamMe.mCY = clParamNow.mCY; //オフセットＹ座標
+            //以下、オフセット設定
+            if (clParamNow.mEnableOffsetParent)
+            {
+                clParamMe.mCX = clParamParent.mCX + clParamNow.mCX;
+                clParamMe.mCY = clParamParent.mCY + clParamNow.mCY;
+            }
+            else
+            {
+                clParamMe.mCX = clParamNow.mCX;
+                clParamMe.mCY = clParamNow.mCY;
+            }
 
-            clParamMe.mFlipH = clParamNow.mFlipH; //水平反転フラグ
+            //以下、反転フラグ設定
+            if (clParamNow.mEnableFlipParent)
+            {
+                clParamMe.mFlipH = clParamParent.mFlipH;
+                clParamMe.mFlipV = clParamParent.mFlipV;
+            }
+            else
+            {
+                clParamMe.mFlipH = clParamNow.mFlipH;
+                clParamMe.mFlipV = clParamNow.mFlipV;
+            }
 
-            clParamMe.mFlipV = clParamNow.mFlipV; //垂直反転フラグ
-
-            int inTrans = clParamNow.mTrans;    //透明透明値0～255
+            //以下、透明値設定
+            int inTrans = 255;
+            if (clParamNow.mEnableTransParent)
+            {
+                inTrans = clParamParent.mTrans;
+            }
+            else
+            {
+                inTrans = clParamNow.mTrans;
+            }
             if (inTrans < 0) inTrans = 0;
             if (inTrans > 255) inTrans = 255;
             clParamMe.mTrans = inTrans;
 
-            int inR = (clParamNow.mColor & 0x00FF0000) >> 16;
-            int inG = (clParamNow.mColor & 0x0000FF00) >> 8;
-            int inB = (clParamNow.mColor & 0x000000FF);
+            //以下、マテリアルカラー設定
+            int inR = 255;
+            int inG = 255;
+            int inB = 255;
+            if (clParamNow.mEnableColorParent)
+            {
+                inR = (clParamParent.mColor & 0x00FF0000) >> 16;
+                inR += (clParamNow.mColor & 0x00FF0000) >> 16;
+                inR /= 2;
+
+                inG = (clParamParent.mColor & 0x0000FF00) >> 8;
+                inG += (clParamNow.mColor & 0x0000FF00) >> 8;
+                inG /= 2;
+
+                inB = (clParamParent.mColor & 0x000000FF);
+                inB += (clParamNow.mColor & 0x000000FF);
+                inB /= 2;
+            }
+            else
+            {
+                inR = (clParamNow.mColor & 0x00FF0000) >> 16;
+                inG = (clParamNow.mColor & 0x0000FF00) >> 8;
+                inB = (clParamNow.mColor & 0x000000FF);
+            }
             if (inR < 0) inR = 0;
             if (inR > 255) inR = 255;
             if (inG < 0) inG = 0;
             if (inG > 255) inG = 255;
             if (inB < 0) inB = 0;
             if (inB > 255) inB = 255;
-            clParamMe.mColor = (inR << 16) | (inG << 8) | inB;    //マテリアルカラー値（α無し RGBのみ）
+            clParamMe.mColor = (inR << 16) | (inG << 8) | inB;
+
+
+
+
+
+            //親の設定を引き継ぐのは良いが、色や透明色はどうするのか考える（今は親と子の平均値だが、これで良いとは思えない）
+            //子供の設定が存在したらそれにするか？
+            //親と子供でどちらが新しいのか見る必要があるのかもしれない。。。
+
+
+
+
+
 
             //以下、マテリアル設定
             clGL.SetMaterial(clParamMe);

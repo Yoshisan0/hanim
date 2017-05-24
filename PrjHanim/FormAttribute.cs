@@ -77,7 +77,6 @@ namespace PrjHikariwoAnim
             {
                 this.checkBox_EnableDisplayKeyFrame.Enabled = false;
                 this.checkBox_EnablePositionKeyFrame.Enabled = false;
-
                 this.checkBox_EnableRotationKeyFrame.Enabled = false;
                 this.checkBox_EnableScaleKeyFrame.Enabled = false;
                 this.checkBox_EnableFlipKeyFrame.Enabled = false;
@@ -97,18 +96,18 @@ namespace PrjHikariwoAnim
             this.checkBox_Display.Checked = clParam.mDisplay;
 
             this.checkBox_EnablePositionKeyFrame.Checked = clParam.mEnablePositionKeyFrame;
-            this.checkBox_EnablePositionParent.Checked = clParam.mEnablePositionParent;
+            this.checkBox_EnablePositionParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
 
             this.checkBox_EnableRotationOption.Checked = clParam.mEnableRotationOption;
             this.checkBox_EnableRotationKeyFrame.Checked = clParam.mEnableRotationKeyFrame;
-            this.checkBox_EnableRotationParent.Checked = clParam.mEnableRotationParent;
+            this.checkBox_EnableRotationParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.ROTATION);
             this.UDnumRot.Value = (decimal)clParam.mRZ;
 
             this.checkBox_EnableScaleOption.Checked = clParam.mEnableScaleOption;
             this.checkBox_EnableScaleKeyFrame.Checked = clParam.mEnableScaleKeyFrame;
-            this.checkBox_EnableScaleParent.Checked = clParam.mEnableScaleParent;
+            this.checkBox_EnableScaleParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.SCALE);
             this.UDnumSX.Value = (decimal)clParam.mSX;
             this.UDnumSY.Value = (decimal)clParam.mSY;
 
@@ -160,18 +159,15 @@ namespace PrjHikariwoAnim
             clParam.mDisplay = this.checkBox_Display.Checked;
 
             clParam.mEnablePositionKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
-            clParam.mEnablePositionParent = this.checkBox_EnablePositionParent.Checked;
             clParam.mX = (int)UDnumX.Value;
             clParam.mY = (int)UDnumY.Value;
 
             clParam.mEnableRotationOption = checkBox_EnableRotationOption.Checked;
             clParam.mEnableRotationKeyFrame = checkBox_EnableRotationKeyFrame.Checked;
-            clParam.mEnableRotationParent = checkBox_EnableRotationParent.Checked;
             clParam.mRZ = (float)UDnumRot.Value;
 
             clParam.mEnableScaleOption = checkBox_EnableScaleOption.Checked;
             clParam.mEnableScaleKeyFrame = checkBox_EnableScaleKeyFrame.Checked;
-            clParam.mEnableScaleParent = checkBox_EnableScaleParent.Checked;
             clParam.mSX = (float)UDnumSX.Value;
             clParam.mSY = (float)UDnumSY.Value;
 
@@ -356,14 +352,17 @@ namespace PrjHikariwoAnim
             this.ChangeElem(clElem, TYPE_OPTION.DISPLAY, inSelectFrameNo, true, clParam.mEnableDisplayKeyFrame, clParam.mEnableDisplayParent, clParam.mDisplay, clValue2);
 
             //以下、座標設定
-            this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mEnablePositionKeyFrame, clParam.mEnablePositionParent, clParam.mX, clParam.mY);
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
+            this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mEnablePositionKeyFrame, isParentFlag, clParam.mX, clParam.mY);
 
             //以下、回転設定
+            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.ROTATION);
             clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.ROTATION);
-            this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mEnableRotationOption, clParam.mEnableRotationKeyFrame, clParam.mEnableRotationParent, clParam.mRZ, clValue2);
+            this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mEnableRotationOption, clParam.mEnableRotationKeyFrame, isParentFlag, clParam.mRZ, clValue2);
 
             //以下、スケール設定
-            this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mEnableScaleOption, clParam.mEnableScaleKeyFrame, clParam.mEnableScaleParent, clParam.mSX, clParam.mSY);
+            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.SCALE);
+            this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mEnableScaleOption, clParam.mEnableScaleKeyFrame, isParentFlag, clParam.mSX, clParam.mSY);
 
             //以下、オフセット設定
             this.ChangeElem(clElem, TYPE_OPTION.OFFSET, inSelectFrameNo, clParam.mEnableOffsetOption, clParam.mEnableOffsetKeyFrame, clParam.mEnableOffsetParent, clParam.mCX, clParam.mCY);
@@ -380,8 +379,8 @@ namespace PrjHikariwoAnim
             this.ChangeElem(clElem, TYPE_OPTION.COLOR, inSelectFrameNo, clParam.mEnableColorOption, clParam.mEnableColorKeyFrame, clParam.mEnableColorParent, clParam.mColor, clValue2);
 
             //以下、ユーザーデータ設定 
+            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.USER_DATA);
             clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.USER_DATA);
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.USER_DATA);
             this.ChangeElem(clElem, TYPE_OPTION.USER_DATA, inSelectFrameNo, clParam.mEnableUserDataOption, clParam.mEnableUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2);
 
             //以下、行番号を振り直す処理
@@ -423,7 +422,7 @@ namespace PrjHikariwoAnim
 
             //以下、座標設定
             isCheckKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
-            this.checkBox_EnablePositionParent.Enabled = isCheckKeyFrame;
+            this.checkBox_EnablePositionParent.Enabled = false;
             this.label_X.Enabled = isCheckKeyFrame;
             this.label_Y.Enabled = isCheckKeyFrame;
             this.UDnumX.Enabled = isCheckKeyFrame;
@@ -435,7 +434,7 @@ namespace PrjHikariwoAnim
             isCheckOption = this.checkBox_EnableRotationOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
             this.checkBox_EnableRotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
-            this.checkBox_EnableRotationParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableRotationParent.Enabled = false;
             this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenRZ.Enabled = (isCheckOption && isCheckKeyFrame);
@@ -444,7 +443,7 @@ namespace PrjHikariwoAnim
             isCheckOption = this.checkBox_EnableScaleOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
             this.checkBox_EnableScaleKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableScaleParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableScaleParent.Enabled = false;
             this.label_SX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);

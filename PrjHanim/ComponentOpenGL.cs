@@ -418,7 +418,8 @@ namespace PrjHikariwoAnim
         /// マトリクス設定処理
         /// </summary>
         /// <param name="clParam">各パラメーター管理クラス</param>
-        public float[] SetElemMatrix(ClsParam clParam, float[] pflMatBase)
+        /// <param name="pflMatParent">親のマトリクス</param>
+        public float[] SetElemMatrix(ClsParam clParam, float[] pflMatParent)
         {
             float[] pflMat = new float[16];
 
@@ -426,7 +427,7 @@ namespace PrjHikariwoAnim
             Gl.glLoadIdentity();
 
             //以下、親のマトリクス設定
-            Gl.glLoadMatrixf(pflMatBase);
+            Gl.glLoadMatrixf(pflMatParent);
 
             //以下、ローカル座標設定
             float flX = clParam.mX;
