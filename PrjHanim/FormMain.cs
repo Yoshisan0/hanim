@@ -941,7 +941,7 @@ namespace PrjHikariwoAnim
                         }
 
                         //CellListの表示更新
-                        this.mFormCell.Refresh();
+                        this.RefreshAll();
                     }
                 }
                 e.Effect = DragDropEffects.Copy;

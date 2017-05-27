@@ -22,6 +22,7 @@ namespace PrjHikariwoAnim
             mFormMain = form;
 
             //ダブルバッファ強制有効化
+            this.DoubleBuffered = true;
 //          this.panel_list.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, this.panel_list, new object[] { true });
         }
         private void FormCell_Load(object sender, EventArgs e)
