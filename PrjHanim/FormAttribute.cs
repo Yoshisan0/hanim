@@ -96,18 +96,15 @@ namespace PrjHikariwoAnim
             this.checkBox_Display.Checked = clParam.mDisplay;
 
             this.checkBox_EnablePositionKeyFrame.Checked = clParam.mEnablePositionKeyFrame;
-            this.checkBox_EnablePositionParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
 
             this.checkBox_EnableRotationOption.Checked = clParam.mEnableRotationOption;
             this.checkBox_EnableRotationKeyFrame.Checked = clParam.mEnableRotationKeyFrame;
-            this.checkBox_EnableRotationParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.ROTATION);
             this.UDnumRot.Value = (decimal)clParam.mRZ;
 
             this.checkBox_EnableScaleOption.Checked = clParam.mEnableScaleOption;
             this.checkBox_EnableScaleKeyFrame.Checked = clParam.mEnableScaleKeyFrame;
-            this.checkBox_EnableScaleParent.Checked = ClsParam.GetDefaultParentFlag(TYPE_OPTION.SCALE);
             this.UDnumSX.Value = (decimal)clParam.mSX;
             this.UDnumSY.Value = (decimal)clParam.mSY;
 
@@ -422,7 +419,6 @@ namespace PrjHikariwoAnim
 
             //以下、座標設定
             isCheckKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
-            this.checkBox_EnablePositionParent.Enabled = false;
             this.label_X.Enabled = isCheckKeyFrame;
             this.label_Y.Enabled = isCheckKeyFrame;
             this.UDnumX.Enabled = isCheckKeyFrame;
@@ -434,7 +430,6 @@ namespace PrjHikariwoAnim
             isCheckOption = this.checkBox_EnableRotationOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
             this.checkBox_EnableRotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
-            this.checkBox_EnableRotationParent.Enabled = false;
             this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_TweenRZ.Enabled = (isCheckOption && isCheckKeyFrame);
@@ -443,7 +438,6 @@ namespace PrjHikariwoAnim
             isCheckOption = this.checkBox_EnableScaleOption.Checked;
             isCheckKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
             this.checkBox_EnableScaleKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableScaleParent.Enabled = false;
             this.label_SX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);

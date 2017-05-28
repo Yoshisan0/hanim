@@ -856,7 +856,7 @@ namespace PrjHikariwoAnim
             //以下、表示フラグ設定
             if (clParamNow.mEnableDisplayParent)
             {
-                clParamMe.mDisplay = clParamParent.mDisplay & clParamNow.mDisplay;
+                clParamMe.mDisplay = clParamParent.mDisplay;
             }
             else
             {

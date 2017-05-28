@@ -648,8 +648,10 @@ namespace PrjHikariwoAnim
                 else { e.Effect = DragDropEffects.None; }
             }
             else
+            {
                 //TreeNodeでなければ受け入れない
                 e.Effect = DragDropEffects.None;
+            }
 
             //マウス下のNodeを選択する
             if (e.Effect != DragDropEffects.None)
