@@ -47,6 +47,7 @@
             this.textBox_C = new System.Windows.Forms.TextBox();
             this.panel_Attribute_Base = new System.Windows.Forms.Panel();
             this.groupBox_Param = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -90,7 +91,6 @@
             this.button_TweenX = new System.Windows.Forms.Button();
             this.button_TweenRZ = new System.Windows.Forms.Button();
             this.button_TweenY = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumYoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumXoff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UDnumT)).BeginInit();
@@ -403,13 +403,13 @@
             // 
             this.textBox_C.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_C.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox_C.Location = new System.Drawing.Point(188, 328);
+            this.textBox_C.Location = new System.Drawing.Point(178, 328);
             this.textBox_C.Margin = new System.Windows.Forms.Padding(0);
             this.textBox_C.Name = "textBox_C";
-            this.textBox_C.Size = new System.Drawing.Size(60, 23);
+            this.textBox_C.Size = new System.Drawing.Size(70, 23);
             this.textBox_C.TabIndex = 48;
             this.textBox_C.Text = "FFFFFF";
-            this.textBox_C.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox_C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_C.TextChanged += new System.EventHandler(this.ColorCode_TextChanged);
             // 
             // panel_Attribute_Base
@@ -494,6 +494,16 @@
             this.groupBox_Param.TabStop = false;
             this.groupBox_Param.Text = "Parameter";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Location = new System.Drawing.Point(67, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 16);
+            this.label4.TabIndex = 62;
+            this.label4.Text = "Name";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -539,7 +549,7 @@
             // button_C
             // 
             this.button_C.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_C.Location = new System.Drawing.Point(162, 329);
+            this.button_C.Location = new System.Drawing.Point(152, 328);
             this.button_C.Name = "button_C";
             this.button_C.Size = new System.Drawing.Size(23, 23);
             this.button_C.TabIndex = 75;
@@ -963,16 +973,6 @@
             this.button_TweenY.TabIndex = 51;
             this.button_TweenY.UseVisualStyleBackColor = true;
             this.button_TweenY.Click += new System.EventHandler(this.button_Y_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(67, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 16);
-            this.label4.TabIndex = 62;
-            this.label4.Text = "Name";
             // 
             // FormAttribute
             // 

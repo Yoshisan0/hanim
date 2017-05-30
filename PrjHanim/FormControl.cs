@@ -863,7 +863,7 @@ namespace PrjHikariwoAnim
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
             TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(enTypeOption);
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
             clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2);
@@ -1063,7 +1063,8 @@ namespace PrjHikariwoAnim
             if (clOption == null) return;
 
             //以下、キーフレーム作成・更新処理
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(clOption.mTypeOption);
+            ClsDatElem clElem = clOption.mElem;
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, clOption.mTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(clOption.mTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(clOption.mTypeOption);
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2);

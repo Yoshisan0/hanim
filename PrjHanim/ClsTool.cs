@@ -574,10 +574,13 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// デフォルトの親に影響を受けるかどうか
         /// </summary>
+        /// <param name="clElem">親エレメント</param>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>デフォルトの値</returns>
-        public static bool GetDefaultParentFlag(TYPE_OPTION enTypeOption)
+        public static bool GetDefaultParentFlag(ClsDatElem clElem, TYPE_OPTION enTypeOption)
         {
+            if (clElem == null) return (false);
+
             bool isParent = false;
 
             switch (enTypeOption)

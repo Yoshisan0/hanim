@@ -159,40 +159,40 @@ namespace PrjHikariwoAnim
             clParam.mX = (int)UDnumX.Value;
             clParam.mY = (int)UDnumY.Value;
 
-            clParam.mEnableRotationOption = checkBox_EnableRotationOption.Checked;
-            clParam.mEnableRotationKeyFrame = checkBox_EnableRotationKeyFrame.Checked;
+            clParam.mEnableRotationOption = this.checkBox_EnableRotationOption.Checked;
+            clParam.mEnableRotationKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
             clParam.mRZ = (float)UDnumRot.Value;
 
-            clParam.mEnableScaleOption = checkBox_EnableScaleOption.Checked;
-            clParam.mEnableScaleKeyFrame = checkBox_EnableScaleKeyFrame.Checked;
+            clParam.mEnableScaleOption = this.checkBox_EnableScaleOption.Checked;
+            clParam.mEnableScaleKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
             clParam.mSX = (float)UDnumSX.Value;
             clParam.mSY = (float)UDnumSY.Value;
 
-            clParam.mEnableFlipOption = checkBox_EnableFlipOption.Checked;
-            clParam.mEnableFlipKeyFrame = checkBox_EnableFlipKeyFrame.Checked;
-            clParam.mEnableFlipParent = checkBox_EnableFlipParent.Checked;
-            clParam.mFlipH = checkBox_FlipH.Checked;
-            clParam.mFlipV = checkBox_FlipV.Checked;
+            clParam.mEnableFlipOption = this.checkBox_EnableFlipOption.Checked;
+            clParam.mEnableFlipKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
+            clParam.mEnableFlipParent = this.checkBox_EnableFlipParent.Checked;
+            clParam.mFlipH = this.checkBox_FlipH.Checked;
+            clParam.mFlipV = this.checkBox_FlipV.Checked;
 
-            clParam.mEnableOffsetOption = checkBox_EnableOffsetOption.Checked;
-            clParam.mEnableOffsetKeyFrame = checkBox_EnableOffsetKeyFrame.Checked;
-            clParam.mEnableOffsetParent = checkBox_EnableOffsetParent.Checked;
+            clParam.mEnableOffsetOption = this.checkBox_EnableOffsetOption.Checked;
+            clParam.mEnableOffsetKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
+            clParam.mEnableOffsetParent = this.checkBox_EnableOffsetParent.Checked;
             clParam.mCX = (int)UDnumXoff.Value;
             clParam.mCY = (int)UDnumYoff.Value;
 
-            clParam.mEnableTransOption = checkBox_EnableTransOption.Checked;
-            clParam.mEnableTransKeyFrame = checkBox_EnableTransKeyFrame.Checked;
-            clParam.mEnableTransParent = checkBox_EnableTransParent.Checked;
+            clParam.mEnableTransOption = this.checkBox_EnableTransOption.Checked;
+            clParam.mEnableTransKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
+            clParam.mEnableTransParent = this.checkBox_EnableTransParent.Checked;
             clParam.mTrans = (int)UDnumT.Value;
 
-            clParam.mEnableColorOption = checkBox_EnableColorOption.Checked;
-            clParam.mEnableColorKeyFrame = checkBox_EnableColorKeyFrame.Checked;
-            clParam.mEnableColorParent = checkBox_EnableColorParent.Checked;
-            clParam.mColor = button_C.BackColor.ToArgb() & 0x00FFFFFF;
+            clParam.mEnableColorOption = this.checkBox_EnableColorOption.Checked;
+            clParam.mEnableColorKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
+            clParam.mEnableColorParent = this.checkBox_EnableColorParent.Checked;
+            clParam.mColor = this.button_C.BackColor.ToArgb() & 0x00FFFFFF;
 
-            clParam.mEnableUserDataOption = checkBox_EnableUserDataOption.Checked;
-            clParam.mEnableUserDataKeyFrame = checkBox_EnableUserDataKeyFrame.Checked;
-            clParam.mUserData = textBox_UT.Text;
+            clParam.mEnableUserDataOption = this.checkBox_EnableUserDataOption.Checked;
+            clParam.mEnableUserDataKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
+            clParam.mUserData = this.textBox_UT.Text;
 
             this.mLocked = false;
 
@@ -307,7 +307,7 @@ namespace PrjHikariwoAnim
                     }
                     else
                     {
-                        isParentFlag = ClsParam.GetDefaultParentFlag(enTypeOption);
+                        isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
                         clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
                         clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
                         clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2);
@@ -349,16 +349,16 @@ namespace PrjHikariwoAnim
             this.ChangeElem(clElem, TYPE_OPTION.DISPLAY, inSelectFrameNo, true, clParam.mEnableDisplayKeyFrame, clParam.mEnableDisplayParent, clParam.mDisplay, clValue2);
 
             //以下、座標設定
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, TYPE_OPTION.POSITION);
             this.ChangeElem(clElem, TYPE_OPTION.POSITION, inSelectFrameNo, true, clParam.mEnablePositionKeyFrame, isParentFlag, clParam.mX, clParam.mY);
 
             //以下、回転設定
-            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.ROTATION);
+            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, TYPE_OPTION.ROTATION);
             clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.ROTATION);
             this.ChangeElem(clElem, TYPE_OPTION.ROTATION, inSelectFrameNo, clParam.mEnableRotationOption, clParam.mEnableRotationKeyFrame, isParentFlag, clParam.mRZ, clValue2);
 
             //以下、スケール設定
-            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.SCALE);
+            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, TYPE_OPTION.SCALE);
             this.ChangeElem(clElem, TYPE_OPTION.SCALE, inSelectFrameNo, clParam.mEnableScaleOption, clParam.mEnableScaleKeyFrame, isParentFlag, clParam.mSX, clParam.mSY);
 
             //以下、オフセット設定
@@ -376,7 +376,7 @@ namespace PrjHikariwoAnim
             this.ChangeElem(clElem, TYPE_OPTION.COLOR, inSelectFrameNo, clParam.mEnableColorOption, clParam.mEnableColorKeyFrame, clParam.mEnableColorParent, clParam.mColor, clValue2);
 
             //以下、ユーザーデータ設定 
-            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.USER_DATA);
+            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, TYPE_OPTION.USER_DATA);
             clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.USER_DATA);
             this.ChangeElem(clElem, TYPE_OPTION.USER_DATA, inSelectFrameNo, clParam.mEnableUserDataOption, clParam.mEnableUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2);
 

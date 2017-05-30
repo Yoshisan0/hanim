@@ -145,7 +145,7 @@ namespace PrjHikariwoAnim
             {
                 if ("KeyFrame".Equals(clNode.Name))
                 {
-                    bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mTypeOption);
+                    bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, this.mTypeOption);
                     object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
                     object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
                     ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, isParentFlag, clValue1, clValue2);
@@ -311,23 +311,28 @@ namespace PrjHikariwoAnim
             SolidBrush clBrushParent = new SolidBrush(stColorParent);
             Color stColorTween = Color.FromArgb(128, Color.LightBlue);
             SolidBrush clBrushTween = new SolidBrush(stColorTween);
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mTypeOption);
+            bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, this.mTypeOption);
             int inFrameNo = 0;
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
-                bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
-                if (isExist)
+                if (this.mTypeOption == TYPE_OPTION.POSITION || this.mTypeOption == TYPE_OPTION.ROTATION || this.mTypeOption == TYPE_OPTION.SCALE)
                 {
-                    ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNo];
-                    isParentFlag = clKeyFrame.mParentFlag;
+                    isParentFlag = (this.mElem.mElem != null);
                 }
+                else
+                {
+                    bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
+                    if (isExist)
+                    {
+                        ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNo];
+                        isParentFlag = clKeyFrame.mParentFlag;
+                    }
+                }
+                if (!isParentFlag) continue;
 
-                if (isParentFlag)
-                {
-                    inX = inFrameNo * FormControl.CELL_WIDTH;
-                    inY = this.mLineNo * FormControl.CELL_HEIGHT;
-                    g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
-                }
+                inX = inFrameNo * FormControl.CELL_WIDTH;
+                inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
             }
 
             //以下、選択中のフレーム描画処理

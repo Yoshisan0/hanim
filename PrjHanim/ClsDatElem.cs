@@ -47,12 +47,10 @@ namespace PrjHikariwoAnim
             this.mImageKey = -1;
 
             this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.DISPLAY);
             object clValue1 = ClsParam.GetDefaultValue1(TYPE_OPTION.DISPLAY);
             object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
-            this.SetOption(TYPE_OPTION.DISPLAY, isParentFlag, clValue1, clValue2);
-            isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.POSITION);
-            this.SetOption(TYPE_OPTION.POSITION, isParentFlag, flX, flY);
+            this.SetOption(TYPE_OPTION.DISPLAY, false, clValue1, clValue2);
+            this.SetOption(TYPE_OPTION.POSITION, false, flX, flY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -245,8 +243,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.NONE);
-                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, isParentFlag, null, null);
+                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, false, null, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -496,7 +493,7 @@ namespace PrjHikariwoAnim
         /// <param name="clValue2">値２</param>
         private void GetOptionValueNow(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isParentFlag, out object clValue1, out object clValue2)
         {
-            isParentFlag = ClsParam.GetDefaultParentFlag(enTypeOption);
+            isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, enTypeOption);
             clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
 
@@ -1158,7 +1155,7 @@ namespace PrjHikariwoAnim
                 SolidBrush clBrushParent = new SolidBrush(stColorParent);
                 Color stColorTween = Color.FromArgb(128, Color.LightBlue);
                 SolidBrush clBrushTween = new SolidBrush(stColorTween);
-                bool isParentFlag = ClsParam.GetDefaultParentFlag(TYPE_OPTION.DISPLAY);
+                bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, TYPE_OPTION.DISPLAY);
                 int inFrameNo = 0;
                 for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
                 {
@@ -1167,13 +1164,11 @@ namespace PrjHikariwoAnim
                     {
                         isParentFlag = clKeyFrame.mParentFlag;
                     }
+                    if (!isParentFlag) continue;
 
-                    if (isParentFlag)
-                    {
-                        inX = inFrameNo * FormControl.CELL_WIDTH;
-                        inY = this.mLineNo * FormControl.CELL_HEIGHT;
-                        g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
-                    }
+                    inX = inFrameNo * FormControl.CELL_WIDTH;
+                    inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                    g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
                 }
             }
 
