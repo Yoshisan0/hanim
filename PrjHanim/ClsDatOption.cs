@@ -315,7 +315,9 @@ namespace PrjHikariwoAnim
             int inFrameNo = 0;
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
-                if (this.mTypeOption == TYPE_OPTION.POSITION || this.mTypeOption == TYPE_OPTION.ROTATION || this.mTypeOption == TYPE_OPTION.SCALE)
+                if (this.mTypeOption == TYPE_OPTION.POSITION ||
+                    this.mTypeOption == TYPE_OPTION.ROTATION ||
+                    this.mTypeOption == TYPE_OPTION.SCALE)
                 {
                     isParentFlag = (this.mElem.mElem != null);
                 }

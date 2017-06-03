@@ -70,6 +70,8 @@ namespace PrjHikariwoAnim
         /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
         private void SetParam(ClsParam clParam, int inSelectFrameNo)
         {
+            ClsLog.Info("SetParam - start");
+
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             this.mLocked = true;
 
@@ -134,11 +136,13 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableUserDataKeyFrame.Checked = clParam.mEnableUserDataKeyFrame;
             this.textBox_UT.Text = clParam.mUserData;
 
+            //以下、リフレッシュ処理
+            this.Refresh();
+
             //変更完了
             this.mLocked = false;
 
-            //以下、リフレッシュ処理
-            this.Refresh();
+            ClsLog.Info("SetParam - finish");
         }
 
         /// <summary>
@@ -389,6 +393,8 @@ namespace PrjHikariwoAnim
 
         private void Param_ValueChanged(object sender, EventArgs e)
         {
+            ClsLog.Info("Param_ValueChanged - start");
+
             if (this.mSelectFrameNo == 0)
             {
                 this.checkBox_EnableDisplayKeyFrame.Checked = true;
@@ -402,12 +408,12 @@ namespace PrjHikariwoAnim
                 this.checkBox_EnableUserDataKeyFrame.Checked = true;
             }
 
-            //アップダウンコントロール系
-            //any Param Update どれかのチェックが変更された通知をメインに送る
             if (!this.mLocked)
             {
                 ClsParam clParam = this.GetParam();
                 this.ChangeElemFromParam(clParam);
+
+                ClsLog.Info("Param_ValueChanged - ChangeElemFromParam !!!");
             }
 
             //以下、表示設定
@@ -492,6 +498,8 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableUserDataKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_UT.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_UT.Enabled = (isCheckOption && isCheckKeyFrame);
+
+            ClsLog.Info("Param_ValueChanged - finish");
         }
 
         private void FormAttribute_FormClosing(object sender, FormClosingEventArgs e)
