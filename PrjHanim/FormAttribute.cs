@@ -6,9 +6,10 @@ namespace PrjHikariwoAnim
 {
     public partial class FormAttribute : Form
     {
-        private bool mLocked;       //パラメータ変更中にロック
+        private bool mLocked;           //パラメータ変更中にロック
         private FormMain mFormMain;
-        private int mSelectFrameNo; //現在表示中のフレーム番号
+        private ClsDatElem mSelectElem; //現在選択中のエレメント
+        private int mSelectFrameNo;     //現在表示中のフレーム番号
 
         /// <summary>
         /// コンストラクタ
@@ -49,12 +50,14 @@ namespace PrjHikariwoAnim
             {
                 this.Text = "Attribute";
                 this.groupBox_Param.Enabled = false;
+                this.mSelectElem = null;
                 this.mSelectFrameNo = 0;
             }
             else
             {
                 this.Text = ClsTool.GetWindowName("Attribute", clElem, inSelectFrameNo);
                 this.groupBox_Param.Enabled = true;
+                this.mSelectElem = clElem;
                 this.mSelectFrameNo = inSelectFrameNo;
 
                 //以下、チェック状態の設定
@@ -70,8 +73,6 @@ namespace PrjHikariwoAnim
         /// <param name="inSelectFrameNo">選択中のフレーム番号</param>
         private void SetParam(ClsParam clParam, int inSelectFrameNo)
         {
-            ClsLog.Info("SetParam - start");
-
             //変更終わるまでロックしないと毎回ChangeValueが発生してしまう
             this.mLocked = true;
 
@@ -141,8 +142,6 @@ namespace PrjHikariwoAnim
 
             //変更完了
             this.mLocked = false;
-
-            ClsLog.Info("SetParam - finish");
         }
 
         /// <summary>
@@ -155,22 +154,24 @@ namespace PrjHikariwoAnim
             //以下、パラメーター取得処理
             ClsParam clParam = new ClsParam();
 
+            clParam.mName = this.mSelectElem.mName;
+
             clParam.mEnableDisplayKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
             clParam.mEnableDisplayParent = this.checkBox_EnableDisplayParent.Checked;
             clParam.mDisplay = this.checkBox_Display.Checked;
 
             clParam.mEnablePositionKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
-            clParam.mX = (int)UDnumX.Value;
-            clParam.mY = (int)UDnumY.Value;
+            clParam.mX = (int)this.UDnumX.Value;
+            clParam.mY = (int)this.UDnumY.Value;
 
             clParam.mEnableRotationOption = this.checkBox_EnableRotationOption.Checked;
             clParam.mEnableRotationKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
-            clParam.mRZ = (float)UDnumRot.Value;
+            clParam.mRZ = (float)this.UDnumRot.Value;
 
             clParam.mEnableScaleOption = this.checkBox_EnableScaleOption.Checked;
             clParam.mEnableScaleKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
-            clParam.mSX = (float)UDnumSX.Value;
-            clParam.mSY = (float)UDnumSY.Value;
+            clParam.mSX = (float)this.UDnumSX.Value;
+            clParam.mSY = (float)this.UDnumSY.Value;
 
             clParam.mEnableFlipOption = this.checkBox_EnableFlipOption.Checked;
             clParam.mEnableFlipKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
@@ -181,13 +182,13 @@ namespace PrjHikariwoAnim
             clParam.mEnableOffsetOption = this.checkBox_EnableOffsetOption.Checked;
             clParam.mEnableOffsetKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
             clParam.mEnableOffsetParent = this.checkBox_EnableOffsetParent.Checked;
-            clParam.mCX = (int)UDnumXoff.Value;
-            clParam.mCY = (int)UDnumYoff.Value;
+            clParam.mCX = (int)this.UDnumXoff.Value;
+            clParam.mCY = (int)this.UDnumYoff.Value;
 
             clParam.mEnableTransOption = this.checkBox_EnableTransOption.Checked;
             clParam.mEnableTransKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
             clParam.mEnableTransParent = this.checkBox_EnableTransParent.Checked;
-            clParam.mTrans = (int)UDnumT.Value;
+            clParam.mTrans = (int)this.UDnumT.Value;
 
             clParam.mEnableColorOption = this.checkBox_EnableColorOption.Checked;
             clParam.mEnableColorKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
@@ -198,7 +199,7 @@ namespace PrjHikariwoAnim
             clParam.mEnableUserDataKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
             clParam.mUserData = this.textBox_UT.Text;
 
-            this.mLocked = false;
+            //this.mLocked = false;
 
             return (clParam);
         }
@@ -256,8 +257,11 @@ namespace PrjHikariwoAnim
             int inB = Convert.ToInt32(clB, 16);
             this.button_C.BackColor = Color.FromArgb(255, inR, inG, inB);
 
-            ClsParam clParam = this.GetParam();
-            this.ChangeElemFromParam(clParam);
+            if (!this.mLocked)
+            {
+                ClsParam clParam = this.GetParam();
+                this.ChangeElemFromParam(clParam);
+            }
         }
 
         private void ColorPanel_Click(object sender, EventArgs e)
@@ -273,8 +277,7 @@ namespace PrjHikariwoAnim
             inColor &= 0x00FFFFFF;
             textBox_C.Text = $"{inColor:X6}";   //RGB
 
-            //この代入ではバリデードが発生しないらしく更新通知
-            if (!mLocked)
+            if (!this.mLocked)
             {
                 ClsParam clParam = this.GetParam();
                 this.ChangeElemFromParam(clParam);
@@ -393,8 +396,6 @@ namespace PrjHikariwoAnim
 
         private void Param_ValueChanged(object sender, EventArgs e)
         {
-            ClsLog.Info("Param_ValueChanged - start");
-
             if (this.mSelectFrameNo == 0)
             {
                 this.checkBox_EnableDisplayKeyFrame.Checked = true;
@@ -412,8 +413,6 @@ namespace PrjHikariwoAnim
             {
                 ClsParam clParam = this.GetParam();
                 this.ChangeElemFromParam(clParam);
-
-                ClsLog.Info("Param_ValueChanged - ChangeElemFromParam !!!");
             }
 
             //以下、表示設定
@@ -498,8 +497,6 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableUserDataKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_UT.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_UT.Enabled = (isCheckOption && isCheckKeyFrame);
-
-            ClsLog.Info("Param_ValueChanged - finish");
         }
 
         private void FormAttribute_FormClosing(object sender, FormClosingEventArgs e)

@@ -484,6 +484,8 @@ namespace PrjHikariwoAnim
 
     public class ClsParam
     {
+        public string mName;
+
         public bool mEnableDisplayKeyFrame;     //表示キーフレーム存在フラグ
         public bool mEnableDisplayParent;       //親の設定依存フラグ
         public bool mDisplay;                   //表示フラグ

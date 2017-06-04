@@ -7,6 +7,6 @@ namespace PrjHikariwoAnim
 {
     public class ClsAll
     {
-        public static readonly bool m_Debug = false;
+        public static readonly bool m_Debug = true;
     }
 }
