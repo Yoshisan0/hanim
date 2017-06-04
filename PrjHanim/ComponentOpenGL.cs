@@ -13,6 +13,9 @@ namespace PrjHikariwoAnim
 {
     public partial class ComponentOpenGL : UserControl
     {
+        public static readonly int FONT_WIDTH = 11;
+        public static readonly int FONT_HEIGHT = 19;
+
         public Color mBackColor = Color.Black;
         public float mCenterX = 0.0f;
         public float mCenterY = 0.0f;
@@ -24,6 +27,8 @@ namespace PrjHikariwoAnim
         public float mGridSpan = 16.0f;
         public float mCanvasWidth = 800.0f;
         public float mCanvasHeight = 600.0f;
+        public ClsDatImage mImageFont = null;
+        private DateTime mTimeOld;
 
         #region Fields
         //
@@ -122,6 +127,13 @@ namespace PrjHikariwoAnim
 
             //以下、テクスチャー表示有効化設定
             Gl.glEnable(Gl.GL_TEXTURE_2D);
+
+            //以下、日時初期化処理
+            this.mTimeOld = DateTime.Now;
+
+            //以下、フォント作成処理
+            this.mImageFont = new ClsDatImage();
+            this.mImageFont.SetImage(Properties.Resources.font);
         }
   
   		/// <summary>
@@ -139,6 +151,12 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            //以下、時間計測処理
+            TimeSpan stDiff = DateTime.Now - this.mTimeOld;
+            this.mTimeOld = DateTime.Now;
+            double doTimeDiff = stDiff.TotalMilliseconds;
+
+            //以下、モーション描画処理
             int inFrameNoNow = 0;
             int inMaxFrameNum = ClsSystem.DEFAULT_FRAME_NUM;
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
@@ -230,22 +248,12 @@ namespace PrjHikariwoAnim
                 clMotion.DrawPreview(this, inFrameNoNow, inMaxFrameNum);
             }
 
-            /*
-            //以下、矩形ライン描画テスト（グリーンの矩形）
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
-
-            Gl.glBegin(Gl.GL_LINE_STRIP);
-
-            Gl.glColor3f(0.0f, 1.0f, 0.0f);
-            Gl.glVertex3f(10, 10, 0.0f);
-            Gl.glVertex3f(10, 200, 0.0f);
-            Gl.glVertex3f(200, 200, 0.0f);
-            Gl.glVertex3f(200, 10, 0.0f);
-            Gl.glVertex3f(10, 10, 0.0f);
-
-            Gl.glEnd();
-            Gl.glFlush();
-            */
+            //以下、FPS描画処理
+            if (this.mImageFont != null)
+            {
+                string clTimeDiff = (1000.0 / doTimeDiff).ToString("F1");
+                this.DrawFont(0, 0, "FPS " + clTimeDiff, inWidth, inHeight);
+            }
 
             //ダブルバッファ
             Wgl.wglSwapBuffers(this.hDC);
@@ -520,6 +528,82 @@ namespace PrjHikariwoAnim
             Gl.glEnd();
             Gl.glFlush();
             */
+        }
+
+        /// <summary>
+        /// 文字列描画処理
+        /// </summary>
+        /// <param name="inX">Ｘ座標</param>
+        /// <param name="inY">Ｙ座標</param>
+        /// <param name="clStr">文字列</param>
+        /// <param name="inWidth">画面幅</param>
+        /// <param name="inHeight">画面高さ</param>
+        private void DrawFont(int inX, int inY, string clStr, int inWidth, int inHeight)
+        {
+            //以下、マトリクス設定
+            Gl.glLoadIdentity();
+
+            //以下、色設定
+            Gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            //以下、テクスチャー設定
+            this.SetTexture(this.mImageFont.mListTex[0]);
+
+            //以下、ポリゴン描画
+            float flX = -(inWidth / 2.0f) + inX;
+            float flY = (inHeight / 2.0f) - ComponentOpenGL.FONT_HEIGHT - inY;
+            float flFontW = this.mImageFont.mImgOrigin.Width;
+            float flFontH = this.mImageFont.mImgOrigin.Height;
+            int inCnt, inMax = clStr.Length;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                char chStr = clStr[inCnt];
+                int inFontX = (chStr & 0x0F);
+                int inFontY = (chStr & 0xF0) >> 4;
+                inFontY -= 2;
+                if (inFontX < 0) continue;
+                if (inFontY < 0) continue;
+
+                float flFontU = inFontX * ComponentOpenGL.FONT_WIDTH;
+                float flFontV = inFontY * ComponentOpenGL.FONT_HEIGHT;
+
+                Gl.glBegin(Gl.GL_POLYGON);
+
+                //以下、左上座標設定
+                Gl.glTexCoord2f(
+                    flFontU / flFontW,
+                    1.0f- (flFontV + ComponentOpenGL.FONT_HEIGHT) / flFontH
+                );
+                Gl.glVertex3f(flX, flY, 0.0f);
+
+                //以下、右上座標設定
+                Gl.glTexCoord2f(
+                    (flFontU + ComponentOpenGL.FONT_WIDTH) / flFontW,
+                    1.0f - (flFontV + ComponentOpenGL.FONT_HEIGHT) / flFontH
+                );
+                Gl.glVertex3f(flX + ComponentOpenGL.FONT_WIDTH, flY, 0.0f);
+
+                //以下、右下座標設定
+                Gl.glTexCoord2f(
+                    (flFontU + ComponentOpenGL.FONT_WIDTH) / flFontW,
+                    1.0f - flFontV / flFontH
+                );
+                Gl.glVertex3f(flX + ComponentOpenGL.FONT_WIDTH, flY + ComponentOpenGL.FONT_HEIGHT, 0.0f);
+
+                //以下、左下座標設定
+                Gl.glTexCoord2f(
+                    flFontU / flFontW,
+                    1.0f - flFontV / flFontH
+                );
+                Gl.glVertex3f(flX, flY + ComponentOpenGL.FONT_HEIGHT, 0.0f);
+
+                Gl.glEnd();
+
+                flX += ComponentOpenGL.FONT_WIDTH;
+            }
+
+            Gl.glFlush();
+
         }
     }
 }

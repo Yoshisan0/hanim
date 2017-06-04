@@ -249,6 +249,7 @@
   <ItemGroup>
     <Content Include="glyph\cut.PNG" />
     <Content Include="glyph\delete.PNG" />
+    <Content Include="glyph\font.png" />
     <Content Include="Resources\error.PNG" />
     <None Include="Resources\plus.PNG" />
     <None Include="Resources\minus.PNG" />
