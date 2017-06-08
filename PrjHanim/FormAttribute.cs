@@ -417,6 +417,7 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             bool isCheckOption;
+            bool isCheckTween;
             bool isCheckKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
             this.checkBox_EnableDisplayParent.Enabled = isCheckKeyFrame;
             this.label_Display.Enabled = isCheckKeyFrame;
@@ -428,8 +429,12 @@ namespace PrjHikariwoAnim
             this.label_Y.Enabled = isCheckKeyFrame;
             this.UDnumX.Enabled = isCheckKeyFrame;
             this.UDnumY.Enabled = isCheckKeyFrame;
-            this.button_TweenX.Enabled = isCheckKeyFrame;
-            this.button_TweenY.Enabled = isCheckKeyFrame;
+            this.checkBox_EnablePositionXTween.Enabled = isCheckKeyFrame;
+            this.checkBox_EnablePositionYTween.Enabled = isCheckKeyFrame;
+            isCheckTween = this.checkBox_EnablePositionXTween.Checked;
+            this.button_TweenX.Enabled = isCheckTween;
+            isCheckTween = this.checkBox_EnablePositionYTween.Checked;
+            this.button_TweenY.Enabled = isCheckTween;
 
             //以下、回転設定
             isCheckOption = this.checkBox_EnableRotationOption.Checked;
@@ -437,7 +442,9 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableRotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
             this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenRZ.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableRotationTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckTween = this.checkBox_EnableRotationTween.Checked;
+            this.button_TweenRZ.Enabled = isCheckTween;
 
             //以下、スケール設定
             isCheckOption = this.checkBox_EnableScaleOption.Checked;
@@ -447,8 +454,12 @@ namespace PrjHikariwoAnim
             this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSY.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenSX.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenSY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableScaleXTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableScaleYTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckTween = this.checkBox_EnableScaleXTween.Checked;
+            this.button_TweenSX.Enabled = isCheckTween;
+            isCheckTween = this.checkBox_EnableScaleYTween.Checked;
+            this.button_TweenSY.Enabled = isCheckTween;
 
             //以下、オフセット設定
             isCheckOption = this.checkBox_EnableOffsetOption.Checked;
@@ -459,8 +470,12 @@ namespace PrjHikariwoAnim
             this.label_CY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumXoff.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumYoff.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenCX.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenCY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableOffsetXTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableOffsetYTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckTween = this.checkBox_EnableOffsetXTween.Checked;
+            this.button_TweenCX.Enabled = isCheckTween;
+            isCheckTween = this.checkBox_EnableOffsetYTween.Checked;
+            this.button_TweenCY.Enabled = isCheckTween;
 
             //以下、反転設定
             isCheckOption = this.checkBox_EnableFlipOption.Checked;
@@ -479,7 +494,9 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableTransParent.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_T.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumT.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenT.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableTransTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckTween = this.checkBox_EnableTransTween.Checked;
+            this.button_TweenT.Enabled = isCheckTween;
 
             //以下、色設定
             isCheckOption = this.checkBox_EnableColorOption.Checked;
@@ -489,7 +506,9 @@ namespace PrjHikariwoAnim
             this.label_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_C.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenC.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_EnableColorTween.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckTween = this.checkBox_EnableColorTween.Checked;
+            this.button_TweenC.Enabled = isCheckTween;
 
             //以下、ユーザーデータ設定
             isCheckOption = this.checkBox_EnableUserDataOption.Checked;
