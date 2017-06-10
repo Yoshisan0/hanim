@@ -382,38 +382,38 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>オプションタイプの名称</returns>
-        public static string CnvTypeOption2Name(TYPE_OPTION enTypeOption)
+        public static string CnvTypeOption2Name(EnmTypeOption enTypeOption)
         {
             string clName = "";
 
             switch (enTypeOption)
             {
-            case TYPE_OPTION.NONE:
-            case TYPE_OPTION.DISPLAY:
+            case EnmTypeOption.NONE:
+            case EnmTypeOption.DISPLAY:
                 clName = "";
                 break;
-            case TYPE_OPTION.POSITION:
+            case EnmTypeOption.POSITION:
                 clName = "Position";
                 break;
-            case TYPE_OPTION.ROTATION:
+            case EnmTypeOption.ROTATION:
                 clName = "Rotation";
                 break;
-            case TYPE_OPTION.SCALE:
+            case EnmTypeOption.SCALE:
                 clName = "Scale";
                 break;
-            case TYPE_OPTION.OFFSET:
+            case EnmTypeOption.OFFSET:
                 clName = "Offset";
                 break;
-            case TYPE_OPTION.FLIP:
+            case EnmTypeOption.FLIP:
                 clName = "Flip";
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
+            case EnmTypeOption.TRANSPARENCY:
                 clName = "Transparency";
                 break;
-            case TYPE_OPTION.COLOR:
+            case EnmTypeOption.COLOR:
                 clName = "Color";
                 break;
-            case TYPE_OPTION.USER_DATA:
+            case EnmTypeOption.USER_DATA:
                 clName = "User data(text)";
                 break;
             default:
@@ -428,50 +428,50 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeParam">パラメータータイプ</param>
         /// <returns>パラメータータイプの名称</returns>
-        public static string CnvTypeParam2Name(TYPE_PARAM enTypeParam)
+        public static string CnvTypeParam2Name(EnmTypeParam enTypeParam)
         {
             string clName = "";
 
             switch (enTypeParam)
             {
-            case TYPE_PARAM.NONE:
-            case TYPE_PARAM.DISPLAY:
+            case EnmTypeParam.NONE:
+            case EnmTypeParam.DISPLAY:
                 clName = "";
                 break;
-            case TYPE_PARAM.POSITION_X:
+            case EnmTypeParam.POSITION_X:
                 clName = "Position X";
                 break;
-            case TYPE_PARAM.POSITION_Y:
+            case EnmTypeParam.POSITION_Y:
                 clName = "Position Y";
                 break;
-            case TYPE_PARAM.ROTATION_Z:
+            case EnmTypeParam.ROTATION_Z:
                 clName = "Rotation Z";
                 break;
-            case TYPE_PARAM.SCALE_X:
+            case EnmTypeParam.SCALE_X:
                 clName = "Scale X";
                 break;
-            case TYPE_PARAM.SCALE_Y:
+            case EnmTypeParam.SCALE_Y:
                 clName = "Scale Y";
                 break;
-            case TYPE_PARAM.OFFSET_X:
+            case EnmTypeParam.OFFSET_X:
                 clName = "Offset X";
                 break;
-            case TYPE_PARAM.OFFSET_Y:
+            case EnmTypeParam.OFFSET_Y:
                 clName = "Offset Y";
                 break;
-            case TYPE_PARAM.FLIP_HORIZONAL:
+            case EnmTypeParam.FLIP_HORIZONAL:
                 clName = "Flip Horizonal";
                 break;
-            case TYPE_PARAM.FLIP_VERTICAL:
+            case EnmTypeParam.FLIP_VERTICAL:
                 clName = "Flip Vertical";
                 break;
-            case TYPE_PARAM.TRANSPARENCY:
+            case EnmTypeParam.TRANSPARENCY:
                 clName = "Transparency";
                 break;
-            case TYPE_PARAM.COLOR:
+            case EnmTypeParam.COLOR:
                 clName = "Color";
                 break;
-            case TYPE_PARAM.USER_DATA:
+            case EnmTypeParam.USER_DATA:
                 clName = "User data(text)";
                 break;
             default:
@@ -553,42 +553,42 @@ namespace PrjHikariwoAnim
         public ClsParam()
         {
             this.mEnableDisplayKeyFrame = false;
-            this.mDisplay = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.DISPLAY);
+            this.mDisplay = (bool)ClsParam.GetDefaultValue(EnmTypeParam.DISPLAY);
 
             this.mEnablePositionKeyFrame = false;
-            this.mX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_X);
-            this.mY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_Y);
+            this.mX = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_X);
+            this.mY = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_Y);
 
             this.mEnableRotationOption = false;
             this.mEnableRotationKeyFrame = false;
-            this.mRZ = (float)ClsParam.GetDefaultValue(TYPE_PARAM.ROTATION_Z);
+            this.mRZ = (float)ClsParam.GetDefaultValue(EnmTypeParam.ROTATION_Z);
 
             this.mEnableScaleOption = false;
             this.mEnableScaleKeyFrame = false;
-            this.mSX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_X);
-            this.mSY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_Y);
+            this.mSX = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_X);
+            this.mSY = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_Y);
 
             this.mEnableOffsetOption = false;
             this.mEnableOffsetKeyFrame = false;
-            this.mCX = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_X);
-            this.mCY = (float)ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_Y);
+            this.mCX = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_X);
+            this.mCY = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_Y);
 
             this.mEnableFlipOption = false;
             this.mEnableFlipKeyFrame = false;
-            this.mFlipH = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_HORIZONAL);
-            this.mFlipV = (bool)ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_VERTICAL);
+            this.mFlipH = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_HORIZONAL);
+            this.mFlipV = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_VERTICAL);
 
             this.mEnableTransOption = false;
             this.mEnableTransKeyFrame = false;
-            this.mTrans = (int)ClsParam.GetDefaultValue(TYPE_PARAM.TRANSPARENCY);
+            this.mTrans = (int)ClsParam.GetDefaultValue(EnmTypeParam.TRANSPARENCY);
 
             this.mEnableColorOption = false;
             this.mEnableColorKeyFrame = false;
-            this.mColor = (int)ClsParam.GetDefaultValue(TYPE_PARAM.COLOR);
+            this.mColor = (int)ClsParam.GetDefaultValue(EnmTypeParam.COLOR);
 
             this.mEnableUserDataOption = false;
             this.mEnableUserDataKeyFrame = false;
-            this.mUserData = (string)ClsParam.GetDefaultValue(TYPE_PARAM.USER_DATA);
+            this.mUserData = (string)ClsParam.GetDefaultValue(EnmTypeParam.USER_DATA);
         }
 
         /// <summary>
@@ -597,7 +597,7 @@ namespace PrjHikariwoAnim
         /// <param name="clElem">親エレメント</param>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>デフォルトの値</returns>
-        public static bool GetDefaultParentFlag(ClsDatElem clElem, TYPE_OPTION enTypeOption)
+        public static bool GetDefaultParentFlag(ClsDatElem clElem, EnmTypeOption enTypeOption)
         {
             if (clElem == null) return (false);
 
@@ -605,34 +605,34 @@ namespace PrjHikariwoAnim
 
             switch (enTypeOption)
             {
-            case TYPE_OPTION.NONE:
+            case EnmTypeOption.NONE:
                 isParent = false;
                 break;
-            case TYPE_OPTION.DISPLAY:
+            case EnmTypeOption.DISPLAY:
                 isParent = true;
                 break;
-            case TYPE_OPTION.POSITION:
+            case EnmTypeOption.POSITION:
                 isParent = true;
                 break;
-            case TYPE_OPTION.ROTATION:
+            case EnmTypeOption.ROTATION:
                 isParent = true;
                 break;
-            case TYPE_OPTION.SCALE:
+            case EnmTypeOption.SCALE:
                 isParent = true;
                 break;
-            case TYPE_OPTION.OFFSET:
+            case EnmTypeOption.OFFSET:
                 isParent = false;
                 break;
-            case TYPE_OPTION.FLIP:
+            case EnmTypeOption.FLIP:
                 isParent = true;
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
+            case EnmTypeOption.TRANSPARENCY:
                 isParent = true;
                 break;
-            case TYPE_OPTION.COLOR:
+            case EnmTypeOption.COLOR:
                 isParent = false;
                 break;
-            case TYPE_OPTION.USER_DATA:
+            case EnmTypeOption.USER_DATA:
                 isParent = false;
                 break;
             }
@@ -645,51 +645,51 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeParam">パラメータータイプ</param>
         /// <returns>デフォルトの値</returns>
-        private static object GetDefaultValue(TYPE_PARAM enTypeParam)
+        private static object GetDefaultValue(EnmTypeParam enTypeParam)
         {
             object clValue = null;
             switch (enTypeParam)
             {
-            case TYPE_PARAM.NONE:
+            case EnmTypeParam.NONE:
                 clValue = null;
                 break;
-            case TYPE_PARAM.DISPLAY:
+            case EnmTypeParam.DISPLAY:
                 clValue = true;
                 break;
-            case TYPE_PARAM.POSITION_X:
+            case EnmTypeParam.POSITION_X:
                 clValue = 0.0f;
                 break;
-            case TYPE_PARAM.POSITION_Y:
+            case EnmTypeParam.POSITION_Y:
                 clValue = 0.0f;
                 break;
-            case TYPE_PARAM.ROTATION_Z:
+            case EnmTypeParam.ROTATION_Z:
                 clValue = 0.0f;
                 break;
-            case TYPE_PARAM.SCALE_X:
+            case EnmTypeParam.SCALE_X:
                 clValue = 1.0f;
                 break;
-            case TYPE_PARAM.SCALE_Y:
+            case EnmTypeParam.SCALE_Y:
                 clValue = 1.0f;
                 break;
-            case TYPE_PARAM.OFFSET_X:
+            case EnmTypeParam.OFFSET_X:
                 clValue = 0.0f;
                 break;
-            case TYPE_PARAM.OFFSET_Y:
+            case EnmTypeParam.OFFSET_Y:
                 clValue = 0.0f;
                 break;
-            case TYPE_PARAM.FLIP_HORIZONAL:
+            case EnmTypeParam.FLIP_HORIZONAL:
                 clValue = false;
                 break;
-            case TYPE_PARAM.FLIP_VERTICAL:
+            case EnmTypeParam.FLIP_VERTICAL:
                 clValue = false;
                 break;
-            case TYPE_PARAM.TRANSPARENCY:
+            case EnmTypeParam.TRANSPARENCY:
                 clValue = 255;
                 break;
-            case TYPE_PARAM.COLOR:
+            case EnmTypeParam.COLOR:
                 clValue = (int)0xFFFFFF;
                 break;
-            case TYPE_PARAM.USER_DATA:
+            case EnmTypeParam.USER_DATA:
                 clValue = "";
                 break;
             }
@@ -702,39 +702,39 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>デフォルトの値１</returns>
-        public static object GetDefaultValue1(TYPE_OPTION enTypeOption)
+        public static object GetDefaultValue1(EnmTypeOption enTypeOption)
         {
             object clValue = null;
             switch (enTypeOption)
             {
-            case TYPE_OPTION.NONE:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.NONE);
+            case EnmTypeOption.NONE:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.NONE);
                 break;
-            case TYPE_OPTION.DISPLAY:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.DISPLAY);
+            case EnmTypeOption.DISPLAY:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.DISPLAY);
                 break;
-            case TYPE_OPTION.POSITION:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_X);
+            case EnmTypeOption.POSITION:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.POSITION_X);
                 break;
-            case TYPE_OPTION.ROTATION:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.ROTATION_Z);
+            case EnmTypeOption.ROTATION:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.ROTATION_Z);
                 break;
-            case TYPE_OPTION.SCALE:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_X);
+            case EnmTypeOption.SCALE:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.SCALE_X);
                 break;
-            case TYPE_OPTION.OFFSET:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_X);
+            case EnmTypeOption.OFFSET:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_X);
                 break;
-            case TYPE_OPTION.FLIP:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_HORIZONAL);
+            case EnmTypeOption.FLIP:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.FLIP_HORIZONAL);
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.TRANSPARENCY);
+            case EnmTypeOption.TRANSPARENCY:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.TRANSPARENCY);
                 break;
-            case TYPE_OPTION.COLOR:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.COLOR);
+            case EnmTypeOption.COLOR:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.COLOR);
                 break;
-            case TYPE_OPTION.USER_DATA:
+            case EnmTypeOption.USER_DATA:
                 clValue = "";
                 break;
             }
@@ -747,39 +747,39 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>デフォルトの値２</returns>
-        public static object GetDefaultValue2(TYPE_OPTION enTypeOption)
+        public static object GetDefaultValue2(EnmTypeOption enTypeOption)
         {
             object clValue = null;
             switch (enTypeOption)
             {
-            case TYPE_OPTION.NONE:
+            case EnmTypeOption.NONE:
                 clValue = null;
                 break;
-            case TYPE_OPTION.DISPLAY:
+            case EnmTypeOption.DISPLAY:
                 clValue = null;
                 break;
-            case TYPE_OPTION.POSITION:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.POSITION_Y);
+            case EnmTypeOption.POSITION:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.POSITION_Y);
                 break;
-            case TYPE_OPTION.ROTATION:
+            case EnmTypeOption.ROTATION:
                 clValue = null;
                 break;
-            case TYPE_OPTION.SCALE:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.SCALE_Y);
+            case EnmTypeOption.SCALE:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.SCALE_Y);
                 break;
-            case TYPE_OPTION.OFFSET:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.OFFSET_Y);
+            case EnmTypeOption.OFFSET:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_Y);
                 break;
-            case TYPE_OPTION.FLIP:
-                clValue = ClsParam.GetDefaultValue(TYPE_PARAM.FLIP_VERTICAL);
+            case EnmTypeOption.FLIP:
+                clValue = ClsParam.GetDefaultValue(EnmTypeParam.FLIP_VERTICAL);
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
+            case EnmTypeOption.TRANSPARENCY:
                 clValue = null;
                 break;
-            case TYPE_OPTION.COLOR:
+            case EnmTypeOption.COLOR:
                 clValue = null;
                 break;
-            case TYPE_OPTION.USER_DATA:
+            case EnmTypeOption.USER_DATA:
                 clValue = null;
                 break;
             }

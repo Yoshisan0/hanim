@@ -19,8 +19,8 @@ namespace PrjHikariwoAnim
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
-        public Dictionary<TYPE_OPTION, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
-        public MARK_ELEMENT mInsertMark = MARK_ELEMENT.NONE;
+        public Dictionary<EnmTypeOption, ClsDatOption> mDicOption;  //キーはアトリビュートのタイプ 値はオプション管理クラス
+        public EnmMarkElement mInsertMark = EnmMarkElement.NONE;
 
         //以下、ＵＶ値
         public ClsVector2[] mListUV;
@@ -46,11 +46,11 @@ namespace PrjHikariwoAnim
             this.isOpen = false;    //属性開閉状態(+-)
             this.mImageKey = -1;
 
-            this.mDicOption = new Dictionary<TYPE_OPTION, ClsDatOption>();
-            object clValue1 = ClsParam.GetDefaultValue1(TYPE_OPTION.DISPLAY);
-            object clValue2 = ClsParam.GetDefaultValue2(TYPE_OPTION.DISPLAY);
-            this.SetOption(TYPE_OPTION.DISPLAY, false, clValue1, clValue2);
-            this.SetOption(TYPE_OPTION.POSITION, false, flX, flY);
+            this.mDicOption = new Dictionary<EnmTypeOption, ClsDatOption>();
+            object clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.DISPLAY);
+            object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
+            this.SetOption(EnmTypeOption.DISPLAY, false, clValue1, clValue2);
+            this.SetOption(EnmTypeOption.POSITION, false, flX, flY);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -85,7 +85,7 @@ namespace PrjHikariwoAnim
             this.mListElem.Clear();
 
             //以下、オプション全削除処理
-            foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+            foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enTypeOption];
                 clDatOption.RemoveAll();
@@ -162,7 +162,7 @@ namespace PrjHikariwoAnim
             if (inLineNo < 0) return;
             if (!this.isOpen) return;
 
-            foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+            foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enTypeOption];
                 if (clDatOption.mLineNo != inLineNo) continue;
@@ -203,7 +203,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、オプションの親設定
-            foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+            foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enTypeOption];
                 clDatOption.mElem = this;
@@ -243,7 +243,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, TYPE_OPTION.NONE, false, null, null);
+                    ClsDatOption clDatOption = new ClsDatOption(null, EnmTypeOption.NONE, false, null, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -277,7 +277,7 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageKey", this.mImageKey);
 
             //以下、オプションリスト保存処理
-            foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+            foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enTypeOption];
                 clDatOption.Save(clHeader + ClsSystem.FILE_TAG);
@@ -405,7 +405,7 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue">値１</param>
         /// <param name="clValue">値２</param>
-        public void SetOption(TYPE_OPTION enTypeOption, bool isParentFlag, object clValue1, object clValue2)
+        public void SetOption(EnmTypeOption enTypeOption, bool isParentFlag, object clValue1, object clValue2)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -429,7 +429,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <returns>存在フラグ</returns>
-        public bool IsExistOption(TYPE_OPTION enTypeOption)
+        public bool IsExistOption(EnmTypeOption enTypeOption)
         {
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
             return (isExist);
@@ -439,7 +439,7 @@ namespace PrjHikariwoAnim
         /// オプション取得処理
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
-        public ClsDatOption GetOption(TYPE_OPTION enTypeOption)
+        public ClsDatOption GetOption(EnmTypeOption enTypeOption)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -457,7 +457,7 @@ namespace PrjHikariwoAnim
         /// <param name="inMaxFrameNo">フレーム数</param>
         /// <param name="inFrameNoBefore">前のフレーム番号</param>
         /// <param name="inFrameNoAfter">後のフレーム番号</param>
-        private void GetKeyFrameNo(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNo, out int inFrameNoBefore, out int inFrameNoAfter)
+        private void GetKeyFrameNo(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNo, out int inFrameNoBefore, out int inFrameNoAfter)
         {
             inFrameNoBefore = inFrameNo;
             inFrameNoAfter = inFrameNo;
@@ -491,7 +491,7 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        private void GetOptionValueNow(TYPE_OPTION enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isParentFlag, out object clValue1, out object clValue2)
+        private void GetOptionValueNow(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isParentFlag, out object clValue1, out object clValue2)
         {
             isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, enTypeOption);
             clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
@@ -521,7 +521,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="isForce">強制削除フラグ</param>
-        public void RemoveOption(TYPE_OPTION enTypeOption, bool isForce)
+        public void RemoveOption(EnmTypeOption enTypeOption, bool isForce)
         {
             //以下、オプション削除処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -543,7 +543,7 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="inFrameNo">フレーム番号</param>
         /// <returns>キーフレーム存在フラグ</returns>
-        private bool IsExistKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo)
+        private bool IsExistKeyFrame(EnmTypeOption enTypeOption, int inFrameNo)
         {
             //以下、オプション追加処理
             ClsDatOption clOption = this.GetOption(enTypeOption);
@@ -608,7 +608,7 @@ namespace PrjHikariwoAnim
 
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
+                foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
                 {
                     bool isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
@@ -664,7 +664,7 @@ namespace PrjHikariwoAnim
         {
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+                foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     if (clOption.mLineNo != inLineNo) continue;
@@ -701,7 +701,7 @@ namespace PrjHikariwoAnim
             //以下、子供のオプションをチェックする処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+                foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     if (clOption.mLineNo == inLineNo)
@@ -742,7 +742,7 @@ namespace PrjHikariwoAnim
             //以下、子供のオプションをチェックする処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in this.mDicOption.Keys)
+                foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
                 {
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     if (clOption.GetHashCode() == inHashCode)
@@ -780,56 +780,56 @@ namespace PrjHikariwoAnim
             object clValue1;
             object clValue2;
 
-            clParam.mEnableDisplayKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.DISPLAY, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.DISPLAY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableDisplayKeyFrame = this.IsExistKeyFrame(EnmTypeOption.DISPLAY, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.DISPLAY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mEnableDisplayParent = isParentFlag;
             clParam.mDisplay = Convert.ToBoolean(clValue1);
 
-            clParam.mEnablePositionKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.POSITION, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.POSITION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnablePositionKeyFrame = this.IsExistKeyFrame(EnmTypeOption.POSITION, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
 
-            clParam.mEnableRotationOption = this.IsExistOption(TYPE_OPTION.ROTATION);
-            clParam.mEnableRotationKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.ROTATION, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.ROTATION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableRotationOption = this.IsExistOption(EnmTypeOption.ROTATION);
+            clParam.mEnableRotationKeyFrame = this.IsExistKeyFrame(EnmTypeOption.ROTATION, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mRZ = Convert.ToSingle(clValue1);
 
-            clParam.mEnableScaleOption = this.IsExistOption(TYPE_OPTION.SCALE);
-            clParam.mEnableScaleKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.SCALE, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.SCALE, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableScaleOption = this.IsExistOption(EnmTypeOption.SCALE);
+            clParam.mEnableScaleKeyFrame = this.IsExistKeyFrame(EnmTypeOption.SCALE, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
 
-            clParam.mEnableOffsetOption = this.IsExistOption(TYPE_OPTION.OFFSET);
-            clParam.mEnableOffsetKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.OFFSET, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.OFFSET, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableOffsetOption = this.IsExistOption(EnmTypeOption.OFFSET);
+            clParam.mEnableOffsetKeyFrame = this.IsExistKeyFrame(EnmTypeOption.OFFSET, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mEnableOffsetParent = isParentFlag;
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
 
-            clParam.mEnableFlipOption = this.IsExistOption(TYPE_OPTION.FLIP);
-            clParam.mEnableFlipKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.FLIP, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.FLIP, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableFlipOption = this.IsExistOption(EnmTypeOption.FLIP);
+            clParam.mEnableFlipKeyFrame = this.IsExistKeyFrame(EnmTypeOption.FLIP, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.FLIP, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mEnableFlipParent = isParentFlag;
             clParam.mFlipH = Convert.ToBoolean(clValue1);
             clParam.mFlipV = Convert.ToBoolean(clValue2);
 
-            clParam.mEnableTransOption = this.IsExistOption(TYPE_OPTION.TRANSPARENCY);
-            clParam.mEnableTransKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.TRANSPARENCY, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableTransOption = this.IsExistOption(EnmTypeOption.TRANSPARENCY);
+            clParam.mEnableTransKeyFrame = this.IsExistKeyFrame(EnmTypeOption.TRANSPARENCY, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mEnableTransParent = isParentFlag;
             clParam.mTrans = Convert.ToInt32(clValue1);
 
-            clParam.mEnableColorOption = this.IsExistOption(TYPE_OPTION.COLOR);
-            clParam.mEnableColorKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.COLOR, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.COLOR, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableColorOption = this.IsExistOption(EnmTypeOption.COLOR);
+            clParam.mEnableColorKeyFrame = this.IsExistKeyFrame(EnmTypeOption.COLOR, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mEnableColorParent = isParentFlag;
             clParam.mColor = Convert.ToInt32(clValue1);
 
-            clParam.mEnableUserDataOption = this.IsExistOption(TYPE_OPTION.USER_DATA);
-            clParam.mEnableUserDataKeyFrame = this.IsExistKeyFrame(TYPE_OPTION.USER_DATA, inFrameNo);
-            this.GetOptionValueNow(TYPE_OPTION.USER_DATA, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
+            clParam.mEnableUserDataOption = this.IsExistOption(EnmTypeOption.USER_DATA);
+            clParam.mEnableUserDataKeyFrame = this.IsExistKeyFrame(EnmTypeOption.USER_DATA, inFrameNo);
+            this.GetOptionValueNow(EnmTypeOption.USER_DATA, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2);
             clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);
@@ -1014,7 +1014,7 @@ namespace PrjHikariwoAnim
             //g.DrawLine(Pens.Black, 0, inY, inWidth, inY);
 
             //以下、背景を塗る処理
-            if (this.mInsertMark == MARK_ELEMENT.IN)
+            if (this.mInsertMark == EnmMarkElement.IN)
             {
                 //以下、挿入可能エレメント描画処理
                 SolidBrush sb = new SolidBrush(Color.Orange);
@@ -1081,7 +1081,7 @@ namespace PrjHikariwoAnim
             }
 
             //以下、挿入可能ライン描画処理
-            if (this.mInsertMark == MARK_ELEMENT.UP)
+            if (this.mInsertMark == EnmMarkElement.UP)
             {
                 g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT - 1, inWidth, this.mLineNo * FormControl.CELL_HEIGHT - 1);
                 g.DrawLine(Pens.Orange, 0, this.mLineNo * FormControl.CELL_HEIGHT, inWidth, this.mLineNo * FormControl.CELL_HEIGHT);
@@ -1090,7 +1090,7 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
+                foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
                 {
                     bool isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
@@ -1146,16 +1146,16 @@ namespace PrjHikariwoAnim
             }
 
             //以下、フレームの背景（親の影響を受けるかどうかと、Tweenの影響下にあるかどうか）を表示する処理
-            bool isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+            bool isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
             if (isExist)
             {
-                ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
+                ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
 
                 Color stColorParent = Color.FromArgb(128, Color.LightPink);
                 SolidBrush clBrushParent = new SolidBrush(stColorParent);
                 Color stColorTween = Color.FromArgb(128, Color.LightBlue);
                 SolidBrush clBrushTween = new SolidBrush(stColorTween);
-                bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, TYPE_OPTION.DISPLAY);
+                bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, EnmTypeOption.DISPLAY);
                 int inFrameNo = 0;
                 for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
                 {
@@ -1194,10 +1194,10 @@ namespace PrjHikariwoAnim
 
             //以下、DISPLAYオプション表示処理
             int inCnt, inMax;
-            isExist = this.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+            isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
             if (isExist)
             {
-                ClsDatOption clOption = this.mDicOption[TYPE_OPTION.DISPLAY];
+                ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
                 if (clOption != null)
                 {
                     for (inCnt = 0; inCnt < inMaxFrameNum; inCnt++)
@@ -1213,7 +1213,7 @@ namespace PrjHikariwoAnim
             //以下、オプション描画処理
             if (this.isOpen)
             {
-                foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
+                foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
                 {
                     isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
@@ -1352,7 +1352,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
         /// <param name="enMark">挿入可能マーク</param>
-        public void FindElemFromMark(ClsDatMotion clMotion, MARK_ELEMENT enMark)
+        public void FindElemFromMark(ClsDatMotion clMotion, EnmMarkElement enMark)
         {
             if (this.mInsertMark == enMark)
             {
@@ -1379,7 +1379,7 @@ namespace PrjHikariwoAnim
         /// </summary>
         public void ClearInsertMark()
         {
-            this.mInsertMark = MARK_ELEMENT.NONE;
+            this.mInsertMark = EnmMarkElement.NONE;
 
             //以下、子エレメントの挿入マークを消す処理
             int inCnt, inMax = this.mListElem.Count;
@@ -1394,7 +1394,7 @@ namespace PrjHikariwoAnim
         /// 挿入可能マークの設定
         /// </summary>
         /// <param name="enMark">挿入可能マーク</param>
-        public void SetInsertMark(MARK_ELEMENT enMark)
+        public void SetInsertMark(EnmMarkElement enMark)
         {
             this.mInsertMark = enMark;
         }

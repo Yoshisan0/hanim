@@ -8,38 +8,23 @@ namespace PrjHikariwoAnim
 {
     public partial class FormRateGraph : Form
     {
-        private static float POS_X0 = 0.0f;         //開始座標Ｘ
-        private static float POS_Y0 = 1.0f;         //開始座標Ｙ
-        private static float POS_X1 = 0.5f;         //中心座標Ｘ
-        private static float POS_Y1 = 0.5f;         //中心座標Ｙ
-        private static float POS_X2 = 1.0f;         //終了座標Ｘ
-        private static float POS_Y2 = 0.0f;         //終了座標Ｙ
-        private static float VEC_X0 = 0.08f;        //開始座標のベクトルＸ
-        private static float VEC_Y0 = -0.08f;       //開始座標のベクトルＹ
-        private static float VEC_X1 = 0.08f;        //中心座標のベクトルＸ
-        private static float VEC_Y1 = -0.08f;       //中心座標のベクトルＹ
-        private static float VEC_X2 = 0.08f;        //終了座標のベクトルＸ
-        private static float VEC_Y2 = -0.08f;       //終了座標のベクトルＹ
-        private static float SIZE_ELLIPSE = 15.0f;  //円の直径
-        private static int MAX_X = 256;             //保存用データの長さ
-
-        private bool mPush;             //マウスを押しているかどうかのフラグ
-        private int mFrmStart;          //開始フレーム
-        private int mFrmEnd;            //終了フレーム
-        private int mFrmCurrent;        //カレントフレーム
-        private Pen mPenRed;            //赤いラインのペン
-        private Pen mPenForce;          //ベクトルのペン
-        private Pen mPenGraph;          //ラインのペン
-        private Pen mPenGrid;           //グリッドのペン
-        private Pen mPenCenterLine;     //カレントフレームのペン
-        private List<ClsVector3> mListPos; //ポイントのリスト
-        private List<ClsVector3> mListVec; //ベクトルのリスト
-        private int mGripNo;            //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
-        private Bitmap mImage0;         //イメージ
-        private Bitmap mImage1;         //イメージ
-        private bool mChange;           //変更フラグ
-        private FormMain mFormMain;     //メインフォーム
-        private ClsDatTween.EnmParam mParam;    //パラメーター種別
+        private bool mPush;                     //マウスを押しているかどうかのフラグ
+        private int mFrmStart;                  //開始フレーム
+        private int mFrmEnd;                    //終了フレーム
+        private int mFrmCurrent;                //カレントフレーム
+        private Pen mPenRed;                    //赤いラインのペン
+        private Pen mPenForce;                  //ベクトルのペン
+        private Pen mPenGraph;                  //ラインのペン
+        private Pen mPenGrid;                   //グリッドのペン
+        private Pen mPenCenterLine;             //カレントフレームのペン
+        private List<ClsVector3> mListPos;      //ポイントのリスト
+        private List<ClsVector3> mListVec;      //ベクトルのリスト
+        private int mGripNo;                    //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
+        private Bitmap mImage0;                 //イメージ
+        private Bitmap mImage1;                 //イメージ
+        private bool mChange;                   //変更フラグ
+        private FormMain mFormMain;             //メインフォーム
+        private EnmParam mParam;    //パラメーター種別
 
         /// <summary>
         /// コンストラクタ
@@ -49,7 +34,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
-        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
+        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
         {
             InitializeComponent();
 
@@ -63,14 +48,14 @@ namespace PrjHikariwoAnim
             this.mFrmCurrent = inFrmCurrent;
 
             this.mListPos = new List<ClsVector3>();
-            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
-            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X1, FormRateGraph.POS_Y1, 0.0f));
-            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
+            this.mListPos.Add(new ClsVector3(ClsDatTween.POS_X0, ClsDatTween.POS_Y0, 0.0f));
+            this.mListPos.Add(new ClsVector3(ClsDatTween.POS_X1, ClsDatTween.POS_Y1, 0.0f));
+            this.mListPos.Add(new ClsVector3(ClsDatTween.POS_X2, ClsDatTween.POS_Y2, 0.0f));
 
             this.mListVec = new List<ClsVector3>();
-            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X0, FormRateGraph.VEC_Y0, 0.0f));
-            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X1, FormRateGraph.VEC_Y1, 0.0f));
-            this.mListVec.Add(new ClsVector3(FormRateGraph.VEC_X2, FormRateGraph.VEC_Y2, 0.0f));
+            this.mListVec.Add(new ClsVector3(ClsDatTween.VEC_X0, ClsDatTween.VEC_Y0, 0.0f));
+            this.mListVec.Add(new ClsVector3(ClsDatTween.VEC_X1, ClsDatTween.VEC_Y1, 0.0f));
+            this.mListVec.Add(new ClsVector3(ClsDatTween.VEC_X2, ClsDatTween.VEC_Y2, 0.0f));
 
             //panel_PreView.DoubleBuuferd = true;
             panel_PreView.GetType().InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, panel_PreView, new object[] { true });
@@ -86,7 +71,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, ClsDatTween.EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
+        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
         {
             InitializeComponent();
 
@@ -100,9 +85,9 @@ namespace PrjHikariwoAnim
             this.mFrmCurrent = inFrmCurrent;
 
             this.mListPos = new List<ClsVector3>();
-            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X0, FormRateGraph.POS_Y0, 0.0f));
+            this.mListPos.Add(new ClsVector3(ClsDatTween.POS_X0, ClsDatTween.POS_Y0, 0.0f));
             this.mListPos.Add(new ClsVector3(clPos.X, clPos.Y, clPos.Z));
-            this.mListPos.Add(new ClsVector3(FormRateGraph.POS_X2, FormRateGraph.POS_Y2, 0.0f));
+            this.mListPos.Add(new ClsVector3(ClsDatTween.POS_X2, ClsDatTween.POS_Y2, 0.0f));
 
             this.mListVec = new List<ClsVector3>();
             int inCnt;
@@ -194,11 +179,11 @@ namespace PrjHikariwoAnim
         {
             if (clTween == null) return (null);
 
-            byte[] puchRate = new byte[FormRateGraph.MAX_X];
+            byte[] puchRate = new byte[ClsDatTween.MAX_X];
 
-            int inWidth = FormRateGraph.MAX_X;
+            int inWidth = ClsDatTween.MAX_X;
             int inHeight = byte.MaxValue;
-            Bitmap clImage = FormRateGraph.CreateImage(clTween, inWidth, inHeight);
+            Bitmap clImage = ClsDatTween.CreateImage(clTween, inWidth, inHeight);
 
             //以下、出力用データ作成処理
             int inX, inY;
@@ -213,56 +198,8 @@ namespace PrjHikariwoAnim
                     break;
                 }
             }
+
             return (puchRate);
-        }
-
-        /// <summary>
-        /// トゥイーン情報をアイコン画像に変換する処理
-        /// </summary>
-        /// <param name="clTween">トゥイーン情報</param>
-        /// <param name="inWidth">イメージ幅</param>
-        /// <param name="inHeight">イメージ高さ</param>
-        /// <returns>画像</returns>
-        public static Bitmap CreateImage(ClsDatTween clTween, int inWidth, int inHeight)
-        {
-            Pen clPen = new Pen(Color.Green);
-            Bitmap clImage = new Bitmap(inWidth, inHeight);
-
-            //以下、ペン作成処理
-            Pen stPen = new Pen(Color.Red);
-
-            //以下、ライン作成処理 
-            int inPosX0 = (int)(FormRateGraph.POS_X0 * inWidth);
-            int inPosY0 = (int)(FormRateGraph.POS_Y0 * inHeight);
-            int inPosX1 = (int)(clTween.mPos.X * inWidth);
-            int inPosY1 = (int)(clTween.mPos.Y * inHeight);
-            int inPosX2 = (int)(FormRateGraph.POS_X2 * inWidth);
-            int inPosY2 = (int)(FormRateGraph.POS_Y2 * inHeight);
-            int inVecX0 = inPosX0 + (int)(clTween.mListVec[0].X * inWidth);
-            int inVecY0 = inPosY0 + (int)(clTween.mListVec[0].Y * inHeight);
-            int inVecX1 = inPosX1 - (int)(clTween.mListVec[1].X * inWidth);
-            int inVecY1 = inPosY1 - (int)(clTween.mListVec[1].Y * inHeight);
-            int inVecX2 = inPosX1 + (int)(clTween.mListVec[1].X * inWidth);
-            int inVecY2 = inPosY1 + (int)(clTween.mListVec[1].Y * inHeight);
-            int inVecX3 = inPosX2 - (int)(clTween.mListVec[2].X * inWidth);
-            int inVecY3 = inPosY2 - (int)(clTween.mListVec[2].Y * inHeight);
-            Point stPos0 = new Point(inPosX0, inPosY0);
-            Point stVec0 = new Point(inVecX0, inVecY0);
-            Point stVec1 = new Point(inVecX1, inVecY1);
-            Point stPos1 = new Point(inPosX1, inPosY1);
-            Point stVec2 = new Point(inVecX2, inVecY2);
-            Point stVec3 = new Point(inVecX3, inVecY3);
-            Point stPos2 = new Point(inPosX2, inPosY2);
-            Point[] pclListPos = { stPos0, stVec0, stVec1, stPos1, stVec2, stVec3, stPos2 };
-
-            //以下、画像作成処理
-            using (Graphics g = Graphics.FromImage(clImage))
-            {
-                g.Clear(Color.Transparent);
-                g.DrawBeziers(stPen, pclListPos);
-            }
-
-            return (clImage);
         }
 
         /// <summary>
@@ -366,7 +303,7 @@ namespace PrjHikariwoAnim
 
         private void DrawCircle(Graphics g, Pen clPen, float flX, float flY)
         {
-            g.DrawEllipse(clPen, flX - FormRateGraph.SIZE_ELLIPSE / 2, flY - FormRateGraph.SIZE_ELLIPSE / 2, FormRateGraph.SIZE_ELLIPSE, FormRateGraph.SIZE_ELLIPSE);
+            g.DrawEllipse(clPen, flX - ClsDatTween.SIZE_ELLIPSE / 2, flY - ClsDatTween.SIZE_ELLIPSE / 2, ClsDatTween.SIZE_ELLIPSE, ClsDatTween.SIZE_ELLIPSE);
         }
 
         private void MakeImage()
@@ -560,7 +497,7 @@ namespace PrjHikariwoAnim
                 //以下、中間点チェック処理
                 float flX = this.mListPos[1].X * this.panel_PreView.Width;
                 float flY = this.mListPos[1].Y * this.panel_PreView.Height;
-                bool isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                bool isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, ClsDatTween.SIZE_ELLIPSE / 2);
                 if (isHit) this.mGripNo = 1;
 
                 //以下、始点のベクトルチェック処理
@@ -568,7 +505,7 @@ namespace PrjHikariwoAnim
                 flY = this.mListPos[0].Y * this.panel_PreView.Height;
                 flX += this.mListVec[0].X * this.panel_PreView.Width;
                 flY += this.mListVec[0].Y * this.panel_PreView.Height;
-                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, ClsDatTween.SIZE_ELLIPSE / 2);
                 if (isHit) this.mGripNo = 2;
 
                 //以下、中間点のベクトルチェック処理
@@ -576,7 +513,7 @@ namespace PrjHikariwoAnim
                 flY = this.mListPos[1].Y * this.panel_PreView.Height;
                 flX += this.mListVec[1].X * this.panel_PreView.Width;
                 flY += this.mListVec[1].Y * this.panel_PreView.Height;
-                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, ClsDatTween.SIZE_ELLIPSE / 2);
                 if (isHit) this.mGripNo = 3;
 
                 //以下、中間点の左下ベクトルチェック処理
@@ -584,7 +521,7 @@ namespace PrjHikariwoAnim
                 flY = this.mListPos[1].Y * this.panel_PreView.Height;
                 flX += -this.mListVec[1].X * this.panel_PreView.Width;
                 flY += -this.mListVec[1].Y * this.panel_PreView.Height;
-                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, ClsDatTween.SIZE_ELLIPSE / 2);
                 if (isHit) this.mGripNo = 4;
 
                 //以下、終点の左下ベクトルチェック処理
@@ -592,7 +529,7 @@ namespace PrjHikariwoAnim
                 flY = this.mListPos[2].Y * this.panel_PreView.Height;
                 flX += -this.mListVec[2].X * this.panel_PreView.Width;
                 flY += -this.mListVec[2].Y * this.panel_PreView.Height;
-                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, FormRateGraph.SIZE_ELLIPSE / 2);
+                isHit = this.IsHitPointAndCircle(e.X, e.Y, flX, flY, ClsDatTween.SIZE_ELLIPSE / 2);
                 if (isHit) this.mGripNo = 5;
 
                 this.panel_PreView.Refresh();
@@ -671,19 +608,19 @@ namespace PrjHikariwoAnim
 
         private void button_Rate1_Click(object sender, EventArgs e)
         {
-            this.mListPos[0].X = FormRateGraph.POS_X0;
-            this.mListPos[0].Y = FormRateGraph.POS_Y0;
-            this.mListPos[1].X = FormRateGraph.POS_X1;
-            this.mListPos[1].Y = FormRateGraph.POS_Y1;
-            this.mListPos[2].X = FormRateGraph.POS_X2;
-            this.mListPos[2].Y = FormRateGraph.POS_Y2;
+            this.mListPos[0].X = ClsDatTween.POS_X0;
+            this.mListPos[0].Y = ClsDatTween.POS_Y0;
+            this.mListPos[1].X = ClsDatTween.POS_X1;
+            this.mListPos[1].Y = ClsDatTween.POS_Y1;
+            this.mListPos[2].X = ClsDatTween.POS_X2;
+            this.mListPos[2].Y = ClsDatTween.POS_Y2;
 
-            this.mListVec[0].X = FormRateGraph.VEC_X0;
-            this.mListVec[0].Y = FormRateGraph.VEC_Y0;
-            this.mListVec[1].X = FormRateGraph.VEC_X1;
-            this.mListVec[1].Y = FormRateGraph.VEC_Y1;
-            this.mListVec[2].X = FormRateGraph.VEC_X2;
-            this.mListVec[2].Y = FormRateGraph.VEC_Y2;
+            this.mListVec[0].X = ClsDatTween.VEC_X0;
+            this.mListVec[0].Y = ClsDatTween.VEC_Y0;
+            this.mListVec[1].X = ClsDatTween.VEC_X1;
+            this.mListVec[1].Y = ClsDatTween.VEC_Y1;
+            this.mListVec[2].X = ClsDatTween.VEC_X2;
+            this.mListVec[2].Y = ClsDatTween.VEC_Y2;
 
             this.mChange = true;
 
@@ -692,12 +629,12 @@ namespace PrjHikariwoAnim
 
         private void button_Rate2_Click(object sender, EventArgs e)
         {
-            this.mListPos[0].X = FormRateGraph.POS_X0;
-            this.mListPos[0].Y = FormRateGraph.POS_Y0;
+            this.mListPos[0].X = ClsDatTween.POS_X0;
+            this.mListPos[0].Y = ClsDatTween.POS_Y0;
             this.mListPos[1].X = 1.0f - (float)(1.0f / Math.Sqrt(2.0f));
             this.mListPos[1].Y = 1.0f - (float)(1.0f / Math.Sqrt(2.0f));
-            this.mListPos[2].X = FormRateGraph.POS_X2;
-            this.mListPos[2].Y = FormRateGraph.POS_Y2;
+            this.mListPos[2].X = ClsDatTween.POS_X2;
+            this.mListPos[2].Y = ClsDatTween.POS_Y2;
 
             this.mListVec[0].X = 0.0f;
             this.mListVec[0].Y = -0.305f;
@@ -713,12 +650,12 @@ namespace PrjHikariwoAnim
 
         private void button_Rate3_Click(object sender, EventArgs e)
         {
-            this.mListPos[0].X = FormRateGraph.POS_X0;
-            this.mListPos[0].Y = FormRateGraph.POS_Y0;
+            this.mListPos[0].X = ClsDatTween.POS_X0;
+            this.mListPos[0].Y = ClsDatTween.POS_Y0;
             this.mListPos[1].X = (float)(1.0f / Math.Sqrt(2.0f));
             this.mListPos[1].Y = (float)(1.0f / Math.Sqrt(2.0f));
-            this.mListPos[2].X = FormRateGraph.POS_X2;
-            this.mListPos[2].Y = FormRateGraph.POS_Y2;
+            this.mListPos[2].X = ClsDatTween.POS_X2;
+            this.mListPos[2].Y = ClsDatTween.POS_Y2;
 
             this.mListVec[0].X = 0.305f;
             this.mListVec[0].Y = 0.0f;

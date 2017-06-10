@@ -1055,20 +1055,20 @@ namespace PrjHikariwoAnim
                     {
                         switch (clOption.mTypeOption)
                         {
-                        case TYPE_OPTION.DISPLAY:
+                        case EnmTypeOption.DISPLAY:
                             break;
-                        case TYPE_OPTION.POSITION:
+                        case EnmTypeOption.POSITION:
                             {
                                 clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
                                 clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
                             }
                             break;
-                        case TYPE_OPTION.ROTATION:
+                        case EnmTypeOption.ROTATION:
                             {
                                 clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
                             }
                             break;
-                        case TYPE_OPTION.SCALE:
+                        case EnmTypeOption.SCALE:
                             {
                                 float flScaleX = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X) * 0.01f;
                                 if (flScaleX <= 0.0f) flScaleX = 0.0f;
@@ -1079,15 +1079,15 @@ namespace PrjHikariwoAnim
                                 clKeyFrame.mValue2 = flScaleY;
                             }
                             break;
-                        case TYPE_OPTION.OFFSET:
+                        case EnmTypeOption.OFFSET:
                             {
                                 clKeyFrame.mValue1 = (float)clKeyFrame.mValue1 + (float)(e.X - this.mPosMouseLOld.X);
                                 clKeyFrame.mValue2 = (float)clKeyFrame.mValue2 - (float)(e.Y - this.mPosMouseLOld.Y);
                             }
                             break;
-                        case TYPE_OPTION.FLIP:
+                        case EnmTypeOption.FLIP:
                             break;
-                        case TYPE_OPTION.TRANSPARENCY:
+                        case EnmTypeOption.TRANSPARENCY:
                             {
                                 int inTrans = (int)clKeyFrame.mValue1 + (int)(e.X - this.mPosMouseLOld.X);
                                 if (inTrans <= 0) inTrans = 0;
@@ -1095,9 +1095,9 @@ namespace PrjHikariwoAnim
                                 clKeyFrame.mValue1 = inTrans;
                             }
                             break;
-                        case TYPE_OPTION.COLOR:
+                        case EnmTypeOption.COLOR:
                             break;
-                        case TYPE_OPTION.USER_DATA:
+                        case EnmTypeOption.USER_DATA:
                             break;
                         }
 
@@ -1340,7 +1340,7 @@ namespace PrjHikariwoAnim
         /// <param name="e"></param>
         private void ToolStripMenuItem_DebugGraph_Click(object sender, EventArgs e)
         {
-            FormRateGraph clFormRateGraph = new FormRateGraph(this, ClsDatTween.EnmParam.POSITION_X, 10, 20, 15);
+            FormRateGraph clFormRateGraph = new FormRateGraph(this, EnmParam.POSITION_X, 10, 20, 15);
             clFormRateGraph.Show();
         }
 
@@ -1432,27 +1432,27 @@ namespace PrjHikariwoAnim
 
             switch (clOption.mTypeOption)
             {
-            case TYPE_OPTION.POSITION:
+            case EnmTypeOption.POSITION:
                 {
                     this.Cursor = Cursors.SizeAll;
                 }
                 break;
-            case TYPE_OPTION.ROTATION:
+            case EnmTypeOption.ROTATION:
                 {
                     this.Cursor = Cursors.SizeWE;
                 }
                 break;
-            case TYPE_OPTION.SCALE:
+            case EnmTypeOption.SCALE:
                 {
                     this.Cursor = Cursors.SizeAll;
                 }
                 break;
-            case TYPE_OPTION.OFFSET:
+            case EnmTypeOption.OFFSET:
                 {
                     this.Cursor = Cursors.SizeAll;
                 }
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
+            case EnmTypeOption.TRANSPARENCY:
                 {
                     this.Cursor = Cursors.SizeWE;
                 }

@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Drawing.Imaging;
 using Tao.OpenGl;
+using System.Drawing.Drawing2D;
 
 namespace PrjHikariwoAnim
 {
@@ -68,6 +69,28 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 縮小画像を作成する処理
+        /// </summary>
+        /// <param name="clImageSrc">元画像</param>
+        /// <param name="inWidthDst">元画像の幅</param>
+        /// <param name="inHeightDst">元画像の高さ</param>
+        /// <returns>縮小画像</returns>
+        public static Image CreateSmallImage(Image clImageSrc, int inWidthDst, int inHeightDst)
+        {
+            //以下、縮小画像作成処理
+            Bitmap clImageSmall = new Bitmap(inWidthDst, inHeightDst);
+            using (Graphics g = Graphics.FromImage(clImageSmall))
+            {
+                //g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                Rectangle stRectDst = new Rectangle(0, 0, inWidthDst, inHeightDst);
+                Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);
+                g.DrawImage(clImageSrc, stRectDst, stRectSrc, GraphicsUnit.Pixel);
+            }
+
+            return (clImageSmall);
+        }
+
+        /// <summary>
         /// イメージ作成処理
         /// </summary>
         /// <param name="clImageSrc">オリジナル画像</param>
@@ -77,29 +100,7 @@ namespace PrjHikariwoAnim
             Rectangle stRectSrc = new Rectangle(0, 0, clImageSrc.Width, clImageSrc.Height);
 
             //以下、縮小画像作成処理
-            clImageSmall = new Bitmap(32, 32);
-            using (Graphics g = Graphics.FromImage(clImageSmall))
-            {
-                int inWidth, inHeight;
-                if (clImageSrc.Width == clImageSrc.Height)
-                {
-                    inWidth = 32;
-                    inHeight = 32;
-                }
-                else if (clImageSrc.Width < clImageSrc.Height)
-                {
-                    inWidth = clImageSrc.Width * 32 / clImageSrc.Height;
-                    inHeight = 32;
-                }
-                else
-                {
-                    inWidth = 32;
-                    inHeight = clImageSrc.Height * 32 / clImageSrc.Width;
-                }
-
-                Rectangle stRectDst = new Rectangle((32 - inWidth) / 2, (32 - inHeight) / 2, inWidth, inHeight);
-                g.DrawImage(clImageSrc, stRectDst, stRectSrc, GraphicsUnit.Pixel);
-            }
+            clImageSmall = ClsDatImage.CreateSmallImage(clImageSrc, 32, 32);
 
             //以下、OpenGL用の画像を作成する処理
             Bitmap clBitmap = (Bitmap)clImageSrc.Clone();

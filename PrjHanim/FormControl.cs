@@ -88,13 +88,13 @@ namespace PrjHikariwoAnim
             this.panel_Time.Width = CELL_WIDTH * (int)numericUpDown_MaxFrame.Value;
             this.panel_Time.Height = HEAD_HEIGHT * 5;
 
-            this.ToolStripMenuItem_AddRotation.Tag = TYPE_OPTION.ROTATION;
-            this.ToolStripMenuItem_AddScale.Tag = TYPE_OPTION.SCALE;
-            this.ToolStripMenuItem_AddOffset.Tag = TYPE_OPTION.OFFSET;
-            this.ToolStripMenuItem_AddFlip.Tag = TYPE_OPTION.FLIP;
-            this.ToolStripMenuItem_AddTransparency.Tag = TYPE_OPTION.TRANSPARENCY;
-            this.ToolStripMenuItem_AddColor.Tag = TYPE_OPTION.COLOR;
-            this.ToolStripMenuItem_AddUserDataText.Tag = TYPE_OPTION.USER_DATA;
+            this.ToolStripMenuItem_AddRotation.Tag = EnmTypeOption.ROTATION;
+            this.ToolStripMenuItem_AddScale.Tag = EnmTypeOption.SCALE;
+            this.ToolStripMenuItem_AddOffset.Tag = EnmTypeOption.OFFSET;
+            this.ToolStripMenuItem_AddFlip.Tag = EnmTypeOption.FLIP;
+            this.ToolStripMenuItem_AddTransparency.Tag = EnmTypeOption.TRANSPARENCY;
+            this.ToolStripMenuItem_AddColor.Tag = EnmTypeOption.COLOR;
+            this.ToolStripMenuItem_AddUserDataText.Tag = EnmTypeOption.USER_DATA;
         }
 
         public void RemoveElementFromKey(int inElementKey)
@@ -790,16 +790,16 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = ClsSystem.GetElemFromSelectLineNo();
             if (clElem == null) return;
 
-            Dictionary<TYPE_OPTION, ToolStripMenuItem> clDic = new Dictionary<TYPE_OPTION, ToolStripMenuItem>();
-            clDic[TYPE_OPTION.ROTATION] = this.ToolStripMenuItem_AddRotation;
-            clDic[TYPE_OPTION.SCALE] = this.ToolStripMenuItem_AddScale;
-            clDic[TYPE_OPTION.OFFSET] = this.ToolStripMenuItem_AddOffset;
-            clDic[TYPE_OPTION.FLIP] = this.ToolStripMenuItem_AddFlip;
-            clDic[TYPE_OPTION.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
-            clDic[TYPE_OPTION.COLOR] = this.ToolStripMenuItem_AddColor;
-            clDic[TYPE_OPTION.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
+            Dictionary<EnmTypeOption, ToolStripMenuItem> clDic = new Dictionary<EnmTypeOption, ToolStripMenuItem>();
+            clDic[EnmTypeOption.ROTATION] = this.ToolStripMenuItem_AddRotation;
+            clDic[EnmTypeOption.SCALE] = this.ToolStripMenuItem_AddScale;
+            clDic[EnmTypeOption.OFFSET] = this.ToolStripMenuItem_AddOffset;
+            clDic[EnmTypeOption.FLIP] = this.ToolStripMenuItem_AddFlip;
+            clDic[EnmTypeOption.TRANSPARENCY] = this.ToolStripMenuItem_AddTransparency;
+            clDic[EnmTypeOption.COLOR] = this.ToolStripMenuItem_AddColor;
+            clDic[EnmTypeOption.USER_DATA] = this.ToolStripMenuItem_AddUserDataText;
 
-            foreach (TYPE_OPTION enTypeOption in Enum.GetValues(typeof(TYPE_OPTION)))
+            foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
             {
                 bool isExist = clDic.ContainsKey(enTypeOption);
                 if (!isExist) continue;
@@ -862,7 +862,7 @@ namespace PrjHikariwoAnim
 
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
-            TYPE_OPTION enTypeOption = (TYPE_OPTION)clITem.Tag;
+            EnmTypeOption enTypeOption = (EnmTypeOption)clITem.Tag;
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
@@ -941,14 +941,14 @@ namespace PrjHikariwoAnim
                         {
                             //以下、挿入先のエレメントに通知する処理
                             ClsDatElem clElem = null;
-                            MARK_ELEMENT enMark = MARK_ELEMENT.NONE;
+                            EnmMarkElement enMark = EnmMarkElement.NONE;
                             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
                             {
                                 clElem = clItem as ClsDatElem;
 
                                 int inY = e.Y % FormControl.CELL_HEIGHT;
                                 bool isUp = (inY < FormControl.CELL_HEIGHT / 2);
-                                enMark = (isUp) ? MARK_ELEMENT.UP : MARK_ELEMENT.IN;
+                                enMark = (isUp) ? EnmMarkElement.UP : EnmMarkElement.IN;
                             }
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
@@ -959,7 +959,7 @@ namespace PrjHikariwoAnim
                                     clElem = null;
                                 }
 
-                                enMark = MARK_ELEMENT.IN;
+                                enMark = EnmMarkElement.IN;
                             }
 
                             if (clElem != null)
@@ -1012,7 +1012,7 @@ namespace PrjHikariwoAnim
                         bool isHit = false;
 
                         //以下、子供として登録する処理
-                        ClsDatElem clElemBase = clMotion.FindElemFromMark(MARK_ELEMENT.IN);
+                        ClsDatElem clElemBase = clMotion.FindElemFromMark(EnmMarkElement.IN);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();
@@ -1022,7 +1022,7 @@ namespace PrjHikariwoAnim
                         }
 
                         //以下、自分の兄として登録する処理
-                        clElemBase = clMotion.FindElemFromMark(MARK_ELEMENT.UP);
+                        clElemBase = clMotion.FindElemFromMark(EnmMarkElement.UP);
                         if (clElemBase != null)
                         {
                             ClsDatElem clElem = this.mFormDragLabel.GetElem();

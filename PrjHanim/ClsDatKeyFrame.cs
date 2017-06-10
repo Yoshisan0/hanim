@@ -10,7 +10,7 @@ namespace PrjHikariwoAnim
         public int mFrameNo;            //フレームNo
         public bool mParentFlag;        //親の設定に依存するかどうかのフラグ
         public ClsDatTween mTween;      //トゥイーン管理クラス
-        public TYPE_OPTION mTypeOption; //オプションタイプ
+        public EnmTypeOption mTypeOption; //オプションタイプ
         public object mValue1;          //値（何の値かはタイプに依存する）
         public object mValue2;          //値（何の値かはタイプに依存する）
 
@@ -22,7 +22,7 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public ClsDatKeyFrame(TYPE_OPTION enTypeOption, int inFrameNo, bool isParentFlag, object clValue1, object clValue2)
+        public ClsDatKeyFrame(EnmTypeOption enTypeOption, int inFrameNo, bool isParentFlag, object clValue1, object clValue2)
         {
             this.mFrameNo = inFrameNo;
             this.mParentFlag = isParentFlag;
@@ -67,30 +67,30 @@ namespace PrjHikariwoAnim
             string clValue2 = ClsTool.GetStringFromXmlNodeList(clListNode, "Value2");
             switch (this.mTypeOption)
             {
-            case TYPE_OPTION.NONE:
+            case EnmTypeOption.NONE:
                 this.mValue1 = null;
                 break;
-            case TYPE_OPTION.DISPLAY:
+            case EnmTypeOption.DISPLAY:
                 this.mValue1 = Convert.ToBoolean(clValue1);
                 break;
-            case TYPE_OPTION.FLIP:
+            case EnmTypeOption.FLIP:
                 this.mValue1 = Convert.ToBoolean(clValue1);
                 this.mValue2 = Convert.ToBoolean(clValue2);
                 break;
-            case TYPE_OPTION.POSITION:
-            case TYPE_OPTION.ROTATION:
-            case TYPE_OPTION.SCALE:
-            case TYPE_OPTION.OFFSET:
+            case EnmTypeOption.POSITION:
+            case EnmTypeOption.ROTATION:
+            case EnmTypeOption.SCALE:
+            case EnmTypeOption.OFFSET:
                 this.mValue1 = Convert.ToSingle(clValue1);
                 this.mValue2 = Convert.ToSingle(clValue2);
                 break;
-            case TYPE_OPTION.TRANSPARENCY:
+            case EnmTypeOption.TRANSPARENCY:
                 this.mValue1 = Convert.ToSingle(clValue1);
                 break;
-            case TYPE_OPTION.COLOR:
+            case EnmTypeOption.COLOR:
                 this.mValue1 = Convert.ToInt32(clValue1);
                 break;
-            case TYPE_OPTION.USER_DATA:
+            case EnmTypeOption.USER_DATA:
                 this.mValue1 = clValue1;
                 break;
             }
@@ -100,7 +100,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Tween".Equals(clNode.Name))
                 {
-                    ClsDatTween clDatTween = new ClsDatTween();
+                    ClsDatTween clDatTween = new ClsDatTween(EnmParam.NONE, 0, null, null);
                     clDatTween.Load(clNode);
 
                     this.mTween = clDatTween;

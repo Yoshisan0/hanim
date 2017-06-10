@@ -9,7 +9,7 @@ namespace PrjHikariwoAnim
     public class ClsDatOption : ClsDatItem
     {
         public ClsDatElem mElem;        //親エレメント
-        public TYPE_OPTION mTypeOption; //タイプ
+        public EnmTypeOption mTypeOption; //タイプ
         private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">初期状態の値１</param>
         /// <param name="clValue2">初期状態の値２</param>
-        public ClsDatOption(ClsDatElem clElem, TYPE_OPTION enTypeOption, bool isParentFlag, object clValue1, object clValue2)
+        public ClsDatOption(ClsDatElem clElem, EnmTypeOption enTypeOption, bool isParentFlag, object clValue1, object clValue2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
@@ -78,11 +78,11 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプション種別</param>
         /// <returns>削除可能フラグ</returns>
-        public static bool IsRemoveOK(TYPE_OPTION enTypeOption)
+        public static bool IsRemoveOK(EnmTypeOption enTypeOption)
         {
-            if (enTypeOption == TYPE_OPTION.NONE) return (false);
-            if (enTypeOption == TYPE_OPTION.DISPLAY) return (false);
-            if (enTypeOption == TYPE_OPTION.POSITION) return (false);
+            if (enTypeOption == EnmTypeOption.NONE) return (false);
+            if (enTypeOption == EnmTypeOption.DISPLAY) return (false);
+            if (enTypeOption == EnmTypeOption.POSITION) return (false);
 
             return (true);
         }
@@ -138,7 +138,7 @@ namespace PrjHikariwoAnim
         {
             XmlNodeList clListNode = clXmlNode.ChildNodes;
             string clTypeOption = ClsTool.GetStringFromXmlNodeList(clListNode, "TypeOption");
-            this.mTypeOption = (TYPE_OPTION)Enum.Parse(typeof(TYPE_OPTION), clTypeOption);
+            this.mTypeOption = (EnmTypeOption)Enum.Parse(typeof(EnmTypeOption), clTypeOption);
 
             //以下、各管理クラス作成処理
             foreach (XmlNode clNode in clListNode)
@@ -182,10 +182,10 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enType">オプション種別</param>
         /// <returns>表示フラグ</returns>
-        public static bool IsDraw(TYPE_OPTION enTypeOption)
+        public static bool IsDraw(EnmTypeOption enTypeOption)
         {
-            if (enTypeOption == TYPE_OPTION.NONE) return (false);
-            if (enTypeOption == TYPE_OPTION.DISPLAY) return (false);    //DISPLAYはエレメントとして描画するので、オプションとしては描画しない
+            if (enTypeOption == EnmTypeOption.NONE) return (false);
+            if (enTypeOption == EnmTypeOption.DISPLAY) return (false);    //DISPLAYはエレメントとして描画するので、オプションとしては描画しない
 
             return (true);
         }
@@ -315,9 +315,9 @@ namespace PrjHikariwoAnim
             int inFrameNo = 0;
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
-                if (this.mTypeOption == TYPE_OPTION.POSITION ||
-                    this.mTypeOption == TYPE_OPTION.ROTATION ||
-                    this.mTypeOption == TYPE_OPTION.SCALE)
+                if (this.mTypeOption == EnmTypeOption.POSITION ||
+                    this.mTypeOption == EnmTypeOption.ROTATION ||
+                    this.mTypeOption == EnmTypeOption.SCALE)
                 {
                     isParentFlag = (this.mElem.mElem != null);
                 }

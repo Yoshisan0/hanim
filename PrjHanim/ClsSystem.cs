@@ -422,10 +422,10 @@ namespace PrjHikariwoAnim
                 ClsDatElem clElem = clItem as ClsDatElem;
                 if (clElem == null) return (null);
 
-                isExist = clElem.mDicOption.ContainsKey(TYPE_OPTION.DISPLAY);
+                isExist = clElem.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
                 if (!isExist) return (null);
 
-                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+                clOption = clElem.mDicOption[EnmTypeOption.DISPLAY];
             }
             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
             {
@@ -450,7 +450,7 @@ namespace PrjHikariwoAnim
             if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.ELEM)
             {
                 clElem = clItem as ClsDatElem;
-                clOption = clElem.mDicOption[TYPE_OPTION.DISPLAY];
+                clOption = clElem.mDicOption[EnmTypeOption.DISPLAY];
             }
             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
             {

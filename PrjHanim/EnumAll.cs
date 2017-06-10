@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PrjHikariwoAnim
 {
-    public enum MARK_ELEMENT
+    public enum EnmMarkElement
     {
         NONE,
         UP,
         IN
     }
 
-    public enum TYPE_PARAM
+    public enum EnmTypeParam
     {
         NONE,
         DISPLAY,
@@ -30,7 +30,7 @@ namespace PrjHikariwoAnim
         USER_DATA,
     }
 
-    public enum TYPE_OPTION
+    public enum EnmTypeOption
     {
         NONE,
         DISPLAY,        //TYPE_PARAM.DISPLAY
@@ -42,5 +42,24 @@ namespace PrjHikariwoAnim
         TRANSPARENCY,   //TYPE_PARAM.TRANSPARENCY
         COLOR,          //TYPE_PARAM.COLOR
         USER_DATA,      //TYPE_PARAM.USER_DATA
+    }
+
+    public enum EnmParam
+    {
+        NONE = 0,
+
+        POSITION_X,
+        POSITION_Y,
+        ROTATION,
+        SCALE_X,
+        SCALE_Y,
+        TRANS,
+        FLIP_H,
+        FLIP_V,
+        VISIBLE,
+        COLOR,
+        OFFSET_X,
+        OFFSET_Y,
+        USERDATA,
     }
 }
