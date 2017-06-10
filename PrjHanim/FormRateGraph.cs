@@ -736,5 +736,11 @@ namespace PrjHikariwoAnim
         {
             this.panel_PreView.Refresh();
         }
+
+        private void button_OK_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
 }

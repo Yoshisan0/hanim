@@ -37,11 +37,13 @@
             this.checkBox_GridCheck = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel_PreView = new System.Windows.Forms.Panel();
+            this.button_OK = new System.Windows.Forms.Button();
             this.panel_ToolBase.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_ToolBase
             // 
+            this.panel_ToolBase.Controls.Add(this.button_OK);
             this.panel_ToolBase.Controls.Add(this.button_Rate3);
             this.panel_ToolBase.Controls.Add(this.button_Rate2);
             this.panel_ToolBase.Controls.Add(this.button_Rate1);
@@ -136,6 +138,17 @@
             this.panel_PreView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseMove);
             this.panel_PreView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_PreView_MouseUp);
             // 
+            // button_OK
+            // 
+            this.button_OK.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button_OK.Location = new System.Drawing.Point(477, 0);
+            this.button_OK.Name = "button_OK";
+            this.button_OK.Size = new System.Drawing.Size(75, 30);
+            this.button_OK.TabIndex = 38;
+            this.button_OK.Text = "OK";
+            this.button_OK.UseVisualStyleBackColor = true;
+            this.button_OK.Click += new System.EventHandler(this.button_OK_Click);
+            // 
             // FormRateGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -164,5 +177,6 @@
         private System.Windows.Forms.Button button_Rate2;
         private System.Windows.Forms.Button button_Rate1;
         private System.Windows.Forms.Panel Spaceer1;
+        private System.Windows.Forms.Button button_OK;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Xml;
 
 namespace PrjHikariwoAnim
@@ -32,6 +33,7 @@ namespace PrjHikariwoAnim
         public EnmParam mParam;
         public int mLength;         //継続フレーム数
         public ClsVector3 mPos;
+        public Image mImage;
         public List<ClsVector3> mListVec;
 
         //シリアライザ用
@@ -48,7 +50,6 @@ namespace PrjHikariwoAnim
         {
             this.mParam = enParam;
             this.mLength = inLength;
-
             this.mPos = new ClsVector3(clPos.X, clPos.Y, 0.0f);
 
             this.mListVec = new List<ClsVector3>();
@@ -58,6 +59,8 @@ namespace PrjHikariwoAnim
                 ClsVector3 clVec = new ClsVector3(pclVec[inCnt].X, pclVec[inCnt].Y, 0.0f);
                 this.mListVec.Add(clVec);
             }
+
+            this.mImage = FormRateGraph.CreateImage(this, 15, 15);
         }
 
         public void RemoveAll()

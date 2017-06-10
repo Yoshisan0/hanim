@@ -99,17 +99,44 @@ namespace PrjHikariwoAnim
             this.checkBox_Display.Checked = clParam.mDisplay;
 
             this.checkBox_EnablePositionKeyFrame.Checked = clParam.mEnablePositionKeyFrame;
+            this.checkBox_EnablePositionXTween.Checked = clParam.mEnablePositionXTween;
+            this.checkBox_EnablePositionYTween.Checked = clParam.mEnablePositionYTween;
+            this.button_TweenX.BackgroundImage = (clParam.mTweenPositionX == null) ? null : clParam.mTweenPositionX.mImage;
+            this.button_TweenY.BackgroundImage = (clParam.mTweenPositionY == null) ? null : clParam.mTweenPositionY.mImage;
+            this.button_TweenX.Tag = clParam.mTweenPositionX;
+            this.button_TweenY.Tag = clParam.mTweenPositionY;
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
 
             this.checkBox_EnableRotationOption.Checked = clParam.mEnableRotationOption;
             this.checkBox_EnableRotationKeyFrame.Checked = clParam.mEnableRotationKeyFrame;
+            this.checkBox_EnableRotationTween.Checked = clParam.mEnableRotationTween;
+            this.button_TweenRZ.BackgroundImage = (clParam.mTweenRotation == null) ? null : clParam.mTweenRotation.mImage;
+            this.button_TweenRZ.Tag = clParam.mTweenRotation;
             this.UDnumRot.Value = (decimal)clParam.mRZ;
 
             this.checkBox_EnableScaleOption.Checked = clParam.mEnableScaleOption;
             this.checkBox_EnableScaleKeyFrame.Checked = clParam.mEnableScaleKeyFrame;
+            this.checkBox_EnableScaleXTween.Checked = clParam.mEnableScaleXTween;
+            this.checkBox_EnableScaleYTween.Checked = clParam.mEnableScaleYTween;
+            this.button_TweenSX.BackgroundImage = (clParam.mTweenScaleX == null) ? null : clParam.mTweenScaleX.mImage;
+            this.button_TweenSY.BackgroundImage = (clParam.mTweenScaleY == null) ? null : clParam.mTweenScaleY.mImage;
+            this.button_TweenSX.Tag = clParam.mTweenScaleX;
+            this.button_TweenSY.Tag = clParam.mTweenScaleY;
             this.UDnumSX.Value = (decimal)clParam.mSX;
             this.UDnumSY.Value = (decimal)clParam.mSY;
+
+            this.checkBox_EnableOffsetOption.Checked = clParam.mEnableOffsetOption;
+            this.checkBox_EnableOffsetKeyFrame.Checked = clParam.mEnableOffsetKeyFrame;
+            this.checkBox_EnableOffsetParent.Checked = clParam.mEnableOffsetParent;
+            this.checkBox_EnableOffsetXTween.Checked = clParam.mEnableOffsetXTween;
+            this.checkBox_EnableOffsetYTween.Checked = clParam.mEnableOffsetYTween;
+            this.button_TweenCX.BackgroundImage = (clParam.mTweenOffsetX == null) ? null : clParam.mTweenOffsetX.mImage;
+            this.button_TweenCY.BackgroundImage = (clParam.mTweenOffsetY == null) ? null : clParam.mTweenOffsetY.mImage;
+            this.button_TweenCX.Tag = clParam.mTweenOffsetX;
+            this.button_TweenCY.Tag = clParam.mTweenOffsetY;
+            this.UDnumXoff.Value = (int)clParam.mCX;
+            this.UDnumYoff.Value = (int)clParam.mCY;
 
             this.checkBox_EnableFlipOption.Checked = clParam.mEnableFlipOption;
             this.checkBox_EnableFlipKeyFrame.Checked = clParam.mEnableFlipKeyFrame;
@@ -120,18 +147,18 @@ namespace PrjHikariwoAnim
             this.checkBox_EnableTransOption.Checked = clParam.mEnableTransOption;
             this.checkBox_EnableTransKeyFrame.Checked = clParam.mEnableTransKeyFrame;
             this.checkBox_EnableTransParent.Checked = clParam.mEnableTransParent;
+            this.checkBox_EnableTransTween.Checked = clParam.mEnableTransTween;
+            this.button_TweenT.BackgroundImage = (clParam.mTweenTrans == null) ? null : clParam.mTweenTrans.mImage;
+            this.button_TweenT.Tag = clParam.mTweenTrans;
             this.UDnumT.Value = (decimal)clParam.mTrans;
 
             this.checkBox_EnableColorOption.Checked = clParam.mEnableColorOption;
             this.checkBox_EnableColorKeyFrame.Checked = clParam.mEnableColorKeyFrame;
             this.checkBox_EnableColorParent.Checked = clParam.mEnableColorParent;
+            this.checkBox_EnableColorTween.Checked = clParam.mEnableColorTween;
+            this.button_TweenC.BackgroundImage = (clParam.mTweenColor == null) ? null : clParam.mTweenColor.mImage;
+            this.button_TweenC.Tag = clParam.mTweenColor;
             this.textBox_C.Text = $"{clParam.mColor:X6}";
-
-            this.checkBox_EnableOffsetOption.Checked = clParam.mEnableOffsetOption;
-            this.checkBox_EnableOffsetKeyFrame.Checked = clParam.mEnableOffsetKeyFrame;
-            this.checkBox_EnableOffsetParent.Checked = clParam.mEnableOffsetParent;
-            this.UDnumXoff.Value = (int)clParam.mCX;
-            this.UDnumYoff.Value = (int)clParam.mCY;
 
             this.checkBox_EnableUserDataOption.Checked = clParam.mEnableUserDataOption;
             this.checkBox_EnableUserDataKeyFrame.Checked = clParam.mEnableUserDataKeyFrame;
@@ -149,8 +176,6 @@ namespace PrjHikariwoAnim
         /// </summary>
         public ClsParam GetParam()
         {
-            //isLocked = true;
-
             //以下、パラメーター取得処理
             ClsParam clParam = new ClsParam();
 
@@ -161,17 +186,37 @@ namespace PrjHikariwoAnim
             clParam.mDisplay = this.checkBox_Display.Checked;
 
             clParam.mEnablePositionKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
+            clParam.mEnablePositionXTween = this.checkBox_EnablePositionXTween.Checked;
+            clParam.mEnablePositionYTween = this.checkBox_EnablePositionYTween.Checked;
+            clParam.mTweenPositionX = this.button_TweenX.Tag as ClsDatTween;
+            clParam.mTweenPositionY = this.button_TweenY.Tag as ClsDatTween;
             clParam.mX = (int)this.UDnumX.Value;
             clParam.mY = (int)this.UDnumY.Value;
 
             clParam.mEnableRotationOption = this.checkBox_EnableRotationOption.Checked;
             clParam.mEnableRotationKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
+            clParam.mEnableRotationTween = this.checkBox_EnableRotationTween.Checked;
+            clParam.mTweenRotation = this.button_TweenRZ.Tag as ClsDatTween;
             clParam.mRZ = (float)this.UDnumRot.Value;
 
             clParam.mEnableScaleOption = this.checkBox_EnableScaleOption.Checked;
             clParam.mEnableScaleKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
+            clParam.mEnableScaleXTween = this.checkBox_EnableScaleXTween.Checked;
+            clParam.mEnableScaleYTween = this.checkBox_EnableScaleYTween.Checked;
+            clParam.mTweenScaleX = this.button_TweenSX.Tag as ClsDatTween;
+            clParam.mTweenScaleY = this.button_TweenSY.Tag as ClsDatTween;
             clParam.mSX = (float)this.UDnumSX.Value;
             clParam.mSY = (float)this.UDnumSY.Value;
+
+            clParam.mEnableOffsetOption = this.checkBox_EnableOffsetOption.Checked;
+            clParam.mEnableOffsetKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
+            clParam.mEnableOffsetParent = this.checkBox_EnableOffsetParent.Checked;
+            clParam.mEnableOffsetXTween = this.checkBox_EnableOffsetXTween.Checked;
+            clParam.mEnableOffsetYTween = this.checkBox_EnableOffsetYTween.Checked;
+            clParam.mTweenOffsetX = this.button_TweenCX.Tag as ClsDatTween;
+            clParam.mTweenOffsetY = this.button_TweenCY.Tag as ClsDatTween;
+            clParam.mCX = (int)this.UDnumXoff.Value;
+            clParam.mCY = (int)this.UDnumYoff.Value;
 
             clParam.mEnableFlipOption = this.checkBox_EnableFlipOption.Checked;
             clParam.mEnableFlipKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
@@ -179,27 +224,23 @@ namespace PrjHikariwoAnim
             clParam.mFlipH = this.checkBox_FlipH.Checked;
             clParam.mFlipV = this.checkBox_FlipV.Checked;
 
-            clParam.mEnableOffsetOption = this.checkBox_EnableOffsetOption.Checked;
-            clParam.mEnableOffsetKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
-            clParam.mEnableOffsetParent = this.checkBox_EnableOffsetParent.Checked;
-            clParam.mCX = (int)this.UDnumXoff.Value;
-            clParam.mCY = (int)this.UDnumYoff.Value;
-
             clParam.mEnableTransOption = this.checkBox_EnableTransOption.Checked;
             clParam.mEnableTransKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
             clParam.mEnableTransParent = this.checkBox_EnableTransParent.Checked;
+            clParam.mEnableTransTween = this.checkBox_EnableTransTween.Checked;
+            clParam.mTweenTrans = this.button_TweenT.Tag as ClsDatTween;
             clParam.mTrans = (int)this.UDnumT.Value;
 
             clParam.mEnableColorOption = this.checkBox_EnableColorOption.Checked;
             clParam.mEnableColorKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
             clParam.mEnableColorParent = this.checkBox_EnableColorParent.Checked;
+            clParam.mEnableColorTween = this.checkBox_EnableColorTween.Checked;
+            clParam.mTweenColor = this.button_TweenC.Tag as ClsDatTween;
             clParam.mColor = this.button_C.BackColor.ToArgb() & 0x00FFFFFF;
 
             clParam.mEnableUserDataOption = this.checkBox_EnableUserDataOption.Checked;
             clParam.mEnableUserDataKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
             clParam.mUserData = this.textBox_UT.Text;
-
-            //this.mLocked = false;
 
             return (clParam);
         }
@@ -527,58 +568,94 @@ namespace PrjHikariwoAnim
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
 
-        private void button_X_Click(object sender, EventArgs e)
+        private void button_TweenX_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.POSITION_X, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenX.BackgroundImage = clTween.mImage;
         }
 
-        private void button_Y_Click(object sender, EventArgs e)
+        private void button_TweenY_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.POSITION_Y, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenY.BackgroundImage = clTween.mImage;
         }
 
-        private void button_RX_Click(object sender, EventArgs e)
+        private void button_TweenRZ_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.ROTATION, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenRZ.BackgroundImage = clTween.mImage;
         }
 
-        private void button_SX_Click(object sender, EventArgs e)
+        private void button_TweenSX_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_X, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenSX.BackgroundImage = clTween.mImage;
         }
 
-        private void button_SY_Click(object sender, EventArgs e)
+        private void button_TweenSY_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_Y, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenSY.BackgroundImage = clTween.mImage;
         }
 
-        private void button_T_Click(object sender, EventArgs e)
+        private void button_TweenCX_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_X, 10, 20, 15);
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenCX.BackgroundImage = clTween.mImage;
+        }
+
+        private void button_TweenCY_Click(object sender, EventArgs e)
+        {
+            FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_Y, 10, 20, 15);
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenCY.BackgroundImage = clTween.mImage;
+        }
+
+        private void button_TweenT_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.TRANS, 10, 20, 15);
-            clForm.Show();
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
+
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenT.BackgroundImage = clTween.mImage;
         }
 
-        private void button_Color_Click(object sender, EventArgs e)
+        private void button_TweenC_Click(object sender, EventArgs e)
         {
             FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.COLOR, 10, 20, 15);
-            clForm.Show();
-        }
+            clForm.ShowDialog();
+            if (clForm.DialogResult != DialogResult.OK) return;
 
-        private void button_Xoff_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_X, 10, 20, 15);
-            clForm.Show();
-        }
-
-        private void button_Yoff_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, ClsDatTween.EnmParam.SCALE_Y, 10, 20, 15);
-            clForm.Show();
+            ClsDatTween clTween = clForm.GetTween();
+            this.button_TweenC.BackgroundImage = clTween.mImage;
         }
     }
 }
