@@ -164,11 +164,12 @@ namespace PrjHikariwoAnim
         /// <summary>
         /// 保存処理
         /// </summary>
+        /// <param name="clName">名前</param>
         /// <param name="clHeader">ヘッダー</param>
-        public void Save(string clHeader)
+        public void Save(string clName, string clHeader)
         {
             //以下、トゥイーン保存処理
-            ClsTool.AppendElementStart(clHeader, "Tween");
+            ClsTool.AppendElementStart(clHeader, clName);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Param", this.mParam.ToString());
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Length", this.mLength);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Pos", this.mPos);
@@ -184,7 +185,7 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            ClsTool.AppendElementEnd(clHeader, "Tween");
+            ClsTool.AppendElementEnd(clHeader, clName);
         }
 
         public void Load()

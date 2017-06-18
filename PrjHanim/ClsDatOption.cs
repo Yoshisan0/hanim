@@ -20,7 +20,9 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">初期状態の値１</param>
         /// <param name="clValue2">初期状態の値２</param>
-        public ClsDatOption(ClsDatElem clElem, EnmTypeOption enTypeOption, bool isParentFlag, object clValue1, object clValue2)
+        /// <param name="clTween1">トゥイーン１</param>
+        /// <param name="clTween2">トゥイーン２</param>
+        public ClsDatOption(ClsDatElem clElem, EnmTypeOption enTypeOption, bool isParentFlag, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
@@ -29,7 +31,7 @@ namespace PrjHikariwoAnim
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, isParentFlag, clValue1, clValue2);
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, isParentFlag, clValue1, clValue2, clTween1, clTween2);
             this.mDicKeyFrame.Add(0, clKeyFrame);
         }
 
@@ -114,7 +116,7 @@ namespace PrjHikariwoAnim
         /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public void SetKeyFrame(int inFrameNo, bool isParentFlag, object clValue1, object clValue2)
+        public void SetKeyFrame(int inFrameNo, bool isParentFlag, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
         {
             bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
             if (isExist)
@@ -123,10 +125,12 @@ namespace PrjHikariwoAnim
                 clKeyFrame.mParentFlag = isParentFlag;
                 clKeyFrame.mValue1 = clValue1;
                 clKeyFrame.mValue2 = clValue2;
+                clKeyFrame.mTween1 = clTween1;
+                clKeyFrame.mTween2 = clTween2;
             }
             else
             {
-                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, isParentFlag, clValue1, clValue2);
+                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, isParentFlag, clValue1, clValue2, clTween1, clTween2);
             }
         }
 
@@ -148,7 +152,7 @@ namespace PrjHikariwoAnim
                     bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, this.mTypeOption);
                     object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
                     object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
-                    ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, isParentFlag, clValue1, clValue2);
+                    ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, isParentFlag, clValue1, clValue2, null, null);
                     clDatKeyFrame.Load(clNode);
 
                     this.mDicKeyFrame[clDatKeyFrame.mFrameNo] = clDatKeyFrame;

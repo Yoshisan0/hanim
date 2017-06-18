@@ -866,7 +866,7 @@ namespace PrjHikariwoAnim
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-            clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2);
+            clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2, null, null);
 
             //以下、行番号振り直し処理
             clMotion.Assignment();
@@ -1067,8 +1067,8 @@ namespace PrjHikariwoAnim
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, clOption.mTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(clOption.mTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(clOption.mTypeOption);
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2);
-            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2);  //存在していたら更新、存在していなかったら追加
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2, null, null);
+            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2, null, null);  //存在していたら更新、存在していなかったら追加
 
             //以下、コントロール更新処理
             this.RefreshControl();
