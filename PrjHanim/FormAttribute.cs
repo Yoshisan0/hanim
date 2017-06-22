@@ -563,127 +563,30 @@ namespace PrjHikariwoAnim
             this.mFormMain.checkBox_Attribute.Checked = false;
         }
 
-        private void button_TweenX_Click(object sender, EventArgs e)
+        private void button_Tween_Click(object sender, EventArgs e)
         {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.POSITION_X, 10, 20, 15);
+            Button clButton = sender as Button;
+
+            EnmParam enParam = EnmParam.NONE;
+            if ("button_TweenX".Equals(clButton.Name)) enParam = EnmParam.POSITION_X;
+            else if ("button_TweenY".Equals(clButton.Name)) enParam = EnmParam.POSITION_Y;
+            else if ("button_TweenRZ".Equals(clButton.Name)) enParam = EnmParam.ROTATION;
+            else if ("button_TweenSX".Equals(clButton.Name)) enParam = EnmParam.SCALE_X;
+            else if ("button_TweenSY".Equals(clButton.Name)) enParam = EnmParam.SCALE_Y;
+            else if ("button_TweenCX".Equals(clButton.Name)) enParam = EnmParam.OFFSET_X;
+            else if ("button_TweenCY".Equals(clButton.Name)) enParam = EnmParam.OFFSET_Y;
+            else if ("button_TweenT".Equals(clButton.Name)) enParam = EnmParam.TRANS;
+            else if ("button_TweenC".Equals(clButton.Name)) enParam = EnmParam.COLOR;
+            if (enParam == EnmParam.NONE) return;
+
+            FormTween clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15);
             clForm.ShowDialog();
             if (clForm.DialogResult != DialogResult.OK) return;
 
             //以下、トゥイーン設定
             ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenX.Image = clTween.mImage;
-            this.button_TweenX.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenY_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.POSITION_Y, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenY.Image = clTween.mImage;
-            this.button_TweenY.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenRZ_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.ROTATION, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenRZ.Image = clTween.mImage;
-            this.button_TweenRZ.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenSX_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_X, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenSX.Image = clTween.mImage;
-            this.button_TweenSX.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenSY_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_Y, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenSY.Image = clTween.mImage;
-            this.button_TweenSY.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenCX_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_X, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenCX.Image = clTween.mImage;
-            this.button_TweenCX.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenCY_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.SCALE_Y, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenCY.Image = clTween.mImage;
-            this.button_TweenCY.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenT_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.TRANS, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenT.Image = clTween.mImage;
-            this.button_TweenT.Tag = clTween;
-
-            this.Param_ValueChanged(sender, e);
-        }
-
-        private void button_TweenC_Click(object sender, EventArgs e)
-        {
-            FormRateGraph clForm = new FormRateGraph(this.mFormMain, EnmParam.COLOR, 10, 20, 15);
-            clForm.ShowDialog();
-            if (clForm.DialogResult != DialogResult.OK) return;
-
-            //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
-            this.button_TweenC.Image = clTween.mImage;
-            this.button_TweenC.Tag = clTween;
+            clButton.Image = clTween.mImage;
+            clButton.Tag = clTween;
 
             this.Param_ValueChanged(sender, e);
         }

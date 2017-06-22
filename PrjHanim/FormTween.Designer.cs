@@ -1,6 +1,6 @@
 ﻿namespace PrjHikariwoAnim
 {
-    partial class FormRateGraph
+    partial class FormTween
     {
         /// <summary>
         /// Required designer variable.
@@ -126,8 +126,8 @@
             // 
             // panel_PreView
             // 
-            this.panel_PreView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel_PreView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_PreView.Location = new System.Drawing.Point(6, 36);
             this.panel_PreView.Name = "panel_PreView";

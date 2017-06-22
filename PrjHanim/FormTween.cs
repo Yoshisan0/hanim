@@ -6,25 +6,25 @@ using System.Windows.Forms;
 
 namespace PrjHikariwoAnim
 {
-    public partial class FormRateGraph : Form
+    public partial class FormTween : Form
     {
-        private bool mPush;                     //マウスを押しているかどうかのフラグ
-        private int mFrmStart;                  //開始フレーム
-        private int mFrmEnd;                    //終了フレーム
-        private int mFrmCurrent;                //カレントフレーム
-        private Pen mPenRed;                    //赤いラインのペン
-        private Pen mPenForce;                  //ベクトルのペン
-        private Pen mPenGraph;                  //ラインのペン
-        private Pen mPenGrid;                   //グリッドのペン
-        private Pen mPenCenterLine;             //カレントフレームのペン
-        private List<ClsVector3> mListPos;      //ポイントのリスト
-        private List<ClsVector3> mListVec;      //ベクトルのリスト
-        private int mGripNo;                    //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
-        private Bitmap mImage0;                 //イメージ
-        private Bitmap mImage1;                 //イメージ
-        private bool mChange;                   //変更フラグ
-        private FormMain mFormMain;             //メインフォーム
-        private EnmParam mParam;    //パラメーター種別
+        private bool mPush;                 //マウスを押しているかどうかのフラグ
+        private int mFrmStart;              //開始フレーム
+        private int mFrmEnd;                //終了フレーム
+        private int mFrmCurrent;            //カレントフレーム
+        private Pen mPenRed;                //赤いラインのペン
+        private Pen mPenForce;              //ベクトルのペン
+        private Pen mPenGraph;              //ラインのペン
+        private Pen mPenGrid;               //グリッドのペン
+        private Pen mPenCenterLine;         //カレントフレームのペン
+        private List<ClsVector3> mListPos;  //ポイントのリスト
+        private List<ClsVector3> mListVec;  //ベクトルのリスト
+        private int mGripNo;                //掴んでいるポイントの番号(0:掴んでいない 1:中間ポイント 2:始点のベクトル 3:中間点のベクトル 4:中間点の左下ベクトル 5:終点の左下ベクトル)
+        private Bitmap mImage0;             //イメージ
+        private Bitmap mImage1;             //イメージ
+        private bool mChange;               //変更フラグ
+        private FormMain mFormMain;         //メインフォーム
+        private EnmParam mParam;            //パラメーター種別
 
         /// <summary>
         /// コンストラクタ
@@ -34,7 +34,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmStart">開始フレーム</param>
         /// <param name="inFrmEnd">終了フレーム</param>
         /// <param name="inFrmCurrent">カレントフレーム</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
+        public FormTween(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent)
         {
             InitializeComponent();
 
@@ -71,7 +71,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormRateGraph(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
+        public FormTween(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
         {
             InitializeComponent();
 
@@ -144,7 +144,7 @@ namespace PrjHikariwoAnim
             if (clDatTween == null) return (0.0f);
             if (puchRate == null)
             {
-                puchRate = FormRateGraph.CreateSaveData(clDatTween);
+                puchRate = FormTween.CreateSaveData(clDatTween);
                 if (puchRate == null) return (0.0f);
             }
             if (!(clDatKeyFrame.mFrameNo <= inFrmCurrent && inFrmCurrent <= clDatKeyFrame.mFrameNo + clDatTween.mLength)) return (0.0f);

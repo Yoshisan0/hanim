@@ -903,7 +903,7 @@
             this.button_TweenC.Size = new System.Drawing.Size(23, 23);
             this.button_TweenC.TabIndex = 58;
             this.button_TweenC.UseVisualStyleBackColor = true;
-            this.button_TweenC.Click += new System.EventHandler(this.button_TweenC_Click);
+            this.button_TweenC.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // checkBox_FlipH
             // 
@@ -937,7 +937,7 @@
             this.button_TweenT.Size = new System.Drawing.Size(23, 23);
             this.button_TweenT.TabIndex = 57;
             this.button_TweenT.UseVisualStyleBackColor = true;
-            this.button_TweenT.Click += new System.EventHandler(this.button_TweenT_Click);
+            this.button_TweenT.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // label_T
             // 
@@ -957,7 +957,7 @@
             this.button_TweenCY.Size = new System.Drawing.Size(23, 23);
             this.button_TweenCY.TabIndex = 60;
             this.button_TweenCY.UseVisualStyleBackColor = true;
-            this.button_TweenCY.Click += new System.EventHandler(this.button_TweenCY_Click);
+            this.button_TweenCY.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // label_FlipH
             // 
@@ -987,7 +987,7 @@
             this.button_TweenCX.Size = new System.Drawing.Size(23, 23);
             this.button_TweenCX.TabIndex = 59;
             this.button_TweenCX.UseVisualStyleBackColor = true;
-            this.button_TweenCX.Click += new System.EventHandler(this.button_TweenCX_Click);
+            this.button_TweenCX.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // label_X
             // 
@@ -1037,7 +1037,7 @@
             this.button_TweenSY.Size = new System.Drawing.Size(23, 23);
             this.button_TweenSY.TabIndex = 56;
             this.button_TweenSY.UseVisualStyleBackColor = true;
-            this.button_TweenSY.Click += new System.EventHandler(this.button_TweenSY_Click);
+            this.button_TweenSY.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // label_SX
             // 
@@ -1067,7 +1067,7 @@
             this.button_TweenSX.Size = new System.Drawing.Size(23, 23);
             this.button_TweenSX.TabIndex = 55;
             this.button_TweenSX.UseVisualStyleBackColor = true;
-            this.button_TweenSX.Click += new System.EventHandler(this.button_TweenSX_Click);
+            this.button_TweenSX.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // label_Y
             // 
@@ -1087,7 +1087,7 @@
             this.button_TweenX.Size = new System.Drawing.Size(23, 23);
             this.button_TweenX.TabIndex = 50;
             this.button_TweenX.UseVisualStyleBackColor = true;
-            this.button_TweenX.Click += new System.EventHandler(this.button_TweenX_Click);
+            this.button_TweenX.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // button_TweenRZ
             // 
@@ -1097,7 +1097,7 @@
             this.button_TweenRZ.Size = new System.Drawing.Size(23, 23);
             this.button_TweenRZ.TabIndex = 52;
             this.button_TweenRZ.UseVisualStyleBackColor = true;
-            this.button_TweenRZ.Click += new System.EventHandler(this.button_TweenRZ_Click);
+            this.button_TweenRZ.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // button_TweenY
             // 
@@ -1107,7 +1107,7 @@
             this.button_TweenY.Size = new System.Drawing.Size(23, 23);
             this.button_TweenY.TabIndex = 51;
             this.button_TweenY.UseVisualStyleBackColor = true;
-            this.button_TweenY.Click += new System.EventHandler(this.button_TweenY_Click);
+            this.button_TweenY.Click += new System.EventHandler(this.button_Tween_Click);
             // 
             // FormAttribute
             // 
