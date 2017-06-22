@@ -71,7 +71,7 @@ namespace PrjHikariwoAnim
         /// <param name="inFrmCurrent">カレントフレーム</param>
         /// <param name="clPos">中心座標(0.0～1.0)</param>
         /// <param name="pclListVec">各ベクトル(0.0～1.0)</param>
-        public FormTween(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, ClsVector3[] pclListVec)
+        public FormTween(FormMain clForm, EnmParam enParam, int inFrmStart, int inFrmEnd, int inFrmCurrent, ClsVector3 clPos, List<ClsVector3> clListVec)
         {
             InitializeComponent();
 
@@ -93,7 +93,7 @@ namespace PrjHikariwoAnim
             int inCnt;
             for (inCnt = 0; inCnt < 3; inCnt++)
             {
-                this.mListVec.Add(new ClsVector3(pclListVec[inCnt].X, pclListVec[inCnt].Y, pclListVec[inCnt].Z));
+                this.mListVec.Add(new ClsVector3(clListVec[inCnt].X, clListVec[inCnt].Y, clListVec[inCnt].Z));
             }
 
             //panel_PreView.DoubleBuuferd = true;

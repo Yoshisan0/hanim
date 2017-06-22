@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -579,12 +580,21 @@ namespace PrjHikariwoAnim
             else if ("button_TweenC".Equals(clButton.Name)) enParam = EnmParam.COLOR;
             if (enParam == EnmParam.NONE) return;
 
-            FormTween clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15);
+            FormTween clForm = null;
+            ClsDatTween clTween = clButton.Tag as ClsDatTween;
+            if (clTween == null)
+            {
+                clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15);
+            }
+            else
+            {
+                clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15, clTween.mPos, clTween.mListVec);
+            }
             clForm.ShowDialog();
             if (clForm.DialogResult != DialogResult.OK) return;
 
             //以下、トゥイーン設定
-            ClsDatTween clTween = clForm.GetTween();
+            clTween = clForm.GetTween();
             clButton.Image = clTween.mImage;
             clButton.Tag = clTween;
 
