@@ -61,6 +61,7 @@
     <Compile Include="ClsAll.cs" />
     <Compile Include="ClsDatRect.cs" />
     <Compile Include="ClsLog.cs" />
+    <Compile Include="ClsParam.cs" />
     <Compile Include="ClsTool.cs" />
     <Compile Include="ClsDatElem.cs" />
     <Compile Include="ClsDatItem.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="ClsSetting.cs" />
     <Compile Include="ClsSystem.cs" />
     <Compile Include="ClsDatTween.cs" />
+    <Compile Include="ClsVector2.cs" />
+    <Compile Include="ClsVector3.cs" />
     <Compile Include="ClsWin32.cs" />
     <Compile Include="EnumAll.cs" />
     <Compile Include="FormAttribute.cs">

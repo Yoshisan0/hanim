@@ -580,15 +580,17 @@ namespace PrjHikariwoAnim
             else if ("button_TweenC".Equals(clButton.Name)) enParam = EnmParam.COLOR;
             if (enParam == EnmParam.NONE) return;
 
+            //以下、トゥイーンウィンドウ設定処理
+            int inFrameNo = ClsSystem.GetSelectFrameNo();
             FormTween clForm = null;
             ClsDatTween clTween = clButton.Tag as ClsDatTween;
             if (clTween == null)
             {
-                clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15);
+                clForm = new FormTween(this.mFormMain, enParam, 10, 20, inFrameNo);
             }
             else
             {
-                clForm = new FormTween(this.mFormMain, enParam, 10, 20, 15, clTween.mPos, clTween.mListVec);
+                clForm = new FormTween(this.mFormMain, enParam, 10, 20, inFrameNo, clTween.mPos, clTween.mListVec);
             }
             clForm.ShowDialog();
             if (clForm.DialogResult != DialogResult.OK) return;

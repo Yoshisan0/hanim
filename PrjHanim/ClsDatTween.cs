@@ -8,23 +8,23 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatTween
     {
-        public static float POS_X0 = 0.0f;         //開始座標Ｘ
-        public static float POS_Y0 = 1.0f;         //開始座標Ｙ
-        public static float POS_X1 = 0.5f;         //中心座標Ｘ
-        public static float POS_Y1 = 0.5f;         //中心座標Ｙ
-        public static float POS_X2 = 1.0f;         //終了座標Ｘ
-        public static float POS_Y2 = 0.0f;         //終了座標Ｙ
-        public static float VEC_X0 = 0.08f;        //開始座標のベクトルＸ
-        public static float VEC_Y0 = -0.08f;       //開始座標のベクトルＹ
-        public static float VEC_X1 = 0.08f;        //中心座標のベクトルＸ
-        public static float VEC_Y1 = -0.08f;       //中心座標のベクトルＹ
-        public static float VEC_X2 = 0.08f;        //終了座標のベクトルＸ
-        public static float VEC_Y2 = -0.08f;       //終了座標のベクトルＹ
-        public static float SIZE_ELLIPSE = 15.0f;  //円の直径
-        public static int MAX_X = 256;             //保存用データの長さ
+        public static float POS_X0 = 0.0f;          //開始座標Ｘ
+        public static float POS_Y0 = 1.0f;          //開始座標Ｙ
+        public static float POS_X1 = 0.5f;          //中心座標Ｘ
+        public static float POS_Y1 = 0.5f;          //中心座標Ｙ
+        public static float POS_X2 = 1.0f;          //終了座標Ｘ
+        public static float POS_Y2 = 0.0f;          //終了座標Ｙ
+        public static float VEC_X0 = 0.08f;         //開始座標のベクトルＸ
+        public static float VEC_Y0 = -0.08f;        //開始座標のベクトルＹ
+        public static float VEC_X1 = 0.08f;         //中心座標のベクトルＸ
+        public static float VEC_Y1 = -0.08f;        //中心座標のベクトルＹ
+        public static float VEC_X2 = 0.08f;         //終了座標のベクトルＸ
+        public static float VEC_Y2 = -0.08f;        //終了座標のベクトルＹ
+        public static float SIZE_ELLIPSE = 15.0f;   //円の直径
+        public static int MAX_X = 256;              //保存用データの長さ
 
         public EnmParam mParam;
-        public int mLength;         //継続フレーム数
+        public int mLength;     //継続フレーム数
         public ClsVector3 mPos;
         public Image mImage;
         public List<ClsVector3> mListVec;

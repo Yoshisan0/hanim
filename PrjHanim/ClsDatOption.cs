@@ -8,8 +8,8 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatOption : ClsDatItem
     {
-        public ClsDatElem mElem;        //親エレメント
-        public EnmTypeOption mTypeOption; //タイプ
+        public ClsDatElem mElem;            //親エレメント
+        public EnmTypeOption mTypeOption;   //タイプ
         private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
 
         /// <summary>

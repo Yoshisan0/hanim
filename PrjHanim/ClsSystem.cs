@@ -18,9 +18,9 @@ namespace PrjHikariwoAnim
         public static string mHeader;
         public static int mVer;
         public static ClsSetting mSetting = null;   //保存データ
-        private static int mMotionSelectKey; //現在選択中のモーションキー
-        public static Dictionary<int, ClsDatImage> mDicImage;   //キーはランダム値　値はClsDatImage
-        private static Dictionary<int, ClsDatMotion> mDicMotion; //キーはランダム値　値はモーション管理クラス
+        private static int mMotionSelectKey;        //現在選択中のモーションキー
+        public static Dictionary<int, ClsDatImage> mDicImage;       //キーはランダム値　値はClsDatImage
+        private static Dictionary<int, ClsDatMotion> mDicMotion;    //キーはランダム値　値はモーション管理クラス
         public static StringBuilder mFileBuffer;
         private static int mSelectFrameNo;         //現在選択中のフレーム番号
         private static int mSelectLineNo;          //現在選択中のライン番号
