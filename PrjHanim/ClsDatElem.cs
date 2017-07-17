@@ -73,7 +73,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// エレメントの全てを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         public void RemoveAll()
         {
@@ -97,7 +97,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// ハッシュコードからエレメントを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inHashCode">ハッシュコード</param>
         /// <param name="isRemove">実体削除フラグ</param>
@@ -125,7 +125,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// 行番号からエレメントを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isRemove">実体削除フラグ</param>
@@ -154,7 +154,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// 行番号からオプションを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
@@ -460,10 +460,10 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inFrameNo">現在のフレーム番号</param>
-        /// <param name="inMaxFrameNo">フレーム数</param>
+        /// <param name="inMaxFrameNum">フレーム数</param>
         /// <param name="inFrameNoBefore">前のフレーム番号</param>
         /// <param name="inFrameNoAfter">後のフレーム番号</param>
-        private void GetKeyFrameNo(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNo, out int inFrameNoBefore, out int inFrameNoAfter)
+        public void GetKeyFrameNo(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out int inFrameNoBefore, out int inFrameNoAfter)
         {
             inFrameNoBefore = inFrameNo;
             inFrameNoAfter = inFrameNo;
@@ -472,20 +472,7 @@ namespace PrjHikariwoAnim
             ClsDatOption clOption = this.GetOption(enTypeOption);
             if (clOption == null) return;
 
-            bool isExist = clOption.IsExistKeyFrame(inFrameNo);
-            if (isExist) return;
-
-            for (; inFrameNoBefore >= 0; inFrameNoBefore--)
-            {
-                isExist = clOption.IsExistKeyFrame(inFrameNoBefore);
-                if (isExist) break;
-            }
-
-            for (; inFrameNoAfter < inMaxFrameNo; inFrameNoAfter++)
-            {
-                isExist = clOption.IsExistKeyFrame(inFrameNoAfter);
-                if (isExist) break;
-            }
+            clOption.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
         }
 
         /// <summary>
@@ -612,11 +599,37 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// キーフレーム番号割り振り処理
+        /// 最大フレーム数を修正したり、キーフレームを追加・削除したりした時に呼び出すこと
+        /// </summary>
+        public void RefreshKeyFrame()
+        {
+            if (this.isOpen)
+            {
+                foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
+                {
+                    bool isExist = this.mDicOption.ContainsKey(enTypeOption);
+                    if (!isExist) continue;
+
+                    ClsDatOption clOption = this.mDicOption[enTypeOption];
+                    clOption.RefreshKeyFrame();
+                }
+            }
+
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.RefreshKeyFrame();
+            }
+        }
+
+        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
         /// <param name="inTab">タブ値</param>
-        public void Assignment(ClsDatMotion clMotion, int inTab)
+        public void RefreshLineNo(ClsDatMotion clMotion, int inTab)
         {
             this.mLineNo = clMotion.mWorkLineNo;
             clMotion.mWorkLineNo++;
@@ -630,7 +643,7 @@ namespace PrjHikariwoAnim
 
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     clOption.mTab = inTab;  //タブ値設定
-                    clOption.Assignment(clMotion);
+                    clOption.RefreshLineNo(clMotion);
                 }
             }
 
@@ -639,7 +652,7 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.mTab = inTab;    //タブ値設定
-                clElem.Assignment(clMotion, inTab + 1);
+                clElem.RefreshLineNo(clMotion, inTab + 1);
             }
         }
 
@@ -1252,6 +1265,8 @@ namespace PrjHikariwoAnim
                 {
                     isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
+
+
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     clOption.DrawTime(g, inSelectLineNo, inSelectFrameNo, inMaxFrameNum, inWidth, inHeight);
                 }

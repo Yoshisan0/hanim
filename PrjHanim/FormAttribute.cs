@@ -435,7 +435,7 @@ namespace PrjHikariwoAnim
             this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mEnableUserDataOption, clParam.mEnableUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2, null, null);
 
             //以下、行番号を振り直す処理
-            clMotion.Assignment();
+            clMotion.RefreshLineNo();
 
             //以下、メインウィンドウ更新処理
             this.mFormMain.RefreshAll();

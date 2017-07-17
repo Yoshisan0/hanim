@@ -629,7 +629,7 @@ namespace PrjHikariwoAnim
 
                         clDatMotion.mItemHashCode = clListViewItem.GetHashCode();
                         clDatMotion.Restore();     //モーションの親子関連付け再構築処理
-                        clDatMotion.Assignment();  //行番号などを設定する処理
+                        clDatMotion.RefreshLineNo();  //行番号などを設定する処理
                         ClsSystem.mDicMotion.Add(clDatMotion.mID, clDatMotion);
                         continue;
                     }

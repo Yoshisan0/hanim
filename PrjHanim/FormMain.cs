@@ -731,7 +731,7 @@ namespace PrjHikariwoAnim
             clDatMotion.AddElements(clDatElem);  //Elements登録
 
             //以下、行番号とタブを割り振る処理
-            clDatMotion.Assignment();
+            clDatMotion.RefreshLineNo();
 
             //Control更新
             this.mFormControl.Refresh();

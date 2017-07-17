@@ -8,9 +8,10 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatOption : ClsDatItem
     {
-        public ClsDatElem mElem;            //親エレメント
-        public EnmTypeOption mTypeOption;   //タイプ
-        private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;  //キーはフレーム番号　値はキーフレーム管理クラス
+        public ClsDatElem mElem;                                //親エレメント
+        public EnmTypeOption mTypeOption;                       //タイプ
+        private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;   //キーはフレーム番号　値はキーフレーム管理クラス
+        private List<int> mListTweenFrameNo;                    //そのフレームが影響を受けているTweenのあるキーフレーム番号（Tweenが無ければindexと同じキーフレーム番号となる）
 
         /// <summary>
         /// コンストラクタ
@@ -29,6 +30,10 @@ namespace PrjHikariwoAnim
             this.mElem = clElem;
             this.mTypeOption = enTypeOption;
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
+            this.mListTweenFrameNo = new List<int>();
+
+            //以下、Tweenのフレーム番号を登録する処理
+            this.RefreshKeyFrame();
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, isParentFlag, clValue1, clValue2, clTween1, clTween2);
@@ -195,18 +200,72 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// キーフレーム番号を取得する
+        /// </summary>
+        /// <param name="inFrameNo">現在のフレーム番号</param>
+        /// <param name="inMaxFrameNum">フレーム数</param>
+        /// <param name="inFrameNoBefore">前のフレーム番号</param>
+        /// <param name="inFrameNoAfter">後のフレーム番号</param>
+        public void GetKeyFrameNo(int inFrameNo, int inMaxFrameNum, out int inFrameNoBefore, out int inFrameNoAfter)
+        {
+            inFrameNoBefore = inFrameNo;
+            inFrameNoAfter = inFrameNo;
+
+            bool isExist = this.IsExistKeyFrame(inFrameNo);
+            if (isExist) return;
+
+            for (; inFrameNoBefore >= 0; inFrameNoBefore--)
+            {
+                isExist = this.IsExistKeyFrame(inFrameNoBefore);
+                if (isExist) break;
+            }
+
+            for (; inFrameNoAfter < inMaxFrameNum; inFrameNoAfter++)
+            {
+                isExist = this.IsExistKeyFrame(inFrameNoAfter);
+                if (isExist) break;
+            }
+        }
+
+        /// <summary>
+        /// キーフレーム番号割り振り処理
+        /// </summary>
+        public void RefreshKeyFrame()
+        {
+            //以下、クリア処理
+            this.mListTweenFrameNo.Clear();
+
+            //以下、リスト作成処理
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            int inFrameNo, inMaxFrameNum = clMotion.GetMaxFrameNum();
+            for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+            {
+                this.mListTweenFrameNo.Add(inFrameNo);
+            }
+
+            //以下、Tween場所を検索して設定する処理
+            for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+            {
+                int inFrameNoBefore, inFrameNoAfter;
+                this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+                this.mListTweenFrameNo[inFrameNo] = inFrameNoBefore;
+            }
+        }
+
+        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
-        public void Assignment(ClsDatMotion clMotion)
+        public void RefreshLineNo(ClsDatMotion clMotion)
         {
             //以下、表示しなくてはいけない種別かどうかチェックする処理
             bool isDraw = ClsDatOption.IsDraw(this.mTypeOption);
-            if (!isDraw) return;
-
-            //以下、行番号設定
-            this.mLineNo = clMotion.mWorkLineNo;
-            clMotion.mWorkLineNo++;
+            if (isDraw)
+            {
+                //以下、行番号設定
+                this.mLineNo = clMotion.mWorkLineNo;
+                clMotion.mWorkLineNo++;
+            }
         }
 
         /// <summary>
@@ -319,6 +378,7 @@ namespace PrjHikariwoAnim
             int inFrameNo = 0;
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
+                //以下、親の影響を受けるフラグを表示する処理
                 if (this.mTypeOption == EnmTypeOption.POSITION ||
                     this.mTypeOption == EnmTypeOption.ROTATION ||
                     this.mTypeOption == EnmTypeOption.SCALE)
@@ -334,11 +394,23 @@ namespace PrjHikariwoAnim
                         isParentFlag = clKeyFrame.mParentFlag;
                     }
                 }
-                if (!isParentFlag) continue;
+                if (isParentFlag)
+                {
+                    inX = inFrameNo * FormControl.CELL_WIDTH;
+                    inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                    g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                }
 
-                inX = inFrameNo * FormControl.CELL_WIDTH;
-                inY = this.mLineNo * FormControl.CELL_HEIGHT;
-                g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                //以下、Tweenの影響下にあるフラグを表示する処理
+                if (inFrameNo< this.mListTweenFrameNo.Count)
+                {
+                    if (this.mListTweenFrameNo[inFrameNo] != inFrameNo)
+                    {
+                        inX = inFrameNo * FormControl.CELL_WIDTH;
+                        inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                        g.FillRectangle(clBrushTween, inX, inY + 10, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                    }
+                }
             }
 
             //以下、選択中のフレーム描画処理

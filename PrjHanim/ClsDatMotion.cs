@@ -48,7 +48,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// インデックスからエレメントを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inIndex">インデックス</param>
         public void RemoveElemFromIndex(int inIndex)
@@ -63,7 +63,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// 行番号からアイテムを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
@@ -85,7 +85,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// 行番号からエレメントを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isRemove">実体削除フラグ</param>
@@ -109,7 +109,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// 行番号からオプションを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="inLineNo">行番号</param>
         /// <param name="isForce">強制フラグ</param>
@@ -128,7 +128,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// ハッシュコードからエレメントを削除する処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// （ClsDatElemと重複しているので、いづれ継承でまとめる）
         /// </summary>
         /// <param name="inHashCode">ハッシュコード</param>
@@ -291,7 +291,7 @@ namespace PrjHikariwoAnim
 
         /// <summary>
         /// エレメント追加処理
-        /// ※これを読んだ後は ClsDatMotion.Assignment を呼んで行番号を割り振りなおさなければならない
+        /// ※これを読んだ後は ClsDatMotion.RefreshLineNo を呼んで行番号を割り振りなおさなければならない
         /// </summary>
         /// <param name="clElem">エレメント</param>
         public void AddElements(ClsDatElem clElem)
@@ -300,9 +300,23 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// キーフレーム番号割り振り処理
+        /// 最大フレーム数を修正したり、キーフレームを追加・削除したりした時に呼び出すこと
+        /// </summary>
+        public void RefreshKeyFrame()
+        {
+            int inCnt, inMax = this.mListElem.Count;
+            for (inCnt = 0; inCnt < inMax; inCnt++)
+            {
+                ClsDatElem clElem = this.mListElem[inCnt];
+                clElem.RefreshKeyFrame();
+            }
+        }
+
+        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
-        public void Assignment()
+        public void RefreshLineNo()
         {
             this.mWorkLineNo = 0;
             int inTab = 0;
@@ -312,7 +326,7 @@ namespace PrjHikariwoAnim
             {
                 ClsDatElem clElem = this.mListElem[inCnt];
                 clElem.mTab = inTab;
-                clElem.Assignment(this, inTab + 1);
+                clElem.RefreshLineNo(this, inTab + 1);
             }
         }
 

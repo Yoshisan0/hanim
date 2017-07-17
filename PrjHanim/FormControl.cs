@@ -194,6 +194,10 @@ namespace PrjHikariwoAnim
         }
         private void NowFrame_ValueChanged(object sender, EventArgs e)
         {
+            //以下、Tweenキーフレーム更新処理
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            clMotion.RefreshKeyFrame();
+
             //現在フレームが変更された時の処理
             this.RefreshAll();
         }
@@ -269,7 +273,7 @@ namespace PrjHikariwoAnim
                 {
                     clElem.isOpen = !clElem.isOpen;
 
-                    clMotion.Assignment();    //行番号とタブを割り振る処理
+                    clMotion.RefreshLineNo();    //行番号とタブを割り振る処理
                 }
             }
 
@@ -679,7 +683,7 @@ namespace PrjHikariwoAnim
             clMotion.RemoveItemFromLineNo(inLineNo, false, true);
 
             //以下、行番号振り直し処理
-            clMotion.Assignment();
+            clMotion.RefreshLineNo();
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -722,10 +726,10 @@ namespace PrjHikariwoAnim
             }
 
             //以下、行番号振り直し処理
-            clMotion.Assignment();
+            clMotion.RefreshLineNo();
 
             //以下、改めてアイテムを選択する処理
-            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
+            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記の RefreshLineNo 関数内でmLineNoが変わっているはず
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -758,10 +762,10 @@ namespace PrjHikariwoAnim
             }
 
             //以下、行番号振り直し処理
-            clMotion.Assignment();
+            clMotion.RefreshLineNo();
 
             //以下、改めてアイテムを選択する処理
-            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記のAssignment関数内でmLineNoが変わっているはず
+            ClsSystem.SetSelectFromLineNo(clItem.mLineNo);   //上記の RefreshLineNo 関数内でmLineNoが変わっているはず
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -869,7 +873,7 @@ namespace PrjHikariwoAnim
             clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2, null, null);
 
             //以下、行番号振り直し処理
-            clMotion.Assignment();
+            clMotion.RefreshLineNo();
 
             //以下、コントロール更新処理
             this.RefreshControl();
@@ -1034,7 +1038,7 @@ namespace PrjHikariwoAnim
                         //以下、行番号割り振り処理
                         if (isHit)
                         {
-                            clMotion.Assignment();
+                            clMotion.RefreshLineNo();
                         }
                     }
 
@@ -1070,6 +1074,9 @@ namespace PrjHikariwoAnim
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2, null, null);
             clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2, null, null);  //存在していたら更新、存在していなかったら追加
 
+            //以下、Tweenキーフレーム更新処理
+            clOption.RefreshKeyFrame();
+
             //以下、コントロール更新処理
             this.RefreshControl();
             this.panel_Control.Refresh();
@@ -1091,6 +1098,9 @@ namespace PrjHikariwoAnim
 
             //以下、キーフレーム削除処理
             clOption.RemoveKeyFrame(inIndex);
+
+            //以下、Tweenキーフレーム更新処理
+            clOption.RefreshKeyFrame();
 
             //以下、コントロール更新処理
             this.RefreshControl();
