@@ -404,7 +404,7 @@ namespace PrjHikariwoAnim
                 //以下、Tweenの影響下にあるフラグを表示する処理
                 if (inFrameNo< this.mListTweenFrameNo.Count)
                 {
-                    if (this.mListTweenFrameNo[inFrameNo] != inFrameNo)
+                    if (this.mListTweenFrameNo[inFrameNo] >= 0)
                     {
                         inX = inFrameNo * FormControl.CELL_WIDTH;
                         inY = this.mLineNo * FormControl.CELL_HEIGHT;

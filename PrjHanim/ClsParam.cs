@@ -7,67 +7,77 @@ namespace PrjHikariwoAnim
 {
     public class ClsParam
     {
-        public string mName;
+        public string mName;                    //名前
 
-        public bool mEnableDisplayKeyFrame;     //表示キーフレーム存在フラグ
-        public bool mEnableDisplayParent;       //親の設定依存フラグ
+        public bool mDisplayKeyFrame;           //表示キーフレーム存在フラグ
+        public bool mDisplayParent;             //親の設定依存フラグ
         public bool mDisplay;                   //表示フラグ
 
-        public bool mEnablePositionKeyFrame;    //座標キーフレーム存在フラグ
-        public bool mEnablePositionXTween;      //座標Ｘトゥイーン存在フラグ
-        public bool mEnablePositionYTween;      //座標Ｙトゥイーン存在フラグ
+        public bool mPositionKeyFrame;          //座標キーフレーム存在フラグ
+        public bool mEnablePositionXTween;      //座標Ｘトゥイーン有効フラグ
+        public bool mEnablePositionYTween;      //座標Ｙトゥイーン有効フラグ
+        public bool mPositionXTween;            //座標Ｘトゥイーン存在フラグ
+        public bool mPositionYTween;            //座標Ｙトゥイーン存在フラグ
         public ClsDatTween mTweenPositionX;     //座標Ｘトゥイーン
         public ClsDatTween mTweenPositionY;     //座標Ｙトゥイーン
         public float mX;                        //Ｘ座標（常に有効）
         public float mY;                        //Ｙ座標（常に有効）
 
-        public bool mEnableRotationOption;      //回転オプション存在フラグ
-        public bool mEnableRotationKeyFrame;    //回転キーフレーム存在フラグ
-        public bool mEnableRotationTween;       //回転トゥイーン存在フラグ
+        public bool mRotationOption;            //回転オプション存在フラグ
+        public bool mRotationKeyFrame;          //回転キーフレーム存在フラグ
+        public bool mEnableRotationTween;       //回転トゥイーン有効フラグ
+        public bool mRotationTween;             //回転トゥイーン存在フラグ
         public ClsDatTween mTweenRotation;      //回転トゥイーン
         public float mRZ;                       //回転値
 
-        public bool mEnableScaleOption;         //スケールオプション存在フラグ
-        public bool mEnableScaleKeyFrame;       //スケールキーフレーム存在フラグ
-        public bool mEnableScaleXTween;         //スケールＸトゥイーン存在フラグ
-        public bool mEnableScaleYTween;         //スケールＹトゥイーン存在フラグ
+        public bool mScaleOption;               //スケールオプション存在フラグ
+        public bool mScaleKeyFrame;             //スケールキーフレーム存在フラグ
+        public bool mEnableScaleXTween;         //スケールＸトゥイーン有効フラグ
+        public bool mEnableScaleYTween;         //スケールＹトゥイーン有効フラグ
+        public bool mScaleXTween;               //スケールＸトゥイーン存在フラグ
+        public bool mScaleYTween;               //スケールＹトゥイーン存在フラグ
         public ClsDatTween mTweenScaleX;        //スケールＸトゥイーン
         public ClsDatTween mTweenScaleY;        //スケールＹトゥイーン
         public float mSX;                       //スケールＸ
         public float mSY;                       //スケールＹ
 
-        public bool mEnableOffsetOption;        //オフセットオプション存在フラグ
-        public bool mEnableOffsetKeyFrame;      //オフセットキーフレーム存在フラグ
-        public bool mEnableOffsetParent;        //親の設定依存フラグ
-        public bool mEnableOffsetXTween;        //オフセットＸトゥイーン存在フラグ
-        public bool mEnableOffsetYTween;        //オフセットＹトゥイーン存在フラグ
+        public bool mOffsetOption;              //オフセットオプション存在フラグ
+        public bool mOffsetKeyFrame;            //オフセットキーフレーム存在フラグ
+        public bool mOffsetParent;              //親の設定依存フラグ
+        public bool mEnableOffsetXTween;        //オフセットＸトゥイーン有効フラグ
+        public bool mEnableOffsetYTween;        //オフセットＹトゥイーン有効フラグ
+        public bool mOffsetXTween;              //オフセットＸトゥイーン存在フラグ
+        public bool mOffsetYTween;              //オフセットＹトゥイーン存在フラグ
         public ClsDatTween mTweenOffsetX;       //オフセットＸトゥイーン
         public ClsDatTween mTweenOffsetY;       //オフセットＹトゥイーン
         public float mCX;                       //オフセットＸ座標
         public float mCY;                       //オフセットＹ座標
 
-        public bool mEnableFlipOption;          //反転オプション存在フラグ
-        public bool mEnableFlipKeyFrame;        //反転キーフレーム存在フラグ
-        public bool mEnableFlipParent;          //親の設定依存フラグ
+        public bool mFlipOption;                //反転オプション存在フラグ
+        public bool mFlipKeyFrame;              //反転キーフレーム存在フラグ
+        public bool mFlipParent;                //親の設定依存フラグ
         public bool mFlipH;                     //水平反転フラグ
         public bool mFlipV;                     //垂直反転フラグ
 
-        public bool mEnableTransOption;         //透明オプション存在フラグ
-        public bool mEnableTransKeyFrame;       //透明キーフレーム存在フラグ
-        public bool mEnableTransParent;         //親の設定依存フラグ
-        public bool mEnableTransTween;          //透明トゥイーン存在フラグ
+        public bool mTransOption;               //透明オプション存在フラグ
+        public bool mTransKeyFrame;             //透明キーフレーム存在フラグ
+        public bool mTransParent;               //親の設定依存フラグ
+        public bool mEnableTransTween;          //透明トゥイーン有効フラグ
+        public bool mTransTween;                //透明トゥイーン存在フラグ
         public ClsDatTween mTweenTrans;         //透明トゥイーン
         public int mTrans;                      //透明透明値0～255
 
-        public bool mEnableColorOption;         //マテリアルカラーオプション存在フラグ
-        public bool mEnableColorKeyFrame;       //マテリアルカラーキーフレーム存在フラグ
-        public bool mEnableColorParent;         //親の設定依存フラグ
-        public bool mEnableColorTween;          //マテリアルカラートゥイーン存在フラグ
+        public bool mColorOption;               //マテリアルカラーオプション存在フラグ
+        public bool mColorKeyFrame;             //マテリアルカラーキーフレーム存在フラグ
+        public bool mColorParent;               //親の設定依存フラグ
+        public bool mEnableColorTween;          //マテリアルカラートゥイーン有効フラグ
+        public bool mColorTween;                //マテリアルカラートゥイーン存在フラグ
         public ClsDatTween mTweenColor;         //マテリアルカラートゥイーン
         public int mColor;                      //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mEnableUserDataOption;      //ユーザーデータオプション存在フラグ
-        public bool mEnableUserDataKeyFrame;    //ユーザーデータキーフレーム存在フラグ
+        public bool mUserDataOption;            //ユーザーデータオプション存在フラグ
+        public bool mEnableUserDataKeyFrame;    //ユーザーデータキーフレーム有効フラグ
+        public bool mUserDataKeyFrame;          //ユーザーデータキーフレーム存在フラグ
         public string mUserData;                //ユーザーデータ
 
         /// <summary>
@@ -75,42 +85,42 @@ namespace PrjHikariwoAnim
         /// </summary>
         public ClsParam()
         {
-            this.mEnableDisplayKeyFrame = false;
+            this.mDisplayKeyFrame = false;
             this.mDisplay = (bool)ClsParam.GetDefaultValue(EnmTypeParam.DISPLAY);
 
-            this.mEnablePositionKeyFrame = false;
+            this.mPositionKeyFrame = false;
             this.mX = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_X);
             this.mY = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_Y);
 
-            this.mEnableRotationOption = false;
-            this.mEnableRotationKeyFrame = false;
+            this.mRotationOption = false;
+            this.mRotationKeyFrame = false;
             this.mRZ = (float)ClsParam.GetDefaultValue(EnmTypeParam.ROTATION_Z);
 
-            this.mEnableScaleOption = false;
-            this.mEnableScaleKeyFrame = false;
+            this.mScaleOption = false;
+            this.mScaleKeyFrame = false;
             this.mSX = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_X);
             this.mSY = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_Y);
 
-            this.mEnableOffsetOption = false;
-            this.mEnableOffsetKeyFrame = false;
+            this.mOffsetOption = false;
+            this.mOffsetKeyFrame = false;
             this.mCX = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_X);
             this.mCY = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_Y);
 
-            this.mEnableFlipOption = false;
-            this.mEnableFlipKeyFrame = false;
+            this.mFlipOption = false;
+            this.mFlipKeyFrame = false;
             this.mFlipH = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_HORIZONAL);
             this.mFlipV = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_VERTICAL);
 
-            this.mEnableTransOption = false;
-            this.mEnableTransKeyFrame = false;
+            this.mTransOption = false;
+            this.mTransKeyFrame = false;
             this.mTrans = (int)ClsParam.GetDefaultValue(EnmTypeParam.TRANSPARENCY);
 
-            this.mEnableColorOption = false;
-            this.mEnableColorKeyFrame = false;
+            this.mColorOption = false;
+            this.mColorKeyFrame = false;
             this.mColor = (int)ClsParam.GetDefaultValue(EnmTypeParam.COLOR);
 
-            this.mEnableUserDataOption = false;
-            this.mEnableUserDataKeyFrame = false;
+            this.mUserDataOption = false;
+            this.mUserDataKeyFrame = false;
             this.mUserData = (string)ClsParam.GetDefaultValue(EnmTypeParam.USER_DATA);
         }
 

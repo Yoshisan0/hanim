@@ -79,29 +79,31 @@ namespace PrjHikariwoAnim
 
             if (inSelectFrameNo == 0)
             {
-                this.checkBox_EnableDisplayKeyFrame.Enabled = false;
-                this.checkBox_EnablePositionKeyFrame.Enabled = false;
-                this.checkBox_EnableRotationKeyFrame.Enabled = false;
-                this.checkBox_EnableScaleKeyFrame.Enabled = false;
-                this.checkBox_EnableFlipKeyFrame.Enabled = false;
-                this.checkBox_EnableTransKeyFrame.Enabled = false;
-                this.checkBox_EnableColorKeyFrame.Enabled = false;
-                this.checkBox_EnableOffsetKeyFrame.Enabled = false;
-                this.checkBox_EnableUserDataKeyFrame.Enabled = false;
+                this.checkBox_DisplayKeyFrame.Enabled = false;
+                this.checkBox_PositionKeyFrame.Enabled = false;
+                this.checkBox_RotationKeyFrame.Enabled = false;
+                this.checkBox_ScaleKeyFrame.Enabled = false;
+                this.checkBox_FlipKeyFrame.Enabled = false;
+                this.checkBox_TransKeyFrame.Enabled = false;
+                this.checkBox_ColorKeyFrame.Enabled = false;
+                this.checkBox_OffsetKeyFrame.Enabled = false;
+                this.checkBox_UserDataKeyFrame.Enabled = false;
             }
             else
             {
-                this.checkBox_EnableDisplayKeyFrame.Enabled = true;
-                this.checkBox_EnablePositionKeyFrame.Enabled = true;
+                this.checkBox_DisplayKeyFrame.Enabled = true;
+                this.checkBox_PositionKeyFrame.Enabled = true;
             }
 
-            this.checkBox_EnableDisplayKeyFrame.Checked = clParam.mEnableDisplayKeyFrame;
-            this.checkBox_EnableDisplayParent.Checked = clParam.mEnableDisplayParent;
+            this.checkBox_DisplayKeyFrame.Checked = clParam.mDisplayKeyFrame;
+            this.checkBox_DisplayParent.Checked = clParam.mDisplayParent;
             this.checkBox_Display.Checked = clParam.mDisplay;
 
-            this.checkBox_EnablePositionKeyFrame.Checked = clParam.mEnablePositionKeyFrame;
-            this.checkBox_EnablePositionXTween.Checked = clParam.mEnablePositionXTween;
-            this.checkBox_EnablePositionYTween.Checked = clParam.mEnablePositionYTween;
+            this.checkBox_PositionKeyFrame.Checked = clParam.mPositionKeyFrame;
+            this.checkBox_TweenPositionX.Enabled = clParam.mEnablePositionXTween;
+            this.checkBox_TweenPositionY.Enabled = clParam.mEnablePositionYTween;
+            this.checkBox_TweenPositionX.Checked = clParam.mPositionXTween;
+            this.checkBox_TweenPositionY.Checked = clParam.mPositionYTween;
             this.button_TweenX.Image = (clParam.mTweenPositionX == null) ? null : clParam.mTweenPositionX.mImage;
             this.button_TweenY.Image = (clParam.mTweenPositionY == null) ? null : clParam.mTweenPositionY.mImage;
             this.button_TweenX.Tag = clParam.mTweenPositionX;
@@ -109,17 +111,20 @@ namespace PrjHikariwoAnim
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
 
-            this.checkBox_EnableRotationOption.Checked = clParam.mEnableRotationOption;
-            this.checkBox_EnableRotationKeyFrame.Checked = clParam.mEnableRotationKeyFrame;
-            this.checkBox_EnableRotationTween.Checked = clParam.mEnableRotationTween;
+            this.checkBox_RotationOption.Checked = clParam.mRotationOption;
+            this.checkBox_RotationKeyFrame.Checked = clParam.mRotationKeyFrame;
+            this.checkBox_TweenRotation.Enabled = clParam.mEnableRotationTween;
+            this.checkBox_TweenRotation.Checked = clParam.mRotationTween;
             this.button_TweenRZ.Image = (clParam.mTweenRotation == null) ? null : clParam.mTweenRotation.mImage;
             this.button_TweenRZ.Tag = clParam.mTweenRotation;
             this.UDnumRot.Value = (decimal)clParam.mRZ;
 
-            this.checkBox_EnableScaleOption.Checked = clParam.mEnableScaleOption;
-            this.checkBox_EnableScaleKeyFrame.Checked = clParam.mEnableScaleKeyFrame;
-            this.checkBox_EnableScaleXTween.Checked = clParam.mEnableScaleXTween;
-            this.checkBox_EnableScaleYTween.Checked = clParam.mEnableScaleYTween;
+            this.checkBox_ScaleOption.Checked = clParam.mScaleOption;
+            this.checkBox_ScaleKeyFrame.Checked = clParam.mScaleKeyFrame;
+            this.checkBox_TweenScaleX.Enabled = clParam.mEnableScaleXTween;
+            this.checkBox_TweenScaleY.Enabled = clParam.mEnableScaleYTween;
+            this.checkBox_TweenScaleX.Checked = clParam.mScaleXTween;
+            this.checkBox_TweenScaleY.Checked = clParam.mScaleYTween;
             this.button_TweenSX.Image = (clParam.mTweenScaleX == null) ? null : clParam.mTweenScaleX.mImage;
             this.button_TweenSY.Image = (clParam.mTweenScaleY == null) ? null : clParam.mTweenScaleY.mImage;
             this.button_TweenSX.Tag = clParam.mTweenScaleX;
@@ -127,11 +132,13 @@ namespace PrjHikariwoAnim
             this.UDnumSX.Value = (decimal)clParam.mSX;
             this.UDnumSY.Value = (decimal)clParam.mSY;
 
-            this.checkBox_EnableOffsetOption.Checked = clParam.mEnableOffsetOption;
-            this.checkBox_EnableOffsetKeyFrame.Checked = clParam.mEnableOffsetKeyFrame;
-            this.checkBox_EnableOffsetParent.Checked = clParam.mEnableOffsetParent;
-            this.checkBox_EnableOffsetXTween.Checked = clParam.mEnableOffsetXTween;
-            this.checkBox_EnableOffsetYTween.Checked = clParam.mEnableOffsetYTween;
+            this.checkBox_OffsetOption.Checked = clParam.mOffsetOption;
+            this.checkBox_OffsetKeyFrame.Checked = clParam.mOffsetKeyFrame;
+            this.checkBox_OffsetParent.Checked = clParam.mOffsetParent;
+            this.checkBox_TweenOffsetX.Enabled = clParam.mEnableOffsetXTween;
+            this.checkBox_TweenOffsetY.Enabled = clParam.mEnableOffsetYTween;
+            this.checkBox_TweenOffsetX.Checked = clParam.mOffsetXTween;
+            this.checkBox_TweenOffsetY.Checked = clParam.mOffsetYTween;
             this.button_TweenCX.Image = (clParam.mTweenOffsetX == null) ? null : clParam.mTweenOffsetX.mImage;
             this.button_TweenCY.Image = (clParam.mTweenOffsetY == null) ? null : clParam.mTweenOffsetY.mImage;
             this.button_TweenCX.Tag = clParam.mTweenOffsetX;
@@ -139,30 +146,32 @@ namespace PrjHikariwoAnim
             this.UDnumXoff.Value = (int)clParam.mCX;
             this.UDnumYoff.Value = (int)clParam.mCY;
 
-            this.checkBox_EnableFlipOption.Checked = clParam.mEnableFlipOption;
-            this.checkBox_EnableFlipKeyFrame.Checked = clParam.mEnableFlipKeyFrame;
-            this.checkBox_EnableFlipParent.Checked = clParam.mEnableFlipParent;
+            this.checkBox_FlipOption.Checked = clParam.mFlipOption;
+            this.checkBox_FlipKeyFrame.Checked = clParam.mFlipKeyFrame;
+            this.checkBox_FlipParent.Checked = clParam.mFlipParent;
             this.checkBox_FlipH.Checked = clParam.mFlipH;
             this.checkBox_FlipV.Checked = clParam.mFlipV;
 
-            this.checkBox_EnableTransOption.Checked = clParam.mEnableTransOption;
-            this.checkBox_EnableTransKeyFrame.Checked = clParam.mEnableTransKeyFrame;
-            this.checkBox_EnableTransParent.Checked = clParam.mEnableTransParent;
-            this.checkBox_EnableTransTween.Checked = clParam.mEnableTransTween;
+            this.checkBox_TransOption.Checked = clParam.mTransOption;
+            this.checkBox_TransKeyFrame.Checked = clParam.mTransKeyFrame;
+            this.checkBox_TransParent.Checked = clParam.mTransParent;
+            this.checkBox_TweenTrans.Enabled = clParam.mEnableTransTween;
+            this.checkBox_TweenTrans.Checked = clParam.mTransTween;
             this.button_TweenT.Image = (clParam.mTweenTrans == null) ? null : clParam.mTweenTrans.mImage;
             this.button_TweenT.Tag = clParam.mTweenTrans;
             this.UDnumT.Value = (decimal)clParam.mTrans;
 
-            this.checkBox_EnableColorOption.Checked = clParam.mEnableColorOption;
-            this.checkBox_EnableColorKeyFrame.Checked = clParam.mEnableColorKeyFrame;
-            this.checkBox_EnableColorParent.Checked = clParam.mEnableColorParent;
-            this.checkBox_EnableColorTween.Checked = clParam.mEnableColorTween;
+            this.checkBox_ColorOption.Checked = clParam.mColorOption;
+            this.checkBox_ColorKeyFrame.Checked = clParam.mColorKeyFrame;
+            this.checkBox_ColorParent.Checked = clParam.mColorParent;
+            this.checkBox_TweenColor.Enabled = clParam.mEnableColorTween;
+            this.checkBox_TweenColor.Checked = clParam.mColorTween;
             this.button_TweenC.Image = (clParam.mTweenColor == null) ? null : clParam.mTweenColor.mImage;
             this.button_TweenC.Tag = clParam.mTweenColor;
             this.textBox_C.Text = $"{clParam.mColor:X6}";
 
-            this.checkBox_EnableUserDataOption.Checked = clParam.mEnableUserDataOption;
-            this.checkBox_EnableUserDataKeyFrame.Checked = clParam.mEnableUserDataKeyFrame;
+            this.checkBox_UserDataOption.Checked = clParam.mUserDataOption;
+            this.checkBox_UserDataKeyFrame.Checked = clParam.mUserDataKeyFrame;
             this.textBox_UT.Text = clParam.mUserData;
 
             //以下、リフレッシュ処理
@@ -182,68 +191,68 @@ namespace PrjHikariwoAnim
 
             clParam.mName = this.mSelectElem.mName;
 
-            clParam.mEnableDisplayKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
-            clParam.mEnableDisplayParent = this.checkBox_EnableDisplayParent.Checked;
+            clParam.mDisplayKeyFrame = this.checkBox_DisplayKeyFrame.Checked;
+            clParam.mDisplayParent = this.checkBox_DisplayParent.Checked;
             clParam.mDisplay = this.checkBox_Display.Checked;
 
-            clParam.mEnablePositionKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
-            clParam.mEnablePositionXTween = this.checkBox_EnablePositionXTween.Checked;
+            clParam.mPositionKeyFrame = this.checkBox_PositionKeyFrame.Checked;
+            clParam.mPositionXTween = this.checkBox_TweenPositionX.Checked;
             clParam.mTweenPositionX = this.button_TweenX.Tag as ClsDatTween;
             clParam.mX = (int)this.UDnumX.Value;
 
-            clParam.mEnablePositionYTween = this.checkBox_EnablePositionYTween.Checked;
+            clParam.mPositionYTween = this.checkBox_TweenPositionY.Checked;
             clParam.mTweenPositionY = this.button_TweenY.Tag as ClsDatTween;
             clParam.mY = (int)this.UDnumY.Value;
 
-            clParam.mEnableRotationOption = this.checkBox_EnableRotationOption.Checked;
-            clParam.mEnableRotationKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
-            clParam.mEnableRotationTween = this.checkBox_EnableRotationTween.Checked;
+            clParam.mRotationOption = this.checkBox_RotationOption.Checked;
+            clParam.mRotationKeyFrame = this.checkBox_RotationKeyFrame.Checked;
+            clParam.mRotationTween = this.checkBox_TweenRotation.Checked;
             clParam.mTweenRotation = this.button_TweenRZ.Tag as ClsDatTween;
             clParam.mRZ = (float)this.UDnumRot.Value;
 
-            clParam.mEnableScaleOption = this.checkBox_EnableScaleOption.Checked;
-            clParam.mEnableScaleKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
-            clParam.mEnableScaleXTween = this.checkBox_EnableScaleXTween.Checked;
+            clParam.mScaleOption = this.checkBox_ScaleOption.Checked;
+            clParam.mScaleKeyFrame = this.checkBox_ScaleKeyFrame.Checked;
+            clParam.mScaleXTween = this.checkBox_TweenScaleX.Checked;
             clParam.mTweenScaleX = this.button_TweenSX.Tag as ClsDatTween;
             clParam.mSX = (float)this.UDnumSX.Value;
 
-            clParam.mEnableScaleYTween = this.checkBox_EnableScaleYTween.Checked;
+            clParam.mScaleYTween = this.checkBox_TweenScaleY.Checked;
             clParam.mTweenScaleY = this.button_TweenSY.Tag as ClsDatTween;
             clParam.mSY = (float)this.UDnumSY.Value;
 
-            clParam.mEnableOffsetOption = this.checkBox_EnableOffsetOption.Checked;
-            clParam.mEnableOffsetKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
-            clParam.mEnableOffsetParent = this.checkBox_EnableOffsetParent.Checked;
-            clParam.mEnableOffsetXTween = this.checkBox_EnableOffsetXTween.Checked;
+            clParam.mOffsetOption = this.checkBox_OffsetOption.Checked;
+            clParam.mOffsetKeyFrame = this.checkBox_OffsetKeyFrame.Checked;
+            clParam.mOffsetParent = this.checkBox_OffsetParent.Checked;
+            clParam.mOffsetXTween = this.checkBox_TweenOffsetX.Checked;
             clParam.mTweenOffsetX = this.button_TweenCX.Tag as ClsDatTween;
             clParam.mCX = (int)this.UDnumXoff.Value;
 
-            clParam.mEnableOffsetYTween = this.checkBox_EnableOffsetYTween.Checked;
+            clParam.mOffsetYTween = this.checkBox_TweenOffsetY.Checked;
             clParam.mTweenOffsetY = this.button_TweenCY.Tag as ClsDatTween;
             clParam.mCY = (int)this.UDnumYoff.Value;
 
-            clParam.mEnableFlipOption = this.checkBox_EnableFlipOption.Checked;
-            clParam.mEnableFlipKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
-            clParam.mEnableFlipParent = this.checkBox_EnableFlipParent.Checked;
+            clParam.mFlipOption = this.checkBox_FlipOption.Checked;
+            clParam.mFlipKeyFrame = this.checkBox_FlipKeyFrame.Checked;
+            clParam.mFlipParent = this.checkBox_FlipParent.Checked;
             clParam.mFlipH = this.checkBox_FlipH.Checked;
             clParam.mFlipV = this.checkBox_FlipV.Checked;
 
-            clParam.mEnableTransOption = this.checkBox_EnableTransOption.Checked;
-            clParam.mEnableTransKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
-            clParam.mEnableTransParent = this.checkBox_EnableTransParent.Checked;
-            clParam.mEnableTransTween = this.checkBox_EnableTransTween.Checked;
+            clParam.mTransOption = this.checkBox_TransOption.Checked;
+            clParam.mTransKeyFrame = this.checkBox_TransKeyFrame.Checked;
+            clParam.mTransParent = this.checkBox_TransParent.Checked;
+            clParam.mTransTween = this.checkBox_TweenTrans.Checked;
             clParam.mTweenTrans = this.button_TweenT.Tag as ClsDatTween;
             clParam.mTrans = (int)this.UDnumT.Value;
 
-            clParam.mEnableColorOption = this.checkBox_EnableColorOption.Checked;
-            clParam.mEnableColorKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
-            clParam.mEnableColorParent = this.checkBox_EnableColorParent.Checked;
-            clParam.mEnableColorTween = this.checkBox_EnableColorTween.Checked;
+            clParam.mColorOption = this.checkBox_ColorOption.Checked;
+            clParam.mColorKeyFrame = this.checkBox_ColorKeyFrame.Checked;
+            clParam.mColorParent = this.checkBox_ColorParent.Checked;
+            clParam.mColorTween = this.checkBox_TweenColor.Checked;
             clParam.mTweenColor = this.button_TweenC.Tag as ClsDatTween;
             clParam.mColor = this.button_C.BackColor.ToArgb() & 0x00FFFFFF;
 
-            clParam.mEnableUserDataOption = this.checkBox_EnableUserDataOption.Checked;
-            clParam.mEnableUserDataKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
+            clParam.mUserDataOption = this.checkBox_UserDataOption.Checked;
+            clParam.mUserDataKeyFrame = this.checkBox_UserDataKeyFrame.Checked;
             clParam.mUserData = this.textBox_UT.Text;
 
             return (clParam);
@@ -400,39 +409,39 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
-            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, true, clParam.mEnableDisplayKeyFrame, clParam.mEnableDisplayParent, clParam.mDisplay, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, true, clParam.mDisplayKeyFrame, clParam.mDisplayParent, clParam.mDisplay, clValue2, null, null);
 
             //以下、座標設定
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.POSITION);
-            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, true, clParam.mEnablePositionKeyFrame, isParentFlag, clParam.mX, clParam.mY, clParam.mTweenPositionX, clParam.mTweenPositionY);
+            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, true, clParam.mPositionKeyFrame, isParentFlag, clParam.mX, clParam.mY, clParam.mTweenPositionX, clParam.mTweenPositionY);
 
             //以下、回転設定
             isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.ROTATION);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.ROTATION);
-            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mEnableRotationOption, clParam.mEnableRotationKeyFrame, isParentFlag, clParam.mRZ, clValue2, clParam.mTweenRotation, null);
+            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationOption, clParam.mRotationKeyFrame, isParentFlag, clParam.mRZ, clValue2, clParam.mTweenRotation, null);
 
             //以下、スケール設定
             isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.SCALE);
-            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mEnableScaleOption, clParam.mEnableScaleKeyFrame, isParentFlag, clParam.mSX, clParam.mSY, clParam.mTweenScaleX, clParam.mTweenScaleY);
+            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleOption, clParam.mScaleKeyFrame, isParentFlag, clParam.mSX, clParam.mSY, clParam.mTweenScaleX, clParam.mTweenScaleY);
 
             //以下、オフセット設定
-            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mEnableOffsetOption, clParam.mEnableOffsetKeyFrame, clParam.mEnableOffsetParent, clParam.mCX, clParam.mCY, clParam.mTweenOffsetX, clParam.mTweenOffsetY);
+            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetOption, clParam.mOffsetKeyFrame, clParam.mOffsetParent, clParam.mCX, clParam.mCY, clParam.mTweenOffsetX, clParam.mTweenOffsetY);
 
             //以下、反転設定
-            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mEnableFlipOption, clParam.mEnableFlipKeyFrame, clParam.mEnableFlipParent, clParam.mFlipH, clParam.mFlipV, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipOption, clParam.mFlipKeyFrame, clParam.mFlipParent, clParam.mFlipH, clParam.mFlipV, null, null);
 
             //以下、透明設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.TRANSPARENCY);
-            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mEnableTransOption, clParam.mEnableTransKeyFrame, clParam.mEnableTransParent, clParam.mTrans, clValue2, clParam.mTweenTrans, null);
+            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransOption, clParam.mTransKeyFrame, clParam.mTransParent, clParam.mTrans, clValue2, clParam.mTweenTrans, null);
 
             //以下、カラー設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.COLOR);
-            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mEnableColorOption, clParam.mEnableColorKeyFrame, clParam.mEnableColorParent, clParam.mColor, clValue2, clParam.mTweenColor, null);
+            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorOption, clParam.mColorKeyFrame, clParam.mColorParent, clParam.mColor, clValue2, clParam.mTweenColor, null);
 
             //以下、ユーザーデータ設定 
             isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.USER_DATA);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.USER_DATA);
-            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mEnableUserDataOption, clParam.mEnableUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataOption, clParam.mUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2, null, null);
 
             //以下、行番号を振り直す処理
             clMotion.RefreshLineNo();
@@ -445,15 +454,15 @@ namespace PrjHikariwoAnim
         {
             if (this.mSelectFrameNo == 0)
             {
-                this.checkBox_EnableDisplayKeyFrame.Checked = true;
-                this.checkBox_EnablePositionKeyFrame.Checked = true;
-                this.checkBox_EnableRotationKeyFrame.Checked = true;
-                this.checkBox_EnableScaleKeyFrame.Checked = true;
-                this.checkBox_EnableOffsetKeyFrame.Checked = true;
-                this.checkBox_EnableFlipKeyFrame.Checked = true;
-                this.checkBox_EnableTransKeyFrame.Checked = true;
-                this.checkBox_EnableColorKeyFrame.Checked = true;
-                this.checkBox_EnableUserDataKeyFrame.Checked = true;
+                this.checkBox_DisplayKeyFrame.Checked = true;
+                this.checkBox_PositionKeyFrame.Checked = true;
+                this.checkBox_RotationKeyFrame.Checked = true;
+                this.checkBox_ScaleKeyFrame.Checked = true;
+                this.checkBox_OffsetKeyFrame.Checked = true;
+                this.checkBox_FlipKeyFrame.Checked = true;
+                this.checkBox_TransKeyFrame.Checked = true;
+                this.checkBox_ColorKeyFrame.Checked = true;
+                this.checkBox_UserDataKeyFrame.Checked = true;
             }
 
             if (!this.mLocked)
@@ -464,93 +473,93 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             bool isCheckOption;
-            bool isCheckKeyFrame = this.checkBox_EnableDisplayKeyFrame.Checked;
-            this.checkBox_EnableDisplayParent.Enabled = isCheckKeyFrame;
+            bool isCheckKeyFrame = this.checkBox_DisplayKeyFrame.Checked;
+            this.checkBox_DisplayParent.Enabled = isCheckKeyFrame;
             this.label_Display.Enabled = isCheckKeyFrame;
             this.checkBox_Display.Enabled = isCheckKeyFrame;
 
             //以下、座標設定
-            isCheckKeyFrame = this.checkBox_EnablePositionKeyFrame.Checked;
+            isCheckKeyFrame = this.checkBox_PositionKeyFrame.Checked;
             this.label_X.Enabled = isCheckKeyFrame;
             this.label_Y.Enabled = isCheckKeyFrame;
             this.UDnumX.Enabled = isCheckKeyFrame;
             this.UDnumY.Enabled = isCheckKeyFrame;
-            this.checkBox_EnablePositionXTween.Enabled = isCheckKeyFrame;
-            this.checkBox_EnablePositionYTween.Enabled = isCheckKeyFrame;
-            this.button_TweenX.Enabled = this.checkBox_EnablePositionXTween.Checked;
-            this.button_TweenY.Enabled = this.checkBox_EnablePositionYTween.Checked;
+            this.checkBox_TweenPositionX.Enabled = isCheckKeyFrame;
+            this.checkBox_TweenPositionY.Enabled = isCheckKeyFrame;
+            this.button_TweenX.Enabled = this.checkBox_TweenPositionX.Checked;
+            this.button_TweenY.Enabled = this.checkBox_TweenPositionY.Checked;
 
             //以下、回転設定
-            isCheckOption = this.checkBox_EnableRotationOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableRotationKeyFrame.Checked;
-            this.checkBox_EnableRotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
+            isCheckOption = this.checkBox_RotationOption.Checked;
+            isCheckKeyFrame = this.checkBox_RotationKeyFrame.Checked;
+            this.checkBox_RotationKeyFrame.Enabled = (this.mSelectFrameNo== 0) ? false : isCheckOption;
             this.label_RZ.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumRot.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableRotationTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenRZ.Enabled = this.checkBox_EnableRotationTween.Checked;
+            this.checkBox_TweenRotation.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenRZ.Enabled = this.checkBox_TweenRotation.Checked;
 
             //以下、スケール設定
-            isCheckOption = this.checkBox_EnableScaleOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableScaleKeyFrame.Checked;
-            this.checkBox_EnableScaleKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            isCheckOption = this.checkBox_ScaleOption.Checked;
+            isCheckKeyFrame = this.checkBox_ScaleKeyFrame.Checked;
+            this.checkBox_ScaleKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_SX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_SY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumSY.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableScaleXTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableScaleYTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenSX.Enabled = this.checkBox_EnableScaleXTween.Checked;
-            this.button_TweenSY.Enabled = this.checkBox_EnableScaleYTween.Checked;
+            this.checkBox_TweenScaleX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_TweenScaleY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenSX.Enabled = this.checkBox_TweenScaleX.Checked;
+            this.button_TweenSY.Enabled = this.checkBox_TweenScaleY.Checked;
 
             //以下、オフセット設定
-            isCheckOption = this.checkBox_EnableOffsetOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableOffsetKeyFrame.Checked;
-            this.checkBox_EnableOffsetKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableOffsetParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckOption = this.checkBox_OffsetOption.Checked;
+            isCheckKeyFrame = this.checkBox_OffsetKeyFrame.Checked;
+            this.checkBox_OffsetKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            this.checkBox_OffsetParent.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_CX.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_CY.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumXoff.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumYoff.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableOffsetXTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableOffsetYTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenCX.Enabled = this.checkBox_EnableOffsetXTween.Checked;
-            this.button_TweenCY.Enabled = this.checkBox_EnableOffsetYTween.Checked;
+            this.checkBox_TweenOffsetX.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.checkBox_TweenOffsetY.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenCX.Enabled = this.checkBox_TweenOffsetX.Checked;
+            this.button_TweenCY.Enabled = this.checkBox_TweenOffsetY.Checked;
 
             //以下、反転設定
-            isCheckOption = this.checkBox_EnableFlipOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableFlipKeyFrame.Checked;
-            this.checkBox_EnableFlipKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableFlipParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckOption = this.checkBox_FlipOption.Checked;
+            isCheckKeyFrame = this.checkBox_FlipKeyFrame.Checked;
+            this.checkBox_FlipKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            this.checkBox_FlipParent.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
             this.checkBox_FlipH.Enabled = (isCheckOption && isCheckKeyFrame);
             this.checkBox_FlipV.Enabled = (isCheckOption && isCheckKeyFrame);
 
             //以下、透明値設定
-            isCheckOption = this.checkBox_EnableTransOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableTransKeyFrame.Checked;
-            this.checkBox_EnableTransKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableTransParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckOption = this.checkBox_TransOption.Checked;
+            isCheckKeyFrame = this.checkBox_TransKeyFrame.Checked;
+            this.checkBox_TransKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            this.checkBox_TransParent.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_T.Enabled = (isCheckOption && isCheckKeyFrame);
             this.UDnumT.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableTransTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenT.Enabled = this.checkBox_EnableTransTween.Checked;
+            this.checkBox_TweenTrans.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenT.Enabled = this.checkBox_TweenTrans.Checked;
 
             //以下、色設定
-            isCheckOption = this.checkBox_EnableColorOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableColorKeyFrame.Checked;
-            this.checkBox_EnableColorKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
-            this.checkBox_EnableColorParent.Enabled = (isCheckOption && isCheckKeyFrame);
+            isCheckOption = this.checkBox_ColorOption.Checked;
+            isCheckKeyFrame = this.checkBox_ColorKeyFrame.Checked;
+            this.checkBox_ColorKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            this.checkBox_ColorParent.Enabled = (isCheckOption && isCheckKeyFrame);
             this.label_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.button_C.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_C.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.checkBox_EnableColorTween.Enabled = (isCheckOption && isCheckKeyFrame);
-            this.button_TweenC.Enabled = this.checkBox_EnableColorTween.Checked;
+            this.checkBox_TweenColor.Enabled = (isCheckOption && isCheckKeyFrame);
+            this.button_TweenC.Enabled = this.checkBox_TweenColor.Checked;
 
             //以下、ユーザーデータ設定
-            isCheckOption = this.checkBox_EnableUserDataOption.Checked;
-            isCheckKeyFrame = this.checkBox_EnableUserDataKeyFrame.Checked;
-            this.checkBox_EnableUserDataKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
+            isCheckOption = this.checkBox_UserDataOption.Checked;
+            isCheckKeyFrame = this.checkBox_UserDataKeyFrame.Checked;
+            this.checkBox_UserDataKeyFrame.Enabled = (this.mSelectFrameNo == 0) ? false : isCheckOption;
             this.label_UT.Enabled = (isCheckOption && isCheckKeyFrame);
             this.textBox_UT.Enabled = (isCheckOption && isCheckKeyFrame);
         }
