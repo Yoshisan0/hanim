@@ -140,6 +140,80 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
+        /// 指定フレームの値１を取得する処理
+        /// </summary>
+        /// <param name="inFrameNo">フレームNo</param>
+        /// <returns>値１</returns>
+        public object GetValue1(int inFrameNo)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) {
+                object clValue = ClsParam.GetDefaultValue1(this.mTypeOption);
+                return (clValue);
+            }
+
+            int inMaxFrameNum = clMotion.GetMaxFrameNum();
+            int inFrameNoBefore = 0;
+            int inFrameNoAfter = 0;
+            this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+
+            ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNoBefore];
+            if (clKeyFrame == null)
+            {
+                object clValue = ClsParam.GetDefaultValue1(this.mTypeOption);
+                return (clValue);
+            }
+
+            if (clKeyFrame.mTween1 == null) {
+                object clValue = clKeyFrame.mValue1;
+                return (clValue);
+            }
+
+            //ここでトゥイーンの計算を行う
+
+            object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
+            return (clValue1);
+        }
+
+        /// <summary>
+        /// 指定フレームの値２を取得する処理
+        /// </summary>
+        /// <param name="inFrameNo">フレームNo</param>
+        /// <returns>値２</returns>
+        public object GetValue2(int inFrameNo)
+        {
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null)
+            {
+                object clValue = ClsParam.GetDefaultValue2(this.mTypeOption);
+                return (clValue);
+            }
+
+            int inMaxFrameNum = clMotion.GetMaxFrameNum();
+            int inFrameNoBefore = 0;
+            int inFrameNoAfter = 0;
+            this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+
+            ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNoBefore];
+            if (clKeyFrame == null)
+            {
+                object clValue = ClsParam.GetDefaultValue2(this.mTypeOption);
+                return (clValue);
+            }
+
+            if (clKeyFrame.mTween2 == null)
+            {
+                object clValue = clKeyFrame.mValue2;
+                return (clValue);
+            }
+
+            //ここでトゥイーンの計算を行う
+
+            object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
+            return (clValue2);
+        }
+
+        /// <summary>
         /// 読み込み処理
         /// </summary>
         /// <param name="clXmlNode">xmlノード</param>

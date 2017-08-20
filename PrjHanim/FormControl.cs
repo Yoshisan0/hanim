@@ -1063,16 +1063,21 @@ namespace PrjHikariwoAnim
             int inIndex = (int)this.numericUpDown_NowFlame.Value;
             if (inIndex <= 0) return;   //0フレーム目には作成できない
 
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion == null) return;
+
             ClsDatOption clOption = ClsSystem.GetOptionFromSelectLineNo();
             if (clOption == null) return;
 
             //以下、キーフレーム作成・更新処理
             ClsDatElem clElem = clOption.mElem;
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, clOption.mTypeOption);
-            object clValue1 = ClsParam.GetDefaultValue1(clOption.mTypeOption);
-            object clValue2 = ClsParam.GetDefaultValue2(clOption.mTypeOption);
+
+            //以下、現在の値を取得する処理
+            object clValue1 = clOption.GetValue1(inIndex);
+            object clValue2 = clOption.GetValue2(inIndex);
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2, null, null);
-            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2, null, null);  //存在していたら更新、存在していなかったら追加
+            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2, null, null);    //存在していたら更新、存在していなかったら追加
 
             //以下、Tweenキーフレーム更新処理
             clOption.RefreshKeyFrame();
