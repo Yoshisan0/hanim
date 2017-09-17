@@ -62,8 +62,11 @@ namespace PrjHikariwoAnim
                 this.mSelectFrameNo = inSelectFrameNo;
 
                 //以下、チェック状態の設定
-                ClsParam clParam = clElem.GetParamNow(inSelectFrameNo, inMaxFrameNum);
-                this.SetParam(clParam, inSelectFrameNo);
+                if (!this.mLocked)
+                {
+                    ClsParam clParam = clElem.GetParamNow(inSelectFrameNo, inMaxFrameNum);
+                    this.SetParam(clParam, inSelectFrameNo);
+                }
             }
         }
 
@@ -110,6 +113,8 @@ namespace PrjHikariwoAnim
             this.button_TweenY.Tag = clParam.mTweenPositionY;
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
+
+            Console.WriteLine("SetParam checkBox_TweenPositionX.Enable = " + this.checkBox_TweenPositionX.Enabled);
 
             this.checkBox_RotationOption.Checked = clParam.mRotationOption;
             this.checkBox_RotationKeyFrame.Checked = clParam.mRotationKeyFrame;
@@ -450,6 +455,11 @@ namespace PrjHikariwoAnim
             this.mFormMain.RefreshAll();
         }
 
+        /// <summary>
+        /// 各コントロールが変更になったら呼ばれる関数
+        /// </summary>
+        /// <param name="sender">コントロール</param>
+        /// <param name="e">イベント引数</param>
         private void Param_ValueChanged(object sender, EventArgs e)
         {
             if (this.mSelectFrameNo == 0)
@@ -488,6 +498,8 @@ namespace PrjHikariwoAnim
             this.checkBox_TweenPositionY.Enabled = isCheckKeyFrame;
             this.button_TweenX.Enabled = this.checkBox_TweenPositionX.Checked;
             this.button_TweenY.Enabled = this.checkBox_TweenPositionY.Checked;
+
+            Console.WriteLine("Param_ValueChanged checkBox_TweenPositionX.Enable = " + this.checkBox_TweenPositionX.Enabled);
 
             //以下、回転設定
             isCheckOption = this.checkBox_RotationOption.Checked;
