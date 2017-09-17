@@ -147,32 +147,51 @@ namespace PrjHikariwoAnim
         public object GetValue1(int inFrameNo)
         {
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null) {
-                object clValue = ClsParam.GetDefaultValue1(this.mTypeOption);
-                return (clValue);
-            }
+            if (clMotion == null) goto RETURN_DEFAULT1;
 
             int inMaxFrameNum = clMotion.GetMaxFrameNum();
             int inFrameNoBefore = 0;
             int inFrameNoAfter = 0;
             this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
 
-            ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNoBefore];
-            if (clKeyFrame == null)
+            ClsDatKeyFrame clKeyFrameBefore = this.mDicKeyFrame[inFrameNoBefore];
+            if (clKeyFrameBefore == null) goto RETURN_DEFAULT1;
+
+            if (clKeyFrameBefore.mTween1 == null) {
+                object clValueTmp = clKeyFrameBefore.mValue1;
+                return (clValueTmp);
+            }
+
+            ClsDatKeyFrame clKeyFrameAfter = this.mDicKeyFrame[inFrameNoAfter];
+            if (clKeyFrameAfter == null) goto RETURN_DEFAULT1;
+
+            object clValueBefore = clKeyFrameBefore.mValue1;
+            if (clValueBefore == null) goto RETURN_DEFAULT1;
+
+            if (clValueBefore is bool && clValueBefore is string) return (clValueBefore);
+
+            object clValueAfter = clKeyFrameAfter.mValue1;
+            if (clValueAfter == null) goto RETURN_DEFAULT1;
+
+            if (clValueAfter is bool && clValueAfter is string) goto RETURN_DEFAULT1;
+
+            //以下、現在フレームの値（トゥイーン込みの）計算処理
+            if (clValueBefore is int && clValueAfter is int)
             {
-                object clValue = ClsParam.GetDefaultValue1(this.mTypeOption);
-                return (clValue);
+                //Tweenを見て値を分割する処理
+                //clKeyFrameBefore.mTween1.GetRate //←中でその場で256の重みリストを作成してない？
+                //もしそうなら、そのリストをメンバ内に保持するようにする
+            }
+            else if (clValueBefore is float && clValueAfter is float)
+            {
+                //Tweenを見て値を分割する処理
+                //clKeyFrameBefore.mTween1.GetRate //←中でその場で256の重みリストを作成してない？
+                //もしそうなら、そのリストをメンバ内に保持するようにする
             }
 
-            if (clKeyFrame.mTween1 == null) {
-                object clValue = clKeyFrame.mValue1;
-                return (clValue);
-            }
-
-            //ここでトゥイーンの計算を行う
-
-            object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
-            return (clValue1);
+RETURN_DEFAULT1:
+            object clValue = ClsParam.GetDefaultValue1(this.mTypeOption);
+            return (clValue);
         }
 
         /// <summary>
@@ -183,34 +202,48 @@ namespace PrjHikariwoAnim
         public object GetValue2(int inFrameNo)
         {
             ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            if (clMotion == null)
-            {
-                object clValue = ClsParam.GetDefaultValue2(this.mTypeOption);
-                return (clValue);
-            }
+            if (clMotion == null) goto RETURN_DEFAULT2;
 
             int inMaxFrameNum = clMotion.GetMaxFrameNum();
             int inFrameNoBefore = 0;
             int inFrameNoAfter = 0;
             this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
 
-            ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNoBefore];
-            if (clKeyFrame == null)
+            ClsDatKeyFrame clKeyFrameBefore = this.mDicKeyFrame[inFrameNoBefore];
+            if (clKeyFrameBefore == null) goto RETURN_DEFAULT2;
+
+            if (clKeyFrameBefore.mTween2 == null)
             {
-                object clValue = ClsParam.GetDefaultValue2(this.mTypeOption);
-                return (clValue);
+                object clValueTmp = clKeyFrameBefore.mValue2;
+                return (clValueTmp);
             }
 
-            if (clKeyFrame.mTween2 == null)
+            ClsDatKeyFrame clKeyFrameAfter = this.mDicKeyFrame[inFrameNoAfter];
+            if (clKeyFrameAfter == null) goto RETURN_DEFAULT2;
+
+            object clValueBefore = clKeyFrameBefore.mValue2;
+            if (clValueBefore == null) goto RETURN_DEFAULT2;
+
+            if (clValueBefore is bool && clValueBefore is string) return (clValueBefore);
+
+            object clValueAfter = clKeyFrameAfter.mValue2;
+            if (clValueAfter == null) goto RETURN_DEFAULT2;
+
+            if (clValueAfter is bool && clValueAfter is string) goto RETURN_DEFAULT2;
+
+            //以下、現在フレームの値（トゥイーン込みの）計算処理
+            if (clValueBefore is int && clValueAfter is int)
             {
-                object clValue = clKeyFrame.mValue2;
-                return (clValue);
+                //Tweenを見て値を分割する処理
+            }
+            else if (clValueBefore is float && clValueAfter is float)
+            {
+                //Tweenを見て値を分割する処理
             }
 
-            //ここでトゥイーンの計算を行う
-
-            object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
-            return (clValue2);
+RETURN_DEFAULT2:
+            object clValue = ClsParam.GetDefaultValue2(this.mTypeOption);
+            return (clValue);
         }
 
         /// <summary>
