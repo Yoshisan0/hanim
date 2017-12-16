@@ -155,6 +155,7 @@ namespace PrjHikariwoAnim
             TimeSpan stDiff = DateTime.Now - this.mTimeOld;
             this.mTimeOld = DateTime.Now;
             double doTimeDiff = stDiff.TotalMilliseconds;
+            double doFPS = 1000.0 / doTimeDiff;
 
             //以下、モーション描画処理
             int inFrameNoNow = 0;
@@ -184,8 +185,9 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            //レンダリングコンテキストをカレントにする
-            Wgl.wglMakeCurrent(this.hDC, this.hRC);
+            //以下、OpenGL初期化処理
+            Wgl.wglMakeCurrent(this.hDC, this.hRC); //レンダリングコンテキストをカレントにする
+            Gl.glLineWidth(1);  //ラインの太さを1dotにする
 
             //以下、背景色設定処理
             if (isDammyGrid)
@@ -248,11 +250,25 @@ namespace PrjHikariwoAnim
                 clMotion.DrawPreview(this, inFrameNoNow, inMaxFrameNum);
             }
 
+            //以下、FPSのライン表示
+            {
+                Gl.glLoadIdentity();    //マトリクス設定
+                Gl.glLineWidth(5);
+
+                float flX1 = -(inWidth / 2.0f) + 0;
+                float flY = (inHeight / 2.0f) - 5;
+                float flX2 = (float)(flX1 + (doFPS / 60.0f) * inWidth);
+                Color stColor = Color.Red;
+                if (doFPS > 30.0) stColor = Color.LimeGreen;
+                else if (doFPS > 15.0) stColor = Color.Yellow;
+                this.DrawLine(stColor, flX1, flY, flX2, flY);
+            }
+
             //以下、FPS描画処理
             if (this.mImageFont != null)
             {
-                string clTimeDiff = (1000.0 / doTimeDiff).ToString("F1");
-                this.DrawFont(0, 0, "FPS " + clTimeDiff, inWidth, inHeight);
+                string clFPS = doFPS.ToString("F1");
+                this.DrawFont(0, 0, "FPS " + clFPS, inWidth, inHeight);
             }
 
             //ダブルバッファ
