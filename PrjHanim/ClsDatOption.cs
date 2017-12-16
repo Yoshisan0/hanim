@@ -162,6 +162,9 @@ namespace PrjHikariwoAnim
                 return (clValueTmp);
             }
 
+            bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNoAfter);
+            if (!isExist) goto RETURN_DEFAULT1;
+
             ClsDatKeyFrame clKeyFrameAfter = this.mDicKeyFrame[inFrameNoAfter];
             if (clKeyFrameAfter == null) goto RETURN_DEFAULT1;
 

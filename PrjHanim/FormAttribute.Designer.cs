@@ -28,13 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox_TransOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_FlipOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_ColorOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_OffsetOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_UserDataOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_ScaleOption = new System.Windows.Forms.CheckBox();
-            this.checkBox_RotationOption = new System.Windows.Forms.CheckBox();
             this.UDnumYoff = new System.Windows.Forms.NumericUpDown();
             this.UDnumXoff = new System.Windows.Forms.NumericUpDown();
             this.UDnumT = new System.Windows.Forms.NumericUpDown();
@@ -59,7 +52,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.checkBox_DisplayParent = new System.Windows.Forms.CheckBox();
             this.button_C = new System.Windows.Forms.Button();
             this.checkBox_TransParent = new System.Windows.Forms.CheckBox();
@@ -111,90 +103,6 @@
             this.panel_Attribute_Base.SuspendLayout();
             this.groupBox_Param.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // checkBox_TransOption
-            // 
-            this.checkBox_TransOption.AutoSize = true;
-            this.checkBox_TransOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_TransOption.Location = new System.Drawing.Point(13, 306);
-            this.checkBox_TransOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_TransOption.Name = "checkBox_TransOption";
-            this.checkBox_TransOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_TransOption.TabIndex = 7;
-            this.checkBox_TransOption.UseVisualStyleBackColor = true;
-            this.checkBox_TransOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_FlipOption
-            // 
-            this.checkBox_FlipOption.AutoSize = true;
-            this.checkBox_FlipOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_FlipOption.Location = new System.Drawing.Point(13, 268);
-            this.checkBox_FlipOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_FlipOption.Name = "checkBox_FlipOption";
-            this.checkBox_FlipOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_FlipOption.TabIndex = 10;
-            this.checkBox_FlipOption.UseVisualStyleBackColor = true;
-            this.checkBox_FlipOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_ColorOption
-            // 
-            this.checkBox_ColorOption.AutoSize = true;
-            this.checkBox_ColorOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ColorOption.Location = new System.Drawing.Point(13, 332);
-            this.checkBox_ColorOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_ColorOption.Name = "checkBox_ColorOption";
-            this.checkBox_ColorOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_ColorOption.TabIndex = 16;
-            this.checkBox_ColorOption.UseVisualStyleBackColor = true;
-            this.checkBox_ColorOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_OffsetOption
-            // 
-            this.checkBox_OffsetOption.AutoSize = true;
-            this.checkBox_OffsetOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_OffsetOption.Location = new System.Drawing.Point(13, 215);
-            this.checkBox_OffsetOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_OffsetOption.Name = "checkBox_OffsetOption";
-            this.checkBox_OffsetOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_OffsetOption.TabIndex = 20;
-            this.checkBox_OffsetOption.UseVisualStyleBackColor = true;
-            this.checkBox_OffsetOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_UserDataOption
-            // 
-            this.checkBox_UserDataOption.AutoSize = true;
-            this.checkBox_UserDataOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_UserDataOption.Location = new System.Drawing.Point(13, 359);
-            this.checkBox_UserDataOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_UserDataOption.Name = "checkBox_UserDataOption";
-            this.checkBox_UserDataOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_UserDataOption.TabIndex = 24;
-            this.checkBox_UserDataOption.UseVisualStyleBackColor = true;
-            this.checkBox_UserDataOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_ScaleOption
-            // 
-            this.checkBox_ScaleOption.AutoSize = true;
-            this.checkBox_ScaleOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ScaleOption.Location = new System.Drawing.Point(13, 163);
-            this.checkBox_ScaleOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_ScaleOption.Name = "checkBox_ScaleOption";
-            this.checkBox_ScaleOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_ScaleOption.TabIndex = 26;
-            this.checkBox_ScaleOption.UseVisualStyleBackColor = true;
-            this.checkBox_ScaleOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
-            // 
-            // checkBox_RotationOption
-            // 
-            this.checkBox_RotationOption.AutoSize = true;
-            this.checkBox_RotationOption.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_RotationOption.Location = new System.Drawing.Point(13, 124);
-            this.checkBox_RotationOption.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox_RotationOption.Name = "checkBox_RotationOption";
-            this.checkBox_RotationOption.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_RotationOption.TabIndex = 29;
-            this.checkBox_RotationOption.UseVisualStyleBackColor = true;
-            this.checkBox_RotationOption.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
             // UDnumYoff
             // 
@@ -447,7 +355,6 @@
             this.groupBox_Param.Controls.Add(this.label4);
             this.groupBox_Param.Controls.Add(this.label3);
             this.groupBox_Param.Controls.Add(this.label2);
-            this.groupBox_Param.Controls.Add(this.label1);
             this.groupBox_Param.Controls.Add(this.checkBox_DisplayParent);
             this.groupBox_Param.Controls.Add(this.button_C);
             this.groupBox_Param.Controls.Add(this.checkBox_TransParent);
@@ -463,22 +370,15 @@
             this.groupBox_Param.Controls.Add(this.checkBox_OffsetKeyFrame);
             this.groupBox_Param.Controls.Add(this.checkBox_ScaleKeyFrame);
             this.groupBox_Param.Controls.Add(this.checkBox_RotationKeyFrame);
-            this.groupBox_Param.Controls.Add(this.checkBox_TransOption);
-            this.groupBox_Param.Controls.Add(this.checkBox_ColorOption);
-            this.groupBox_Param.Controls.Add(this.checkBox_UserDataOption);
             this.groupBox_Param.Controls.Add(this.label_UT);
-            this.groupBox_Param.Controls.Add(this.checkBox_FlipOption);
             this.groupBox_Param.Controls.Add(this.checkBox_FlipV);
             this.groupBox_Param.Controls.Add(this.checkBox_Display);
             this.groupBox_Param.Controls.Add(this.label_C);
-            this.groupBox_Param.Controls.Add(this.checkBox_OffsetOption);
             this.groupBox_Param.Controls.Add(this.button_TweenC);
             this.groupBox_Param.Controls.Add(this.checkBox_FlipH);
             this.groupBox_Param.Controls.Add(this.label_FlipV);
             this.groupBox_Param.Controls.Add(this.button_TweenT);
-            this.groupBox_Param.Controls.Add(this.checkBox_ScaleOption);
             this.groupBox_Param.Controls.Add(this.label_T);
-            this.groupBox_Param.Controls.Add(this.checkBox_RotationOption);
             this.groupBox_Param.Controls.Add(this.button_TweenCY);
             this.groupBox_Param.Controls.Add(this.textBox_UT);
             this.groupBox_Param.Controls.Add(this.label_FlipH);
@@ -658,16 +558,6 @@
             this.label2.Size = new System.Drawing.Size(18, 16);
             this.label2.TabIndex = 84;
             this.label2.Text = "K";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(10, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 16);
-            this.label1.TabIndex = 62;
-            this.label1.Text = "E";
             // 
             // checkBox_DisplayParent
             // 
@@ -1138,14 +1028,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.CheckBox checkBox_TransOption;
-        private System.Windows.Forms.CheckBox checkBox_FlipOption;
-        private System.Windows.Forms.CheckBox checkBox_ColorOption;
-        private System.Windows.Forms.CheckBox checkBox_OffsetOption;
-        private System.Windows.Forms.CheckBox checkBox_UserDataOption;
-        private System.Windows.Forms.CheckBox checkBox_ScaleOption;
-        private System.Windows.Forms.CheckBox checkBox_RotationOption;
         private System.Windows.Forms.NumericUpDown UDnumYoff;
         private System.Windows.Forms.NumericUpDown UDnumXoff;
         private System.Windows.Forms.NumericUpDown UDnumT;
@@ -1199,7 +1081,6 @@
         private System.Windows.Forms.CheckBox checkBox_FlipParent;
         private System.Windows.Forms.CheckBox checkBox_OffsetParent;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox_TweenPositionX;

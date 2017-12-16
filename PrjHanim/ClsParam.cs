@@ -23,14 +23,12 @@ namespace PrjHikariwoAnim
         public float mX;                        //Ｘ座標（常に有効）
         public float mY;                        //Ｙ座標（常に有効）
 
-        public bool mRotationOption;            //回転オプション存在フラグ
         public bool mRotationKeyFrame;          //回転キーフレーム存在フラグ
         public bool mEnableRotationTween;       //回転トゥイーン有効フラグ
         public bool mRotationTween;             //回転トゥイーン存在フラグ
         public ClsDatTween mTweenRotation;      //回転トゥイーン
         public float mRZ;                       //回転値
 
-        public bool mScaleOption;               //スケールオプション存在フラグ
         public bool mScaleKeyFrame;             //スケールキーフレーム存在フラグ
         public bool mEnableScaleXTween;         //スケールＸトゥイーン有効フラグ
         public bool mEnableScaleYTween;         //スケールＹトゥイーン有効フラグ
@@ -41,7 +39,6 @@ namespace PrjHikariwoAnim
         public float mSX;                       //スケールＸ
         public float mSY;                       //スケールＹ
 
-        public bool mOffsetOption;              //オフセットオプション存在フラグ
         public bool mOffsetKeyFrame;            //オフセットキーフレーム存在フラグ
         public bool mOffsetParent;              //親の設定依存フラグ
         public bool mEnableOffsetXTween;        //オフセットＸトゥイーン有効フラグ
@@ -53,13 +50,11 @@ namespace PrjHikariwoAnim
         public float mCX;                       //オフセットＸ座標
         public float mCY;                       //オフセットＹ座標
 
-        public bool mFlipOption;                //反転オプション存在フラグ
         public bool mFlipKeyFrame;              //反転キーフレーム存在フラグ
         public bool mFlipParent;                //親の設定依存フラグ
         public bool mFlipH;                     //水平反転フラグ
         public bool mFlipV;                     //垂直反転フラグ
 
-        public bool mTransOption;               //透明オプション存在フラグ
         public bool mTransKeyFrame;             //透明キーフレーム存在フラグ
         public bool mTransParent;               //親の設定依存フラグ
         public bool mEnableTransTween;          //透明トゥイーン有効フラグ
@@ -67,7 +62,6 @@ namespace PrjHikariwoAnim
         public ClsDatTween mTweenTrans;         //透明トゥイーン
         public int mTrans;                      //透明透明値0～255
 
-        public bool mColorOption;               //マテリアルカラーオプション存在フラグ
         public bool mColorKeyFrame;             //マテリアルカラーキーフレーム存在フラグ
         public bool mColorParent;               //親の設定依存フラグ
         public bool mEnableColorTween;          //マテリアルカラートゥイーン有効フラグ
@@ -75,7 +69,6 @@ namespace PrjHikariwoAnim
         public ClsDatTween mTweenColor;         //マテリアルカラートゥイーン
         public int mColor;                      //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mUserDataOption;            //ユーザーデータオプション存在フラグ
         public bool mEnableUserDataKeyFrame;    //ユーザーデータキーフレーム有効フラグ
         public bool mUserDataKeyFrame;          //ユーザーデータキーフレーム存在フラグ
         public string mUserData;                //ユーザーデータ
@@ -92,34 +85,27 @@ namespace PrjHikariwoAnim
             this.mX = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_X);
             this.mY = (float)ClsParam.GetDefaultValue(EnmTypeParam.POSITION_Y);
 
-            this.mRotationOption = false;
             this.mRotationKeyFrame = false;
             this.mRZ = (float)ClsParam.GetDefaultValue(EnmTypeParam.ROTATION_Z);
 
-            this.mScaleOption = false;
             this.mScaleKeyFrame = false;
             this.mSX = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_X);
             this.mSY = (float)ClsParam.GetDefaultValue(EnmTypeParam.SCALE_Y);
 
-            this.mOffsetOption = false;
             this.mOffsetKeyFrame = false;
             this.mCX = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_X);
             this.mCY = (float)ClsParam.GetDefaultValue(EnmTypeParam.OFFSET_Y);
 
-            this.mFlipOption = false;
             this.mFlipKeyFrame = false;
             this.mFlipH = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_HORIZONAL);
             this.mFlipV = (bool)ClsParam.GetDefaultValue(EnmTypeParam.FLIP_VERTICAL);
 
-            this.mTransOption = false;
             this.mTransKeyFrame = false;
             this.mTrans = (int)ClsParam.GetDefaultValue(EnmTypeParam.TRANSPARENCY);
 
-            this.mColorOption = false;
             this.mColorKeyFrame = false;
             this.mColor = (int)ClsParam.GetDefaultValue(EnmTypeParam.COLOR);
 
-            this.mUserDataOption = false;
             this.mUserDataKeyFrame = false;
             this.mUserData = (string)ClsParam.GetDefaultValue(EnmTypeParam.USER_DATA);
         }
