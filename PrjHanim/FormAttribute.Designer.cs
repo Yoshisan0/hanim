@@ -533,7 +533,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(67, 19);
+            this.label4.Location = new System.Drawing.Point(44, 19);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 16);
             this.label4.TabIndex = 62;
@@ -543,7 +543,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(46, 19);
+            this.label3.Location = new System.Drawing.Point(23, 19);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(18, 16);
             this.label3.TabIndex = 85;
@@ -553,7 +553,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(28, 19);
+            this.label2.Location = new System.Drawing.Point(5, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 16);
             this.label2.TabIndex = 84;
@@ -563,7 +563,7 @@
             // 
             this.checkBox_DisplayParent.AutoSize = true;
             this.checkBox_DisplayParent.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_DisplayParent.Location = new System.Drawing.Point(49, 47);
+            this.checkBox_DisplayParent.Location = new System.Drawing.Point(26, 47);
             this.checkBox_DisplayParent.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_DisplayParent.Name = "checkBox_DisplayParent";
             this.checkBox_DisplayParent.Size = new System.Drawing.Size(15, 14);
@@ -585,7 +585,7 @@
             // 
             this.checkBox_TransParent.AutoSize = true;
             this.checkBox_TransParent.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_TransParent.Location = new System.Drawing.Point(49, 306);
+            this.checkBox_TransParent.Location = new System.Drawing.Point(26, 306);
             this.checkBox_TransParent.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_TransParent.Name = "checkBox_TransParent";
             this.checkBox_TransParent.Size = new System.Drawing.Size(15, 14);
@@ -597,7 +597,7 @@
             // 
             this.checkBox_DisplayKeyFrame.AutoSize = true;
             this.checkBox_DisplayKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_DisplayKeyFrame.Location = new System.Drawing.Point(31, 47);
+            this.checkBox_DisplayKeyFrame.Location = new System.Drawing.Point(8, 47);
             this.checkBox_DisplayKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_DisplayKeyFrame.Name = "checkBox_DisplayKeyFrame";
             this.checkBox_DisplayKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -609,7 +609,7 @@
             // 
             this.checkBox_ColorParent.AutoSize = true;
             this.checkBox_ColorParent.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ColorParent.Location = new System.Drawing.Point(49, 332);
+            this.checkBox_ColorParent.Location = new System.Drawing.Point(26, 332);
             this.checkBox_ColorParent.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_ColorParent.Name = "checkBox_ColorParent";
             this.checkBox_ColorParent.Size = new System.Drawing.Size(15, 14);
@@ -621,7 +621,7 @@
             // 
             this.checkBox_PositionKeyFrame.AutoSize = true;
             this.checkBox_PositionKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_PositionKeyFrame.Location = new System.Drawing.Point(31, 84);
+            this.checkBox_PositionKeyFrame.Location = new System.Drawing.Point(8, 84);
             this.checkBox_PositionKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_PositionKeyFrame.Name = "checkBox_PositionKeyFrame";
             this.checkBox_PositionKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -633,7 +633,7 @@
             // 
             this.checkBox_TransKeyFrame.AutoSize = true;
             this.checkBox_TransKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_TransKeyFrame.Location = new System.Drawing.Point(31, 306);
+            this.checkBox_TransKeyFrame.Location = new System.Drawing.Point(8, 306);
             this.checkBox_TransKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_TransKeyFrame.Name = "checkBox_TransKeyFrame";
             this.checkBox_TransKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -645,7 +645,7 @@
             // 
             this.checkBox_FlipParent.AutoSize = true;
             this.checkBox_FlipParent.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_FlipParent.Location = new System.Drawing.Point(49, 268);
+            this.checkBox_FlipParent.Location = new System.Drawing.Point(26, 268);
             this.checkBox_FlipParent.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_FlipParent.Name = "checkBox_FlipParent";
             this.checkBox_FlipParent.Size = new System.Drawing.Size(15, 14);
@@ -657,7 +657,7 @@
             // 
             this.checkBox_ColorKeyFrame.AutoSize = true;
             this.checkBox_ColorKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ColorKeyFrame.Location = new System.Drawing.Point(31, 332);
+            this.checkBox_ColorKeyFrame.Location = new System.Drawing.Point(8, 332);
             this.checkBox_ColorKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_ColorKeyFrame.Name = "checkBox_ColorKeyFrame";
             this.checkBox_ColorKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -669,7 +669,7 @@
             // 
             this.checkBox_OffsetParent.AutoSize = true;
             this.checkBox_OffsetParent.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_OffsetParent.Location = new System.Drawing.Point(49, 215);
+            this.checkBox_OffsetParent.Location = new System.Drawing.Point(26, 215);
             this.checkBox_OffsetParent.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_OffsetParent.Name = "checkBox_OffsetParent";
             this.checkBox_OffsetParent.Size = new System.Drawing.Size(15, 14);
@@ -681,7 +681,7 @@
             // 
             this.checkBox_UserDataKeyFrame.AutoSize = true;
             this.checkBox_UserDataKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_UserDataKeyFrame.Location = new System.Drawing.Point(31, 359);
+            this.checkBox_UserDataKeyFrame.Location = new System.Drawing.Point(8, 359);
             this.checkBox_UserDataKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_UserDataKeyFrame.Name = "checkBox_UserDataKeyFrame";
             this.checkBox_UserDataKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -693,7 +693,7 @@
             // 
             this.checkBox_FlipKeyFrame.AutoSize = true;
             this.checkBox_FlipKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_FlipKeyFrame.Location = new System.Drawing.Point(31, 268);
+            this.checkBox_FlipKeyFrame.Location = new System.Drawing.Point(8, 268);
             this.checkBox_FlipKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_FlipKeyFrame.Name = "checkBox_FlipKeyFrame";
             this.checkBox_FlipKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -705,7 +705,7 @@
             // 
             this.checkBox_OffsetKeyFrame.AutoSize = true;
             this.checkBox_OffsetKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_OffsetKeyFrame.Location = new System.Drawing.Point(31, 215);
+            this.checkBox_OffsetKeyFrame.Location = new System.Drawing.Point(8, 215);
             this.checkBox_OffsetKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_OffsetKeyFrame.Name = "checkBox_OffsetKeyFrame";
             this.checkBox_OffsetKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -717,7 +717,7 @@
             // 
             this.checkBox_ScaleKeyFrame.AutoSize = true;
             this.checkBox_ScaleKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_ScaleKeyFrame.Location = new System.Drawing.Point(31, 163);
+            this.checkBox_ScaleKeyFrame.Location = new System.Drawing.Point(8, 163);
             this.checkBox_ScaleKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_ScaleKeyFrame.Name = "checkBox_ScaleKeyFrame";
             this.checkBox_ScaleKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -729,7 +729,7 @@
             // 
             this.checkBox_RotationKeyFrame.AutoSize = true;
             this.checkBox_RotationKeyFrame.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.checkBox_RotationKeyFrame.Location = new System.Drawing.Point(31, 124);
+            this.checkBox_RotationKeyFrame.Location = new System.Drawing.Point(8, 124);
             this.checkBox_RotationKeyFrame.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox_RotationKeyFrame.Name = "checkBox_RotationKeyFrame";
             this.checkBox_RotationKeyFrame.Size = new System.Drawing.Size(15, 14);
@@ -741,7 +741,7 @@
             // 
             this.label_UT.AutoSize = true;
             this.label_UT.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_UT.Location = new System.Drawing.Point(67, 357);
+            this.label_UT.Location = new System.Drawing.Point(44, 357);
             this.label_UT.Name = "label_UT";
             this.label_UT.Size = new System.Drawing.Size(116, 16);
             this.label_UT.TabIndex = 64;
@@ -779,7 +779,7 @@
             // 
             this.label_C.AutoSize = true;
             this.label_C.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_C.Location = new System.Drawing.Point(67, 331);
+            this.label_C.Location = new System.Drawing.Point(44, 331);
             this.label_C.Name = "label_C";
             this.label_C.Size = new System.Drawing.Size(44, 16);
             this.label_C.TabIndex = 64;
@@ -813,7 +813,7 @@
             // 
             this.label_FlipV.AutoSize = true;
             this.label_FlipV.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_FlipV.Location = new System.Drawing.Point(67, 279);
+            this.label_FlipV.Location = new System.Drawing.Point(44, 279);
             this.label_FlipV.Name = "label_FlipV";
             this.label_FlipV.Size = new System.Drawing.Size(88, 16);
             this.label_FlipV.TabIndex = 64;
@@ -833,7 +833,7 @@
             // 
             this.label_T.AutoSize = true;
             this.label_T.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_T.Location = new System.Drawing.Point(67, 305);
+            this.label_T.Location = new System.Drawing.Point(44, 305);
             this.label_T.Name = "label_T";
             this.label_T.Size = new System.Drawing.Size(100, 16);
             this.label_T.TabIndex = 65;
@@ -853,7 +853,7 @@
             // 
             this.label_FlipH.AutoSize = true;
             this.label_FlipH.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_FlipH.Location = new System.Drawing.Point(67, 253);
+            this.label_FlipH.Location = new System.Drawing.Point(44, 253);
             this.label_FlipH.Name = "label_FlipH";
             this.label_FlipH.Size = new System.Drawing.Size(103, 16);
             this.label_FlipH.TabIndex = 65;
@@ -863,7 +863,7 @@
             // 
             this.label_Display.AutoSize = true;
             this.label_Display.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_Display.Location = new System.Drawing.Point(67, 45);
+            this.label_Display.Location = new System.Drawing.Point(44, 45);
             this.label_Display.Name = "label_Display";
             this.label_Display.Size = new System.Drawing.Size(55, 16);
             this.label_Display.TabIndex = 61;
@@ -883,7 +883,7 @@
             // 
             this.label_X.AutoSize = true;
             this.label_X.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_X.Location = new System.Drawing.Point(67, 71);
+            this.label_X.Location = new System.Drawing.Point(44, 71);
             this.label_X.Name = "label_X";
             this.label_X.Size = new System.Drawing.Size(76, 16);
             this.label_X.TabIndex = 62;
@@ -893,7 +893,7 @@
             // 
             this.label_CY.AutoSize = true;
             this.label_CY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_CY.Location = new System.Drawing.Point(67, 227);
+            this.label_CY.Location = new System.Drawing.Point(44, 227);
             this.label_CY.Name = "label_CY";
             this.label_CY.Size = new System.Drawing.Size(64, 16);
             this.label_CY.TabIndex = 63;
@@ -903,7 +903,7 @@
             // 
             this.label_SY.AutoSize = true;
             this.label_SY.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_SY.Location = new System.Drawing.Point(67, 175);
+            this.label_SY.Location = new System.Drawing.Point(44, 175);
             this.label_SY.Name = "label_SY";
             this.label_SY.Size = new System.Drawing.Size(59, 16);
             this.label_SY.TabIndex = 63;
@@ -913,7 +913,7 @@
             // 
             this.label_CX.AutoSize = true;
             this.label_CX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_CX.Location = new System.Drawing.Point(67, 201);
+            this.label_CX.Location = new System.Drawing.Point(44, 201);
             this.label_CX.Name = "label_CX";
             this.label_CX.Size = new System.Drawing.Size(65, 16);
             this.label_CX.TabIndex = 63;
@@ -933,7 +933,7 @@
             // 
             this.label_SX.AutoSize = true;
             this.label_SX.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_SX.Location = new System.Drawing.Point(67, 149);
+            this.label_SX.Location = new System.Drawing.Point(44, 149);
             this.label_SX.Name = "label_SX";
             this.label_SX.Size = new System.Drawing.Size(60, 16);
             this.label_SX.TabIndex = 63;
@@ -943,7 +943,7 @@
             // 
             this.label_RZ.AutoSize = true;
             this.label_RZ.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_RZ.Location = new System.Drawing.Point(67, 123);
+            this.label_RZ.Location = new System.Drawing.Point(44, 123);
             this.label_RZ.Name = "label_RZ";
             this.label_RZ.Size = new System.Drawing.Size(65, 16);
             this.label_RZ.TabIndex = 63;
@@ -963,7 +963,7 @@
             // 
             this.label_Y.AutoSize = true;
             this.label_Y.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label_Y.Location = new System.Drawing.Point(67, 97);
+            this.label_Y.Location = new System.Drawing.Point(44, 97);
             this.label_Y.Name = "label_Y";
             this.label_Y.Size = new System.Drawing.Size(75, 16);
             this.label_Y.TabIndex = 63;
