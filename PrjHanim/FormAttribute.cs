@@ -458,7 +458,6 @@ namespace PrjHikariwoAnim
             }
 
             //以下、表示設定
-            bool isCheckOption;
             bool isCheckKeyFrame = this.checkBox_DisplayKeyFrame.Checked;
             this.checkBox_DisplayParent.Enabled = isCheckKeyFrame;
             this.label_Display.Enabled = isCheckKeyFrame;
