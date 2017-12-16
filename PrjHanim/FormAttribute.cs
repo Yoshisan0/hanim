@@ -114,8 +114,6 @@ namespace PrjHikariwoAnim
             this.UDnumX.Value = (int)clParam.mX;
             this.UDnumY.Value = (int)clParam.mY;
 
-            Console.WriteLine("SetParam checkBox_TweenPositionX.Enable = " + this.checkBox_TweenPositionX.Enabled);
-
             this.checkBox_RotationOption.Checked = clParam.mRotationOption;
             this.checkBox_RotationKeyFrame.Checked = clParam.mRotationKeyFrame;
             this.checkBox_TweenRotation.Enabled = clParam.mEnableRotationTween;

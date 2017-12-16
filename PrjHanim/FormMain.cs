@@ -237,7 +237,6 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
 
                 //以下、各種ウィンドウ更新処理
-                this.RefreshViewer(sender, e);
                 this.mFormCell.Refresh();
                 this.mFormControl.RefreshAll();
 
@@ -386,8 +385,6 @@ namespace PrjHikariwoAnim
                     this.SetName(null);
                     this.mFormControl.SetName(null);
                     this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
-
-                    this.RefreshViewer(sender, e);
                 }
             }
         }
@@ -462,6 +459,12 @@ namespace PrjHikariwoAnim
             this.ToolStripMenuItem_Attribute.Checked = (this.mFormAttribute != null);
         }
 
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            //以下、リフレッシュ処理
+            this.RefreshViewer(sender, e);
+        }
+
         //TreeView_Project
         private void treeView_Project_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
@@ -483,6 +486,7 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
         }
+
         private TreeNode FindTopNodeFromChildNode(TreeNode clNode)
         {
             if (clNode == null) return (clNode);
@@ -494,6 +498,7 @@ namespace PrjHikariwoAnim
 
             return (clNode);
         }
+
         private void treeView_Project_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             /*
@@ -553,6 +558,7 @@ namespace PrjHikariwoAnim
             this.panel_PreView.Refresh();
             */
         }
+
         private void treeView_Project_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             //未使用 将来的に使うかもしれない
@@ -565,9 +571,11 @@ namespace PrjHikariwoAnim
             e.Graphics.DrawImage(imageList_Thumb.Images[e.Node.ImageIndex], e.Bounds.X, e.Bounds.Y);
             e.Graphics.DrawString(e.Node.Text,Font,Brushes.White, e.Bounds.Location.X,e.Bounds.Location.Y);
         }
+
         private void treeView_Project_RemoveMotion(string name)
         {
         }
+
         //アイテムD&D移動用
         private void treeView_Project_DragDrop(object sender, DragEventArgs e)
         {
@@ -598,6 +606,7 @@ namespace PrjHikariwoAnim
                 e.Effect = DragDropEffects.None;
             }
         }
+
         /// <summary>
         /// あるTreeNodeが別のTreeNodeの子ノードか調べる
         /// </summary>
@@ -610,6 +619,7 @@ namespace PrjHikariwoAnim
             else if (childNode.Parent != null) return IsChildNode(parentNode, childNode.Parent);
             else return false;
         }
+
         /// <summary>
         /// ノードが指定の名前を含むか(親を遡り)確認する
         /// </summary>
@@ -622,6 +632,7 @@ namespace PrjHikariwoAnim
             else if (src.Parent != null) return IsMotionNode(src.Parent, name);
             else return false;
         }
+
         //
         private void treeView_Project_ItemDrag(object sender, ItemDragEventArgs e)
         {
@@ -637,6 +648,7 @@ namespace PrjHikariwoAnim
                 tv.Nodes.Remove((TreeNode)e.Item);
             }
         }
+
         private void treeView_Project_DragOver(object sender, DragEventArgs e)
         {
             //TreeNodeか確認
@@ -696,6 +708,7 @@ namespace PrjHikariwoAnim
             
             */
         }
+
         private TreeNode FindSelectTreeNode()
         {
             /*
@@ -749,6 +762,7 @@ namespace PrjHikariwoAnim
 
             return (clMotion);
         }
+
         private int GetMotionSelectedKey()
         {
             if (listView_Motion.SelectedItems.Count > 0)
@@ -807,6 +821,7 @@ namespace PrjHikariwoAnim
                 this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
         }
+
         private void listView_Motion_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //e==選択されたlistViewItem のはず
@@ -839,8 +854,6 @@ namespace PrjHikariwoAnim
                 this.mFormControl.SetName(null);
                 this.mFormAttribute.Init(null, 0, ClsSystem.DEFAULT_FRAME_NUM);
             }
-
-            this.RefreshViewer(sender, e);
         }
 
         /*
@@ -1003,8 +1016,6 @@ namespace PrjHikariwoAnim
             {
                 e.Effect = DragDropEffects.Copy;
             }
-
-            this.RefreshViewer(sender, e);
         }
 
         private void componentOpenGL_DragEnter(object sender, DragEventArgs e)
@@ -1041,8 +1052,6 @@ namespace PrjHikariwoAnim
 
         private void componentOpenGL_MouseMove(object sender, MouseEventArgs e)
         {
-            bool isRefresh = false;
-
             if (this.mMouseDownL)
             {
                 int inSelectLineNo = ClsSystem.GetSelectLineNo();
@@ -1056,6 +1065,8 @@ namespace PrjHikariwoAnim
                         switch (clOption.mTypeOption)
                         {
                         case EnmTypeOption.DISPLAY:
+                            {
+                            }
                             break;
                         case EnmTypeOption.POSITION:
                             {
@@ -1086,6 +1097,8 @@ namespace PrjHikariwoAnim
                             }
                             break;
                         case EnmTypeOption.FLIP:
+                            {
+                            }
                             break;
                         case EnmTypeOption.TRANSPARENCY:
                             {
@@ -1096,25 +1109,19 @@ namespace PrjHikariwoAnim
                             }
                             break;
                         case EnmTypeOption.COLOR:
+                            {
+                            }
                             break;
                         case EnmTypeOption.USER_DATA:
+                            {
+                            }
                             break;
-                        }
-
-                        //以下、アトリビュートウィンドウ設定処理
-                        ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-                        if (clMotion != null) {
-                            ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inSelectLineNo);
-                            int inMaxFrameNum = clMotion.GetMaxFrameNum();
-                            this.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
                         }
                     }
                 }
 
                 this.mPosMouseLOld.X = e.X;
                 this.mPosMouseLOld.Y = e.Y;
-
-                isRefresh = true;
             }
 
             //以下、スクリーン座標移動処理
@@ -1125,13 +1132,6 @@ namespace PrjHikariwoAnim
 
                 this.mPosMouseROld.X = e.X;
                 this.mPosMouseROld.Y = e.Y;
-
-                isRefresh = true;
-            }
-
-            if (isRefresh)
-            {
-                this.RefreshViewer(sender, e);
             }
         }
 
@@ -1152,6 +1152,25 @@ namespace PrjHikariwoAnim
             {
                 this.mMouseDownR = false;
                 this.mPosMouseROld = Point.Empty;
+            }
+
+            //以下、アトリビュートウィンドウ更新処理
+            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
+            if (clMotion != null)
+            {
+                int inSelectLineNo = ClsSystem.GetSelectLineNo();
+                ClsDatOption clOption = ClsSystem.GetOptionFromLineNo(inSelectLineNo);
+                if (clOption != null)
+                {
+                    int inSelectFrameNo = ClsSystem.GetSelectFrameNo();
+                    ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inSelectFrameNo);
+                    if (clKeyFrame != null)
+                    {
+                        ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inSelectLineNo);
+                        int inMaxFrameNum = clMotion.GetMaxFrameNum();
+                        this.mFormAttribute.Init(clElem, inSelectFrameNo, inMaxFrameNum);
+                    }
+                }
             }
         }
 
@@ -1197,8 +1216,6 @@ namespace PrjHikariwoAnim
                         this.toolStripStatusLabel_DebugSize.Text = "x=" + e.X + " y=" + e.Y;
                     }
                 }
-
-                this.RefreshViewer(sender, e);
             }
             catch (Exception err)
             {
@@ -1356,7 +1373,7 @@ namespace PrjHikariwoAnim
             DialogResult enResult = clFormSetting.ShowDialog();
             if (enResult != DialogResult.OK) return;
 
-            this.RefreshViewer(sender, e);
+            //ここでなにがしかの処理
         }
 
         private void ToolStripMenuItem_DebugSave_Click(object sender, EventArgs e)

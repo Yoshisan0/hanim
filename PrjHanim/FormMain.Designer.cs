@@ -90,6 +90,7 @@
             this.componentOpenGL = new PrjHikariwoAnim.ComponentOpenGL();
             this.SubMenu_Prpject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_ToolBase.SuspendLayout();
@@ -420,7 +421,6 @@
             this.comboBox_Zoom.Name = "comboBox_Zoom";
             this.comboBox_Zoom.Size = new System.Drawing.Size(56, 20);
             this.comboBox_Zoom.TabIndex = 12;
-            this.comboBox_Zoom.SelectedIndexChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_Helper
             // 
@@ -436,7 +436,6 @@
             this.checkBox_Helper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_Helper, "補助線描画");
             this.checkBox_Helper.UseVisualStyleBackColor = false;
-            this.checkBox_Helper.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // button_AlingForm
             // 
@@ -531,7 +530,6 @@
             0,
             0,
             0});
-            this.numericUpDown_Grid.ValueChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_Control
             // 
@@ -569,7 +567,6 @@
             this.checkBox_GridCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMain.SetToolTip(this.checkBox_GridCheck, "グリッド表示");
             this.checkBox_GridCheck.UseVisualStyleBackColor = false;
-            this.checkBox_GridCheck.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // checkBox_CrossBar
             // 
@@ -589,7 +586,6 @@
             this.checkBox_CrossBar.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.toolTipMain.SetToolTip(this.checkBox_CrossBar, "クロスバー");
             this.checkBox_CrossBar.UseVisualStyleBackColor = false;
-            this.checkBox_CrossBar.CheckedChanged += new System.EventHandler(this.RefreshViewer);
             // 
             // imageList_Thumb
             // 
@@ -733,7 +729,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.componentOpenGL.Location = new System.Drawing.Point(0, 36);
             this.componentOpenGL.Name = "componentOpenGL";
-            this.componentOpenGL.Size = new System.Drawing.Size(552, 391);
+            this.componentOpenGL.Size = new System.Drawing.Size(553, 391);
             this.componentOpenGL.TabIndex = 5;
             this.componentOpenGL.DragDrop += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragDrop);
             this.componentOpenGL.DragEnter += new System.Windows.Forms.DragEventHandler(this.componentOpenGL_DragEnter);
@@ -748,6 +744,12 @@
             this.SubMenu_Prpject.Name = "SubMenu_Prpject";
             this.SubMenu_Prpject.ShowImageMargin = false;
             this.SubMenu_Prpject.Size = new System.Drawing.Size(36, 4);
+            // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Enabled = true;
+            this.timerRefresh.Interval = 16;
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
             // FormMain
             // 
@@ -768,7 +770,6 @@
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyUp);
-            this.Resize += new System.EventHandler(this.RefreshViewer);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -852,6 +853,7 @@
         private ComponentOpenGL componentOpenGL;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_DebugSize;
         private System.Windows.Forms.ComboBox comboBox_Zoom;
+        private System.Windows.Forms.Timer timerRefresh;
     }
 }
 
