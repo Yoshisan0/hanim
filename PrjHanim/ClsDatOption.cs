@@ -324,7 +324,7 @@ RETURN_DEFAULT2:
             bool isExist = this.IsExistKeyFrame(inFrameNo);
             if (isExist) return;
 
-            for (; inFrameNoBefore >= 0; inFrameNoBefore--)
+            for (; inFrameNoBefore > 0; inFrameNoBefore--)
             {
                 isExist = this.IsExistKeyFrame(inFrameNoBefore);
                 if (isExist) break;

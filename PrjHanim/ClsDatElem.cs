@@ -1252,8 +1252,6 @@ namespace PrjHikariwoAnim
 
                 Color stColorParent = Color.FromArgb(128, Color.LightPink);
                 SolidBrush clBrushParent = new SolidBrush(stColorParent);
-                Color stColorTween = Color.FromArgb(128, Color.LightBlue);
-                SolidBrush clBrushTween = new SolidBrush(stColorTween);
                 bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, EnmTypeOption.DISPLAY);
                 int inFrameNo = 0;
                 for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
