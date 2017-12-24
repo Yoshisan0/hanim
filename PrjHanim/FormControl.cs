@@ -262,14 +262,20 @@ namespace PrjHikariwoAnim
                     clElem.isDisplay = !clElem.isDisplay;
                 }
 
-                //Click Locked
+                //Click Parent
                 if (e.X > 16 && e.X < 32)
+                {
+                    clElem.isParent = !clElem.isParent;
+                }
+
+                //Click Locked
+                if (e.X > 32 && e.X < 48)
                 {
                     clElem.isLocked = !clElem.isLocked;
                 }
 
                 //Attribute Open
-                if (e.X > 32 && e.X < 48)
+                if (e.X > 48 && e.X < 64)
                 {
                     clElem.isOpen = !clElem.isOpen;
 
@@ -299,14 +305,14 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                if (e.X > 52)
+                if (e.X > 69)
                 {
                     //以下、テキストボックス削除処理
                     this.RemoveTextBoxName();
 
                     //以下、テキストボックス生成処理
                     this.mTextBox = new TextBox();
-                    this.mTextBox.Location = new System.Drawing.Point(52, inLineNo * FormControl.CELL_HEIGHT - 1);
+                    this.mTextBox.Location = new System.Drawing.Point(69, inLineNo * FormControl.CELL_HEIGHT - 1);
                     this.mTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
                     this.mTextBox.MaxLength = ClsDatElem.MAX_NAME;
                     this.mTextBox.Text = clElem.GetName();

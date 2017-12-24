@@ -253,6 +253,8 @@
     <Content Include="glyph\cut.PNG" />
     <Content Include="glyph\delete.PNG" />
     <Content Include="glyph\font.png" />
+    <Content Include="glyph\parent.png" />
+    <Content Include="glyph\unParent.png" />
     <Content Include="Resources\error.PNG" />
     <None Include="Resources\plus.PNG" />
     <None Include="Resources\minus.PNG" />

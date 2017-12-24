@@ -16,6 +16,7 @@ namespace PrjHikariwoAnim
         public List<ClsDatElem> mListElem;  //子エレメント
         public string mName;                //エレメント名
         public bool isDisplay;              //表示非表示(目)
+        public bool isParent;               //親依存状態(鎖)
         public bool isLocked;               //ロック状態(鍵)
         public bool isOpen;                 //属性開閉状態(+-)
         public int mImageKey;               //イメージインデックス
@@ -44,6 +45,7 @@ namespace PrjHikariwoAnim
             this.mListElem = new List<ClsDatElem>();
             this.mName = this.GetHashCode().ToString("X8");//仮名
             this.isDisplay = true;  //表示非表示(目)
+            this.isParent = true;   //親依存状態(鎖)
             this.isLocked = false;  //ロック状態(鍵)
             this.isOpen = false;    //属性開閉状態(+-)
             this.mImageKey = -1;
@@ -258,6 +260,7 @@ namespace PrjHikariwoAnim
             XmlNodeList clListNode = clXmlNode.ChildNodes;
             this.mName = ClsTool.GetStringFromXmlNodeList(clListNode, "Name");
             this.isDisplay = ClsTool.GetBoolFromXmlNodeList(clListNode, "Visible");
+            this.isParent = ClsTool.GetBoolFromXmlNodeList(clListNode, "Parent");
             this.isLocked = ClsTool.GetBoolFromXmlNodeList(clListNode, "Locked");
             this.isOpen = ClsTool.GetBoolFromXmlNodeList(clListNode, "Open");
             this.mImageKey = ClsTool.GetIntFromXmlNodeList(clListNode, "ImageKey");
@@ -296,6 +299,7 @@ namespace PrjHikariwoAnim
             ClsTool.AppendElementStart(clHeader, "Elem");
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Name", this.mName);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Visible", this.isDisplay);
+            ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Parent", this.isParent);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Locked", this.isLocked);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "Open", this.isOpen);
             ClsTool.AppendElement(clHeader + ClsSystem.FILE_TAG, "ImageKey", this.mImageKey);
@@ -1152,31 +1156,41 @@ namespace PrjHikariwoAnim
                 g.DrawImage(Properties.Resources.unSee, 1, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
-            //以下、「鍵」アイコン表示処理
-            if (this.isLocked)
+            //以下、「親」アイコン表示処理
+            if (this.isParent)
             {
-                g.DrawImage(Properties.Resources.locked, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                g.DrawImage(Properties.Resources.parent, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1, 16, 16);
             }
             else
             {
-                g.DrawImage(Properties.Resources.unLock, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                g.DrawImage(Properties.Resources.unParent, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1, 16, 16);
+            }
+
+            //以下、「鍵」アイコン表示処理
+            if (this.isLocked)
+            {
+                g.DrawImage(Properties.Resources.locked, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+            }
+            else
+            {
+                g.DrawImage(Properties.Resources.unLock, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
             //以下、「開閉」アイコン表示処理
             if (this.isOpen)
             {
-                g.DrawImage(Properties.Resources.minus, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                g.DrawImage(Properties.Resources.minus, 52, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
             else
             {
-                g.DrawImage(Properties.Resources.plus, 35, this.mLineNo * FormControl.CELL_HEIGHT + 1);
+                g.DrawImage(Properties.Resources.plus, 52, this.mLineNo * FormControl.CELL_HEIGHT + 1);
             }
 
             //以下、名前描画処理
             if (!string.IsNullOrEmpty(this.mName))
             {
                 string clBlank = this.GetTabBlank();
-                g.DrawString(clBlank + this.mName, clFont, Brushes.White, 52, this.mLineNo * FormControl.CELL_HEIGHT + 2);
+                g.DrawString(clBlank + this.mName, clFont, Brushes.White, 69, this.mLineNo * FormControl.CELL_HEIGHT + 2);
             }
 
             //以下、挿入可能ライン描画処理
@@ -1314,7 +1328,6 @@ namespace PrjHikariwoAnim
                 {
                     isExist = this.mDicOption.ContainsKey(enTypeOption);
                     if (!isExist) continue;
-
 
                     ClsDatOption clOption = this.mDicOption[enTypeOption];
                     clOption.DrawTime(g, inSelectLineNo, inSelectFrameNo, inMaxFrameNum, inWidth, inHeight);

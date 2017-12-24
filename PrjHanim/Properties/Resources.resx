@@ -262,4 +262,10 @@
   <data name="font" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\glyph\font.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="parent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\glyph\parent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="unParent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\glyph\unparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

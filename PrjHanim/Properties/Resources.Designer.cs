@@ -363,6 +363,16 @@ namespace PrjHikariwoAnim.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap parent {
+            get {
+                object obj = ResourceManager.GetObject("parent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap partslist {
             get {
                 object obj = ResourceManager.GetObject("partslist", resourceCulture);
@@ -516,6 +526,16 @@ namespace PrjHikariwoAnim.Properties {
         internal static System.Drawing.Bitmap unLock {
             get {
                 object obj = ResourceManager.GetObject("unLock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap unParent {
+            get {
+                object obj = ResourceManager.GetObject("unParent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
