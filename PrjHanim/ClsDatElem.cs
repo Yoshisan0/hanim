@@ -53,30 +53,30 @@ namespace PrjHikariwoAnim
             this.mDicOption = new Dictionary<EnmTypeOption, ClsDatOption>();
             object clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.DISPLAY);
             object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
-            this.SetOption(EnmTypeOption.DISPLAY, false, clValue1, clValue2, null, null);
-            this.SetOption(EnmTypeOption.POSITION, false, flX, flY, clTween1, clTween2);
+            this.SetOption(EnmTypeOption.DISPLAY, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.POSITION, flX, flY, clTween1, clTween2);
 
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.ROTATION);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.ROTATION);
-            this.SetOption(EnmTypeOption.ROTATION, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.ROTATION, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.SCALE);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.SCALE);
-            this.SetOption(EnmTypeOption.SCALE, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.SCALE, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.OFFSET);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.OFFSET);
-            this.SetOption(EnmTypeOption.OFFSET, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.OFFSET, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.FLIP);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.FLIP);
-            this.SetOption(EnmTypeOption.FLIP, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.FLIP, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.TRANSPARENCY);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.TRANSPARENCY);
-            this.SetOption(EnmTypeOption.TRANSPARENCY, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.TRANSPARENCY, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.COLOR);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.COLOR);
-            this.SetOption(EnmTypeOption.COLOR, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.COLOR, clValue1, clValue2, null, null);
             clValue1 = ClsParam.GetDefaultValue1(EnmTypeOption.USER_DATA);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.USER_DATA);
-            this.SetOption(EnmTypeOption.USER_DATA, false, clValue1, clValue2, null, null);
+            this.SetOption(EnmTypeOption.USER_DATA, clValue1, clValue2, null, null);
 
             //以下、UV値初期化処理
             this.mListUV = new ClsVector2[4];
@@ -270,7 +270,7 @@ namespace PrjHikariwoAnim
             {
                 if ("Option".Equals(clNode.Name))
                 {
-                    ClsDatOption clDatOption = new ClsDatOption(null, EnmTypeOption.NONE, false, null, null, null, null);
+                    ClsDatOption clDatOption = new ClsDatOption(null, EnmTypeOption.NONE, null, null, null, null);
                     clDatOption.Load(clNode);
                     clDatOption.mElem = this;
 
@@ -430,12 +430,11 @@ namespace PrjHikariwoAnim
         /// オプション追加・更新処理
         /// </summary>
         /// <param name="enTypeOption">オプションのタイプ</param>
-        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue">値１</param>
         /// <param name="clValue">値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        public void SetOption(EnmTypeOption enTypeOption, bool isParentFlag, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        public void SetOption(EnmTypeOption enTypeOption, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
         {
             //以下、オプション追加処理
             bool isExist = this.mDicOption.ContainsKey(enTypeOption);
@@ -444,7 +443,6 @@ namespace PrjHikariwoAnim
                 ClsDatOption clOption = this.mDicOption[enTypeOption];
                 ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(0);
                 if (enTypeOption != clKeyFrame.mTypeOption) throw new Exception("type error.");
-                clKeyFrame.mParentFlag = isParentFlag;
                 clKeyFrame.mValue1 = clValue1;
                 clKeyFrame.mValue2 = clValue2;
                 clKeyFrame.mTween1 = clTween1;
@@ -452,7 +450,7 @@ namespace PrjHikariwoAnim
             }
             else
             {
-                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, isParentFlag, clValue1, clValue2, clTween1, clTween2);
+                this.mDicOption[enTypeOption] = new ClsDatOption(this, enTypeOption, clValue1, clValue2, clTween1, clTween2);
             }
         }
 
@@ -507,14 +505,12 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションのタイプ</param>
         /// <param name="inFrameNo">フレーム番号</param>
         /// <param name="inMaxFrameNum">フレーム数</param>
-        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        private void GetOptionValueNow(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isParentFlag, out object clValue1, out object clValue2, out ClsDatTween clTween1, out ClsDatTween clTween2)
+        private void GetOptionValueNow(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out object clValue1, out object clValue2, out ClsDatTween clTween1, out ClsDatTween clTween2)
         {
-            isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, enTypeOption);
             clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
             clTween1 = null;
@@ -534,7 +530,6 @@ namespace PrjHikariwoAnim
             }
 
             ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
-            isParentFlag = clKeyFrame.mParentFlag;
             clValue1 = clKeyFrame.mValue1;
             clValue2 = clKeyFrame.mValue2;
             if (isExist)
@@ -840,12 +835,11 @@ namespace PrjHikariwoAnim
             ClsDatTween clTween2;
 
             clParam.mDisplayKeyFrame = this.IsExistKeyFrame(EnmTypeOption.DISPLAY, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.DISPLAY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
-            clParam.mDisplayParent = isParentFlag;
+            this.GetOptionValueNow(EnmTypeOption.DISPLAY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mDisplay = Convert.ToBoolean(clValue1);
 
             clParam.mPositionKeyFrame = this.IsExistKeyFrame(EnmTypeOption.POSITION, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
+            this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
             /*
@@ -860,7 +854,7 @@ namespace PrjHikariwoAnim
             clParam.mTweenPositionY = clTween2;
 
             clParam.mRotationKeyFrame = this.IsExistKeyFrame(EnmTypeOption.ROTATION, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
+            this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mRZ = Convert.ToSingle(clValue1);
             /*
             this.GetKeyFrameNo(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
@@ -871,7 +865,7 @@ namespace PrjHikariwoAnim
             clParam.mTweenRotation = clTween1;
 
             clParam.mScaleKeyFrame = this.IsExistKeyFrame(EnmTypeOption.SCALE, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
+            this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
             /*
@@ -886,8 +880,7 @@ namespace PrjHikariwoAnim
             clParam.mTweenScaleY = clTween2;
 
             clParam.mOffsetKeyFrame = this.IsExistKeyFrame(EnmTypeOption.OFFSET, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
-            clParam.mOffsetParent = isParentFlag;
+            this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
             /*
@@ -902,14 +895,12 @@ namespace PrjHikariwoAnim
             clParam.mTweenOffsetY = clTween2;
 
             clParam.mFlipKeyFrame = this.IsExistKeyFrame(EnmTypeOption.FLIP, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.FLIP, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
-            clParam.mFlipParent = isParentFlag;
+            this.GetOptionValueNow(EnmTypeOption.FLIP, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mFlipH = Convert.ToBoolean(clValue1);
             clParam.mFlipV = Convert.ToBoolean(clValue2);
 
             clParam.mTransKeyFrame = this.IsExistKeyFrame(EnmTypeOption.TRANSPARENCY, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
-            clParam.mTransParent = isParentFlag;
+            this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mTrans = Convert.ToInt32(clValue1);
             /*
             this.GetKeyFrameNo(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
@@ -920,8 +911,7 @@ namespace PrjHikariwoAnim
             clParam.mTweenTrans = clTween1;
 
             clParam.mColorKeyFrame = this.IsExistKeyFrame(EnmTypeOption.COLOR, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
-            clParam.mColorParent = isParentFlag;
+            this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mColor = Convert.ToInt32(clValue1);
             /*
             this.GetKeyFrameNo(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
@@ -932,7 +922,7 @@ namespace PrjHikariwoAnim
             clParam.mTweenColor = clTween1;
 
             clParam.mUserDataKeyFrame = this.IsExistKeyFrame(EnmTypeOption.USER_DATA, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.USER_DATA, inFrameNo, inMaxFrameNum, out isParentFlag, out clValue1, out clValue2, out clTween1, out clTween2);
+            this.GetOptionValueNow(EnmTypeOption.USER_DATA, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);
@@ -954,14 +944,7 @@ namespace PrjHikariwoAnim
             ClsParam clParamNow = this.GetParamNow(inFrameNo, inMaxFrameNum);
 
             //以下、表示フラグ設定
-            if (clParamNow.mDisplayParent)
-            {
-                clParamMe.mDisplay = clParamParent.mDisplay;
-            }
-            else
-            {
-                clParamMe.mDisplay = clParamNow.mDisplay;   
-            }
+            clParamMe.mDisplay = clParamParent.mDisplay;
 
             //以下、座標設定
             clParamMe.mX = clParamNow.mX;
@@ -975,39 +958,16 @@ namespace PrjHikariwoAnim
             clParamMe.mSY = clParamNow.mSY;
 
             //以下、オフセット設定
-            if (clParamNow.mOffsetParent)
-            {
-                clParamMe.mCX = clParamParent.mCX + clParamNow.mCX;
-                clParamMe.mCY = clParamParent.mCY + clParamNow.mCY;
-            }
-            else
-            {
-                clParamMe.mCX = clParamNow.mCX;
-                clParamMe.mCY = clParamNow.mCY;
-            }
+            clParamMe.mCX = clParamParent.mCX + clParamNow.mCX;
+            clParamMe.mCY = clParamParent.mCY + clParamNow.mCY;
 
             //以下、反転フラグ設定
-            if (clParamNow.mFlipParent)
-            {
-                clParamMe.mFlipH = clParamParent.mFlipH;
-                clParamMe.mFlipV = clParamParent.mFlipV;
-            }
-            else
-            {
-                clParamMe.mFlipH = clParamNow.mFlipH;
-                clParamMe.mFlipV = clParamNow.mFlipV;
-            }
+            clParamMe.mFlipH = clParamParent.mFlipH;
+            clParamMe.mFlipV = clParamParent.mFlipV;
 
             //以下、透明値設定
             int inTrans = 255;
-            if (clParamNow.mTransParent)
-            {
-                inTrans = clParamParent.mTrans;
-            }
-            else
-            {
-                inTrans = clParamNow.mTrans;
-            }
+            inTrans = clParamParent.mTrans;
             if (inTrans < 0) inTrans = 0;
             if (inTrans > 255) inTrans = 255;
             clParamMe.mTrans = inTrans;
@@ -1016,26 +976,17 @@ namespace PrjHikariwoAnim
             int inR = 255;
             int inG = 255;
             int inB = 255;
-            if (clParamNow.mColorParent)
-            {
-                inR = (clParamParent.mColor & 0x00FF0000) >> 16;
-                inR += (clParamNow.mColor & 0x00FF0000) >> 16;
-                inR /= 2;
+            inR = (clParamParent.mColor & 0x00FF0000) >> 16;
+            inR += (clParamNow.mColor & 0x00FF0000) >> 16;
+            inR /= 2;
 
-                inG = (clParamParent.mColor & 0x0000FF00) >> 8;
-                inG += (clParamNow.mColor & 0x0000FF00) >> 8;
-                inG /= 2;
+            inG = (clParamParent.mColor & 0x0000FF00) >> 8;
+            inG += (clParamNow.mColor & 0x0000FF00) >> 8;
+            inG /= 2;
 
-                inB = (clParamParent.mColor & 0x000000FF);
-                inB += (clParamNow.mColor & 0x000000FF);
-                inB /= 2;
-            }
-            else
-            {
-                inR = (clParamNow.mColor & 0x00FF0000) >> 16;
-                inG = (clParamNow.mColor & 0x0000FF00) >> 8;
-                inB = (clParamNow.mColor & 0x000000FF);
-            }
+            inB = (clParamParent.mColor & 0x000000FF);
+            inB += (clParamNow.mColor & 0x000000FF);
+            inB /= 2;
             if (inR < 0) inR = 0;
             if (inR > 255) inR = 255;
             if (inG < 0) inG = 0;
@@ -1264,17 +1215,12 @@ namespace PrjHikariwoAnim
             {
                 ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
 
+                bool isParentFlag = (this.mElem != null) ? this.mElem.isParent : false;
                 Color stColorParent = Color.FromArgb(128, Color.LightPink);
                 SolidBrush clBrushParent = new SolidBrush(stColorParent);
-                bool isParentFlag = ClsParam.GetDefaultParentFlag(this.mElem, EnmTypeOption.DISPLAY);
                 int inFrameNo = 0;
                 for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
                 {
-                    ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
-                    if(clKeyFrame!= null)
-                    {
-                        isParentFlag = clKeyFrame.mParentFlag;
-                    }
                     if (!isParentFlag) continue;
 
                     inX = inFrameNo * FormControl.CELL_WIDTH;

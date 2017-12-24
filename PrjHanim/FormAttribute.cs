@@ -99,7 +99,6 @@ namespace PrjHikariwoAnim
             }
 
             this.checkBox_DisplayKeyFrame.Checked = clParam.mDisplayKeyFrame;
-            this.checkBox_DisplayParent.Checked = clParam.mDisplayParent;
             this.checkBox_Display.Checked = clParam.mDisplay;
 
             this.checkBox_PositionKeyFrame.Checked = clParam.mPositionKeyFrame;
@@ -134,7 +133,6 @@ namespace PrjHikariwoAnim
             this.UDnumSY.Value = (decimal)clParam.mSY;
 
             this.checkBox_OffsetKeyFrame.Checked = clParam.mOffsetKeyFrame;
-            this.checkBox_OffsetParent.Checked = clParam.mOffsetParent;
             this.checkBox_TweenOffsetX.Enabled = clParam.mEnableOffsetXTween;
             this.checkBox_TweenOffsetY.Enabled = clParam.mEnableOffsetYTween;
             this.checkBox_TweenOffsetX.Checked = clParam.mOffsetXTween;
@@ -147,12 +145,10 @@ namespace PrjHikariwoAnim
             this.UDnumYoff.Value = (int)clParam.mCY;
 
             this.checkBox_FlipKeyFrame.Checked = clParam.mFlipKeyFrame;
-            this.checkBox_FlipParent.Checked = clParam.mFlipParent;
             this.checkBox_FlipH.Checked = clParam.mFlipH;
             this.checkBox_FlipV.Checked = clParam.mFlipV;
 
             this.checkBox_TransKeyFrame.Checked = clParam.mTransKeyFrame;
-            this.checkBox_TransParent.Checked = clParam.mTransParent;
             this.checkBox_TweenTrans.Enabled = clParam.mEnableTransTween;
             this.checkBox_TweenTrans.Checked = clParam.mTransTween;
             this.button_TweenT.Image = (clParam.mTweenTrans == null) ? null : clParam.mTweenTrans.mImage;
@@ -160,7 +156,6 @@ namespace PrjHikariwoAnim
             this.UDnumT.Value = (decimal)clParam.mTrans;
 
             this.checkBox_ColorKeyFrame.Checked = clParam.mColorKeyFrame;
-            this.checkBox_ColorParent.Checked = clParam.mColorParent;
             this.checkBox_TweenColor.Enabled = clParam.mEnableColorTween;
             this.checkBox_TweenColor.Checked = clParam.mColorTween;
             this.button_TweenC.Image = (clParam.mTweenColor == null) ? null : clParam.mTweenColor.mImage;
@@ -188,7 +183,6 @@ namespace PrjHikariwoAnim
             clParam.mName = this.mSelectElem.mName;
 
             clParam.mDisplayKeyFrame = this.checkBox_DisplayKeyFrame.Checked;
-            clParam.mDisplayParent = this.checkBox_DisplayParent.Checked;
             clParam.mDisplay = this.checkBox_Display.Checked;
 
             clParam.mPositionKeyFrame = this.checkBox_PositionKeyFrame.Checked;
@@ -215,7 +209,6 @@ namespace PrjHikariwoAnim
             clParam.mSY = (float)this.UDnumSY.Value;
 
             clParam.mOffsetKeyFrame = this.checkBox_OffsetKeyFrame.Checked;
-            clParam.mOffsetParent = this.checkBox_OffsetParent.Checked;
             clParam.mOffsetXTween = this.checkBox_TweenOffsetX.Checked;
             clParam.mTweenOffsetX = this.button_TweenCX.Tag as ClsDatTween;
             clParam.mCX = (int)this.UDnumXoff.Value;
@@ -225,18 +218,15 @@ namespace PrjHikariwoAnim
             clParam.mCY = (int)this.UDnumYoff.Value;
 
             clParam.mFlipKeyFrame = this.checkBox_FlipKeyFrame.Checked;
-            clParam.mFlipParent = this.checkBox_FlipParent.Checked;
             clParam.mFlipH = this.checkBox_FlipH.Checked;
             clParam.mFlipV = this.checkBox_FlipV.Checked;
 
             clParam.mTransKeyFrame = this.checkBox_TransKeyFrame.Checked;
-            clParam.mTransParent = this.checkBox_TransParent.Checked;
             clParam.mTransTween = this.checkBox_TweenTrans.Checked;
             clParam.mTweenTrans = this.button_TweenT.Tag as ClsDatTween;
             clParam.mTrans = (int)this.UDnumT.Value;
 
             clParam.mColorKeyFrame = this.checkBox_ColorKeyFrame.Checked;
-            clParam.mColorParent = this.checkBox_ColorParent.Checked;
             clParam.mColorTween = this.checkBox_TweenColor.Checked;
             clParam.mTweenColor = this.button_TweenC.Tag as ClsDatTween;
             clParam.mColor = this.button_C.BackColor.ToArgb() & 0x00FFFFFF;
@@ -334,18 +324,17 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inSelectFrameNo">フレーム番号</param>
         /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
-        /// <param name="isParentFlag">親の設定に依存するかどうか</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, bool isParentFlag, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
         {
             ClsDatOption clOption = null;
 
             if (inSelectFrameNo == 0)
             {
-                clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2, clTween1, clTween2);
+                clElem.SetOption(enTypeOption, clValue1, clValue2, clTween1, clTween2);
             }
             else
             {
@@ -356,16 +345,15 @@ namespace PrjHikariwoAnim
                 }
                 else
                 {
-                    isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
                     clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
                     clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-                    clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2, clTween1, clTween2);
+                    clElem.SetOption(enTypeOption, clValue1, clValue2, clTween1, clTween2);
                     clOption = clElem.GetOption(enTypeOption);
                 }
 
                 if (isExistKeyFrame)
                 {
-                    clOption.SetKeyFrame(inSelectFrameNo, isParentFlag, clValue1, clValue2, clTween1, clTween2);  //追加または更新
+                    clOption.SetKeyFrame(inSelectFrameNo, clValue1, clValue2, clTween1, clTween2);  //追加または更新
                 }
                 else
                 {
@@ -390,39 +378,35 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
-            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, clParam.mDisplayParent, clParam.mDisplay, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, clParam.mDisplay, clValue2, null, null);
 
             //以下、座標設定
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.POSITION);
-            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, isParentFlag, clParam.mX, clParam.mY, clParam.mTweenPositionX, clParam.mTweenPositionY);
+            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, clParam.mX, clParam.mY, clParam.mTweenPositionX, clParam.mTweenPositionY);
 
             //以下、回転設定
-            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.ROTATION);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.ROTATION);
-            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, isParentFlag, clParam.mRZ, clValue2, clParam.mTweenRotation, null);
+            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, clParam.mRZ, clValue2, clParam.mTweenRotation, null);
 
             //以下、スケール設定
-            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.SCALE);
-            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, isParentFlag, clParam.mSX, clParam.mSY, clParam.mTweenScaleX, clParam.mTweenScaleY);
+            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, clParam.mSX, clParam.mSY, clParam.mTweenScaleX, clParam.mTweenScaleY);
 
             //以下、オフセット設定
-            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mOffsetParent, clParam.mCX, clParam.mCY, clParam.mTweenOffsetX, clParam.mTweenOffsetY);
+            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mCX, clParam.mCY, clParam.mTweenOffsetX, clParam.mTweenOffsetY);
 
             //以下、反転設定
-            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, clParam.mFlipParent, clParam.mFlipH, clParam.mFlipV, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, clParam.mFlipH, clParam.mFlipV, null, null);
 
             //以下、透明設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.TRANSPARENCY);
-            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTransParent, clParam.mTrans, clValue2, clParam.mTweenTrans, null);
+            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTrans, clValue2, clParam.mTweenTrans, null);
 
             //以下、カラー設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.COLOR);
-            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mColorParent, clParam.mColor, clValue2, clParam.mTweenColor, null);
+            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mColor, clValue2, clParam.mTweenColor, null);
 
             //以下、ユーザーデータ設定 
-            isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, EnmTypeOption.USER_DATA);
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.USER_DATA);
-            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, isParentFlag, clParam.mUserData, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, clParam.mUserData, clValue2, null, null);
 
             //以下、行番号を振り直す処理
             clMotion.RefreshLineNo();
@@ -459,7 +443,6 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             bool isCheckKeyFrame = this.checkBox_DisplayKeyFrame.Checked;
-            this.checkBox_DisplayParent.Enabled = isCheckKeyFrame;
             this.label_Display.Enabled = isCheckKeyFrame;
             this.checkBox_Display.Enabled = isCheckKeyFrame;
 
@@ -499,7 +482,6 @@ namespace PrjHikariwoAnim
             //以下、オフセット設定
             isCheckKeyFrame = this.checkBox_OffsetKeyFrame.Checked;
             this.checkBox_OffsetKeyFrame.Enabled = (this.mSelectFrameNo != 0);
-            this.checkBox_OffsetParent.Enabled = (isCheckKeyFrame);
             this.label_CX.Enabled = (isCheckKeyFrame);
             this.label_CY.Enabled = (isCheckKeyFrame);
             this.UDnumXoff.Enabled = (isCheckKeyFrame);
@@ -512,7 +494,6 @@ namespace PrjHikariwoAnim
             //以下、反転設定
             isCheckKeyFrame = this.checkBox_FlipKeyFrame.Checked;
             this.checkBox_FlipKeyFrame.Enabled = (this.mSelectFrameNo != 0);
-            this.checkBox_FlipParent.Enabled = (isCheckKeyFrame);
             this.label_FlipH.Enabled = (isCheckKeyFrame);
             this.label_FlipV.Enabled = (isCheckKeyFrame);
             this.checkBox_FlipH.Enabled = (isCheckKeyFrame);
@@ -521,7 +502,6 @@ namespace PrjHikariwoAnim
             //以下、透明値設定
             isCheckKeyFrame = this.checkBox_TransKeyFrame.Checked;
             this.checkBox_TransKeyFrame.Enabled = (this.mSelectFrameNo != 0);
-            this.checkBox_TransParent.Enabled = (isCheckKeyFrame);
             this.label_T.Enabled = (isCheckKeyFrame);
             this.UDnumT.Enabled = (isCheckKeyFrame);
             this.checkBox_TweenTrans.Enabled = (isCheckKeyFrame);
@@ -530,7 +510,6 @@ namespace PrjHikariwoAnim
             //以下、色設定
             isCheckKeyFrame = this.checkBox_ColorKeyFrame.Checked;
             this.checkBox_ColorKeyFrame.Enabled = (this.mSelectFrameNo != 0);
-            this.checkBox_ColorParent.Enabled = (isCheckKeyFrame);
             this.label_C.Enabled = (isCheckKeyFrame);
             this.button_C.Enabled = (isCheckKeyFrame);
             this.textBox_C.Enabled = (isCheckKeyFrame);

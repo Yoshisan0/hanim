@@ -256,30 +256,33 @@ namespace PrjHikariwoAnim
             ClsDatElem clElem = ClsSystem.GetElemFromLineNo(inLineNo);
             if (clElem != null)
             {
-                //Click Eye
-                if (e.X < 16)
+                if (inLineNo == clElem.mLineNo)
                 {
-                    clElem.isDisplay = !clElem.isDisplay;
-                }
+                    //Click Eye
+                    if (0 <= e.X && e.X < 17)
+                    {
+                        clElem.isDisplay = !clElem.isDisplay;
+                    }
 
-                //Click Parent
-                if (e.X > 16 && e.X < 32)
-                {
-                    clElem.isParent = !clElem.isParent;
-                }
+                    //Click Parent
+                    if (17 <= e.X && e.X < 34)
+                    {
+                        clElem.isParent = !clElem.isParent;
+                    }
 
-                //Click Locked
-                if (e.X > 32 && e.X < 48)
-                {
-                    clElem.isLocked = !clElem.isLocked;
-                }
+                    //Click Locked
+                    if (34 <= e.X && e.X < 51)
+                    {
+                        clElem.isLocked = !clElem.isLocked;
+                    }
 
-                //Attribute Open
-                if (e.X > 48 && e.X < 64)
-                {
-                    clElem.isOpen = !clElem.isOpen;
+                    //Attribute Open
+                    if (51 <= e.X && e.X < 68)
+                    {
+                        clElem.isOpen = !clElem.isOpen;
 
-                    clMotion.RefreshLineNo();    //行番号とタブを割り振る処理
+                        clMotion.RefreshLineNo();    //行番号とタブを割り振る処理
+                    }
                 }
             }
 
@@ -639,12 +642,14 @@ namespace PrjHikariwoAnim
                         //isEnable = clElem.mElem.CanMoveUp(clElem);    //自分が長男かチェックする
                     }
                 }
+/*
                 else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                 {
                     ClsDatOption clOption = clItem as ClsDatOption;
                     clElem = clOption.mElem;
 //                    isEnable = clElem.CanMoveUp(clOption);
                 }
+*/
             }
             this.button_ItemUp.Enabled = isEnable;
 
@@ -664,12 +669,14 @@ namespace PrjHikariwoAnim
                     {
                     }
                 }
+/*
                 else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                 {
                     ClsDatOption clOption = clItem as ClsDatOption;
                     clElem = clOption.mElem;
 //                    isEnable = clElem.CanMoveDown(clOption);
                 }
+*/
             }
             this.button_ItemDown.Enabled = isEnable;
         }
@@ -873,10 +880,9 @@ namespace PrjHikariwoAnim
             //以下、オプション追加処理
             ToolStripMenuItem clITem = sender as ToolStripMenuItem;
             EnmTypeOption enTypeOption = (EnmTypeOption)clITem.Tag;
-            bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, enTypeOption);
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-            clElem.SetOption(enTypeOption, isParentFlag, clValue1, clValue2, null, null);
+            clElem.SetOption(enTypeOption, clValue1, clValue2, null, null);
 
             //以下、行番号振り直し処理
             clMotion.RefreshLineNo();
@@ -1082,8 +1088,8 @@ namespace PrjHikariwoAnim
             //以下、現在の値を取得する処理
             object clValue1 = clOption.GetValue1(inIndex);
             object clValue2 = clOption.GetValue2(inIndex);
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, isParentFlag, clValue1, clValue2, null, null);
-            clOption.SetKeyFrame(inIndex, isParentFlag, clValue1, clValue2, null, null);    //存在していたら更新、存在していなかったら追加
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, clValue1, clValue2, null, null);
+            clOption.SetKeyFrame(inIndex, clValue1, clValue2, null, null);    //存在していたら更新、存在していなかったら追加
 
             //以下、Tweenキーフレーム更新処理
             clOption.RefreshKeyFrame();

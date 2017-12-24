@@ -10,7 +10,6 @@ namespace PrjHikariwoAnim
         public string mName;                    //名前
 
         public bool mDisplayKeyFrame;           //表示キーフレーム存在フラグ
-        public bool mDisplayParent;             //親の設定依存フラグ
         public bool mDisplay;                   //表示フラグ
 
         public bool mPositionKeyFrame;          //座標キーフレーム存在フラグ
@@ -40,7 +39,6 @@ namespace PrjHikariwoAnim
         public float mSY;                       //スケールＹ
 
         public bool mOffsetKeyFrame;            //オフセットキーフレーム存在フラグ
-        public bool mOffsetParent;              //親の設定依存フラグ
         public bool mEnableOffsetXTween;        //オフセットＸトゥイーン有効フラグ
         public bool mEnableOffsetYTween;        //オフセットＹトゥイーン有効フラグ
         public bool mOffsetXTween;              //オフセットＸトゥイーン存在フラグ
@@ -51,19 +49,16 @@ namespace PrjHikariwoAnim
         public float mCY;                       //オフセットＹ座標
 
         public bool mFlipKeyFrame;              //反転キーフレーム存在フラグ
-        public bool mFlipParent;                //親の設定依存フラグ
         public bool mFlipH;                     //水平反転フラグ
         public bool mFlipV;                     //垂直反転フラグ
 
         public bool mTransKeyFrame;             //透明キーフレーム存在フラグ
-        public bool mTransParent;               //親の設定依存フラグ
         public bool mEnableTransTween;          //透明トゥイーン有効フラグ
         public bool mTransTween;                //透明トゥイーン存在フラグ
         public ClsDatTween mTweenTrans;         //透明トゥイーン
         public int mTrans;                      //透明透明値0～255
 
         public bool mColorKeyFrame;             //マテリアルカラーキーフレーム存在フラグ
-        public bool mColorParent;               //親の設定依存フラグ
         public bool mEnableColorTween;          //マテリアルカラートゥイーン有効フラグ
         public bool mColorTween;                //マテリアルカラートゥイーン存在フラグ
         public ClsDatTween mTweenColor;         //マテリアルカラートゥイーン
