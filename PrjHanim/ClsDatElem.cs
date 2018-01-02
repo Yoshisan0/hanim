@@ -1190,22 +1190,25 @@ namespace PrjHikariwoAnim
             }
 
             //以下、フレームの背景（親の影響を受けるかどうかと、Tweenの影響下にあるかどうか）を表示する処理
-            bool isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
-            if (isExist)
+            bool isExist;
+            if (this.mElem != null)
             {
-                ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
-
-                bool isParentFlag = (this.mElem != null) ? this.mElem.isParent : false;
-                Color stColorParent = Color.FromArgb(128, Color.LightPink);
-                SolidBrush clBrushParent = new SolidBrush(stColorParent);
-                int inFrameNo = 0;
-                for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+                isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
+                if (isExist)
                 {
-                    if (!isParentFlag) continue;
+                    ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
 
-                    inX = inFrameNo * FormControl.CELL_WIDTH;
-                    inY = this.mLineNo * FormControl.CELL_HEIGHT;
-                    g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                    Color stColorParent = Color.FromArgb(128, Color.LightPink);
+                    SolidBrush clBrushParent = new SolidBrush(stColorParent);
+                    int inFrameNo = 0;
+                    for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+                    {
+                        if (!this.isParent) continue;
+
+                        inX = inFrameNo * FormControl.CELL_WIDTH;
+                        inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                        g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
+                    }
                 }
             }
 

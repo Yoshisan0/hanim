@@ -379,16 +379,6 @@ namespace PrjHikariwoAnim
         /// <param name="inHeight">描画先の高さ</param>
         public void DrawTime(Graphics g, int inWidth, int inHeight)
         {
-            /*
-            //DrawDragArea
-            if (!mSelect_Pos_End.IsEmpty)
-            {
-                //選択範囲の網掛け
-                SolidBrush sb = new SolidBrush(Color.FromArgb(128, 0, 0, 128));
-                e.Graphics.FillRectangle(sb, mSelect_Pos_Start.X * TIME_CELL_WIDTH, 0, (mSelect_Pos_End.X - mSelect_Pos_Start.X) * TIME_CELL_WIDTH, inHeight - 1);
-            }
-            */
-
             int inLineNo = ClsSystem.GetSelectLineNo();
             int inFrameNo = ClsSystem.GetSelectFrameNo();
 
