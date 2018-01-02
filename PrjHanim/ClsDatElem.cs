@@ -825,12 +825,8 @@ namespace PrjHikariwoAnim
         public ClsParam GetParamNow(int inFrameNo, int inMaxFrameNum)
         {
             ClsParam clParam = new ClsParam();
-            bool isParentFlag;
             object clValue1;
             object clValue2;
-            int inFrameNoBefore;
-            int inFrameNoAfter;
-            bool isEnable;
             ClsDatTween clTween1;
             ClsDatTween clTween2;
 
@@ -842,10 +838,7 @@ namespace PrjHikariwoAnim
             this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
+
             clParam.mEnablePositionXTween = clParam.mPositionKeyFrame;
             clParam.mEnablePositionYTween = clParam.mPositionKeyFrame;
             clParam.mPositionXTween = (clTween1 != null);   
@@ -856,10 +849,6 @@ namespace PrjHikariwoAnim
             clParam.mRotationKeyFrame = this.IsExistKeyFrame(EnmTypeOption.ROTATION, inFrameNo);
             this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mRZ = Convert.ToSingle(clValue1);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
             clParam.mEnableRotationTween = clParam.mRotationKeyFrame;
             clParam.mRotationTween = (clTween1 != null);
             clParam.mTweenRotation = clTween1;
@@ -868,10 +857,6 @@ namespace PrjHikariwoAnim
             this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
             clParam.mEnableScaleXTween = clParam.mScaleKeyFrame;
             clParam.mEnableScaleYTween = clParam.mScaleKeyFrame;
             clParam.mScaleXTween = (clTween1 != null);
@@ -883,10 +868,6 @@ namespace PrjHikariwoAnim
             this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
             clParam.mEnableOffsetXTween = clParam.mOffsetKeyFrame;
             clParam.mEnableOffsetYTween = clParam.mOffsetKeyFrame;
             clParam.mOffsetXTween = (clTween1 != null);
@@ -902,10 +883,6 @@ namespace PrjHikariwoAnim
             clParam.mTransKeyFrame = this.IsExistKeyFrame(EnmTypeOption.TRANSPARENCY, inFrameNo);
             this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mTrans = Convert.ToInt32(clValue1);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
             clParam.mEnableTransTween = clParam.mTransKeyFrame;
             clParam.mTransTween = (clTween1 != null);
             clParam.mTweenTrans = clTween1;
@@ -913,10 +890,6 @@ namespace PrjHikariwoAnim
             clParam.mColorKeyFrame = this.IsExistKeyFrame(EnmTypeOption.COLOR, inFrameNo);
             this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out clValue1, out clValue2, out clTween1, out clTween2);
             clParam.mColor = Convert.ToInt32(clValue1);
-            /*
-            this.GetKeyFrameNo(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-            isEnable = (inFrameNoBefore <= inFrameNo && inFrameNo < inFrameNoAfter);
-            */
             clParam.mEnableColorTween = clParam.mColorKeyFrame;
             clParam.mColorTween = (clTween1 != null);
             clParam.mTweenColor = clTween1;
@@ -1110,7 +1083,14 @@ namespace PrjHikariwoAnim
             //以下、「親」アイコン表示処理
             if (this.isParent)
             {
-                g.DrawImage(Properties.Resources.parent, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1, 16, 16);
+                if (this.mElem == null)
+                {
+                    g.DrawImage(Properties.Resources.parentInvalid, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1, 16, 16);
+                }
+                else
+                {
+                    g.DrawImage(Properties.Resources.parent, 18, this.mLineNo * FormControl.CELL_HEIGHT + 1, 16, 16);
+                }
             }
             else
             {

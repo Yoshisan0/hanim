@@ -267,7 +267,10 @@ namespace PrjHikariwoAnim
                     //Click Parent
                     if (17 <= e.X && e.X < 34)
                     {
-                        clElem.isParent = !clElem.isParent;
+                        if (clElem.mElem != null)
+                        {
+                            clElem.isParent = !clElem.isParent;
+                        }
                     }
 
                     //Click Locked
