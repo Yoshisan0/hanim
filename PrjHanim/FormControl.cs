@@ -178,6 +178,7 @@ namespace PrjHikariwoAnim
                 this.splitContainer.Panel1.VerticalScroll.Value = e.NewValue;
             }
         }
+
         private void MaxFrame_ValueChanged(object sender, EventArgs e)
         {
             int inFrameNum = (int)this.numericUpDown_MaxFrame.Value;
@@ -192,12 +193,9 @@ namespace PrjHikariwoAnim
             this.panel_Time.Width = inWidth;
             this.panel_Time.Refresh();
         }
+
         private void NowFrame_ValueChanged(object sender, EventArgs e)
         {
-            //以下、Tweenキーフレーム更新処理
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            clMotion.RefreshKeyFrame();
-
             //現在フレームが変更された時の処理
             this.RefreshAll();
         }
@@ -1094,9 +1092,6 @@ namespace PrjHikariwoAnim
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, clValue1, clValue2, null, null);
             clOption.SetKeyFrame(inIndex, clValue1, clValue2, null, null);    //存在していたら更新、存在していなかったら追加
 
-            //以下、Tweenキーフレーム更新処理
-            clOption.RefreshKeyFrame();
-
             //以下、コントロール更新処理
             this.RefreshControl();
             this.panel_Control.Refresh();
@@ -1118,9 +1113,6 @@ namespace PrjHikariwoAnim
 
             //以下、キーフレーム削除処理
             clOption.RemoveKeyFrame(inIndex);
-
-            //以下、Tweenキーフレーム更新処理
-            clOption.RefreshKeyFrame();
 
             //以下、コントロール更新処理
             this.RefreshControl();

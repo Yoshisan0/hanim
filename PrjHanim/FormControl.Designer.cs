@@ -110,7 +110,7 @@
             this.splitContainer.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainer_Panel2_Scroll);
             this.splitContainer.Panel2MinSize = 48;
             this.splitContainer.Size = new System.Drawing.Size(684, 209);
-            this.splitContainer.SplitterDistance = 157;
+            this.splitContainer.SplitterDistance = 158;
             this.splitContainer.TabIndex = 0;
             // 
             // panel_Control
@@ -124,7 +124,7 @@
             this.panel_Control.Location = new System.Drawing.Point(0, 20);
             this.panel_Control.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Control.Name = "panel_Control";
-            this.panel_Control.Size = new System.Drawing.Size(155, 187);
+            this.panel_Control.Size = new System.Drawing.Size(156, 187);
             this.panel_Control.TabIndex = 1;
             this.panel_Control.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel_Control_DragDrop);
             this.panel_Control.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Control_Paint);
@@ -241,7 +241,7 @@
             this.TreeHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.TreeHeader.Location = new System.Drawing.Point(0, 0);
             this.TreeHeader.Name = "TreeHeader";
-            this.TreeHeader.Size = new System.Drawing.Size(155, 20);
+            this.TreeHeader.Size = new System.Drawing.Size(156, 20);
             this.TreeHeader.TabIndex = 2;
             // 
             // button_ItemRemove
@@ -319,7 +319,7 @@
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Time.Name = "panel_Time";
-            this.panel_Time.Size = new System.Drawing.Size(521, 187);
+            this.panel_Time.Size = new System.Drawing.Size(520, 187);
             this.panel_Time.TabIndex = 0;
             this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
             this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
@@ -359,7 +359,7 @@
             this.LineHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.LineHeader.Location = new System.Drawing.Point(0, 0);
             this.LineHeader.Name = "LineHeader";
-            this.LineHeader.Size = new System.Drawing.Size(521, 20);
+            this.LineHeader.Size = new System.Drawing.Size(520, 20);
             this.LineHeader.TabIndex = 1;
             this.LineHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.LineHeader_Paint);
             this.LineHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LineHeader_MouseDown);

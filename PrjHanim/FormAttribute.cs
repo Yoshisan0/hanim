@@ -457,8 +457,6 @@ namespace PrjHikariwoAnim
             this.button_TweenX.Enabled = this.checkBox_TweenPositionX.Checked;
             this.button_TweenY.Enabled = this.checkBox_TweenPositionY.Checked;
 
-            Console.WriteLine("Param_ValueChanged checkBox_TweenPositionX.Enable = " + this.checkBox_TweenPositionX.Enabled);
-
             //以下、回転設定
             isCheckKeyFrame = this.checkBox_RotationKeyFrame.Checked;
             this.checkBox_RotationKeyFrame.Enabled = (this.mSelectFrameNo!= 0);

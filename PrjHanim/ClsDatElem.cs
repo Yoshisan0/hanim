@@ -620,32 +620,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// キーフレーム番号割り振り処理
-        /// 最大フレーム数を修正したり、キーフレームを追加・削除したりした時に呼び出すこと
-        /// </summary>
-        public void RefreshKeyFrame()
-        {
-            if (this.isOpen)
-            {
-                foreach (EnmTypeOption enTypeOption in Enum.GetValues(typeof(EnmTypeOption)))
-                {
-                    bool isExist = this.mDicOption.ContainsKey(enTypeOption);
-                    if (!isExist) continue;
-
-                    ClsDatOption clOption = this.mDicOption[enTypeOption];
-                    clOption.RefreshKeyFrame();
-                }
-            }
-
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RefreshKeyFrame();
-            }
-        }
-
-        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
@@ -1189,26 +1163,48 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            //以下、フレームの背景（親の影響を受けるかどうかと、Tweenの影響下にあるかどうか）を表示する処理
-            bool isExist;
-            if (this.mElem != null)
+            //以下、フレームの背景を表示する処理
+            bool isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
+            if (isExist)
             {
-                isExist = this.mDicOption.ContainsKey(EnmTypeOption.DISPLAY);
-                if (isExist)
-                {
-                    ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
+                ClsDatOption clOption = this.mDicOption[EnmTypeOption.DISPLAY];
 
+                //以下、親の影響を受けるかどうか表示する処理
+                int inFrameNo = 0;
+                if (this.mElem != null)
+                {
                     Color stColorParent = Color.FromArgb(128, Color.LightPink);
                     SolidBrush clBrushParent = new SolidBrush(stColorParent);
-                    int inFrameNo = 0;
                     for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
                     {
                         if (!this.isParent) continue;
 
+                        //以下、フレームの背景描画処理
                         inX = inFrameNo * FormControl.CELL_WIDTH;
                         inY = this.mLineNo * FormControl.CELL_HEIGHT;
                         g.FillRectangle(clBrushParent, inX, inY + 2, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
                     }
+                }
+
+                //以下、Tweenの影響下にあるかどうか表示する処理
+                Color stColorTween = Color.FromArgb(128, Color.LightBlue);
+                SolidBrush clBrushTween = new SolidBrush(stColorTween);
+                bool isFlag = false;
+                for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
+                {
+                    //以下、キーフレームが存在するかチェックする処理
+                    isExist = clOption.IsExistKeyFrame(inFrameNo);
+                    if (isExist)
+                    {
+                        ClsDatKeyFrame clKeyFrame = clOption.GetKeyFrame(inFrameNo);
+                        isFlag = (bool)clKeyFrame.mValue1;
+                    }
+                    if (!isFlag) continue;
+
+                    //以下、フレームの背景描画処理
+                    inX = inFrameNo * FormControl.CELL_WIDTH;
+                    inY = this.mLineNo * FormControl.CELL_HEIGHT;
+                    g.FillRectangle(clBrushTween, inX, inY + 10, FormControl.CELL_WIDTH, FormControl.CELL_HEIGHT / 2 - 4);
                 }
             }
 

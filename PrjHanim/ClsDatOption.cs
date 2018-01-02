@@ -11,7 +11,6 @@ namespace PrjHikariwoAnim
         public ClsDatElem mElem;                                //親エレメント
         public EnmTypeOption mTypeOption;                       //タイプ
         private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;   //キーはフレーム番号　値はキーフレーム管理クラス
-        private List<int> mListTweenFrameNo;                    //そのフレームが影響を受けているTweenのあるキーフレーム番号（Tweenが無ければindexと同じキーフレーム番号となる）
 
         /// <summary>
         /// コンストラクタ
@@ -29,10 +28,6 @@ namespace PrjHikariwoAnim
             this.mElem = clElem;
             this.mTypeOption = enTypeOption;
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
-            this.mListTweenFrameNo = new List<int>();
-
-            //以下、Tweenのフレーム番号を登録する処理
-            this.RefreshKeyFrame();
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
             ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, clValue1, clValue2, clTween1, clTween2);
@@ -333,31 +328,6 @@ RETURN_DEFAULT2:
         }
 
         /// <summary>
-        /// キーフレーム番号割り振り処理
-        /// </summary>
-        public void RefreshKeyFrame()
-        {
-            //以下、クリア処理
-            this.mListTweenFrameNo.Clear();
-
-            //以下、リスト作成処理
-            ClsDatMotion clMotion = ClsSystem.GetSelectMotion();
-            int inFrameNo, inMaxFrameNum = clMotion.GetMaxFrameNum();
-            for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
-            {
-                this.mListTweenFrameNo.Add(inFrameNo);
-            }
-
-            //以下、Tween場所を検索して設定する処理
-            for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
-            {
-                int inFrameNoBefore, inFrameNoAfter;
-                this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
-                this.mListTweenFrameNo[inFrameNo] = inFrameNoBefore;
-            }
-        }
-
-        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         /// <param name="clMotion">モーション管理クラス</param>
@@ -474,15 +444,20 @@ RETURN_DEFAULT2:
                 }
             }
 
-            //以下、フレームの背景（親の影響を受けるかどうかと、Tweenの影響下にあるかどうか）を表示する処理
+            //以下、フレームの背景（Tweenの影響下にあるかどうか）を表示する処理
             Color stColorTween = Color.FromArgb(128, Color.LightBlue);
             SolidBrush clBrushTween = new SolidBrush(stColorTween);
+            bool isFlag = false;
             int inFrameNo = 0;
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
-                //以下、Tweenの影響下にあるフラグを表示する処理
-                if (inFrameNo >= this.mListTweenFrameNo.Count) continue;
-                if (this.mListTweenFrameNo[inFrameNo] < 0) continue;
+                //以下、キーフレームが存在するかチェックする処理
+                bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
+                if (isExist)
+                {
+                    isFlag = !isFlag;
+                }
+                if (!isFlag) continue;
 
                 inX = inFrameNo * FormControl.CELL_WIDTH;
                 inY = this.mLineNo * FormControl.CELL_HEIGHT;

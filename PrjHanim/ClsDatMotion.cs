@@ -300,20 +300,6 @@ namespace PrjHikariwoAnim
         }
 
         /// <summary>
-        /// キーフレーム番号割り振り処理
-        /// 最大フレーム数を修正したり、キーフレームを追加・削除したりした時に呼び出すこと
-        /// </summary>
-        public void RefreshKeyFrame()
-        {
-            int inCnt, inMax = this.mListElem.Count;
-            for (inCnt = 0; inCnt < inMax; inCnt++)
-            {
-                ClsDatElem clElem = this.mListElem[inCnt];
-                clElem.RefreshKeyFrame();
-            }
-        }
-
-        /// <summary>
         /// 行番号割り振り処理
         /// </summary>
         public void RefreshLineNo()
