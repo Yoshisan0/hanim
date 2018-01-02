@@ -232,7 +232,7 @@ namespace PrjHikariwoAnim
             foreach (EnmTypeOption enTypeOption in this.mDicOption.Keys)
             {
                 ClsDatOption clDatOption = this.mDicOption[enTypeOption];
-                clDatOption.mElem = this;
+                clDatOption.mElemParent = this;
             }
         }
 
@@ -272,7 +272,7 @@ namespace PrjHikariwoAnim
                 {
                     ClsDatOption clDatOption = new ClsDatOption(null, EnmTypeOption.NONE, null, null, null, null);
                     clDatOption.Load(clNode);
-                    clDatOption.mElem = this;
+                    clDatOption.mElemParent = this;
 
                     this.mDicOption[clDatOption.mTypeOption] = clDatOption;
                     continue;

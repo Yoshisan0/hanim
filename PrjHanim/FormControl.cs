@@ -970,7 +970,7 @@ namespace PrjHikariwoAnim
                             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
                             {
                                 ClsDatOption clOption = clItem as ClsDatOption;
-                                clElem = clOption.mElem;
+                                clElem = clOption.mElemParent;
                                 if (inSelectLineNo == clElem.mLineNo)
                                 {
                                     clElem = null;
@@ -1083,7 +1083,7 @@ namespace PrjHikariwoAnim
             if (clOption == null) return;
 
             //以下、キーフレーム作成・更新処理
-            ClsDatElem clElem = clOption.mElem;
+            ClsDatElem clElem = clOption.mElemParent;
             bool isParentFlag = ClsParam.GetDefaultParentFlag(clElem.mElem, clOption.mTypeOption);
 
             //以下、現在の値を取得する処理

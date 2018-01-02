@@ -356,7 +356,7 @@ namespace PrjHikariwoAnim
             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
             {
                 ClsDatOption clOption = clItem as ClsDatOption;
-                ClsDatElem clElem = clOption.mElem;
+                ClsDatElem clElem = clOption.mElemParent;
                 return (clElem);
             }
 
@@ -455,7 +455,7 @@ namespace PrjHikariwoAnim
             else if (clItem.mTypeItem == ClsDatItem.TYPE_ITEM.OPTION)
             {
                 clOption = clItem as ClsDatOption;
-                clElem = clOption.mElem;
+                clElem = clOption.mElemParent;
             }
 
             if (clOption == null) return (null);

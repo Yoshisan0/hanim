@@ -8,24 +8,24 @@ namespace PrjHikariwoAnim
     [Serializable]
     public class ClsDatOption : ClsDatItem
     {
-        public ClsDatElem mElem;                                //親エレメント
+        public ClsDatElem mElemParent;                          //親エレメント
         public EnmTypeOption mTypeOption;                       //タイプ
         private Dictionary<int, ClsDatKeyFrame> mDicKeyFrame;   //キーはフレーム番号　値はキーフレーム管理クラス
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="clElem">親エレメント</param>
+        /// <param name="clElemParent">親エレメント</param>
         /// <param name="enType">オプションタイプ</param>
         /// <param name="clValue1">初期状態の値１</param>
         /// <param name="clValue2">初期状態の値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        public ClsDatOption(ClsDatElem clElem, EnmTypeOption enTypeOption, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        public ClsDatOption(ClsDatElem clElemParent, EnmTypeOption enTypeOption, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
-            this.mElem = clElem;
+            this.mElemParent = clElemParent;
             this.mTypeOption = enTypeOption;
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
 
