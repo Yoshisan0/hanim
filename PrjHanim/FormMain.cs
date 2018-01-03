@@ -738,7 +738,7 @@ namespace PrjHikariwoAnim
         private void AddElement(ClsDatMotion clDatMotion, ClsDatImage clDatImage, float flX, float flY)
         {
             //以下、エレメント追加処理
-            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, flX, flY, null, null);
+            ClsDatElem clDatElem = new ClsDatElem(clDatMotion, null, flX, flY);
             clDatElem.SetImage(clDatImage);
 
             clDatMotion.AddElements(clDatElem);  //Elements登録

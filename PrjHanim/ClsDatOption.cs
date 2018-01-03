@@ -17,11 +17,11 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clElemParent">親エレメント</param>
         /// <param name="enType">オプションタイプ</param>
-        /// <param name="clValue1">初期状態の値１</param>
-        /// <param name="clValue2">初期状態の値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        public ClsDatOption(ClsDatElem clElemParent, EnmTypeOption enTypeOption, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        /// <param name="clValue1">初期状態の値１</param>
+        /// <param name="clValue2">初期状態の値２</param>
+        public ClsDatOption(ClsDatElem clElemParent, EnmTypeOption enTypeOption, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
@@ -30,7 +30,7 @@ namespace PrjHikariwoAnim
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, clValue1, clValue2, clTween1, clTween2);
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, clTween1, clTween2, clValue1, clValue2);
             this.mDicKeyFrame.Add(0, clKeyFrame);
         }
 
@@ -112,9 +112,11 @@ namespace PrjHikariwoAnim
         /// キーフレーム登録・更新処理
         /// </summary>
         /// <param name="inFrameNo">フレーム番号</param>
+        /// <param name="clTween1">トゥイーン１</param>
+        /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public void SetKeyFrame(int inFrameNo, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        public void SetKeyFrame(int inFrameNo, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
             if (isExist)
@@ -127,7 +129,7 @@ namespace PrjHikariwoAnim
             }
             else
             {
-                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, clValue1, clValue2, clTween1, clTween2);
+                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, clTween1, clTween2, clValue1, clValue2);
             }
         }
 
@@ -258,7 +260,7 @@ RETURN_DEFAULT2:
 
                 object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
                 object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
-                ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, clValue1, clValue2, null, null);
+                ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, null, null, clValue1, clValue2);
                 clDatKeyFrame.Load(clNode);
 
                 this.mDicKeyFrame[clDatKeyFrame.mFrameNo] = clDatKeyFrame;
@@ -452,10 +454,18 @@ RETURN_DEFAULT2:
             for (inFrameNo = 0; inFrameNo < inMaxFrameNum; inFrameNo++)
             {
                 //以下、キーフレームが存在するかチェックする処理
-                bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
-                if (isExist)
+                if (inFrameNo == 0)
                 {
-                    isFlag = !isFlag;
+                    isFlag = true;
+                }
+                else
+                {
+                    bool isExist = this.IsExistKeyFrame(inFrameNo);
+                    if (isExist)
+                    {
+                        ClsDatKeyFrame clKeyFrame = this.GetKeyFrame(inFrameNo);
+                        isFlag = (clKeyFrame.mTween1 != null || clKeyFrame.mTween2 != null);
+                    }
                 }
                 if (!isFlag) continue;
 

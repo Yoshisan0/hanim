@@ -102,46 +102,42 @@ namespace PrjHikariwoAnim
             this.checkBox_Display.Checked = clParam.mDisplay;
 
             this.checkBox_PositionKeyFrame.Checked = clParam.mPositionKeyFrame;
-            this.checkBox_TweenPositionX.Enabled = clParam.mEnablePositionXTween;
-            this.checkBox_TweenPositionY.Enabled = clParam.mEnablePositionYTween;
             this.checkBox_TweenPositionX.Checked = clParam.mPositionXTween;
-            this.checkBox_TweenPositionY.Checked = clParam.mPositionYTween;
             this.button_TweenX.Image = (clParam.mTweenPositionX == null) ? null : clParam.mTweenPositionX.mImage;
-            this.button_TweenY.Image = (clParam.mTweenPositionY == null) ? null : clParam.mTweenPositionY.mImage;
             this.button_TweenX.Tag = clParam.mTweenPositionX;
-            this.button_TweenY.Tag = clParam.mTweenPositionY;
             this.UDnumX.Value = (int)clParam.mX;
+
+            this.checkBox_TweenPositionY.Checked = clParam.mPositionYTween;
+            this.button_TweenY.Image = (clParam.mTweenPositionY == null) ? null : clParam.mTweenPositionY.mImage;
+            this.button_TweenY.Tag = clParam.mTweenPositionY;
             this.UDnumY.Value = (int)clParam.mY;
 
             this.checkBox_RotationKeyFrame.Checked = clParam.mRotationKeyFrame;
-            this.checkBox_TweenRotation.Enabled = clParam.mEnableRotationTween;
             this.checkBox_TweenRotation.Checked = clParam.mRotationTween;
             this.button_TweenRZ.Image = (clParam.mTweenRotation == null) ? null : clParam.mTweenRotation.mImage;
             this.button_TweenRZ.Tag = clParam.mTweenRotation;
             this.UDnumRot.Value = (decimal)clParam.mRZ;
 
             this.checkBox_ScaleKeyFrame.Checked = clParam.mScaleKeyFrame;
-            this.checkBox_TweenScaleX.Enabled = clParam.mEnableScaleXTween;
-            this.checkBox_TweenScaleY.Enabled = clParam.mEnableScaleYTween;
             this.checkBox_TweenScaleX.Checked = clParam.mScaleXTween;
-            this.checkBox_TweenScaleY.Checked = clParam.mScaleYTween;
             this.button_TweenSX.Image = (clParam.mTweenScaleX == null) ? null : clParam.mTweenScaleX.mImage;
-            this.button_TweenSY.Image = (clParam.mTweenScaleY == null) ? null : clParam.mTweenScaleY.mImage;
             this.button_TweenSX.Tag = clParam.mTweenScaleX;
-            this.button_TweenSY.Tag = clParam.mTweenScaleY;
             this.UDnumSX.Value = (decimal)clParam.mSX;
+
+            this.checkBox_TweenScaleY.Checked = clParam.mScaleYTween;
+            this.button_TweenSY.Image = (clParam.mTweenScaleY == null) ? null : clParam.mTweenScaleY.mImage;
+            this.button_TweenSY.Tag = clParam.mTweenScaleY;
             this.UDnumSY.Value = (decimal)clParam.mSY;
 
             this.checkBox_OffsetKeyFrame.Checked = clParam.mOffsetKeyFrame;
-            this.checkBox_TweenOffsetX.Enabled = clParam.mEnableOffsetXTween;
-            this.checkBox_TweenOffsetY.Enabled = clParam.mEnableOffsetYTween;
             this.checkBox_TweenOffsetX.Checked = clParam.mOffsetXTween;
-            this.checkBox_TweenOffsetY.Checked = clParam.mOffsetYTween;
             this.button_TweenCX.Image = (clParam.mTweenOffsetX == null) ? null : clParam.mTweenOffsetX.mImage;
-            this.button_TweenCY.Image = (clParam.mTweenOffsetY == null) ? null : clParam.mTweenOffsetY.mImage;
             this.button_TweenCX.Tag = clParam.mTweenOffsetX;
-            this.button_TweenCY.Tag = clParam.mTweenOffsetY;
             this.UDnumXoff.Value = (int)clParam.mCX;
+
+            this.checkBox_TweenOffsetY.Checked = clParam.mOffsetYTween;
+            this.button_TweenCY.Image = (clParam.mTweenOffsetY == null) ? null : clParam.mTweenOffsetY.mImage;
+            this.button_TweenCY.Tag = clParam.mTweenOffsetY;
             this.UDnumYoff.Value = (int)clParam.mCY;
 
             this.checkBox_FlipKeyFrame.Checked = clParam.mFlipKeyFrame;
@@ -149,14 +145,12 @@ namespace PrjHikariwoAnim
             this.checkBox_FlipV.Checked = clParam.mFlipV;
 
             this.checkBox_TransKeyFrame.Checked = clParam.mTransKeyFrame;
-            this.checkBox_TweenTrans.Enabled = clParam.mEnableTransTween;
             this.checkBox_TweenTrans.Checked = clParam.mTransTween;
             this.button_TweenT.Image = (clParam.mTweenTrans == null) ? null : clParam.mTweenTrans.mImage;
             this.button_TweenT.Tag = clParam.mTweenTrans;
             this.UDnumT.Value = (decimal)clParam.mTrans;
 
             this.checkBox_ColorKeyFrame.Checked = clParam.mColorKeyFrame;
-            this.checkBox_TweenColor.Enabled = clParam.mEnableColorTween;
             this.checkBox_TweenColor.Checked = clParam.mColorTween;
             this.button_TweenC.Image = (clParam.mTweenColor == null) ? null : clParam.mTweenColor.mImage;
             this.button_TweenC.Tag = clParam.mTweenColor;
@@ -324,17 +318,17 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inSelectFrameNo">フレーム番号</param>
         /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
-        /// <param name="clValue1">値１</param>
-        /// <param name="clValue2">値２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
-        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, object clValue1, object clValue2, ClsDatTween clTween1, ClsDatTween clTween2)
+        /// <param name="clValue1">値１</param>
+        /// <param name="clValue2">値２</param>
+        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             ClsDatOption clOption = null;
 
             if (inSelectFrameNo == 0)
             {
-                clElem.SetOption(enTypeOption, clValue1, clValue2, clTween1, clTween2);
+                clElem.SetOption(enTypeOption, clTween1, clTween2, clValue1, clValue2);
             }
             else
             {
@@ -347,13 +341,13 @@ namespace PrjHikariwoAnim
                 {
                     clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
                     clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-                    clElem.SetOption(enTypeOption, clValue1, clValue2, clTween1, clTween2);
+                    clElem.SetOption(enTypeOption, clTween1, clTween2, clValue1, clValue2);
                     clOption = clElem.GetOption(enTypeOption);
                 }
 
                 if (isExistKeyFrame)
                 {
-                    clOption.SetKeyFrame(inSelectFrameNo, clValue1, clValue2, clTween1, clTween2);  //追加または更新
+                    clOption.SetKeyFrame(inSelectFrameNo, clTween1, clTween2, clValue1, clValue2);  //追加または更新
                 }
                 else
                 {
@@ -378,35 +372,35 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
-            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, clParam.mDisplay, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, null, null, clParam.mDisplay, clValue2);
 
             //以下、座標設定
-            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, clParam.mX, clParam.mY, clParam.mTweenPositionX, clParam.mTweenPositionY);
+            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, clParam.mTweenPositionX, clParam.mTweenPositionY, clParam.mX, clParam.mY);
 
             //以下、回転設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.ROTATION);
-            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, clParam.mRZ, clValue2, clParam.mTweenRotation, null);
+            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, clParam.mTweenRotation, null, clParam.mRZ, clValue2);
 
             //以下、スケール設定
-            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, clParam.mSX, clParam.mSY, clParam.mTweenScaleX, clParam.mTweenScaleY);
+            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, clParam.mTweenScaleX, clParam.mTweenScaleY, clParam.mSX, clParam.mSY);
 
             //以下、オフセット設定
-            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mCX, clParam.mCY, clParam.mTweenOffsetX, clParam.mTweenOffsetY);
+            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mTweenOffsetX, clParam.mTweenOffsetY, clParam.mCX, clParam.mCY);
 
             //以下、反転設定
-            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, clParam.mFlipH, clParam.mFlipV, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, null, null, clParam.mFlipH, clParam.mFlipV);
 
             //以下、透明設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.TRANSPARENCY);
-            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTrans, clValue2, clParam.mTweenTrans, null);
+            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTweenTrans, null, clParam.mTrans, clValue2);
 
             //以下、カラー設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.COLOR);
-            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mColor, clValue2, clParam.mTweenColor, null);
+            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mTweenColor, null, clParam.mColor, clValue2);
 
             //以下、ユーザーデータ設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.USER_DATA);
-            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, clParam.mUserData, clValue2, null, null);
+            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, null, null, clParam.mUserData, clValue2);
 
             //以下、行番号を振り直す処理
             clMotion.RefreshLineNo();

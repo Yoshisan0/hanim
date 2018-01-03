@@ -33,7 +33,34 @@ namespace PrjHikariwoAnim
         /// コンストラクタ
         /// </summary>
         /// <param name="enParam">種別</param>
-        /// <param name="inFrmEnd">終了フレーム</param>
+        /// <param name="inLength">対象フレーム数</param>
+        /// <param name="clPos">座標</param>
+        /// <param name="pclVec">各ベクトル</param>
+        public ClsDatTween(EnmParam enParam, int inLength)
+        {
+            this.mParam = enParam;
+            this.mLength = inLength;
+
+            this.mPos = new ClsVector3();
+            this.mPos.X = ClsDatTween.POS_X1;
+            this.mPos.Y = ClsDatTween.POS_Y1;
+
+            this.mListVec = new List<ClsVector3>();
+            ClsVector3 clVec = new ClsVector3(ClsDatTween.VEC_X0, ClsDatTween.VEC_Y0, 0.0f);
+            this.mListVec.Add(clVec);
+            clVec = new ClsVector3(ClsDatTween.VEC_X1, ClsDatTween.VEC_Y1, 0.0f);
+            this.mListVec.Add(clVec);
+            clVec = new ClsVector3(ClsDatTween.VEC_X2, ClsDatTween.VEC_Y2, 0.0f);
+            this.mListVec.Add(clVec);
+
+            this.mImage = ClsDatTween.CreateImage(this, 15, 15);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="enParam">種別</param>
+        /// <param name="inLength">対象フレーム数</param>
         /// <param name="clPos">座標</param>
         /// <param name="pclVec">各ベクトル</param>
         public ClsDatTween(EnmParam enParam, int inLength, ClsVector3 clPos, List<ClsVector3> pclVec)
@@ -59,10 +86,6 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            /*
-            Image clImageSrc = ClsDatTween.CreateImage(this, 60, 60);
-            this.mImage = ClsDatImage.CreateSmallImage(clImageSrc, 15, 15);
-            */
             this.mImage = ClsDatTween.CreateImage(this, 15, 15);
         }
 

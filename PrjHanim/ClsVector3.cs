@@ -17,6 +17,7 @@ namespace PrjHikariwoAnim
             this.Y = 0;
             this.Z = 0;
         }
+
         public ClsVector3(float x, float y, float z)
         {
             this.X = x;

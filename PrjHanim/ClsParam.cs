@@ -13,8 +13,6 @@ namespace PrjHikariwoAnim
         public bool mDisplay;                   //表示フラグ
 
         public bool mPositionKeyFrame;          //座標キーフレーム存在フラグ
-        public bool mEnablePositionXTween;      //座標Ｘトゥイーン有効フラグ
-        public bool mEnablePositionYTween;      //座標Ｙトゥイーン有効フラグ
         public bool mPositionXTween;            //座標Ｘトゥイーン存在フラグ
         public bool mPositionYTween;            //座標Ｙトゥイーン存在フラグ
         public ClsDatTween mTweenPositionX;     //座標Ｘトゥイーン
@@ -23,14 +21,11 @@ namespace PrjHikariwoAnim
         public float mY;                        //Ｙ座標（常に有効）
 
         public bool mRotationKeyFrame;          //回転キーフレーム存在フラグ
-        public bool mEnableRotationTween;       //回転トゥイーン有効フラグ
         public bool mRotationTween;             //回転トゥイーン存在フラグ
         public ClsDatTween mTweenRotation;      //回転トゥイーン
         public float mRZ;                       //回転値
 
         public bool mScaleKeyFrame;             //スケールキーフレーム存在フラグ
-        public bool mEnableScaleXTween;         //スケールＸトゥイーン有効フラグ
-        public bool mEnableScaleYTween;         //スケールＹトゥイーン有効フラグ
         public bool mScaleXTween;               //スケールＸトゥイーン存在フラグ
         public bool mScaleYTween;               //スケールＹトゥイーン存在フラグ
         public ClsDatTween mTweenScaleX;        //スケールＸトゥイーン
@@ -39,8 +34,6 @@ namespace PrjHikariwoAnim
         public float mSY;                       //スケールＹ
 
         public bool mOffsetKeyFrame;            //オフセットキーフレーム存在フラグ
-        public bool mEnableOffsetXTween;        //オフセットＸトゥイーン有効フラグ
-        public bool mEnableOffsetYTween;        //オフセットＹトゥイーン有効フラグ
         public bool mOffsetXTween;              //オフセットＸトゥイーン存在フラグ
         public bool mOffsetYTween;              //オフセットＹトゥイーン存在フラグ
         public ClsDatTween mTweenOffsetX;       //オフセットＸトゥイーン
@@ -53,18 +46,15 @@ namespace PrjHikariwoAnim
         public bool mFlipV;                     //垂直反転フラグ
 
         public bool mTransKeyFrame;             //透明キーフレーム存在フラグ
-        public bool mEnableTransTween;          //透明トゥイーン有効フラグ
         public bool mTransTween;                //透明トゥイーン存在フラグ
         public ClsDatTween mTweenTrans;         //透明トゥイーン
         public int mTrans;                      //透明透明値0～255
 
         public bool mColorKeyFrame;             //マテリアルカラーキーフレーム存在フラグ
-        public bool mEnableColorTween;          //マテリアルカラートゥイーン有効フラグ
         public bool mColorTween;                //マテリアルカラートゥイーン存在フラグ
         public ClsDatTween mTweenColor;         //マテリアルカラートゥイーン
         public int mColor;                      //マテリアルカラー値（α無し RGBのみ）
 
-        public bool mEnableUserDataKeyFrame;    //ユーザーデータキーフレーム有効フラグ
         public bool mUserDataKeyFrame;          //ユーザーデータキーフレーム存在フラグ
         public string mUserData;                //ユーザーデータ
 

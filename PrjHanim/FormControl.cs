@@ -883,7 +883,7 @@ namespace PrjHikariwoAnim
             EnmTypeOption enTypeOption = (EnmTypeOption)clITem.Tag;
             object clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
             object clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-            clElem.SetOption(enTypeOption, clValue1, clValue2, null, null);
+            clElem.SetOption(enTypeOption, null, null, clValue1, clValue2);
 
             //以下、行番号振り直し処理
             clMotion.RefreshLineNo();
@@ -1089,8 +1089,8 @@ namespace PrjHikariwoAnim
             //以下、現在の値を取得する処理
             object clValue1 = clOption.GetValue1(inIndex);
             object clValue2 = clOption.GetValue2(inIndex);
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, clValue1, clValue2, null, null);
-            clOption.SetKeyFrame(inIndex, clValue1, clValue2, null, null);    //存在していたら更新、存在していなかったら追加
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(clOption.mTypeOption, inIndex, null, null, clValue1, clValue2);
+            clOption.SetKeyFrame(inIndex, null, null, clValue1, clValue2);    //存在していたら更新、存在していなかったら追加
 
             //以下、コントロール更新処理
             this.RefreshControl();

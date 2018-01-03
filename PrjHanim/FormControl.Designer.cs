@@ -109,7 +109,7 @@
             this.splitContainer.Panel2.Controls.Add(this.LineHeader);
             this.splitContainer.Panel2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.splitContainer_Panel2_Scroll);
             this.splitContainer.Panel2MinSize = 48;
-            this.splitContainer.Size = new System.Drawing.Size(684, 209);
+            this.splitContainer.Size = new System.Drawing.Size(784, 209);
             this.splitContainer.SplitterDistance = 158;
             this.splitContainer.TabIndex = 0;
             // 
@@ -319,7 +319,7 @@
             this.panel_Time.Location = new System.Drawing.Point(0, 20);
             this.panel_Time.Margin = new System.Windows.Forms.Padding(0);
             this.panel_Time.Name = "panel_Time";
-            this.panel_Time.Size = new System.Drawing.Size(520, 187);
+            this.panel_Time.Size = new System.Drawing.Size(620, 187);
             this.panel_Time.TabIndex = 0;
             this.panel_Time.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Time_Paint);
             this.panel_Time.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_Time_MouseClick);
@@ -359,7 +359,7 @@
             this.LineHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.LineHeader.Location = new System.Drawing.Point(0, 0);
             this.LineHeader.Name = "LineHeader";
-            this.LineHeader.Size = new System.Drawing.Size(520, 20);
+            this.LineHeader.Size = new System.Drawing.Size(620, 20);
             this.LineHeader.TabIndex = 1;
             this.LineHeader.Paint += new System.Windows.Forms.PaintEventHandler(this.LineHeader_Paint);
             this.LineHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LineHeader_MouseDown);
@@ -377,7 +377,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 236);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(684, 25);
+            this.panel1.Size = new System.Drawing.Size(784, 25);
             this.panel1.TabIndex = 5;
             // 
             // MediaBase
@@ -457,7 +457,7 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.numericUpDown_MaxFrame);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(539, 0);
+            this.panel2.Location = new System.Drawing.Point(639, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(145, 27);
             this.panel2.TabIndex = 13;
@@ -523,7 +523,7 @@
             this.Panel_LineControl_Base.Dock = System.Windows.Forms.DockStyle.Top;
             this.Panel_LineControl_Base.Location = new System.Drawing.Point(0, 0);
             this.Panel_LineControl_Base.Name = "Panel_LineControl_Base";
-            this.Panel_LineControl_Base.Size = new System.Drawing.Size(684, 27);
+            this.Panel_LineControl_Base.Size = new System.Drawing.Size(784, 27);
             this.Panel_LineControl_Base.TabIndex = 6;
             // 
             // panel3
@@ -539,14 +539,14 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 261);
+            this.ClientSize = new System.Drawing.Size(784, 261);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.Panel_LineControl_Base);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(16, 118);
+            this.MinimumSize = new System.Drawing.Size(440, 130);
             this.Name = "FormControl";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Control";
