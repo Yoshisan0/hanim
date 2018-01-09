@@ -502,7 +502,7 @@
             this.checkBox_TweenPositionY.Size = new System.Drawing.Size(15, 14);
             this.checkBox_TweenPositionY.TabIndex = 86;
             this.checkBox_TweenPositionY.UseVisualStyleBackColor = true;
-            this.checkBox_TweenPositionY.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
+            this.checkBox_TweenPositionY.CheckedChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
             // checkBox_TweenPositionX
             // 
@@ -515,7 +515,7 @@
             this.checkBox_TweenPositionX.Size = new System.Drawing.Size(15, 14);
             this.checkBox_TweenPositionX.TabIndex = 74;
             this.checkBox_TweenPositionX.UseVisualStyleBackColor = true;
-            this.checkBox_TweenPositionX.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
+            this.checkBox_TweenPositionX.CheckedChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
             // label4
             // 
@@ -557,7 +557,7 @@
             this.checkBox_DisplayKeyFrame.Size = new System.Drawing.Size(15, 14);
             this.checkBox_DisplayKeyFrame.TabIndex = 74;
             this.checkBox_DisplayKeyFrame.UseVisualStyleBackColor = true;
-            this.checkBox_DisplayKeyFrame.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
+            this.checkBox_DisplayKeyFrame.CheckedChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
             // checkBox_PositionKeyFrame
             // 
@@ -569,7 +569,7 @@
             this.checkBox_PositionKeyFrame.Size = new System.Drawing.Size(15, 14);
             this.checkBox_PositionKeyFrame.TabIndex = 73;
             this.checkBox_PositionKeyFrame.UseVisualStyleBackColor = true;
-            this.checkBox_PositionKeyFrame.CheckStateChanged += new System.EventHandler(this.Param_ValueChanged);
+            this.checkBox_PositionKeyFrame.CheckedChanged += new System.EventHandler(this.Param_ValueChanged);
             // 
             // checkBox_TransKeyFrame
             // 

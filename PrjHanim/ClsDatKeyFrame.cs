@@ -9,6 +9,8 @@ namespace PrjHikariwoAnim
     {
         public int mFrameNo;                //フレームNo
         public EnmTypeOption mTypeOption;   //オプションタイプ
+        public bool mEnable1;               //有効フラグ
+        public bool mEnable2;               //有効フラグ
         public ClsDatTween mTween1;         //トゥイーン管理クラス
         public ClsDatTween mTween2;         //トゥイーン管理クラス
         public object mValue1;              //値（何の値かはタイプに依存する　Ｘ座標など）
@@ -66,14 +68,18 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inFrame">フレームNo</param>
+        /// <param name="isEnable1">有効フラグ</param>
+        /// <param name="isEnable2">有効フラグ</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public ClsDatKeyFrame(EnmTypeOption enTypeOption, int inFrameNo, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
+        public ClsDatKeyFrame(EnmTypeOption enTypeOption, int inFrameNo, bool isEnable1, bool isEnable2, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             this.mFrameNo = inFrameNo;
             this.mTypeOption = enTypeOption;
+            this.mEnable1 = isEnable1;
+            this.mEnable2 = isEnable2;
             this.mTween1 = clTween1;
             this.mTween2 = clTween2;
             this.mValue1 = clValue1;

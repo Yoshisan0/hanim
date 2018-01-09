@@ -17,11 +17,13 @@ namespace PrjHikariwoAnim
         /// </summary>
         /// <param name="clElemParent">親エレメント</param>
         /// <param name="enType">オプションタイプ</param>
+        /// <param name="isEnable1">有効フラグ１</param>
+        /// <param name="isEnable2">有効フラグ２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">初期状態の値１</param>
         /// <param name="clValue2">初期状態の値２</param>
-        public ClsDatOption(ClsDatElem clElemParent, EnmTypeOption enTypeOption, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
+        public ClsDatOption(ClsDatElem clElemParent, EnmTypeOption enTypeOption, bool isEnable1, bool isEnable2, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             this.mTypeItem = TYPE_ITEM.OPTION;
 
@@ -30,7 +32,7 @@ namespace PrjHikariwoAnim
             this.mDicKeyFrame = new Dictionary<int, ClsDatKeyFrame>();
 
             //以下、0フレーム目にキーフレームを登録する処理（0フレーム目には必ずキーフレームが存在する）
-            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, clTween1, clTween2, clValue1, clValue2);
+            ClsDatKeyFrame clKeyFrame = new ClsDatKeyFrame(enTypeOption, 0, isEnable1, isEnable2, clTween1, clTween2, clValue1, clValue2);
             this.mDicKeyFrame.Add(0, clKeyFrame);
         }
 
@@ -112,16 +114,20 @@ namespace PrjHikariwoAnim
         /// キーフレーム登録・更新処理
         /// </summary>
         /// <param name="inFrameNo">フレーム番号</param>
+        /// <param name="isEnable1">有効フラグ１</param>
+        /// <param name="isEnable2">有効フラグ２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        public void SetKeyFrame(int inFrameNo, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
+        public void SetKeyFrame(int inFrameNo, bool isEnable1, bool isEnable2, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNo);
             if (isExist)
             {
                 ClsDatKeyFrame clKeyFrame = this.mDicKeyFrame[inFrameNo];
+                clKeyFrame.mEnable1 = isEnable1;
+                clKeyFrame.mEnable2 = isEnable2;
                 clKeyFrame.mValue1 = clValue1;
                 clKeyFrame.mValue2 = clValue2;
                 clKeyFrame.mTween1 = clTween1;
@@ -129,7 +135,7 @@ namespace PrjHikariwoAnim
             }
             else
             {
-                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, clTween1, clTween2, clValue1, clValue2);
+                this.mDicKeyFrame[inFrameNo] = new ClsDatKeyFrame(this.mTypeOption, inFrameNo, isEnable1, isEnable2, clTween1, clTween2, clValue1, clValue2);
             }
         }
 
@@ -206,6 +212,13 @@ RETURN_DEFAULT1:
             int inFrameNoAfter = 0;
             this.GetKeyFrameNo(inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
 
+            //以下、キーフレーム存在チェック
+            bool isExist = this.mDicKeyFrame.ContainsKey(inFrameNoBefore);
+            if (!isExist) goto RETURN_DEFAULT2;
+            isExist = this.mDicKeyFrame.ContainsKey(inFrameNoAfter);
+            if (!isExist) goto RETURN_DEFAULT2;
+
+            //以下、キーフレーム取得処理
             ClsDatKeyFrame clKeyFrameBefore = this.mDicKeyFrame[inFrameNoBefore];
             if (clKeyFrameBefore == null) goto RETURN_DEFAULT2;
 
@@ -218,6 +231,7 @@ RETURN_DEFAULT1:
             ClsDatKeyFrame clKeyFrameAfter = this.mDicKeyFrame[inFrameNoAfter];
             if (clKeyFrameAfter == null) goto RETURN_DEFAULT2;
 
+            //以下、キーフレームの値取得処理
             object clValueBefore = clKeyFrameBefore.mValue2;
             if (clValueBefore == null) goto RETURN_DEFAULT2;
 
@@ -258,9 +272,11 @@ RETURN_DEFAULT2:
             {
                 if (!"KeyFrame".Equals(clNode.Name)) continue;
 
+                bool isEnable1 = false;
+                bool isEnable2 = false;
                 object clValue1 = ClsParam.GetDefaultValue1(this.mTypeOption);
                 object clValue2 = ClsParam.GetDefaultValue2(this.mTypeOption);
-                ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, null, null, clValue1, clValue2);
+                ClsDatKeyFrame clDatKeyFrame = new ClsDatKeyFrame(this.mTypeOption, 0, isEnable1, isEnable2, null, null, clValue1, clValue2);
                 clDatKeyFrame.Load(clNode);
 
                 this.mDicKeyFrame[clDatKeyFrame.mFrameNo] = clDatKeyFrame;

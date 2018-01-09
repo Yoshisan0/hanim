@@ -318,17 +318,19 @@ namespace PrjHikariwoAnim
         /// <param name="enTypeOption">オプションタイプ</param>
         /// <param name="inSelectFrameNo">フレーム番号</param>
         /// <param name="isExistKeyFrame">キーフレーム存在フラグ</param>
+        /// <param name="isEnable1">有効フラグ１</param>
+        /// <param name="isEnable2">有効フラグ２</param>
         /// <param name="clTween1">トゥイーン１</param>
         /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
+        private void ChangeElem(ClsDatElem clElem, EnmTypeOption enTypeOption, int inSelectFrameNo, bool isExistKeyFrame, bool isEnable1, bool isEnable2, ClsDatTween clTween1, ClsDatTween clTween2, object clValue1, object clValue2)
         {
             ClsDatOption clOption = null;
 
             if (inSelectFrameNo == 0)
             {
-                clElem.SetOption(enTypeOption, clTween1, clTween2, clValue1, clValue2);
+                clElem.SetOption(enTypeOption, isEnable1, isEnable2, clTween1, clTween2, clValue1, clValue2);
             }
             else
             {
@@ -341,13 +343,13 @@ namespace PrjHikariwoAnim
                 {
                     clValue1 = ClsParam.GetDefaultValue1(enTypeOption);
                     clValue2 = ClsParam.GetDefaultValue2(enTypeOption);
-                    clElem.SetOption(enTypeOption, clTween1, clTween2, clValue1, clValue2);
+                    clElem.SetOption(enTypeOption, isEnable1, isEnable2, clTween1, clTween2, clValue1, clValue2);
                     clOption = clElem.GetOption(enTypeOption);
                 }
 
                 if (isExistKeyFrame)
                 {
-                    clOption.SetKeyFrame(inSelectFrameNo, clTween1, clTween2, clValue1, clValue2);  //追加または更新
+                    clOption.SetKeyFrame(inSelectFrameNo, isEnable1, isEnable2, clTween1, clTween2, clValue1, clValue2);  //追加または更新
                 }
                 else
                 {
@@ -372,35 +374,35 @@ namespace PrjHikariwoAnim
 
             //以下、表示設定
             object clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.DISPLAY);
-            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, null, null, clParam.mDisplay, clValue2);
+            this.ChangeElem(clElem, EnmTypeOption.DISPLAY, inSelectFrameNo, clParam.mDisplayKeyFrame, false, false, null, null, clParam.mDisplay, clValue2);
 
             //以下、座標設定
-            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, clParam.mTweenPositionX, clParam.mTweenPositionY, clParam.mX, clParam.mY);
+            this.ChangeElem(clElem, EnmTypeOption.POSITION, inSelectFrameNo, clParam.mPositionKeyFrame, clParam.mPositionXTween, clParam.mPositionYTween, clParam.mTweenPositionX, clParam.mTweenPositionY, clParam.mX, clParam.mY);
 
             //以下、回転設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.ROTATION);
-            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, clParam.mTweenRotation, null, clParam.mRZ, clValue2);
+            this.ChangeElem(clElem, EnmTypeOption.ROTATION, inSelectFrameNo, clParam.mRotationKeyFrame, clParam.mRotationTween, false, clParam.mTweenRotation, null, clParam.mRZ, clValue2);
 
             //以下、スケール設定
-            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, clParam.mTweenScaleX, clParam.mTweenScaleY, clParam.mSX, clParam.mSY);
+            this.ChangeElem(clElem, EnmTypeOption.SCALE, inSelectFrameNo, clParam.mScaleKeyFrame, clParam.mScaleXTween, clParam.mScaleYTween, clParam.mTweenScaleX, clParam.mTweenScaleY, clParam.mSX, clParam.mSY);
 
             //以下、オフセット設定
-            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mTweenOffsetX, clParam.mTweenOffsetY, clParam.mCX, clParam.mCY);
+            this.ChangeElem(clElem, EnmTypeOption.OFFSET, inSelectFrameNo, clParam.mOffsetKeyFrame, clParam.mOffsetXTween, clParam.mOffsetYTween, clParam.mTweenOffsetX, clParam.mTweenOffsetY, clParam.mCX, clParam.mCY);
 
             //以下、反転設定
-            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, null, null, clParam.mFlipH, clParam.mFlipV);
+            this.ChangeElem(clElem, EnmTypeOption.FLIP, inSelectFrameNo, clParam.mFlipKeyFrame, false, false, null, null, clParam.mFlipH, clParam.mFlipV);
 
             //以下、透明設定
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.TRANSPARENCY);
-            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTweenTrans, null, clParam.mTrans, clValue2);
+            this.ChangeElem(clElem, EnmTypeOption.TRANSPARENCY, inSelectFrameNo, clParam.mTransKeyFrame, clParam.mTransTween, false, clParam.mTweenTrans, null, clParam.mTrans, clValue2);
 
             //以下、カラー設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.COLOR);
-            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mTweenColor, null, clParam.mColor, clValue2);
+            this.ChangeElem(clElem, EnmTypeOption.COLOR, inSelectFrameNo, clParam.mColorKeyFrame, clParam.mColorTween, false, clParam.mTweenColor, null, clParam.mColor, clValue2);
 
             //以下、ユーザーデータ設定 
             clValue2 = ClsParam.GetDefaultValue2(EnmTypeOption.USER_DATA);
-            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, null, null, clParam.mUserData, clValue2);
+            this.ChangeElem(clElem, EnmTypeOption.USER_DATA, inSelectFrameNo, clParam.mUserDataKeyFrame, false, false, null, null, clParam.mUserData, clValue2);
 
             //以下、行番号を振り直す処理
             clMotion.RefreshLineNo();
