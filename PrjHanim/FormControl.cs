@@ -648,7 +648,7 @@ namespace PrjHikariwoAnim
                 {
                     ClsDatOption clOption = clItem as ClsDatOption;
                     clElem = clOption.mElem;
-//                    isEnable = clElem.CanMoveUp(clOption);
+//                  isEnable = clElem.CanMoveUp(clOption);
                 }
 */
             }
@@ -675,7 +675,7 @@ namespace PrjHikariwoAnim
                 {
                     ClsDatOption clOption = clItem as ClsDatOption;
                     clElem = clOption.mElem;
-//                    isEnable = clElem.CanMoveDown(clOption);
+//                  isEnable = clElem.CanMoveDown(clOption);
                 }
 */
             }

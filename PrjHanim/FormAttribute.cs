@@ -559,6 +559,7 @@ namespace PrjHikariwoAnim
 
             //以下、トゥイーン設定
             clTween = clForm.GetTween();
+            FormTween.CreateTweenWeight(clTween);   //重みリスト作成処理
             clButton.Image = clTween.mImage;
             clButton.Tag = clTween;
 

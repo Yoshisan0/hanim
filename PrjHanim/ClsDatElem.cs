@@ -515,7 +515,7 @@ namespace PrjHikariwoAnim
         /// <param name="clTween2">トゥイーン２</param>
         /// <param name="clValue1">値１</param>
         /// <param name="clValue2">値２</param>
-        private void GetOptionValueNow(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isEnable1, out bool isEnable2, out ClsDatTween clTween1, out ClsDatTween clTween2, out object clValue1, out object clValue2)
+        private void GetOptionValueNow(EnmTypeOption enTypeOption, int inFrameNo, int inMaxFrameNum, out bool isEnable1, out bool isEnable2, ref ClsDatTween clTween1, ref ClsDatTween clTween2, out object clValue1, out object clValue2)
         {
             isEnable1 = false;
             isEnable2 = false;
@@ -808,33 +808,100 @@ namespace PrjHikariwoAnim
             ClsParam clParam = new ClsParam();
             bool isEnable1;
             bool isEnable2;
-            ClsDatTween clTween1;
-            ClsDatTween clTween2;
+            ClsDatTween clTween1 = null;
+            ClsDatTween clTween2 = null;
             object clValue1;
             object clValue2;
 
+            //以下、表示フラグ設定処理
             clParam.mDisplayKeyFrame = this.IsExistKeyFrame(EnmTypeOption.DISPLAY, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.DISPLAY, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.DISPLAY, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
             clParam.mDisplay = Convert.ToBoolean(clValue1);
 
+            //以下、座標設定処理
             clParam.mPositionKeyFrame = this.IsExistKeyFrame(EnmTypeOption.POSITION, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            if (isEnable1 && isEnable2)
+            {
+                int inFrameNoBefore = -1;
+                int inFrameNoAfter = -1;
+                this.GetKeyFrameNo(EnmTypeOption.POSITION, inFrameNo, inMaxFrameNum, out inFrameNoBefore, out inFrameNoAfter);
+                if (inFrameNoBefore != inFrameNoAfter && inFrameNoBefore >= 0 && inFrameNoAfter >= 0)
+                {
+                    //以下、Tweenの処理
+                    bool isEnableX1;
+                    bool isEnableY1;
+                    bool isEnableX2;
+                    bool isEnableY2;
+                    ClsDatTween clTweenX1 = null;
+                    ClsDatTween clTweenY1 = null;
+                    ClsDatTween clTweenX2 = null;
+                    ClsDatTween clTweenY2 = null;
+                    object clValueX1 = 0;
+                    object clValueY1 = 0;
+                    object clValueX2 = 0;
+                    object clValueY2 = 0;
+
+                    this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNoBefore, inMaxFrameNum, out isEnableX1, out isEnableY1, ref clTweenX1, ref clTweenY1, out clValueX1, out clValueY1);
+
+                    this.GetOptionValueNow(EnmTypeOption.POSITION, inFrameNoAfter, inMaxFrameNum, out isEnableX2, out isEnableY2, ref clTweenX2, ref clTweenY2, out clValueX2, out clValueY2);
+
+                    if (isEnableX1 && clTweenX1!= null && clTweenX1.mRate != null)
+                    {
+                        //以下、前キーフレームのＸ座標のTweenが存在する場合
+                        int inX1 = Convert.ToInt32(clValueX1);
+                        int inX2 = Convert.ToInt32(clValueX2);
+
+/*
+clTweenX1.mRateにデータが入っていない！
+FormAttribute.button_Tween_ClickのFormTween.CreateTweenWeightでmRateが生成されているかチェック！
+*/
+
+                        double doValue = (double)(inFrameNo - inFrameNoBefore) * ClsDatTween.MAX_WEIGHT / (inFrameNoAfter - inFrameNoBefore);
+                        int inIndex = (int)Math.Round(doValue);
+                        double doWeight = clTweenX1.mRate[inIndex] / ClsDatTween.MAX_WEIGHT;
+                        doValue = (double)(inX2 - inX1) * doWeight + inX1;
+                        clValue1 = (int)Math.Round(doValue);
+                    }
+
+                    if (isEnableY1 && clTweenY1 != null && clTweenY1.mRate!= null)
+                    {
+                        //以下、前キーフレームのＹ座標のTweenが存在する場合
+                        int inY1 = Convert.ToInt32(clValueY1);
+                        int inY2 = Convert.ToInt32(clValueY2);
+
+                        double doValue = (double)(inFrameNo - inFrameNoBefore) * ClsDatTween.MAX_WEIGHT / (inFrameNoAfter - inFrameNoBefore);
+                        int inIndex = (int)Math.Round(doValue);
+                        double doWeight = clTweenY1.mRate[inIndex] / ClsDatTween.MAX_WEIGHT;
+                        doValue = (double)(inY2 - inY1) * doWeight + inY1;
+                        clValue2 = (int)Math.Round(doValue);
+                    }
+                }
+            }
+
+            //以下、重みを座標に変換する処理
             clParam.mX = Convert.ToSingle(clValue1);
             clParam.mY = Convert.ToSingle(clValue2);
-
             clParam.mPositionXTween = isEnable1;   
             clParam.mPositionYTween = isEnable2;
             clParam.mTweenPositionX = clTween1;
             clParam.mTweenPositionY = clTween2;
 
+            //以下、回転値設定処理
             clParam.mRotationKeyFrame = this.IsExistKeyFrame(EnmTypeOption.ROTATION, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.ROTATION, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            //以下、重みを回転値に変換する処理
             clParam.mRZ = Convert.ToSingle(clValue1);
             clParam.mRotationTween = isEnable1;
             clParam.mTweenRotation = clTween1;
 
+            //以下、スケール値設定処理
             clParam.mScaleKeyFrame = this.IsExistKeyFrame(EnmTypeOption.SCALE, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.SCALE, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            //以下、重みをスケール値に変換する処理
             clParam.mSX = Convert.ToSingle(clValue1);
             clParam.mSY = Convert.ToSingle(clValue2);
             clParam.mScaleXTween = isEnable1;
@@ -842,8 +909,11 @@ namespace PrjHikariwoAnim
             clParam.mTweenScaleX = clTween1;
             clParam.mTweenScaleY = clTween2;
 
+            //以下、オフセット設定処理
             clParam.mOffsetKeyFrame = this.IsExistKeyFrame(EnmTypeOption.OFFSET, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.OFFSET, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            //以下、重みをオフセット値に変換する処理
             clParam.mCX = Convert.ToSingle(clValue1);
             clParam.mCY = Convert.ToSingle(clValue2);
             clParam.mOffsetXTween = isEnable1;
@@ -851,25 +921,33 @@ namespace PrjHikariwoAnim
             clParam.mTweenOffsetX = clTween1;
             clParam.mTweenOffsetY = clTween2;
 
+            //以下、反転値設定処理
             clParam.mFlipKeyFrame = this.IsExistKeyFrame(EnmTypeOption.FLIP, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.FLIP, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.FLIP, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
             clParam.mFlipH = Convert.ToBoolean(clValue1);
             clParam.mFlipV = Convert.ToBoolean(clValue2);
 
+            //以下、半透明値設定処理
             clParam.mTransKeyFrame = this.IsExistKeyFrame(EnmTypeOption.TRANSPARENCY, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.TRANSPARENCY, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            //以下、重みを半透明に変換する処理
             clParam.mTrans = Convert.ToInt32(clValue1);
             clParam.mTransTween = isEnable1;
             clParam.mTweenTrans = clTween1;
 
+            //以下、色値設定処理
             clParam.mColorKeyFrame = this.IsExistKeyFrame(EnmTypeOption.COLOR, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.COLOR, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
+
+            //以下、重みを色値に変換する処理
             clParam.mColor = Convert.ToInt32(clValue1);
             clParam.mColorTween = isEnable1;
             clParam.mTweenColor = clTween1;
 
+            //以下、ユーザー情報設定処理
             clParam.mUserDataKeyFrame = this.IsExistKeyFrame(EnmTypeOption.USER_DATA, inFrameNo);
-            this.GetOptionValueNow(EnmTypeOption.USER_DATA, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, out clTween1, out clTween2, out clValue1, out clValue2);
+            this.GetOptionValueNow(EnmTypeOption.USER_DATA, inFrameNo, inMaxFrameNum, out isEnable1, out isEnable2, ref clTween1, ref clTween2, out clValue1, out clValue2);
             clParam.mUserData = Convert.ToString(clValue1);
 
             return (clParam);

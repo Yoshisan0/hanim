@@ -142,16 +142,13 @@ namespace PrjHikariwoAnim
         public static float GetRate(ClsDatKeyFrame clDatKeyFrame, ClsDatTween clDatTween, byte[] puchRate, int inFrmCurrent)
         {
             if (clDatTween == null) return (0.0f);
-            if (puchRate == null)
-            {
-                puchRate = FormTween.CreateSaveData(clDatTween);
-                if (puchRate == null) return (0.0f);
-            }
+            if (clDatTween.mRate == null) return (0.0f);
+
             if (!(clDatKeyFrame.mFrameNo <= inFrmCurrent && inFrmCurrent <= clDatKeyFrame.mFrameNo + clDatTween.mLength)) return (0.0f);
 
             float flFrmLength = clDatTween.mLength;
             inFrmCurrent -= clDatKeyFrame.mFrameNo;
-            byte uchRate = (byte)((float)inFrmCurrent / flFrmLength * puchRate.Length);
+            byte uchRate = (byte)((float)inFrmCurrent / flFrmLength * ClsDatTween.MAX_WEIGHT);
             float flRate = (float)uchRate / byte.MaxValue;
 
             return (flRate);
@@ -174,14 +171,13 @@ namespace PrjHikariwoAnim
         /// トゥイーン情報を出力用データに変換する処理
         /// </summary>
         /// <param name="clTween">トゥイーン情報</param>
-        /// <returns>出力用データ</returns>
-        public static byte[] CreateSaveData(ClsDatTween clTween)
+        public static void CreateTweenWeight(ClsDatTween clTween)
         {
-            if (clTween == null) return (null);
+            if (clTween == null) return;
 
-            byte[] puchRate = new byte[ClsDatTween.MAX_X];
+            byte[] puchRate = new byte[ClsDatTween.MAX_WEIGHT];
 
-            int inWidth = ClsDatTween.MAX_X;
+            int inWidth = ClsDatTween.MAX_WEIGHT;
             int inHeight = byte.MaxValue;
             Bitmap clImage = ClsDatTween.CreateImage(clTween, inWidth, inHeight);
 
@@ -199,7 +195,7 @@ namespace PrjHikariwoAnim
                 }
             }
 
-            return (puchRate);
+            clTween.mRate = puchRate;
         }
 
         /// <summary>

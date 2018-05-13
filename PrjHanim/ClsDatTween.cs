@@ -21,13 +21,14 @@ namespace PrjHikariwoAnim
         public static float VEC_X2 = 0.08f;         //終了座標のベクトルＸ
         public static float VEC_Y2 = -0.08f;        //終了座標のベクトルＹ
         public static float SIZE_ELLIPSE = 15.0f;   //円の直径
-        public static int MAX_X = 256;              //保存用データの長さ
+        public static int MAX_WEIGHT = 256;         //保存用データの長さ
 
         public EnmParam mParam;
         public int mLength;     //継続フレーム数
         public ClsVector3 mPos;
         public Image mImage;
         public List<ClsVector3> mListVec;
+        public byte[] mRate = null; //要素数MAX_X個のリスト
 
         /// <summary>
         /// コンストラクタ
